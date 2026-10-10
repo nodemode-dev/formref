@@ -6,6 +6,18 @@ action="${1:-dev}"
 python_bin="${FORMREF_PYTHON:-$root/backend/venv/bin/python}"
 if [[ "${OS:-}" == "Windows_NT" ]]; then python_bin="${FORMREF_PYTHON:-$root/backend/venv/Scripts/python.exe}"; fi
 case "$action" in
+  help|--help|-h)
+    printf '%s\n' 'Usage: ./formref [install|dev|core|build|backend|frontend|serve|mcp|desktop|doctor|help]'
+    ;;
+  doctor)
+    printf '%s\n' 'FormRef local environment'
+    for tool in node npm cargo python3; do
+      if command -v "$tool" >/dev/null 2>&1; then "$tool" --version; else printf '%s\n' "$tool: missing"; fi
+    done
+    if [[ -x "$python_bin" ]]; then printf '%s\n' 'Python environment: available'; else printf '%s\n' 'Python environment: missing, run ./formref install'; fi
+    if [[ -x "$root/native/formref-core/target/release/formref-core" ]]; then printf '%s\n' 'Rust core: built'; else printf '%s\n' 'Rust core: missing, run ./formref core'; fi
+    if command -v curl >/dev/null 2>&1; then curl --connect-timeout 2 --max-time 3 --silent --show-error http://127.0.0.1:8196/api/health || true; fi
+    ;;
   install) exec "$root/formref_oc_install" ;;
   core) exec cargo build --release --manifest-path "$root/native/formref-core/Cargo.toml" ;;
   build)
@@ -20,7 +32,8 @@ case "$action" in
     "$root/frontend/boot_frontend" &
     ui_pid=$!
     trap 'kill "$api_pid" "$ui_pid" 2>/dev/null || true' EXIT INT TERM
-    wait
+    while kill -0 "$api_pid" 2>/dev/null && kill -0 "$ui_pid" 2>/dev/null; do sleep 0.25; done
+    if ! kill -0 "$api_pid" 2>/dev/null; then wait "$api_pid"; else wait "$ui_pid"; fi
     ;;
   serve)
     cd backend
@@ -31,8 +44,14 @@ case "$action" in
     exec "$python_bin" -m app.mcp_server
     ;;
   desktop)
+    api_pid=""
+    if ! curl --silent --fail --connect-timeout 1 --max-time 2 http://127.0.0.1:8196/api/health >/dev/null 2>&1; then
+      "$root/backend/boot_backend" &
+      api_pid=$!
+    fi
+    trap 'if [[ -n "$api_pid" ]]; then kill "$api_pid" 2>/dev/null || true; fi' EXIT INT TERM
     cd frontend
-    exec npm run tauri -- dev
+    npm run tauri -- dev
     ;;
   *) printf '%s\n' 'Usage: ./formref [install|dev|core|build|backend|frontend|serve|mcp|desktop]' >&2; exit 2 ;;
 esac

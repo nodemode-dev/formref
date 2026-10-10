@@ -1,0 +1,16 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "main-window",
+  "description": "Only the FormRef main loopback page may change its own window modes.",
+  "windows": ["main"],
+  "platforms": ["macOS", "windows", "linux"],
+  "local": true,
+  "remote": {
+    "urls": ["http://127.0.0.1:8196/*", "http://localhost:5196/*", "http://127.0.0.1:5196/*"]
+  },
+  "permissions": [
+    "formref-window-configure",
+    "formref-window-state",
+    "formref-window-start-drag"
+  ]
+}

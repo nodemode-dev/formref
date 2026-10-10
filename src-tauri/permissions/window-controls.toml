@@ -1,0 +1,14 @@
+[[permission]]
+identifier = "formref-window-configure"
+description = "Change main window topmost, fullscreen and native frame state."
+commands.allow = ["window_configure"]
+
+[[permission]]
+identifier = "formref-window-state"
+description = "Read main window topmost, fullscreen and native frame state."
+commands.allow = ["window_state"]
+
+[[permission]]
+identifier = "formref-window-start-drag"
+description = "Move the main window from an explicit drag gesture."
+commands.allow = ["window_start_drag"]
