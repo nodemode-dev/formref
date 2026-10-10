@@ -3,3 +3,7 @@
 @media(max-width:980px){:root{--sidebar-w:180px;--inspector-w:0px}.inspector{display:none}.title-actions .button[data-action=export]{font-size:0;width:32px;padding:0}.title-context{gap:var(--space-2)}.save-state{display:none}}
 @media(max-width:650px){:root{--sidebar-w:0px}.sidebar{display:none}.titlebar{grid-template-columns:110px minmax(0,1fr) auto}.brand{padding:0 var(--space-2)}.brand strong{font-size:16px}.title-context{padding:0}.title-actions{padding:0 var(--space-1)}.title-actions .divider,.title-actions [data-action=redo],.title-actions [data-action=commands]{display:none}.toolbar{overflow:auto}.toolbar-gap{min-width:var(--space-2)}.board-caption{left:var(--space-4);top:var(--space-4)}h1{font-size:23px}.empty-actions{flex-direction:column}.statusbar{font-size:8px}}
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+.board-list{height:calc(var(--space-3)*9);min-height:calc(var(--space-3)*9);max-height:calc(var(--space-3)*9);flex:0 0 calc(var(--space-3)*9)}
+.board-title{width:calc(var(--space-3)*15);flex:0 1 calc(var(--space-3)*15);min-width:0;text-align:left}
+.save-state{width:calc(var(--space-10)*2);min-width:calc(var(--space-10)*2);flex:0 0 calc(var(--space-10)*2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#outline-count{width:var(--space-10);min-width:var(--space-10);text-align:left;font-variant-numeric:tabular-nums}

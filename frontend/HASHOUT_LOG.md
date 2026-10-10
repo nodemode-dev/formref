@@ -66,3 +66,7 @@ Strict TypeScript 7.0.2 compilation and Vite 8.3.4 production bundling passed. A
 | `vite.config.ts` | Loopback-only host false, strict frontend port 5196 and API proxy to 8196 |
 
 The shell script syntax was checked by the desktop setup owner. Windows scripts are not executed in this Linux environment.
+
+## Layout stability
+
+A cold-load observer attributed initial movement to the board list growing by one row and to intrinsic title, save-status and count widths. A single appended CSS region reserves a three-row 108 px board list, a 180 px title slot, an 80 px save-status slot and a 40 px left-aligned count slot, all derived from existing spacing tokens. Overflow stays inside the reserved board list; no container or item was recreated. Final v0.1.0 cold-load verification and Commands/Preferences opening passed with zero recorded layout shifts, four decoded images, Studio Dark background `rgb(17, 17, 17)` and no page errors under 4x CPU slowdown, 120 ms latency, 192 KiB/s download and 96 KiB/s upload. Evidence is recorded in `research/FINAL_STABILITY_EVIDENCE.json`. This zero-CLS result is scoped to the observed cold-load and panel-opening paths; the broader interaction results and native/host lifecycle limits remain as stated above.
