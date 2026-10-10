@@ -18,7 +18,7 @@ Read the master shared rules. Start the app with `./formref dev` or its document
 Trigger: "Arrange these references in FormRef."
 
 1. Call `list_boards`, choose the intended board from the user's context and retain its ID. Call `get_board` with that board_id; identify exact item IDs and locked items.
-2. Call `arrange_items` with the board_id and unlocked IDs from the readback. Choose the requested layout using the live tool schema. Leave locked items intact; unlock only when the user requested it.
+2. Call `arrange_items` with the board_id and unlocked IDs from the readback. Choose the requested layout and explicit gap using the live tool schema. When requested, call `configure_canvas` with only the desired grid visibility, grid size, snap-enabled or grayscale settings, or `snap_items` with the known item IDs and optional grid size. Discover those tool schemas before supplying parameters; settings are board mutations with their own undo steps. Leave locked items intact; unlock only when the user requested it.
 3. Call `get_board` again. Confirm item geometry and revision changed as requested. If the result is wrong, use `undo` once for each confirmed mutation and read back the restored state.
 
 Result: the intended board is arranged in the app, persisted and undoable.
