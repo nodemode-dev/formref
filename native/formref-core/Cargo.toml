@@ -1,0 +1,15 @@
+[package]
+name = "formref-core"
+version = "0.0.0"
+edition = "2021"
+license = "Apache-2.0"
+description = "Headless command and layout engine for FormRef boards"
+
+[dependencies]
+serde = { version = "=1.0.229", features = ["derive"] }
+serde_json = "=1.0.152"
+
+[profile.release]
+lto = "thin"
+codegen-units = 1
+strip = true
