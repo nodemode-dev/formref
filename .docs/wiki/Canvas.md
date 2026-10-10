@@ -22,3 +22,13 @@ Image geometry supports crop, flips, rotation, opacity and grayscale. Preserve o
 Align, distribute, pack and normalize operate on engine-selected IDs. Locked content is protected from mutating layout commands; unlock intentionally before rearranging it. A group transform operates about shared bounds, and a completed user operation should produce one undo step.
 
 The current manual and toolbar are authoritative for offered controls; keyboard shortcuts reserved by a browser may behave differently from a native desktop shell. Rendering/gesture checks and any unfinished controls are recorded in the release's verification notes.
+
+## Grid and reference viewing
+
+Canvas preferences persist on the board through Rust settings. Grid visibility is independent from snapping; changing grid size changes world spacing even while the grid is hidden. Snap selected uses visible rotated bounds and moves group/parent units together. With snapping enabled, dragging uses one common movement delta for the selection. Undo reverses the completed mutation.
+
+Pack gap and distribution gap are separate inputs. An empty distribution gap keeps equal-spacing behavior; a numeric gap sets edge-to-edge spacing on the chosen axis. Geometry uses visible rotated bounds.
+
+Canvas grayscale previews the board without replacing original assets. Per-image grayscale remains an editable image property; the preview setting does not turn a color export into grayscale.
+
+Reference presentation opens a mounted viewer for visible image references. Previous/next navigation and configurable timed playback use deterministic layer/document ordering. The presentation dialog prevents board editing while open. Pause stops timed movement; closing or Escape returns to the board. Switching boards or removing the active reference stops playback. GIF frame scrubbing, video/audio playback and proprietary slideshow formats remain outside this increment.

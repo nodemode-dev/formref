@@ -10,7 +10,8 @@ Rust document engine · vanilla TypeScript/Vite view · Python/FastAPI media & p
 ## Highlights
 
 - **One engine:** Rust commands own geometry, locking, grouping, arrangement & undo/redo.
-- **Reference media:** original assets, nondestructive crop, flip, grayscale & opacity controls.
+- **Reference media:** original assets, nondestructive crop, flip, per-image and canvas grayscale, opacity controls and ordered reference presentation.
+- **Canvas workflow:** persistent grid preferences, snapping with shared-engine undo, explicit pack and distribution spacing.
 - **Organization:** notes, tasks, links, columns, nested board cards & connectors.
 - **Local persistence:** named boards & managed media saved on disk.
 - **Interoperability:** iStack import, portable archives & PNG/SVG/Markdown/JSON export.
@@ -81,9 +82,9 @@ Set environment variables before launch; local environment files must remain unc
 
 ## Status
 
-This is the first FormRef build. Read `docs/PARITY.md` for row-level capabilities & gaps. Cloud collaboration, protected sharing, tables/formulas, synced notes, browser extensions, background removal & full proprietary project-format compatibility are separate gaps. Native shell sources are provided; compiled, signed macOS/Windows installers are not included.
+FormRef now includes local canvas settings, grid snapping and ordered reference presentation. Read `docs/PARITY.md` for row-level capabilities & gaps. Cloud collaboration, protected sharing, tables/formulas, synced notes, browser extensions, background removal & full proprietary project-format compatibility remain separate gaps. Native shell sources are provided; compiled, signed macOS/Windows installers are not included.
 
-The planning sidecar contains the roadmap, build record, independent TEST_PLAN & release ledger. No self-authored test suite is included. Current executed verification is in `docs/VERIFICATION.md`.
+The planning sidecar contains the roadmap, build record, independent TEST_PLAN & release ledger. No self-authored test suite is included. Current executed verification is in `docs/VERIFICATION_v0.2.0.md`; `docs/VERIFICATION.md` retains the first build's observations. The standalone comparison is `docs/FormRef-Parity_v0.2.0.html`, with explicit vendor grades in `docs/PER_PRODUCT_COVERAGE_v0.2.0.json`.
 
 ## Development
 
