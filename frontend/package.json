@@ -1,6 +1,6 @@
 {
   "name": "formref-frontend",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "private": true,
   "type": "module",
   "scripts": { "dev": "vite", "build": "tsc --noEmit && vite build", "preview": "vite preview --host localhost --port 5196", "tauri": "cd .. && tauri" },
