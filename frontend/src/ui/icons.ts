@@ -1,0 +1,17 @@
+const paths: Record<string, string> = {
+  cursor: '<path d="m5 3 14 9-7 2-3 7Z"/>', hand: '<path d="M8 13V5a2 2 0 0 1 4 0v6-6a2 2 0 0 1 4 0v7-4a2 2 0 0 1 4 0v8c0 4-2 6-6 6h-2c-2 0-3-1-4-3l-4-6a2 2 0 0 1 3-2l3 3"/>',
+  image: '<rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8" cy="8" r="1.5"/><path d="m4 17 5-5 4 3 4-6 4 8"/>', note: '<path d="M14 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V10Z"/><path d="M14 3v7h7M7 14h10M7 17h7"/>',
+  link: '<path d="m10 14 4-4M8 16l-2 2a4 4 0 0 1-6-6l5-5a4 4 0 0 1 6 0M16 8l2-2a4 4 0 0 1 6 6l-5 5a4 4 0 0 1-6 0" transform="translate(1 0) scale(.9)"/>', board: '<rect x="3" y="3" width="18" height="18" rx="3"/><path d="M3 9h18M9 9v12"/>',
+  column: '<rect x="3" y="3" width="18" height="18" rx="3"/><path d="M3 8h18M7 12h10M7 16h7"/>', todo: '<rect x="3" y="3" width="18" height="18" rx="3"/><path d="m7 12 3 3 7-7"/>', pen: '<path d="m14 4 6 6-10 10-7 1 1-7Z M12 6l6 6M14 4l2-2a2 2 0 0 1 3 0l3 3a2 2 0 0 1 0 3l-2 2"/>',
+  shape: '<rect x="3" y="3" width="9" height="9" rx="1"/><circle cx="16" cy="16" r="5"/>', connect: '<circle cx="5" cy="5" r="2"/><circle cx="19" cy="19" r="2"/><path d="M7 5h8v14h2"/>', plus: '<path d="M12 5v14M5 12h14"/>', minus: '<path d="M5 12h14"/>',
+  undo: '<path d="m8 3-5 5 5 5M3 8h11a7 7 0 0 1 0 14"/>', redo: '<path d="m16 3 5 5-5 5M21 8H10a7 7 0 0 0 0 14"/>', search: '<circle cx="10" cy="10" r="6"/><path d="m15 15 6 6"/>', export: '<path d="M12 15V3m-4 4 4-4 4 4M4 14v6h16v-6"/>', import: '<path d="M12 3v12m-4-4 4 4 4-4M4 14v6h16v-6"/>',
+  fit: '<path d="M8 3H3v5M16 3h5v5M3 16v5h5M21 16v5h-5"/><rect x="7" y="7" width="10" height="10" rx="1"/>', chevron: '<path d="m9 5 7 7-7 7"/>', down: '<path d="m6 9 6 6 6-6"/>', more: '<circle cx="5" cy="12" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/>', settings: '<circle cx="12" cy="12" r="3"/><path d="m9 3-1 3-3 1-2 3 2 3v3l3 2 1 3h6l1-3 3-2v-3l2-3-2-3-3-1-1-3Z"/>',
+  pack: '<rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/>', group: '<rect x="3" y="3" width="18" height="18" rx="2" stroke-dasharray="3 3"/><rect x="7" y="7" width="6" height="6"/><rect x="12" y="12" width="5" height="5"/>', lock: '<rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V6a4 4 0 0 1 8 0v4"/>', close: '<path d="m6 6 12 12M18 6 6 18"/>',
+  align: '<path d="M4 3v18M8 5h12v5H8zM8 14h8v5H8z"/>', file: '<path d="M14 3H5v18h14V8ZM14 3v5h5M8 12h8M8 16h8"/>', eye: '<path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/>', theme: '<path d="M19 15A8 8 0 0 1 9 5a8 8 0 1 0 10 10Z"/>', check: '<path d="m5 12 4 4 10-10"/>', arrow: '<path d="M4 12h16m-5-5 5 5-5 5"/>', duplicate: '<rect x="8" y="8" width="13" height="13" rx="2"/><path d="M16 8V3H3v13h5"/>', trash: '<path d="M3 6h18M9 6V3h6v3M5 6l1 15h12l1-15M10 10v7M14 10v7"/>', fullscreen: '<path d="M8 3H3v5M16 3h5v5M3 16v5h5M21 16v5h-5"/>'
+};
+export function icon(name: string): SVGSVGElement {
+  const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  svg.setAttribute('viewBox', '0 0 24 24'); svg.setAttribute('fill', 'none'); svg.setAttribute('stroke', 'currentColor'); svg.setAttribute('stroke-width', '1.65'); svg.setAttribute('stroke-linecap', 'round'); svg.setAttribute('stroke-linejoin', 'round'); svg.setAttribute('aria-hidden', 'true');
+  svg.innerHTML = paths[name] || paths.board;
+  return svg;
+}
