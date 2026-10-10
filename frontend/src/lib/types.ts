@@ -8,7 +8,8 @@ export interface Item {
 }
 export interface Connection { id: string; from: string; to: string; label: string; color: string }
 export interface Viewport { x: number; y: number; zoom: number }
-export interface Board { id: string; title: string; version: number; revision: number; items: Item[]; connections: Connection[]; viewport: Viewport; background: string }
+export interface BoardSettings { grid_visible: boolean; grid_size: number; snap_enabled: boolean; grayscale: boolean }
+export interface Board { id: string; title: string; version: number; revision: number; items: Item[]; connections: Connection[]; viewport: Viewport; background: string; settings: BoardSettings }
 export interface State { board: Board; can_undo: boolean; can_redo: boolean }
 export interface Summary { id: string; title: string; item_count?: number; revision?: number; updated_at?: string }
 export interface Asset { id: string; url: string; width: number; height: number; name: string; mime: string; size: number }
