@@ -1,0 +1,8 @@
+fastapi
+uvicorn
+python-multipart
+httpx
+mcp<2
+Pillow
+CairoSVG
+defusedxml

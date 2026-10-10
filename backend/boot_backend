@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+set -euo pipefail
+cd "$(dirname "$0")"
+python_bin="${FORMREF_PYTHON:-$PWD/venv/bin/python}"
+if [[ ! -x "$python_bin" ]]; then
+  printf '%s\n' 'Run ./formref_oc_install or set FORMREF_PYTHON to an installed Python environment.' >&2
+  exit 1
+fi
+exec "$python_bin" -m uvicorn app.main:app --reload --host 127.0.0.1 --port 8196

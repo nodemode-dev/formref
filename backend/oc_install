@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+set -euo pipefail
+cd "$(dirname "$0")"
+"${FORMREF_PYTHON:-python3}" -m venv venv
+source venv/bin/activate
+python -m pip install --upgrade pip
+requirements=requirements.txt
+if [[ "$(uname -s)" == "Darwin" ]]; then requirements=requirements_macos.txt; fi
+python -m pip install -r "$requirements"
