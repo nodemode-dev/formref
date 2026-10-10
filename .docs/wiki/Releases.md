@@ -8,7 +8,7 @@ Versions use `v` followed by three dotted integers, such as `v0.1.0`. Frontend/b
 
 | Deliverable | Required contents |
 | --- | --- |
-| `formref_v0.1.0.zip` | Root `formref/`, `.git`, source, scripts, built frontend, documentation and repo-local harness |
+| `formref_v0.1.0.zip` | Root `formref/`, `.git`, source, scripts, lockfiles, documentation and repo-local harness; build outputs are regenerated with `./formref build` |
 | `formref_planning_docs_sidecar_v0.1.0.zip` | Matching sidecar folder, development plan, build notes, root hashout log, behavioral test plan and accumulated decisions |
 
 Dependency caches, runtime user data and secret values do not ship. Inspect archive membership and run the dispatcher from a fresh extraction before hand-back. The harness itself is validated through the god-tier skill tooling; its audit/evaluation record accompanies the planning evidence.

@@ -2,6 +2,8 @@
 name = "formref-core"
 version = "0.0.0"
 edition = "2021"
+rust-version = "1.82"
+authors = ["nodemode-ai <mackin@nodemode.ai>"]
 license = "Apache-2.0"
 description = "Headless command and layout engine for FormRef boards"
 

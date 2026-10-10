@@ -1,0 +1,491 @@
+[
+  {
+    "name": "annotated-doc",
+    "version": "0.0.5",
+    "license": "MIT",
+    "license_files": [
+      "python/annotated-doc/LICENSE"
+    ]
+  },
+  {
+    "name": "annotated-types",
+    "version": "0.8.0",
+    "license": "MIT",
+    "license_files": [
+      "python/annotated-types/LICENSE"
+    ]
+  },
+  {
+    "name": "anyio",
+    "version": "4.15.1",
+    "license": "MIT",
+    "license_files": [
+      "python/anyio/LICENSE"
+    ]
+  },
+  {
+    "name": "attrs",
+    "version": "26.1.0",
+    "license": "MIT",
+    "license_files": [
+      "python/attrs/LICENSE"
+    ]
+  },
+  {
+    "name": "cairocffi",
+    "version": "1.7.1",
+    "license": null,
+    "license_files": [
+      "python/cairocffi/LICENSE"
+    ]
+  },
+  {
+    "name": "CairoSVG",
+    "version": "2.9.1",
+    "license": "LGPL-3.0-or-later",
+    "license_files": [
+      "python/CairoSVG/LICENSE"
+    ]
+  },
+  {
+    "name": "certifi",
+    "version": "2026.7.22",
+    "license": "MPL-2.0",
+    "license_files": [
+      "python/certifi/LICENSE"
+    ]
+  },
+  {
+    "name": "cffi",
+    "version": "2.1.1",
+    "license": "MIT-0",
+    "license_files": [
+      "python/cffi/LICENSE"
+    ]
+  },
+  {
+    "name": "click",
+    "version": "8.5.0",
+    "license": "BSD-3-Clause",
+    "license_files": [
+      "python/click/LICENSE.txt"
+    ]
+  },
+  {
+    "name": "cryptography",
+    "version": "50.0.2",
+    "license": "Apache-2.0 OR BSD-3-Clause",
+    "license_files": [
+      "python/cryptography/LICENSE",
+      "python/cryptography/LICENSE.APACHE",
+      "python/cryptography/LICENSE.BSD"
+    ]
+  },
+  {
+    "name": "cssselect2",
+    "version": "0.10.1",
+    "license": null,
+    "license_files": [
+      "python/cssselect2/LICENSE"
+    ]
+  },
+  {
+    "name": "defusedxml",
+    "version": "0.7.1",
+    "license": "PSFL",
+    "license_files": [
+      "python/defusedxml/LICENSE"
+    ]
+  },
+  {
+    "name": "fastapi",
+    "version": "0.143.0",
+    "license": "MIT",
+    "license_files": [
+      "python/fastapi/LICENSE"
+    ]
+  },
+  {
+    "name": "h11",
+    "version": "0.16.0",
+    "license": "MIT",
+    "license_files": [
+      "python/h11/LICENSE.txt"
+    ]
+  },
+  {
+    "name": "httpcore",
+    "version": "1.0.9",
+    "license": "BSD-3-Clause",
+    "license_files": [
+      "python/httpcore/LICENSE.md"
+    ]
+  },
+  {
+    "name": "httpx",
+    "version": "0.28.1",
+    "license": "BSD-3-Clause",
+    "license_files": [
+      "python/httpx/LICENSE.md"
+    ]
+  },
+  {
+    "name": "httpx-sse",
+    "version": "0.4.3",
+    "license": "MIT",
+    "license_files": [
+      "python/httpx-sse/LICENSE"
+    ]
+  },
+  {
+    "name": "idna",
+    "version": "3.20",
+    "license": "BSD-3-Clause",
+    "license_files": [
+      "python/idna/LICENSE.md"
+    ]
+  },
+  {
+    "name": "jsonschema",
+    "version": "4.26.0",
+    "license": "MIT",
+    "license_files": [
+      "python/jsonschema/COPYING"
+    ]
+  },
+  {
+    "name": "jsonschema-specifications",
+    "version": "2025.9.1",
+    "license": "MIT",
+    "license_files": [
+      "python/jsonschema-specifications/COPYING"
+    ]
+  },
+  {
+    "name": "mcp",
+    "version": "1.30.0",
+    "license": "MIT",
+    "license_files": [
+      "python/mcp/LICENSE"
+    ]
+  },
+  {
+    "name": "opentelemetry-api",
+    "version": "1.45.1",
+    "license": "Apache-2.0",
+    "license_files": [
+      "python/opentelemetry-api/LICENSE"
+    ]
+  },
+  {
+    "name": "pillow",
+    "version": "12.3.0",
+    "license": "MIT-CMU",
+    "license_files": [
+      "python/pillow/LICENSE"
+    ]
+  },
+  {
+    "name": "pycparser",
+    "version": "3.11",
+    "license": "BSD-3-Clause",
+    "license_files": [
+      "python/pycparser/LICENSE"
+    ]
+  },
+  {
+    "name": "pydantic",
+    "version": "2.14.0",
+    "license": "MIT",
+    "license_files": [
+      "python/pydantic/LICENSE"
+    ]
+  },
+  {
+    "name": "pydantic-settings",
+    "version": "2.15.0",
+    "license": "MIT",
+    "license_files": [
+      "python/pydantic-settings/LICENSE"
+    ]
+  },
+  {
+    "name": "pydantic_core",
+    "version": "2.50.0",
+    "license": "MIT",
+    "license_files": [
+      "python/pydantic_core/LICENSE"
+    ]
+  },
+  {
+    "name": "PyJWT",
+    "version": "2.15.1",
+    "license": "MIT",
+    "license_files": [
+      "python/PyJWT/AUTHORS.rst",
+      "python/PyJWT/LICENSE"
+    ]
+  },
+  {
+    "name": "python-dotenv",
+    "version": "1.2.4",
+    "license": "BSD-3-Clause",
+    "license_files": [
+      "python/python-dotenv/LICENSE"
+    ]
+  },
+  {
+    "name": "python-multipart",
+    "version": "0.0.32",
+    "license": "Apache-2.0",
+    "license_files": [
+      "python/python-multipart/LICENSE.txt"
+    ]
+  },
+  {
+    "name": "referencing",
+    "version": "0.37.0",
+    "license": "MIT",
+    "license_files": [
+      "python/referencing/COPYING"
+    ]
+  },
+  {
+    "name": "rpds-py",
+    "version": "2026.9.1",
+    "license": "MIT",
+    "license_files": [
+      "python/rpds-py/LICENSE"
+    ]
+  },
+  {
+    "name": "sse-starlette",
+    "version": "3.5.0",
+    "license": "BSD-3-Clause",
+    "license_files": [
+      "python/sse-starlette/AUTHORS",
+      "python/sse-starlette/LICENSE"
+    ]
+  },
+  {
+    "name": "starlette",
+    "version": "1.7.0",
+    "license": "BSD-3-Clause",
+    "license_files": [
+      "python/starlette/LICENSE.md"
+    ]
+  },
+  {
+    "name": "tinycss2",
+    "version": "1.5.1",
+    "license": null,
+    "license_files": [
+      "python/tinycss2/LICENSE"
+    ]
+  },
+  {
+    "name": "typing-inspection",
+    "version": "0.4.4",
+    "license": "MIT",
+    "license_files": [
+      "python/typing-inspection/LICENSE"
+    ]
+  },
+  {
+    "name": "typing_extensions",
+    "version": "4.16.0",
+    "license": "PSF-2.0",
+    "license_files": [
+      "python/typing_extensions/LICENSE"
+    ]
+  },
+  {
+    "name": "uvicorn",
+    "version": "0.54.0",
+    "license": "BSD-3-Clause",
+    "license_files": [
+      "python/uvicorn/LICENSE.md"
+    ]
+  },
+  {
+    "name": "webencodings",
+    "version": "0.6.1",
+    "license": null,
+    "license_files": [
+      "python/webencodings/LICENSE"
+    ]
+  },
+  {
+    "name": "@oxc-project/types",
+    "version": "0.153.0",
+    "license": "MIT",
+    "license_files": [
+      "node/@oxc-project_types/LICENSE"
+    ]
+  },
+  {
+    "name": "@rolldown/binding-linux-x64-gnu",
+    "version": "1.2.13",
+    "license": "MIT",
+    "license_files": []
+  },
+  {
+    "name": "@rolldown/binding-linux-x64-musl",
+    "version": "1.2.13",
+    "license": "MIT",
+    "license_files": []
+  },
+  {
+    "name": "@rolldown/pluginutils",
+    "version": "1.0.1",
+    "license": "MIT",
+    "license_files": [
+      "node/@rolldown_pluginutils/LICENSE"
+    ]
+  },
+  {
+    "name": "@tauri-apps/cli",
+    "version": "2.12.1",
+    "license": "Apache-2.0 OR MIT",
+    "license_files": [
+      "node/@tauri-apps_cli/LICENSE-MIT",
+      "node/@tauri-apps_cli/LICENSE-APACHE-2.0"
+    ]
+  },
+  {
+    "name": "@tauri-apps/cli-linux-x64-gnu",
+    "version": "2.12.1",
+    "license": "Apache-2.0 OR MIT",
+    "license_files": []
+  },
+  {
+    "name": "@typescript/typescript-linux-x64",
+    "version": "7.0.2",
+    "license": "Apache-2.0",
+    "license_files": [
+      "node/@typescript_typescript-linux-x64/NOTICE.txt",
+      "node/@typescript_typescript-linux-x64/LICENSE"
+    ]
+  },
+  {
+    "name": "detect-libc",
+    "version": "2.1.2",
+    "license": "Apache-2.0",
+    "license_files": [
+      "node/detect-libc/LICENSE"
+    ]
+  },
+  {
+    "name": "fdir",
+    "version": "6.5.0",
+    "license": "MIT",
+    "license_files": [
+      "node/fdir/LICENSE"
+    ]
+  },
+  {
+    "name": "lightningcss",
+    "version": "1.33.0",
+    "license": "MPL-2.0",
+    "license_files": [
+      "node/lightningcss/LICENSE"
+    ]
+  },
+  {
+    "name": "lightningcss-linux-x64-gnu",
+    "version": "1.33.0",
+    "license": "MPL-2.0",
+    "license_files": [
+      "node/lightningcss-linux-x64-gnu/LICENSE"
+    ]
+  },
+  {
+    "name": "lightningcss-linux-x64-musl",
+    "version": "1.33.0",
+    "license": "MPL-2.0",
+    "license_files": [
+      "node/lightningcss-linux-x64-musl/LICENSE"
+    ]
+  },
+  {
+    "name": "nanoid",
+    "version": "3.3.20",
+    "license": "MIT",
+    "license_files": [
+      "node/nanoid/LICENSE"
+    ]
+  },
+  {
+    "name": "picocolors",
+    "version": "1.1.1",
+    "license": "ISC",
+    "license_files": [
+      "node/picocolors/LICENSE"
+    ]
+  },
+  {
+    "name": "picomatch",
+    "version": "4.0.7",
+    "license": "MIT",
+    "license_files": [
+      "node/picomatch/LICENSE"
+    ]
+  },
+  {
+    "name": "postcss",
+    "version": "8.5.29",
+    "license": "MIT",
+    "license_files": [
+      "node/postcss/LICENSE"
+    ]
+  },
+  {
+    "name": "rolldown",
+    "version": "1.2.13",
+    "license": "MIT",
+    "license_files": [
+      "node/rolldown/LICENSE"
+    ]
+  },
+  {
+    "name": "source-map-js",
+    "version": "1.2.2",
+    "license": "BSD-3-Clause",
+    "license_files": [
+      "node/source-map-js/LICENSE"
+    ]
+  },
+  {
+    "name": "tinyglobby",
+    "version": "0.2.17",
+    "license": "MIT",
+    "license_files": [
+      "node/tinyglobby/LICENSE"
+    ]
+  },
+  {
+    "name": "typescript",
+    "version": "7.0.2",
+    "license": "Apache-2.0",
+    "license_files": [
+      "node/typescript/NOTICE.txt",
+      "node/typescript/LICENSE"
+    ]
+  },
+  {
+    "name": "vscode-jsonrpc",
+    "version": "9.0.0",
+    "license": "MIT",
+    "license_files": [
+      "node/vscode-jsonrpc/License.txt"
+    ]
+  },
+  {
+    "name": "vite",
+    "version": "8.3.4",
+    "license": "MIT",
+    "license_files": [
+      "node/vite/LICENSE.md"
+    ]
+  }
+]
