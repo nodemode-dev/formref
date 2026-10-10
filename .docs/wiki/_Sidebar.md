@@ -1,0 +1,7 @@
+- [FormRef](Home.md)
+- [Getting Started](Getting-Started.md)
+- [Canvas](Canvas.md)
+- [Files](Files.md)
+- [MCP](MCP.md)
+- [Architecture](Architecture.md)
+- [Releases](Releases.md)
