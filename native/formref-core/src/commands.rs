@@ -203,6 +203,15 @@ fn apply_inner(board: &mut Board, command: &Value, source: &mut IdSource, depth:
             geometry::require_unlocked(board, &indices)?;
             board.connections.retain(|connection| !seen.contains(&connection.id));
         }
+        "settings" => {
+            let patch = field(command, "patch")?.as_object().ok_or_else(|| EngineError::invalid("settings patch must be an object"))?;
+            let mut value = serde_json::to_value(&board.settings).map_err(|e| EngineError::invalid(e.to_string()))?;
+            merge_object(value.as_object_mut().ok_or_else(|| EngineError::invalid("settings must be an object"))?, patch, 0)?;
+            let settings: crate::model::BoardSettings = decode(value)?;
+            settings.validate()?;
+            board.settings = settings;
+        }
+        "snap" => snap(board, command)?,
         "viewport" => {
             let viewport: Viewport = decode(field(command, "viewport")?.clone())?;
             viewport.validate()?;
@@ -295,7 +304,9 @@ fn distribute(board: &mut Board, command: &Value) -> EngineResult<()> {
     let roots = layout_roots(board, command)?;
     let axis = required_string(command, "axis")?;
     if axis != "x" && axis != "y" { return Err(EngineError::invalid("axis must be x or y")); }
-    if roots.len() < 3 { return Err(EngineError::invalid("distribute needs at least three independent items")); }
+    let explicit_gap = if command.get("gap").is_some() { Some(number(command, "gap", 0.0, 0.0, 1_000_000.0)?) } else { None };
+    let minimum = if explicit_gap.is_some() { 2 } else { 3 };
+    if roots.len() < minimum { return Err(EngineError::invalid(format!("distribute needs at least {minimum} independent items"))); }
     let mut placements = Vec::new();
     for index in roots { placements.push((index, geometry::root_bounds(board, index)?)); }
     placements.sort_by(|a, b| {
@@ -307,7 +318,7 @@ fn distribute(board: &mut Board, command: &Value) -> EngineResult<()> {
     let last = placements.last().unwrap().1;
     let span = if axis == "x" { last.right - first.left } else { last.bottom - first.top };
     let size: f64 = placements.iter().map(|(_, b)| if axis == "x" { b.width() } else { b.height() }).sum();
-    let gap = (span - size) / (placements.len() - 1) as f64;
+    let gap = explicit_gap.unwrap_or((span - size) / (placements.len() - 1) as f64);
     let mut cursor = if axis == "x" { first.left } else { first.top };
     for (index, b) in placements {
         let (dx, dy) = if axis == "x" { (cursor - b.left, 0.0) } else { (0.0, cursor - b.top) };
@@ -416,6 +427,60 @@ fn order(board: &mut Board, command: &Value) -> EngineResult<()> {
         }
         let mut items: Vec<Option<Item>> = std::mem::take(&mut board.items).into_iter().map(Some).collect();
         board.items = ordered.into_iter().map(|index| items[index].take().unwrap()).collect();
+    }
+    Ok(())
+}
+
+fn snap(board: &mut Board, command: &Value) -> EngineResult<()> {
+    let initial = selected(command, board)?;
+    let grid = number(command, "grid_size", board.settings.grid_size, 4.0, 512.0)?;
+    let positions: HashMap<&str, usize> = board.items.iter().enumerate().map(|(index, item)| (item.id.as_str(), index)).collect();
+    let mut children = vec![Vec::new(); board.items.len()];
+    let mut groups: HashMap<&str, Vec<usize>> = HashMap::new();
+    for (index, item) in board.items.iter().enumerate() {
+        if let Some(parent) = &item.parent_id { children[positions[parent.as_str()]].push(index); }
+        if let Some(group) = &item.group_id { groups.entry(group).or_default().push(index); }
+    }
+    let mut pending = initial;
+    let mut included = vec![false; board.items.len()];
+    let mut expanded_groups = HashSet::new();
+    while let Some(index) = pending.pop() {
+        if included[index] { continue; }
+        included[index] = true;
+        pending.extend(children[index].iter().copied());
+        if let Some(group) = board.items[index].group_id.as_deref() {
+            if expanded_groups.insert(group) { pending.extend(groups[group].iter().copied()); }
+        }
+    }
+    let affected: Vec<usize> = (0..board.items.len()).filter(|&index| included[index]).collect();
+    geometry::require_unlocked(board, &affected)?;
+    let mut visited = vec![false; board.items.len()];
+    let mut connected_groups = HashSet::new();
+    let mut units = Vec::new();
+    for &start in &affected {
+        if visited[start] { continue; }
+        let mut unit = Vec::new();
+        let mut pending = vec![start];
+        while let Some(index) = pending.pop() {
+            if visited[index] { continue; }
+            visited[index] = true;
+            unit.push(index);
+            pending.extend(children[index].iter().copied().filter(|&child| included[child]));
+            if let Some(parent) = board.items[index].parent_id.as_deref() {
+                let parent = positions[parent];
+                if included[parent] { pending.push(parent); }
+            }
+            if let Some(group) = board.items[index].group_id.as_deref() {
+                if connected_groups.insert(group) { pending.extend(groups[group].iter().copied()); }
+            }
+        }
+        units.push(unit);
+    }
+    for unit in units {
+        let bounds = geometry::collective(board, &unit)?;
+        let dx = (bounds.left / grid).round() * grid - bounds.left;
+        let dy = (bounds.top / grid).round() * grid - bounds.top;
+        geometry::translate(board, &unit, if dx.abs() < 1e-9 { 0.0 } else { dx }, if dy.abs() < 1e-9 { 0.0 } else { dy });
     }
     Ok(())
 }

@@ -32,6 +32,27 @@ impl Default for Viewport {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+#[serde(default, deny_unknown_fields)]
+pub struct BoardSettings {
+    pub grid_visible: bool,
+    pub grid_size: f64,
+    pub snap_enabled: bool,
+    pub grayscale: bool,
+}
+
+impl Default for BoardSettings {
+    fn default() -> Self {
+        Self { grid_visible: true, grid_size: 24.0, snap_enabled: false, grayscale: false }
+    }
+}
+
+impl BoardSettings {
+    pub fn validate(&self) -> EngineResult<()> {
+        finite(self.grid_size, "settings.grid_size", 4.0, 512.0)
+    }
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(default)]
 pub struct Item {
     pub id: String,
@@ -96,6 +117,7 @@ pub struct Board {
     pub items: Vec<Item>,
     pub connections: Vec<Connection>,
     pub viewport: Viewport,
+    pub settings: BoardSettings,
     pub background: String,
     #[serde(flatten)]
     pub extra: Map<String, Value>,
@@ -105,7 +127,7 @@ impl Default for Board {
     fn default() -> Self {
         Self { id: String::new(), title: title(), version: version(), revision: 0,
             items: Vec::new(), connections: Vec::new(), viewport: Viewport::default(),
-            background: background(), extra: Map::new() }
+            settings: BoardSettings::default(), background: background(), extra: Map::new() }
     }
 }
 
@@ -266,6 +288,7 @@ impl Board {
             return Err(EngineError::invalid("board exceeds item or connection limit"));
         }
         self.viewport.validate()?;
+        self.settings.validate()?;
         let mut nodes = 0;
         validate_json(&Value::Object(self.extra.clone()), 0, &mut nodes)?;
         let mut ids = HashSet::with_capacity(self.items.len());
