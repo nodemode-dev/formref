@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+set -euo pipefail
+cd "$(dirname "$0")"
+cargo build --release --manifest-path native/formref-core/Cargo.toml
+(cd backend && ./oc_install)
+(cd frontend && ./oc_install)
+printf '%s\n' 'Installed FormRef. Run ./formref to start.'

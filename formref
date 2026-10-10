@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+set -euo pipefail
+cd "$(dirname "$0")"
+root="$PWD"
+action="${1:-dev}"
+python_bin="${FORMREF_PYTHON:-$root/backend/venv/bin/python}"
+if [[ "${OS:-}" == "Windows_NT" ]]; then python_bin="${FORMREF_PYTHON:-$root/backend/venv/Scripts/python.exe}"; fi
+case "$action" in
+  install) exec "$root/formref_oc_install" ;;
+  core) exec cargo build --release --manifest-path "$root/native/formref-core/Cargo.toml" ;;
+  build)
+    cargo build --release --manifest-path "$root/native/formref-core/Cargo.toml"
+    (cd frontend && npm run build)
+    ;;
+  backend) exec "$root/backend/boot_backend" ;;
+  frontend) exec "$root/frontend/boot_frontend" ;;
+  dev)
+    "$root/backend/boot_backend" &
+    api_pid=$!
+    "$root/frontend/boot_frontend" &
+    ui_pid=$!
+    trap 'kill "$api_pid" "$ui_pid" 2>/dev/null || true' EXIT INT TERM
+    wait
+    ;;
+  serve)
+    cd backend
+    exec "$python_bin" -m uvicorn app.main:app --host 127.0.0.1 --port 8196
+    ;;
+  mcp)
+    cd backend
+    exec "$python_bin" -m app.mcp_server
+    ;;
+  desktop)
+    cd frontend
+    exec npm run tauri -- dev
+    ;;
+  *) printf '%s\n' 'Usage: ./formref [install|dev|core|build|backend|frontend|serve|mcp|desktop]' >&2; exit 2 ;;
+esac
