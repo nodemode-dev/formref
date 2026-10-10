@@ -2,6 +2,7 @@ import base64
 import io
 import json
 import math
+from functools import lru_cache
 from pathlib import Path
 import re
 import textwrap
@@ -10,6 +11,9 @@ import zipfile
 from PIL import Image, ImageDraw, ImageFont, ImageOps
 from .config import settings
 from .store import store
+from .media import original_image
+from .sampling import crop_bounds, color_values
+from .reference_text import parse_text, layout_text, markdown_source
 
 SVG_NS = "http://www.w3.org/2000/svg"
 ET.register_namespace("", SVG_NS)
@@ -43,32 +47,10 @@ def bounds(board):
     bottom = max(point[1] for point in corners) + 32
     return left, top, max(1, right - left), max(1, bottom - top)
 
-def deny_fetch(url, resource_type):
-    raise ValueError("SVG rasterization cannot fetch external resources.")
-
 def image_source(item):
-    info, data = store.asset_bytes(item["asset_id"])
-    if info["mime"] == "image/svg+xml":
-        store.check_svg(data)
-        try:
-            from cairosvg.surface import PNGSurface
-        except (ImportError, OSError) as exc:
-            raise ValueError("SVG raster export requires CairoSVG and a system libCairo installation. On macOS run brew install cairo; on Windows install a compatible libCairo runtime.") from exc
-        raster = PNGSurface.convert(bytestring=data, unsafe=False, output_width=info["width"], output_height=info["height"], url_fetcher=deny_fetch)
-        image = Image.open(io.BytesIO(raster)).convert("RGBA")
-    else:
-        image = Image.open(io.BytesIO(data)).convert("RGBA")
-    crop = item.get("data", {}).get("crop")
-    if isinstance(crop, dict):
-        x = float(crop.get("x", 0))
-        y = float(crop.get("y", 0))
-        width = float(crop.get("width", 1))
-        height = float(crop.get("height", 1))
-        left = max(0, min(image.width - 1, math.floor(x * image.width)))
-        top = max(0, min(image.height - 1, math.floor(y * image.height)))
-        right = max(left + 1, min(image.width, math.ceil((x + width) * image.width)))
-        bottom = max(top + 1, min(image.height, math.ceil((y + height) * image.height)))
-        image = image.crop((left, top, right, bottom))
+    image = original_image(item["asset_id"])
+    if isinstance(item.get("data", {}).get("crop"), dict):
+        image = image.crop(crop_bounds(item, image.width, image.height))
     data = item.get("data", {})
     if data.get("flip_x"):
         image = ImageOps.mirror(image)
@@ -80,8 +62,12 @@ def image_source(item):
         image.putalpha(alpha)
     return image
 
-def font(size):
-    for path in ("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", "/System/Library/Fonts/Supplemental/Arial.ttf", "C:/Windows/Fonts/arial.ttf"):
+@lru_cache(maxsize=128)
+def font(size, strong=False, emphasis=False):
+    suffix = "-BoldOblique" if strong and emphasis else "-Bold" if strong else "-Oblique" if emphasis else ""
+    mac = "Arial Bold Italic" if strong and emphasis else "Arial Bold" if strong else "Arial Italic" if emphasis else "Arial"
+    windows = "arialbi" if strong and emphasis else "arialbd" if strong else "ariali" if emphasis else "arial"
+    for path in ("/usr/share/fonts/truetype/dejavu/DejaVuSans" + suffix + ".ttf", "/System/Library/Fonts/Supplemental/" + mac + ".ttf", "C:/Windows/Fonts/" + windows + ".ttf"):
         if Path(path).is_file():
             return ImageFont.truetype(path, max(8, round(size)))
     return ImageFont.load_default(size=max(8, round(size)))
@@ -105,6 +91,29 @@ def draw_text(draw, text, x, y, max_width, selected_font, fill, max_height):
         y += line_height
         if y + line_height > max_height:
             return
+
+def formatted_layout(item, width, height, size):
+    measurement = ImageDraw.Draw(Image.new("RGBA", (1, 1)))
+    def measure(text, selected_size, run):
+        return measurement.textlength(text, font=font(selected_size, run["strong"], run["emphasis"]))
+    return layout_text(parse_text(item.get("text", ""), item.get("data", {}).get("text_format", "plain")), size, max(1, width), max(0, height), measure)
+
+def draw_formatted(draw, item, x, y, width, height, size, fill):
+    for line in formatted_layout(item, width, height, size):
+        for run in line["runs"]:
+            selected_font = font(line["size"], run["strong"], run["emphasis"])
+            position = (x + run["x"], y + line["y"] + line["size"])
+            draw.text(position, run["text"], font=selected_font, fill=fill, anchor="ls")
+            if run.get("href"):
+                draw.line((position[0], position[1] + 2, position[0] + run["width"], position[1] + 2), fill=fill, width=1)
+
+def swatch_label(item):
+    rgba = tuple(bytes.fromhex(item["color"][1:]))
+    if len(rgba) == 3:
+        rgba += (255,)
+    values = color_values(rgba)
+    hue, saturation, value = values["hsv"]
+    return (item.get("title") or "Swatch") + "\n" + values["hex"] + "\nRGB " + ", ".join(str(component) for component in values["rgb"]) + f"\nHSV {hue:.0f}°, {saturation:.0f}%, {value:.0f}%"
 
 def item_raster(item, scale):
     width = max(1, min(settings.max_export_edge, round(item["width"] * scale)))
@@ -156,6 +165,13 @@ def item_raster(item, scale):
         if data.get("checked"):
             draw.line([(padding + 3 * scale, padding + 8 * scale), (padding + 7 * scale, padding + 12 * scale), (padding + 14 * scale, padding + 3 * scale)], fill=text_color, width=max(1, round(2 * scale)))
         draw_text(draw, item.get("text") or title, padding + checkbox + padding, padding, max(1, width - checkbox - 3 * padding), selected_font, text_color, height - padding)
+    elif item["kind"] in {"note", "document"}:
+        draw_formatted(draw, item, padding, padding, width - 2 * padding, height - 2 * padding, size, text_color)
+    elif item["kind"] == "swatch":
+        patch_height = round(height * 0.28)
+        draw.rectangle((0, patch_height, width - 1, height - 1), fill="#191919")
+        label = {"text": swatch_label(item), "data": {"text_format": "plain"}}
+        draw_formatted(draw, label, padding, patch_height + padding, width - 2 * padding, height - patch_height - 2 * padding, max(8, 12 * scale), "#f5f5f5")
     else:
         text = item.get("text") if item["kind"] == "note" else title
         if item["kind"] == "link":
@@ -211,6 +227,15 @@ def svg_element(parent, tag, attributes=None, text=None):
         element.text = str(text)
     return element
 
+def svg_formatted(parent, item, x, y, width, height, size, fill):
+    for line in formatted_layout(item, width, height, size):
+        for run in line["runs"]:
+            container = svg_element(parent, "a", {"href": run["href"]}) if run.get("href") else parent
+            attributes = {"x": x + run["x"], "y": y + line["y"] + line["size"], "fill": fill, "font-size": line["size"], "font-family": "sans-serif", "font-weight": "bold" if run["strong"] else "normal", "font-style": "italic" if run["emphasis"] else "normal"}
+            if run.get("href"):
+                attributes["text-decoration"] = "underline"
+            svg_element(container, "text", attributes, run["text"])
+
 def svg_export(board):
     left, top, width, height = bounds(board)
     root = ET.Element("{" + SVG_NS + "}svg", {"width": str(width), "height": str(height), "viewBox": f"{left} {top} {width} {height}"})
@@ -257,6 +282,17 @@ def svg_export(board):
                 svg_element(group, "ellipse", {**attributes, "cx": width / 2, "cy": height / 2, "rx": width / 2, "ry": height / 2})
             else:
                 svg_element(group, "rect", {**attributes, "width": width, "height": height})
+        elif item["kind"] in {"note", "document"}:
+            svg_element(group, "rect", {"width": width, "height": height, "rx": 10, "fill": selected_color, "stroke": "#46404e"})
+            size = max(8, min(160, float(data.get("font_size", 16))))
+            svg_formatted(group, item, 14, 14, width - 28, height - 28, size, color(data.get("text_color"), "#f5f5f5"))
+        elif item["kind"] == "swatch":
+            patch_height = height * 0.28
+            alpha = int(item["color"][7:9], 16) / 255 if len(item["color"]) == 9 else 1
+            svg_element(group, "rect", {"width": width, "height": height, "rx": 10, "fill": item["color"][:7], "fill-opacity": alpha, "stroke": "#46404e"})
+            svg_element(group, "rect", {"y": patch_height, "width": width, "height": height - patch_height, "fill": "#191919"})
+            label = {"text": swatch_label(item), "data": {"text_format": "plain"}}
+            svg_formatted(group, label, 14, patch_height + 14, width - 28, height - patch_height - 28, 12, "#f5f5f5")
         else:
             svg_element(group, "rect", {"width": width, "height": height, "rx": 10, "fill": selected_color, "stroke": "#46404e"})
             title = item.get("text") or item.get("title", "")
@@ -299,8 +335,10 @@ def markdown_export(board):
         title = item.get("title", "").replace("\n", " ")
         if item["kind"] == "todo":
             lines.extend(["- [" + ("x" if item.get("data", {}).get("checked") else " ") + "] " + (item.get("text") or title), ""])
-        elif item["kind"] == "note":
-            lines.extend(["## " + (title or "Note"), "", item.get("text", ""), ""])
+        elif item["kind"] in {"note", "document"}:
+            lines.extend(["## " + markdown_source(title or item["kind"].title(), "plain"), "", markdown_source(item.get("text", ""), item.get("data", {}).get("text_format", "plain")), ""])
+        elif item["kind"] == "swatch":
+            lines.extend(["## " + markdown_source(title or "Swatch", "plain"), "", markdown_source(swatch_label(item), "plain"), ""])
         elif item["kind"] == "link":
             lines.extend(["## " + (title or "Link"), "", item.get("url", ""), "", item.get("text", ""), ""])
         elif item["kind"] in {"image", "file"}:

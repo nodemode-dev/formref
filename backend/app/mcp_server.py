@@ -73,9 +73,12 @@ async def api(method, path, **kwargs):
 async def json_api(method, path, **kwargs):
     return (await api(method, path, **kwargs)).json()
 
-async def command(board_id, value):
+async def command(board_id, value, expected_revision=None):
     checked_id(board_id)
-    return await json_api("POST", f"/api/boards/{board_id}/commands", json={"command": value})
+    body = {"command": value}
+    if expected_revision is not None:
+        body["expected_revision"] = expected_revision
+    return await json_api("POST", f"/api/boards/{board_id}/commands", json=body)
 
 def checked_id(value):
     if not isinstance(value, str) or not value or len(value) > 96 or not all(character.isascii() and (character.isalnum() or character in "_-") for character in value):
@@ -112,9 +115,35 @@ async def get_board(board_id: str) -> dict:
     """Read current authoritative board state and session undo/redo flags."""
     return await json_api("GET", "/api/boards/" + checked_id(board_id))
 
+@mcp.tool(annotations=_read)
+async def sample_image(board_id: str, item_id: str, u: float, v: float) -> dict:
+    """Sample an original managed image pixel at normalized painted-image coordinates u,v in 0..1 inclusive. Crop and flips are applied; the caller inverts rotation/camera. Return source x/y, RGBA and RGB bytes, HSV degrees/percent/percent, HEX, asset ID and unchanged revision. Opacity and grayscale are ignored; animated sources use frame zero."""
+    return await json_api("GET", f"/api/boards/{checked_id(board_id)}/items/{checked_id(item_id)}/sample", params={"u": u, "v": v})
+
+@mcp.tool(annotations=_write)
+async def create_swatch(board_id: str, color: str, title: str = "", x: float = 0, y: float = 0, width: float = 180, height: float = 150) -> dict:
+    """Create an editable, undoable color swatch. color must be #RRGGBB or #RRGGBBAA. RGB/HSV display values are derived from this one canonical color. Edit through update_items with color/title fields."""
+    return await command(board_id, {"type": "add", "items": [{"id": uuid.uuid4().hex, "kind": "swatch", "color": color, "title": title, "x": x, "y": y, "width": width, "height": height}]})
+
+@mcp.tool(annotations=_write)
+async def create_document(board_id: str, text: str, title: str = "Document", text_format: str = "markdown", x: float = 0, y: float = 0, width: float = 360, height: float = 280) -> dict:
+    """Create an undoable document card with one authoritative text source and plain or markdown format. Markdown supports h1-h3, lists, strong/emphasis and absolute HTTP(S) links; supplied HTML stays literal. UTF-8 text is limited to 1 MiB by Rust."""
+    return await command(board_id, {"type": "add", "items": [{"id": uuid.uuid4().hex, "kind": "document", "text": text, "title": title, "data": {"text_format": text_format}, "x": x, "y": y, "width": width, "height": height}]})
+
+@mcp.tool(annotations=_write)
+async def set_formatted_text(board_id: str, item_id: str, text: str, text_format: str = "markdown") -> dict:
+    """Set note/document text and plain or markdown format as one undoable shared-engine update. Preserve existing data fields. A concurrent board mutation rejects this operation with revision_conflict instead of overwriting changed data."""
+    state = await get_board(board_id)
+    item = next((entry for entry in state["board"]["items"] if entry["id"] == item_id), None)
+    if item is None or item["kind"] not in {"note", "document"}:
+        raise ValueError("Formatted text requires an existing note or document item.")
+    data = dict(item.get("data", {}))
+    data["text_format"] = text_format
+    return await command(board_id, {"type": "update", "ids": [item_id], "patch": {"text": text, "data": data}}, expected_revision=state["board"]["revision"])
+
 @mcp.tool(annotations=_write)
 async def add_items(board_id: str, items: list[dict]) -> dict:
-    """Add image, note, link, board, column, todo, shape, stroke or file items atomically. Geometry is x,y,width,height; image asset_id must reference an imported asset. Optional fields receive engine defaults."""
+    """Add image, note, document, swatch, link, board, column, todo, shape, stroke or file items atomically. Geometry is x,y,width,height; image asset_id must reference an imported asset. Optional fields receive engine defaults."""
     return await command(board_id, {"type": "add", "items": items})
 
 @mcp.tool(annotations=_write)

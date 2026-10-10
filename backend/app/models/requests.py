@@ -6,3 +6,4 @@ class CreateBoard(BaseModel):
 
 class BoardCommand(BaseModel):
     command: dict[str, Any]
+    expected_revision: int | None = Field(default=None, strict=True, ge=0)

@@ -8,7 +8,7 @@ from starlette.middleware.cors import CORSMiddleware
 from .core.config import ROOT, VERSION, settings
 from .core.engine import broker, EngineError
 from .core.extensions import registry
-from .core.store import MissingBoard
+from .core.store import MissingBoard, RevisionConflict
 from .routers.boards import router
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(name)s %(levelname)s %(message)s")
@@ -55,6 +55,10 @@ async def local_access(request: Request, call_next):
 async def missing_board(request, exc):
     return JSONResponse(status_code=404, content={"detail": str(exc)})
 
+@app.exception_handler(RevisionConflict)
+async def revision_conflict(request, exc):
+    return JSONResponse(status_code=409, content={"detail": str(exc), "code": "revision_conflict"})
+
 @app.exception_handler(EngineError)
 async def engine_error(request, exc):
     code = 503 if exc.code.startswith("engine_") else 409 if "locked" in str(exc).lower() else 422
@@ -75,7 +79,7 @@ def health():
 
 @app.get("/api/capabilities")
 def capabilities():
-    return {"capabilities": registry.describe(), "item_kinds": ["image", "note", "link", "board", "column", "todo", "shape", "stroke", "file"], "exports": list(registry.exporters), "limits": {"asset_bytes": settings.max_upload_bytes, "expanded_archive_bytes": settings.max_archive_bytes, "image_pixels": settings.max_image_pixels, "png_pixels": settings.max_export_pixels, "png_edge": settings.max_export_edge, "undo_steps": 100}, "collaboration": "local-agent-sync", "cloud_sync": False, "accounts": False}
+    return {"capabilities": registry.describe(), "item_kinds": ["image", "note", "document", "swatch", "link", "board", "column", "todo", "shape", "stroke", "file"], "text_formats": ["plain", "markdown"], "image_sampling": {"scope": "original", "frame": 0, "coordinates": "crop-and-flip-normalized"}, "exports": list(registry.exporters), "limits": {"asset_bytes": settings.max_upload_bytes, "expanded_archive_bytes": settings.max_archive_bytes, "image_pixels": settings.max_image_pixels, "png_pixels": settings.max_export_pixels, "png_edge": settings.max_export_edge, "undo_steps": 100}, "collaboration": "local-agent-sync", "cloud_sync": False, "accounts": False}
 
 app.include_router(router)
 

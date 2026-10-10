@@ -8,9 +8,24 @@
 
 ## Contents
 
+- [v0.3.0 · Original pixel sampling and formatted references](#v030--original-pixel-sampling-and-formatted-references)
 - [v0.2.0 · Canvas settings and snapping through MCP](#v020--canvas-settings-and-snapping-through-mcp)
 - [v0.1.0 · Local board service and SDK MCP](#v010--local-board-service-and-sdk-mcp)
 - [boot_backend.bat](#boot_backendbat)
+
+## v0.3.0 · Original pixel sampling and formatted references
+
+`app/core/media.py` is the shared bounded original-image decoder for exports and sampling. It reads registered bytes only, checks the existing 64-megapixel limit and selects frame zero. Safe SVG uses the existing defusedxml check, unsafe-disabled CairoSVG and fetch-denying boundary. `app/core/sampling.py` maps normalized painted-image coordinates through the same floor/ceil crop rectangle and flips used by exports. Rotation/camera inversion belongs to the caller. Sampling returns original unpremultiplied RGBA/RGB, exact HSV degrees/percent/percent, uppercase HEX, source x/y, asset ID and unchanged board revision; item opacity and both grayscale settings are excluded.
+
+`app/core/reference_text.py` defines the shared nonrecursive safe Markdown grammar used by formatted card exports: source-line paragraphs, h1-h3, unordered/numbered lists, strong/emphasis and absolute HTTP(S) links. Link labels exclude both brackets so unmatched nested openers cannot trigger repeated suffix scans. Raw HTML and unsupported links remain literal. Preview parsing stops after 4096 source lines and rendering stops at card geometry; full UTF-8 source remains in native JSON/portable and Markdown exports. Downloaded Markdown escapes HTML and unsafe links, preserves supported syntax and disables embedded-image syntax. PNG uses installed fonts, whose CJK glyph coverage is limited on this host; Unicode source survives unchanged. This is a supported subset rather than full CommonMark.
+
+PNG and SVG render the supported heading sizes, bold/italic runs, list prefixes and underlined safe link labels. SVG links use only safe HTTP(S) destinations and all supplied text is XML-escaped. Swatches keep canonical color in Rust and derive display values, including alpha, without duplicate mutable color state. Exports include the color patch, name, HEX, RGB and HSV. Rounded HSV labels fit the default 180 by 150 swatch; raw sampled HSV retains full numeric precision.
+
+The optional command-envelope `expected_revision` is a strict nonnegative integer. The store's existing lock covers revision comparison, Rust mutation and atomic persistence. A mismatch returns HTTP 409 with code `revision_conflict`; disk, revision and session history remain intact. Callers omitting the field retain the existing behavior. MCP `set_formatted_text` reads the item, preserves unrelated data fields and submits this guard, avoiding a stale merge. Frontend source drafts use the same guard.
+
+Actual `./formref mcp` discovery returned 20 tools under protocol `2025-11-25`, including `sample_image`, `create_swatch`, `create_document` and `set_formatted_text`. Source RGB and alpha 128/0, cropped/flipped edges, SVG `#123456` and GIF frame zero passed. Sampling and explicit failures left state/history unchanged. Swatch edit/undo/redo and formatted-note undo retained prior data. All eight items and a 58,489-byte Unicode document round-tripped through portable and JSON imports; a new service reopened revision 11 with identical content and reset session history. Boolean, string and float guards returned 422; a stale integer returned 409 with equal disk bytes and state/history.
+
+PNG exports were visually inspected for three heading sizes, lists, strong/emphasis, underlined links, literal HTML and complete swatch value rows. SVG inspection found styled text, safe links, literal HTML and zero script elements. The complete source and original registered image bytes were retained. The matching planning sidecar contains `COLOR_NOTE_SERVICE_EVIDENCE_v0.3.0.json`, including actual tool schemas, sample readbacks, hashes, restart and display observations. Python compilation passed; no dependencies, test files or source generators were added.
 
 ## v0.2.0 · Canvas settings and snapping through MCP
 

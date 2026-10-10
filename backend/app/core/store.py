@@ -22,6 +22,9 @@ Image.MAX_IMAGE_PIXELS = settings.max_image_pixels
 class MissingBoard(ValueError):
     pass
 
+class RevisionConflict(ValueError):
+    pass
+
 class BoardStore:
     def __init__(self):
         self.lock = threading.RLock()
@@ -115,9 +118,11 @@ class BoardStore:
                 state["import_report"] = record["import_report"]
             return state
 
-    def mutate(self, board_id: str, command=None, history=None):
+    def mutate(self, board_id: str, command=None, history=None, expected_revision=None):
         with self.lock:
             previous = self.ensure_loaded(board_id)
+            if expected_revision is not None and previous["board"]["revision"] != expected_revision:
+                raise RevisionConflict("Board changed since this edit began. Refresh saved state before retrying.")
             if history:
                 state = broker.call("board." + history, {"board_id": board_id})
             else:

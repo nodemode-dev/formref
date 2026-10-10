@@ -6,6 +6,7 @@ from ..core.config import settings
 from ..core.builtins import registry
 from ..core.store import store, MissingBoard
 from ..models.requests import CreateBoard, BoardCommand
+from ..core.sampling import sample_image
 
 router = APIRouter(prefix="/api")
 
@@ -36,9 +37,13 @@ def create_board(body: CreateBoard):
 def get_board(board_id: str):
     return store.get(board_id)
 
+@router.get("/boards/{board_id}/items/{item_id}/sample")
+def sample(board_id: str, item_id: str, u: float, v: float):
+    return sample_image(board_id, item_id, u, v)
+
 @router.post("/boards/{board_id}/commands")
 def apply_command(board_id: str, body: BoardCommand):
-    return store.mutate(board_id, command=body.command)
+    return store.mutate(board_id, command=body.command, expected_revision=body.expected_revision)
 
 @router.post("/boards/{board_id}/undo")
 def undo(board_id: str):
