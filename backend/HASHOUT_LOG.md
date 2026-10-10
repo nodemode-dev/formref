@@ -8,8 +8,19 @@
 
 ## Contents
 
+- [v0.2.0 · Canvas settings and snapping through MCP](#v020--canvas-settings-and-snapping-through-mcp)
 - [v0.1.0 · Local board service and SDK MCP](#v010--local-board-service-and-sdk-mcp)
 - [boot_backend.bat](#boot_backendbat)
+
+## v0.2.0 · Canvas settings and snapping through MCP
+
+`configure_canvas` sends only supplied grid visibility, grid size, snap enablement and grayscale preview values through the shared Rust `settings` command. `snap_items` sends actual item IDs through the engine's `snap` command, with an optional grid override. Grid size is finite and within 4 to 512 world units. The engine determines grouped/parent snapping units and rejects the full operation when locked content would move; Python contains no second geometry implementation.
+
+The store writes and reopens the complete engine board, and native portable and JSON snapshots carry that complete board unchanged. Typed canvas settings therefore use the existing persistence path. Canvas grayscale is a reversible view setting: original registered assets and PNG/SVG/Markdown export content remain unchanged. The existing arrangement tool now documents explicit distribute spacing as an accepted option.
+
+Actual official SDK discovery through `./formref mcp` returned 16 tools under protocol `2025-11-25`. Settings mutation readback preserved omitted values; changing grid visibility at revision 8 and undoing at revision 9 restored the prior settings. Snap moved `(13,37)` to `(0,32)` on a 32-unit grid and undo restored it. Selecting one group member moved the complete group while preserving its `(25,25)` offset. Locked-content snapping and invalid grid settings returned true tool errors with unchanged documents/revisions. Explicit distribute gap 14 produced x positions 0, 34 and 68.
+
+Native portable and JSON roundtrips preserved all five items, settings and geometry. A new API/MCP process reopened revision 7 with identical settings and geometry; undo history correctly reset for the new session. Enabling canvas grayscale left the PNG hash and original image bytes unchanged. Exact live tool schemas, revisions and SHA-256 observations are in the matching sidecar's `CANVAS_SERVICE_EVIDENCE.json`. Python compilation passed; no test files or additional dependencies were authored.
 
 ## v0.1.0 · Local board service and SDK MCP
 

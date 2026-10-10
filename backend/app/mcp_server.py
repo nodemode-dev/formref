@@ -124,11 +124,25 @@ async def update_items(board_id: str, ids: list[str], patch: dict) -> dict:
 
 @mcp.tool(annotations=_write)
 async def arrange_items(board_id: str, ids: list[str], action: str, options: dict | None = None) -> dict:
-    """Arrange items using align, distribute, pack, normalize, order, group, ungroup or duplicate. Options: align mode; distribute axis; pack gap/columns; normalize mode/value; order mode; group group_id."""
+    """Arrange items using align, distribute, pack, normalize, order, group, ungroup or duplicate. Options: align mode; distribute axis/gap; pack gap/columns; normalize mode/value; order mode; group group_id."""
     if action not in {"align", "distribute", "pack", "normalize", "order", "group", "ungroup", "duplicate"}:
         raise ValueError("Unsupported arrangement action.")
     value = dict(options or {})
     value.update(type=action, ids=ids)
+    return await command(board_id, value)
+
+@mcp.tool(annotations=_write)
+async def configure_canvas(board_id: str, grid_visible: bool | None = None, grid_size: float | None = None, snap_enabled: bool | None = None, grayscale: bool | None = None) -> dict:
+    """Configure persistent canvas settings in one undoable step. Omitted values are preserved. grid_size is finite and between 4 and 512 world units. grayscale changes the canvas preview only and preserves original assets and rendered exports."""
+    patch = {key: value for key, value in {"grid_visible": grid_visible, "grid_size": grid_size, "snap_enabled": snap_enabled, "grayscale": grayscale}.items() if value is not None}
+    return await command(board_id, {"type": "settings", "patch": patch})
+
+@mcp.tool(annotations=_write)
+async def snap_items(board_id: str, ids: list[str], grid_size: float | None = None) -> dict:
+    """Snap selected items and their related groups/descendants to the nearest world-grid intersection in one undoable step. Uses the board grid unless grid_size (4 to 512) is supplied. Unit offsets are preserved; locked content rejects the whole operation."""
+    value = {"type": "snap", "ids": ids}
+    if grid_size is not None:
+        value["grid_size"] = grid_size
     return await command(board_id, value)
 
 @mcp.tool(annotations=_write)
