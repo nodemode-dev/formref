@@ -1,12 +1,13 @@
-# FormRef core canvas hashout log
+# FormRef core hashout log
 
-Focused v0.2.0 log. The complete baseline engine map, protocol limits and earlier build observations remain in [native/HASHOUT_LOG.md](../HASHOUT_LOG.md).
+Focused v0.2.0 and v0.3.0 log. The complete baseline engine map, protocol limits and earlier build observations remain in [native/HASHOUT_LOG.md](../HASHOUT_LOG.md).
 
 ## Org-navi-map
 
 | Region | Files | Entry |
 | --- | --- | --- |
 | Typed canvas settings and old-board defaults | [src/model.rs](src/model.rs) | [Model](#model) |
+| Swatch colors and formatted source validation | [src/model.rs](src/model.rs), [REFERENCE_EDITING_CONTRACT.md](../../docs/REFERENCE_EDITING_CONTRACT.md), [planning-sidecar engine evidence](../../../formref_sidecar/COLOR_NOTE_ENGINE_EVIDENCE_v0.3.0.json) | [Reference editing](#reference-editing) |
 | Atomic settings, connected snap and explicit distribution spacing | [src/commands.rs](src/commands.rs) | [Commands](#commands) |
 | World rectangle bounds, descendant expansion and lock ancestry | [src/geometry.rs](src/geometry.rs) | [Geometry integration](#geometry-integration) |
 | Existing revisions, undo/redo and JSON-lines protocol | [src/session.rs](src/session.rs), [src/main.rs](src/main.rs) | [History and protocol](#history-and-protocol) |
@@ -22,6 +23,7 @@ Focused v0.2.0 log. The complete baseline engine map, protocol limits and earlie
 - [Contract](#contract)
 - [Verification](#verification)
 - [Limits](#limits)
+- [Reference editing](#reference-editing)
 
 ## Model
 
@@ -62,3 +64,31 @@ Concrete observations: midpoint items `(12,12)` and `(-12,-12)` became `(24,24)`
 ## Limits
 
 These are live build and protocol observations, not automated test coverage. Frontend camera-scaled grid rendering, grayscale preview, ordered focus playback, REST persistence and MCP transport remain their owning agents' verification scope and are not claimed as engine-only observations here. Native desktop compilation remains outside this headless core increment.
+
+## Reference editing
+
+### src/model.rs · Item::validate reference source and color
+
+- refers-to: `src/model.rs` :: `Item::validate`, known-kind match
+- kind: rationale
+- logged: v0.3.0 · 2026-10-10
+
+Swatches store a single canonical color in the existing `Item.color` field. Validation accepts exactly a hash followed by six or eight ASCII hexadecimal digits, preserving supplied case and alpha. The existing `#191919` default remains valid. No mutable RGB/HSV parallel fields or duplicate source fields were introduced. Optional bounded sample provenance uses existing extension data and survives native state serialization.
+
+Notes and documents accept an absent `data.text_format`, or the exact strings `plain` and `markdown`; invalid values and primitive types reject. Omission retains legacy plaintext meaning without inserting a new field into old item data. `Item.text` remains the authoritative UTF-8 source with the existing 1 MiB limit, JSON node/depth limits and 8 MiB board budget. Unknown extension kinds keep the existing extension behavior. Rust stores source literally; it does not parse Markdown, execute HTML or select links.
+
+The known-kind validation runs on open and after every generic command and batch constituent. Existing cloned candidates, lock checks and session history provide atomic mutation, undo/redo and unchanged-command detection without new public commands or dependencies.
+
+### Release binary · observed v0.3.0 readback
+
+- refers-to: `src/main.rs` :: stdin protocol; `src/session.rs` :: board state/history; `src/commands.rs` :: add/update/group/transform
+- kind: explainer
+- logged: v0.3.0 · 2026-10-10
+
+`cargo build --offline --release --manifest-path native/formref-core/Cargo.toml` succeeded in 5.18 seconds. No version or dependency changes were made. The binary was handed to the backend agent before service/MCP verification.
+
+Manually supplied 44 protocol requests and retained the full response readbacks in the planning sidecar's [COLOR_NOTE_ENGINE_EVIDENCE_v0.3.0.json](../../../formref_sidecar/COLOR_NOTE_ENGINE_EVIDENCE_v0.3.0.json), a bounded 103949-byte observation record. A read-only JSON response formatter produced that artifact; no assertions, request generator, test file or runner was written.
+
+Observed default, mixed-case six-digit and eight-digit transparent swatches; canonical alpha edits and color undo/redo; Markdown source and Unicode document text; legacy and explicit plaintext; rejected short, missing-hash, non-hex, seven-digit, whitespace, Unicode-digit, numeric and CSS-function colors; rejected format values, nulls, booleans, numbers, objects and incorrect case. A failed rename/text/color batch retained the original title, source, revision 7 and history. Locked swatch/document edits rejected. A saved document was undone and redone, and unchanged format retained revision 13. New kinds participated in grouping and translation with undo/redo. Native open/get retained swatch alpha, provenance, format, literal source and geometry; invalid swatch/document snapshots failed explicitly.
+
+This record establishes engine validation and source-state readback only. The reopened snapshot contains a manually supplied projection of the observed source items, not a portable ZIP round trip. Maximum-size stress, sampling, safe rendered Markdown, focused editor behavior, exports, process persistence and actual MCP transport remain separate owning-agent acceptance checks. Edited existing files: `src/model.rs` and this log; rewritten files: zero. No shared contract, version file or other agent's source was edited.

@@ -236,6 +236,19 @@ impl Item {
         validate_json(&Value::Object(self.data.clone()), 0, nodes)?;
         validate_json(&Value::Object(self.extra.clone()), 0, nodes)?;
         match self.kind.as_str() {
+            "swatch" => {
+                let bytes = self.color.as_bytes();
+                if ![7, 9].contains(&bytes.len()) || bytes[0] != b'#' || !bytes[1..].iter().all(u8::is_ascii_hexdigit) {
+                    return Err(EngineError::invalid("swatch color must be #RRGGBB or #RRGGBBAA"));
+                }
+            }
+            "note" | "document" => {
+                if let Some(format) = self.data.get("text_format") {
+                    if !format.as_str().is_some_and(|value| ["plain", "markdown"].contains(&value)) {
+                        return Err(EngineError::invalid("data.text_format must be plain or markdown"));
+                    }
+                }
+            }
             "image" => {
                 for key in ["flip_x", "flip_y", "grayscale"] { data_boolean(&self.data, key)?; }
                 if self.data.get("sampling").is_some_and(|v| !v.is_string()) {
