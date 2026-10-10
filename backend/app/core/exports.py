@@ -134,7 +134,9 @@ def item_raster(item, scale):
             if shape == "ellipse":
                 draw.ellipse(box, fill=fill, outline=selected_color, width=stroke_width)
             elif shape == "line":
-                draw.line(points if len(points) >= 2 else [(0, 0), (width, height)], fill=selected_color, width=stroke_width)
+                endpoints = [points[0], points[-1]] if points else [(0, 0), (width, height)]
+                if endpoints[0] != endpoints[-1]:
+                    draw.line(endpoints, fill=selected_color, width=stroke_width)
             else:
                 draw.rectangle(box, fill=fill, outline=selected_color, width=stroke_width)
         return image
@@ -176,9 +178,16 @@ def png_export(board):
             continue
         a = ((source["x"] + source["width"] / 2 - left) * scale, (source["y"] + source["height"] / 2 - top) * scale)
         b = ((target["x"] + target["width"] / 2 - left) * scale, (target["y"] + target["height"] / 2 - top) * scale)
-        draw.line([a, b], fill=color(connection.get("color"), "#f97316"), width=max(1, round(2 * scale)))
+        midpoint_x = (a[0] + b[0]) / 2
+        steps = max(8, min(4096, math.ceil((abs(b[0] - a[0]) + abs(b[1] - a[1])) / 2)))
+        curve = []
+        for index in range(steps + 1):
+            t = index / steps
+            inverse = 1 - t
+            curve.append((inverse ** 3 * a[0] + 3 * inverse ** 2 * t * midpoint_x + 3 * inverse * t ** 2 * midpoint_x + t ** 3 * b[0], inverse ** 3 * a[1] + 3 * inverse ** 2 * t * a[1] + 3 * inverse * t ** 2 * b[1] + t ** 3 * b[1]))
+        draw.line(curve, fill=color(connection.get("color"), "#f97316"), width=max(1, round(2 * scale)))
         if connection.get("label"):
-            draw.text(((a[0] + b[0]) / 2, (a[1] + b[1]) / 2), connection["label"], font=font(12 * scale), fill="#f5f5f5")
+            draw.text(((a[0] + b[0]) / 2, (a[1] + b[1]) / 2 - 8 * scale), connection["label"], font=font(11 * scale), fill="#a4a4a4", anchor="ls", stroke_width=max(1, round(5 * scale / 2)), stroke_fill=color(board.get("background"), "#1c1b1d"))
     for item in sorted(board["items"], key=lambda entry: entry["z"]):
         if item.get("hidden") or item.get("opacity", 1) <= 0:
             continue
@@ -214,9 +223,9 @@ def svg_export(board):
             continue
         ax, ay = source["x"] + source["width"] / 2, source["y"] + source["height"] / 2
         bx, by = target["x"] + target["width"] / 2, target["y"] + target["height"] / 2
-        svg_element(root, "line", {"x1": ax, "y1": ay, "x2": bx, "y2": by, "stroke": color(connection.get("color"), "#f97316"), "stroke-width": 2})
+        svg_element(root, "path", {"d": f"M{ax},{ay} C{(ax + bx) / 2},{ay} {(ax + bx) / 2},{by} {bx},{by}", "fill": "none", "stroke": color(connection.get("color"), "#f97316"), "stroke-width": 2})
         if connection.get("label"):
-            svg_element(root, "text", {"x": (ax + bx) / 2, "y": (ay + by) / 2, "fill": "#f5f5f5", "font-size": 12, "font-family": "sans-serif"}, connection["label"])
+            svg_element(root, "text", {"x": (ax + bx) / 2, "y": (ay + by) / 2 - 8, "fill": "#a4a4a4", "font-size": 11, "font-family": "sans-serif", "stroke": color(board.get("background"), "#1c1b1d"), "stroke-width": 5, "paint-order": "stroke"}, connection["label"])
     for item in sorted(board["items"], key=lambda entry: entry["z"]):
         if item.get("hidden"):
             continue
@@ -235,10 +244,15 @@ def svg_export(board):
             attributes = {"stroke": selected_color, "stroke-width": data.get("stroke_width", 2), "fill": "none" if data.get("fill", "none") == "none" else color(data["fill"])}
             if data.get("style") in {"dashed", "dotted"}:
                 attributes["stroke-dasharray"] = "8 5" if data["style"] == "dashed" else "2 4"
-            if item["kind"] == "stroke" or data.get("shape") == "line":
+            if item["kind"] == "stroke":
+                points = data.get("points") or []
+                if len(points) >= 2:
+                    attributes.update(points=" ".join(f"{point['x']},{point['y']}" for point in points), fill="none", **{"stroke-linecap": "round", "stroke-linejoin": "round"})
+                    svg_element(group, "polyline", attributes)
+            elif data.get("shape") == "line":
                 points = data.get("points") or [{"x": 0, "y": 0}, {"x": width, "y": height}]
-                attributes.update(points=" ".join(f"{point['x']},{point['y']}" for point in points), **{"stroke-linecap": "round", "stroke-linejoin": "round"})
-                svg_element(group, "polyline", attributes)
+                first, last = points[0], points[-1]
+                svg_element(group, "line", {**attributes, "x1": first["x"], "y1": first["y"], "x2": last["x"], "y2": last["y"], "fill": "none"})
             elif data.get("shape") == "ellipse":
                 svg_element(group, "ellipse", {**attributes, "cx": width / 2, "cy": height / 2, "rx": width / 2, "ry": height / 2})
             else:
