@@ -10,6 +10,23 @@
 - [Scripts](#scripts)
 - [Canvas increment](#canvas-increment)
 - [Reference editing increment](#reference-editing-increment)
+- [v0.3.3 shell rebuild](#v033-shell-rebuild)
+
+## v0.3.3 shell rebuild
+
+- refers-to: `src/main.ts`; `src/app/editor.ts`; `src/app/commands.ts`; `src/app/menu.ts`; `src/app/gestures.ts`; `src/app/bindings.ts`; `src/ui/context-menu.ts`; `src/ui/dock.ts`; `src/ui/icons.ts`; `src/styles/shell.css`; `index.html`
+- kind: rationale
+- logged: v0.3.3 · 2026-10-11
+
+The monolith is gone. `main.ts` only wires modules. `app/editor.ts` holds board state (`S`), selection, camera, the engine queue and every renderer hook, lifted from the old `main.ts` with its logic unchanged. `app/commands.ts` is the one command table: id, label, icon, keys, handler, enabled check. The context menu (`app/menu.ts`), the command palette and the keyboard (`app/gestures.ts`) and the shortcut sheet (`app/bindings.ts`) all read it, so a label, icon or key cannot differ between them.
+
+The right-click menu follows iStack's order and labels: File section (New, New Tab, Open, Open in New Tab, Add Images, Paste, Save / Export), Edit section (Undo, Redo, Select All, Deselect All), then Canvas (Toggle Grid, Snap Grid Off to 2x, Grayscale Canvas, Background Color, Fit View, Fit Canvas to Content, Reset Zoom), Organize, Images, Layer, Lock Selected, Add Note, Draw Mode, Slideshow and Delete Selected. Two labels name FormRef's own format instead of iStack's (Open Board File, Save Board (.formref)), because FormRef reads .istack but writes .formref. FormRef extras sit in an Insert submenu, at the end of Organize and Images, and as Ask Agent. Shortcuts follow iStack where it had one (D draw, L lock, C crop, R rotate 90, Ctrl+P pack, Ctrl+G and Ctrl+Shift+G group and ungroup, Shift+S slideshow, Shift+Up and Down front and back, Ctrl+0 reset zoom); FormRef keys that collided moved (duplicate Ctrl+D, link Shift+L, connect Shift+C, rectangle Shift+R, circle Shift+O, line Shift+I, toggle grid G).
+
+Docks: `--sidebar-w` and `--inspector-w` drop to the 44 px rail width when `html[data-left-dock]` or `html[data-right-dock]` is `collapsed`. The head script restores both, the theme and the open right-hand panel before first paint. The shell itself stays hidden until an inline script right after its markup adds `shell-ready`: under a throttled network the browser painted a half-parsed toolbar and the last buttons slid 36 px when the rest arrived, which the throttled check recorded as a layout shift. The body background is painted throughout, so nothing flashes.
+
+Icons: one glyph per meaning, named after the action, and `icon()` throws on an unknown name so a typo fails instead of drawing the board glyph. The context menu renders into `#overlay-root`, a direct child of `body`, at `--z-dropdown`; no raw z-index exists outside `tokens.css`.
+
+Throttled check (4x CPU, 150 ms latency, 400 kbit/s, Chromium): zero layout shift on cold load and on reload with both docks collapsed; menu structure and Images submenu read back in order; Rotate 90 and Sort by Similarity from the menu changed the engine's board; Ctrl+K palette with 83 commands; the shortcut sheet with nine groups; the Agent tab switching panels; no console errors.
 
 ## Entry and shell
 
