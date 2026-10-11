@@ -10,6 +10,8 @@ from .core.engine import broker, EngineError
 from .core.extensions import registry
 from .core.store import MissingBoard, RevisionConflict
 from .routers.boards import router
+from .routers.agent import router as agent_router
+from .agent.service import agents
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(name)s %(levelname)s %(message)s")
 log = logging.getLogger("formref")
@@ -47,6 +49,9 @@ async def local_access(request: Request, call_next):
                 return JSONResponse(status_code=413, content={"detail": "Request exceeds the 64 MiB upload limit."})
         except ValueError:
             return JSONResponse(status_code=400, content={"detail": "Invalid request content length."})
+    client = request.headers.get("x-formref-client")
+    if client and request.method not in {"GET", "HEAD", "OPTIONS"} and not request.url.path.startswith("/api/agent") and not agents.allows(client):
+        return JSONResponse(status_code=403, content={"detail": "Outside agents are off. Turn them on in FormRef under Agent settings, or start the turn from FormRef's agent panel.", "code": "outside_agents_off"})
     response = await call_next(request)
     response.headers["X-Content-Type-Options"] = "nosniff"
     return response
@@ -82,6 +87,7 @@ def capabilities():
     return {"capabilities": registry.describe(), "item_kinds": ["image", "note", "document", "swatch", "link", "board", "column", "todo", "shape", "stroke", "file"], "text_formats": ["plain", "markdown"], "image_sampling": {"scope": "original", "frame": 0, "coordinates": "crop-and-flip-normalized"}, "exports": list(registry.exporters), "limits": {"asset_bytes": settings.max_upload_bytes, "expanded_archive_bytes": settings.max_archive_bytes, "image_pixels": settings.max_image_pixels, "png_pixels": settings.max_export_pixels, "png_edge": settings.max_export_edge, "undo_steps": 100}, "collaboration": "local-agent-sync", "cloud_sync": False, "accounts": False}
 
 app.include_router(router)
+app.include_router(agent_router)
 
 @app.get("/{path:path}")
 def frontend(path: str):

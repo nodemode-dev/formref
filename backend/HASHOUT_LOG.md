@@ -8,10 +8,27 @@
 
 ## Contents
 
+- [v0.3.2 · Embedded agent service, consent gate, similarity features, session](#v032--embedded-agent-service-consent-gate-similarity-features-session)
 - [v0.3.0 · Original pixel sampling and formatted references](#v030--original-pixel-sampling-and-formatted-references)
 - [v0.2.0 · Canvas settings and snapping through MCP](#v020--canvas-settings-and-snapping-through-mcp)
 - [v0.1.0 · Local board service and SDK MCP](#v010--local-board-service-and-sdk-mcp)
 - [boot_backend.bat](#boot_backendbat)
+
+## v0.3.2 · Embedded agent service, consent gate, similarity features, session
+
+- refers-to: `app/agent/service.py` :: Agents; `app/agent/runners.py` :: CLI, argv, parse; `app/routers/agent.py`; `app/main.py` :: local_access consent check; `app/mcp_server.py` :: CLIENT_TOKEN, adjust_items; `app/core/features.py`
+- kind: rationale
+- logged: v0.3.2 · 2026-10-11
+
+One tool registry: the in-app agent never gets its own tool list. CLI runners (Claude Code, Codex, Cursor) reach the same official-SDK MCP server an outside client uses; the Ollama runner loads that FastMCP instance in-process and uses its `list_tools` and `call_tool`, so schemas and behaviour cannot drift. The MCP child for Claude Code is started with this backend's own interpreter (`sys.executable -m app.mcp_server`, `PYTHONPATH=backend`), because the `./formref mcp` launcher assumes `backend/venv` and a mismatch made the first live turn run with no tools.
+
+Consent follows FormVis: a mutating request carrying `X-FormRef-Client` is refused with `outside_agents_off` unless the client is a live per-turn token, a CLI turn started from FormRef is running (Codex and Cursor start MCP from their own config, which may not pass the token on), or `outside_agents` is on in `agent.json`. Requests from the FormRef page carry no header and are unaffected. Off is the default, as in FormVis; the Phase 6 panel adds the switch.
+
+Undo This Turn compares items, connections, settings, title and background with a snapshot taken when the turn started and steps the engine's undo until they match (at most 100 steps), so it works the same whichever runner made the changes. CLI flags were taken from the vendors' pages on 2026-10-11: Claude Code CLI reference (`-p`, `--output-format stream-json --verbose`, `--mcp-config`, `--strict-mcp-config`, `--tools ""`, `--allowedTools`, `--append-system-prompt`), Cursor headless and MCP pages (`agent -p`, `--output-format stream-json`, `--approve-mcps`), Codex non-interactive and MCP pages (`codex exec --json`; project `.codex/config.toml` only for trusted folders). Codex and Cursor event parsing is defensive because their item shapes were only partly documented and neither CLI was installed here.
+
+Similarity features are an 80-number vector per image (4x4x4 RGB histogram plus a 4x4 grey layout) computed once from the original pixels and cached in the asset metadata. A `sort` by similarity is rewritten into one batch that writes missing features and then sorts, so it stays one undo step.
+
+Run on 2026-10-11 against a live backend: runner detection (Claude Code found, Codex and Cursor not installed, Ollama not running), session filtering of unknown boards, similarity sort of red, blue and crimson images (red, crimson, blue) and a single undo restoring layout and removing features, a REST and an MCP mutation refused while outside agents were off and accepted after allowing, 21 tools over the official SDK client at protocol 2025-11-25, a real Claude Code turn that called `get_board` and `arrange_items` and packed the board, Undo This Turn restoring the pre-turn board exactly, and a Codex turn failing cleanly with its install note.
 
 ## v0.3.0 · Original pixel sampling and formatted references
 
