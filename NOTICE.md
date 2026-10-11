@@ -1,6 +1,6 @@
-# FormRef licenses and provenance
+# FormRef notices, licenses and provenance
 
-Version: v0.3.0 · Reviewed: 2026-10-11
+Version: v0.3.1 · Reviewed: 2026-10-11
 
 FormRef's original source and vector artwork are Apache-2.0. The repository's full license is `LICENSE`. New commits use `nodemode-ai <mackin@nodemode.ai>`.
 
@@ -36,8 +36,19 @@ FormRef's original source and vector artwork are Apache-2.0. The repository's fu
 
 CairoSVG is installed as an ordinary replaceable Python package in the server environment, unmodified. It is not statically linked into the Rust core or a proprietary desktop bundle. Its license and source URL are retained in the notices. Pillow's wheel license also contains codec/native-library notices. Native shell compilation and distribution are not claimed by this source release; platform runtime libraries are not bundled.
 
-The editor uses system fonts and original inline SVG icons. Comparison HTMLs load the four fonts used by the supplied FormVis comparison from Google Fonts. Their original SIL Open Font License 1.1 texts are retained in `docs/third-party/fonts/`; see [FONT_NOTICES.md](docs/FONT_NOTICES.md) for family roles, verified glyph evidence and the bounded fallback. Font binaries are not included in the source archive. No BeeRef code, GPL or AGPL implementation is included. The optional native shell's dependency lock is included for reproducibility; it still needs platform prerequisites before it can compile.
+The editor uses system fonts and original inline SVG icons. Comparison HTMLs load the four fonts used by the supplied FormVis comparison from Google Fonts. Their original SIL Open Font License 1.1 texts are retained in `licenses/third-party/fonts/`. Font binaries are not included in the source archive. No BeeRef code, GPL or AGPL implementation is included. The optional native shell's dependency lock is included for reproducibility; it still needs platform prerequisites before it can compile.
 
 ## License texts and lockfiles
 
-`docs/third-party/` retains installed dependency license texts and a package metadata inventory. Frontend and Rust lockfiles identify exact transitive versions. Native core notices live under `native/licenses/`. See `docs/PRODUCT_RESEARCH.md` for official dependency/source URLs and the confidence limits of product documentation.
+`licenses/third-party/` retains installed dependency license texts and a package metadata inventory. Frontend and Rust lockfiles identify exact transitive versions. Native core notices live under `native/licenses/`.
+
+## Font notices
+
+| Font | Role in the parity pages | Copyright source | License |
+| --- | --- | --- | --- |
+| Archivo | charts and percentage tiles | [The Archivo Project Authors](https://github.com/Omnibus-Type/Archivo) | [OFL-1.1](licenses/third-party/fonts/archivo/OFL.txt) |
+| Bricolage Grotesque | headings | [The Bricolage Grotesque Project Authors](https://github.com/ateliertriay/bricolage) | [OFL-1.1](licenses/third-party/fonts/bricolagegrotesque/OFL.txt) |
+| Instrument Sans | body text | [The Instrument Sans Project Authors](https://github.com/Instrument/instrument-sans) | [OFL-1.1](licenses/third-party/fonts/instrumentsans/OFL.txt) |
+| JetBrains Mono | table headers, badges, source tags | [The JetBrains Mono Project Authors](https://github.com/JetBrains/JetBrainsMono) | [OFL-1.1](licenses/third-party/fonts/jetbrainsmono/OFL.txt) |
+
+OFL-1.1 applies to the font software, not to FormRef's own code or documents. The fonts are served by Google Fonts and are not bundled.
