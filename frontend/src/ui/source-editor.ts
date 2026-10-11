@@ -17,6 +17,18 @@ export class SourceEditor {
     element('document-save').addEventListener('click', () => void this.save()); element('document-cancel').addEventListener('click', () => this.dialog.close()); element('document-close').addEventListener('click', () => this.dialog.close()); element('document-reload').addEventListener('click', () => this.reload());
     this.dialog.addEventListener('cancel', event => { if (this.saving) event.preventDefault(); }); this.dialog.addEventListener('close', () => { this.token++; this.itemId = null; this.board = null; this.saving = false; });
     this.dialog.querySelectorAll<HTMLButtonElement>('[data-format-action]').forEach(button => button.addEventListener('click', () => this.insert(button.dataset.formatAction!)));
+    const exporter = element<HTMLSelectElement>('document-export');
+    exporter.addEventListener('change', () => {
+      const format = exporter.value, item = this.current();
+      exporter.value = '';
+      if (!format || !item || !this.board) return;
+      // Exports are of the saved document, so an unsaved draft is never half-exported.
+      if (this.title.value !== item.title || this.source.value !== item.text || this.format.value !== String(item.data.text_format || 'plain')) this.hooks.notify('Exported the saved version. Save first to include your draft.');
+      const link = document.createElement('a');
+      link.href = `/api/boards/${this.board.id}/items/${item.id}/export?format=${format}`;
+      link.download = '';
+      link.click();
+    });
   }
   open(board: Board, item: Item, markdown = false) { this.token++; this.board = board; this.itemId = item.id; this.baseline = signature(item); this.conflict = false; this.saving = false; this.title.value = item.title; this.source.value = item.text; this.format.value = markdown ? 'markdown' : String(item.data.text_format || 'plain'); this.preview(); text('document-status', item.locked ? 'This reference is locked. Unlock it before saving.' : 'Draft changes are saved only when you choose Save.'); this.controls(); this.dialog.showModal(); this.source.focus(); }
   update(board: Board) { if (!this.dialog.open) return; if (this.board?.id !== board.id) { this.dialog.close(); return; } this.board = board; const item = this.current(); if (!item) { this.dialog.close(); this.hooks.notify('The reference was removed. The editor closed without saving.'); return; } this.conflict = signature(item) !== this.baseline; if (this.conflict) text('document-status', 'Saved source, title or format changed elsewhere. Reload saved or cancel; your draft is retained.'); else if (item.locked) text('document-status', 'This reference is locked. Unlock it before saving.'); this.controls(); }

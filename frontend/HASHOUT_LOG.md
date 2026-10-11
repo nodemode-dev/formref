@@ -10,7 +10,12 @@
 - [Scripts](#scripts)
 - [Canvas increment](#canvas-increment)
 - [Reference editing increment](#reference-editing-increment)
+- [v0.4.6 GIF frames and document export](#v046-gif-frames-and-document-export)
 - [v0.4.5 media and table cards](#v045-media-and-table-cards)
+
+## v0.4.6 GIF frames and document export
+
+`ui/gif-player.ts` decodes a GIF once with ImageDecoder (frames arrive composited) and draws frames on a canvas that copies the image's crop and flip styles, so the overlay lines up exactly; the image underneath is only made transparent. Playback uses each frame's own duration divided by the speed; decoding is serialised so fast scrubbing never draws out of order. Keep frame turns the canvas into a PNG and places it through the normal upload path. The document editor gained an Export select that downloads the saved card. Throttled run: an 8-frame GIF opened with controls playing, pause held the frame, comma and full stop stepped and wrapped, the slider jumped to frame 6 and its pixels matched that frame, Keep frame added an image, and PDF and Word downloads came through; no console errors. The only shift was the inspector switching to an upload's new selection.
 - [v0.4.4 presenter view](#v044-presenter-view)
 
 ## v0.4.5 media and table cards

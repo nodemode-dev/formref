@@ -1,5 +1,12 @@
 # FormRef changelog
 
+## v0.4.6 · 2026-10-11
+
+GIF frames and document export.
+
+- GIFs in the reference view get frame controls: pause and play (K), step (comma, full stop), a frame slider, speed and Keep frame, which adds the frame to the board.
+- Export any note or document on its own as PDF, Word, Markdown or plain text from its editor.
+
 ## v0.4.5 · 2026-10-11
 
 Video, audio and table cards.

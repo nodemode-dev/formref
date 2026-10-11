@@ -11,6 +11,8 @@ from ..models.requests import CreateBoard, BoardCommand
 from ..core.sampling import sample_image
 from ..core.features import enrich
 from ..core.capture import capture
+from ..core.doc_export import export_item
+from urllib.parse import quote
 from ..core.templates import delete_template, list_templates, save_template, use_template
 from ..agent.service import agents
 
@@ -152,6 +154,14 @@ async def upload_asset(file: UploadFile = File(...)):
     filename = file.filename or "asset"
     data = await read_upload(file)
     return await asyncio.to_thread(store.import_asset, filename, data)
+
+@router.get("/boards/{board_id}/items/{item_id}/export")
+def export_document(board_id: str, item_id: str, format: str = "md"):
+    item = next((entry for entry in store.get(board_id)["board"]["items"] if entry["id"] == item_id), None)
+    if item is None:
+        raise MissingBoard("That item does not exist on this board.")
+    data, mime, name = export_item(item, format)
+    return Response(content=data, media_type=mime, headers={"Content-Disposition": f"attachment; filename*=UTF-8''{quote(name)}", "X-Content-Type-Options": "nosniff"})
 
 @router.post("/capture")
 async def capture_url(body: dict):

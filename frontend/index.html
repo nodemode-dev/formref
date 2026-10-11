@@ -485,11 +485,20 @@
       <button class="icon-button" data-action="reference-stop" data-icon="close" aria-label="Exit reference view" title="Exit · Escape"></button>
     </header>
     <div id="reference-frame" class="reference-frame">
-      <div id="reference-media" class="reference-media"><img id="reference-image" decoding="async" alt="" hidden></div>
+      <div id="reference-media" class="reference-media"><img id="reference-image" decoding="async" alt="" hidden><canvas id="reference-canvas" hidden></canvas></div>
       <p id="reference-empty" class="muted">Preparing reference…</p>
     </div>
     <footer class="reference-footer">
       <button class="icon-button reference-prev" data-action="reference-prev" data-icon="chevron-left" aria-label="Previous reference"></button>
+      <div id="gif-controls" class="gif-controls" hidden>
+        <button id="gif-prev" class="icon-button small" data-icon="chevron-left" aria-label="Previous frame" title="Previous frame · ,"></button>
+        <button id="gif-play" class="icon-button small gif-play" aria-label="Pause GIF" title="Pause GIF · K"><span data-icon="pause"></span><span data-icon="play"></span></button>
+        <button id="gif-next" class="icon-button small" data-icon="chevron-right" aria-label="Next frame" title="Next frame · ."></button>
+        <input id="gif-frame" type="range" min="0" max="1" value="0" aria-label="Frame">
+        <span id="gif-count" class="gif-count">1 / 1</span>
+        <select id="gif-speed" aria-label="GIF speed"><option value="0.25">0.25x</option><option value="0.5">0.5x</option><option value="1" selected>1x</option><option value="2">2x</option></select>
+        <button id="gif-keep" class="button compact" title="Add this frame to the board as an image"><span data-icon="image-add"></span>Keep frame</button>
+      </div>
       <span class="reference-readonly">Read-only view · Arrows to step · Space to play or pause · Esc to exit</span>
       <button class="button quiet compact reference-play" data-action="reference-play">Play</button>
       <button class="icon-button" data-action="reference-next" data-icon="chevron-right" aria-label="Next reference"></button>
@@ -523,6 +532,7 @@
     <footer class="document-footer">
       <p id="document-status" role="status">Draft changes are saved only with Save.</p>
       <div>
+        <select id="document-export" class="document-export" aria-label="Export this document"><option value="">Export…</option><option value="pdf">PDF</option><option value="docx">Word (.docx)</option><option value="md">Markdown</option><option value="txt">Plain text</option></select>
         <button id="document-reload" class="button" disabled>Reload saved</button>
         <button id="document-cancel" class="button">Cancel</button>
         <button id="document-save" class="button primary">Save</button>

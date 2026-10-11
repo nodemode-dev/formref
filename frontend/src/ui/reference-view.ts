@@ -2,6 +2,7 @@ import type { Board, Item } from '../lib/types';
 import { api } from '../lib/api';
 import { itemBounds } from '../lib/geometry';
 import { paintImage } from '../lib/image-geometry';
+import { GifPlayer } from './gif-player';
 
 const element = <T extends HTMLElement = HTMLElement>(id: string) => document.getElementById(id) as T;
 const text = (node: HTMLElement, value: string) => { if (node.textContent !== value) node.textContent = value; };
@@ -24,10 +25,19 @@ export class ReferenceView {
   private loadedSource = '';
   private sourceWidth = 0; private sourceHeight = 0;
 
-  constructor(private readonly selected: () => string[], private readonly notify: (message: string) => void) {
-    this.dialog.addEventListener('close', () => this.stop());
+  private readonly gif: GifPlayer;
+
+  constructor(private readonly selected: () => string[], private readonly notify: (message: string) => void, keepFrame: (file: File) => void = () => undefined) {
+    this.gif = new GifPlayer(this.media, keepFrame, () => this.current()?.title || 'GIF');
+    this.dialog.addEventListener('close', () => { this.stop(); this.gif.unload(); });
     document.addEventListener('keydown', event => {
-      if (!this.dialog.open || (event.target as Element).closest('input,textarea,select,[contenteditable="true"]')) return; if (['ArrowLeft', 'ArrowRight', 'Escape'].includes(event.key) || event.code === 'Space') event.stopImmediatePropagation();
+      if (!this.dialog.open || (event.target as Element).closest('input,textarea,select,[contenteditable="true"]')) return;
+      if (this.gif.active && [',', '.', 'k', 'K'].includes(event.key)) {
+        event.preventDefault(); event.stopImmediatePropagation();
+        if (event.key === ',') this.gif.step(-1); else if (event.key === '.') this.gif.step(1); else this.gif.toggle();
+        return;
+      }
+      if (['ArrowLeft', 'ArrowRight', 'Escape'].includes(event.key) || event.code === 'Space') event.stopImmediatePropagation();
       if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') { event.preventDefault(); this.step(event.key === 'ArrowLeft' ? -1 : 1); }
       else if (event.code === 'Space') { event.preventDefault(); this.toggle(); }
       else if (event.key === 'Escape') { event.preventDefault(); this.stop(true); }
@@ -116,6 +126,7 @@ export class ReferenceView {
       const swapping = !!this.loadedSource;
       this.loadedSource = url; this.sourceWidth = loader.naturalWidth; this.sourceHeight = loader.naturalHeight; this.image.src = url; this.image.hidden = false; this.empty.hidden = true;
       this.paint(this.current() || item);
+      void this.gif.load(url, String(item.data.mime || ''));
       if (swapping && this.fade && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
         this.media.animate([{ opacity: 0 }, { opacity: item.opacity }], { duration: 280, easing: 'ease-out' });
       }
@@ -128,7 +139,7 @@ export class ReferenceView {
     const bounds = itemBounds(item), scale = Math.max(.001, Math.min((this.frame.clientWidth - 48) / (bounds.right - bounds.left), (this.frame.clientHeight - 48) / (bounds.bottom - bounds.top)));
     this.media.style.width = `${item.width * scale}px`; this.media.style.height = `${item.height * scale}px`;
     this.media.style.transform = `translate(-50%,-50%) rotate(${item.rotation}deg)`; this.media.style.opacity = String(item.opacity);
-    paintImage(this.image, item, this.sourceWidth, this.sourceHeight, this.grayscale); this.image.alt = item.title || 'Image reference';
+    paintImage(this.image, item, this.sourceWidth, this.sourceHeight, this.grayscale); this.gif.follow(this.image); this.image.alt = item.title || 'Image reference';
     this.dialog.dataset.itemId = item.id;
     text(element('reference-title'), item.title || 'Image reference');
     text(element('reference-position'), `${this.images.findIndex(candidate => candidate.id === item.id) + 1} / ${this.images.length}`);

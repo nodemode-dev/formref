@@ -64,6 +64,14 @@ Video and audio files dropped or added like images become playable cards (mp4, w
 
 Add Table (Insert menu or palette) makes a table card. Double-click a cell to type in it; Enter or Tab saves, Escape cancels; double-click a column name to rename it. In the inspector pick a column to set its type (text, number, currency, percent, date or checkbox) or add and remove rows and columns. A cell that starts with = is a formula: cell references (A1), ranges (B1:B4), + - * / ^, and SUM, AVERAGE, MIN, MAX, COUNT, ROUND and ABS. Errors show #ERR and loops #CYCLE. Every change is one undo step.
 
+## GIF frames
+
+Open an animated GIF in the reference view (Focus Image Reference) and frame controls appear: play or pause (K), previous and next frame (comma and full stop), a frame slider, speed (0.25x to 2x) and Keep frame, which adds the current frame to the board as a PNG image. The controls need a browser with ImageDecoder (Chrome, Edge); elsewhere the GIF just plays.
+
+## Exporting a document
+
+In a note or document's editor, Export saves that one card as PDF, Word (.docx), Markdown or plain text, with its headings, lists, bold, italics and links. The saved version is exported; save a draft first to include it.
+
 ## Presenting
 
 P (or Present in the right-click menu and palette) shows the board full screen with every panel and tool hidden, fitted to the screen. Nothing can be edited: clicks, keys and the menu are held. Click a card to enlarge it (an image at full size, a note or document as large text); the arrow keys step through cards in reading order, top to bottom and left to right. Escape closes the enlarged card, and Escape again (or Exit Presentation) leaves, putting the camera back where it was. Presenting never changes the saved board.

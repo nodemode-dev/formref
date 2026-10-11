@@ -62,7 +62,7 @@ export const scene = new Scene($('items'), $('connections') as unknown as SVGSVG
   item: id => S.state?.board.items.find(i => i.id === id),
   edit: (id, patch) => void execute({ type: 'update', ids: [id], patch }),
 });
-export const referenceView = new ReferenceView(() => [...selection], toast);
+export const referenceView = new ReferenceView(() => [...selection], toast, file => { void upload([file]).then(() => toast(`Kept ${file.name} on the board.`)).catch(error); });
 export const sourceEditor = new SourceEditor({
   flush: () => S.queue,
   state: next => { if (S.state?.board.id === next.board.id) applyState(next); },
