@@ -12,7 +12,7 @@ Rust document engine · vanilla TypeScript/Vite view · Python/FastAPI media & p
 - **One engine:** Rust commands own geometry, locking, grouping, arrangement & undo/redo.
 - **Reference media:** original assets, nondestructive crop, flip, per-image and canvas grayscale, opacity controls and ordered reference presentation.
 - **Canvas workflow:** persistent grid preferences, snapping with shared-engine undo, explicit pack and distribution spacing.
-- **Organization:** notes, tasks, links, columns, nested board cards & connectors.
+- **Reference editing:** source-pixel RGBA/RGB/HSV/HEX capture, editable swatches, bounded formatted notes & focused documents with guarded draft saves.
 - **Local persistence:** named boards & managed media saved on disk.
 - **Interoperability:** iStack import, portable archives & PNG/SVG/Markdown/JSON export.
 - **Agent access:** official Python MCP SDK stdio server w/ tools, resources & prompts.
@@ -82,13 +82,13 @@ Set environment variables before launch; local environment files must remain unc
 
 ## Status
 
-FormRef now includes local canvas settings, grid snapping and ordered reference presentation. Read `docs/PARITY.md` for row-level capabilities & gaps. Cloud collaboration, protected sharing, tables/formulas, synced notes, browser extensions, background removal & full proprietary project-format compatibility remain separate gaps. Native shell sources are provided; compiled, signed macOS/Windows installers are not included.
+FormRef includes local canvas settings, grid snapping, ordered reference presentation, original-pixel color capture, swatch cards and bounded formatted notes/documents. Read `docs/PARITY.md` for row-level capabilities & gaps. Cloud collaboration, protected sharing, tables/formulas, synced notes, browser extensions, background removal & full proprietary project-format compatibility remain separate gaps. Native shell sources are provided; compiled, signed macOS/Windows installers are not included.
 
-The planning sidecar contains the roadmap, build record, independent TEST_PLAN & release ledger. No self-authored test suite is included. Current executed verification is in `docs/VERIFICATION_v0.2.0.md`; `docs/VERIFICATION.md` retains the first build's observations. The standalone comparison is `docs/FormRef-Parity_v0.2.0.html`, with explicit vendor grades in `docs/PER_PRODUCT_COVERAGE_v0.2.0.json`.
+The planning sidecar contains the roadmap, build record, independent TEST_PLAN & release ledger. No self-authored test suite is included. Current executed verification is in `docs/VERIFICATION_v0.3.0.md`; earlier versioned records retain their original observations. The standalone comparison is `docs/FormRef-Parity_v0.3.0.html`. FormRef grades live in `docs/parity.json`; unchanged researched vendor grades remain in `docs/PER_PRODUCT_COVERAGE_v0.2.0.json`. Both HTMLs match the final effective FormVis table/chart/typography, with font notices in `docs/FONT_NOTICES.md`.
 
 ## Development
 
-Work on `main`; see [.docs/BRANCHING.md](.docs/BRANCHING.md). Read [CLAUDE.md](CLAUDE.md) & the project harness before changes. The repository logo is documentation artwork; frontend runtime assets live in `frontend/public/`.
+Work on `main`; see [release conventions](.docs/wiki/Releases.md). Read [CLAUDE.md](CLAUDE.md) & the project harness before changes. The repository logo is documentation artwork; frontend runtime assets live in `frontend/public/`.
 
 ## Contributors
 

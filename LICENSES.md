@@ -36,7 +36,7 @@ FormRef's original source and vector artwork are Apache-2.0. The repository's fu
 
 CairoSVG is installed as an ordinary replaceable Python package in the server environment, unmodified. It is not statically linked into the Rust core or a proprietary desktop bundle. Its license and source URL are retained in the notices. Pillow's wheel license also contains codec/native-library notices. Native shell compilation and distribution are not claimed by this source release; platform runtime libraries are not bundled.
 
-No icon library, font package, runtime CDN, GPL or AGPL code is included. The editor uses system fonts and original inline SVG icons. The optional native shell's dependency lock is included for reproducibility; it still needs platform prerequisites before it can compile.
+The editor uses system fonts and original inline SVG icons. Comparison HTMLs load the four fonts used by the supplied FormVis comparison from Google Fonts. Their original SIL Open Font License 1.1 texts are retained in `docs/third-party/fonts/`; see [FONT_NOTICES.md](docs/FONT_NOTICES.md) for family roles, verified glyph evidence and the bounded fallback. Font binaries are not included in the source archive. No BeeRef code, GPL or AGPL implementation is included. The optional native shell's dependency lock is included for reproducibility; it still needs platform prerequisites before it can compile.
 
 ## License texts and lockfiles
 
