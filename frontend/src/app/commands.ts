@@ -11,6 +11,7 @@ import { askForUrl } from './capture';
 import { openLabels } from './labels';
 import { togglePresenting } from './present';
 import { cutoutOptions, downloadModel, togglePicking } from './cutout';
+import { openCloud, refreshCloudPreferences } from './cloud';
 import {
   $, S, add, applyState, arrange, closeOverlays, defaultSettings, editable, error, execute, fit, history, host, inputDialog,
   matches, open, openEditor, placement, referenceView, refreshBoards, selected, selectedImages, selection,
@@ -284,6 +285,8 @@ export const COMMANDS: CommandDef[] = [
   { group: 'File', id: 'paste', label: 'Paste', icon: 'paste', keys: ['mod+v'], run: pasteFromClipboard, enabled: hasBoard, palette: true },
   { group: 'File', id: 'save', label: 'Save Board (.formref)', icon: 'save', keys: ['mod+s'], run: () => S.state && download(api.exportUrl(S.state.board.id, 'portable'), ''), enabled: hasBoard },
   { group: 'File', id: 'export', label: 'Export…', icon: 'export', keys: ['mod+e'], run: () => $<HTMLDialogElement>('export-dialog').showModal(), enabled: hasBoard },
+  { group: 'File', id: 'save-to-cloud', label: 'Save Board to Cloud…', icon: 'export', run: () => openCloud('save'), enabled: hasBoard },
+  { group: 'File', id: 'open-from-cloud', label: 'Open from Cloud…', icon: 'import', run: () => openCloud('browse') },
   { group: 'File', id: 'export-png', label: 'Export Canvas as PNG', icon: 'image', run: () => S.state && download(api.exportUrl(S.state.board.id, 'png'), ''), enabled: hasBoard },
   { group: 'File', id: 'export-all-images', label: 'Export All Images', icon: 'export', run: () => downloadImages(S.state?.board.items || []), enabled: hasBoard },
   { group: 'File', id: 'export-selected', label: 'Export Selected', icon: 'export', run: () => downloadImages(selected()), enabled: hasImages },
@@ -382,7 +385,7 @@ export const COMMANDS: CommandDef[] = [
   { group: 'View', id: 'agent', label: 'Open Agent', icon: 'agent', keys: ['mod+j'], run: () => showRightPanel('agent') },
   { group: 'View', id: 'commands', label: 'Commands', icon: 'commands', keys: ['mod+k'], run: () => openPalette(), palette: false },
   { group: 'View', id: 'help', label: 'Keyboard Shortcuts', icon: 'keyboard', keys: ['?', 'shift+/'], run: () => $<HTMLDialogElement>('help-dialog').showModal() },
-  { group: 'View', id: 'preferences', label: 'Preferences', icon: 'settings', keys: ['mod+,'], run: () => { setInput('theme-select', document.documentElement.dataset.theme || 'studio'); $<HTMLDialogElement>('preferences-dialog').showModal(); void clipToken().catch(error); } },
+  { group: 'View', id: 'preferences', label: 'Preferences', icon: 'settings', keys: ['mod+,'], run: () => { setInput('theme-select', document.documentElement.dataset.theme || 'studio'); $<HTMLDialogElement>('preferences-dialog').showModal(); void clipToken().catch(error); void refreshCloudPreferences(); } },
   { group: 'File', id: 'copy-clip-token', label: 'Copy Browser Clipper Token', icon: 'paste', run: copyClipToken },
   { group: 'File', id: 'reset-clip-token', label: 'New Browser Clipper Token', icon: 'relink', palette: false, run: async () => { await clipToken(true); toast('New clipper token made. Paste it into the clipper options; the old one no longer works.'); } },
 

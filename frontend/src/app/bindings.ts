@@ -63,6 +63,14 @@ function filterCommands() {
   }
 }
 $('command-search').addEventListener('input', filterCommands);
+// Enter runs the first match and the arrows move through the list, so the palette works without a mouse.
+$('commands-dialog').addEventListener('keydown', event => {
+  const rows = [...paletteRows.values()].filter(row => !row.hidden && !row.disabled);
+  const at = rows.indexOf(document.activeElement as HTMLButtonElement);
+  if (event.key === 'Enter' && document.activeElement === $('command-search') && rows.length) { event.preventDefault(); rows[0].click(); }
+  else if (event.key === 'ArrowDown' && rows.length) { event.preventDefault(); rows[Math.min(rows.length - 1, at + 1)].focus(); }
+  else if (event.key === 'ArrowUp') { event.preventDefault(); if (at <= 0) $('command-search').focus(); else rows[at - 1].focus(); }
+});
 
 export function openPalette() {
   $<HTMLDialogElement>('commands-dialog').showModal();

@@ -506,12 +506,54 @@
         <div class="inline-field"><input id="clip-token" type="password" readonly aria-label="Clipper pairing token" value="" placeholder="Open to show"><button class="button compact" data-action="copy-clip-token"><span data-icon="paste"></span>Copy</button></div>
         <button class="button compact full" data-action="reset-clip-token"><span data-icon="relink"></span>New token (unpairs the clipper)</button>
       </section>
+      <section class="cloud-preferences">
+        <div class="section-label">CLOUD STORAGE (OPT-IN)</div>
+        <p class="field-description">Off until you connect. Uses your own app credentials; FormRef has no account or server in between, and tokens stay in the local service. Agents cannot move files to or from the cloud.</p>
+        <div class="cloud-service" data-cloud="google">
+          <div class="field-row"><strong>Google Drive</strong><span class="cloud-badge" data-cloud-state>Not set up</span></div>
+          <input data-cloud-id type="text" autocomplete="off" spellcheck="false" placeholder="OAuth client ID (desktop app)" aria-label="Google OAuth client ID">
+          <input data-cloud-secret type="password" autocomplete="off" placeholder="Client secret (blank keeps the saved one)" aria-label="Google client secret">
+          <label class="check-row"><input data-cloud-full type="checkbox">Browse all of Drive (read-only scope)</label>
+          <div class="cloud-actions"><button class="button compact" data-cloud-act="save">Save</button><button class="button compact" data-cloud-act="connect">Connect</button><button class="button compact" data-cloud-act="disconnect">Disconnect</button></div>
+          <span class="field-description" data-cloud-say aria-live="polite"></span>
+        </div>
+        <div class="cloud-service" data-cloud="dropbox">
+          <div class="field-row"><strong>Dropbox</strong><span class="cloud-badge" data-cloud-state>Not set up</span></div>
+          <input data-cloud-id type="text" autocomplete="off" spellcheck="false" placeholder="App key" aria-label="Dropbox app key">
+          <div class="cloud-actions"><button class="button compact" data-cloud-act="save">Save</button><button class="button compact" data-cloud-act="connect">Connect</button><button class="button compact" data-cloud-act="disconnect">Disconnect</button></div>
+          <div class="inline-field" data-cloud-paste hidden><input data-cloud-code type="text" autocomplete="off" spellcheck="false" placeholder="Paste the code Dropbox shows" aria-label="Dropbox code"><button class="button compact" data-cloud-act="finish">Finish</button></div>
+          <span class="field-description" data-cloud-say aria-live="polite"></span>
+        </div>
+      </section>
       <div class="section-label">NODEMODE HOST</div>
       <p id="host-status" class="muted">Standalone workspace. Open inside NodeMode to enable selection assignment.</p>
       <button id="host-assign" class="button full" data-action="assign" disabled><span data-icon="send"></span>Assign selected images to NodeMode</button>
       <div class="section-label">BOARD MANAGEMENT</div>
       <button class="button full" data-action="duplicate-board"><span data-icon="duplicate"></span>Duplicate current board</button>
       <button class="button full danger" data-action="delete-board"><span data-icon="trash"></span>Delete current board</button>
+    </div>
+  </dialog>
+
+  <dialog id="cloud-dialog" class="modal cloud-modal" aria-labelledby="cloud-title">
+    <div class="modal-head">
+      <strong id="cloud-title">Cloud storage</strong>
+      <button class="icon-button" data-action="close-overlays" data-icon="close" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+      <div class="cloud-tabs" role="radiogroup" aria-label="Service">
+        <button class="button compact" role="radio" data-cloud-service="google" aria-checked="true">Google Drive</button>
+        <button class="button compact" role="radio" data-cloud-service="dropbox" aria-checked="false">Dropbox</button>
+      </div>
+      <div id="cloud-save" class="cloud-save" hidden>
+        <label class="field"><span>Save as</span><select id="cloud-format"><option value="portable">FormRef board (.formref, reopens with everything)</option><option value="png">Picture (.png)</option><option value="markdown">Markdown (.md)</option></select></label>
+        <button id="cloud-save-button" class="button primary full"><span data-icon="export"></span>Save to the formref folder</button>
+      </div>
+      <div id="cloud-browse" class="cloud-browse" hidden>
+        <div class="cloud-path"><button id="cloud-back" class="button compact" hidden>Back</button><span id="cloud-where" class="field-description"></span></div>
+        <ul id="cloud-list" class="cloud-list"></ul>
+        <button id="cloud-more" class="button compact" hidden>More</button>
+      </div>
+      <p id="cloud-note" class="field-description" aria-live="polite"></p>
     </div>
   </dialog>
 

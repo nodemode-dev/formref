@@ -12,6 +12,7 @@ from .core.store import MissingBoard, RevisionConflict
 from .routers.boards import router
 from .routers.agent import router as agent_router
 from .routers.clip import router as clip_router
+from .routers.cloud import router as cloud_router
 from .agent.service import agents
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(name)s %(levelname)s %(message)s")
@@ -98,6 +99,7 @@ def capabilities():
 app.include_router(router)
 app.include_router(agent_router)
 app.include_router(clip_router)
+app.include_router(cloud_router)
 
 @app.get("/{path:path}")
 def frontend(path: str):

@@ -36,7 +36,7 @@ export function boardMenu(): MenuEntry[] {
     item('images'),
     item('paste'),
     sep,
-    { label: 'Save / Export', icon: 'save', children: [item('save'), sep, item('export-png'), item('export-all-images'), item('export-selected'), sep, item('export')] },
+    { label: 'Save / Export', icon: 'save', children: [item('save'), sep, item('export-png'), item('export-all-images'), item('export-selected'), sep, item('export'), sep, item('save-to-cloud'), item('open-from-cloud')] },
     sep,
     { section: 'Edit' },
     item('undo'),
