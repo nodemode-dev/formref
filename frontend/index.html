@@ -250,6 +250,12 @@
                 <label class="field"><span>Height %</span><input id="crop-height" type="number" min="1" max="100"></label>
               </div>
               <button class="button compact full" data-action="reset-crop"><span data-icon="reset-crop"></span>Reset crop</button>
+              <span class="field-description">Background · plain backgrounds touching the edges</span>
+              <label class="field-row cutout-row"><span>Tolerance</span><input id="cutout-tolerance" type="range" min="1" max="60" value="12" aria-describedby="cutout-tolerance-value"><output id="cutout-tolerance-value" for="cutout-tolerance">12</output></label>
+              <div class="button-grid">
+                <button class="button compact" data-action="remove-background"><span data-icon="cutout"></span>Remove</button>
+                <button id="restore-background" class="button compact" data-action="restore-background"><span data-icon="restore"></span>Restore</button>
+              </div>
               <button class="button compact full" data-action="relink"><span data-icon="relink"></span>Replace or relink image</button>
             </div>
             <div id="note-properties" hidden>

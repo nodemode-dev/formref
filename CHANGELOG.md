@@ -1,5 +1,15 @@
 # FormRef changelog
 
+## v0.4.9 · 2026-10-11
+
+Background removal.
+
+- Remove Background (Images menu and inspector) makes a plain background transparent: anything touching the image edges in the background colour, with soft edges and a Tolerance slider. The original is kept; Restore Background brings it back, and both are one undo step.
+- Works on product shots, scans, logos, sketches and studio photos. Photos whose subject blends into its surroundings, or busy backgrounds, are refused with a reason rather than cut badly; they need a segmentation model.
+- A cut-out image sits on the canvas without its card.
+- MCP: `remove_background`; 33 tools.
+- Fixed: the toast slid sideways when its message changed.
+
 ## v0.4.8 · 2026-10-11
 
 Desktop window modes.

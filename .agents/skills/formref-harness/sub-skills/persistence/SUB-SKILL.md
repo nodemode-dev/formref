@@ -19,6 +19,7 @@ description: FormRef's storage, assets, import and export. Load for saving or re
 | `backend/app/core/capture.py` | web capture with per-hop address checks and the connection pinned to the checked address (`pinned`); never loosen `checked_url`, `resolve` or the pinning without the owner |
 | `store.media_signature`, the `/api/assets` route | video and audio only by matching leading bytes; inline playback with byte ranges |
 | `backend/app/core/doc_export.py` | one note or document as Markdown, text, a hand-built .docx or a cairo PDF; no new dependencies |
+| `backend/app/core/cutout.py` | model-free background removal: edge colours, border-connected fill, soft ramp; refuses busy or blending backgrounds; keeps the original in `data.cutout` and the portable export carries it; Pillow only |
 | `backend/app/core/templates.py` | four built-in templates as code, saved templates in `templates/`, fresh ids on use |
 | `routers/boards.py` comment routes | comment threads written as one guarded `update` of `data.comments` |
 

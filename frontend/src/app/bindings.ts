@@ -272,6 +272,7 @@ $('accent-select').addEventListener('input', () => {
   document.documentElement.style.setProperty('--accent-color', color);
   try { localStorage.setItem('formref-accent', color); } catch { }
 });
+$('cutout-tolerance').addEventListener('input', () => setText('cutout-tolerance-value', $<HTMLInputElement>('cutout-tolerance').value));
 for (const [id, key] of [['grid-visible', 'grid_visible'], ['snap-enabled', 'snap_enabled'], ['canvas-grayscale', 'grayscale']]) {
   $(id).addEventListener('change', () => void execute({ type: 'settings', patch: { [key]: $<HTMLInputElement>(id).checked } }));
 }

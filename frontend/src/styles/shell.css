@@ -209,3 +209,10 @@
 .agent-compose .check-row { align-items: flex-start; font-size: 10px; line-height: 1.6; }
 .agent-compose .check-row input { margin-top: 2px; flex: none; }
 .agent-status { min-height: calc(1.7em * 2); }
+
+/* Background removal: a cut-out image sits on the canvas without its card, and the tolerance shows its value. */
+.board-item.cutout { box-shadow: none; }
+.board-item.cutout .image-content { background: transparent; }
+.board-item.cutout.selected { outline-style: dashed; }
+.cutout-row input[type="range"] { flex: 1; margin: 0 var(--space-3); accent-color: var(--accent-color); padding: 0; height: 30px; }
+.cutout-row output { min-width: 3ch; text-align: right; font: 11px var(--font-mono); color: var(--text-secondary); }

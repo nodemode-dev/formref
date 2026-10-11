@@ -82,6 +82,12 @@ export function setText(id: string, value: string) {
 
 export function toast(message: string) {
   window.clearTimeout(S.toastTimer);
+  const current = $('toast');
+  if (!current.hidden && current.textContent !== message) {
+    // A visible toast that changes width would slide sideways (it is centred); a fresh node appears instead of moving.
+    const fresh = current.cloneNode() as HTMLElement;
+    current.replaceWith(fresh);
+  }
   setText('toast', message);
   $('toast').hidden = false;
   S.toastTimer = window.setTimeout(() => { $('toast').hidden = true; }, 6000);
@@ -261,6 +267,9 @@ export function updateInspector() {
   }
   setInput('prop-tags', Array.isArray(first.data.tags) ? (first.data.tags as string[]).join(', ') : '');
   $('image-properties').hidden = !items.every(i => i.kind === 'image');
+  $<HTMLButtonElement>('restore-background').disabled = !items.some(i => i.kind === 'image' && i.data.cutout);
+  const cutout = first.data.cutout as { tolerance?: number } | null | undefined;
+  if (cutout && typeof cutout.tolerance === 'number') { setInput('cutout-tolerance', cutout.tolerance); setText('cutout-tolerance-value', $<HTMLInputElement>('cutout-tolerance').value); }
   $('shape-properties').hidden = first.kind !== 'shape';
   $('drawing-properties').hidden = !['shape', 'stroke'].includes(first.kind);
   setInput('shape-kind', String(first.data.shape || 'rect'));

@@ -12,6 +12,7 @@ from ..core.sampling import sample_image
 from ..core.features import enrich
 from ..core.capture import capture
 from ..core.doc_export import export_item
+from ..core.cutout import change_background, DEFAULT_TOLERANCE
 from urllib.parse import quote
 from ..core.templates import delete_template, list_templates, save_template, use_template
 from ..agent.service import agents
@@ -162,6 +163,11 @@ def export_document(board_id: str, item_id: str, format: str = "md"):
         raise MissingBoard("That item does not exist on this board.")
     data, mime, name = export_item(item, format)
     return Response(content=data, media_type=mime, headers={"Content-Disposition": f"attachment; filename*=UTF-8''{quote(name)}", "X-Content-Type-Options": "nosniff"})
+
+@router.post("/boards/{board_id}/background")
+async def background(board_id: str, body: dict):
+    tolerance = body.get("tolerance", DEFAULT_TOLERANCE)
+    return await asyncio.to_thread(change_background, board_id, body.get("ids"), str(body.get("action", "remove")), tolerance)
 
 @router.post("/capture")
 async def capture_url(body: dict):

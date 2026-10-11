@@ -10,13 +10,18 @@
 - [Scripts](#scripts)
 - [Canvas increment](#canvas-increment)
 - [Reference editing increment](#reference-editing-increment)
+- [v0.4.9 background removal and a steady toast](#v049-background-removal-and-a-steady-toast)
 - [v0.4.8 desktop window controls and WebKit icons](#v048-desktop-window-controls-and-webkit-icons)
 - [v0.4.7 synced notes, map cards, inline edit commit](#v047-synced-notes-map-cards-inline-edit-commit)
+- [v0.4.6 GIF frames and document export](#v046-gif-frames-and-document-export)
+
+## v0.4.9 background removal and a steady toast
+
+Remove Background and Restore Background are commands in the Images menu and buttons in the inspector, beside a Tolerance slider (1 to 60) that shows its value and, for an image already cut out, the tolerance it used. Both call `api.background`, adopt the returned state and report images the service skipped. `scene.ts` marks a cut-out image with `cutout`, which drops its card shadow and fill so the subject sits on the canvas; selection is dashed so its box still shows. The throttled run found the toast sliding sideways when a long message replaced a short one: the centred root resized with its text. `#toast-root` is now a fixed zero-height strip and the toast is positioned inside it, so changing text never moves anything that was already on screen.
 
 ## v0.4.8 desktop window controls and WebKit icons
 
 Preferences gained Window opacity (page opacity over the now transparent desktop window, remembered per browser in localStorage) and Click-through, which listens for the shell's `formref://window` event so the checkbox follows the global shortcut. Running the page in WebKitGTK showed script-made SVG icons in grid rows drawing at WebKit's default 300 by 150; explicit icon sizes in `shell.css` fix it for the desktop shell and Safari alike.
-- [v0.4.6 GIF frames and document export](#v046-gif-frames-and-document-export)
 
 ## v0.4.7 synced notes, map cards, inline edit commit
 

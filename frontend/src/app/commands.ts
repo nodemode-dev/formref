@@ -11,7 +11,7 @@ import { askForUrl } from './capture';
 import { openLabels } from './labels';
 import { togglePresenting } from './present';
 import {
-  $, S, add, arrange, closeOverlays, defaultSettings, editable, error, execute, fit, history, host, inputDialog,
+  $, S, add, applyState, arrange, closeOverlays, defaultSettings, editable, error, execute, fit, history, host, inputDialog,
   matches, open, openEditor, placement, referenceView, refreshBoards, selected, selectedImages, selection,
   setInput, setSelection, setText, setTool, start, targetIds, toast, topZ, upload, zoom, drawCamera,
 } from './editor';
@@ -142,6 +142,22 @@ function pixelArt() {
   const next = images[0].data.sampling === 'nearest' ? 'smooth' : 'nearest';
   return execute({ type: 'image', ids: images.map(i => i.id), set: { sampling: next } });
 }
+
+/** Background removal runs on the service, which keeps the original; the result is one undoable step. */
+async function background(action: 'remove' | 'restore') {
+  if (!S.state) return;
+  const images = selectedImages().filter(i => action === 'remove' || i.data.cutout);
+  if (!images.length) return;
+  const tolerance = Number($<HTMLInputElement>('cutout-tolerance').value) || 12;
+  if (action === 'remove') toast(images.length > 1 ? `Removing ${images.length} backgrounds...` : 'Removing background...');
+  const next = await api.background(S.state.board.id, images.map(i => i.id), action, tolerance);
+  applyState(next);
+  const skipped = next.skipped || [];
+  if (skipped.length) toast(`${skipped.length} of ${images.length} skipped: ${skipped[0].reason}`);
+  else toast(action === 'remove' ? 'Background removed. Restore Background brings the original back.' : 'Original image restored.');
+}
+
+const hasCutout = () => selectedImages().some(i => !!i.data.cutout);
 
 function cropReset() {
   return execute({ type: 'crop', ids: selectedImages().map(i => i.id), reset: true });
@@ -325,6 +341,8 @@ export const COMMANDS: CommandDef[] = [
   { group: 'Images', id: 'opacity', label: 'Set Opacity', icon: 'opacity', run: setOpacity, enabled: has },
   { group: 'Images', id: 'crop', label: 'Crop', icon: 'crop', keys: ['c'], run: focusCrop, enabled: hasImages },
   { group: 'Images', id: 'reset-crop', label: 'Reset Crop', icon: 'reset-crop', run: cropReset, enabled: hasImages },
+  { group: 'Images', id: 'remove-background', label: 'Remove Background', icon: 'cutout', run: () => background('remove'), enabled: hasImages },
+  { group: 'Images', id: 'restore-background', label: 'Restore Background', icon: 'restore', run: () => background('restore'), enabled: hasCutout },
   { group: 'Images', id: 'rotate', label: 'Rotate 90', icon: 'rotate', keys: ['r'], run: () => execute({ type: 'rotate', ids: editable(), degrees: 90 }), enabled: has },
   { group: 'Images', id: 'save-image', label: 'Save Image As...', icon: 'save', run: () => downloadImages(selected()), enabled: hasImages },
   { group: 'Images', id: 'relink', label: 'Replace or Relink Image', icon: 'relink', run: () => $('relink-input').click(), enabled: () => selected().length === 1 && hasImages() },

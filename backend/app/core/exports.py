@@ -317,7 +317,10 @@ def svg_export(board):
 
 def portable_export(state):
     board = state["board"]
-    asset_ids = sorted({item["asset_id"] for item in board["items"] if item.get("asset_id")})
+    asset_ids = {item["asset_id"] for item in board["items"] if item.get("asset_id")}
+    # An image with its background removed keeps its original, so Restore still works after import.
+    asset_ids |= {item["data"]["cutout"]["original"] for item in board["items"] if isinstance((item.get("data") or {}).get("cutout"), dict) and isinstance(item["data"]["cutout"].get("original"), str)}
+    asset_ids = sorted(asset_ids)
     assets = [store.asset_info(asset_id) for asset_id in asset_ids]
     manifest = {"format": "formref", "version": 1, "board": board, "assets": assets}
     if state.get("import_report"):

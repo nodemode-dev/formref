@@ -19,6 +19,8 @@ Collect images, notes and planning content on an infinite board, then select ite
 
 Image geometry supports crop, flips, rotation, opacity and grayscale. Preserve original image bytes while arranging; a display thumbnail is not an export source. The inspector changes selected properties through the same engine commands used by agents.
 
+Remove Background (Images menu or the inspector) makes a plain background transparent: whatever touches the image edges in the background colour, with soft edges. Raise Tolerance for shadows and soft gradients; lower it if the subject is eaten. It suits product shots, scans, logos, sketches and studio photos. Photos whose subject blends into its surroundings, and busy backgrounds, are refused with a reason; they need a segmentation model. The original is kept, so Restore Background brings it back, Remove Background again starts from the original, and Ctrl+Z undoes either.
+
 Align, distribute, pack and normalize operate on engine-selected IDs. Locked content is protected from mutating layout commands; unlock intentionally before rearranging it. A group transform operates about shared bounds, and a completed user operation should produce one undo step.
 
 The current manual and toolbar are authoritative for offered controls; keyboard shortcuts reserved by a browser may behave differently from a native desktop shell. Rendering/gesture checks and any unfinished controls are recorded in the release's verification notes.

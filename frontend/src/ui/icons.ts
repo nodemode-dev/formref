@@ -73,6 +73,7 @@ const paths = {
   pixel: '<path d="M4 4h5v5H4zM9 9h6v6H9zM15 4h5v5h-5zM4 15h5v5H4zM15 15h5v5h-5z"/>',
   opacity: '<circle cx="12" cy="12" r="9"/><path d="M12 3v18M12 7h4.5M12 11h6.5M12 15h6M12 19h3"/>',
   crop: '<path d="M6 2v14a2 2 0 0 0 2 2h14"/><path d="M2 6h14a2 2 0 0 1 2 2v14"/>',
+  cutout: '<path d="M4 7V4h3M10 4h4M17 4h3v3M20 10v4M20 17v3h-3M14 20h-4M7 20H4v-3M4 14v-4"/><circle cx="12" cy="10" r="2.5"/><path d="M7.5 17c.8-2.4 2.5-3.5 4.5-3.5s3.7 1.1 4.5 3.5"/>',
   'reset-crop': '<path d="M6 2v14a2 2 0 0 0 2 2h14"/><path d="M2 6h6"/><path d="M14 4a7 7 0 1 1-2 9"/>',
   rotate: '<path d="M20 11a8 8 0 1 0-2.3 5.7"/><path d="M20 4v7h-7"/>',
   sort: '<path d="M7 4v16M3.5 16.5L7 20l3.5-3.5"/><path d="M13 6h8M13 11h6M13 16h4"/>',
