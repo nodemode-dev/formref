@@ -1,5 +1,16 @@
 # FormRef changelog
 
+## v0.3.4 · 2026-10-11
+
+Board tabs, iStack's drawing and slideshow controls, and the outside-agent prompt.
+
+- Boards open as tabs: Ctrl+N for a new tab, Alt+W to close, click to switch. The open tabs come back when FormRef starts.
+- Eraser (E) removes whole strokes it passes over, as one undo step.
+- Notes can use any of the bundled fonts.
+- Slideshow has a seconds-per-image setting and a fade or no transition.
+- The first time an outside agent is refused, FormRef asks whether to allow outside agents.
+- Project harness rebuilt with eight specialists and mirrored for Codex and Cursor; new wiki pages for the engine contract, the shell and the agent.
+
 ## v0.3.3 · 2026-10-11
 
 The interface rebuilt in the Form family layout.
