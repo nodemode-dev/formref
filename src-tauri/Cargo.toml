@@ -1,6 +1,6 @@
 [package]
 name = "formref-desktop"
-version = "0.4.4"
+version = "0.4.5"
 description = "FormRef development desktop shell"
 authors = ["nodemode-ai <mackin@nodemode.ai>"]
 edition = "2021"
