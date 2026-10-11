@@ -1,6 +1,6 @@
 # FormRef licenses and provenance
 
-Version: v0.1.0 · Reviewed: 2026-10-10
+Version: v0.3.0 · Reviewed: 2026-10-11
 
 FormRef's original source and vector artwork are Apache-2.0. The repository's full license is `LICENSE`. New commits use `nodemode-ai <mackin@nodemode.ai>`.
 
