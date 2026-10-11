@@ -317,6 +317,12 @@ export function applyState(next: State, switchBoard = false) {
   setText('stat-images', String(board.items.filter(i => i.kind === 'image').length));
   setText('stat-notes', String(board.items.filter(i => i.kind === 'note').length));
   setText('stat-total', String(board.items.length));
+  const row = boardRows.get(board.id);
+  if (row) {
+    const count = board.items.length ? String(board.items.length) : '';
+    if (row.children[1].textContent !== board.title) row.children[1].textContent = board.title;
+    if (row.children[2].textContent !== count) row.children[2].textContent = count;
+  }
   setInput('background', /^#[0-9a-f]{6}$/i.test(board.background) ? board.background : '#1c1b1d');
   stage.style.backgroundColor = board.background === '#1c1b1d' ? '' : board.background;
   $('empty-state').hidden = board.items.length > 0;

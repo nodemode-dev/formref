@@ -10,7 +10,12 @@
 - [Scripts](#scripts)
 - [Canvas increment](#canvas-increment)
 - [Reference editing increment](#reference-editing-increment)
+- [v0.4.0 confirm card and readable notes](#v040-confirm-card-and-readable-notes)
 - [v0.3.3 shell rebuild](#v033-shell-rebuild)
+
+## v0.4.0 confirm card and readable notes
+
+`ui/panels/agent.ts` renders a `confirm` event as a Confirm card (Decline, Allow all, Allow) in the agent log and posts the answer; the card is closed by `confirm_closed`, by its own answer, or when the turn ends. A toast points to the panel when it is hidden. Notes created by agents or MCP without a colour got the engine default `#191919` under the pastel-note ink, so they were unreadable; `scene.ts` now marks dark note paper `dark-note` by luminance and the ink switches to the primary text colour. The board-list count now updates from every applied state instead of only on open. Throttled run: the card appeared, Allow went through, the count followed, no console errors; the only layout shift was the outline list closing over the removed row.
 
 ## v0.3.3 shell rebuild
 

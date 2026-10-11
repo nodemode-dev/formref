@@ -24,4 +24,4 @@ The repository ships `.mcp.json` (Claude Code), `.cursor/mcp.json` and `.codex/c
 
 ## Adding a tool
 
-Add the engine command first (engine specialist), then a tool or an action in an existing tool, with annotations (`_read`, `_write`, `_remove`) and a docstring naming every option. Prove it with the SDK client (verification specialist). The in-app Ollama runner picks new tools up automatically because it reads this server's tool list.
+Add the engine command first (engine specialist), then a tool or an action in an existing tool, with annotations (`_read`, `_write`, `_remove`) and a docstring naming every option. Prove it with the SDK client (verification specialist). The in-app Ollama runner picks new tools up automatically because it reads this server's tool list. A tool that returns a picture returns FastMCP `Image` with no return annotation, so structured output does not try to serialize it; `get_board_image` is the pattern.

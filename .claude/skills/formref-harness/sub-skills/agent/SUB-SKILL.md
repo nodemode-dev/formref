@@ -13,7 +13,7 @@ FormVis is the model. The panel runs a turn on a runner; runners act only throug
 | --- | --- |
 | `backend/app/agent/runners.py` | CLI detection, command lines, system prompt, event parsing per runner |
 | `backend/app/agent/service.py` | settings in `agent.json`, per-turn tokens, turn loop, Ollama loop over FastMCP, Stop, Undo This Turn by snapshot, refusal counter |
-| `backend/app/routers/agent.py` | `/api/agent/runners`, `/settings`, `/turns` (SSE), `/turns/[id]/stop`, `/turns/[id]/undo`, `/api/session` |
+| `backend/app/routers/agent.py` | `/api/agent/runners`, `/settings`, `/turns` (SSE), `/turns/[id]/stop`, `/turns/[id]/undo`, `/confirm/[id]`, `/api/session` |
 | `backend/app/main.py` | the consent gate on mutating requests that carry `X-FormRef-Client` |
 | `frontend/src/ui/panels/agent.ts` | the panel; `frontend/src/main.ts` wires it and the consent dialog |
 
@@ -29,6 +29,10 @@ Re-check flags against the vendor pages before changing them; do not rely on mem
 ## Consent
 
 Mutations carrying `X-FormRef-Client` pass when the value is a live turn token, when a FormRef-started CLI turn is running, or when `outside_agents` is on. Otherwise they get 403 `outside_agents_off`, the refusal counter rises, the board event stream emits `consent`, and the page offers Allow or Not now. Default is off.
+
+## Confirmation
+
+`Agents.review` names a risky write (any `remove`, a board DELETE, or a move-type command over `BULK` ids); `Agents.confirm` holds that request in the middleware, puts a `confirm` event on the turn's queue and waits for `POST /api/agent/confirm/[id]`, five minutes at most. The turn stream is a queue fed by a pump task, so the middleware can add events while the runner streams. Declines return 403 `declined`, and the system prompt tells the agent not to retry. The MCP client's write timeout (330 s) must stay longer than the wait. `confirm_changes` in `agent.json` turns it off.
 
 ## Proving it
 

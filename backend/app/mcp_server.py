@@ -12,7 +12,7 @@ import sys
 from urllib.parse import urlparse
 import uuid
 import httpx
-from mcp.server.fastmcp import FastMCP
+from mcp.server.fastmcp import FastMCP, Image
 from mcp.types import ToolAnnotations
 from .core.config import settings
 
@@ -64,7 +64,8 @@ CLIENT_TOKEN = contextvars.ContextVar("formref_client_token", default=os.environ
 async def api(method, path, **kwargs):
     await ensure_api()
     kwargs.setdefault("headers", {})["X-FormRef-Client"] = CLIENT_TOKEN.get()
-    async with httpx.AsyncClient(timeout=60, trust_env=False) as client:
+    # Writes may wait for the person to confirm a deletion or bulk move in the Agent panel (up to five minutes).
+    async with httpx.AsyncClient(timeout=60 if method == "GET" else 330, trust_env=False) as client:
         response = await client.request(method, API_URL + path, **kwargs)
     if response.is_error:
         try:
@@ -246,6 +247,30 @@ async def export_board(board_id: str, format: str = "portable", include_content:
             raise ValueError("Generated export exceeds the 16 MiB MCP inline limit; use its download URL.")
         result["content_base64"] = base64.b64encode(response.content).decode()
     return result
+
+@mcp.tool(annotations=_read)
+async def get_board_image(board_id: str, max_edge: int = 1024):
+    """Render the whole board as one PNG for models that read images, to judge layout, colour and overlaps. max_edge (256 to 2048) caps the longer side in pixels. Also returns the world rectangle the picture covers and world units per pixel, so a pixel (px, py) is at world x = world.x + px * units_per_pixel, y = world.y + py * units_per_pixel. Read get_board for exact IDs before editing."""
+    checked_id(board_id)
+    if not isinstance(max_edge, int) or not 256 <= max_edge <= 2048:
+        raise ValueError("max_edge must be a whole number from 256 to 2048.")
+    response = await api("GET", f"/api/boards/{board_id}/export?format=png")
+    scale = float(response.headers.get("x-formref-scale") or 1)
+    left = float(response.headers.get("x-formref-left") or 0)
+    top = float(response.headers.get("x-formref-top") or 0)
+    png, width, height = await asyncio.to_thread(_shrink_png, response.content, max_edge)
+    full_width = int(response.headers.get("x-formref-width") or width)
+    units = 1 / (scale * width / full_width)
+    return [Image(data=png, format="png"), {"board_id": board_id, "pixels": {"width": width, "height": height}, "world": {"x": left, "y": top, "width": width * units, "height": height * units}, "units_per_pixel": units}]
+
+def _shrink_png(data, max_edge):
+    from PIL import Image as Picture
+    import io
+    picture = Picture.open(io.BytesIO(data))
+    picture.thumbnail((max_edge, max_edge), Picture.Resampling.LANCZOS)
+    output = io.BytesIO()
+    picture.convert("RGB").save(output, format="PNG", optimize=True)
+    return output.getvalue(), picture.width, picture.height
 
 @mcp.tool(annotations=_read)
 async def search_items(query: str, board_id: str = "", kind: str = "") -> list[dict]:

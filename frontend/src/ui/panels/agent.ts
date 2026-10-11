@@ -1,8 +1,10 @@
 import { icon } from '../icons';
 
 interface Runner { id: string; label: string; available: boolean; path: string; note: string; models?: string[] }
-interface AgentSettings { runner: string; ollama_url: string; ollama_model: string; outside_agents: boolean; model: string }
+interface AgentSettings { runner: string; ollama_url: string; ollama_model: string; outside_agents: boolean; model: string; confirm_changes: boolean }
 type AgentEvent =
+  | { type: 'confirm'; id: string; summary: string; seconds: number }
+  | { type: 'confirm_closed'; id: string; allowed: boolean; reason: string }
   | { type: 'start'; turn_id: string; runner: string }
   | { type: 'text'; text: string }
   | { type: 'tool'; name: string; args: unknown; id: string; ok?: boolean; summary?: string }
@@ -30,6 +32,8 @@ export class AgentPanel {
   private readonly stop = $<HTMLButtonElement>('agent-stop');
   private readonly undo = $<HTMLButtonElement>('agent-undo');
   private readonly outside = $<HTMLInputElement>('agent-outside');
+  private readonly confirmChanges = $<HTMLInputElement>('agent-confirm');
+  private readonly asks = new Map<string, HTMLElement>();
   private readonly status = $('agent-status');
   private runners: Runner[] = [];
   private settings: AgentSettings | null = null;
@@ -55,6 +59,7 @@ export class AgentPanel {
     });
     this.modelSelect.addEventListener('change', () => void this.save({ ollama_model: this.modelSelect.value }));
     this.outside.addEventListener('change', () => void this.save({ outside_agents: this.outside.checked }));
+    this.confirmChanges.addEventListener('change', () => void this.save({ confirm_changes: this.confirmChanges.checked }));
   }
 
   async load() {
@@ -81,6 +86,7 @@ export class AgentPanel {
       this.runnerSelect.value = data.settings.runner;
       this.modelSelect.value = data.settings.ollama_model;
       this.outside.checked = data.settings.outside_agents;
+      this.confirmChanges.checked = data.settings.confirm_changes;
       this.showRunner();
     } catch {
       this.loaded = false;
@@ -160,8 +166,64 @@ export class AgentPanel {
     result.textContent = summary.length > 280 ? summary.slice(0, 280) + ' ...' : summary;
   }
 
+  private askCard(event: Extract<AgentEvent, { type: 'confirm' }>) {
+    const card = document.createElement('div');
+    card.className = 'agent-entry agent-ask';
+    card.setAttribute('role', 'alertdialog');
+    const head = document.createElement('div');
+    head.className = 'agent-tool-head';
+    const title = document.createElement('strong');
+    title.textContent = 'Confirm';
+    const state = document.createElement('span');
+    state.className = 'agent-tool-state';
+    state.textContent = 'waiting';
+    head.append(icon('agent'), title, state);
+    const text = document.createElement('p');
+    text.className = 'agent-ask-text';
+    text.textContent = event.summary;
+    const actions = document.createElement('div');
+    actions.className = 'agent-ask-actions';
+    const make = (label: string, hint: string, allow: boolean, wholeTurn: boolean, primary = false) => {
+      const button = document.createElement('button');
+      button.className = primary ? 'button compact primary' : 'button compact';
+      button.textContent = label;
+      button.title = hint;
+      button.addEventListener('click', () => void this.reply(event.id, allow, wholeTurn));
+      return button;
+    };
+    actions.append(
+      make('Decline', 'Refuse this change; the agent is told not to retry it', false, false),
+      make('Allow all', 'Allow this and any further removals or bulk moves until the turn ends', true, true),
+      make('Allow', 'Allow this change only', true, false, true),
+    );
+    text.textContent = `The agent wants to: ${event.summary}`;
+    card.append(head, text, actions);
+    this.log.append(card);
+    this.log.scrollTop = this.log.scrollHeight;
+    this.asks.set(event.id, card);
+    if (!this.log.offsetParent) this.hooks.notify('An agent is waiting for your answer in the Agent panel (Ctrl+J).');
+    actions.querySelector<HTMLButtonElement>('.primary')?.focus({ preventScroll: true });
+  }
+
+  private closeAsk(id: string, allowed: boolean, note = '') {
+    const card = this.asks.get(id);
+    if (!card) return;
+    this.asks.delete(id);
+    card.classList.add(allowed ? 'allowed' : 'declined');
+    card.querySelectorAll('button').forEach(button => { button.disabled = true; });
+    card.querySelector('.agent-tool-state')!.textContent = note || (allowed ? 'allowed' : 'declined');
+  }
+
+  private async reply(id: string, allow: boolean, wholeTurn: boolean) {
+    const response = await fetch(`/api/agent/confirm/${id}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ allow, whole_turn: wholeTurn }) });
+    const data = response.ok ? await response.json() as { answered: boolean } : { answered: false };
+    this.closeAsk(id, allow, data.answered ? (allow ? (wholeTurn ? 'allowed for this turn' : 'allowed') : 'declined') : 'expired');
+  }
+
   private handle(event: AgentEvent) {
-    if (event.type === 'start') {
+    if (event.type === 'confirm') this.askCard(event);
+    else if (event.type === 'confirm_closed') this.closeAsk(event.id, event.allowed, event.reason);
+    else if (event.type === 'start') {
       this.turnId = event.turn_id;
       this.setStatus(`Working with ${this.runners.find(r => r.id === event.runner)?.label || event.runner}…`);
     } else if (event.type === 'text') this.entry('reply', event.text);
@@ -171,6 +233,7 @@ export class AgentPanel {
       if (card) this.finishCard(card, event.ok, event.summary);
     } else if (event.type === 'error') this.entry('error', event.message);
     else if (event.type === 'done') {
+      for (const id of [...this.asks.keys()]) this.closeAsk(id, false, 'turn ended');
       this.lastTurn = event.changed ? event.turn_id : this.lastTurn;
       this.setStatus(event.stopped ? 'Stopped.' : event.changed ? 'Done. Each change is on the undo stack; Undo This Turn reverts all of them.' : 'Done. The board did not change.');
       if (event.changed) this.hooks.afterTurn();

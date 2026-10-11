@@ -219,7 +219,7 @@ def png_export(board):
         canvas.alpha_composite(image, (round(center_x - image.width / 2), round(center_y - image.height / 2)))
     output = io.BytesIO()
     canvas.save(output, format="PNG")
-    return output.getvalue(), {"X-FormRef-Scale": str(scale), "X-FormRef-Width": str(width), "X-FormRef-Height": str(height)}
+    return output.getvalue(), {"X-FormRef-Scale": str(scale), "X-FormRef-Width": str(width), "X-FormRef-Height": str(height), "X-FormRef-Left": str(left), "X-FormRef-Top": str(top)}
 
 def svg_element(parent, tag, attributes=None, text=None):
     element = ET.SubElement(parent, "{" + SVG_NS + "}" + tag, {key: str(value) for key, value in (attributes or {}).items()})

@@ -6,7 +6,9 @@ from ..core.config import ROOT
 
 SYSTEM = ("You are the agent inside FormRef, a reference board for images, notes and cards. Act on the open board only through the "
           "formref MCP tools: call get_board first to learn item ids, then make each change with one tool call so it is one undoable "
-          "step. Respect locked items. Keep replies short and say what you changed.")
+          "step. Respect locked items. If you can read images, get_board_image shows the board as a picture for judging layout. "
+          "Removing items or moving many at once waits for the person to confirm; if they decline, do not retry it. "
+          "Keep replies short and say what you changed.")
 
 CLI = {
     "claude": {"label": "Claude Code", "binaries": ["claude"], "install": "Install Claude Code and sign in with `claude`, then reopen FormRef."},

@@ -24,6 +24,12 @@ FormVis asks the person when an outside agent first tries to edit. FormRef canno
 
 The iStack importer was checked against iStack's own save routine in the owner's bundle (`At()`: `format`, `version` 1.1, `canvasRect`, `drawings`, `items` with `flipH`, `flipV`, `nearestNeighbor`, `cropRect`, `_imageData`, `_sourcePath`, `groupId`). A board in that format with two images (one embedded, one path-only), a note, a freehand stroke, a rectangle and an eraser stroke imported with rotation, opacity, flips, grayscale, sampling, lock and group intact; the path-only image arrived unresolved and relinkable; the eraser stroke, which in iStack subtracts raster pixels, is listed as unsupported in the import report instead of being dropped silently. `cropRect` units are taken as display pixels of the item; the bundle does not show them unambiguously, so crop on imported boards is unverified.
 
+## v0.4.0 · Confirmation before big agent changes, board image
+
+`main.py` holds a write from a panel turn when `Agents.review` names it risky (remove, board delete, or a move-type command over 10 ids) and waits on `Agents.confirm`. The turn generator now drains a queue fed by a pump task so the middleware can inject `confirm` events mid-stream; cleanup runs in `finally` without yielding, so a closed client no longer trips "async generator ignored GeneratorExit". The MCP client's write timeout rose to 330 s to outlast the five-minute wait. `get_board_image` renders the PNG export, shrinks it to `max_edge` and returns it as MCP image content plus the world rectangle, from new `X-FormRef-Left` and `X-FormRef-Top` headers.
+
+Run on 2026-10-11 with real Claude Code turns: a removal was declined and the agent reported nothing changed and did not retry (12 items, revision 1 unchanged); a 12-item pack was allowed, then the agent called `get_board_image` and described the 4 by 3 grid it saw. In a throttled browser a removal showed the Confirm card, Allow let it through, and the board went from 12 to 11 items.
+
 ## v0.3.2 · Embedded agent service, consent gate, similarity features, session
 
 - refers-to: `app/agent/service.py` :: Agents; `app/agent/runners.py` :: CLI, argv, parse; `app/routers/agent.py`; `app/main.py` :: local_access consent check; `app/mcp_server.py` :: CLIENT_TOKEN, adjust_items; `app/core/features.py`

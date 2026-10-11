@@ -11,9 +11,12 @@ from ..core.store import store
 from . import runners
 
 API_URL = os.environ.get("FORMREF_API_URL", "http://127.0.0.1:8196").rstrip("/")
-DEFAULTS = {"runner": "claude", "ollama_url": "http://127.0.0.1:11434", "ollama_model": "", "outside_agents": False, "model": ""}
+DEFAULTS = {"runner": "claude", "ollama_url": "http://127.0.0.1:11434", "ollama_model": "", "outside_agents": False, "model": "", "confirm_changes": True}
 MAX_STEPS = 12
 SNAPSHOT_KEYS = ("items", "connections", "settings", "title", "background")
+BULK = 10
+CONFIRM_SECONDS = 300
+MOVES = {"transform": "Move or resize", "pack": "Pack", "sort": "Sort and lay out", "distribute": "Distribute", "align": "Align", "snap": "Snap", "normalize": "Resize"}
 
 
 class Agents:
@@ -23,7 +26,12 @@ class Agents:
         self.processes: dict[str, asyncio.subprocess.Process] = {}
         self.stopped: set[str] = set()
         self.cli_turns = 0
+        self.cli_active: list[str] = []
         self.refusals = 0
+        self.token_turn: dict[str, str] = {}
+        self.queues: dict[str, asyncio.Queue] = {}
+        self.pending: dict[str, dict] = {}
+        self.approved: set[str] = set()
 
     @property
     def path(self):
@@ -41,8 +49,8 @@ class Agents:
         for key, value in patch.items():
             if key not in DEFAULTS:
                 raise ValueError(f"Unknown agent setting {key}.")
-            if key == "outside_agents" and not isinstance(value, bool):
-                raise ValueError("outside_agents must be true or false.")
+            if key in ("outside_agents", "confirm_changes") and not isinstance(value, bool):
+                raise ValueError(f"{key} must be true or false.")
             if key == "runner" and value not in ("claude", "codex", "cursor", "ollama"):
                 raise ValueError("runner must be claude, codex, cursor or ollama.")
             if key in ("ollama_url", "ollama_model", "model") and not isinstance(value, str):
@@ -98,10 +106,74 @@ class Agents:
 
     def stop(self, turn_id: str) -> bool:
         self.stopped.add(turn_id)
+        self._close_pending(turn_id)
         process = self.processes.get(turn_id)
         if process and process.returncode is None:
             process.terminate()
         return True
+
+    def review(self, method: str, path: str, body: bytes) -> str | None:
+        """Describe a deletion or bulk move that needs the person's yes, or None."""
+        parts = path.strip("/").split("/")
+        if parts[:2] != ["api", "boards"] or len(parts) < 3:
+            return None
+        if method == "DELETE" and len(parts) == 3:
+            return "Delete this whole board."
+        if method != "POST" or len(parts) != 4 or parts[3] != "commands":
+            return None
+        try:
+            command = json.loads(body or b"{}").get("command")
+            items = {item["id"]: item for item in store.get(parts[2])["board"]["items"]}
+        except Exception:
+            return None
+        return self._risky(command, items)
+
+    def _risky(self, command, items: dict) -> str | None:
+        if not isinstance(command, dict):
+            return None
+        kind = command.get("type")
+        ids = [i for i in command.get("ids") or [] if isinstance(i, str)] if isinstance(command.get("ids"), list) else []
+        if kind == "batch" and isinstance(command.get("commands"), list):
+            return " ".join(filter(None, (self._risky(part, items) for part in command["commands"]))) or None
+        if kind == "remove" and ids:
+            names = [items[i].get("title") or items[i]["kind"] for i in ids[:5] if i in items]
+            more = f" and {len(ids) - 5} more" if len(ids) > 5 else ""
+            return f"Remove {len(ids)} item{'s' if len(ids) != 1 else ''}: {', '.join(names)}{more}."
+        if kind in MOVES and len(ids) >= BULK:
+            return f"{MOVES[kind]} {len(ids)} items at once."
+        return None
+
+    async def confirm(self, client: str, summary: str) -> bool:
+        """Hold a risky write from a panel turn until the person answers in the Agent panel."""
+        turn_id = self.token_turn.get(client) or (self.cli_active[-1] if client == "outside" and self.cli_active else None)
+        queue = self.queues.get(turn_id or "")
+        if queue is None or turn_id in self.approved or not self.settings()["confirm_changes"]:
+            return True
+        confirm_id = uuid.uuid4().hex
+        future = asyncio.get_running_loop().create_future()
+        self.pending[confirm_id] = {"future": future, "turn_id": turn_id}
+        await queue.put({"type": "confirm", "id": confirm_id, "summary": summary, "seconds": CONFIRM_SECONDS})
+        try:
+            return await asyncio.wait_for(future, CONFIRM_SECONDS)
+        except asyncio.TimeoutError:
+            await queue.put({"type": "confirm_closed", "id": confirm_id, "allowed": False, "reason": "No answer in five minutes, so it was declined."})
+            return False
+        finally:
+            self.pending.pop(confirm_id, None)
+
+    def answer(self, confirm_id: str, allow: bool, whole_turn: bool) -> bool:
+        entry = self.pending.get(confirm_id)
+        if not entry or entry["future"].done():
+            return False
+        if allow and whole_turn:
+            self.approved.add(entry["turn_id"])
+        entry["future"].set_result(allow)
+        return True
+
+    def _close_pending(self, turn_id: str):
+        for entry in list(self.pending.values()):
+            if entry["turn_id"] == turn_id and not entry["future"].done():
+                entry["future"].set_result(False)
 
     async def turn(self, board_id: str, message: str, runner: str):
         config = self.settings()
@@ -110,22 +182,37 @@ class Agents:
         token = secrets.token_hex(16)
         self.turns[turn_id] = {"board_id": board_id, "before": self.snapshot(board_id), "runner": runner}
         self.tokens.add(token)
+        self.token_turn[token] = turn_id
+        queue = self.queues[turn_id] = asyncio.Queue()
         prompt = f"The open board id is {board_id}.\n\n{message}"
         yield {"type": "start", "turn_id": turn_id, "runner": runner}
+
+        async def pump():
+            try:
+                source = self._ollama(turn_id, prompt, token, config) if runner == "ollama" else self._cli(turn_id, runner, prompt, token, config)
+                async for event in source:
+                    await queue.put(event)
+            except Exception as exc:
+                await queue.put({"type": "error", "message": str(exc)})
+            finally:
+                await queue.put(None)
+
+        task = asyncio.create_task(pump())
         try:
-            if runner == "ollama":
-                async for event in self._ollama(turn_id, prompt, token, config):
-                    yield event
-            else:
-                async for event in self._cli(turn_id, runner, prompt, token, config):
-                    yield event
-        except Exception as exc:
-            yield {"type": "error", "message": str(exc)}
+            while (event := await queue.get()) is not None:
+                yield event
         finally:
+            if not task.done():
+                self.stop(turn_id)
+                task.cancel()
+            self._close_pending(turn_id)
             self.tokens.discard(token)
+            self.token_turn.pop(token, None)
+            self.queues.pop(turn_id, None)
+            self.approved.discard(turn_id)
             self.processes.pop(turn_id, None)
-            after = self.snapshot(board_id)
-            yield {"type": "done", "turn_id": turn_id, "changed": after != self.turns[turn_id]["before"], "stopped": turn_id in self.stopped}
+        after = self.snapshot(board_id)
+        yield {"type": "done", "turn_id": turn_id, "changed": after != self.turns[turn_id]["before"], "stopped": turn_id in self.stopped}
 
     async def _cli(self, turn_id, runner, prompt, token, config):
         binary = runners.find(runner)
@@ -133,6 +220,7 @@ class Agents:
             raise ValueError(f"{runners.CLI[runner]['label']} is not installed on this computer. {runners.CLI[runner]['install']}")
         env = {**os.environ, "FORMREF_API_URL": API_URL, "FORMREF_AGENT_TOKEN": token}
         self.cli_turns += 1
+        self.cli_active.append(turn_id)
         try:
             process = await asyncio.create_subprocess_exec(*runners.argv(runner, binary, prompt, token, API_URL, config["model"]),
                                                            cwd=str(ROOT), env=env, stdin=asyncio.subprocess.DEVNULL,
@@ -147,6 +235,7 @@ class Agents:
                 yield {"type": "error", "message": f"{runners.CLI[runner]['label']} exited with code {code}. {tail}"}
         finally:
             self.cli_turns -= 1
+            self.cli_active.remove(turn_id)
 
     async def _ollama(self, turn_id, prompt, token, config):
         from .. import mcp_server

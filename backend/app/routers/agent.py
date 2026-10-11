@@ -47,6 +47,16 @@ async def start_turn(body: Turn):
     return StreamingResponse(stream(), media_type="text/event-stream", headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"})
 
 
+class Answer(BaseModel):
+    allow: bool
+    whole_turn: bool = False
+
+
+@router.post("/agent/confirm/{confirm_id}")
+def answer_confirm(confirm_id: str, body: Answer):
+    return {"answered": agents.answer(confirm_id, body.allow, body.whole_turn)}
+
+
 @router.post("/agent/turns/{turn_id}/stop")
 def stop_turn(turn_id: str):
     return {"stopped": agents.stop(turn_id)}
