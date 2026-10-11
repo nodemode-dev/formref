@@ -245,6 +245,32 @@ fn drawing_data(data: &Map<String, Value>) -> EngineResult<()> {
     Ok(())
 }
 
+pub const TABLE_TYPES: [&str; 6] = ["text", "number", "currency", "percent", "date", "checkbox"];
+
+/// Table cards: data.table = {columns: [{name, type}], rows: [[cell text]]}; formulas are cell text starting with =.
+fn table_data(data: &Map<String, Value>) -> EngineResult<()> {
+    let Some(value) = data.get("table") else { return Ok(()) };
+    let table = value.as_object().ok_or_else(|| EngineError::invalid("data.table must be an object"))?;
+    let columns = table.get("columns").and_then(Value::as_array).ok_or_else(|| EngineError::invalid("table.columns must be an array"))?;
+    if columns.is_empty() || columns.len() > 26 { return Err(EngineError::invalid("a table has 1 to 26 columns")); }
+    for column in columns {
+        let name = column.get("name").and_then(Value::as_str).ok_or_else(|| EngineError::invalid("table column name must be a string"))?;
+        text_limit(name, "table column name", 60)?;
+        let kind = column.get("type").and_then(Value::as_str).unwrap_or("text");
+        if !TABLE_TYPES.contains(&kind) { return Err(EngineError::invalid("table column type must be text, number, currency, percent, date or checkbox")); }
+    }
+    let rows = table.get("rows").and_then(Value::as_array).ok_or_else(|| EngineError::invalid("table.rows must be an array"))?;
+    if rows.len() > 500 { return Err(EngineError::invalid("a table has at most 500 rows")); }
+    for row in rows {
+        let cells = row.as_array().ok_or_else(|| EngineError::invalid("each table row must be an array"))?;
+        if cells.len() > columns.len() { return Err(EngineError::invalid("a table row has more cells than columns")); }
+        for cell in cells {
+            text_limit(cell.as_str().ok_or_else(|| EngineError::invalid("table cells must be text"))?, "table cell", 2000)?;
+        }
+    }
+    Ok(())
+}
+
 /// Card comments: data.comments is a list of {id, text, author, at, resolved?}.
 fn comments(data: &Map<String, Value>) -> EngineResult<()> {
     let Some(value) = data.get("comments") else { return Ok(()) };
@@ -339,6 +365,7 @@ impl Item {
                 }
             }
             "stroke" => drawing_data(&self.data)?,
+            "table" => table_data(&self.data)?,
             "shape" => {
                 drawing_data(&self.data)?;
                 if let Some(value) = self.data.get("shape") {

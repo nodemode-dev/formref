@@ -272,6 +272,25 @@
               <label class="field-row"><span>Fill color</span><input id="shape-fill" type="color" value="#f97316"></label>
               <label class="check-row"><input id="shape-fill-enabled" type="checkbox">Filled shape</label>
             </div>
+            <div id="table-properties" class="table-properties" hidden>
+              <div class="section-label">TABLE</div>
+              <div class="field-grid">
+                <label class="field"><span>Column</span><select id="table-column" aria-label="Column"></select></label>
+                <label class="field"><span>Type</span><select id="table-type" aria-label="Column type"><option value="text">Text</option><option value="number">Number</option><option value="currency">Currency</option><option value="percent">Percent</option><option value="date">Date (YYYY-MM-DD)</option><option value="checkbox">Checkbox</option></select></label>
+              </div>
+              <div class="button-grid">
+                <button class="button compact" data-table="add-row"><span data-icon="plus"></span>Row</button>
+                <button class="button compact" data-table="add-column"><span data-icon="plus"></span>Column</button>
+                <button class="button compact" data-table="remove-row"><span data-icon="delete"></span>Last row</button>
+                <button class="button compact" data-table="remove-column"><span data-icon="delete"></span>Column</button>
+              </div>
+              <p class="field-description">Double-click a cell to edit; start with = for a formula such as =SUM(B1:B3) or =B1*1.2.</p>
+            </div>
+            <div id="media-properties" hidden>
+              <div class="section-label">PLAYBACK</div>
+              <label class="check-row"><input id="media-autoplay" type="checkbox">Play automatically (muted)</label>
+              <label class="check-row"><input id="media-loop" type="checkbox">Loop</label>
+            </div>
             <div class="button-grid">
               <button class="button compact" data-action="duplicate"><span data-icon="duplicate"></span>Duplicate</button>
               <button class="button compact danger" data-action="delete"><span data-icon="trash"></span>Delete</button>
@@ -550,6 +569,7 @@
       <button id="present-prev" class="icon-button present-step" data-icon="chevron-left" aria-label="Previous card"></button>
       <img id="present-image" alt="" hidden>
       <div id="present-text" class="present-text" hidden>
+        <div id="present-media" class="present-media" hidden></div>
         <p id="present-plain"></p>
         <div id="present-markdown" class="formatted-card" hidden></div>
       </div>

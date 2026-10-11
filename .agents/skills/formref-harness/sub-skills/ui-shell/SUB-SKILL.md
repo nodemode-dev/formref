@@ -20,6 +20,9 @@ Vanilla TypeScript and Vite, no framework, no icon library. `frontend/src/main.t
 | `app/trash.ts` | the Trash dialog: put removed items back, restore deleted boards, empty |
 | `app/comments.ts` | the inspector comment thread, keyed rows patched in place, via `onInspector` |
 | `app/templates.ts` | New from Template and Save as Template |
+| `app/cards.ts` | inspector controls for table cards and media playback |
+| `ui/table-view.ts`, `lib/table.ts` | the table grid (patched in place, cell editing) and the formula evaluator and formatting |
+| `lib/media.ts` | video, audio and embed players created or patched in place |
 | `app/present.ts` | the presenter view: read-only capture-phase guards, enlarged card, reading order; never writes the viewport |
 | `app/labels.ts` | label chips in the inspector and the Board labels dialog |
 | `app/capture.ts` | web capture: dropped and pasted addresses, the page image picker; `placeAssets` in `editor.ts` places the results |

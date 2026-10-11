@@ -1,4 +1,4 @@
-export type Kind = 'image' | 'note' | 'document' | 'swatch' | 'link' | 'board' | 'column' | 'todo' | 'shape' | 'stroke' | 'file';
+export type Kind = 'image' | 'note' | 'document' | 'swatch' | 'link' | 'board' | 'column' | 'todo' | 'shape' | 'stroke' | 'file' | 'table';
 export interface Point { x: number; y: number }
 export interface Item {
   id: string; kind: Kind; x: number; y: number; width: number; height: number;

@@ -1,5 +1,14 @@
 # FormRef changelog
 
+## v0.4.5 · 2026-10-11
+
+Video, audio and table cards.
+
+- Video and audio files play on the board, with Play automatically (muted) and Loop in the inspector. YouTube, Vimeo, Spotify and SoundCloud links become players.
+- Table cards: typed columns (text, number, currency, percent, date, checkbox), double-click to edit cells, and formulas such as =SUM(B1:B3) or =B2*1.2.
+- MCP: `create_table`; 32 tools.
+- The Inspector tab no longer shifts when the selection count appears.
+
 ## v0.4.4 · 2026-10-11
 
 Present a board.

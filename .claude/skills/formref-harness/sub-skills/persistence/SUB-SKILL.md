@@ -17,6 +17,7 @@ description: FormRef's storage, assets, import and export. Load for saving or re
 | `backend/app/routers/agent.py` | `/api/session`: open tabs and the active tab; `/api/preferences`: shortcut overrides |
 | `store.py` trash methods, `/api/trash` routes in `routers/boards.py` | deleted boards and groups of removed items, restore and purge |
 | `backend/app/core/capture.py` | web capture with per-hop address checks and the connection pinned to the checked address (`pinned`); never loosen `checked_url`, `resolve` or the pinning without the owner |
+| `store.media_signature`, the `/api/assets` route | video and audio only by matching leading bytes; inline playback with byte ranges |
 | `backend/app/core/templates.py` | four built-in templates as code, saved templates in `templates/`, fresh ids on use |
 | `routers/boards.py` comment routes | comment threads written as one guarded `update` of `data.comments` |
 

@@ -19,6 +19,7 @@ Rust document engine · vanilla TypeScript/Vite view · Python/FastAPI media & p
 - **Board tabs:** several boards open at once, restored where you left them.
 - **Trash:** deleted boards and removed items wait in the Trash until you empty it; restore puts them back.
 - **Your keys:** change any shortcut from the shortcut sheet (?).
+- **Video, audio & tables:** playable video and audio cards, YouTube, Vimeo, Spotify and SoundCloud players, and table cards with typed columns and formulas.
 - **Labels & web images:** coloured board labels on any item; drag, paste or fetch images and pages from the web.
 - **Comments & templates:** comment threads on any item, resolved or reopened; start boards from starters or your own templates.
 - **Organize & draw:** pack, sort by name, aspect or colour similarity, rotate 90, opacity, pixel art, brush, eraser, rectangle, circle & line.

@@ -174,6 +174,9 @@ def item_raster(item, scale):
         draw_formatted(draw, label, padding, patch_height + padding, width - 2 * padding, height - patch_height - 2 * padding, max(8, 12 * scale), "#f5f5f5")
     else:
         text = item.get("text") if item["kind"] == "note" else title
+        if item["kind"] == "table":
+            headers, rows = table_cells(data)
+            text = (title + "\n" if title else "") + "\n".join("   ".join(row) for row in [headers] + rows)
         if item["kind"] == "link":
             text += "\n" + item.get("url", "")
         if item["kind"] == "image":
@@ -327,6 +330,13 @@ def portable_export(state):
             archive.writestr("assets/" + asset_id + ".blob", data)
     return output.getvalue()
 
+def table_cells(data):
+    """Column names and raw cell text of a table card; formulas are exported as written."""
+    table = data.get("table") if isinstance(data.get("table"), dict) else {}
+    columns = [str(column.get("name", "")) for column in table.get("columns", []) if isinstance(column, dict)]
+    rows = [[str(value) for value in row[:len(columns)]] + [""] * (len(columns) - len(row)) for row in table.get("rows", []) if isinstance(row, list)]
+    return columns, rows
+
 def markdown_export(board):
     lines = ["# " + board["title"].replace("\n", " "), ""]
     for item in sorted(board["items"], key=lambda entry: (entry["y"], entry["x"])):
@@ -341,6 +351,12 @@ def markdown_export(board):
             lines.extend(["## " + markdown_source(title or "Swatch", "plain"), "", markdown_source(swatch_label(item), "plain"), ""])
         elif item["kind"] == "link":
             lines.extend(["## " + (title or "Link"), "", item.get("url", ""), "", item.get("text", ""), ""])
+        elif item["kind"] == "table":
+            headers, rows = table_cells(item.get("data", {}))
+            cell = lambda value: value.replace("|", "\\|").replace("\n", " ") or " "
+            lines.extend(["## " + (title or "Table"), "", "| " + " | ".join(map(cell, headers)) + " |", "|" + "---|" * len(headers)])
+            lines.extend("| " + " | ".join(map(cell, row)) + " |" for row in rows)
+            lines.append("")
         elif item["kind"] in {"image", "file"}:
             lines.extend(["## " + (title or "Reference"), ""])
             if item.get("asset_id"):

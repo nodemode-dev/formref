@@ -10,7 +10,12 @@
 - [Scripts](#scripts)
 - [Canvas increment](#canvas-increment)
 - [Reference editing increment](#reference-editing-increment)
+- [v0.4.5 media and table cards](#v045-media-and-table-cards)
 - [v0.4.4 presenter view](#v044-presenter-view)
+
+## v0.4.5 media and table cards
+
+`lib/media.ts` creates or patches one player per card (video, audio, or an iframe for YouTube nocookie, Vimeo, Spotify and SoundCloud embeds) and only replaces it when the type changes, so a playing video survives board updates. Autoplay is muted because browsers allow nothing else. `ui/table-view.ts` keeps one table per card and patches cells in place; cell editing is contenteditable on the cell with Enter, Tab and Escape, and commits one update. `lib/table.ts` evaluates formulas with a small recursive-descent parser (no eval), caches each cell once per paint and reports #CYCLE and #ERR. Pointer and double-click handling skip players and tables so controls and cell editing work on the board. The selection badge got a fixed width after it shifted the panel tabs when an upload selected its new cards. Throttled run: a webm played, seeked and looped and a wav loaded; a table took typed cells and =SUM(B1:B2)*1.2 (51), switched to currency ($51.00), gained a checkbox column, showed #ERR for a divide by zero and recovered with Ctrl+Z; no console errors. The remaining shift is the inspector switching to the uploaded selection, as for any upload. H.264 mp4 playback was not checked (the test Chromium has no H.264); embeds need the public web.
 - [v0.4.3 labels and web capture](#v043-labels-and-web-capture)
 
 ## v0.4.4 presenter view

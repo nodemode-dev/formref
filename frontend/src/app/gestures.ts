@@ -64,7 +64,7 @@ function shapePath(g: Gesture): string {
 
 stage.addEventListener('pointerdown', event => {
   const target = event.target as HTMLElement;
-  if (target.closest('button,input,a,[contenteditable="true"],.floating-controls,.navigator') || !S.state || event.button === 2) return;
+  if (target.closest('button,input,a,video,audio,iframe,[contenteditable="true"],.floating-controls,.navigator') || !S.state || event.button === 2) return;
   menu.close();
   const p = worldPoint(event);
   const screen = { x: event.clientX, y: event.clientY };
@@ -283,6 +283,8 @@ stage.addEventListener('contextmenu', event => {
 });
 
 stage.addEventListener('dblclick', event => {
+  // Players and table cells handle their own double-clicks (full screen, cell editing).
+  if ((event.target as HTMLElement).closest('video,audio,iframe,.card-table')) return;
   const element = (event.target as HTMLElement).closest<HTMLElement>('.board-item');
   const item = S.state?.board.items.find(i => i.id === element?.dataset.id);
   const connection = (event.target as Element).closest<SVGPathElement>('[data-connection]');

@@ -215,6 +215,11 @@ async def capture_from_web(board_id: str, url: str, x: float = 0, y: float = 0) 
     return await command(board_id, {"type": "add", "items": [{"id": uuid.uuid4().hex, "kind": kind, "x": x, "y": y, "width": width, "height": height, "title": asset["name"], "asset_id": asset["id"], "url": result.get("url", url), "data": {"mime": asset["mime"], "size": asset["size"], "natural_width": asset.get("width"), "natural_height": asset.get("height")}}]})
 
 @mcp.tool(annotations=_write)
+async def create_table(board_id: str, columns: list[dict], rows: list[list[str]], title: str = "Table", x: float = 0, y: float = 0, width: float = 420, height: float = 260) -> dict:
+    """Create a table card. columns is a list of {name, type} with type text, number, currency, percent, date (YYYY-MM-DD) or checkbox (cells "true" or "false"); rows is a list of rows of cell text. A cell starting with = is a formula over cells such as A1 or B1:B4: + - * / ^, SUM, AVERAGE, MIN, MAX, COUNT, ROUND, ABS. At most 26 columns and 500 rows. One undoable step."""
+    return await command(board_id, {"type": "add", "items": [{"id": uuid.uuid4().hex, "kind": "table", "title": title, "x": x, "y": y, "width": width, "height": height, "data": {"table": {"columns": columns, "rows": rows}}}]})
+
+@mcp.tool(annotations=_write)
 async def define_labels(board_id: str, labels: list[dict]) -> dict:
     """Replace the board's coloured labels with labels, a list of {id, name, color} (#RRGGBB, at most 32). Keep an existing id to rename or recolour it everywhere; leaving one out removes it from every item. One undoable step."""
     return await command(board_id, {"type": "settings", "patch": {"labels": labels}})

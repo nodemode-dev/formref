@@ -90,7 +90,7 @@ def health():
 
 @app.get("/api/capabilities")
 def capabilities():
-    return {"capabilities": registry.describe(), "item_kinds": ["image", "note", "document", "swatch", "link", "board", "column", "todo", "shape", "stroke", "file"], "text_formats": ["plain", "markdown"], "image_sampling": {"scope": "original", "frame": 0, "coordinates": "crop-and-flip-normalized"}, "exports": list(registry.exporters), "limits": {"asset_bytes": settings.max_upload_bytes, "expanded_archive_bytes": settings.max_archive_bytes, "image_pixels": settings.max_image_pixels, "png_pixels": settings.max_export_pixels, "png_edge": settings.max_export_edge, "undo_steps": 100}, "collaboration": "local-agent-sync", "cloud_sync": False, "accounts": False}
+    return {"capabilities": registry.describe(), "item_kinds": ["image", "note", "document", "swatch", "link", "board", "column", "todo", "shape", "stroke", "file", "table"], "text_formats": ["plain", "markdown"], "image_sampling": {"scope": "original", "frame": 0, "coordinates": "crop-and-flip-normalized"}, "exports": list(registry.exporters), "limits": {"asset_bytes": settings.max_upload_bytes, "expanded_archive_bytes": settings.max_archive_bytes, "image_pixels": settings.max_image_pixels, "png_pixels": settings.max_export_pixels, "png_edge": settings.max_export_edge, "undo_steps": 100}, "collaboration": "local-agent-sync", "cloud_sync": False, "accounts": False}
 
 app.include_router(router)
 app.include_router(agent_router)

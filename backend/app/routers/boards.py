@@ -158,11 +158,25 @@ async def capture_url(body: dict):
     return await capture(str(body.get("url", "")))
 
 @router.get("/assets/{asset_id}")
-def asset(asset_id: str):
+def asset(asset_id: str, request: Request):
     info, data = store.asset_bytes(asset_id)
-    headers = {"Cache-Control": "public, max-age=31536000, immutable", "X-Content-Type-Options": "nosniff", "Content-Security-Policy": "default-src 'none'; sandbox"}
-    if not info["mime"].startswith("image/"):
+    headers = {"Cache-Control": "public, max-age=31536000, immutable", "X-Content-Type-Options": "nosniff", "Content-Security-Policy": "default-src 'none'; sandbox", "Accept-Ranges": "bytes"}
+    media = info["mime"].startswith(("video/", "audio/"))
+    if not info["mime"].startswith("image/") and not media:
         headers["Content-Disposition"] = "attachment"
+    # Byte ranges let video and audio cards seek without downloading the whole file again.
+    wanted = request.headers.get("range", "")
+    if media and wanted.startswith("bytes=") and "," not in wanted:
+        first, _, last = wanted[6:].partition("-")
+        try:
+            start = int(first) if first else max(0, len(data) - int(last))
+            end = min(int(last), len(data) - 1) if first and last else len(data) - 1
+        except ValueError:
+            start, end = 0, -1
+        if 0 <= start <= end < len(data):
+            headers["Content-Range"] = f"bytes {start}-{end}/{len(data)}"
+            return Response(content=data[start:end + 1], status_code=206, media_type=info["mime"], headers=headers)
+        return Response(status_code=416, headers={"Content-Range": f"bytes */{len(data)}"})
     return Response(content=data, media_type=info["mime"], headers=headers)
 
 @router.post("/import", status_code=201)

@@ -275,6 +275,7 @@ export const COMMANDS: CommandDef[] = [
   { group: 'Insert', id: 'note', label: 'Add Note', icon: 'note', keys: ['n'], run: addNoteHere, enabled: hasBoard },
   { group: 'Insert', id: 'document', label: 'Add Document', icon: 'document', run: addDocument, enabled: hasBoard },
   { group: 'Insert', id: 'link', label: 'Add Link', icon: 'link', keys: ['shift+l'], run: () => add('link'), enabled: hasBoard },
+  { group: 'Insert', id: 'table', label: 'Add Table', icon: 'table', run: () => add('table'), enabled: hasBoard },
   { group: 'Insert', id: 'from-web', label: 'Add Images from the Web…', icon: 'web-image', run: askForUrl, enabled: hasBoard },
   { group: 'Edit', id: 'edit-labels', label: 'Edit Board Labels', icon: 'label', run: openLabels, enabled: hasBoard },
   { group: 'Insert', id: 'todo', label: 'Add Task', icon: 'todo', run: () => add('todo'), enabled: hasBoard },

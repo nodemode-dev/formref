@@ -1,5 +1,6 @@
 import { api, request } from '../lib/api';
 import type { Asset, Command, Item, Kind, Point, State, Summary, Viewport } from '../lib/types';
+import { emptyTable } from '../lib/table';
 import { newItem } from '../lib/types';
 import { HostLink } from '../lib/host';
 import { itemBounds } from '../lib/geometry';
@@ -545,7 +546,7 @@ async function createSwatch(sample: PixelSample) {
 
 const KIND_NAMES: Record<Kind, string> = {
   image: 'Image', note: 'Note', document: 'Document', swatch: 'Swatch', link: 'Link', todo: 'Task',
-  board: 'Board', column: 'Column', shape: 'Shape', stroke: 'Drawing', file: 'File',
+  board: 'Board', column: 'Column', shape: 'Shape', stroke: 'Drawing', file: 'File', table: 'Table',
 };
 
 export async function add(kind: Kind) {
@@ -563,11 +564,12 @@ export async function add(kind: Kind) {
     data.board_id = child.board.id;
   }
   if (kind === 'todo') data.checked = false;
+  if (kind === 'table') data.table = emptyTable();
   const item = newItem(kind, p.x, p.y, {
     title: form.name || KIND_NAMES[kind], text: form.text, url: form.url, z: topZ(),
     color: kind === 'note' ? '#e7d4b4' : '#191919',
-    width: kind === 'column' ? 300 : 260,
-    height: kind === 'column' ? 480 : kind === 'todo' ? 150 : 190,
+    width: kind === 'column' ? 300 : kind === 'table' ? 380 : 260,
+    height: kind === 'column' ? 480 : kind === 'todo' ? 150 : kind === 'table' ? 230 : 190,
     data,
   });
   await execute({ type: 'add', items: [item] });
@@ -592,8 +594,9 @@ export async function placeAssets(assets: { asset: Asset; name: string; url?: st
   for (const [index, { asset, name: sourceName, url }] of assets.entries()) {
     const file = { name: sourceName };
     const image = asset.mime.startsWith('image/');
-    const width = image ? Math.min(400, asset.width || 300) : 260;
-    const height = image ? width * ((asset.height || 200) / (asset.width || 300)) : 140;
+    const video = asset.mime.startsWith('video/'), audio = asset.mime.startsWith('audio/');
+    const width = image ? Math.min(400, asset.width || 300) : video ? 400 : audio ? 320 : 260;
+    const height = image ? width * ((asset.height || 200) / (asset.width || 300)) : video ? 300 : audio ? 150 : 140;
     items.push(newItem(image ? 'image' : 'file', at.x + index * 28, at.y + index * 28, {
       title: asset.name, asset_id: asset.id, width, height, z: initialZ + index + 1, url: url || '',
       data: { mime: asset.mime, size: asset.size, source_name: file.name, natural_width: asset.width, natural_height: asset.height },

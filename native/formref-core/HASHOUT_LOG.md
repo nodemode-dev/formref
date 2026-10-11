@@ -28,6 +28,11 @@ Focused v0.2.0 and v0.3.0 log. The complete baseline engine map, protocol limits
 - [Reference editing](#reference-editing)
 - [Comments](#comments)
 - [Labels](#labels)
+- [Tables](#tables)
+
+## Tables
+
+v0.4.5: `table_data` validates table cards (1 to 26 typed columns, at most 500 rows, cell text up to 2000 characters). Cells stay raw text and formulas stay text in the engine; evaluation belongs to the frontend so the engine never interprets user formulas and undo restores exactly what was typed. An unknown column type was refused over MCP.
 
 ## Labels
 

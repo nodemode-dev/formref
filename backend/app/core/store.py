@@ -18,6 +18,24 @@ from .engine import broker, EngineError
 ID_PATTERN = re.compile(r"^[A-Za-z0-9_-]{1,96}$")
 ASSET_PATTERN = re.compile(r"^[0-9a-f]{64}$")
 TRASH_ENTRIES = 100
+
+
+def media_signature(mime: str, data: bytes) -> bool:
+    """True when the bytes start like the audio or video container the file name claims."""
+    head = data[:16]
+    if mime in {"video/mp4", "video/quicktime", "audio/mp4", "audio/x-m4a", "audio/aac"} and head[4:8] == b"ftyp":
+        return True
+    if mime in {"video/webm", "audio/webm", "video/x-matroska"}:
+        return head[:4] == b"\x1aE\xdf\xa3"
+    if mime in {"audio/ogg", "video/ogg", "audio/opus"}:
+        return head[:4] == b"OggS"
+    if mime == "audio/mpeg":
+        return head[:3] == b"ID3" or (len(head) > 1 and head[0] == 0xFF and head[1] & 0xE0 == 0xE0)
+    if mime in {"audio/wav", "audio/x-wav", "audio/wave"}:
+        return head[:4] == b"RIFF" and head[8:12] == b"WAVE"
+    if mime in {"audio/flac", "audio/x-flac"}:
+        return head[:4] == b"fLaC"
+    return False
 Image.MAX_IMAGE_PIXELS = settings.max_image_pixels
 
 class MissingBoard(ValueError):
@@ -360,6 +378,8 @@ class BoardStore:
                 if Path(name).suffix.lower() in {".png", ".jpg", ".jpeg", ".webp", ".gif", ".bmp", ".tif", ".tiff", ".svg"}:
                     raise ValueError("Uploaded image is invalid or unsupported.")
                 mime = mimetypes.guess_type(name)[0] or "application/octet-stream"
+                if mime.startswith(("video/", "audio/")) and not media_signature(mime, data):
+                    mime = "application/octet-stream"  # an extension alone never makes a file playable
         asset_id = hashlib.sha256(data).hexdigest()
         info = {"id": asset_id, "url": "/api/assets/" + asset_id, "name": name, "mime": mime, "size": len(data), "width": width, "height": height}
         with self.lock:

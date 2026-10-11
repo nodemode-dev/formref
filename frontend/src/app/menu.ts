@@ -100,7 +100,7 @@ export function boardMenu(): MenuEntry[] {
     item('note'),
     {
       label: 'Insert', icon: 'plus', children: [
-        item('document'), item('link'), item('todo'), item('column'), item('nested-board'), item('swatch'), item('file'), item('from-web'), sep, item('pick-color'),
+        item('document'), item('link'), item('todo'), item('table'), item('column'), item('nested-board'), item('swatch'), item('file'), item('from-web'), sep, item('pick-color'),
       ],
     },
     item('draw'),

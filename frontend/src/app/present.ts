@@ -1,5 +1,7 @@
 import { api } from '../lib/api';
 import { MarkdownView } from '../lib/markdown';
+import { embedUrl, mediaKind, paintPlayer } from '../lib/media';
+import { display, evaluate, readTable } from '../lib/table';
 import type { Item, Viewport } from '../lib/types';
 import { $, S, drawCamera, fit, setText, stage } from './editor';
 
@@ -9,7 +11,7 @@ const card = $<HTMLDialogElement>('present-dialog');
 const media = $<HTMLImageElement>('present-image');
 const textBox = $('present-text');
 const markdown = new MarkdownView($('present-markdown'));
-const SHOWN = new Set(['image', 'note', 'document', 'link', 'todo', 'swatch', 'board', 'file']);
+const SHOWN = new Set(['image', 'note', 'document', 'link', 'todo', 'swatch', 'board', 'file', 'table']);
 let active = false;
 let before: Viewport | null = null;
 let order: Item[] = [];
@@ -62,6 +64,7 @@ function show(next: number) {
   media.hidden = !image;
   textBox.hidden = image;
   if (image) {
+    paintPlayer($('present-media'), '', '', { loop: false, autoplay: false, title: '' });
     const src = api.assetUrl(item.asset_id!);
     if (media.getAttribute('src') !== src) {
       const next = new Image();
@@ -69,11 +72,19 @@ function show(next: number) {
       void next.decode().catch(() => undefined).then(() => { if (order[index] === item) media.src = src; });
     }
   } else {
+    const kind = mediaKind(item.kind, item.data.mime, item.asset_id, item.url);
+    const player = $('present-media');
+    player.hidden = !kind;
+    paintPlayer(player, kind, kind === 'embed' ? embedUrl(item.url) || '' : kind ? api.assetUrl(item.asset_id!) : '', { loop: !!item.data.loop, autoplay: false, title: item.title || 'Media' });
     const formatted = item.data.text_format === 'markdown';
     $('present-markdown').hidden = !formatted;
     $('present-plain').hidden = formatted;
     if (formatted) markdown.update(item.text);
-    else setText('present-plain', item.kind === 'link' ? `${item.text}\n${item.url}`.trim() : item.kind === 'swatch' ? item.color : item.text);
+    else if (item.kind === 'table') {
+      const table = readTable(item.data.table);
+      const values = evaluate(table);
+      setText('present-plain', [table.columns.map(c => c.name).join('    '), ...values.map((row, r) => row.map((v, c) => (table.columns[c].type === 'checkbox' ? (table.rows[r][c] === 'true' ? 'Yes' : 'No') : display(v, table.columns[c].type))).join('    '))].join('\n'));
+    } else setText('present-plain', kind ? '' : item.kind === 'link' ? `${item.text}\n${item.url}`.trim() : item.kind === 'swatch' ? item.color : item.text);
     textBox.style.setProperty('--paper', item.kind === 'note' ? item.color : '');
   }
   if (!card.open) card.showModal();
@@ -123,3 +134,4 @@ $('present-exit').addEventListener('click', () => void stopPresenting());
 $('present-next').addEventListener('click', () => show(index + 1));
 $('present-prev').addEventListener('click', () => show(index - 1));
 card.addEventListener('click', event => { if (event.target === card) card.close(); });
+card.addEventListener('close', () => paintPlayer($('present-media'), '', '', { loop: false, autoplay: false, title: '' }));
