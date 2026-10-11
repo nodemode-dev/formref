@@ -1,5 +1,13 @@
 # FormRef changelog
 
+## v0.3.1 · 2026-10-11
+
+Repository hygiene before the v0.4.0 recovery build.
+
+- Planning, research and verification documents removed from every commit; they live only in the planning sidecar now.
+- Licence notices follow the Form family layout: `NOTICE.md` at the root and licence texts under `licenses/`.
+- No application behaviour changed.
+
 ## v0.1.0 · 2026-10-10
 
 First local Form family reference workspace.
