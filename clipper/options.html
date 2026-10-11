@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FormRef Clipper</title>
+  <link rel="stylesheet" href="options.css">
+</head>
+<body>
+  <main>
+    <header>
+      <img src="icons/icon-48.png" width="32" height="32" alt="">
+      <div><strong>FormRef Clipper</strong><span>Saves to the FormRef running on this computer</span></div>
+    </header>
+    <section>
+      <label class="field"><span>FormRef address</span><input id="server" type="url" spellcheck="false" placeholder="http://127.0.0.1:8196"></label>
+      <label class="field"><span>Pairing token</span><input id="token" type="password" spellcheck="false" autocomplete="off" placeholder="Paste from FormRef > Preferences > Browser clipper"></label>
+      <div class="row">
+        <button id="connect" class="primary" type="button">Save and connect</button>
+        <span id="status" class="status" role="status">Not connected yet.</span>
+      </div>
+    </section>
+    <section>
+      <label class="field"><span>Save clips to</span><select id="board"><option value="">The board open in FormRef</option></select></label>
+      <label class="check"><input id="download" type="checkbox">Download images in the browser when FormRef cannot fetch them (sites you are signed in to, or that block FormRef)</label>
+      <p class="hint">Right-click an image, selected text, a link or the page and choose Save to FormRef. The toolbar button saves the page.</p>
+    </section>
+  </main>
+  <script type="module" src="options.js"></script>
+</body>
+</html>

@@ -16,6 +16,7 @@ Route every FormRef task through this file first. It maps the subsystems, states
 | Agent panel, runners, Undo This Turn, consent | `frontend/src/ui/panels/agent.ts`, `backend/app/agent/`, `backend/app/routers/agent.py` | `sub-skills/agent/SUB-SKILL.md` |
 | MCP server and live board operation | `backend/app/mcp_server.py`, `.mcp.json`, `.cursor/mcp.json`, `.codex/config.toml` | `sub-skills/mcp/SUB-SKILL.md` |
 | Store, assets, iStack import, exports, session | `backend/app/core/`, `backend/app/routers/boards.py` | `sub-skills/persistence/SUB-SKILL.md` |
+| Browser clipper extension and its pairing | `clipper/`, `backend/app/core/clipper.py`, `backend/app/routers/clip.py` | `sub-skills/persistence/SUB-SKILL.md` |
 | FormRef tab in the FormAI parity matrix | planning sidecar `parity_render.py`, `parity_rows.json` | `sub-skills/parity/SUB-SKILL.md` |
 | Version, commits, the two zips | version sites listed in the release specialist | `sub-skills/release/SUB-SKILL.md` |
 | Throttled browser and live service checks | a procedure, no repo code | `sub-skills/verification/SUB-SKILL.md` |

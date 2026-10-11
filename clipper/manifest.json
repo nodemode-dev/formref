@@ -1,0 +1,15 @@
+{
+  "manifest_version": 3,
+  "name": "FormRef Clipper",
+  "version": "0.4.10",
+  "description": "Save images, selected text, links and pages to the FormRef board running on your computer.",
+  "author": "nodemode-ai",
+  "icons": { "16": "icons/icon-16.png", "32": "icons/icon-32.png", "48": "icons/icon-48.png", "128": "icons/icon-128.png" },
+  "action": { "default_title": "Save this page to FormRef", "default_icon": { "16": "icons/icon-16.png", "32": "icons/icon-32.png" } },
+  "background": { "service_worker": "background.js", "scripts": ["background.js"], "type": "module" },
+  "options_ui": { "page": "options.html", "open_in_tab": true },
+  "permissions": ["contextMenus", "storage", "notifications", "activeTab", "scripting"],
+  "host_permissions": ["http://127.0.0.1/*", "http://localhost/*"],
+  "optional_host_permissions": ["<all_urls>"],
+  "browser_specific_settings": { "gecko": { "id": "clipper@formref.nodemode.ai", "strict_min_version": "121.0" } }
+}

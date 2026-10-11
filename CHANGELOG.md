@@ -1,5 +1,14 @@
 # FormRef changelog
 
+## v0.4.10 · 2026-10-11
+
+Browser clipper.
+
+- FormRef Clipper, a Chrome and Firefox extension in `clipper/`: right-click an image, selected text, a link or the page and choose Save to FormRef. The toolbar button saves the page. Clips land on the board open in FormRef (or one you choose) in a free spot, keeping the page they came from.
+- Pair it once: Preferences, Browser clipper, Copy, then paste into the clipper options. New token unpairs it. Web pages cannot save to FormRef.
+- Images FormRef cannot fetch itself are downloaded by the browser instead.
+- Fixed: link, board, file and document cards drew a huge clipped arrow that hid the address and the Double-click hint.
+
 ## v0.4.9 · 2026-10-11
 
 Background removal.

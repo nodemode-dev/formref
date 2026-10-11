@@ -20,6 +20,7 @@ description: FormRef's storage, assets, import and export. Load for saving or re
 | `store.media_signature`, the `/api/assets` route | video and audio only by matching leading bytes; inline playback with byte ranges |
 | `backend/app/core/doc_export.py` | one note or document as Markdown, text, a hand-built .docx or a cairo PDF; no new dependencies |
 | `backend/app/core/cutout.py` | model-free background removal: edge colours, border-connected fill, soft ramp; refuses busy or blending backgrounds; keeps the original in `data.cutout` and the portable export carries it; Pillow only |
+| `backend/app/core/clipper.py`, `routers/clip.py`, `clipper/` | browser clipper: pairing token (shown to FormRef's own page only), extension origins allowed on the two clip routes only (`main.py` local_access), free-spot placement near the last view; the extension is plain MV3 JavaScript for Chrome and Firefox, no build step and no dependencies |
 | `backend/app/core/templates.py` | four built-in templates as code, saved templates in `templates/`, fresh ids on use |
 | `routers/boards.py` comment routes | comment threads written as one guarded `update` of `data.comments` |
 

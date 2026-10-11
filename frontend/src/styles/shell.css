@@ -121,6 +121,7 @@
 .inspector, .panel-body { scrollbar-gutter: stable; }
 /* WebKit (the Linux and macOS desktop shell, Safari) gives an unsized inline SVG 300 by 150; Chromium hid this behind grid tracks. */
 .sidebar-row > svg, .command-row > svg, .trash-row > svg, .shortcut-label > svg, .agent-tool-head > svg { width: 16px; height: 16px; flex: none; }
+.card-footer > svg { width: 14px; height: 14px; flex: none; }
 .card-media { flex: 1; min-height: 0; display: flex; align-items: center; border-radius: var(--radius); overflow: hidden; background: #000; }
 .card-media video, .card-media iframe { width: 100%; height: 100%; border: 0; display: block; }
 .audio-card .card-media { flex: none; background: transparent; }
@@ -215,4 +216,7 @@
 .board-item.cutout .image-content { background: transparent; }
 .board-item.cutout.selected { outline-style: dashed; }
 .cutout-row input[type="range"] { flex: 1; margin: 0 var(--space-3); accent-color: var(--accent-color); padding: 0; height: 30px; }
+.clipper-preferences { display: flex; flex-direction: column; gap: var(--space-2); }
+.clipper-preferences .inline-field input { flex: 1; width: 0; height: 28px; font: 11px var(--font-mono); }
+.clipper-preferences code { font: 10px var(--font-mono); color: var(--text-secondary); }
 .cutout-row output { min-width: 3ch; text-align: right; font: 11px var(--font-mono); color: var(--text-secondary); }

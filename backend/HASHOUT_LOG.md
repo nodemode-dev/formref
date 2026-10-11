@@ -24,6 +24,14 @@ FormVis asks the person when an outside agent first tries to edit. FormRef canno
 
 The iStack importer was checked against iStack's own save routine in the owner's bundle (`At()`: `format`, `version` 1.1, `canvasRect`, `drawings`, `items` with `flipH`, `flipV`, `nearestNeighbor`, `cropRect`, `_imageData`, `_sourcePath`, `groupId`). A board in that format with two images (one embedded, one path-only), a note, a freehand stroke, a rectangle and an eraser stroke imported with rotation, opacity, flips, grayscale, sampling, lock and group intact; the path-only image arrived unresolved and relinkable; the eraser stroke, which in iStack subtracts raster pixels, is listed as unsupported in the import report instead of being dropped silently. `cropRect` units are taken as display pixels of the item; the bundle does not show them unambiguously, so crop on imported boards is unverified.
 
+## v0.4.10 · Browser clipper routes
+
+- refers-to: `app/core/clipper.py` :: token, paired, clip, free_spot; `app/routers/clip.py`; `app/main.py` :: local_access origin rule and CORS
+- kind: rationale
+- logged: v0.4.10 · 2026-10-11
+
+The service refused every non-loopback origin, which also refused the extension. The rule now admits `chrome-extension://` and `moz-extension://` origins on exactly `/api/clip` and `/api/clip/boards`, and those routes demand the pairing token (`X-FormRef-Clip-Token`, compared in constant time) from `clipper.json` in the data folder. The token routes stay behind the original rule, so only FormRef's own page can read or reset it; a web page is refused by origin before any token is looked at, and DNS rebinding is still stopped by the loopback Host check. Image clips reuse `capture` (public addresses, checked redirects) or accept a base64 `data:` image the browser downloaded itself. A clip lands on the chosen board, else the session's active board, else the first board, else a new Clippings board, in the first free slot spiralling out from the centre of the last saved view. Run: token from no origin and from FormRef's page, refused from extension and web origins; clip without or with a wrong token 401, from a web origin with the right token 403, from the extension 201; the extension origin refused on `/api/boards` and the token reset; CORS preflight allowed for the extension and refused for the web; seven malformed clips refused with reasons; reset made the old token fail.
+
 ## v0.4.9 · Background removal
 
 - refers-to: `app/core/cutout.py` :: cut_out, change_background; `app/routers/boards.py` :: background; `app/core/exports.py` :: portable_export; `app/mcp_server.py` :: remove_background

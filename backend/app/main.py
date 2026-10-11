@@ -11,6 +11,7 @@ from .core.extensions import registry
 from .core.store import MissingBoard, RevisionConflict
 from .routers.boards import router
 from .routers.agent import router as agent_router
+from .routers.clip import router as clip_router
 from .agent.service import agents
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(name)s %(levelname)s %(message)s")
@@ -23,7 +24,7 @@ async def lifespan(app):
     broker.close()
 
 app = FastAPI(title="FormRef", version=VERSION, lifespan=lifespan)
-app.add_middleware(CORSMiddleware, allow_origin_regex=r"^https?://(localhost|127\.0\.0\.1|\[::1\])(?::\d+)?$", allow_credentials=False, allow_methods=["GET", "POST", "DELETE", "OPTIONS"], allow_headers=["Content-Type"], expose_headers=["Content-Disposition", "X-FormRef-Scale", "X-FormRef-Width", "X-FormRef-Height"])
+app.add_middleware(CORSMiddleware, allow_origin_regex=r"^(https?://(localhost|127\.0\.0\.1|\[::1\])(?::\d+)?|(chrome|moz)-extension://[a-z0-9-]+)$", allow_credentials=False, allow_methods=["GET", "POST", "DELETE", "OPTIONS"], allow_headers=["Content-Type", "X-FormRef-Clip-Token"], expose_headers=["Content-Disposition", "X-FormRef-Scale", "X-FormRef-Width", "X-FormRef-Height"])
 
 @app.middleware("http")
 async def local_access(request: Request, call_next):
@@ -40,7 +41,9 @@ async def local_access(request: Request, call_next):
     origin = request.headers.get("origin")
     if origin:
         parsed = urlparse(origin)
-        if parsed.scheme not in {"http", "https"} or parsed.hostname not in {"localhost", "127.0.0.1", "::1"}:
+        # The browser clipper calls from its extension origin; it may reach the clip routes, which check the pairing token, and nothing else.
+        clipper_call = parsed.scheme in {"chrome-extension", "moz-extension"} and request.url.path in {"/api/clip", "/api/clip/boards"}
+        if not clipper_call and (parsed.scheme not in {"http", "https"} or parsed.hostname not in {"localhost", "127.0.0.1", "::1"}):
             return JSONResponse(status_code=403, content={"detail": "Origin is not an allowed local application."})
     length = request.headers.get("content-length")
     if length:
@@ -94,6 +97,7 @@ def capabilities():
 
 app.include_router(router)
 app.include_router(agent_router)
+app.include_router(clip_router)
 
 @app.get("/{path:path}")
 def frontend(path: str):

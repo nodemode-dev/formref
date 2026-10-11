@@ -477,6 +477,12 @@
         <label class="field-row"><span>Window opacity</span><input id="native-opacity" type="range" min="20" max="100" step="5" value="100" aria-label="Window opacity"></label>
         <label class="check-row"><input id="native-click-through" type="checkbox">Click-through (Ctrl+Alt+K turns it off)</label>
       </section>
+      <section class="clipper-preferences">
+        <div class="section-label">BROWSER CLIPPER</div>
+        <p class="field-description">Load the <code>clipper</code> folder in Chrome (Extensions, Developer mode, Load unpacked) or Firefox (about:debugging, Load Temporary Add-on), then paste this token into its options. Web pages cannot save to FormRef without it.</p>
+        <div class="inline-field"><input id="clip-token" type="password" readonly aria-label="Clipper pairing token" value="" placeholder="Open to show"><button class="button compact" data-action="copy-clip-token"><span data-icon="paste"></span>Copy</button></div>
+        <button class="button compact full" data-action="reset-clip-token"><span data-icon="relink"></span>New token (unpairs the clipper)</button>
+      </section>
       <div class="section-label">NODEMODE HOST</div>
       <p id="host-status" class="muted">Standalone workspace. Open inside NodeMode to enable selection assignment.</p>
       <button id="host-assign" class="button full" data-action="assign" disabled><span data-icon="send"></span>Assign selected images to NodeMode</button>

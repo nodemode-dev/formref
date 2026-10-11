@@ -5,6 +5,7 @@
 - [Shell](Shell.md)
 - [Agent](Agent.md)
 - [MCP](MCP.md)
+- [Browser clipper](Clipper.md)
 - [Architecture](Architecture.md)
 - [Engine Contract](Engine-Contract.md)
 - [Releases](Releases.md)

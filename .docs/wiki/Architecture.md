@@ -6,6 +6,7 @@
 | Python service | `backend/app/` | Asset ingest, durable boards, import/export, HTTP, revision events and MCP tools |
 | Browser frontend | `frontend/src/` | Mounted keyed views, pointer previews, selection/camera and command dispatch |
 | Agent service | `backend/app/agent/` | Claude Code, Codex, Cursor and Ollama turns with FormRef's MCP attached; see [Agent](Agent.md) |
+| Browser clipper | `clipper/` | Extension that saves images, text, links and pages through the token-gated `/api/clip` routes; see [Browser clipper](Clipper.md) |
 | Project harness | `.claude/skills/formref-harness/` | Subsystem knowledge, constraints and failure recovery |
 
 [Engine contract](Engine-Contract.md) is the detailed common model. A board has items, connections, viewport, background and revision. Items share validated geometry and extensible data. Images refer to registered original assets; notes/tasks/cards keep editable content. Connections refer to actual item IDs.

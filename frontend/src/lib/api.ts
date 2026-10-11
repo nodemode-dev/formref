@@ -20,7 +20,8 @@ export const api = {
   import: async (file: File) => { const form = new FormData(); form.append('file', file); return request<State & { warnings?: string[] }>('/import', { method: 'POST', body: form }); },
   relink: async (id: string, item_id: string, file: File) => { const form = new FormData(); form.append('file', file); form.append('item_id', item_id); return request<State>(`/boards/${id}/relink`, { method: 'POST', body: form }); },
   background: (id: string, ids: string[], action: 'remove' | 'restore', tolerance: number) => request<State & { skipped?: { id: string; reason: string }[] }>(`/boards/${id}/background`, { method: 'POST', body: JSON.stringify({ ids, action, tolerance }) }),
-  exportUrl:(id: string, format: string) => `${base}/api/boards/${id}/export?format=${format}`,
+  clipToken: (reset = false) => request<{ token: string }>(reset ? '/clip/token/reset' : '/clip/token', reset ? { method: 'POST' } : {}),
+  exportUrl: (id: string, format: string) => `${base}/api/boards/${id}/export?format=${format}`,
   assetUrl: (id: string) => `${base}/api/assets/${id}`,
   events: (id: string) => new EventSource(`${base}/api/boards/${id}/events`)
 };

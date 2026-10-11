@@ -23,6 +23,7 @@ Rust document engine · vanilla TypeScript/Vite view · Python/FastAPI media & p
 - **GIF frames & document export:** pause, step, scrub and keep GIF frames; export any document as PDF, Word, Markdown or text.
 - **Video, audio & tables:** playable video and audio cards, YouTube, Vimeo, Spotify and SoundCloud players, and table cards with typed columns and formulas.
 - **Background removal:** make a plain background transparent with one click, keep the original and restore it any time.
+- **Browser clipper:** a Chrome and Firefox extension in `clipper/` saves images, selected text, links and pages to your board, paired by a token from Preferences.
 - **Labels & web images:** coloured board labels on any item; drag, paste or fetch images and pages from the web.
 - **Comments & templates:** comment threads on any item, resolved or reopened; start boards from starters or your own templates.
 - **Organize & draw:** pack, sort by name, aspect or colour similarity, rotate 90, opacity, pixel art, brush, eraser, rectangle, circle & line.
@@ -91,11 +92,12 @@ Set environment variables before launch; local environment files must remain unc
 | src-tauri/ | Optional native development shell |
 | .claude/skills/formref-harness/ | Routed project development instructions |
 | .docs/wiki/ | Usage, engine contract, shell, agent & release guides |
+| clipper/ | Browser clipper extension (Chrome, Firefox) |
 | licenses/ | Third-party licence texts |
 
 ## Status
 
-FormRef covers the PureRef image-board core and Milanote's cards, columns, tasks, tables, links, maps, synced notes and nested boards, behind iStack's menu, with an embedded agent. Background removal works on plain backgrounds without a model; photos with busy or blending backgrounds are refused until a segmentation model is chosen. Cloud collaboration, protected sharing & a browser clipper remain gaps. The desktop shell (`./formref desktop`) adds always-on-top, frameless, fullscreen, window opacity and click-through windows; it was compiled and run on Linux, while compiled, signed macOS/Windows installers are not included. Codex, Cursor & Ollama runners are implemented but were not available on the build machine, so only Claude Code has been run end to end.
+FormRef covers the PureRef image-board core and Milanote's cards, columns, tasks, tables, links, maps, synced notes and nested boards, behind iStack's menu, with an embedded agent. Background removal works on plain backgrounds without a model; photos with busy or blending backgrounds are refused until a segmentation model is chosen. Cloud collaboration and protected sharing remain gaps; the browser clipper loads unpacked (no store-signed build). The desktop shell (`./formref desktop`) adds always-on-top, frameless, fullscreen, window opacity and click-through windows; it was compiled and run on Linux, while compiled, signed macOS/Windows installers are not included. Codex, Cursor & Ollama runners are implemented but were not available on the build machine, so only Claude Code has been run end to end.
 
 Planning, research and parity data live in the planning sidecar, outside this repository; the FormRef tab of the FormAI parity matrix is rendered from it each release. No self-authored test suite is included.
 

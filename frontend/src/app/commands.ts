@@ -157,6 +157,18 @@ async function background(action: 'remove' | 'restore') {
   else toast(action === 'remove' ? 'Background removed. Restore Background brings the original back.' : 'Original image restored.');
 }
 
+/** The pairing token for the browser clipper; only FormRef's own page can read it. */
+async function clipToken(reset = false) {
+  const { token } = await api.clipToken(reset);
+  setInput('clip-token', token);
+  return token;
+}
+
+async function copyClipToken() {
+  await navigator.clipboard.writeText(await clipToken());
+  toast('Clipper token copied. Paste it into the FormRef Clipper options.');
+}
+
 const hasCutout = () => selectedImages().some(i => !!i.data.cutout);
 
 function cropReset() {
@@ -364,7 +376,9 @@ export const COMMANDS: CommandDef[] = [
   { group: 'View', id: 'agent', label: 'Open Agent', icon: 'agent', keys: ['mod+j'], run: () => showRightPanel('agent') },
   { group: 'View', id: 'commands', label: 'Commands', icon: 'commands', keys: ['mod+k'], run: () => openPalette(), palette: false },
   { group: 'View', id: 'help', label: 'Keyboard Shortcuts', icon: 'keyboard', keys: ['?', 'shift+/'], run: () => $<HTMLDialogElement>('help-dialog').showModal() },
-  { group: 'View', id: 'preferences', label: 'Preferences', icon: 'settings', keys: ['mod+,'], run: () => { setInput('theme-select', document.documentElement.dataset.theme || 'studio'); $<HTMLDialogElement>('preferences-dialog').showModal(); } },
+  { group: 'View', id: 'preferences', label: 'Preferences', icon: 'settings', keys: ['mod+,'], run: () => { setInput('theme-select', document.documentElement.dataset.theme || 'studio'); $<HTMLDialogElement>('preferences-dialog').showModal(); void clipToken().catch(error); } },
+  { group: 'File', id: 'copy-clip-token', label: 'Copy Browser Clipper Token', icon: 'paste', run: copyClipToken },
+  { group: 'File', id: 'reset-clip-token', label: 'New Browser Clipper Token', icon: 'relink', palette: false, run: async () => { await clipToken(true); toast('New clipper token made. Paste it into the clipper options; the old one no longer works.'); } },
 
   { group: 'Inspector', id: 'open-source', label: 'Open Note Editor', icon: 'document', run: () => { const item = selected()[0]; if (item) openEditor(item.id); }, enabled: () => selected().some(i => ['note', 'document'].includes(i.kind)) },
   { group: 'Inspector', id: 'format-note', label: 'Format Note as Markdown', icon: 'note', run: () => { const item = selected()[0]; if (item) openEditor(item.id, true); }, enabled: () => selected().some(i => i.kind === 'note') },

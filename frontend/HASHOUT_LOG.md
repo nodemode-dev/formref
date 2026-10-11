@@ -10,10 +10,15 @@
 - [Scripts](#scripts)
 - [Canvas increment](#canvas-increment)
 - [Reference editing increment](#reference-editing-increment)
+- [v0.4.10 clipper pairing and card footer icons](#v0410-clipper-pairing-and-card-footer-icons)
 - [v0.4.9 background removal and a steady toast](#v049-background-removal-and-a-steady-toast)
 - [v0.4.8 desktop window controls and WebKit icons](#v048-desktop-window-controls-and-webkit-icons)
 - [v0.4.7 synced notes, map cards, inline edit commit](#v047-synced-notes-map-cards-inline-edit-commit)
 - [v0.4.6 GIF frames and document export](#v046-gif-frames-and-document-export)
+
+## v0.4.10 clipper pairing and card footer icons
+
+Preferences has a Browser clipper section: the token sits in a read-only password field filled when Preferences opens (`api.clipToken`), Copy writes it to the clipboard, and New token resets it. Copy Browser Clipper Token is also in the palette. Clips need no frontend code: they are ordinary engine adds, so the open board picks them up from its event stream. Looking at clipped link cards showed the footer arrow rendering as an unsized SVG (300 by 150), which pushed the address and the Double-click hint out of every link, board, file and document card; `.card-footer > svg` is now 14 px.
 
 ## v0.4.9 background removal and a steady toast
 
