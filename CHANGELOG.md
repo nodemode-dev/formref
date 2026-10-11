@@ -1,5 +1,16 @@
 # FormRef changelog
 
+## v0.3.3 · 2026-10-11
+
+The interface rebuilt in the Form family layout.
+
+- Right-click anywhere on the board for iStack's menu: File, Edit, Canvas (grid, snap grid scales, grayscale canvas, background colour, fit, reset zoom), Organize (pack, sort by aspect, filename or similarity, group), Images (flip, grayscale, pixel art, opacity, crop, rotate 90, save image as), Layer, Lock, Add Note, Draw Mode, Slideshow, Delete, plus Insert and Ask Agent.
+- Shortcuts follow iStack: D draw, L lock, C crop, R rotate 90, Ctrl+P pack, Ctrl+G and Ctrl+Shift+G group and ungroup, Shift+S slideshow. Duplicate moved to Ctrl+D, link to Shift+L, connect to Shift+C, rectangle to Shift+R.
+- Both side panels collapse to rails and stay collapsed after a reload.
+- Every icon has one meaning; new rectangle, circle and line tools.
+- Press ? for a shortcut sheet generated from the same command table as the menu.
+- Agent panel (Ctrl+J): pick Claude Code, Codex, Cursor or Ollama, watch each tool call, Stop, Undo This Turn, and allow or refuse outside agents.
+
 ## v0.3.2 · 2026-10-11
 
 Engine commands for iStack's menus and the embedded agent service.
