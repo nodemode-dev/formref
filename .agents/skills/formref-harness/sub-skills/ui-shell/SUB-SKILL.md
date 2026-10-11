@@ -18,6 +18,8 @@ Vanilla TypeScript and Vite, no framework, no icon library. `frontend/src/main.t
 | `app/bindings.ts` | inspector and preferences inputs, file inputs, palette, generated shortcut sheet, note fonts |
 | `app/tabs.ts` | board tabs, session save and restore |
 | `app/trash.ts` | the Trash dialog: put removed items back, restore deleted boards, empty |
+| `app/comments.ts` | the inspector comment thread, keyed rows patched in place, via `onInspector` |
+| `app/templates.ts` | New from Template and Save as Template |
 | `ui/context-menu.ts` | menu renderer: submenus, keyboard navigation, edge flipping, overlay root |
 | `ui/dock.ts` | dock collapse and the right panel tabs |
 | `ui/icons.ts` | every glyph; throws on an unknown name |

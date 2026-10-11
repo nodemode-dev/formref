@@ -10,7 +10,12 @@
 - [Scripts](#scripts)
 - [Canvas increment](#canvas-increment)
 - [Reference editing increment](#reference-editing-increment)
+- [v0.4.2 comments and templates](#v042-comments-and-templates)
 - [v0.4.1 shortcut changes and trash](#v041-shortcut-changes-and-trash)
+
+## v0.4.2 comments and templates
+
+`app/comments.ts` subscribes through a new `onInspector` hook in `editor.ts` and keeps one keyed row per comment, patching author, time, text and the resolved class in place; the section is static markup inside the inspector, so showing it moves nothing that was already painted. Each board item gains a hidden `item-comments` badge (open count) patched from `scene.ts`. `app/templates.ts` drives the template dialog and Save as Template. New icons: comment, resolve, template, template-save. Throttled run: zero layout shifts across cold load, the comment thread and the template dialog, no console errors; add, resolve, Ctrl+Z reopen and delete followed the board; Save as Template appeared under Your templates; Storyboard opened with 12 items. A look at all four starters led to taller heading and caption notes so their text shows, and to dropping the storyboard's frame links, which drew across the frames.
 - [v0.4.0 confirm card and readable notes](#v040-confirm-card-and-readable-notes)
 - [v0.3.3 shell rebuild](#v033-shell-rebuild)
 

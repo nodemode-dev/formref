@@ -1,5 +1,7 @@
 import asyncio
 import json
+import time
+import uuid
 from fastapi import APIRouter, Request, UploadFile, File, Form, HTTPException
 from fastapi.responses import Response, StreamingResponse
 from ..core.config import settings
@@ -8,6 +10,7 @@ from ..core.store import store, MissingBoard
 from ..models.requests import CreateBoard, BoardCommand
 from ..core.sampling import sample_image
 from ..core.features import enrich
+from ..core.templates import delete_template, list_templates, save_template, use_template
 from ..agent.service import agents
 
 router = APIRouter(prefix="/api")
@@ -58,6 +61,62 @@ def redo(board_id: str):
 @router.delete("/boards/{board_id}")
 def delete_board(board_id: str):
     return store.delete(board_id)
+
+def edit_comments(board_id: str, item_id: str, change):
+    """Read the item, change its comment list, write it back as one guarded update (one undo step)."""
+    with store.lock:
+        board = store.get(board_id)["board"]
+        target = next((entry for entry in board["items"] if entry["id"] == item_id), None)
+        if target is None:
+            raise MissingBoard("That item does not exist on this board.")
+        data = dict(target.get("data") or {})
+        # The engine merges data shallowly, so an emptied thread is written as [] rather than dropped.
+        data["comments"] = change(list(data.get("comments") or []))
+        return store.mutate(board_id, {"type": "update", "ids": [item_id], "patch": {"data": data}}, expected_revision=board["revision"])
+
+@router.post("/boards/{board_id}/items/{item_id}/comments", status_code=201)
+def add_comment(board_id: str, item_id: str, body: dict, request: Request):
+    text = body.get("text")
+    if not isinstance(text, str) or not text.strip() or len(text) > 4000:
+        raise ValueError("A comment needs 1 to 4000 characters of text.")
+    author = body.get("author") if isinstance(body.get("author"), str) and body.get("author").strip() else ("Agent" if request.headers.get("x-formref-client") else "You")
+    entry = {"id": uuid.uuid4().hex, "text": text.strip(), "author": author.strip()[:80], "at": time.time() * 1000, "resolved": False}
+    return edit_comments(board_id, item_id, lambda comments: comments + [entry])
+
+@router.post("/boards/{board_id}/items/{item_id}/comments/{comment_id}/resolve")
+def resolve_comment(board_id: str, item_id: str, comment_id: str, body: dict):
+    resolved = body.get("resolved", True)
+    if not isinstance(resolved, bool):
+        raise ValueError("resolved must be true or false.")
+    def change(comments):
+        if not any(c.get("id") == comment_id for c in comments):
+            raise MissingBoard("That comment does not exist.")
+        return [{**c, "resolved": resolved} if c.get("id") == comment_id else c for c in comments]
+    return edit_comments(board_id, item_id, change)
+
+@router.delete("/boards/{board_id}/items/{item_id}/comments/{comment_id}")
+def delete_comment(board_id: str, item_id: str, comment_id: str):
+    def change(comments):
+        if not any(c.get("id") == comment_id for c in comments):
+            raise MissingBoard("That comment does not exist.")
+        return [c for c in comments if c.get("id") != comment_id]
+    return edit_comments(board_id, item_id, change)
+
+@router.get("/templates")
+def templates():
+    return {"templates": list_templates()}
+
+@router.post("/templates", status_code=201)
+def save_as_template(body: dict):
+    return save_template(str(body.get("board_id", "")), str(body.get("title", "")), str(body.get("description", "")))
+
+@router.post("/templates/{template_id}/use", status_code=201)
+def new_from_template(template_id: str, body: dict | None = None):
+    return use_template(template_id, str((body or {}).get("title", "")))
+
+@router.delete("/templates/{template_id}")
+def remove_template(template_id: str):
+    return delete_template(template_id)
 
 @router.get("/trash")
 def trash(board_id: str = ""):

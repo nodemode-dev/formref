@@ -207,6 +207,26 @@ fn drawing_data(data: &Map<String, Value>) -> EngineResult<()> {
     Ok(())
 }
 
+/// Card comments: data.comments is a list of {id, text, author, at, resolved?}.
+fn comments(data: &Map<String, Value>) -> EngineResult<()> {
+    let Some(value) = data.get("comments") else { return Ok(()) };
+    let list = value.as_array().ok_or_else(|| EngineError::invalid("data.comments must be an array"))?;
+    if list.len() > 200 { return Err(EngineError::invalid("an item can hold at most 200 comments")); }
+    for entry in list {
+        let entry = entry.as_object().ok_or_else(|| EngineError::invalid("each comment must be an object"))?;
+        let id = entry.get("id").and_then(Value::as_str).ok_or_else(|| EngineError::invalid("comment.id must be a string"))?;
+        identifier(id, "comment.id")?;
+        let text = entry.get("text").and_then(Value::as_str).ok_or_else(|| EngineError::invalid("comment.text must be a string"))?;
+        if text.trim().is_empty() { return Err(EngineError::invalid("comment.text cannot be empty")); }
+        text_limit(text, "comment.text", 4000)?;
+        let author = entry.get("author").and_then(Value::as_str).ok_or_else(|| EngineError::invalid("comment.author must be a string"))?;
+        text_limit(author, "comment.author", 80)?;
+        data_number(entry, "at", 0.0, 1.0e13)?;
+        data_boolean(entry, "resolved")?;
+    }
+    Ok(())
+}
+
 impl Viewport {
     pub fn validate(&self) -> EngineResult<()> {
         finite(self.x, "viewport.x", -MAX_COORDINATE, MAX_COORDINATE)?;
@@ -235,6 +255,7 @@ impl Item {
         text_limit(&self.color, "item.color", 256)?;
         validate_json(&Value::Object(self.data.clone()), 0, nodes)?;
         validate_json(&Value::Object(self.extra.clone()), 0, nodes)?;
+        comments(&self.data)?;
         match self.kind.as_str() {
             "swatch" => {
                 let bytes = self.color.as_bytes();

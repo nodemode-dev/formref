@@ -224,9 +224,13 @@ export function updateOutline() {
   setText('outline-count', String(S.state.board.items.length));
 }
 
+const inspectorListeners: ((items: Item[]) => void)[] = [];
+export function onInspector(listener: (items: Item[]) => void) { inspectorListeners.push(listener); }
+
 export function updateInspector() {
   const items = selected();
   const first = items[0];
+  inspectorListeners.forEach(listener => listener(items));
   setText('selection-status', items.length ? `${items.length} selected` : 'No selection');
   setText('selection-badge', items.length ? String(items.length) : 'Board');
   $('board-details').hidden = !!first;

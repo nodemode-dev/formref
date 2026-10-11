@@ -26,6 +26,11 @@ Focused v0.2.0 and v0.3.0 log. The complete baseline engine map, protocol limits
 - [Verification](#verification)
 - [Limits](#limits)
 - [Reference editing](#reference-editing)
+- [Comments](#comments)
+
+## Comments
+
+v0.4.2: `model.rs::comments` validates `data.comments` on every item kind (at most 200; identifier id, non-empty text up to 4000, author up to 80, numeric `at`, boolean `resolved`), so a bad thread is refused whether it arrives from the UI, REST or MCP. Comments live in item data rather than a board-level list so they move, duplicate, undo and delete with their item for free. Probed on the release binary: an empty text and a string `resolved` were each rejected with no state change; a valid thread was accepted.
 
 ## Model
 

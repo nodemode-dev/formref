@@ -30,6 +30,14 @@ Several boards stay open as tabs. Ctrl+N opens a new tab, Alt+W closes the activ
 
 These are the defaults. Press ? for the current list: click any shortcut there and press new keys to change it. If another command already used those keys, they move to the one you are changing and the sheet says so. Keys the browser keeps (Ctrl+T, Ctrl+W, Ctrl+Q, Ctrl+R, Ctrl+L, F5 and others) and Space (pan) cannot be taken. Changes are saved in the data folder and come back on the next launch; Reset All returns every key to its default.
 
+## Comments
+
+Select one item and the inspector shows its comment thread. Write in the box and press Comment (or Ctrl+Enter). Each comment shows who wrote it (You, or Agent for anything an agent added) and when, with buttons to resolve or reopen it and to delete it. Every change is one undo step. Items with open comments carry an orange count in their top corner. Locked items cannot take new comments until unlocked.
+
+## Templates
+
+New from template (left panel or the palette) starts a board from a starter (moodboard, character sheet, storyboard, project plan) or from one of your own. Save as Template keeps the current board's items, links and canvas settings, without comments; images stay linked to the same files. Your templates can be deleted from the same dialog.
+
 ## Trash
 
 Deleted boards and anything removed from a board go to the Trash (left panel, or Open Trash in the palette). Restore puts removed items back where they were as one undoable step, or brings a deleted board back into the board list. Delete removes one entry for good, and Empty Trash (click twice) removes everything. Each board keeps its last 100 removals.

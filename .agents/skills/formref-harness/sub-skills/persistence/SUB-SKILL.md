@@ -16,6 +16,8 @@ description: FormRef's storage, assets, import and export. Load for saving or re
 | `backend/app/core/media.py`, `sampling.py` | decoding original pixels, colour sampling |
 | `backend/app/routers/agent.py` | `/api/session`: open tabs and the active tab; `/api/preferences`: shortcut overrides |
 | `store.py` trash methods, `/api/trash` routes in `routers/boards.py` | deleted boards and groups of removed items, restore and purge |
+| `backend/app/core/templates.py` | four built-in templates as code, saved templates in `templates/`, fresh ids on use |
+| `routers/boards.py` comment routes | comment threads written as one guarded `update` of `data.comments` |
 
 Data lives in `FORMREF_DATA_DIR` (default `~/.formref/data`): `boards/`, `assets/` (`[sha].blob` plus `[sha].json`), `trash/boards/`, `trash/items/[board].json` (last 100 removals per board), `agent.json`, `session.json`, `preferences.json`.
 

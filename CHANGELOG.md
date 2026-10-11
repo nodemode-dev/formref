@@ -1,5 +1,13 @@
 # FormRef changelog
 
+## v0.4.2 · 2026-10-11
+
+Comments and templates.
+
+- Comments: select an item to see its thread in the inspector, add a comment, resolve or reopen it, or delete it; each is one undo step. Items with open comments show a count. Agents can comment too, signed Agent.
+- Templates: New from template starts a board from a moodboard, character sheet, storyboard or project plan, or from your own; Save as Template keeps any board for reuse.
+- MCP: `add_comment`, `resolve_comment`, `list_templates`, `create_board_from_template`; 28 tools.
+
 ## v0.4.1 · 2026-10-11
 
 Trash and your own shortcuts.

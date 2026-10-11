@@ -201,6 +201,26 @@ async def remove_items(board_id: str, ids: list[str]) -> dict:
     """Remove item IDs and their connections in one undoable step."""
     return await command(board_id, {"type": "remove", "ids": ids})
 
+@mcp.tool(annotations=_write)
+async def add_comment(board_id: str, item_id: str, text: str) -> dict:
+    """Add a comment to an item's thread, signed Agent, as one undoable step. Comments are in the item's data.comments with id, text, author, at (epoch ms) and resolved."""
+    return await json_api("POST", f"/api/boards/{checked_id(board_id)}/items/{checked_id(item_id)}/comments", json={"text": text})
+
+@mcp.tool(annotations=_write)
+async def resolve_comment(board_id: str, item_id: str, comment_id: str, resolved: bool = True) -> dict:
+    """Mark a comment resolved (or reopen it with resolved false) as one undoable step."""
+    return await json_api("POST", f"/api/boards/{checked_id(board_id)}/items/{checked_id(item_id)}/comments/{checked_id(comment_id)}/resolve", json={"resolved": resolved})
+
+@mcp.tool(annotations=_read)
+async def list_templates() -> dict:
+    """List board templates: built-in ones (moodboard, character sheet, storyboard, project plan) and boards saved as templates."""
+    return await json_api("GET", "/api/templates")
+
+@mcp.tool(annotations=_write)
+async def create_board_from_template(template_id: str, title: str = "") -> dict:
+    """Create a new board from a template id returned by list_templates; title defaults to the template's name."""
+    return await json_api("POST", f"/api/templates/{template_id}/use", json={"title": title})
+
 @mcp.tool(annotations=_read)
 async def list_trash(board_id: str = "") -> dict:
     """List deleted boards and, when board_id is given, groups of items removed from that board, newest first, with their entry ids."""

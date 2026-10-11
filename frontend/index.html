@@ -71,6 +71,7 @@
         </div>
         <div id="board-list" class="board-list" tabindex="-1"></div>
         <button class="sidebar-row subtle" data-action="open-file"><span data-icon="import"></span><span>Open board file</span><span class="key">Ctrl O</span></button>
+        <button class="sidebar-row subtle" data-action="new-from-template"><span data-icon="template"></span><span>New from template</span><span></span></button>
         <button class="sidebar-row subtle" data-action="trash"><span data-icon="trash-open"></span><span>Trash</span><span></span></button>
         <div class="sidebar-line"></div>
         <div class="sidebar-group-head"><span>ON THIS BOARD</span><span id="outline-count" class="count">0</span></div>
@@ -274,6 +275,12 @@
             <div class="button-grid">
               <button class="button compact" data-action="duplicate"><span data-icon="duplicate"></span>Duplicate</button>
               <button class="button compact danger" data-action="delete"><span data-icon="trash"></span>Delete</button>
+            </div>
+            <div id="comment-section" class="comment-section" hidden>
+              <div class="section-label">COMMENTS <span id="comment-count" class="count">0</span></div>
+              <div id="comment-list" class="comment-list"></div>
+              <textarea id="comment-input" rows="2" placeholder="Add a comment" aria-label="New comment"></textarea>
+              <button id="comment-add" class="button compact"><span data-icon="comment"></span>Comment</button>
             </div>
           </section>
 
@@ -526,6 +533,18 @@
     <div class="modal-footer">
       <span id="shortcut-note" class="field-description shortcut-note">Click a shortcut to change it, then press the new keys. Esc cancels.</span>
       <button id="shortcut-reset" class="button compact">Reset All</button>
+    </div>
+  </dialog>
+  <dialog id="template-dialog" class="modal trash-modal">
+    <div class="modal-head">
+      <strong>New from Template</strong>
+      <button class="icon-button" data-action="close-overlays" data-icon="close" aria-label="Close templates"></button>
+    </div>
+    <div class="modal-body">
+      <div class="section-label">STARTERS</div>
+      <div id="template-built-in" class="trash-list"></div>
+      <div class="section-label">YOUR TEMPLATES</div>
+      <div id="template-saved" class="trash-list"></div>
     </div>
   </dialog>
   <dialog id="trash-dialog" class="modal trash-modal">

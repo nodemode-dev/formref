@@ -66,6 +66,21 @@
 .trash-text strong { font-size: 11px; font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .trash-text small { font-size: 10px; color: var(--text-muted); }
 #trash-empty { min-width: 128px; }
+.trash-row .button.primary svg { width: 14px; height: 14px; }
+.comment-section { display: flex; flex-direction: column; gap: var(--space-2); border-top: 1px solid var(--border-color); padding-top: var(--space-3); }
+.comment-section .section-label { display: flex; align-items: center; justify-content: space-between; }
+.comment-list { display: flex; flex-direction: column; gap: var(--space-2); max-height: 260px; overflow: auto; }
+.comment { padding: var(--space-2); border: 1px solid var(--border-color); border-radius: var(--radius); background: var(--bg-secondary); }
+.comment.resolved { opacity: .55; }
+.comment-head { display: grid; grid-template-columns: auto minmax(0, 1fr) auto auto; align-items: center; gap: var(--space-2); }
+.comment-head strong { font-size: 11px; font-weight: 600; }
+.comment-head small { font-size: 9px; color: var(--text-muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.comment p { margin: var(--space-1) 0 0; font-size: 11px; line-height: 1.6; white-space: pre-wrap; overflow-wrap: anywhere; color: var(--text-secondary); }
+.comment-section textarea { resize: vertical; min-height: 48px; font-size: 11px; }
+.comment-section #comment-add { align-self: flex-end; }
+.comment-section .button svg { width: 14px; height: 14px; }
+.item-comments { position: absolute; top: calc(var(--space-2) * -1); left: calc(var(--space-2) * -1); display: inline-flex; align-items: center; gap: 2px; height: 20px; padding: 0 var(--space-1); border-radius: var(--radius-sm); background: var(--accent-color); color: var(--text-on-accent); font: 600 10px var(--font-mono); pointer-events: none; }
+.item-comments svg { width: 12px; height: 12px; }
 .trash-row .button svg, #trash-empty svg { width: 14px; height: 14px; }
 
 .button svg, .export-row > span:first-child svg { flex: none; }

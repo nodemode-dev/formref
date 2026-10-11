@@ -6,6 +6,7 @@ import { sampleCommand } from '../ui/sample';
 import type { IconName } from '../ui/icons';
 import { close as closeTab, forget, replaceActiveWithNext } from './tabs';
 import { openTrash } from './trash';
+import { openTemplates, saveAsTemplate } from './templates';
 import {
   $, S, add, arrange, closeOverlays, defaultSettings, editable, error, execute, fit, history, host, inputDialog,
   matches, open, openEditor, placement, referenceView, refreshBoards, selected, selectedImages, selection,
@@ -256,6 +257,8 @@ export const COMMANDS: CommandDef[] = [
   { group: 'File', id: 'duplicate-board', label: 'Duplicate Board', icon: 'duplicate', run: async () => { if (!S.state) return; const next = await api.duplicate(S.state.board.id); closeOverlays(); await open(next.board.id, next); }, enabled: hasBoard },
   { group: 'File', id: 'delete-board', label: 'Delete Board', icon: 'trash', run: deleteBoard, enabled: hasBoard },
   { group: 'File', id: 'trash', label: 'Open Trash', icon: 'trash-open', run: openTrash },
+  { group: 'File', id: 'new-from-template', label: 'New from Template', icon: 'template', run: openTemplates },
+  { group: 'File', id: 'save-template', label: 'Save as Template', icon: 'template-save', run: saveAsTemplate, enabled: hasBoard },
   { group: 'File', id: 'sample', label: 'Create Sample Board', icon: 'board', run: sampleBoard },
 
   { group: 'Edit', id: 'undo', label: 'Undo', icon: 'undo', keys: ['mod+z'], run: () => history('undo'), enabled: () => !!S.state?.can_undo },

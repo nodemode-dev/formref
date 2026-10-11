@@ -11,7 +11,7 @@ description: FormRef's Rust board engine. Load for any change to the board model
 
 | File | Holds |
 | --- | --- |
-| `src/model.rs` | `Board`, `Item`, `Connection`, `BoardSettings`, every validation limit, per-kind data rules (image flags, crop, sampling, features, swatch colour, shape kind) |
+| `src/model.rs` | `Board`, `Item`, `Connection`, `BoardSettings`, every validation limit, per-kind data rules (image flags, crop, sampling, features, swatch colour, shape kind) and `comments` on any item |
 | `src/commands.rs` | `apply` (validate, clone, apply, validate again, commit), the dispatch match in `apply_inner`, add, remove, update, transform, duplicate, align, distribute, pack and `place_grid`, normalize, order, group, connect, settings, snap, batch |
 | `src/commands/image.rs` | rotate, opacity, image (flip, grayscale, sampling), crop |
 | `src/commands/arrange.rs` | sort by filename, aspect or similarity |
