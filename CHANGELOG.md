@@ -1,5 +1,16 @@
 # FormRef changelog
 
+## v0.3.2 · 2026-10-11
+
+Engine commands for iStack's menus and the embedded agent service.
+
+- Engine: rotate (90 degrees about each item's centre), opacity, image flags (flip, grayscale, smooth or nearest sampling), crop and reset, and sort by filename, aspect ratio or similarity. Each is one undoable step.
+- Similarity sort uses colour and layout vectors computed once from the original pixels.
+- MCP: `adjust_items` for the new image commands, `sort` in `arrange_items`; 21 tools.
+- Agent service: turns on Claude Code, Codex or Cursor with FormRef's MCP attached, or on Ollama, with Stop and Undo This Turn. The panel arrives with the new interface.
+- Outside agents are refused until allowed, as in FormVis.
+- Session route stores open board tabs for restore.
+
 ## v0.3.1 · 2026-10-11
 
 Repository hygiene before the v0.4.0 recovery build.
