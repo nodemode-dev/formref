@@ -1,6 +1,7 @@
 import asyncio
 import base64
 import binascii
+import contextvars
 from contextlib import asynccontextmanager
 import hashlib
 import json
@@ -58,8 +59,11 @@ async def ensure_api():
                     continue
             raise ValueError("FormRef API did not become ready within six seconds.")
 
+CLIENT_TOKEN = contextvars.ContextVar("formref_client_token", default=os.environ.get("FORMREF_AGENT_TOKEN", "outside"))
+
 async def api(method, path, **kwargs):
     await ensure_api()
+    kwargs.setdefault("headers", {})["X-FormRef-Client"] = CLIENT_TOKEN.get()
     async with httpx.AsyncClient(timeout=60, trust_env=False) as client:
         response = await client.request(method, API_URL + path, **kwargs)
     if response.is_error:
@@ -153,9 +157,18 @@ async def update_items(board_id: str, ids: list[str], patch: dict) -> dict:
 
 @mcp.tool(annotations=_write)
 async def arrange_items(board_id: str, ids: list[str], action: str, options: dict | None = None) -> dict:
-    """Arrange items using align, distribute, pack, normalize, order, group, ungroup or duplicate. Options: align mode; distribute axis/gap; pack gap/columns; normalize mode/value; order mode; group group_id."""
-    if action not in {"align", "distribute", "pack", "normalize", "order", "group", "ungroup", "duplicate"}:
+    """Arrange items using align, distribute, pack, sort, normalize, order, group, ungroup or duplicate. Options: align mode (left, right, top, bottom, center_x, center_y); distribute axis/gap; pack gap/columns; sort key (filename, aspect, similarity), gap, descending; normalize mode/value; order mode (front, forward, backward, back); group group_id. Similarity sort computes colour features from the original images."""
+    if action not in {"align", "distribute", "pack", "sort", "normalize", "order", "group", "ungroup", "duplicate"}:
         raise ValueError("Unsupported arrangement action.")
+    value = dict(options or {})
+    value.update(type=action, ids=ids)
+    return await command(board_id, value)
+
+@mcp.tool(annotations=_write)
+async def adjust_items(board_id: str, ids: list[str], action: str, options: dict | None = None) -> dict:
+    """Adjust items in one undoable step. rotate: degrees (default 90) about each item's own centre. opacity: value 0..1. image (images only): toggle list of flip_x, flip_y, grayscale and/or set {flip_x, flip_y, grayscale, sampling: smooth or nearest}. crop (images only): rect {x, y, width, height} normalised to the source, or reset true. Locked items reject the whole step."""
+    if action not in {"rotate", "opacity", "image", "crop"}:
+        raise ValueError("Unsupported adjustment action.")
     value = dict(options or {})
     value.update(type=action, ids=ids)
     return await command(board_id, value)

@@ -7,6 +7,7 @@ from ..core.builtins import registry
 from ..core.store import store, MissingBoard
 from ..models.requests import CreateBoard, BoardCommand
 from ..core.sampling import sample_image
+from ..core.features import enrich
 
 router = APIRouter(prefix="/api")
 
@@ -43,7 +44,7 @@ def sample(board_id: str, item_id: str, u: float, v: float):
 
 @router.post("/boards/{board_id}/commands")
 def apply_command(board_id: str, body: BoardCommand):
-    return store.mutate(board_id, command=body.command, expected_revision=body.expected_revision)
+    return store.mutate(board_id, command=enrich(board_id, body.command), expected_revision=body.expected_revision)
 
 @router.post("/boards/{board_id}/undo")
 def undo(board_id: str):
