@@ -251,8 +251,14 @@ impl Item {
             }
             "image" => {
                 for key in ["flip_x", "flip_y", "grayscale"] { data_boolean(&self.data, key)?; }
-                if self.data.get("sampling").is_some_and(|v| !v.is_string()) {
-                    return Err(EngineError::invalid("data.sampling must be a string"));
+                if self.data.get("sampling").is_some_and(|v| !v.as_str().is_some_and(|s| s == "smooth" || s == "nearest")) {
+                    return Err(EngineError::invalid("data.sampling must be smooth or nearest"));
+                }
+                if let Some(value) = self.data.get("features") {
+                    let vector = value.as_array().ok_or_else(|| EngineError::invalid("data.features must be an array"))?;
+                    if vector.len() > 512 || vector.iter().any(|n| n.as_f64().is_none()) {
+                        return Err(EngineError::invalid("data.features must be at most 512 numbers"));
+                    }
                 }
                 if let Some(value) = self.data.get("crop") {
                     let crop = value.as_object().ok_or_else(|| EngineError::invalid("image crop must be an object"))?;

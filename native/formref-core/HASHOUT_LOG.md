@@ -13,6 +13,8 @@ Focused v0.2.0 and v0.3.0 log. The complete baseline engine map, protocol limits
 | Existing revisions, undo/redo and JSON-lines protocol | [src/session.rs](src/session.rs), [src/main.rs](src/main.rs) | [History and protocol](#history-and-protocol) |
 | Cross-layer schemas and MCP mapping | [docs/CANVAS_CONTRACT.md](../../docs/CANVAS_CONTRACT.md) | [Contract](#contract) |
 | Release build and supplied stdin observations | [Cargo.toml](Cargo.toml), [Cargo.lock](Cargo.lock) | [Verification](#verification) |
+| iStack image commands: rotate, opacity, image flags, crop | [src/commands/image.rs](src/commands/image.rs) | [iStack commands](#istack-commands) |
+| Sort by filename, aspect and similarity; shared grid placement | [src/commands/arrange.rs](src/commands/arrange.rs), [src/commands.rs](src/commands.rs) :: place_grid | [iStack commands](#istack-commands) |
 
 ## Table of contents
 
@@ -92,3 +94,15 @@ Manually supplied 44 protocol requests and retained the full response readbacks 
 Observed default, mixed-case six-digit and eight-digit transparent swatches; canonical alpha edits and color undo/redo; Markdown source and Unicode document text; legacy and explicit plaintext; rejected short, missing-hash, non-hex, seven-digit, whitespace, Unicode-digit, numeric and CSS-function colors; rejected format values, nulls, booleans, numbers, objects and incorrect case. A failed rename/text/color batch retained the original title, source, revision 7 and history. Locked swatch/document edits rejected. A saved document was undone and redone, and unchanged format retained revision 13. New kinds participated in grouping and translation with undo/redo. Native open/get retained swatch alpha, provenance, format, literal source and geometry; invalid swatch/document snapshots failed explicitly.
 
 This record establishes engine validation and source-state readback only. The reopened snapshot contains a manually supplied projection of the observed source items, not a portable ZIP round trip. Maximum-size stress, sampling, safe rendered Markdown, focused editor behavior, exports, process persistence and actual MCP transport remain separate owning-agent acceptance checks. Edited existing files: `src/model.rs` and this log; rewritten files: zero. No shared contract, version file or other agent's source was edited.
+
+## iStack commands
+
+- refers-to: `src/commands/image.rs` :: rotate, opacity, flags, crop; `src/commands/arrange.rs` :: sort; `src/commands.rs` :: place_grid, dispatch arms
+- kind: rationale
+- logged: v0.3.2 · 2026-10-11
+
+iStack's Images and Organize menus (Rotate 90, Set Opacity, Flip, Toggle Grayscale, Toggle Pixel Art, Crop, Reset Crop, Sort by Aspect Ratio, Sort by Filename, Sort by Similarity) needed engine commands so the menu, REST, MCP and the agent all reach one undoable step instead of hand-built `update` patches. New families live in their own files under `src/commands/` and are registered as match arms in `apply_inner`; the existing commands were not moved, because moving them changes nothing a user can see.
+
+`rotate` turns each selected root about its own centre (default 90 degrees, range -360 to 360), so a mixed selection rotates in place rather than around the group. `image` only touches image items and refuses a selection with none; `set.sampling` accepts `smooth` or `nearest`, and the model now rejects any other sampling string. `crop` takes a normalised rect that must fit the source, or `reset: true`, which removes the crop key. `sort` reuses pack's grid placement, which was split out of `pack` as `place_grid`; ties keep board order, so the result is deterministic. Similarity sorting walks nearest neighbours by Euclidean distance over `data.features` (at most 512 numbers, computed by the backend at ingest); items without features keep their order at the end.
+
+Run on 2026-10-11 through the release binary with 20 JSON-lines requests: rotate, opacity, image flags, crop and reset, all three sort keys, and six rejected commands (out-of-range opacity, no images, bad sampling, overflowing crop, unknown key, locked item), each leaving the revision unchanged; two undos restored the earlier layout exactly. The request file was a one-off in the session scratch folder, not committed.

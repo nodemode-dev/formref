@@ -4,6 +4,9 @@ use crate::{decode, required_string, EngineError, EngineResult};
 use serde_json::{Map, Value};
 use std::collections::{HashMap, HashSet};
 
+mod arrange;
+mod image;
+
 pub struct IdSource {
     next: u64,
 }
@@ -175,6 +178,11 @@ fn apply_inner(board: &mut Board, command: &Value, source: &mut IdSource, depth:
             for index in indices { board.items[index].group_id = None; }
         }
         "order" => order(board, command)?,
+        "rotate" => image::rotate(board, command)?,
+        "opacity" => image::opacity(board, command)?,
+        "image" => image::flags(board, command)?,
+        "crop" => image::crop(board, command)?,
+        "sort" => arrange::sort(board, command)?,
         "connect" => {
             let mut connection: Connection = decode(field(command, "connection")?.clone())?;
             let indices = geometry::selected(board, &[connection.from.clone(), connection.to.clone()])?;
@@ -336,6 +344,10 @@ fn pack(board: &mut Board, command: &Value) -> EngineResult<()> {
             .ok_or_else(|| EngineError::invalid("columns must be a positive integer up to 10000"))? as usize,
         None => (roots.len() as f64).sqrt().ceil() as usize,
     };
+    place_grid(board, roots, gap, columns)
+}
+
+fn place_grid(board: &mut Board, roots: Vec<usize>, gap: f64, columns: usize) -> EngineResult<()> {
     let origin = geometry::collective(board, &geometry::descendants(board, &roots))?;
     let mut x = origin.left;
     let mut y = origin.top;
