@@ -159,3 +159,17 @@ async def clip(body: dict):
 
 
 __all__ = ["token", "paired", "boards", "clip", "MissingBoard"]
+
+
+if __name__ == "__main__":
+    # ./formref clipper prints what the extension needs; ./formref clipper --new unpairs the old one first.
+    import sys
+    from pathlib import Path
+    folder = Path(__file__).resolve().parents[3] / "clipper"
+    value = token(reset="--new" in sys.argv[1:])
+    print("FormRef Clipper")
+    print(f"  Extension folder: {folder}")
+    print("  Chrome: Extensions, Developer mode, Load unpacked, pick that folder.")
+    print("  Firefox: about:debugging, This Firefox, Load Temporary Add-on, pick manifest.json in it.")
+    print(f"  Pairing token: {value}")
+    print("  Paste the token into the clipper options and press Save and connect.")

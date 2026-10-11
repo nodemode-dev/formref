@@ -7,7 +7,7 @@ python_bin="${FORMREF_PYTHON:-$root/backend/venv/bin/python}"
 if [[ "${OS:-}" == "Windows_NT" ]]; then python_bin="${FORMREF_PYTHON:-$root/backend/venv/Scripts/python.exe}"; fi
 case "$action" in
   help|--help|-h)
-    printf '%s\n' 'Usage: ./formref [install|dev|core|build|backend|frontend|serve|mcp|desktop|doctor|help]'
+    printf '%s\n' 'Usage: ./formref [install|dev|core|build|backend|frontend|serve|mcp|desktop|clipper [--new]|doctor|help]'
     ;;
   doctor)
     printf '%s\n' 'FormRef local environment'
@@ -43,6 +43,10 @@ case "$action" in
     cd backend
     exec "$python_bin" -m app.mcp_server
     ;;
+  clipper)
+    cd backend
+    exec "$python_bin" -m app.core.clipper "${@:2}"
+    ;;
   desktop)
     api_pid=""
     if ! curl --silent --fail --connect-timeout 1 --max-time 2 http://127.0.0.1:8196/api/health >/dev/null 2>&1; then
@@ -53,5 +57,5 @@ case "$action" in
     cd frontend
     npm run tauri -- dev
     ;;
-  *) printf '%s\n' 'Usage: ./formref [install|dev|core|build|backend|frontend|serve|mcp|desktop]' >&2; exit 2 ;;
+  *) printf '%s\n' 'Usage: ./formref [install|dev|core|build|backend|frontend|serve|mcp|desktop|clipper [--new]]' >&2; exit 2 ;;
 esac

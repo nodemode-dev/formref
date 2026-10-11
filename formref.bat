@@ -8,7 +8,7 @@ if "%ACTION%"=="" set ACTION=dev
 if "%ACTION%"=="--help" set ACTION=help
 if "%ACTION%"=="-h" set ACTION=help
 if "%ACTION%"=="help" (
-  echo Usage: formref.bat [install^|dev^|core^|build^|backend^|frontend^|serve^|mcp^|desktop^|help]
+  echo Usage: formref.bat [install^|dev^|core^|build^|backend^|frontend^|serve^|mcp^|desktop^|clipper [--new]^|help]
   exit /b 0
 )
 if "%ACTION%"=="backend" (call backend\boot_backend.bat & exit /b !errorlevel!)
@@ -24,6 +24,11 @@ if "%ACTION%"=="build" (
 if "%ACTION%"=="mcp" (
   cd backend
   "%PYTHON_BIN%" -m app.mcp_server
+  exit /b !errorlevel!
+)
+if "%ACTION%"=="clipper" (
+  cd backend
+  "%PYTHON_BIN%" -m app.core.clipper %2
   exit /b !errorlevel!
 )
 if "%ACTION%"=="serve" (
@@ -51,5 +56,5 @@ if "%ACTION%"=="dev" (
   start "FormRef UI" cmd /k call "%~dp0frontend\boot_frontend.bat"
   exit /b 0
 )
-echo Usage: formref.bat [install^|dev^|core^|build^|backend^|frontend^|serve^|mcp^|desktop^|help]
+echo Usage: formref.bat [install^|dev^|core^|build^|backend^|frontend^|serve^|mcp^|desktop^|clipper [--new]^|help]
 exit /b 2
