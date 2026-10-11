@@ -18,7 +18,7 @@ export class HostLink {
   assign(files: AssignFile[]) { if (!this.ready) throw new Error('NodeMode host has not initialized'); window.parent.postMessage({ type: `plugin:${this.pluginId}:assign`, payload: { files } }, this.origin); }
 }
 export function dataUrl(blob: Blob): Promise<string> { return new Promise((resolve, reject) => { const reader = new FileReader(); reader.onload = () => resolve(String(reader.result)); reader.onerror = () => reject(new Error('Could not read asset')); reader.readAsDataURL(blob); }); }
-export interface NativeWindow { always_on_top: boolean; fullscreen: boolean; decorations: boolean; click_through: boolean }
+export interface NativeWindow { always_on_top: boolean; always_on_bottom: boolean; fullscreen: boolean; decorations: boolean; click_through: boolean }
 export function nativeInvoke<T>(command: string, args: Record<string, unknown> = {}): Promise<T> | undefined {
   const tauri = (window as unknown as { __TAURI__?: { core?: { invoke<T>(command: string, args: Record<string, unknown>): Promise<T> } } }).__TAURI__;
   return tauri?.core?.invoke<T>(command, args);

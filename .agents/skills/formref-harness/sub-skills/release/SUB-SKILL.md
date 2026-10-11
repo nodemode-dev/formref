@@ -7,6 +7,8 @@ description: Shipping a FormRef turn. Load to bump the version, write commits wi
 
 ## Version sites
 
+Version format is `v*.**.*`, as the owner set: the patch is one digit and the minor may grow to two. After `x.y.9` the next release is `x.(y+1).1`, never `x.y.10` (v0.4.10 broke this; the owner moved the line to v0.5.1).
+
 Bump all of these by hand, together, to the same `x.y.z`: `frontend/package.json`, both version fields at the top of `frontend/package-lock.json`, `VERSION` in `backend/app/core/config.py`, `version` in `native/formref-core/Cargo.toml` and its own entry in `Cargo.lock`, `version` in `src-tauri/Cargo.toml` and the `formref-desktop` entry in its `Cargo.lock`, `version` in `src-tauri/tauri.conf.json`, `version` in `clipper/manifest.json`, the footer label in `frontend/index.html`, and the version badge in `README.md`. Add a `CHANGELOG.md` entry in plain language.
 
 Interim turns of a plan are patch versions; the finished plan takes the minor version it named.

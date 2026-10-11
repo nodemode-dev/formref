@@ -47,6 +47,8 @@ export const S = {
   pending: 0,
   viewportTimer: 0,
   toastTimer: 0,
+  /** Set by the presenter: the audience's camera is never saved as the board's view. */
+  presenting: false,
   shapeKind: 'rect' as 'rect' | 'ellipse' | 'line',
   pointer: null as Point | null,
 };
@@ -145,7 +147,7 @@ export function drawCamera() {
 export function rememberCamera() {
   window.clearTimeout(S.viewportTimer);
   const id = S.state?.board.id;
-  if (!id) return;
+  if (!id || S.presenting) return;
   S.viewportTimer = window.setTimeout(() => {
     if (S.state?.board.id === id) void execute({ type: 'viewport', viewport: { ...S.camera } });
   }, 400);

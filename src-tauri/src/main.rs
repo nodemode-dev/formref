@@ -9,10 +9,13 @@ use tauri_plugin_global_shortcut::{Code, GlobalShortcutExt, Modifiers, Shortcut,
 /// Click-through has no getter in Tauri, so the shell remembers it. While it is on, the window cannot be
 /// clicked at all, which is why a global shortcut (Ctrl or Cmd + Alt + K) can always turn it back off.
 static CLICK_THROUGH: AtomicBool = AtomicBool::new(false);
+/// Always on bottom has no getter either. It keeps the board behind other windows, like a desktop backdrop.
+static ON_BOTTOM: AtomicBool = AtomicBool::new(false);
 
 #[derive(Serialize)]
 struct WindowState {
     always_on_top: bool,
+    always_on_bottom: bool,
     fullscreen: bool,
     decorations: bool,
     click_through: bool,
@@ -35,6 +38,7 @@ fn read_window_state(window: &WebviewWindow) -> Result<WindowState, String> {
     main_window_only(window)?;
     Ok(WindowState {
         always_on_top: window.is_always_on_top().map_err(|error| error.to_string())?,
+        always_on_bottom: ON_BOTTOM.load(Ordering::SeqCst),
         fullscreen: window.is_fullscreen().map_err(|error| error.to_string())?,
         decorations: window.is_decorated().map_err(|error| error.to_string())?,
         click_through: CLICK_THROUGH.load(Ordering::SeqCst),
@@ -50,6 +54,7 @@ fn window_state(window: WebviewWindow) -> Result<WindowState, String> {
 fn window_configure(
     window: WebviewWindow,
     always_on_top: Option<bool>,
+    always_on_bottom: Option<bool>,
     fullscreen: Option<bool>,
     decorations: Option<bool>,
     click_through: Option<bool>,
@@ -58,8 +63,19 @@ fn window_configure(
     if let Some(value) = click_through {
         set_click_through(&window, value)?;
     }
+    // On top and on bottom exclude each other: turning one on turns the other off.
     if let Some(value) = always_on_top {
+        if value && ON_BOTTOM.swap(false, Ordering::SeqCst) {
+            window.set_always_on_bottom(false).map_err(|error| error.to_string())?;
+        }
         window.set_always_on_top(value).map_err(|error| error.to_string())?;
+    }
+    if let Some(value) = always_on_bottom {
+        if value {
+            window.set_always_on_top(false).map_err(|error| error.to_string())?;
+        }
+        window.set_always_on_bottom(value).map_err(|error| error.to_string())?;
+        ON_BOTTOM.store(value, Ordering::SeqCst);
     }
     if let Some(value) = fullscreen {
         window.set_fullscreen(value).map_err(|error| error.to_string())?;

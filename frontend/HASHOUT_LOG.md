@@ -10,11 +10,16 @@
 - [Scripts](#scripts)
 - [Canvas increment](#canvas-increment)
 - [Reference editing increment](#reference-editing-increment)
+- [v0.5.1 editing while presenting, always on bottom](#v051-editing-while-presenting-always-on-bottom)
 - [v0.4.10 clipper pairing and card footer icons](#v0410-clipper-pairing-and-card-footer-icons)
 - [v0.4.9 background removal and a steady toast](#v049-background-removal-and-a-steady-toast)
 - [v0.4.8 desktop window controls and WebKit icons](#v048-desktop-window-controls-and-webkit-icons)
 - [v0.4.7 synced notes, map cards, inline edit commit](#v047-synced-notes-map-cards-inline-edit-commit)
 - [v0.4.6 GIF frames and document export](#v046-gif-frames-and-document-export)
+
+## v0.5.1 editing while presenting, always on bottom
+
+`present.ts` keeps its capture-phase guards but each now checks `editing`; the Edit button (in `#present-actions`, beside Exit Presentation) flips it and the `presenting-edit` class, which brings back the selection outline, handles, card footers and the lock badge on locked cards only, while the panels stay hidden. With Edit on, Escape still leaves unless it is ending a text edit, closing a menu or closing the enlarged card. `S.presenting` makes `rememberCamera` skip saving, so neither the fitted camera nor the zoom keys write the board's view; the zoom keys used to. Preferences gained Always on bottom; both window boxes are refreshed from the shell's reply, since each switches the other off. Run in throttled Chromium: read-only drag and Delete did nothing; with Edit a drag moved the note, handles showed, an inline edit saved and Ctrl+Z undid it; Edit off blocked drags again; leaving reset Edit; the saved view was unchanged; no shifts, no console errors. The run caught the lock badge showing on every card in Edit mode, fixed before commit.
 
 ## v0.4.10 clipper pairing and card footer icons
 

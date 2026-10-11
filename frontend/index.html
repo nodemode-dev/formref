@@ -472,6 +472,7 @@
       <section id="native-controls" hidden>
         <div class="section-label">DESKTOP WINDOW</div>
         <label class="check-row"><input id="native-top" type="checkbox">Always on top</label>
+        <label class="check-row"><input id="native-bottom" type="checkbox">Always on bottom (behind other windows)</label>
         <label class="check-row"><input id="native-fullscreen" type="checkbox">Fullscreen</label>
         <label class="check-row"><input id="native-decorations" type="checkbox" checked>Window decorations</label>
         <label class="field-row"><span>Window opacity</span><input id="native-opacity" type="range" min="20" max="100" step="5" value="100" aria-label="Window opacity"></label>
@@ -582,7 +583,10 @@
       <button id="shortcut-reset" class="button compact">Reset All</button>
     </div>
   </dialog>
-  <button id="present-exit" class="button compact present-exit" hidden><span data-icon="close"></span>Exit Presentation</button>
+  <div id="present-actions" class="present-actions" hidden>
+    <button id="present-edit" class="button compact" aria-pressed="false" title="Let the board be edited while presenting"><span data-icon="pen"></span>Edit</button>
+    <button id="present-exit" class="button compact"><span data-icon="close"></span>Exit Presentation</button>
+  </div>
   <dialog id="present-dialog" class="present-card" aria-labelledby="present-title">
     <div class="present-head">
       <strong id="present-title"></strong>

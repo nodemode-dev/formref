@@ -309,14 +309,17 @@ $('presentation-interval').addEventListener('change', () => {
 const native = nativeInvoke<NativeWindow>('window_state');
 if (native) {
   $('native-controls').hidden = false;
-  void native.then(result => {
+  const showNative = (result: NativeWindow) => {
     setInput('native-top', result.always_on_top);
+    setInput('native-bottom', result.always_on_bottom);
     setInput('native-fullscreen', result.fullscreen);
     setInput('native-decorations', result.decorations);
     setInput('native-click-through', result.click_through);
-  }).catch(error);
-  for (const [id, key] of [['native-top', 'alwaysOnTop'], ['native-fullscreen', 'fullscreen'], ['native-decorations', 'decorations'], ['native-click-through', 'clickThrough']]) {
-    $(id).addEventListener('change', () => void nativeInvoke('window_configure', { [key]: $<HTMLInputElement>(id).checked })?.catch(error));
+  };
+  void native.then(showNative).catch(error);
+  // The shell answers with the whole window state, so on top and on bottom switch each other off in view too.
+  for (const [id, key] of [['native-top', 'alwaysOnTop'], ['native-bottom', 'alwaysOnBottom'], ['native-fullscreen', 'fullscreen'], ['native-decorations', 'decorations'], ['native-click-through', 'clickThrough']]) {
+    $(id).addEventListener('change', () => void nativeInvoke<NativeWindow>('window_configure', { [key]: $<HTMLInputElement>(id).checked })?.then(showNative).catch(error));
   }
   // Window opacity: the desktop window is transparent, so lowering the page's opacity shows what is behind it.
   const opacity = $<HTMLInputElement>('native-opacity');

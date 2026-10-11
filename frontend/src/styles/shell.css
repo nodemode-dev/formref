@@ -101,8 +101,15 @@
 .app.presenting .board-item.selected { outline-color: transparent; }
 .app.presenting .card-footer, .app.presenting .item-lock, .app.presenting .todo-checkbox { visibility: hidden; }
 .app.presenting .resize-handle, .app.presenting .rotate-handle { visibility: hidden !important; }
-.present-exit { position: fixed; top: var(--space-3); right: var(--space-3); z-index: var(--z-popover); background: var(--glass-bg); backdrop-filter: blur(24px); }
-.present-exit svg { width: 14px; height: 14px; }
+.present-actions { position: fixed; top: var(--space-3); right: var(--space-3); z-index: var(--z-popover); display: flex; gap: var(--space-2); }
+.present-actions .button { background: var(--glass-bg); backdrop-filter: blur(24px); }
+.present-actions .button[aria-pressed="true"] { border-color: var(--accent-line); color: var(--accent-ink); background: var(--accent-soft); }
+.present-actions svg { width: 14px; height: 14px; }
+/* Editing while presenting: the chrome stays hidden, but selection, handles and card controls come back. */
+.app.presenting.presenting-edit .board-item { cursor: auto; }
+.app.presenting.presenting-edit .board-item.selected { outline-color: var(--accent-color); }
+.app.presenting.presenting-edit .card-footer, .app.presenting.presenting-edit .board-item.locked .item-lock, .app.presenting.presenting-edit .todo-checkbox { visibility: visible; }
+.app.presenting.presenting-edit .board-item.selected:not(.locked) .resize-handle, .app.presenting.presenting-edit .board-item.selected:not(.locked) .rotate-handle { visibility: visible !important; }
 .present-card { width: min(1100px, calc(100vw - 48px)); height: min(820px, calc(100vh - 48px)); padding: 0; border: 1px solid var(--glass-border); border-radius: var(--radius-xl); background: var(--bg-primary); color: var(--text-primary); box-shadow: var(--shadow-lg); z-index: var(--z-overlay); }
 .present-card[open] { display: grid; grid-template-rows: auto minmax(0, 1fr); }
 .present-card::backdrop { background: var(--bg-scrim); backdrop-filter: blur(6px); }

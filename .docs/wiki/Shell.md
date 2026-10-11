@@ -66,7 +66,7 @@ Add Table (Insert menu or palette) makes a table card. Double-click a cell to ty
 
 ## Desktop window
 
-`./formref desktop` runs FormRef in its own window (it needs the [Tauri prerequisites](https://v2.tauri.app/start/prerequisites/)). Preferences then shows Desktop Window controls: Always on top, Fullscreen, Window decorations (off for a frameless window), Window opacity to see other apps through the board, and Click-through so clicks pass to the app underneath. A click-through window cannot be clicked, so Ctrl+Alt+K (Cmd+Alt+K on macOS) turns it on and off from anywhere.
+`./formref desktop` runs FormRef in its own window (it needs the [Tauri prerequisites](https://v2.tauri.app/start/prerequisites/)). Preferences then shows Desktop Window controls: Always on top, Always on bottom (the board stays behind other windows, like a backdrop; it switches Always on top off, and the other way round), Fullscreen, Window decorations (off for a frameless window), Window opacity to see other apps through the board, and Click-through so clicks pass to the app underneath. A click-through window cannot be clicked, so Ctrl+Alt+K (Cmd+Alt+K on macOS) turns it on and off from anywhere.
 
 ## Synced notes and maps
 
@@ -84,7 +84,9 @@ In a note or document's editor, Export saves that one card as PDF, Word (.docx),
 
 ## Presenting
 
-P (or Present in the right-click menu and palette) shows the board full screen with every panel and tool hidden, fitted to the screen. Nothing can be edited: clicks, keys and the menu are held. Click a card to enlarge it (an image at full size, a note or document as large text); the arrow keys step through cards in reading order, top to bottom and left to right. Escape closes the enlarged card, and Escape again (or Exit Presentation) leaves, putting the camera back where it was. Presenting never changes the saved board.
+P (or Present in the right-click menu and palette) shows the board full screen with every panel and tool hidden, fitted to the screen. Nothing can be edited: clicks, keys and the menu are held. Click a card to enlarge it (an image at full size, a note or document as large text); the arrow keys step through cards in reading order, top to bottom and left to right. Escape closes the enlarged card, and Escape again (or Exit Presentation) leaves, putting the camera back where it was.
+
+Edit, beside Exit Presentation, lets you keep working while presenting: move and resize cards, edit note text in place, use the right-click menu and undo, with the panels still hidden. Press Edit again to lock the board for the audience. Presenting never changes the board's saved view; edits you make with Edit on are saved like any others.
 
 ## Stability rules
 

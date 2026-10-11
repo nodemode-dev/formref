@@ -13,6 +13,10 @@ src-tauri/
   src/main.rs                        Native window modes and launch sizing
 ```
 
+## v0.5.1 · Always on bottom
+
+`window_configure` takes `always_on_bottom`. Tauri has no getter for it, so `ON_BOTTOM` remembers it like `CLICK_THROUGH`, and `window_state` reports it. On top and on bottom exclude each other in the shell itself (turning one on turns the other off), and the reply carries the whole state so Preferences shows both boxes truthfully. Compiled on Linux; not observed, because Xvfb has no window manager to stack windows.
+
 ## v0.4.8 · First compiled run, opacity and click-through
 
 The shell was compiled for the first time (Rust 1.97, WebKitGTK 4.1 2.52 installed from Ubuntu) and run under Xvfb against the Vite dev server and the FastAPI service: the window appeared, the board loaded through the loopback service, and the UI rendered in WebKit. That exposed one WebKit-only defect: SVG icons created by script inside grid rows had no size and drew at 300 by 150 (Chromium clipped them), fixed with explicit sizes in `shell.css`.

@@ -1,5 +1,14 @@
 # FormRef changelog
 
+## v0.5.1 · 2026-10-11
+
+Editing while presenting, always on bottom, clipper command. Versions now follow `v*.**.*`, so this release follows v0.4.10.
+
+- Presenting has an Edit button: turn it on to move, resize and edit cards in front of an audience, with the panels still hidden. Turn it off to lock the board again.
+- Presenting never saves the audience's zoom as the board's view; zooming while presenting used to.
+- Desktop shell: Always on bottom keeps the board behind other windows. It and Always on top switch each other off.
+- `./formref clipper` prints the clipper folder and pairing token; `./formref clipper --new` makes a new token.
+
 ## v0.4.10 · 2026-10-11
 
 Browser clipper.
