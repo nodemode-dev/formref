@@ -6,10 +6,10 @@ import { icon } from '../ui/icons';
 import { NOTE_FONTS } from '../ui/scene';
 import {
   $, S, applyState, closeOverlays, defaultSettings, editable, error, execute, matches, open, referenceView, scene,
-  selected, selection, setInput, setTool, toast, updateInspector, updateOutline, upload,
+  selected, selection, setInput, setText, setTool, toast, updateInspector, updateOutline, upload,
 } from './editor';
 import type { Tool } from './editor';
-import { COMMANDS, primaryKey, run } from './commands';
+import { COMMANDS, RESERVED_KEYS, applyKeyOverrides, assignKey, comboOf, keyLabel, keyOverrides, onKeysChanged, primaryKey, run } from './commands';
 import { replaceActiveWithNext } from './tabs';
 
 for (const node of document.querySelectorAll<HTMLElement>('[data-icon]')) node.prepend(icon(node.dataset.icon!));
@@ -71,11 +71,21 @@ export function openPalette() {
   $('command-search').focus();
 }
 
+// Shortcut sheet: every command that has or had a key; click a key to reassign it.
+const shortcutKeys = new Map<string, HTMLButtonElement>();
+const SHORTCUT_IDS = COMMANDS.filter(c => c.keys?.length).map(c => c.id);
+let capturing: string | null = null;
+
+function keyText(id: string): string {
+  const command = COMMANDS.find(c => c.id === id)!;
+  return command.keys?.length ? command.keys.map(k => keyLabel(k)).join('  or  ') : 'None';
+}
+
 (function buildShortcutSheet() {
   const sheet = $('shortcut-list');
   let group = '';
-  for (const command of COMMANDS) {
-    if (!command.keys?.length) continue;
+  for (const id of SHORTCUT_IDS) {
+    const command = COMMANDS.find(c => c.id === id)!;
     if (command.group !== group) {
       group = command.group;
       const head = document.createElement('div');
@@ -86,11 +96,75 @@ export function openPalette() {
     const label = document.createElement('span');
     label.className = 'shortcut-label';
     label.append(icon(command.icon || 'keyboard'), document.createTextNode(command.label));
-    const key = document.createElement('kbd');
-    key.textContent = command.keys.map(k => primaryKey({ ...command, keys: [k] })).join('  or  ');
+    const key = document.createElement('button');
+    key.className = 'shortcut-key';
+    key.title = `Change the shortcut for ${command.label}`;
+    key.textContent = keyText(id);
+    key.addEventListener('click', () => startCapture(id));
+    shortcutKeys.set(id, key);
     sheet.append(label, key);
   }
 })();
+
+function refreshShortcutText() {
+  for (const [id, key] of shortcutKeys) {
+    const text = capturing === id ? 'Press keys…' : keyText(id);
+    if (key.textContent !== text) key.textContent = text;
+    key.classList.toggle('capturing', capturing === id);
+  }
+  for (const [id, row] of paletteRows) {
+    const kbd = row.querySelector('kbd')!;
+    const text = primaryKey(COMMANDS.find(c => c.id === id)!);
+    if (kbd.textContent !== text) kbd.textContent = text;
+  }
+}
+onKeysChanged(refreshShortcutText);
+
+function shortcutNote(text: string) {
+  setText('shortcut-note', text);
+}
+
+function startCapture(id: string) {
+  capturing = id;
+  refreshShortcutText();
+  shortcutNote('Press the new keys. Esc cancels.');
+}
+
+function stopCapture(note = 'Click a shortcut to change it, then press the new keys. Esc cancels.') {
+  capturing = null;
+  refreshShortcutText();
+  shortcutNote(note);
+}
+
+function saveKeys() {
+  void fetch('/api/preferences', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ keys: keyOverrides() }) })
+    .then(response => { if (!response.ok) toast('Shortcuts were not saved.'); });
+}
+
+window.addEventListener('keydown', event => {
+  if (!capturing) return;
+  if (['Control', 'Shift', 'Alt', 'Meta'].includes(event.key)) return;
+  event.preventDefault();
+  event.stopImmediatePropagation();
+  if (event.key === 'Escape') { stopCapture(); return; }
+  const combo = comboOf(event);
+  if (RESERVED_KEYS.has(combo)) { shortcutNote(`${keyLabel(combo)} belongs to the browser or the canvas; choose another.`); return; }
+  const id = capturing;
+  const taken = assignKey(id, combo);
+  saveKeys();
+  stopCapture(taken ? `${keyLabel(combo)} moved here from ${taken.label}.` : `${COMMANDS.find(c => c.id === id)!.label} is now ${keyLabel(combo)}.`);
+}, true);
+
+$<HTMLDialogElement>('help-dialog').addEventListener('close', () => { if (capturing) stopCapture(); });
+$('shortcut-reset').addEventListener('click', () => {
+  applyKeyOverrides({});
+  saveKeys();
+  stopCapture('Every shortcut is back to its default.');
+});
+
+void fetch('/api/preferences').then(response => response.ok ? response.json() : { keys: {} })
+  .then((saved: { keys: Record<string, string[]> }) => { if (Object.keys(saved.keys || {}).length) applyKeyOverrides(saved.keys); })
+  .catch(() => undefined);
 
 $('files-input').addEventListener('change', event => {
   const input = event.target as HTMLInputElement;

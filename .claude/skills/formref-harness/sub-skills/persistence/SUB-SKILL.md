@@ -14,9 +14,14 @@ description: FormRef's storage, assets, import and export. Load for saving or re
 | `backend/app/core/exports.py` | portable, JSON, PNG, SVG and Markdown exports |
 | `backend/app/core/features.py` | colour and layout vectors for similarity sort, cached on the asset |
 | `backend/app/core/media.py`, `sampling.py` | decoding original pixels, colour sampling |
-| `backend/app/routers/agent.py` | `/api/session`: open tabs and the active tab |
+| `backend/app/routers/agent.py` | `/api/session`: open tabs and the active tab; `/api/preferences`: shortcut overrides |
+| `store.py` trash methods, `/api/trash` routes in `routers/boards.py` | deleted boards and groups of removed items, restore and purge |
 
-Data lives in `FORMREF_DATA_DIR` (default `~/.formref/data`): `boards/`, `assets/` (`[sha].blob` plus `[sha].json`), `agent.json`, `session.json`.
+Data lives in `FORMREF_DATA_DIR` (default `~/.formref/data`): `boards/`, `assets/` (`[sha].blob` plus `[sha].json`), `trash/boards/`, `trash/items/[board].json` (last 100 removals per board), `agent.json`, `session.json`, `preferences.json`.
+
+## Trash
+
+Deleting a board moves its record to `trash/boards/` with `deleted_at`. Any applied command containing `remove` diffs the stored board against the new state in `store.mutate` and appends the removed items and connections as one entry; a failure there never undoes the saved edit. Restoring items is one `batch` (add, then connect) so it is one undo step; items already back are skipped, and a parent that no longer exists is cleared. Undo and redo do not write trash entries.
 
 ## iStack import
 

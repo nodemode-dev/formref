@@ -17,6 +17,7 @@ Vanilla TypeScript and Vite, no framework, no icon library. `frontend/src/main.t
 | `app/gestures.ts` | pointer, wheel, eraser, drop, paste, context menu, keyboard from the table |
 | `app/bindings.ts` | inspector and preferences inputs, file inputs, palette, generated shortcut sheet, note fonts |
 | `app/tabs.ts` | board tabs, session save and restore |
+| `app/trash.ts` | the Trash dialog: put removed items back, restore deleted boards, empty |
 | `ui/context-menu.ts` | menu renderer: submenus, keyboard navigation, edge flipping, overlay root |
 | `ui/dock.ts` | dock collapse and the right panel tabs |
 | `ui/icons.ts` | every glyph; throws on an unknown name |
@@ -26,7 +27,7 @@ Vanilla TypeScript and Vite, no framework, no icon library. `frontend/src/main.t
 
 ## Changing a command or shortcut
 
-Edit its row in `commands.ts`. The menu, palette, keys and sheet follow. Where a key collides with iStack's, iStack keeps it. Browsers reserve Ctrl+T, Ctrl+W and Ctrl+N; do not advertise a key a page cannot catch, except Ctrl+N, which iStack used and the desktop shell receives.
+Edit its row in `commands.ts`. The menu, palette, keys and sheet follow. Row keys are the defaults; people can reassign them in the shortcut sheet, which stores only the differences through `/api/preferences` and applies them with `applyKeyOverrides` at start. Use `assignKey` and `onKeysChanged` rather than writing `command.keys` directly, so the keymap and every key label stay in step. `RESERVED_KEYS` lists what a page cannot take. Where a key collides with iStack's, iStack keeps it. Browsers reserve Ctrl+T, Ctrl+W and Ctrl+N; do not advertise a key a page cannot catch, except Ctrl+N, which iStack used and the desktop shell receives.
 
 ## DOM rules
 

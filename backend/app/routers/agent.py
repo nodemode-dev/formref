@@ -1,4 +1,5 @@
 import json
+import re
 
 from fastapi import APIRouter
 from fastapi.responses import StreamingResponse
@@ -65,6 +66,38 @@ def stop_turn(turn_id: str):
 @router.post("/agent/turns/{turn_id}/undo")
 def undo_turn(turn_id: str):
     return agents.undo_turn(turn_id)
+
+
+KEY_PART = re.compile(r"^(mod\+)?(shift\+)?(alt\+)?[^+\s]{1,12}$|^(mod\+)?(shift\+)?(alt\+)?\+$")
+
+
+class Preferences(BaseModel):
+    keys: dict[str, list[str]] = Field(default_factory=dict)
+
+
+def read_preferences() -> dict:
+    try:
+        saved = json.loads((settings.data_dir / "preferences.json").read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        saved = {}
+    keys = saved.get("keys") if isinstance(saved, dict) else None
+    return {"keys": keys if isinstance(keys, dict) else {}}
+
+
+@router.get("/preferences")
+def get_preferences():
+    return read_preferences()
+
+
+@router.put("/preferences")
+def put_preferences(body: Preferences):
+    if len(body.keys) > 200:
+        raise ValueError("Too many shortcut overrides.")
+    for command, combos in body.keys.items():
+        if not re.fullmatch(r"[a-z0-9-]{1,48}", command) or len(combos) > 4 or not all(isinstance(c, str) and KEY_PART.fullmatch(c) for c in combos):
+            raise ValueError(f"Invalid shortcut for {command}.")
+    store.atomic_write(settings.data_dir / "preferences.json", json.dumps({"keys": body.keys}).encode())
+    return {"keys": body.keys}
 
 
 @router.get("/session")

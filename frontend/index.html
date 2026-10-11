@@ -71,6 +71,7 @@
         </div>
         <div id="board-list" class="board-list" tabindex="-1"></div>
         <button class="sidebar-row subtle" data-action="open-file"><span data-icon="import"></span><span>Open board file</span><span class="key">Ctrl O</span></button>
+        <button class="sidebar-row subtle" data-action="trash"><span data-icon="trash-open"></span><span>Trash</span><span></span></button>
         <div class="sidebar-line"></div>
         <div class="sidebar-group-head"><span>ON THIS BOARD</span><span id="outline-count" class="count">0</span></div>
         <label class="find-field"><span data-icon="search"></span><input id="search" type="search" placeholder="Find references…" aria-label="Find references"></label>
@@ -521,6 +522,26 @@
     <div class="modal-body">
       <p class="muted">Drop images and files onto the canvas, paste from the clipboard, or right-click the board for every command. Double-click a note to edit it or a board card to open it.</p>
       <div id="shortcut-list" class="shortcut-list"></div>
+    </div>
+    <div class="modal-footer">
+      <span id="shortcut-note" class="field-description shortcut-note">Click a shortcut to change it, then press the new keys. Esc cancels.</span>
+      <button id="shortcut-reset" class="button compact">Reset All</button>
+    </div>
+  </dialog>
+  <dialog id="trash-dialog" class="modal trash-modal">
+    <div class="modal-head">
+      <strong>Trash</strong>
+      <button class="icon-button" data-action="close-overlays" data-icon="close" aria-label="Close trash"></button>
+    </div>
+    <div class="modal-body">
+      <div class="section-label">REMOVED FROM THIS BOARD</div>
+      <div id="trash-items" class="trash-list"></div>
+      <div class="section-label">DELETED BOARDS</div>
+      <div id="trash-boards" class="trash-list"></div>
+    </div>
+    <div class="modal-footer">
+      <span class="field-description shortcut-note">Removed items and deleted boards stay here until you empty the trash.</span>
+      <button id="trash-empty" class="button compact danger"><span data-icon="trash"></span>Empty Trash</button>
     </div>
   </dialog>
 </div>

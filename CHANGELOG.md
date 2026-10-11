@@ -1,5 +1,14 @@
 # FormRef changelog
 
+## v0.4.1 · 2026-10-11
+
+Trash and your own shortcuts.
+
+- Trash: deleting a board moves it to the Trash, and anything removed from a board (by you, an outside agent or the Agent panel) waits there too. Restore puts items back where they were as one undoable step or brings a board back to the list. Open it from the left panel or the palette.
+- Shortcuts: click any key in the shortcut sheet (?) and press new keys. Keys the browser keeps are refused, keys already in use move over with a note, and Reset All restores the defaults. Your keys are saved and come back on the next launch.
+- MCP: `list_trash` and `restore_from_trash`; 24 tools.
+- The agent's Confirm card now uses the right accent colour.
+
 ## v0.4.0 · 2026-10-11
 
 The recovery build: iStack's behaviour and menu in the Form family shell, with an embedded agent that asks before big changes.

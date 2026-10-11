@@ -17,6 +17,7 @@ from .engine import broker, EngineError
 
 ID_PATTERN = re.compile(r"^[A-Za-z0-9_-]{1,96}$")
 ASSET_PATTERN = re.compile(r"^[0-9a-f]{64}$")
+TRASH_ENTRIES = 100
 Image.MAX_IMAGE_PIXELS = settings.max_image_pixels
 
 class MissingBoard(ValueError):
@@ -129,7 +130,13 @@ class BoardStore:
                 self.validate_assets(command)
                 state = broker.call("board.apply", {"board_id": board_id, "command": command})
             try:
-                return self.persist(state)
+                self.persist(state)
+                if not history and '"remove"' in json.dumps(command):
+                    try:
+                        self.note_removed(previous["board"], state["board"])
+                    except (OSError, ValueError):
+                        pass  # the edit is saved; only its trash copy is lost
+                return state
             except OSError:
                 try:
                     broker.call("board.close", {"board_id": board_id})
@@ -180,16 +187,135 @@ class BoardStore:
             return self.open_import(board, state.get("import_report"))
 
     def delete(self, board_id: str):
+        """Move a board to the trash; restore_board brings it back."""
         with self.lock:
-            self.stored_record(board_id)
+            record = self.stored_record(board_id)
+            record["deleted_at"] = time.time()
+            self.trash_boards.mkdir(parents=True, exist_ok=True)
+            self.atomic_write(self.trash_boards / (board_id + ".json"), json.dumps(record, allow_nan=False, ensure_ascii=False, separators=(",", ":")).encode("utf-8"))
             self.board_path(board_id).unlink()
-            if self.loaded.get(board_id) == broker.generation:
+            self.unload(board_id)
+            return {"deleted": board_id, "trashed": True}
+
+    def unload(self, board_id: str):
+        if self.loaded.get(board_id) == broker.generation:
+            try:
+                broker.call("board.close", {"board_id": board_id})
+            except EngineError:
+                pass
+        self.loaded.pop(board_id, None)
+
+    @property
+    def trash_boards(self):
+        return settings.data_dir / "trash" / "boards"
+
+    @property
+    def trash_items(self):
+        return settings.data_dir / "trash" / "items"
+
+    def trashed_items(self, board_id: str) -> list:
+        path = self.trash_items / (self.checked_id(board_id) + ".json")
+        try:
+            entries = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, ValueError):
+            return []
+        return entries if isinstance(entries, list) else []
+
+    def save_trashed_items(self, board_id: str, entries: list):
+        self.trash_items.mkdir(parents=True, exist_ok=True)
+        path = self.trash_items / (self.checked_id(board_id) + ".json")
+        if entries:
+            self.atomic_write(path, json.dumps(entries[-TRASH_ENTRIES:], allow_nan=False, ensure_ascii=False, separators=(",", ":")).encode("utf-8"))
+        else:
+            path.unlink(missing_ok=True)
+
+    def note_removed(self, before: dict, after: dict):
+        """Keep items a command removed so they can be restored from the trash later."""
+        kept = {item["id"] for item in after["items"]}
+        items = [item for item in before["items"] if item["id"] not in kept]
+        if not items:
+            return
+        links = {link["id"] for link in after.get("connections", [])}
+        connections = [link for link in before.get("connections", []) if link["id"] not in links]
+        entries = self.trashed_items(before["id"])
+        entries.append({"id": uuid.uuid4().hex, "at": time.time(), "items": items, "connections": connections})
+        self.save_trashed_items(before["id"], entries)
+
+    def trash(self, board_id: str | None = None):
+        with self.lock:
+            boards = []
+            for path in self.trash_boards.glob("*.json") if self.trash_boards.is_dir() else []:
                 try:
-                    broker.call("board.close", {"board_id": board_id})
-                except EngineError:
-                    pass
-            self.loaded.pop(board_id, None)
-            return {"deleted": board_id}
+                    record = json.loads(path.read_text(encoding="utf-8"))
+                    board = record["board"]
+                    boards.append({"id": board["id"], "title": board["title"], "item_count": len(board.get("items", [])), "deleted_at": record.get("deleted_at", 0)})
+                except (OSError, ValueError, KeyError):
+                    continue
+            items = []
+            if board_id:
+                for entry in reversed(self.trashed_items(board_id)):
+                    names = [item.get("title") or item.get("kind", "item") for item in entry["items"]]
+                    items.append({"id": entry["id"], "at": entry["at"], "count": len(entry["items"]), "names": names[:6], "kinds": sorted({item.get("kind", "") for item in entry["items"]})})
+            return {"boards": sorted(boards, key=lambda b: b["deleted_at"], reverse=True), "items": items}
+
+    def restore_board(self, board_id: str):
+        with self.lock:
+            source = self.trash_boards / (self.checked_id(board_id) + ".json")
+            if not source.is_file():
+                raise MissingBoard("That board is not in the trash.")
+            if self.board_path(board_id).is_file():
+                raise ValueError("A board with that identifier already exists.")
+            record = json.loads(source.read_text(encoding="utf-8"))
+            record.pop("deleted_at", None)
+            record["updated_at"] = time.time()
+            self.atomic_write(self.board_path(board_id), json.dumps(record, allow_nan=False, ensure_ascii=False, separators=(",", ":")).encode("utf-8"))
+            source.unlink()
+            return {"restored": board_id, "title": record["board"]["title"]}
+
+    def purge_board(self, board_id: str):
+        with self.lock:
+            source = self.trash_boards / (self.checked_id(board_id) + ".json")
+            if not source.is_file():
+                raise MissingBoard("That board is not in the trash.")
+            source.unlink()
+            (self.trash_items / (board_id + ".json")).unlink(missing_ok=True)
+            return {"purged": board_id}
+
+    def restore_items(self, board_id: str, entry_id: str):
+        with self.lock:
+            entries = self.trashed_items(board_id)
+            entry = next((e for e in entries if e["id"] == entry_id), None)
+            if entry is None:
+                raise MissingBoard("Those items are not in the trash.")
+            board = self.get(board_id)["board"]
+            present = {item["id"] for item in board["items"]}
+            items = [copy.deepcopy(item) for item in entry["items"] if item["id"] not in present]
+            if not items:
+                self.save_trashed_items(board_id, [e for e in entries if e["id"] != entry_id])
+                raise ValueError("Those items are already back on the board.")
+            ids = present | {item["id"] for item in items}
+            for item in items:
+                if item.get("parent_id") and item["parent_id"] not in ids:
+                    item["parent_id"] = None
+            links = {link["id"] for link in board.get("connections", [])}
+            commands = [{"type": "add", "items": items}] + [{"type": "connect", "connection": link} for link in entry["connections"] if link["id"] not in links and link["from"] in ids and link["to"] in ids]
+            state = self.mutate(board_id, {"type": "batch", "commands": commands})
+            self.save_trashed_items(board_id, [e for e in self.trashed_items(board_id) if e["id"] != entry_id])
+            return state
+
+    def purge_items(self, board_id: str, entry_id: str | None = None):
+        with self.lock:
+            self.save_trashed_items(board_id, [] if entry_id is None else [e for e in self.trashed_items(board_id) if e["id"] != entry_id])
+            return {"purged": entry_id or "all"}
+
+    def empty_trash(self):
+        with self.lock:
+            count = 0
+            for folder in (self.trash_boards, self.trash_items):
+                for path in folder.glob("*.json") if folder.is_dir() else []:
+                    path.unlink()
+                    count += 1
+            return {"emptied": count}
 
     def asset_info(self, asset_id: str):
         if not isinstance(asset_id, str) or not ASSET_PATTERN.fullmatch(asset_id):

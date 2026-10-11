@@ -53,6 +53,20 @@
 .shortcut-group { grid-column: 1 / -1; margin-top: var(--space-2); color: var(--text-muted); font-size: 9px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; }
 .shortcut-label { display: inline-flex; align-items: center; gap: var(--space-2); }
 .shortcut-label svg { width: 14px; height: 14px; color: var(--text-muted); }
+.shortcut-key { min-width: 112px; height: 24px; padding: 0 var(--space-2); border: 1px solid var(--border-color); border-radius: var(--radius-sm); background: var(--bg-tertiary); color: var(--text-secondary); font: 9px var(--font-mono); text-align: center; white-space: nowrap; }
+.shortcut-key:hover { border-color: var(--accent-line); color: var(--text-primary); }
+.shortcut-key.capturing { border-color: var(--accent-color); background: var(--accent-soft); color: var(--accent-ink); }
+.help-modal .modal-footer, .trash-modal .modal-footer { align-items: center; justify-content: space-between; gap: var(--space-3); }
+.shortcut-note { flex: 1; min-width: 0; min-height: 3.4em; display: flex; align-items: center; }
+.trash-modal { width: min(520px, calc(100vw - 32px)); }
+.trash-list { display: flex; flex-direction: column; gap: var(--space-1); max-height: 30vh; overflow: auto; }
+.trash-row { display: grid; grid-template-columns: 16px minmax(0, 1fr) auto auto; align-items: center; gap: var(--space-2); min-height: 40px; padding: var(--space-1) var(--space-2); border: 1px solid var(--border-color); border-radius: var(--radius); }
+.trash-row > svg { width: 16px; height: 16px; color: var(--text-muted); }
+.trash-text { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.trash-text strong { font-size: 11px; font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.trash-text small { font-size: 10px; color: var(--text-muted); }
+#trash-empty { min-width: 128px; }
+.trash-row .button svg, #trash-empty svg { width: 14px; height: 14px; }
 
 .button svg, .export-row > span:first-child svg { flex: none; }
 .offscreen-input { position: fixed; left: -100px; top: 0; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
@@ -86,8 +100,8 @@
 .agent-entry.agent-call.failed .agent-tool-state { color: var(--danger); }
 .agent-entry.agent-call code { display: block; margin-top: var(--space-1); font: 10px var(--font-mono); color: var(--text-muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .agent-tool-result { margin: var(--space-1) 0 0; height: 3.2em; line-height: 1.6; overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; color: var(--text-muted); font-size: 10px; }
-.agent-entry.agent-ask { padding: var(--space-2) var(--space-3); border: 1px solid var(--accent); border-radius: var(--radius-md); background: var(--accent-soft); white-space: normal; }
-.agent-entry.agent-ask .agent-tool-state { color: var(--accent); }
+.agent-entry.agent-ask { padding: var(--space-2) var(--space-3); border: 1px solid var(--accent-line); border-radius: var(--radius-md); background: var(--accent-soft); white-space: normal; }
+.agent-entry.agent-ask .agent-tool-state { color: var(--accent-ink); }
 .agent-entry.agent-ask.allowed { border-color: var(--border-color); background: var(--bg-secondary); }
 .agent-entry.agent-ask.allowed .agent-tool-state { color: var(--ok); }
 .agent-entry.agent-ask.declined { border-color: color-mix(in srgb, var(--danger) 55%, var(--border-color)); background: var(--bg-secondary); }

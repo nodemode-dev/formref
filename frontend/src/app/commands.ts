@@ -5,6 +5,7 @@ import { dataUrl } from '../lib/host';
 import { sampleCommand } from '../ui/sample';
 import type { IconName } from '../ui/icons';
 import { close as closeTab, forget, replaceActiveWithNext } from './tabs';
+import { openTrash } from './trash';
 import {
   $, S, add, arrange, closeOverlays, defaultSettings, editable, error, execute, fit, history, host, inputDialog,
   matches, open, openEditor, placement, referenceView, refreshBoards, selected, selectedImages, selection,
@@ -177,7 +178,7 @@ async function deleteBoard() {
   if (!S.state) return;
   const id = S.state.board.id;
   const title = S.state.board.title;
-  const form = await inputDialog(`Delete ${title}?`, { label: 'Type DELETE to confirm', description: 'The board will be removed from local storage. Export it first if you need a copy.', submit: 'Delete board' });
+  const form = await inputDialog(`Delete ${title}?`, { label: 'Type DELETE to confirm', description: 'The board moves to the Trash, where you can restore it until the trash is emptied.', submit: 'Delete board' });
   if (form?.name !== 'DELETE') return;
   await S.queue;
   await api.remove(id);
@@ -254,6 +255,7 @@ export const COMMANDS: CommandDef[] = [
   { group: 'File', id: 'rename', label: 'Rename Board', icon: 'pen', run: renameBoard, enabled: hasBoard },
   { group: 'File', id: 'duplicate-board', label: 'Duplicate Board', icon: 'duplicate', run: async () => { if (!S.state) return; const next = await api.duplicate(S.state.board.id); closeOverlays(); await open(next.board.id, next); }, enabled: hasBoard },
   { group: 'File', id: 'delete-board', label: 'Delete Board', icon: 'trash', run: deleteBoard, enabled: hasBoard },
+  { group: 'File', id: 'trash', label: 'Open Trash', icon: 'trash-open', run: openTrash },
   { group: 'File', id: 'sample', label: 'Create Sample Board', icon: 'board', run: sampleBoard },
 
   { group: 'Edit', id: 'undo', label: 'Undo', icon: 'undo', keys: ['mod+z'], run: () => history('undo'), enabled: () => !!S.state?.can_undo },
@@ -377,7 +379,44 @@ export function comboOf(event: KeyboardEvent): string {
 }
 
 const keymap = new Map<string, CommandDef>();
-for (const command of COMMANDS) for (const combo of command.keys || []) keymap.set(combo, command);
+const DEFAULT_KEYS = new Map(COMMANDS.map(c => [c.id, [...(c.keys || [])]]));
+const keyListeners: (() => void)[] = [];
+
+function rebuildKeymap() {
+  keymap.clear();
+  for (const command of COMMANDS) for (const combo of command.keys || []) keymap.set(combo, command);
+  keyListeners.forEach(listener => listener());
+}
+rebuildKeymap();
+
+export function onKeysChanged(listener: () => void) { keyListeners.push(listener); }
+
+/** Shortcut overrides: only commands whose keys differ from the defaults. */
+export function keyOverrides(): Record<string, string[]> {
+  const out: Record<string, string[]> = {};
+  for (const command of COMMANDS) {
+    const keys = command.keys || [];
+    if (keys.join(' ') !== (DEFAULT_KEYS.get(command.id) || []).join(' ')) out[command.id] = [...keys];
+  }
+  return out;
+}
+
+export function applyKeyOverrides(overrides: Record<string, string[]>) {
+  for (const command of COMMANDS) command.keys = [...(overrides[command.id] || DEFAULT_KEYS.get(command.id) || [])];
+  rebuildKeymap();
+}
+
+/** Give a command one shortcut; returns the command it was taken from, if any. */
+export function assignKey(id: string, combo: string): CommandDef | undefined {
+  const owner = keymap.get(combo);
+  if (owner && owner.id !== id) owner.keys = (owner.keys || []).filter(k => k !== combo);
+  const command = BY_ID.get(id)!;
+  command.keys = [combo];
+  rebuildKeymap();
+  return owner && owner.id !== id ? owner : undefined;
+}
+
+export const RESERVED_KEYS = new Set(['mod+t', 'mod+w', 'mod+q', 'mod+shift+t', 'mod+shift+w', 'mod+shift+n', 'mod+tab', 'mod+r', 'mod+l', 'f5', 'f11', 'f12', 'space']);
 
 export function commandForKey(event: KeyboardEvent): CommandDef | undefined {
   return keymap.get(comboOf(event));

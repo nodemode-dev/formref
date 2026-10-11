@@ -59,6 +59,30 @@ def redo(board_id: str):
 def delete_board(board_id: str):
     return store.delete(board_id)
 
+@router.get("/trash")
+def trash(board_id: str = ""):
+    return store.trash(board_id or None)
+
+@router.post("/trash/boards/{board_id}/restore")
+def restore_board(board_id: str):
+    return store.restore_board(board_id)
+
+@router.delete("/trash/boards/{board_id}")
+def purge_board(board_id: str):
+    return store.purge_board(board_id)
+
+@router.post("/trash/items/{board_id}/{entry_id}/restore")
+def restore_items(board_id: str, entry_id: str):
+    return store.restore_items(board_id, entry_id)
+
+@router.delete("/trash/items/{board_id}/{entry_id}")
+def purge_items(board_id: str, entry_id: str):
+    return store.purge_items(board_id, entry_id)
+
+@router.delete("/trash")
+def empty_trash():
+    return store.empty_trash()
+
 @router.post("/boards/{board_id}/duplicate", status_code=201)
 def duplicate_board(board_id: str):
     return store.duplicate(board_id)

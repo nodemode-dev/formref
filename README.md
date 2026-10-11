@@ -17,6 +17,8 @@ Rust document engine · vanilla TypeScript/Vite view · Python/FastAPI media & p
 - **Interoperability:** iStack import, portable archives & PNG/SVG/Markdown/JSON export.
 - **iStack's right-click menu:** File, Edit, Canvas, Organize, Images & Layer in iStack's order & shortcuts, plus Insert & Ask Agent. Press ? for every shortcut.
 - **Board tabs:** several boards open at once, restored where you left them.
+- **Trash:** deleted boards and removed items wait in the Trash until you empty it; restore puts them back.
+- **Your keys:** change any shortcut from the shortcut sheet (?).
 - **Organize & draw:** pack, sort by name, aspect or colour similarity, rotate 90, opacity, pixel art, brush, eraser, rectangle, circle & line.
 - **Embedded agent:** Agent panel (Ctrl+J) running Claude Code, Codex, Cursor or Ollama on your board, each tool call shown, a yes from you before it removes or bulk-moves items, Stop & Undo This Turn. Vision models can see the board as a picture.
 - **Agent access:** official Python MCP SDK stdio server; outside agents edit only once you allow them.

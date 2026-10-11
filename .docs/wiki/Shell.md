@@ -28,7 +28,11 @@ Several boards stay open as tabs. Ctrl+N opens a new tab, Alt+W closes the activ
 | Layer | Shift+Up front, Shift+Down back |
 | View | Shift+S slideshow, Ctrl+J agent, Ctrl+K commands, ? shortcut sheet, Ctrl+, preferences |
 
-Press ? in the app for the current list; it is generated from the table and is always the authority.
+These are the defaults. Press ? for the current list: click any shortcut there and press new keys to change it. If another command already used those keys, they move to the one you are changing and the sheet says so. Keys the browser keeps (Ctrl+T, Ctrl+W, Ctrl+Q, Ctrl+R, Ctrl+L, F5 and others) and Space (pan) cannot be taken. Changes are saved in the data folder and come back on the next launch; Reset All returns every key to its default.
+
+## Trash
+
+Deleted boards and anything removed from a board go to the Trash (left panel, or Open Trash in the palette). Restore puts removed items back where they were as one undoable step, or brings a deleted board back into the board list. Delete removes one entry for good, and Empty Trash (click twice) removes everything. Each board keeps its last 100 removals.
 
 ## Drawing
 

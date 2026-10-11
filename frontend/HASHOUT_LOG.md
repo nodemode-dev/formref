@@ -10,8 +10,13 @@
 - [Scripts](#scripts)
 - [Canvas increment](#canvas-increment)
 - [Reference editing increment](#reference-editing-increment)
+- [v0.4.1 shortcut changes and trash](#v041-shortcut-changes-and-trash)
 - [v0.4.0 confirm card and readable notes](#v040-confirm-card-and-readable-notes)
 - [v0.3.3 shell rebuild](#v033-shell-rebuild)
+
+## v0.4.1 shortcut changes and trash
+
+The shortcut sheet's keys are buttons: click, press keys, and `assignKey` moves the combo (taking it from its old owner), rebuilds the keymap and tells listeners, which patch the sheet and the palette text in place. Capture runs as a window keydown listener in the capture phase, so the canvas never sees the keys, and Escape cancels without closing the dialog. Reserved browser keys and Space are refused with a note. Overrides load at start from `/api/preferences`. `app/trash.ts` renders the Trash dialog from `/api/trash`; restore applies the returned state, a deleted board is reopened after restore, and Empty Trash needs a second click. The agent card had used an undefined `--accent` token; it now uses `--accent-line` and `--accent-ink`. Throttled run: zero layout shifts on cold load and across both dialogs, no console errors; N moved to Shift+N, Ctrl+T refused, Shift+N then taken by Lock with a note, saved, restored after reload and reset; a deleted card and a deleted board both restored.
 
 ## v0.4.0 confirm card and readable notes
 

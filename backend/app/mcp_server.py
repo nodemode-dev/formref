@@ -201,6 +201,19 @@ async def remove_items(board_id: str, ids: list[str]) -> dict:
     """Remove item IDs and their connections in one undoable step."""
     return await command(board_id, {"type": "remove", "ids": ids})
 
+@mcp.tool(annotations=_read)
+async def list_trash(board_id: str = "") -> dict:
+    """List deleted boards and, when board_id is given, groups of items removed from that board, newest first, with their entry ids."""
+    return await json_api("GET", "/api/trash", params={"board_id": checked_id(board_id)} if board_id else None)
+
+@mcp.tool(annotations=_write)
+async def restore_from_trash(board_id: str, entry_id: str = "") -> dict:
+    """Restore from the trash. With entry_id, put that group of removed items back on board_id as one undoable step; without it, restore the deleted board board_id."""
+    checked_id(board_id)
+    if entry_id:
+        return await json_api("POST", f"/api/trash/items/{board_id}/{checked_id(entry_id)}/restore")
+    return await json_api("POST", f"/api/trash/boards/{board_id}/restore")
+
 @mcp.tool(annotations=_write)
 async def undo(board_id: str) -> dict:
     """Undo the most recent successful mutation in the current service session."""
