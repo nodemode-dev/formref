@@ -13,6 +13,7 @@ from ..core.features import enrich
 from ..core.capture import capture
 from ..core.doc_export import export_item
 from ..core.cutout import change_background, DEFAULT_TOLERANCE
+from ..core import models as cutout_models
 from urllib.parse import quote
 from ..core.templates import delete_template, list_templates, save_template, use_template
 from ..agent.service import agents
@@ -167,7 +168,25 @@ def export_document(board_id: str, item_id: str, format: str = "md"):
 @router.post("/boards/{board_id}/background")
 async def background(board_id: str, body: dict):
     tolerance = body.get("tolerance", DEFAULT_TOLERANCE)
-    return await asyncio.to_thread(change_background, board_id, body.get("ids"), str(body.get("action", "remove")), tolerance)
+    return await asyncio.to_thread(change_background, board_id, body.get("ids"), str(body.get("action", "remove")), tolerance, str(body.get("method", "plain")), body.get("points"), body.get("box"))
+
+# Background models, as FormCut registers them: listed, fetched on request (pinned), imported, or removed.
+@router.get("/models")
+def models_list():
+    return cutout_models.listing()
+
+@router.post("/models/{model}/download", status_code=202)
+def models_download(model: str):
+    return cutout_models.start_download(model)
+
+@router.post("/models/{model}/import")
+async def models_import(model: str, file: UploadFile = File(...)):
+    data = await read_upload(file)
+    return await asyncio.to_thread(cutout_models.import_file, model, file.filename or "", data)
+
+@router.delete("/models/{model}")
+def models_remove(model: str):
+    return cutout_models.remove(model)
 
 @router.post("/capture")
 async def capture_url(body: dict):

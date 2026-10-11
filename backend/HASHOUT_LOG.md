@@ -24,6 +24,14 @@ FormVis asks the person when an outside agent first tries to edit. FormRef canno
 
 The iStack importer was checked against iStack's own save routine in the owner's bundle (`At()`: `format`, `version` 1.1, `canvasRect`, `drawings`, `items` with `flipH`, `flipV`, `nearestNeighbor`, `cropRect`, `_imageData`, `_sourcePath`, `groupId`). A board in that format with two images (one embedded, one path-only), a note, a freehand stroke, a rectangle and an eraser stroke imported with rotation, opacity, flips, grayscale, sampling, lock and group intact; the path-only image arrived unresolved and relinkable; the eraser stroke, which in iStack subtracts raster pixels, is listed as unsupported in the import report instead of being dropped silently. `cropRect` units are taken as display pixels of the item; the bundle does not show them unambiguously, so crop on imported boards is unverified.
 
+## v0.5.3 · Background models from FormCut
+
+- refers-to: `app/core/models.py` :: MODELS, PINNED, start_download, import_file; `app/core/segment.py` :: matte, shaped; `app/core/cutout.py` :: _model_cutout, _prompts; `app/bundled_models/u2netp.onnx`
+- kind: rationale
+- logged: v0.5.3 · 2026-10-11
+
+The owner asked for FormCut's models. The registry, sources and SHA-256 pins are FormCut's; so is the inference (U2Net 320 square with ImageNet statistics, IS-Net 1024 square scaled to its maximum minus a half, FormCut's Auto rule of person when it keeps one percent of the frame at half threshold, else object, and its threshold and feather shaping). FormRef had no OpenCV, so resizing is Pillow and the arithmetic numpy; onnxruntime and numpy are the only new dependencies. SAM 2.1 is the owner's choice: FormCut runs SAM 2 Tiny for clicks and SAM 2.1 only for video, so FormRef prompts SAM 2.1's own image encoder and mask decoder from the square-zero-labs export (as FormCut's tracker decodes its seed frame) and fetches three of its six files. Points come in the image as shown, like sampling, and are mapped through crop and flip here. Downloads run in a thread with progress in `GET /api/models`; a file that misses its pin is deleted. `import` takes a file the person already has, for machines that cannot reach the hosts. Run here: U2Net small (bundled) cut astronaut, cat, coffee and horse in 0.4 to 0.7 s; Person cutout and IS-Net downloaded from GitHub and matched their pins; all four methods cut the four real photos the model-free method refuses; SAM 2.1 could not be fetched (Hugging Face blocked in this workspace), so its path was exercised only up to the refusal and the pin check on import.
+
 ## v0.4.10 · Browser clipper routes
 
 - refers-to: `app/core/clipper.py` :: token, paired, clip, free_spot; `app/routers/clip.py`; `app/main.py` :: local_access origin rule and CORS

@@ -215,10 +215,22 @@ async def capture_from_web(board_id: str, url: str, x: float = 0, y: float = 0) 
     return await command(board_id, {"type": "add", "items": [{"id": uuid.uuid4().hex, "kind": kind, "x": x, "y": y, "width": width, "height": height, "title": asset["name"], "asset_id": asset["id"], "url": result.get("url", url), "data": {"mime": asset["mime"], "size": asset["size"], "natural_width": asset.get("width"), "natural_height": asset.get("height")}}]})
 
 @mcp.tool(annotations=_write)
-async def remove_background(board_id: str, ids: list[str], tolerance: int = 12, restore: bool = False) -> dict:
-    """Make the plain background of image items transparent, or with restore=true put the original image back. The background is whatever colour touches the image edges; tolerance 1 to 60 sets how far a colour may differ from it (raise it for soft shadows, lower it if the subject is eaten). Works best on product shots, scans and studio photos, not busy scenes. The original is kept. One undoable step."""
+async def remove_background(board_id: str, ids: list[str], method: str = "plain", tolerance: int = 12, points: list[dict] | None = None, box: dict | None = None, restore: bool = False) -> dict:
+    """Make the background of image items transparent, or with restore=true put the original image back. The original is always kept; one undoable step.
+    method: "plain" needs no model and removes a plain background touching the edges (tolerance 1 to 60); "auto" (person, else object), "object-cutout", "person-cutout" and "sharp-cutout" (IS-Net) run a cutout model on any photo; "click-select" runs SAM 2.1 on one image with points [{x, y, keep}] and/or a box {x0, y0, x1, y1}, all 0..1 across the image as shown (as sample_image uses), keep false to leave a point out.
+    A model must be downloaded first: see list_background_models and download_background_model."""
     checked_id(board_id)
-    return await json_api("POST", f"/api/boards/{board_id}/background", json={"ids": ids, "action": "restore" if restore else "remove", "tolerance": tolerance})
+    return await json_api("POST", f"/api/boards/{board_id}/background", json={"ids": ids, "action": "restore" if restore else "remove", "tolerance": tolerance, "method": method, "points": points, "box": box})
+
+@mcp.tool(annotations=_read)
+async def list_background_models() -> dict:
+    """The background models FormRef can run (FormCut's set): which are ready, their licence and size, and any download in progress. Object cutout ships with FormRef."""
+    return await json_api("GET", "/api/models")
+
+@mcp.tool(annotations=_write)
+async def download_background_model(model: str) -> dict:
+    """Start downloading a background model (person-cutout, sharp-cutout or click-select); the file is checked against its published SHA-256. Poll list_background_models for progress."""
+    return await json_api("POST", f"/api/models/{model}/download")
 
 @mcp.tool(annotations=_write)
 async def create_table(board_id: str, columns: list[dict], rows: list[list[str]], title: str = "Table", x: float = 0, y: float = 0, width: float = 420, height: float = 260) -> dict:

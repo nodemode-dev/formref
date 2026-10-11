@@ -10,6 +10,15 @@ FormRef's original source and vector artwork are Apache-2.0. The repository's fu
 |---|---|---|
 | User-supplied FormVis v1.66.1 | Form family layout, theme values, scripting and documentation conventions | Read-only reference; no FormVis git history transplanted |
 | User-supplied iStack | Owned format interoperability, persistence and collection workflows | Independent Rust/TypeScript implementation; compiled iStack bundle not shipped |
+| User-supplied FormCut v2.8.8 (Apache-2.0, the same owner) | Background model registry, SHA-256 pins, U2Net, IS-Net and SAM 2.1 inference, and the Google Drive and Dropbox sign-in and transfer flows | Ported by hand into `backend/app/core/models.py`, `segment.py` and `cloud.py`, rewritten for Pillow instead of OpenCV; no FormCut git history transplanted |
+
+## Model weights
+
+| File | Source | License | Shipped |
+|---|---|---|---|
+| `u2netp.onnx` (U2Net small, Qin et al.) | rembg release v0.0.0 (MIT redistribution of the Apache-2.0 weights), copied from FormCut's bundle | Apache-2.0 | Yes, `backend/app/bundled_models/`, 4.6 MB |
+| `u2net_human_seg.onnx`, `isnet-general-use.onnx` | rembg release v0.0.0 | Apache-2.0 | No, downloaded on request and checked against its SHA-256 |
+| SAM 2.1 Hiera Tiny image encoder, mask decoder and constants (Meta) | square-zero-labs/sam2.1-tiny-video-onnx on Hugging Face | Apache-2.0 | No, downloaded on request and checked against its SHA-256 |
 | PureRef official handbook | Feature requirements | No source or proprietary assets included |
 | BeeRef official documentation/release notes | Feature requirements | No BeeRef code opened, downloaded, copied or shipped |
 | Milanote official help center | Feature requirements | No product assets or proprietary implementation included |
@@ -33,6 +42,8 @@ FormRef's original source and vector artwork are Apache-2.0. The repository's fu
 | Pillow | 12.3.0 | MIT-CMU and bundled library notices | Local media processing |
 | CairoSVG | 2.9.1 | LGPL-3.0-or-later | Separate server-side Python dependency for SVG rasterization |
 | defusedxml | 0.7.1 | PSF-2.0 | Safe XML parsing |
+| onnxruntime | 1.31.0 | MIT | Background model inference |
+| numpy | 2.5.4 | BSD-3-Clause | Background model tensors |
 
 CairoSVG is installed as an ordinary replaceable Python package in the server environment, unmodified. It is not statically linked into the Rust core or a proprietary desktop bundle. Its license and source URL are retained in the notices. Pillow's wheel license also contains codec/native-library notices. Native shell compilation and distribution are not claimed by this source release; platform runtime libraries are not bundled.
 

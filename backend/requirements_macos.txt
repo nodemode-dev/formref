@@ -6,3 +6,5 @@ mcp<2
 Pillow
 CairoSVG
 defusedxml
+onnxruntime
+numpy

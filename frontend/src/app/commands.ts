@@ -10,6 +10,7 @@ import { openTemplates, saveAsTemplate } from './templates';
 import { askForUrl } from './capture';
 import { openLabels } from './labels';
 import { togglePresenting } from './present';
+import { cutoutOptions, downloadModel, togglePicking } from './cutout';
 import {
   $, S, add, applyState, arrange, closeOverlays, defaultSettings, editable, error, execute, fit, history, host, inputDialog,
   matches, open, openEditor, placement, referenceView, refreshBoards, selected, selectedImages, selection,
@@ -149,8 +150,9 @@ async function background(action: 'remove' | 'restore') {
   const images = selectedImages().filter(i => action === 'remove' || i.data.cutout);
   if (!images.length) return;
   const tolerance = Number($<HTMLInputElement>('cutout-tolerance').value) || 12;
+  const options = action === 'remove' ? cutoutOptions(images) : { method: 'plain' };
   if (action === 'remove') toast(images.length > 1 ? `Removing ${images.length} backgrounds...` : 'Removing background...');
-  const next = await api.background(S.state.board.id, images.map(i => i.id), action, tolerance);
+  const next = await api.background(S.state.board.id, images.map(i => i.id), action, tolerance, options.method, options.points);
   applyState(next);
   const skipped = next.skipped || [];
   if (skipped.length) toast(`${skipped.length} of ${images.length} skipped: ${skipped[0].reason}`);
@@ -356,6 +358,9 @@ export const COMMANDS: CommandDef[] = [
   { group: 'Images', id: 'reset-crop', label: 'Reset Crop', icon: 'reset-crop', run: cropReset, enabled: hasImages },
   { group: 'Images', id: 'remove-background', label: 'Remove Background', icon: 'cutout', run: () => background('remove'), enabled: hasImages },
   { group: 'Images', id: 'restore-background', label: 'Restore Background', icon: 'restore', run: () => background('restore'), enabled: hasCutout },
+  { group: 'Images', id: 'download-cutout-model', label: 'Download Background Model', icon: 'import', palette: false, run: downloadModel },
+  { group: 'Images', id: 'import-cutout-model', label: 'Import Background Model File', icon: 'paperclip', palette: false, run: () => $('cutout-import-input').click() },
+  { group: 'Images', id: 'pick-cutout-points', label: 'Pick Points for Click to Select', icon: 'focus-mode', palette: false, run: togglePicking, enabled: () => selected().filter(i => i.kind === 'image').length === 1 },
   { group: 'Images', id: 'rotate', label: 'Rotate 90', icon: 'rotate', keys: ['r'], run: () => execute({ type: 'rotate', ids: editable(), degrees: 90 }), enabled: has },
   { group: 'Images', id: 'save-image', label: 'Save Image As...', icon: 'save', run: () => downloadImages(selected()), enabled: hasImages },
   { group: 'Images', id: 'relink', label: 'Replace or Relink Image', icon: 'relink', run: () => $('relink-input').click(), enabled: () => selected().length === 1 && hasImages() },

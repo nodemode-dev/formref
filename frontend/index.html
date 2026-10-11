@@ -250,8 +250,30 @@
                 <label class="field"><span>Height %</span><input id="crop-height" type="number" min="1" max="100"></label>
               </div>
               <button class="button compact full" data-action="reset-crop"><span data-icon="reset-crop"></span>Reset crop</button>
-              <span class="field-description">Background · plain backgrounds touching the edges</span>
-              <label class="field-row cutout-row"><span>Tolerance</span><input id="cutout-tolerance" type="range" min="1" max="60" value="12" aria-describedby="cutout-tolerance-value"><output id="cutout-tolerance-value" for="cutout-tolerance">12</output></label>
+              <span class="field-description">Background · original always kept</span>
+              <label class="field"><span>Method</span>
+                <select id="cutout-method" aria-label="Background removal method">
+                  <option value="plain">Plain background (no model)</option>
+                  <option value="auto">Subject (Auto)</option>
+                  <option value="object-cutout">Object (U2Net small)</option>
+                  <option value="person-cutout">Person (U2Net)</option>
+                  <option value="sharp-cutout">Sharp edges (IS-Net)</option>
+                  <option value="click-select">Click to select (SAM 2.1)</option>
+                </select>
+              </label>
+              <div id="cutout-model" class="cutout-model" hidden>
+                <span id="cutout-model-status" class="field-description" aria-live="polite"></span>
+                <div class="button-grid">
+                  <button id="cutout-download" class="button compact" data-action="download-cutout-model"><span data-icon="import"></span>Download</button>
+                  <button id="cutout-import" class="button compact" data-action="import-cutout-model"><span data-icon="paperclip"></span>Import file</button>
+                </div>
+                <input id="cutout-import-input" type="file" accept=".onnx,.json" multiple hidden>
+              </div>
+              <div id="cutout-points" class="cutout-points" hidden>
+                <button id="cutout-pick" class="button compact full" data-action="pick-cutout-points" aria-pressed="false"><span data-icon="focus-mode"></span>Pick points on the image</button>
+                <span id="cutout-points-status" class="field-description">Click what to keep; Alt-click what to leave out.</span>
+              </div>
+              <label id="cutout-tolerance-row" class="field-row cutout-row"><span>Tolerance</span><input id="cutout-tolerance" type="range" min="1" max="60" value="12" aria-describedby="cutout-tolerance-value"><output id="cutout-tolerance-value" for="cutout-tolerance">12</output></label>
               <div class="button-grid">
                 <button class="button compact" data-action="remove-background"><span data-icon="cutout"></span>Remove</button>
                 <button id="restore-background" class="button compact" data-action="restore-background"><span data-icon="restore"></span>Restore</button>

@@ -10,6 +10,7 @@
 - [Scripts](#scripts)
 - [Canvas increment](#canvas-increment)
 - [Reference editing increment](#reference-editing-increment)
+- [v0.5.3 background models and cloud storage](#v053-background-models-and-cloud-storage)
 - [v0.5.2 right-click regression](#v052-right-click-regression)
 - [v0.5.1 editing while presenting, always on bottom](#v051-editing-while-presenting-always-on-bottom)
 - [v0.4.10 clipper pairing and card footer icons](#v0410-clipper-pairing-and-card-footer-icons)
@@ -17,6 +18,10 @@
 - [v0.4.8 desktop window controls and WebKit icons](#v048-desktop-window-controls-and-webkit-icons)
 - [v0.4.7 synced notes, map cards, inline edit commit](#v047-synced-notes-map-cards-inline-edit-commit)
 - [v0.4.6 GIF frames and document export](#v046-gif-frames-and-document-export)
+
+## v0.5.3 background models and cloud storage
+
+`app/cutout.ts` owns the inspector's Background block: the Method select (Plain background, Subject (Auto), Object, Person, Sharp edges, Click to select (SAM 2.1)), the model status line with Download and Import file, and SAM point picking. Status comes from `GET /api/models`, polled each second only while a download runs. Picking is a capture-phase pointerdown on the stage, active only on the one selected image: it maps the click with `imageCoordinates` (the colour picker's mapping, so points are in the image as shown), draws keep (green) and leave-out (red, Alt-click) dots inside the painted image box, and Escape or another selection ends it. Remove Background reads the method and points through `cutoutOptions`. Status lines reserve room for their longest message (three lines for errors), because download progress and errors arrive without input; the throttled run measured a 0.005 shift before that. Choosing the method by keyboard, as a person does, then measured zero.
 
 ## v0.5.2 right-click regression
 

@@ -71,8 +71,8 @@ def edge_connected(candidate):
     return Image.frombytes("L", (width, height), bytes(region)), region.count(255) / float(width * height)
 
 
-def cut_out(asset_id, tolerance):
-    """Return PNG bytes of the asset with its edge-connected background made transparent."""
+def cut_out(asset_id, tolerance, method="plain", points=None, box=None):
+    """Return PNG bytes of the asset with its background made transparent, by edge colours or by a model."""
     if not isinstance(tolerance, int) or isinstance(tolerance, bool) or not 1 <= tolerance <= 60:
         raise ValueError("Tolerance must be a whole number from 1 to 60.")
     info, data = store.asset_bytes(asset_id)
@@ -81,6 +81,8 @@ def cut_out(asset_id, tolerance):
             if getattr(probe, "n_frames", 1) > 1:
                 raise ValueError("Background removal works on still images; this one is animated.")
     source = original_image(asset_id)
+    if method != "plain":
+        return _model_cutout(source, info["name"], method, points, box)
     rgb = source.convert("RGB")
     small = rgb.copy()
     small.thumbnail((ANALYSIS_EDGE, ANALYSIS_EDGE))
@@ -98,7 +100,7 @@ def cut_out(asset_id, tolerance):
         raise ValueError("The background of this image is too busy to remove without a segmentation model.")
     # Where the removed region stops, a real subject differs sharply from the background. In a photo whose
     # subject shades into its surroundings the region leaks and stops just past the tolerance instead.
-    ring =ImageChops.subtract(region.filter(ImageFilter.MaxFilter(3)), region)
+    ring = ImageChops.subtract(region.filter(ImageFilter.MaxFilter(3)), region)
     if ImageStat.Stat(analysis, mask=ring).median[0] < limit + EDGE_MARGIN:
         raise ValueError("The subject of this image does not stand out clearly from its background, so it needs a segmentation model.")
     # Connectivity comes from the analysis size; the soft edge comes from full-resolution colour distance.
@@ -113,10 +115,65 @@ def cut_out(asset_id, tolerance):
     return output.getvalue(), info["name"]
 
 
-def change_background(board_id, ids, action, tolerance=DEFAULT_TOLERANCE):
-    """Remove or restore the background of image items as one undoable step."""
+def _model_cutout(source, name, method, points, box):
+    """A cutout from one of FormCut's models: the matte shaped as FormCut shapes it, times any existing alpha."""
+    from . import segment
+    alpha = segment.shaped(segment.matte(method, source, points, box))
+    kept = float((alpha > 0.5).mean())
+    if kept < 0.002:
+        raise ValueError("The model found nothing to keep in this image. Try another model" + (" or other points." if method == "click-select" else "."))
+    if kept > 0.995:
+        raise ValueError("The model kept the whole image, so there was no background to remove.")
+    mask = Image.fromarray((alpha * 255).round().astype("uint8"), "L")
+    source.putalpha(ImageChops.multiply(mask, source.getchannel("A")))
+    output = io.BytesIO()
+    source.save(output, "PNG")
+    return output.getvalue(), name
+
+
+def _prompts(item, points, box):
+    """Points and a box as the person saw the image (crop and flip applied, like sampling), mapped to the source."""
+    if points is None and box is None:
+        return None, None
+    data = item.get("data") or {}
+    crop = data.get("crop") or {"x": 0, "y": 0, "width": 1, "height": 1}
+
+    def source(u, v):
+        if not all(isinstance(n, (int, float)) and not isinstance(n, bool) and 0 <= n <= 1 for n in (u, v)):
+            raise ValueError("Points and box corners must be numbers from 0 to 1 across the image as shown.")
+        u, v = (1 - u if data.get("flip_x") else u), (1 - v if data.get("flip_y") else v)
+        return crop["x"] + u * crop["width"], crop["y"] + v * crop["height"]
+
+    mapped = []
+    if points is not None:
+        if not isinstance(points, list) or len(points) > 16 or not all(isinstance(p, dict) for p in points):
+            raise ValueError("points must be a list of at most 16 {x, y, keep} objects.")
+        for point in points:
+            x, y = source(point.get("x"), point.get("y"))
+            mapped.append({"x": x, "y": y, "keep": point.get("keep") is not False})
+    corners = None
+    if box is not None:
+        if not isinstance(box, dict):
+            raise ValueError("box must be {x0, y0, x1, y1}.")
+        (x0, y0), (x1, y1) = source(box.get("x0"), box.get("y0")), source(box.get("x1"), box.get("y1"))
+        corners = {"x0": min(x0, x1), "y0": min(y0, y1), "x1": max(x0, x1), "y1": max(y0, y1)}
+    return mapped, corners
+
+
+def change_background(board_id, ids, action, tolerance=DEFAULT_TOLERANCE, method="plain", points=None, box=None):
+    """Remove or restore the background of image items as one undoable step.
+
+    method is "plain" (no model, edge colours) or one of FormCut's models: auto, object-cutout, person-cutout,
+    sharp-cutout, or click-select (SAM 2.1, which takes points and a box on one image).
+    """
     if action not in {"remove", "restore"}:
         raise ValueError("action must be remove or restore.")
+    if method != "plain":
+        from .segment import METHODS
+        if method not in METHODS:
+            raise ValueError("method must be plain, auto, object-cutout, person-cutout, sharp-cutout or click-select.")
+        if method == "click-select" and action == "remove" and isinstance(ids, list) and len(ids) != 1:
+            raise ValueError("Click to select works on one image at a time.")
     if not isinstance(ids, list) or not ids or len(ids) > 50 or not all(isinstance(value, str) for value in ids):
         raise ValueError("ids must list 1 to 50 image items.")
     board = store.get(board_id)["board"]
@@ -137,8 +194,9 @@ def change_background(board_id, ids, action, tolerance=DEFAULT_TOLERANCE):
                 planned.append((item_id, item["asset_id"], {"asset_id": original, "data": {"cutout": None, "mime": info["mime"], "size": info["size"]}}))
             continue
         source_id = original or item["asset_id"]
+        mapped, corners = _prompts(item, points, box) if method == "click-select" else (None, None)
         try:
-            png, name = cut_out(source_id, tolerance)
+            png, name = cut_out(source_id, tolerance, method, mapped, corners)
         except ValueError as exc:
             # One unsuitable image in a selection should not stop the rest; it is reported back instead.
             if len(ids) == 1 or str(exc).startswith("Tolerance"):
@@ -146,7 +204,10 @@ def change_background(board_id, ids, action, tolerance=DEFAULT_TOLERANCE):
             skipped.append({"id": item_id, "reason": str(exc)})
             continue
         asset = store.import_asset(Path(name).stem[:160] + " (no background).png", png)
-        planned.append((item_id, item["asset_id"], {"asset_id": asset["id"], "data": {"cutout": {"original": source_id, "tolerance": tolerance}, "mime": asset["mime"], "size": asset["size"]}}))
+        record = {"original": source_id, "method": method}
+        record.update({"tolerance": tolerance} if method == "plain" else {})
+        record.update({"points": points or [], "box": box} if method == "click-select" else {})
+        planned.append((item_id, item["asset_id"], {"asset_id": asset["id"], "data": {"cutout": record, "mime": asset["mime"], "size": asset["size"]}}))
     if not planned:
         raise ValueError(skipped[0]["reason"] if skipped else "None of those images has a removed background to restore.")
     with store.lock:

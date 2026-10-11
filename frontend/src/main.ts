@@ -5,6 +5,7 @@ import './app/gestures';
 import './app/comments';
 import './app/labels';
 import './app/cards';
+import './app/cutout';
 import { bindDocks, showPanel, toggleDock } from './ui/dock';
 import { AgentPanel } from './ui/panels/agent';
 import { S, consent, drawCamera, onState, selection, toast } from './app/editor';
