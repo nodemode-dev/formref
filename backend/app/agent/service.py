@@ -23,6 +23,7 @@ class Agents:
         self.processes: dict[str, asyncio.subprocess.Process] = {}
         self.stopped: set[str] = set()
         self.cli_turns = 0
+        self.refusals = 0
 
     @property
     def path(self):

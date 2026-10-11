@@ -51,6 +51,7 @@ async def local_access(request: Request, call_next):
             return JSONResponse(status_code=400, content={"detail": "Invalid request content length."})
     client = request.headers.get("x-formref-client")
     if client and request.method not in {"GET", "HEAD", "OPTIONS"} and not request.url.path.startswith("/api/agent") and not agents.allows(client):
+        agents.refusals += 1
         return JSONResponse(status_code=403, content={"detail": "Outside agents are off. Turn them on in FormRef under Agent settings, or start the turn from FormRef's agent panel.", "code": "outside_agents_off"})
     response = await call_next(request)
     response.headers["X-Content-Type-Options"] = "nosniff"

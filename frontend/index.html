@@ -498,6 +498,20 @@
     </footer>
   </dialog>
 
+  <dialog id="consent-dialog" class="modal">
+    <div class="modal-head">
+      <strong>An outside agent wants to edit</strong>
+      <button class="icon-button" data-action="close-overlays" data-icon="close" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+      <p class="muted">An AI agent connected to FormRef from outside the app (such as Claude Code, Codex or Cursor) just tried to change a board and was refused. If you allow outside agents, each change it makes is one undoable step, and you can turn this off again in the Agent panel.</p>
+    </div>
+    <div class="modal-footer">
+      <button id="consent-deny" class="button" type="button">Not now</button>
+      <button id="consent-allow" class="button primary" type="button"><span data-icon="agent"></span>Allow outside agents</button>
+    </div>
+  </dialog>
+
   <dialog id="help-dialog" class="modal help-modal">
     <div class="modal-head">
       <strong>Keyboard shortcuts</strong>

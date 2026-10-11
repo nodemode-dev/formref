@@ -8,6 +8,7 @@ from ..core.store import store, MissingBoard
 from ..models.requests import CreateBoard, BoardCommand
 from ..core.sampling import sample_image
 from ..core.features import enrich
+from ..agent.service import agents
 
 router = APIRouter(prefix="/api")
 
@@ -115,7 +116,11 @@ async def events(board_id: str, request: Request):
     async def stream():
         last_revision = None
         heartbeat = 0
+        refusals = agents.refusals
         while not await request.is_disconnected():
+            if agents.refusals != refusals:
+                refusals = agents.refusals
+                yield "event: consent\ndata: " + json.dumps({"refusals": refusals}) + "\n\n"
             try:
                 record = await asyncio.to_thread(store.stored_record, board_id)
             except MissingBoard:

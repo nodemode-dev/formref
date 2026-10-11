@@ -14,6 +14,16 @@
 - [v0.1.0 · Local board service and SDK MCP](#v010--local-board-service-and-sdk-mcp)
 - [boot_backend.bat](#boot_backendbat)
 
+## v0.3.4 · Live consent prompt and iStack import check
+
+- refers-to: `app/main.py` :: local_access refusal counter; `app/routers/boards.py` :: events stream `consent`; `app/core/imports.py` :: import_istack
+- kind: rationale
+- logged: v0.3.4 · 2026-10-11
+
+FormVis asks the person when an outside agent first tries to edit. FormRef cannot hold an MCP call open waiting for a click, so the refusal stands and the open board's event stream emits `consent`; the page offers Allow or Not now, and the agent's next attempt succeeds once allowed. Run live: a refused rename, the dialog, Allow, and the same rename accepted.
+
+The iStack importer was checked against iStack's own save routine in the owner's bundle (`At()`: `format`, `version` 1.1, `canvasRect`, `drawings`, `items` with `flipH`, `flipV`, `nearestNeighbor`, `cropRect`, `_imageData`, `_sourcePath`, `groupId`). A board in that format with two images (one embedded, one path-only), a note, a freehand stroke, a rectangle and an eraser stroke imported with rotation, opacity, flips, grayscale, sampling, lock and group intact; the path-only image arrived unresolved and relinkable; the eraser stroke, which in iStack subtracts raster pixels, is listed as unsupported in the import report instead of being dropped silently. `cropRect` units are taken as display pixels of the item; the bundle does not show them unambiguously, so crop on imported boards is unverified.
+
 ## v0.3.2 · Embedded agent service, consent gate, similarity features, session
 
 - refers-to: `app/agent/service.py` :: Agents; `app/agent/runners.py` :: CLI, argv, parse; `app/routers/agent.py`; `app/main.py` :: local_access consent check; `app/mcp_server.py` :: CLIENT_TOKEN, adjust_items; `app/core/features.py`

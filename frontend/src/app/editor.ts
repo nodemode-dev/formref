@@ -281,6 +281,8 @@ export function updateInspector() {
   setInput('prop-parent', first.parent_id || '');
 }
 
+export const consent = { ask: () => undefined as void };
+
 const stateListeners: ((state: State) => void)[] = [];
 export function onState(listener: (state: State) => void) { stateListeners.push(listener); }
 
@@ -382,6 +384,7 @@ export async function open(id: string, next?: State) {
     toast('This board was deleted by another client.');
     void start();
   });
+  S.events.addEventListener('consent', () => consent.ask());
   S.events.onopen = () => setText('connection-state', 'Rust engine connected');
   S.events.onerror = () => setText('connection-state', 'Live updates reconnecting');
   await refreshBoards();

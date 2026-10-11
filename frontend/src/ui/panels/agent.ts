@@ -234,4 +234,9 @@ export class AgentPanel {
   refresh() {
     this.updateButtons();
   }
+
+  async allowOutside() {
+    await this.save({ outside_agents: true });
+    this.outside.checked = true;
+  }
 }
