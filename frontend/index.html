@@ -329,10 +329,21 @@
         </div>
 
         <div id="agent-panel" class="panel-body agent-panel" role="tabpanel" data-panel="agent">
-          <section class="panel-section">
-            <span class="eyebrow">AGENT</span>
-            <h2>Work with an agent</h2>
-            <p class="muted">The agent panel arrives in the next build. Agents can already edit this board: Claude Code, Codex and Cursor through FormRef's MCP server, and FormRef can run a turn on any of them or on Ollama through its local service.</p>
+          <section class="panel-section agent-setup">
+            <label class="field"><span>Runner</span><select id="agent-runner" aria-label="Agent runner"></select></label>
+            <label id="agent-model-field" class="field" hidden><span>Ollama model</span><select id="agent-model" aria-label="Ollama model"><option value="">Choose a model</option></select></label>
+            <p id="agent-runner-note" class="field-description agent-note"></p>
+          </section>
+          <div id="agent-log" class="agent-log" role="log" aria-live="polite"></div>
+          <section class="panel-section agent-compose">
+            <textarea id="agent-input" rows="3" placeholder="Ask for a change, e.g. sort these by colour and pack them" aria-label="Message to the agent"></textarea>
+            <div class="agent-actions">
+              <button id="agent-undo" class="button compact" disabled><span data-icon="undo"></span>Undo This Turn</button>
+              <button id="agent-stop" class="button compact" disabled><span data-icon="stop"></span>Stop</button>
+              <button id="agent-send" class="button compact primary" disabled><span data-icon="send"></span>Send</button>
+            </div>
+            <p id="agent-status" class="field-description agent-status" role="status">Each change the agent makes is one undoable step.</p>
+            <label class="check-row"><input id="agent-outside" type="checkbox">Allow outside agents (Claude Code, Codex, Cursor or any MCP client started outside FormRef) to edit boards</label>
           </section>
         </div>
       </div>

@@ -56,4 +56,27 @@
 
 .button svg, .export-row > span:first-child svg { flex: none; }
 .offscreen-input { position: fixed; left: -100px; top: 0; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
-.agent-panel .panel-section h2 { font-size: 16px; }
+.agent-panel:not([hidden]) { display: flex; flex-direction: column; overflow: hidden; }
+.agent-setup { gap: var(--space-2); flex: none; }
+.agent-note { min-height: calc(1.7em * 2); }
+.agent-log { flex: 1; min-height: 0; overflow: auto; display: flex; flex-direction: column; gap: var(--space-2); padding: var(--space-3) var(--space-4); border-bottom: 1px solid var(--border-color); }
+.agent-entry { font-size: 11px; line-height: 1.6; white-space: pre-wrap; overflow-wrap: anywhere; }
+.agent-entry.user { align-self: flex-end; max-width: 90%; padding: var(--space-2) var(--space-3); border-radius: var(--radius-md); background: var(--accent-soft); color: var(--text-primary); }
+.agent-entry.reply { color: var(--text-secondary); }
+.agent-entry.error { color: var(--danger); }
+.agent-entry.agent-call { padding: var(--space-2) var(--space-3); border: 1px solid var(--border-color); border-radius: var(--radius-md); background: var(--bg-secondary); white-space: normal; }
+.agent-entry.agent-call.failed { border-color: color-mix(in srgb, var(--danger) 55%, var(--border-color)); }
+.agent-tool-head { display: grid; grid-template-columns: 14px minmax(0, 1fr) auto; align-items: center; gap: var(--space-2); }
+.agent-tool-head svg { width: 14px; height: 14px; color: var(--text-muted); }
+.agent-tool-state { font: 9px var(--font-mono); color: var(--text-muted); min-width: 48px; text-align: right; }
+.agent-entry.agent-call:not(.pending):not(.failed) .agent-tool-state { color: var(--ok); }
+.agent-entry.agent-call.failed .agent-tool-state { color: var(--danger); }
+.agent-entry.agent-call code { display: block; margin-top: var(--space-1); font: 10px var(--font-mono); color: var(--text-muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.agent-tool-result { margin: var(--space-1) 0 0; height: 3.2em; line-height: 1.6; overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; color: var(--text-muted); font-size: 10px; }
+.agent-compose { flex: none; gap: var(--space-2); }
+.agent-compose textarea { width: 100%; resize: none; font-size: 11px; line-height: 1.6; }
+.agent-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: var(--space-2); }
+#agent-undo { order: 3; flex: 1 0 100%; }
+.agent-compose .check-row { align-items: flex-start; font-size: 10px; line-height: 1.6; }
+.agent-compose .check-row input { margin-top: 2px; flex: none; }
+.agent-status { min-height: calc(1.7em * 2); }
