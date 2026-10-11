@@ -24,6 +24,14 @@ FormVis asks the person when an outside agent first tries to edit. FormRef canno
 
 The iStack importer was checked against iStack's own save routine in the owner's bundle (`At()`: `format`, `version` 1.1, `canvasRect`, `drawings`, `items` with `flipH`, `flipV`, `nearestNeighbor`, `cropRect`, `_imageData`, `_sourcePath`, `groupId`). A board in that format with two images (one embedded, one path-only), a note, a freehand stroke, a rectangle and an eraser stroke imported with rotation, opacity, flips, grayscale, sampling, lock and group intact; the path-only image arrived unresolved and relinkable; the eraser stroke, which in iStack subtracts raster pixels, is listed as unsupported in the import report instead of being dropped silently. `cropRect` units are taken as display pixels of the item; the bundle does not show them unambiguously, so crop on imported boards is unverified.
 
+## v0.5.3 · Opt-in cloud storage from FormCut
+
+- refers-to: `app/core/cloud.py` :: start, google_callback, dropbox_code, listing, download, upload, _google_folder; `app/routers/cloud.py` :: from_agent, save_board, open_file
+- kind: rationale
+- logged: v0.5.3 · 2026-10-11
+
+FormCut's cloud module ported with its flows unchanged: Google's desktop PKCE flow with a redirect to this service on 127.0.0.1 and `drive.file` by default (`drive.readonly` opt-in), Dropbox's PKCE paste-code flow with no secret, tokens refreshed in the service and written with mode 0600 through the store's atomic write. FormRef has no jobs queue, so transfers run in a thread per request and are capped at the 64 MiB upload limit (one Dropbox upload call suffices). What moves is FormRef's: a board through the registered exporters (portable archive, PNG, SVG, Markdown, JSON) into a `formref` folder, and a file back through the project importer or `import_asset` plus a free spot (the clipper's placement). Two departures from FormCut: the routes refuse any request with `X-FormRef-Client`, because a connected account must not let an agent send boards off the computer, and `_google_folder` looks for an existing `formref` folder before making one, because after a reconnect the remembered id is gone and a second folder appeared in the run. A Google folder id is checked to be an id before it enters the query. Run against a local stand-in for both services that checks PKCE: sign-in, replayed callback refused, token file 0600 and never in responses, saves, listing, open as board and onto a board, Dropbox paste code, wrong code refused, an expired token refreshed, agent requests refused, disconnect.
+
 ## v0.5.3 · Background models from FormCut
 
 - refers-to: `app/core/models.py` :: MODELS, PINNED, start_download, import_file; `app/core/segment.py` :: matte, shaped; `app/core/cutout.py` :: _model_cutout, _prompts; `app/bundled_models/u2netp.onnx`

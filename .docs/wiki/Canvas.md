@@ -19,7 +19,18 @@ Collect images, notes and planning content on an infinite board, then select ite
 
 Image geometry supports crop, flips, rotation, opacity and grayscale. Preserve original image bytes while arranging; a display thumbnail is not an export source. The inspector changes selected properties through the same engine commands used by agents.
 
-Remove Background (Images menu or the inspector) makes a plain background transparent: whatever touches the image edges in the background colour, with soft edges. Raise Tolerance for shadows and soft gradients; lower it if the subject is eaten. It suits product shots, scans, logos, sketches and studio photos. Photos whose subject blends into its surroundings, and busy backgrounds, are refused with a reason; they need a segmentation model. The original is kept, so Restore Background brings it back, Remove Background again starts from the original, and Ctrl+Z undoes either.
+Remove Background (Images menu or the inspector) makes the background transparent. The original is kept, so Restore Background brings it back, Remove Background again starts from the original, and Ctrl+Z undoes either. Choose the Method in the inspector; the models are FormCut's, with the same files and checksums:
+
+| Method | Model | Size | Good for |
+| --- | --- | --- | --- |
+| Plain background | none | | product shots, scans, logos and sketches on a plain backdrop; Tolerance sets how far a colour may differ, and busy or blending backgrounds are refused |
+| Object | U2Net small, built in | 4.6 MB | any photo, offline from the first run |
+| Person | U2Net human segmentation | 176 MB | people |
+| Sharp edges | IS-Net general | 179 MB | crisp outlines, objects with fine structure |
+| Subject (Auto) | Person, else Object | | FormCut's rule: the person matte when it covers at least one percent of the image, otherwise the object one |
+| Click to select | SAM 2.1 Hiera Tiny | about 150 MB | the one thing you point at: Pick points on the image, click what to keep, Alt-click what to leave out (up to 16), then Remove |
+
+A model other than Object downloads when you press Download; each file is checked against its published SHA-256 and discarded if it differs. On a machine that cannot reach GitHub or Hugging Face, Import file takes the same files from elsewhere, checked the same way. Models live in `models/` in the data folder and run through ONNX Runtime on the best processor present (Core ML, DirectML or CUDA when available, else the CPU).
 
 Align, distribute, pack and normalize operate on engine-selected IDs. Locked content is protected from mutating layout commands; unlock intentionally before rearranging it. A group transform operates about shared bounds, and a completed user operation should produce one undo step.
 

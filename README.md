@@ -22,7 +22,8 @@ Rust document engine · vanilla TypeScript/Vite view · Python/FastAPI media & p
 - **Synced notes & maps:** linked copies of a note that change together; Google Maps and OpenStreetMap links as map cards.
 - **GIF frames & document export:** pause, step, scrub and keep GIF frames; export any document as PDF, Word, Markdown or text.
 - **Video, audio & tables:** playable video and audio cards, YouTube, Vimeo, Spotify and SoundCloud players, and table cards with typed columns and formulas.
-- **Background removal:** make a plain background transparent with one click, keep the original and restore it any time.
+- **Background removal:** FormCut's models (U2Net built in, Person, IS-Net, Auto and SAM 2.1 click to select) or a model-free plain-background cut; the original is kept and restored any time.
+- **Cloud storage (opt-in):** save boards to and open files from Google Drive or Dropbox with your own app credentials; off until you connect.
 - **Browser clipper:** a Chrome and Firefox extension in `clipper/` saves images, selected text, links and pages to your board, paired by a token from Preferences.
 - **Labels & web images:** coloured board labels on any item; drag, paste or fetch images and pages from the web.
 - **Comments & templates:** comment threads on any item, resolved or reopened; start boards from starters or your own templates.
@@ -81,6 +82,7 @@ Set environment variables before launch; local environment files must remain unc
 | FORMREF_ENGINE_PATH | Override Rust engine executable |
 | FORMREF_MCP_IMPORT_DIR | Restrict MCP path imports to this directory; default `~/.formref/imports` |
 | FORMREF_CAPTURE_ALLOW_PRIVATE | Set to 1 only for testing: lets web capture fetch local and private-network addresses |
+| CLOUD_GOOGLE_* / CLOUD_DROPBOX_* | Point cloud storage at other addresses, for testing against a stand-in (see the Cloud storage wiki page) |
 
 ## Architecture
 
@@ -97,7 +99,7 @@ Set environment variables before launch; local environment files must remain unc
 
 ## Status
 
-FormRef covers the PureRef image-board core and Milanote's cards, columns, tasks, tables, links, maps, synced notes and nested boards, behind iStack's menu, with an embedded agent. Background removal works on plain backgrounds without a model; photos with busy or blending backgrounds are refused until a segmentation model is chosen. Cloud collaboration and protected sharing remain gaps; the browser clipper loads unpacked (no store-signed build). The desktop shell (`./formref desktop`) adds always-on-top, always-on-bottom, frameless, fullscreen, window opacity and click-through windows; it was compiled and run on Linux, while compiled, signed macOS/Windows installers are not included. Codex, Cursor & Ollama runners are implemented but were not available on the build machine, so only Claude Code has been run end to end.
+FormRef covers the PureRef image-board core and Milanote's cards, columns, tasks, tables, links, maps, synced notes and nested boards, behind iStack's menu, with an embedded agent. Background removal runs FormCut's models, with U2Net small built in; SAM 2.1 is implemented from FormCut's code but could not be downloaded on the build machine. Google Drive and Dropbox storage is opt-in; real-time collaboration and protected sharing remain gaps; the browser clipper loads unpacked (no store-signed build). The desktop shell (`./formref desktop`) adds always-on-top, always-on-bottom, frameless, fullscreen, window opacity and click-through windows; it was compiled and run on Linux, while compiled, signed macOS/Windows installers are not included. Codex, Cursor & Ollama runners are implemented but were not available on the build machine, so only Claude Code has been run end to end.
 
 Planning, research and parity data live in the planning sidecar, outside this repository; the FormRef tab of the FormAI parity matrix is rendered from it each release. No self-authored test suite is included.
 

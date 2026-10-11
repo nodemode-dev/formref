@@ -6,6 +6,7 @@
 - [Agent](Agent.md)
 - [MCP](MCP.md)
 - [Browser clipper](Clipper.md)
+- [Cloud storage](Cloud.md)
 - [Architecture](Architecture.md)
 - [Engine Contract](Engine-Contract.md)
 - [Releases](Releases.md)

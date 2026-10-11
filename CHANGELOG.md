@@ -1,5 +1,15 @@
 # FormRef changelog
 
+## v0.5.3 · 2026-10-11
+
+Background models and cloud storage, from FormCut.
+
+- Remove Background has a Method: FormCut's models alongside the model-free plain-background cut. Object (U2Net small) is built in and works offline; Person (U2Net), Sharp edges (IS-Net), Subject (Auto) and Click to select (SAM 2.1) download from the inspector, each checked against its published checksum. Click to select: pick points on the image, Alt-click to leave something out.
+- Import file adds a model you already have, for machines that cannot reach the download hosts.
+- Cloud storage, opt-in: connect Google Drive or Dropbox in Preferences with your own app credentials, then Save Board to Cloud (FormRef board, picture or Markdown) and Open from Cloud (a board opens; an image goes onto the board). Agents cannot use it.
+- The command palette runs the first match on Enter, and the arrow keys move through it.
+- MCP: `list_background_models`, `download_background_model`, and `remove_background` takes a method and points; 35 tools.
+
 ## v0.5.2 · 2026-10-11
 
 Regression fixes.
