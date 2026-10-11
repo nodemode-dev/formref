@@ -5,6 +5,14 @@
 - [FormRef root](../README.md)
 - [Browser clipper guide](../.docs/wiki/Clipper.md)
 
+## v0.5.2 · Firefox add-on lint
+
+- refers-to: `manifest.json` :: browser_specific_settings.gecko
+- kind: rationale
+- logged: v0.5.2 · 2026-10-11
+
+Mozilla's `addons-linter` 10.14.0 found 0 errors and 4 warnings. Fixed two: Firefox now requires `data_collection_permissions`, declared as `none` because clips go only to the person's own FormRef; and `optional_host_permissions` needs Firefox 128, so `strict_min_version` moved from 121 to 128. Kept on purpose: `service_worker` is ignored by Firefox (Chrome reads it, Firefox reads `scripts`), and the data-collection key is ignored by Firefox 128 to 139, which is harmless. The rebuilt manifest still loaded in Chromium and every clip kind still landed.
+
 ## v0.4.10 · First build
 
 - refers-to: `manifest.json`, `background.js` :: clip, report, installMenus; `options.html`, `options.js`, `options.css`

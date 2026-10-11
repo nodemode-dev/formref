@@ -1,5 +1,12 @@
 # FormRef changelog
 
+## v0.5.2 · 2026-10-11
+
+Regression fixes.
+
+- Fixed: since v0.4.9 the right-click menu did not open unless an image was selected (right-clicking empty canvas or a note did nothing). Menus, the palette and shortcuts now treat a failing check as a disabled command instead of stopping.
+- The clipper passes Mozilla's add-on linter with no errors; it now needs Firefox 128 or later and declares that it collects no data.
+
 ## v0.5.1 · 2026-10-11
 
 Editing while presenting, always on bottom, clipper command. Versions now follow `v*.**.*`, so this release follows v0.4.10.

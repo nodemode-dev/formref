@@ -9,7 +9,7 @@ import {
   selected, selection, setInput, setText, setTool, toast, updateInspector, updateOutline, upload,
 } from './editor';
 import type { Tool } from './editor';
-import { COMMANDS, RESERVED_KEYS, applyKeyOverrides, assignKey, comboOf, keyLabel, keyOverrides, onKeysChanged, primaryKey, run } from './commands';
+import { COMMANDS, RESERVED_KEYS, applyKeyOverrides, assignKey, comboOf, isEnabled, keyLabel, keyOverrides, onKeysChanged, primaryKey, run } from './commands';
 import { replaceActiveWithNext } from './tabs';
 
 for (const node of document.querySelectorAll<HTMLElement>('[data-icon]')) node.prepend(icon(node.dataset.icon!));
@@ -59,7 +59,7 @@ function filterCommands() {
   for (const [id, row] of paletteRows) {
     const command = COMMANDS.find(c => c.id === id)!;
     row.hidden = !row.dataset.command!.includes(query);
-    row.disabled = command.enabled ? !command.enabled() : false;
+    row.disabled = !isEnabled(command);
   }
 }
 $('command-search').addEventListener('input', filterCommands);

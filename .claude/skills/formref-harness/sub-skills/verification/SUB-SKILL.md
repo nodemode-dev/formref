@@ -17,6 +17,8 @@ Chromium through Playwright, launched with `--no-proxy-server` for loopback. Bef
 
 Expected: zero shifts on cold load and reload, including with docks collapsed and several tabs; the only shift during an agent turn is the board content the agent was asked to move. Any other shift names its source node; fix it before hand-back.
 
+Whenever a command, menu entry or `enabled` check changed, also right-click empty canvas with nothing selected and with only a note selected, and capture `pageerror`. In v0.4.9 a check that called the throwing `selectedImages()` stopped the right-click menu opening unless an image was selected, and only a full sweep two releases later found it. Probes that need content must seed it: a fresh data folder starts with an empty board.
+
 ## MCP
 
 Use the official SDK client over stdio (`StdioServerParameters` with this backend's interpreter and `-m app.mcp_server`), list tools, call one mutating tool, and read the board back over REST.

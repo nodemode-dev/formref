@@ -6,7 +6,7 @@ The FormRef Clipper is a browser extension in the repository's `clipper/` folder
 
 1. Start FormRef (`./formref` or `./formref serve`).
 2. Chrome, Edge, Brave or Arc: open the extensions page, turn on Developer mode, choose Load unpacked and pick the `clipper` folder.
-3. Firefox 121 or later: open `about:debugging`, This Firefox, Load Temporary Add-on, and pick `clipper/manifest.json`. A temporary add-on lasts until Firefox closes; a signed build is not provided.
+3. Firefox 128 or later: open `about:debugging`, This Firefox, Load Temporary Add-on, and pick `clipper/manifest.json`. A temporary add-on lasts until Firefox closes; a signed build is not provided.
 4. In FormRef, open Preferences, Browser clipper, and press Copy. Or run `./formref clipper` (`formref.bat clipper` on Windows), which prints the folder and the token; `--new` makes a new token.
 5. In the clipper's options page, paste the token and press Save and connect. It lists your boards when the pairing works.
 

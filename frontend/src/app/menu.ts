@@ -1,5 +1,5 @@
 import type { MenuEntry } from '../ui/context-menu';
-import { BY_ID, SNAP_SCALES, lockLabel, primaryKey, run, snapScale, snapScaleNow } from './commands';
+import { BY_ID, SNAP_SCALES, isEnabled, lockLabel, primaryKey, run, snapScale, snapScaleNow } from './commands';
 import { S, defaultSettings, selection } from './editor';
 
 function item(id: string, label?: string): MenuEntry {
@@ -8,7 +8,7 @@ function item(id: string, label?: string): MenuEntry {
     label: label || command.label,
     icon: command.icon,
     shortcut: primaryKey(command),
-    disabled: command.enabled ? !command.enabled() : false,
+    disabled: !isEnabled(command),
     danger: id === 'delete',
     action: () => run(id),
   };

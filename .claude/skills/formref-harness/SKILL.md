@@ -34,7 +34,7 @@ One engine owns every mutation, so the canvas, REST, MCP and the agent share one
 ## Rules that hold everywhere
 
 - **Engine first.** A new board behaviour is an engine command (`native/formref-core/src/commands/`), then a REST or MCP surface, then a command-table entry. The canvas previews gestures but commits through the engine.
-- **One command table.** Menu, palette, keyboard and shortcut sheet read `frontend/src/app/commands.ts`. Add a command there once; never hand-build a menu item or a key handler beside it.
+- **One command table.** Menu, palette, keyboard and shortcut sheet read `frontend/src/app/commands.ts`. Add a command there once; never hand-build a menu item or a key handler beside it. An `enabled` check must never throw (use `selected()`, not `selectedImages()`); `isEnabled` treats a throwing check as disabled, but it is a safety net, not a licence.
 - **iStack wins key collisions.** The right-click menu keeps iStack's order, labels and shortcuts; FormRef-only actions go in Insert or at the end of a submenu.
 - **Zero DOM flash.** Patch the changed node, reserve space before async content, theme and docks are set before first paint, the shell reveals only once parsed. Verify under throttling, not by eye.
 - **One stacking scale.** Every `z-index` is a token from `frontend/src/styles/tokens.css`; overlays render into `#overlay-root`.

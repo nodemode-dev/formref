@@ -169,7 +169,8 @@ async function copyClipToken() {
   toast('Clipper token copied. Paste it into the FormRef Clipper options.');
 }
 
-const hasCutout = () => selectedImages().some(i => !!i.data.cutout);
+// An enabled check must never throw: it runs for every menu, palette and inspector refresh, selection or not.
+const hasCutout = () => selected().some(i => i.kind === 'image' && !!i.data.cutout);
 
 function cropReset() {
   return execute({ type: 'crop', ids: selectedImages().map(i => i.id), reset: true });
@@ -393,10 +394,20 @@ export function lockLabel(): string {
   return anyLocked() ? 'Unlock Selected' : 'Lock Selected';
 }
 
+/** A command whose check fails counts as disabled, so one faulty check can never stop a menu or the palette opening. */
+export function isEnabled(command: CommandDef): boolean {
+  try {
+    return command.enabled ? command.enabled() : true;
+  } catch (reason) {
+    console.warn(`Enabled check for ${command.id} failed`, reason);
+    return false;
+  }
+}
+
 export function run(id: string) {
   const command = BY_ID.get(id);
   if (!command) throw new Error(`Unknown command ${id}`);
-  if (command.enabled && !command.enabled()) return;
+  if (!isEnabled(command)) return;
   void Promise.resolve().then(() => command.run()).catch(error);
 }
 

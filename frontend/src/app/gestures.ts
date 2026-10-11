@@ -8,7 +8,7 @@ import {
   rememberCamera, toast, defaultSettings, error,
 } from './editor';
 import type { Gesture } from './editor';
-import { commandForKey } from './commands';
+import { commandForKey, isEnabled } from './commands';
 import { boardMenu } from './menu';
 import { captureUrl, droppedUrl, webUrl } from './capture';
 
@@ -377,7 +377,7 @@ document.addEventListener('keydown', event => {
   if (command.id === 'paste') return;
   if (modifier && editing && !global) return;
   event.preventDefault();
-  if (command.enabled && !command.enabled()) return;
+  if (!isEnabled(command)) return;
   void Promise.resolve().then(() => command.run()).catch(error);
 });
 

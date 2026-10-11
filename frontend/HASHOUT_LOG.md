@@ -10,12 +10,17 @@
 - [Scripts](#scripts)
 - [Canvas increment](#canvas-increment)
 - [Reference editing increment](#reference-editing-increment)
+- [v0.5.2 right-click regression](#v052-right-click-regression)
 - [v0.5.1 editing while presenting, always on bottom](#v051-editing-while-presenting-always-on-bottom)
 - [v0.4.10 clipper pairing and card footer icons](#v0410-clipper-pairing-and-card-footer-icons)
 - [v0.4.9 background removal and a steady toast](#v049-background-removal-and-a-steady-toast)
 - [v0.4.8 desktop window controls and WebKit icons](#v048-desktop-window-controls-and-webkit-icons)
 - [v0.4.7 synced notes, map cards, inline edit commit](#v047-synced-notes-map-cards-inline-edit-commit)
 - [v0.4.6 GIF frames and document export](#v046-gif-frames-and-document-export)
+
+## v0.5.2 right-click regression
+
+A full re-run of every earlier probe found the right-click menu silent whenever no image was selected. v0.4.9's `hasCutout` called `selectedImages()`, which throws without an image; the menu builder evaluates every `enabled` check, so one throw stopped `menu.show` after the browser menu had already been suppressed. `hasCutout` now uses `selected()`, and `isEnabled` in `commands.ts` wraps every check (menu, palette rows, keys, `run`) so a faulty check reads as disabled and logs a warning. The v0.4.9 probe only right-clicked an image, which is why it passed; the verification specialist now requires a right-click on empty canvas with nothing selected whenever commands change.
 
 ## v0.5.1 editing while presenting, always on bottom
 
