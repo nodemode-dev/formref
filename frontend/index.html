@@ -34,9 +34,9 @@
       </a>
     </div>
     <div class="title-context">
-      <span class="workspace-name">My workspace</span>
-      <span class="crumb">/</span>
-      <button id="board-title" data-action="rename" class="plain board-title">Reference studio</button>
+      <div id="board-tabs" class="board-tabs" role="tablist" aria-label="Open boards"></div>
+      <button class="icon-button small" data-action="new-tab" data-icon="plus" title="New tab" aria-label="New tab"></button>
+      <button id="board-title" data-action="rename" class="offscreen-input" tabindex="-1" aria-hidden="true">Reference studio</button>
       <span id="save-status" class="save-state">Connecting</span>
     </div>
     <div class="title-actions">
@@ -119,6 +119,7 @@
         <div class="tool-group">
           <button class="tool" data-tool="sample" data-icon="pipette" aria-label="Sample image color" title="Sample original image pixels · I"></button>
           <button class="tool" data-tool="pen" data-icon="brush" aria-label="Draw mode" title="Draw mode · D"></button>
+          <button class="tool" data-tool="eraser" data-icon="eraser" aria-label="Eraser" title="Eraser · E"></button>
           <button class="tool" data-tool="shape" data-shape="rect" data-icon="rect-tool" aria-label="Rectangle" title="Rectangle · Shift+R"></button>
           <button class="tool" data-tool="shape" data-shape="ellipse" data-icon="circle-tool" aria-label="Circle" title="Circle · Shift+O"></button>
           <button class="tool" data-tool="shape" data-shape="line" data-icon="line-tool" aria-label="Line" title="Line · Shift+I"></button>
@@ -250,6 +251,7 @@
               <button class="button compact full" data-action="relink"><span data-icon="relink"></span>Replace or relink image</button>
             </div>
             <div id="note-properties" hidden>
+              <label class="field"><span>Note font</span><select id="note-font" aria-label="Note font"><option value="">Studio default</option></select></label>
               <div class="button-grid">
                 <button class="button compact" data-action="open-source"><span data-icon="document"></span>Open editor</button>
                 <button class="button compact" data-action="format-note"><span data-icon="note"></span>Format note</button>
@@ -425,7 +427,8 @@
         <label class="check-row"><input id="snap-enabled" type="checkbox">Snap while dragging</label>
         <label class="check-row"><input id="canvas-grayscale" type="checkbox">Canvas grayscale</label>
         <p class="field-description">Snapping works with the grid hidden. Grayscale preserves the source images.</p>
-        <label class="field-row"><span>Seconds per reference</span><input id="presentation-interval" type="number" min="1" max="60" step="1" value="10"></label>
+        <label class="field-row"><span>Slideshow speed (seconds per image)</span><input id="presentation-interval" type="number" min="1" max="60" step="1" value="10"></label>
+        <label class="field-row"><span>Slideshow transition</span><select id="presentation-transition"><option value="fade">Fade</option><option value="none">None</option></select></label>
       </section>
       <p class="field-description">Browser workspace: canvas, files, local persistence and MCP automation are available. Native window controls appear only in the desktop shell.</p>
       <section id="native-controls" hidden>

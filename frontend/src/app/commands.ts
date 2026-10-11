@@ -4,6 +4,7 @@ import { newItem } from '../lib/types';
 import { dataUrl } from '../lib/host';
 import { sampleCommand } from '../ui/sample';
 import type { IconName } from '../ui/icons';
+import { close as closeTab, forget, replaceActiveWithNext } from './tabs';
 import {
   $, S, add, arrange, closeOverlays, defaultSettings, editable, error, execute, fit, history, host, inputDialog,
   matches, open, openEditor, placement, referenceView, refreshBoards, selected, selectedImages, selection,
@@ -180,14 +181,16 @@ async function deleteBoard() {
   if (form?.name !== 'DELETE') return;
   await S.queue;
   await api.remove(id);
+  forget(id);
   S.events?.close();
   S.state = null;
   await start();
 }
 
-async function newBoard() {
-  const form = await inputDialog('Create board', { name: 'Untitled board' });
+async function newBoard(replace = false) {
+  const form = await inputDialog(replace ? 'New board in this tab' : 'New board in a new tab', { name: 'Untitled board' });
   if (!form) return;
+  if (replace) replaceActiveWithNext();
   const next = await api.create(form.name || 'Untitled board');
   await open(next.board.id, next);
 }
@@ -211,6 +214,11 @@ async function sampleBoard() {
   await refreshBoards();
 }
 
+function chooseImport(mode: 'replace' | 'tab') {
+  $('import-input').dataset.mode = mode;
+  $('import-input').click();
+}
+
 function chooseFiles(accept: string) {
   $<HTMLInputElement>('files-input').accept = accept;
   $('files-input').click();
@@ -230,10 +238,11 @@ function selectAll() {
 }
 
 export const COMMANDS: CommandDef[] = [
-  { group: 'File', id: 'new-board', label: 'New', icon: 'new-file', keys: ['mod+n'], run: newBoard },
-  { group: 'File', id: 'new-tab', label: 'New Tab', icon: 'new-tab', run: newBoard },
-  { group: 'File', id: 'open-file', label: 'Open Board File', icon: 'open-folder', keys: ['mod+o'], run: () => $('import-input').click() },
-  { group: 'File', id: 'open-file-tab', label: 'Open in New Tab', icon: 'open-folder', run: () => $('import-input').click() },
+  { group: 'File', id: 'new-board', label: 'New', icon: 'new-file', keys: ['mod+n'], run: () => newBoard(true) },
+  { group: 'File', id: 'new-tab', label: 'New Tab', icon: 'new-tab', run: () => newBoard(false) },
+  { group: 'File', id: 'open-file', label: 'Open Board File', icon: 'open-folder', keys: ['mod+o'], run: () => chooseImport('replace') },
+  { group: 'File', id: 'open-file-tab', label: 'Open in New Tab', icon: 'open-folder', run: () => chooseImport('tab') },
+  { group: 'File', id: 'close-tab', label: 'Close Tab', icon: 'close', keys: ['alt+w'], run: () => S.state && closeTab(S.state.board.id), enabled: hasBoard },
   { group: 'File', id: 'images', label: 'Add Images', icon: 'image-add', keys: ['mod+i'], run: () => chooseFiles('image/*'), enabled: hasBoard },
   { group: 'File', id: 'file', label: 'Attach File', icon: 'paperclip', run: () => chooseFiles(''), enabled: hasBoard },
   { group: 'File', id: 'paste', label: 'Paste', icon: 'paste', keys: ['mod+v'], run: pasteFromClipboard, enabled: hasBoard, palette: true },
@@ -267,6 +276,7 @@ export const COMMANDS: CommandDef[] = [
   { group: 'Tools', id: 'tool-select', label: 'Select Tool', icon: 'cursor', keys: ['v'], run: () => setTool('select') },
   { group: 'Tools', id: 'tool-hand', label: 'Pan Tool', icon: 'hand', keys: ['h'], run: () => setTool('hand') },
   { group: 'Tools', id: 'draw', label: 'Draw Mode', icon: 'brush', keys: ['d'], run: drawMode, enabled: hasBoard },
+  { group: 'Tools', id: 'tool-eraser', label: 'Eraser', icon: 'eraser', keys: ['e'], run: () => setTool(S.tool === 'eraser' ? 'select' : 'eraser'), enabled: hasBoard },
   { group: 'Tools', id: 'tool-rect', label: 'Rectangle Tool', icon: 'rect-tool', keys: ['shift+r'], run: () => shapeTool('rect'), enabled: hasBoard },
   { group: 'Tools', id: 'tool-circle', label: 'Circle Tool', icon: 'circle-tool', keys: ['shift+o'], run: () => shapeTool('ellipse'), enabled: hasBoard },
   { group: 'Tools', id: 'tool-line', label: 'Line Tool', icon: 'line-tool', keys: ['shift+i'], run: () => shapeTool('line'), enabled: hasBoard },

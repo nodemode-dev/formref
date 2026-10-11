@@ -4,7 +4,8 @@ import { openPalette } from './app/bindings';
 import './app/gestures';
 import { bindDocks, showPanel, toggleDock } from './ui/dock';
 import { AgentPanel } from './ui/panels/agent';
-import { S, drawCamera, onState, selection, start, toast } from './app/editor';
+import { S, drawCamera, onState, selection, toast } from './app/editor';
+import { restore } from './app/tabs';
 
 const agent = new AgentPanel({
   boardId: () => S.state?.board.id || null,
@@ -24,4 +25,4 @@ document.querySelectorAll<HTMLElement>('[data-panel-tab="agent"],[data-rail-pane
 if (document.documentElement.dataset.rightPanel === 'agent') void agent.load();
 onState(() => agent.refresh());
 drawCamera();
-void start();
+void restore();

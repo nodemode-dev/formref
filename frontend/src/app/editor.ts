@@ -14,7 +14,7 @@ import { colorValues } from '../lib/color';
 export const $ = <T extends HTMLElement = HTMLElement>(id: string) => document.getElementById(id) as T;
 
 export interface Gesture {
-  type: 'pan' | 'move' | 'resize' | 'rotate' | 'marquee' | 'pen' | 'shape';
+  type: 'pan' | 'move' | 'resize' | 'rotate' | 'marquee' | 'pen' | 'shape' | 'erase';
   start: Point;
   screen: Point;
   current: Point;
@@ -27,7 +27,7 @@ export interface Gesture {
   snapAnchor?: Point;
 }
 
-export type Tool = 'select' | 'hand' | 'pen' | 'shape' | 'connect' | 'sample';
+export type Tool = 'select' | 'hand' | 'pen' | 'eraser' | 'shape' | 'connect' | 'sample';
 
 export const defaultSettings = { grid_visible: true, grid_size: 24, snap_enabled: false, grayscale: false };
 
@@ -242,6 +242,8 @@ export function updateInspector() {
     $<HTMLInputElement>(`prop-${key}`).disabled = first.locked && key !== 'locked';
   }
   $('note-properties').hidden = !['note', 'document'].includes(first.kind);
+  setInput('note-font', typeof first.data.font === 'string' ? first.data.font : '');
+  $('note-font').closest('label')!.hidden = first.kind !== 'note';
   $('swatch-properties').hidden = !items.every(i => i.kind === 'swatch');
   $<HTMLTextAreaElement>('prop-text').readOnly = first.kind === 'document' || first.kind === 'swatch' || (first.kind === 'note' && first.data.text_format === 'markdown');
   setInput('swatch-value', first.color);
@@ -443,6 +445,7 @@ const TOOL_STATUS: Record<Tool, string> = {
   select: 'Select and move references',
   hand: 'Drag to pan',
   pen: 'Drag to draw freehand',
+  eraser: 'Drag across drawings to erase them',
   shape: 'Drag to draw a shape',
   connect: 'Click two references to connect them',
   sample: 'Click a managed image to sample original pixels · Esc to exit',
@@ -458,7 +461,7 @@ export function setTool(next: Tool) {
     button.setAttribute('aria-pressed', String(active));
   });
   stage.classList.toggle('pan', next === 'hand');
-  stage.classList.toggle('drawing', ['pen', 'shape', 'connect', 'sample'].includes(next));
+  stage.classList.toggle('drawing', ['pen', 'eraser', 'shape', 'connect', 'sample'].includes(next));
   setText('tool-status', next === 'shape' ? `Drag to draw a ${S.shapeKind === 'rect' ? 'rectangle' : S.shapeKind === 'ellipse' ? 'circle' : 'line'}` : TOOL_STATUS[next]);
 }
 

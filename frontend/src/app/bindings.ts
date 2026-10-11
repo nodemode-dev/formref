@@ -3,12 +3,14 @@ import { isColor } from '../lib/color';
 import { nativeInvoke } from '../lib/host';
 import type { NativeWindow } from '../lib/host';
 import { icon } from '../ui/icons';
+import { NOTE_FONTS } from '../ui/scene';
 import {
   $, S, applyState, closeOverlays, defaultSettings, editable, error, execute, matches, open, referenceView, scene,
   selected, selection, setInput, setTool, toast, updateInspector, updateOutline, upload,
 } from './editor';
 import type { Tool } from './editor';
 import { COMMANDS, primaryKey, run } from './commands';
+import { replaceActiveWithNext } from './tabs';
 
 for (const node of document.querySelectorAll<HTMLElement>('[data-icon]')) node.prepend(icon(node.dataset.icon!));
 
@@ -99,6 +101,7 @@ $('import-input').addEventListener('change', event => {
   const input = event.target as HTMLInputElement;
   const file = input.files?.[0];
   if (file) {
+    if (input.dataset.mode === 'replace') replaceActiveWithNext();
     void api.import(file).then(async result => {
       await open(result.board.id, result);
       if (result.warnings?.length) toast(result.warnings.join(' · '));
@@ -126,6 +129,18 @@ for (const input of document.querySelectorAll<HTMLInputElement | HTMLTextAreaEle
     void execute({ type: 'update', ids: editable(), patch: { [key]: value } });
   });
 }
+
+for (const name of Object.keys(NOTE_FONTS)) {
+  const option = document.createElement('option');
+  option.value = name;
+  option.textContent = name;
+  $('note-font').append(option);
+}
+$('note-font').addEventListener('change', () => {
+  const font = $<HTMLSelectElement>('note-font').value;
+  const notes = selected().filter(item => item.kind === 'note');
+  void execute({ type: 'batch', commands: notes.map(item => ({ type: 'update', ids: [item.id], patch: { data: { font: font || null } } })) });
+});
 
 $('prop-tags').addEventListener('change', () => {
   const tags = $<HTMLInputElement>('prop-tags').value.split(',').map(t => t.trim()).filter(Boolean);
@@ -195,6 +210,18 @@ $('grid-size').addEventListener('change', () => {
     return;
   }
   void execute({ type: 'settings', patch: { grid_size } });
+});
+try {
+  const saved = localStorage.getItem('formref-transition');
+  if (saved === 'none' || saved === 'fade') {
+    setInput('presentation-transition', saved);
+    referenceView.transition(saved);
+  }
+} catch { }
+$('presentation-transition').addEventListener('change', () => {
+  const kind = $<HTMLSelectElement>('presentation-transition').value;
+  referenceView.transition(kind);
+  try { localStorage.setItem('formref-transition', kind); } catch { }
 });
 $('presentation-interval').addEventListener('change', () => {
   const input = $<HTMLInputElement>('presentation-interval');

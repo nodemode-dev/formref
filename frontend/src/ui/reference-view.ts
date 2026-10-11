@@ -19,6 +19,7 @@ export class ReferenceView {
   private timer: number | null = null;
   private playing = false;
   private seconds = 10;
+  private fade = true;
   private loadToken = 0;
   private loadedSource = '';
   private sourceWidth = 0; private sourceHeight = 0;
@@ -78,6 +79,10 @@ export class ReferenceView {
     return true;
   }
 
+  transition(kind: string) {
+    this.fade = kind === 'fade';
+  }
+
   stop(close = false) {
     if (this.timer !== null) window.clearInterval(this.timer);
     this.timer = null; this.playing = false;
@@ -108,8 +113,12 @@ export class ReferenceView {
     const loader = new Image(); loader.decoding = 'async'; loader.src = url;
     void loader.decode().then(() => {
       if (token !== this.loadToken || !this.dialog.open || this.currentId !== item.id) return;
+      const swapping = !!this.loadedSource;
       this.loadedSource = url; this.sourceWidth = loader.naturalWidth; this.sourceHeight = loader.naturalHeight; this.image.src = url; this.image.hidden = false; this.empty.hidden = true;
       this.paint(this.current() || item);
+      if (swapping && this.fade && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        this.media.animate([{ opacity: 0 }, { opacity: item.opacity }], { duration: 280, easing: 'ease-out' });
+      }
     }).catch(() => {
       if (token === this.loadToken && this.dialog.open) { text(this.empty, 'This reference could not be loaded. Step to another image or exit.'); this.empty.hidden = false; }
     });

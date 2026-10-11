@@ -25,6 +25,30 @@ function gestureDelta(g: Gesture) {
   return { dx, dy };
 }
 
+const erased = new Set<string>();
+
+function eraseAt(point: { x: number; y: number }) {
+  if (!S.state) return;
+  const radius = 8 / S.camera.zoom;
+  for (const item of S.state.board.items) {
+    if (item.kind !== 'stroke' || item.locked || item.hidden || erased.has(item.id)) continue;
+    const cx = item.x + item.width / 2;
+    const cy = item.y + item.height / 2;
+    const angle = -item.rotation * Math.PI / 180;
+    const dx = point.x - cx;
+    const dy = point.y - cy;
+    const lx = dx * Math.cos(angle) - dy * Math.sin(angle) + item.width / 2;
+    const ly = dx * Math.sin(angle) + dy * Math.cos(angle) + item.height / 2;
+    if (lx < -radius || ly < -radius || lx > item.width + radius || ly > item.height + radius) continue;
+    const points = (item.data.points || []) as { x: number; y: number }[];
+    if (points.some(pt => Math.hypot(pt.x - lx, pt.y - ly) <= radius + Number(item.data.stroke_width || 3) / 2)) {
+      erased.add(item.id);
+      const root = scene.nodes.get(item.id)?.root;
+      if (root) root.style.opacity = '0.25';
+    }
+  }
+}
+
 function shapePath(g: Gesture): string {
   const { start: a, current: b } = g;
   if (S.shapeKind === 'line') return `M${a.x},${a.y}L${b.x},${b.y}`;
@@ -69,6 +93,11 @@ stage.addEventListener('pointerdown', event => {
   const base = { start: p, current: p, screen, items: [], initial: { ...S.camera }, points: [], shift: event.shiftKey };
   if (S.space || event.button === 1 || S.tool === 'hand') S.gesture = { type: 'pan', ...base };
   else if (S.tool === 'pen' || S.tool === 'shape') S.gesture = { type: S.tool, ...base, points: [p] };
+  else if (S.tool === 'eraser') {
+    erased.clear();
+    S.gesture = { type: 'erase', ...base };
+    eraseAt(p);
+  }
   else if (item) {
     const group = expanded([item]);
     if (event.shiftKey) {
@@ -155,6 +184,8 @@ stage.addEventListener('pointermove', event => {
     $('draw-path').setAttribute('d', g.points.map((pt, i) => `${i ? 'L' : 'M'}${pt.x},${pt.y}`).join(' '));
   } else if (g.type === 'shape') {
     $('draw-path').setAttribute('d', shapePath(g));
+  } else if (g.type === 'erase') {
+    eraseAt(g.current);
   }
 });
 
@@ -174,6 +205,14 @@ function endGesture(event: PointerEvent, cancel = false) {
   $('marquee').hidden = true;
   $('draw-path').setAttribute('d', '');
   if (stage.hasPointerCapture(event.pointerId)) stage.releasePointerCapture(event.pointerId);
+  if (g.type === 'erase') {
+    const ids = [...erased];
+    erased.clear();
+    if (ids.length && !cancel) void execute({ type: 'remove', ids });
+    else scene.render(S.state.board, selection, matches);
+    flushDeferred();
+    return;
+  }
   if (cancel) {
     scene.render(S.state.board, selection, matches);
     flushDeferred();
