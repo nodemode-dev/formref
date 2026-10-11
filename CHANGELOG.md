@@ -1,5 +1,16 @@
 # FormRef changelog
 
+## v0.4.0 · 2026-10-11
+
+The recovery build: iStack's behaviour and menu in the Form family shell, with an embedded agent that asks before big changes.
+
+- The agent asks first: when it wants to remove items, delete the board, or move, pack, sort, align, distribute, snap or resize 10 or more items at once, a Confirm card in the Agent panel offers Allow, Allow all (for the rest of the turn) or Decline. No answer in five minutes counts as Decline. You can turn this off under the panel.
+- Agents that read images can see the whole board as a picture (`get_board_image`, 22 MCP tools).
+- Notes on dark paper, such as notes an agent adds without a colour, now use light text.
+- The item count beside each board in the left panel stays current.
+
+Since v0.3.0 this release has also brought: planning documents out of the repository history, engine commands for iStack's Images and Organize menus, the rebuilt shell with collapsible panels and iStack's right-click menu, board tabs, the eraser, note fonts, slideshow speed and fade, the Agent panel on Claude Code, Codex, Cursor or Ollama, and a FormRef tab in the FormAI parity matrix.
+
 ## v0.3.4 · 2026-10-11
 
 Board tabs, iStack's drawing and slideshow controls, and the outside-agent prompt.

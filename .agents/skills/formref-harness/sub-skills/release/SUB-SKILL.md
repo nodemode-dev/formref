@@ -7,7 +7,7 @@ description: Shipping a FormRef turn. Load to bump the version, write commits wi
 
 ## Version sites
 
-Bump all of these by hand, together, to the same `x.y.z`: `frontend/package.json`, both version fields at the top of `frontend/package-lock.json`, `VERSION` in `backend/app/core/config.py`, `version` in `native/formref-core/Cargo.toml` and its own entry in `Cargo.lock`, `version` in `src-tauri/Cargo.toml` and the `formref-desktop` entry in its `Cargo.lock`, `version` in `src-tauri/tauri.conf.json`, and the footer label in `frontend/index.html`. Add a `CHANGELOG.md` entry in plain language.
+Bump all of these by hand, together, to the same `x.y.z`: `frontend/package.json`, both version fields at the top of `frontend/package-lock.json`, `VERSION` in `backend/app/core/config.py`, `version` in `native/formref-core/Cargo.toml` and its own entry in `Cargo.lock`, `version` in `src-tauri/Cargo.toml` and the `formref-desktop` entry in its `Cargo.lock`, `version` in `src-tauri/tauri.conf.json`, the footer label in `frontend/index.html`, and the version badge in `README.md`. Add a `CHANGELOG.md` entry in plain language.
 
 Interim turns of a plan are patch versions; the finished plan takes the minor version it named.
 
