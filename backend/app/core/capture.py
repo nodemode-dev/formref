@@ -37,16 +37,34 @@ def checked_url(url: str) -> str:
         raise ValueError("Only http and https addresses can be captured.")
     if parts.username or parts.password:
         raise ValueError("Addresses with a user name or password are not captured.")
-    if not allow_private():
-        try:
-            infos = socket.getaddrinfo(parts.hostname, parts.port or (443 if parts.scheme == "https" else 80), type=socket.SOCK_STREAM)
-        except socket.gaierror as exc:
-            raise ValueError(f"{parts.hostname} could not be found.") from exc
-        for info in infos:
-            address = ipaddress.ip_address(info[4][0])
-            if not address.is_global:
-                raise ValueError("That address points inside your computer or network, so FormRef will not fetch it.")
+    resolve(parts.hostname, parts.port or (443 if parts.scheme == "https" else 80))
     return url
+
+
+def resolve(host: str, port: int) -> str:
+    """Resolve once and return the address to connect to; every answer must be public."""
+    try:
+        infos = socket.getaddrinfo(host, port, type=socket.SOCK_STREAM)
+    except socket.gaierror as exc:
+        raise ValueError(f"{host} could not be found.") from exc
+    addresses = [ipaddress.ip_address(info[4][0]) for info in infos]
+    if not allow_private() and any(not address.is_global for address in addresses):
+        raise ValueError("That address points inside your computer or network, so FormRef will not fetch it.")
+    return str(addresses[0])
+
+
+def pinned(url: str) -> tuple[str, dict, dict]:
+    """The URL rewritten to the checked IP, with Host and TLS server name kept as the original host.
+
+    Connecting to the address that was checked, instead of letting the HTTP client look the name up again,
+    closes the DNS-rebinding gap between the check and the connection."""
+    parts = urlparse(checked_url(url))
+    port = parts.port or (443 if parts.scheme == "https" else 80)
+    address = resolve(parts.hostname, port)
+    shown = f"[{address}]" if ":" in address else address
+    netloc = f"{shown}:{parts.port}" if parts.port else shown
+    host_header = parts.netloc.rsplit("@", 1)[-1]
+    return parts._replace(netloc=netloc).geturl(), {"Host": host_header}, ({"sni_hostname": parts.hostname} if parts.scheme == "https" else {})
 
 
 class _Images(HTMLParser):
@@ -75,10 +93,11 @@ class _Images(HTMLParser):
 
 
 async def _fetch(url: str, limit: int):
-    async with httpx.AsyncClient(timeout=TIMEOUT, follow_redirects=False, headers=HEADERS) as client:
+    # trust_env is off: a proxy would resolve the name again and undo the pinning.
+    async with httpx.AsyncClient(timeout=TIMEOUT, follow_redirects=False, headers=HEADERS, trust_env=False) as client:
         for _ in range(MAX_REDIRECTS + 1):
-            checked_url(url)
-            async with client.stream("GET", url) as response:
+            target, host, extensions = pinned(url)
+            async with client.stream("GET", target, headers=host, extensions=extensions) as response:
                 if response.is_redirect:
                     url = urljoin(url, response.headers.get("location", ""))
                     continue

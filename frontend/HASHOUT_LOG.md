@@ -10,7 +10,12 @@
 - [Scripts](#scripts)
 - [Canvas increment](#canvas-increment)
 - [Reference editing increment](#reference-editing-increment)
+- [v0.4.4 presenter view](#v044-presenter-view)
 - [v0.4.3 labels and web capture](#v043-labels-and-web-capture)
+
+## v0.4.4 presenter view
+
+`app/present.ts` adds `.presenting` to the app, which zeroes the layout variables and hides the chrome, asks for full screen and fits the board without saving the viewport (the remember timer is cleared, so no board write and no history entry). Read-only is enforced by capture-phase listeners on the stage (pointerdown, dblclick, contextmenu) and on the window (keys), which stop events before the editor sees them, so no editing path needed a presenting check. The enlarged card decodes the original image before showing it. Leaving full screen by the browser also leaves presenting. Throttled run: chrome hidden and the stage filled the window; Delete, N and a double-click changed nothing; a card enlarged, the arrows stepped through 7 cards, Escape closed the card and then the view; no console errors; the board revision did not move. Selection outlines, footers, checkboxes and lock badges are hidden while presenting.
 - [v0.4.2 comments and templates](#v042-comments-and-templates)
 
 ## v0.4.3 labels and web capture

@@ -26,7 +26,7 @@ Several boards stay open as tabs. Ctrl+N opens a new tab, Alt+W closes the activ
 | Organize | Ctrl+P pack, Ctrl+G group, Ctrl+Shift+G ungroup |
 | Images | C crop, R rotate 90, L lock |
 | Layer | Shift+Up front, Shift+Down back |
-| View | Shift+S slideshow, Ctrl+J agent, Ctrl+K commands, ? shortcut sheet, Ctrl+, preferences |
+| View | P present, Shift+S slideshow, Ctrl+J agent, Ctrl+K commands, ? shortcut sheet, Ctrl+, preferences |
 
 These are the defaults. Press ? for the current list: click any shortcut there and press new keys to change it. If another command already used those keys, they move to the one you are changing and the sheet says so. Keys the browser keeps (Ctrl+T, Ctrl+W, Ctrl+Q, Ctrl+R, Ctrl+L, F5 and others) and Space (pan) cannot be taken. Changes are saved in the data folder and come back on the next launch; Reset All returns every key to its default.
 
@@ -57,6 +57,10 @@ Draw Mode paints strokes with the chosen colour and width. The eraser removes wh
 ## Slideshow
 
 Shift+S presents the selected images, or every image, in board order. Preferences set the transition (fade or none) and the seconds per image; the next image is decoded before it is shown, so nothing flashes.
+
+## Presenting
+
+P (or Present in the right-click menu and palette) shows the board full screen with every panel and tool hidden, fitted to the screen. Nothing can be edited: clicks, keys and the menu are held. Click a card to enlarge it (an image at full size, a note or document as large text); the arrow keys step through cards in reading order, top to bottom and left to right. Escape closes the enlarged card, and Escape again (or Exit Presentation) leaves, putting the camera back where it was. Presenting never changes the saved board.
 
 ## Stability rules
 

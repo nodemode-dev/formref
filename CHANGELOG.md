@@ -1,5 +1,12 @@
 # FormRef changelog
 
+## v0.4.4 · 2026-10-11
+
+Present a board.
+
+- Present (P): the board full screen with every panel hidden and nothing editable. Click a card to enlarge it, use the arrow keys to step through, Escape to close and Escape again to leave. Presenting never changes the saved board.
+- Web capture now connects only to the address it checked, so a site cannot swap in a local address between the check and the download.
+
 ## v0.4.3 · 2026-10-11
 
 Coloured labels and images from the web.

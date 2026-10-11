@@ -105,6 +105,7 @@ export function boardMenu(): MenuEntry[] {
     },
     item('draw'),
     item('slideshow'),
+    item('present'),
     { label: selection.size ? 'Ask Agent About Selection' : 'Ask Agent', icon: 'agent', shortcut: primaryKey(BY_ID.get('agent')!), action: () => run('agent') },
     sep,
     item('delete'),

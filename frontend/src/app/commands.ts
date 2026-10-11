@@ -9,6 +9,7 @@ import { openTrash } from './trash';
 import { openTemplates, saveAsTemplate } from './templates';
 import { askForUrl } from './capture';
 import { openLabels } from './labels';
+import { togglePresenting } from './present';
 import {
   $, S, add, arrange, closeOverlays, defaultSettings, editable, error, execute, fit, history, host, inputDialog,
   matches, open, openEditor, placement, referenceView, refreshBoards, selected, selectedImages, selection,
@@ -330,6 +331,7 @@ export const COMMANDS: CommandDef[] = [
   { group: 'Layer', id: 'backward', label: 'Send Backward', icon: 'layers', run: () => execute({ type: 'order', ids: editable(), mode: 'backward' }), enabled: has },
   { group: 'Layer', id: 'back', label: 'Send to Back', icon: 'send-back', keys: ['shift+arrowdown'], run: () => execute({ type: 'order', ids: editable(), mode: 'back' }), enabled: has },
 
+  { group: 'View', id: 'present', label: 'Present', icon: 'present', keys: ['p'], run: togglePresenting, enabled: hasBoard },
   { group: 'View', id: 'slideshow', label: 'Slideshow', icon: 'play', keys: ['shift+s'], run: () => referenceView.toggle(), enabled: () => !!S.state?.board.items.some(i => i.kind === 'image') },
   { group: 'View', id: 'reference-focus', label: 'Focus Image Reference', icon: 'image', run: () => referenceView.focus(), enabled: hasImages },
   { group: 'View', id: 'reference-prev', label: 'Previous Reference', icon: 'chevron-left', run: () => referenceView.step(-1), palette: false },

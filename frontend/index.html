@@ -539,6 +539,23 @@
       <button id="shortcut-reset" class="button compact">Reset All</button>
     </div>
   </dialog>
+  <button id="present-exit" class="button compact present-exit" hidden><span data-icon="close"></span>Exit Presentation</button>
+  <dialog id="present-dialog" class="present-card" aria-labelledby="present-title">
+    <div class="present-head">
+      <strong id="present-title"></strong>
+      <span id="present-count" class="present-count"></span>
+      <button class="icon-button" data-action="close-overlays" data-icon="close" aria-label="Close"></button>
+    </div>
+    <div class="present-body">
+      <button id="present-prev" class="icon-button present-step" data-icon="chevron-left" aria-label="Previous card"></button>
+      <img id="present-image" alt="" hidden>
+      <div id="present-text" class="present-text" hidden>
+        <p id="present-plain"></p>
+        <div id="present-markdown" class="formatted-card" hidden></div>
+      </div>
+      <button id="present-next" class="icon-button present-step" data-icon="chevron-right" aria-label="Next card"></button>
+    </div>
+  </dialog>
   <dialog id="label-dialog" class="modal trash-modal">
     <div class="modal-head">
       <strong>Board labels</strong>
