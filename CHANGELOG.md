@@ -1,5 +1,13 @@
 # FormRef changelog
 
+## v0.4.8 · 2026-10-11
+
+Desktop window modes.
+
+- In the desktop shell, Preferences adds Window opacity (see other apps through the board) and Click-through (clicks pass to the app underneath); Ctrl+Alt+K, or Cmd+Alt+K on macOS, toggles click-through from anywhere. Always on top, fullscreen and frameless were already there.
+- The desktop shell has now been built and run on Linux.
+- Fixed: some icons drew far too large in Safari and the desktop shell.
+
 ## v0.4.7 · 2026-10-11
 
 Synced notes and map cards.

@@ -64,6 +64,10 @@ Video and audio files dropped or added like images become playable cards (mp4, w
 
 Add Table (Insert menu or palette) makes a table card. Double-click a cell to type in it; Enter or Tab saves, Escape cancels; double-click a column name to rename it. In the inspector pick a column to set its type (text, number, currency, percent, date or checkbox) or add and remove rows and columns. A cell that starts with = is a formula: cell references (A1), ranges (B1:B4), + - * / ^, and SUM, AVERAGE, MIN, MAX, COUNT, ROUND and ABS. Errors show #ERR and loops #CYCLE. Every change is one undo step.
 
+## Desktop window
+
+`./formref desktop` runs FormRef in its own window (it needs the [Tauri prerequisites](https://v2.tauri.app/start/prerequisites/)). Preferences then shows Desktop Window controls: Always on top, Fullscreen, Window decorations (off for a frameless window), Window opacity to see other apps through the board, and Click-through so clicks pass to the app underneath. A click-through window cannot be clicked, so Ctrl+Alt+K (Cmd+Alt+K on macOS) turns it on and off from anywhere.
+
 ## Synced notes and maps
 
 Synced Copy (Insert menu or palette) duplicates a note or document as a linked copy: change the title, text, colour, format or font of any copy and every copy follows in the same undo step. Copies say "synced" in their header. Stop Syncing makes the selected copy independent again; a plain Duplicate is always independent. Locked copies are left alone, and syncing works within one board.

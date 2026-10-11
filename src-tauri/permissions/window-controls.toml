@@ -1,6 +1,6 @@
 [[permission]]
 identifier = "formref-window-configure"
-description = "Change main window topmost, fullscreen and native frame state."
+description = "Change main window topmost, fullscreen, native frame and click-through state."
 commands.allow = ["window_configure"]
 
 [[permission]]

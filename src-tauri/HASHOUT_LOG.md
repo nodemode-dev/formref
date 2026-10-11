@@ -13,6 +13,12 @@ src-tauri/
   src/main.rs                        Native window modes and launch sizing
 ```
 
+## v0.4.8 · First compiled run, opacity and click-through
+
+The shell was compiled for the first time (Rust 1.97, WebKitGTK 4.1 2.52 installed from Ubuntu) and run under Xvfb against the Vite dev server and the FastAPI service: the window appeared, the board loaded through the loopback service, and the UI rendered in WebKit. That exposed one WebKit-only defect: SVG icons created by script inside grid rows had no size and drew at 300 by 150 (Chromium clipped them), fixed with explicit sizes in `shell.css`.
+
+New window modes: the window is now transparent (with `macOSPrivateApi` for macOS) and its page opacity is set from Preferences, so the board can sit see-through over other apps, as in PureRef. Click-through calls `set_ignore_cursor_events`; because a click-through window cannot be clicked, `tauri-plugin-global-shortcut` registers Ctrl+Alt+K (Cmd+Alt+K on macOS) from Rust to turn it back off, and the shell emits `formref://window` so the Preferences checkbox follows. Run under Xvfb: the window's X input shape was the full 1296 by 810 window, shrank to 1 by 1 after Ctrl+Alt+K, and returned to the full window after a second Ctrl+Alt+K. Not checked here: always-on-top and opacity need a window manager and compositor, which Xvfb does not have; macOS and Windows were not built.
+
 ## Contents
 
 - [Cargo.toml](#cargotoml)

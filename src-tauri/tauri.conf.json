@@ -11,6 +11,7 @@
   },
   "app": {
     "withGlobalTauri": true,
+    "macOSPrivateApi": true,
     "windows": [
       {
         "label": "main",
@@ -22,11 +23,11 @@
         "center": true,
         "resizable": true,
         "decorations": true,
-        "transparent": false,
+        "transparent": true,
         "fullscreen": false,
         "alwaysOnTop": false,
         "visible": false,
-        "backgroundColor": "#111111",
+        "backgroundColor": "#00000000",
         "dragDropEnabled": false
       }
     ],

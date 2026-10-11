@@ -312,10 +312,22 @@ if (native) {
     setInput('native-top', result.always_on_top);
     setInput('native-fullscreen', result.fullscreen);
     setInput('native-decorations', result.decorations);
+    setInput('native-click-through', result.click_through);
   }).catch(error);
-  for (const [id, key] of [['native-top', 'alwaysOnTop'], ['native-fullscreen', 'fullscreen'], ['native-decorations', 'decorations']]) {
+  for (const [id, key] of [['native-top', 'alwaysOnTop'], ['native-fullscreen', 'fullscreen'], ['native-decorations', 'decorations'], ['native-click-through', 'clickThrough']]) {
     $(id).addEventListener('change', () => void nativeInvoke('window_configure', { [key]: $<HTMLInputElement>(id).checked })?.catch(error));
   }
+  // Window opacity: the desktop window is transparent, so lowering the page's opacity shows what is behind it.
+  const opacity = $<HTMLInputElement>('native-opacity');
+  const applyOpacity = (value: number) => { document.documentElement.style.opacity = value >= 100 ? '' : String(value / 100); };
+  try { const saved = Number(localStorage.getItem('formref.window-opacity')); if (saved >= 20 && saved <= 100) { opacity.value = String(saved); applyOpacity(saved); } } catch { /* storage may be unavailable */ }
+  opacity.addEventListener('input', () => { applyOpacity(Number(opacity.value)); try { localStorage.setItem('formref.window-opacity', opacity.value); } catch { /* ignore */ } });
+  // The global shortcut changes click-through from outside the page; keep the checkbox honest.
+  const events = (window as unknown as { __TAURI__?: { event?: { listen(name: string, handler: (event: { payload: boolean }) => void): Promise<unknown> } } }).__TAURI__?.event;
+  void events?.listen('formref://window', event => {
+    setInput('native-click-through', event.payload);
+    toast(event.payload ? 'Click-through is on. Press Ctrl+Alt+K to turn it off.' : 'Click-through is off.');
+  });
 }
 
 setInput('accent-select', getComputedStyle(document.documentElement).getPropertyValue('--accent-color').trim());

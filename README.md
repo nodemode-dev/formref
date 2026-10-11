@@ -94,7 +94,7 @@ Set environment variables before launch; local environment files must remain unc
 
 ## Status
 
-FormRef covers the PureRef image-board core and Milanote's cards, columns, tasks, links and nested boards, behind iStack's menu, with an embedded agent. Cloud collaboration, protected sharing, tables/formulas, synced notes, browser extensions, background removal & desktop window modes remain gaps. Native shell sources are provided; compiled, signed macOS/Windows installers are not included. Codex, Cursor & Ollama runners are implemented but were not available on the build machine, so only Claude Code has been run end to end.
+FormRef covers the PureRef image-board core and Milanote's cards, columns, tasks, tables, links, maps, synced notes and nested boards, behind iStack's menu, with an embedded agent. Cloud collaboration, protected sharing, a browser clipper & background removal remain gaps. The desktop shell (`./formref desktop`) adds always-on-top, frameless, fullscreen, window opacity and click-through windows; it was compiled and run on Linux, while compiled, signed macOS/Windows installers are not included. Codex, Cursor & Ollama runners are implemented but were not available on the build machine, so only Claude Code has been run end to end.
 
 Planning, research and parity data live in the planning sidecar, outside this repository; the FormRef tab of the FormAI parity matrix is rendered from it each release. No self-authored test suite is included.
 

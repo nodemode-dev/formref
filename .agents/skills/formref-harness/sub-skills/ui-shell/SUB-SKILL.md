@@ -20,6 +20,7 @@ Vanilla TypeScript and Vite, no framework, no icon library. `frontend/src/main.t
 | `app/trash.ts` | the Trash dialog: put removed items back, restore deleted boards, empty |
 | `app/comments.ts` | the inspector comment thread, keyed rows patched in place, via `onInspector` |
 | `app/templates.ts` | New from Template and Save as Template |
+| `src-tauri/src/main.rs`, `capabilities/`, `permissions/` | desktop window modes (topmost, fullscreen, frame, click-through with the Ctrl+Alt+K global shortcut); page opacity is set in `app/bindings.ts`. Check the shell in WebKit too: unsized inline SVG draws at 300 by 150 there |
 | `ui/gif-player.ts` | GIF frame controls in the reference view (ImageDecoder frames on a canvas laid over the image) |
 | `app/cards.ts` | inspector controls for table cards and media playback |
 | `ui/table-view.ts`, `lib/table.ts` | the table grid (patched in place, cell editing) and the formula evaluator and formatting |
