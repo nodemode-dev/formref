@@ -1,6 +1,7 @@
 import type { Board, Item } from '../lib/types';
 import { api } from '../lib/api';
 import { itemBounds } from '../lib/geometry';
+import { paintImage } from '../lib/image-geometry';
 
 const element = <T extends HTMLElement = HTMLElement>(id: string) => document.getElementById(id) as T;
 const text = (node: HTMLElement, value: string) => { if (node.textContent !== value) node.textContent = value; };
@@ -20,6 +21,7 @@ export class ReferenceView {
   private seconds = 10;
   private loadToken = 0;
   private loadedSource = '';
+  private sourceWidth = 0; private sourceHeight = 0;
 
   constructor(private readonly selected: () => string[], private readonly notify: (message: string) => void) {
     this.dialog.addEventListener('close', () => this.stop());
@@ -106,7 +108,7 @@ export class ReferenceView {
     const loader = new Image(); loader.decoding = 'async'; loader.src = url;
     void loader.decode().then(() => {
       if (token !== this.loadToken || !this.dialog.open || this.currentId !== item.id) return;
-      this.loadedSource = url; this.image.src = url; this.image.hidden = false; this.empty.hidden = true;
+      this.loadedSource = url; this.sourceWidth = loader.naturalWidth; this.sourceHeight = loader.naturalHeight; this.image.src = url; this.image.hidden = false; this.empty.hidden = true;
       this.paint(this.current() || item);
     }).catch(() => {
       if (token === this.loadToken && this.dialog.open) { text(this.empty, 'This reference could not be loaded. Step to another image or exit.'); this.empty.hidden = false; }
@@ -117,13 +119,7 @@ export class ReferenceView {
     const bounds = itemBounds(item), scale = Math.max(.001, Math.min((this.frame.clientWidth - 48) / (bounds.right - bounds.left), (this.frame.clientHeight - 48) / (bounds.bottom - bounds.top)));
     this.media.style.width = `${item.width * scale}px`; this.media.style.height = `${item.height * scale}px`;
     this.media.style.transform = `translate(-50%,-50%) rotate(${item.rotation}deg)`; this.media.style.opacity = String(item.opacity);
-    const crop = (item.data.crop || { x: 0, y: 0, width: 1, height: 1 }) as { x: number; y: number; width: number; height: number };
-    this.image.style.width = `${100 / crop.width}%`; this.image.style.height = `${100 / crop.height}%`;
-    this.image.style.left = `${-crop.x / crop.width * 100}%`; this.image.style.top = `${-crop.y / crop.height * 100}%`;
-    this.image.style.transformOrigin = `${(crop.x + crop.width / 2) * 100}% ${(crop.y + crop.height / 2) * 100}%`;
-    this.image.style.transform = `scale(${item.data.flip_x ? -1 : 1},${item.data.flip_y ? -1 : 1})`;
-    this.image.style.filter = this.grayscale || item.data.grayscale ? 'grayscale(1)' : 'none';
-    this.image.style.imageRendering = item.data.sampling === 'nearest' ? 'pixelated' : 'auto'; this.image.alt = item.title || 'Image reference';
+    paintImage(this.image, item, this.sourceWidth, this.sourceHeight, this.grayscale); this.image.alt = item.title || 'Image reference';
     this.dialog.dataset.itemId = item.id;
     text(element('reference-title'), item.title || 'Image reference');
     text(element('reference-position'), `${this.images.findIndex(candidate => candidate.id === item.id) + 1} / ${this.images.length}`);

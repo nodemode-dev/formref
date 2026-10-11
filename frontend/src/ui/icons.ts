@@ -1,4 +1,5 @@
 const paths: Record<string, string> = {
+  document: '<path d="M14 3H5v18h14V8ZM14 3v5h5M8 12h8M8 15h8M8 18h5"/>', swatch: '<rect x="3" y="3" width="18" height="18" rx="3"/><path d="M3 16h18M8 19h3M17 5l-8 8"/>', pipette: '<path d="m14 4 6 6M12 6l6 6M14 4l2-2a2 2 0 0 1 3 0l3 3a2 2 0 0 1 0 3l-2 2M12 6l-8 8-1 7 7-1 8-8M5 15l4 4"/>',
   cursor: '<path d="m5 3 14 9-7 2-3 7Z"/>', hand: '<path d="M8 13V5a2 2 0 0 1 4 0v6-6a2 2 0 0 1 4 0v7-4a2 2 0 0 1 4 0v8c0 4-2 6-6 6h-2c-2 0-3-1-4-3l-4-6a2 2 0 0 1 3-2l3 3"/>',
   image: '<rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8" cy="8" r="1.5"/><path d="m4 17 5-5 4 3 4-6 4 8"/>', note: '<path d="M14 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V10Z"/><path d="M14 3v7h7M7 14h10M7 17h7"/>',
   link: '<path d="m10 14 4-4M8 16l-2 2a4 4 0 0 1-6-6l5-5a4 4 0 0 1 6 0M16 8l2-2a4 4 0 0 1 6 6l-5 5a4 4 0 0 1-6 0" transform="translate(1 0) scale(.9)"/>', board: '<rect x="3" y="3" width="18" height="18" rx="3"/><path d="M3 9h18M9 9v12"/>',
