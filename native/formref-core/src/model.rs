@@ -38,18 +38,56 @@ pub struct BoardSettings {
     pub grid_size: f64,
     pub snap_enabled: bool,
     pub grayscale: bool,
+    /// Board-wide coloured labels; items refer to them by id in data.labels.
+    pub labels: Vec<Label>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+#[serde(deny_unknown_fields)]
+pub struct Label {
+    pub id: String,
+    pub name: String,
+    pub color: String,
 }
 
 impl Default for BoardSettings {
     fn default() -> Self {
-        Self { grid_visible: true, grid_size: 24.0, snap_enabled: false, grayscale: false }
+        Self { grid_visible: true, grid_size: 24.0, snap_enabled: false, grayscale: false, labels: Vec::new() }
     }
 }
 
+pub const MAX_LABELS: usize = 32;
+pub const MAX_ITEM_LABELS: usize = 12;
+
 impl BoardSettings {
     pub fn validate(&self) -> EngineResult<()> {
-        finite(self.grid_size, "settings.grid_size", 4.0, 512.0)
+        finite(self.grid_size, "settings.grid_size", 4.0, 512.0)?;
+        if self.labels.len() > MAX_LABELS { return Err(EngineError::invalid("a board can define at most 32 labels")); }
+        let mut seen = std::collections::HashSet::new();
+        for label in &self.labels {
+            identifier(&label.id, "label.id")?;
+            if !seen.insert(label.id.as_str()) { return Err(EngineError::invalid("label ids must be unique")); }
+            if label.name.trim().is_empty() { return Err(EngineError::invalid("label.name cannot be empty")); }
+            text_limit(&label.name, "label.name", 40)?;
+            let bytes = label.color.as_bytes();
+            if bytes.len() != 7 || bytes[0] != b'#' || !bytes[1..].iter().all(u8::is_ascii_hexdigit) {
+                return Err(EngineError::invalid("label.color must be #RRGGBB"));
+            }
+        }
+        Ok(())
     }
+}
+
+/// data.labels on an item: at most 12 ids, each defined in the board's settings.labels.
+pub fn item_labels(data: &Map<String, Value>, defined: &std::collections::HashSet<&str>) -> EngineResult<()> {
+    let Some(value) = data.get("labels") else { return Ok(()) };
+    let list = value.as_array().ok_or_else(|| EngineError::invalid("data.labels must be an array of label ids"))?;
+    if list.len() > MAX_ITEM_LABELS { return Err(EngineError::invalid("an item can carry at most 12 labels")); }
+    for entry in list {
+        let id = entry.as_str().ok_or_else(|| EngineError::invalid("data.labels must be an array of label ids"))?;
+        if !defined.contains(id) { return Err(EngineError::invalid(format!("label {id} is not defined on this board"))); }
+    }
+    Ok(())
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
@@ -333,8 +371,10 @@ impl Board {
         validate_json(&Value::Object(self.extra.clone()), 0, &mut nodes)?;
         let mut ids = HashSet::with_capacity(self.items.len());
         let mut parents = HashMap::new();
+        let labels: HashSet<&str> = self.settings.labels.iter().map(|label| label.id.as_str()).collect();
         for item in &self.items {
             item.validate(&mut nodes)?;
+            item_labels(&item.data, &labels)?;
             if !ids.insert(item.id.as_str()) { return Err(EngineError::invalid("duplicate item identifier")); }
             if let Some(parent) = &item.parent_id { parents.insert(item.id.as_str(), parent.as_str()); }
         }

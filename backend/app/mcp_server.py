@@ -202,6 +202,38 @@ async def remove_items(board_id: str, ids: list[str]) -> dict:
     return await command(board_id, {"type": "remove", "ids": ids})
 
 @mcp.tool(annotations=_write)
+async def capture_from_web(board_id: str, url: str, x: float = 0, y: float = 0) -> dict:
+    """Fetch an http or https address for the board. An image address is downloaded and placed at x, y as one undoable step; a page address returns {"page", "images"} listing the images it shows, so call again with the image addresses you want. Private and local network addresses are refused."""
+    checked_id(board_id)
+    result = await json_api("POST", "/api/capture", json={"url": url})
+    if "asset" not in result:
+        return result
+    asset = result["asset"]
+    width = min(400, asset.get("width") or 300)
+    height = width * ((asset.get("height") or 200) / (asset.get("width") or 300))
+    kind = "image" if str(asset.get("mime", "")).startswith("image/") else "file"
+    return await command(board_id, {"type": "add", "items": [{"id": uuid.uuid4().hex, "kind": kind, "x": x, "y": y, "width": width, "height": height, "title": asset["name"], "asset_id": asset["id"], "url": result.get("url", url), "data": {"mime": asset["mime"], "size": asset["size"], "natural_width": asset.get("width"), "natural_height": asset.get("height")}}]})
+
+@mcp.tool(annotations=_write)
+async def define_labels(board_id: str, labels: list[dict]) -> dict:
+    """Replace the board's coloured labels with labels, a list of {id, name, color} (#RRGGBB, at most 32). Keep an existing id to rename or recolour it everywhere; leaving one out removes it from every item. One undoable step."""
+    return await command(board_id, {"type": "settings", "patch": {"labels": labels}})
+
+@mcp.tool(annotations=_write)
+async def label_items(board_id: str, ids: list[str], add: list[str] | None = None, remove: list[str] | None = None) -> dict:
+    """Add and/or remove label ids (from define_labels or get_board settings.labels) on items, as one undoable step. An item holds at most 12 labels."""
+    state = await get_board(board_id)
+    by_id = {entry["id"]: entry for entry in state["board"]["items"]}
+    commands = []
+    for item_id in ids:
+        if item_id not in by_id:
+            raise ValueError(f"Item {item_id} is not on this board.")
+        current = [label for label in by_id[item_id].get("data", {}).get("labels", []) if label not in (remove or [])]
+        current += [label for label in (add or []) if label not in current]
+        commands.append({"type": "update", "ids": [item_id], "patch": {"data": {"labels": current}}})
+    return await command(board_id, {"type": "batch", "commands": commands}, expected_revision=state["board"]["revision"])
+
+@mcp.tool(annotations=_write)
 async def add_comment(board_id: str, item_id: str, text: str) -> dict:
     """Add a comment to an item's thread, signed Agent, as one undoable step. Comments are in the item's data.comments with id, text, author, at (epoch ms) and resolved."""
     return await json_api("POST", f"/api/boards/{checked_id(board_id)}/items/{checked_id(item_id)}/comments", json={"text": text})

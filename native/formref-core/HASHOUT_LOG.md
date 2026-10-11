@@ -27,6 +27,11 @@ Focused v0.2.0 and v0.3.0 log. The complete baseline engine map, protocol limits
 - [Limits](#limits)
 - [Reference editing](#reference-editing)
 - [Comments](#comments)
+- [Labels](#labels)
+
+## Labels
+
+v0.4.3: labels are defined once per board in `BoardSettings.labels` and items carry ids in `data.labels`, so a rename or recolour is one settings change that every item shows, as in Milanote. `Board::validate` refuses an item id that is not defined, and the `settings` arm prunes deleted ids from every item in the same step, so deleting a label never leaves the board invalid and one undo restores both. Probed on the release binary: define two, label an item, refuse an undefined id, delete one (pruned from the item), undo (both back), refuse an empty name.
 
 ## Comments
 

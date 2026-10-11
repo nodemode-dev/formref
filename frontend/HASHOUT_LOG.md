@@ -10,7 +10,12 @@
 - [Scripts](#scripts)
 - [Canvas increment](#canvas-increment)
 - [Reference editing increment](#reference-editing-increment)
+- [v0.4.3 labels and web capture](#v043-labels-and-web-capture)
 - [v0.4.2 comments and templates](#v042-comments-and-templates)
+
+## v0.4.3 labels and web capture
+
+`app/labels.ts` renders label chips in the inspector (on, partly on, off across the selection) and the Board labels dialog; toggling is one batch of per-item updates. `scene.ts` keeps a label map refreshed on every render and patches an `item-labels` row of pills on each item. `app/capture.ts` handles dropped HTML images, URL lists and plain addresses, pasted addresses and the Add Images from the Web command; page results open a fixed-cell picker (broken thumbnails dim instead of collapsing, so the grid never reflows). `editor.ts` gained `placeAssets`, which `upload` now uses too. Ctrl+Shift+I was avoided because it opens developer tools. Throttled run: no shifts on cold load or through the label work, no console errors; labels defined, applied to two items, renamed and deleted with the cards following; Find matched a label name; a dropped image address and two picked page images landed. One small shift (0.003) came when a dropped image became the selection and the inspector switched to image fields, the same as dropping a file.
 - [v0.4.1 shortcut changes and trash](#v041-shortcut-changes-and-trash)
 
 ## v0.4.2 comments and templates

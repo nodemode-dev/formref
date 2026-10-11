@@ -1,5 +1,13 @@
 # FormRef changelog
 
+## v0.4.3 · 2026-10-11
+
+Coloured labels and images from the web.
+
+- Labels: each board has its own coloured labels. Put them on items from the inspector; rename or recolour one and every item follows; delete it and it comes off every item. Labels show along the bottom of each item and Find searches them.
+- Web images: drag an image from a browser, paste an address, or use Add Images from the Web. An image is downloaded and placed; a page shows its images so you can pick. Only public addresses are fetched.
+- MCP: `capture_from_web`, `define_labels`, `label_items`; 31 tools.
+
 ## v0.4.2 · 2026-10-11
 
 Comments and templates.

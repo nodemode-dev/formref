@@ -1,5 +1,5 @@
 import { api, request } from '../lib/api';
-import type { Command, Item, Kind, Point, State, Summary, Viewport } from '../lib/types';
+import type { Asset, Command, Item, Kind, Point, State, Summary, Viewport } from '../lib/types';
 import { newItem } from '../lib/types';
 import { HostLink } from '../lib/host';
 import { itemBounds } from '../lib/geometry';
@@ -113,7 +113,8 @@ export function targetIds(): string[] {
 export function matches(item: Item): boolean {
   const term = $<HTMLInputElement>('search').value.toLowerCase().trim();
   const kind = $<HTMLSelectElement>('kind-filter').value;
-  const haystack = `${item.title} ${item.text} ${item.url} ${item.color} ${JSON.stringify(item.data.tags || '')}`.toLowerCase();
+  const labels = Array.isArray(item.data.labels) ? (item.data.labels as string[]).map(id => S.state?.board.settings?.labels?.find(l => l.id === id)?.name || '').join(' ') : '';
+  const haystack = `${item.title} ${item.text} ${item.url} ${item.color} ${JSON.stringify(item.data.tags || '')} ${labels}`.toLowerCase();
   return (!kind || item.kind === kind) && (!term || haystack.includes(term));
 }
 
@@ -576,17 +577,25 @@ export async function add(kind: Kind) {
 
 export async function upload(files: File[], at = placement()) {
   if (!S.state || !files.length) return;
-  const boardId = S.state.board.id;
   setText('save-status', 'Importing…');
+  const assets: { asset: Asset; name: string }[] = [];
+  for (const file of files) assets.push({ asset: await api.upload(file), name: file.name });
+  await placeAssets(assets, at);
+}
+
+/** Put already-registered assets on the board as images or files, one undo step. */
+export async function placeAssets(assets: { asset: Asset; name: string; url?: string }[], at = placement()) {
+  if (!S.state || !assets.length) return;
+  const boardId = S.state.board.id;
   const items: Item[] = [];
   const initialZ = topZ() - 1;
-  for (const [index, file] of files.entries()) {
-    const asset = await api.upload(file);
+  for (const [index, { asset, name: sourceName, url }] of assets.entries()) {
+    const file = { name: sourceName };
     const image = asset.mime.startsWith('image/');
     const width = image ? Math.min(400, asset.width || 300) : 260;
     const height = image ? width * ((asset.height || 200) / (asset.width || 300)) : 140;
     items.push(newItem(image ? 'image' : 'file', at.x + index * 28, at.y + index * 28, {
-      title: asset.name, asset_id: asset.id, width, height, z: initialZ + index + 1,
+      title: asset.name, asset_id: asset.id, width, height, z: initialZ + index + 1, url: url || '',
       data: { mime: asset.mime, size: asset.size, source_name: file.name, natural_width: asset.width, natural_height: asset.height },
     }));
   }

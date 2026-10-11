@@ -19,6 +19,7 @@ Rust document engine · vanilla TypeScript/Vite view · Python/FastAPI media & p
 - **Board tabs:** several boards open at once, restored where you left them.
 - **Trash:** deleted boards and removed items wait in the Trash until you empty it; restore puts them back.
 - **Your keys:** change any shortcut from the shortcut sheet (?).
+- **Labels & web images:** coloured board labels on any item; drag, paste or fetch images and pages from the web.
 - **Comments & templates:** comment threads on any item, resolved or reopened; start boards from starters or your own templates.
 - **Organize & draw:** pack, sort by name, aspect or colour similarity, rotate 90, opacity, pixel art, brush, eraser, rectangle, circle & line.
 - **Embedded agent:** Agent panel (Ctrl+J) running Claude Code, Codex, Cursor or Ollama on your board, each tool call shown, a yes from you before it removes or bulk-moves items, Stop & Undo This Turn. Vision models can see the board as a picture.
@@ -74,6 +75,7 @@ Set environment variables before launch; local environment files must remain unc
 | FORMREF_PYTHON | Override launcher Python executable |
 | FORMREF_ENGINE_PATH | Override Rust engine executable |
 | FORMREF_MCP_IMPORT_DIR | Restrict MCP path imports to this directory; default `~/.formref/imports` |
+| FORMREF_CAPTURE_ALLOW_PRIVATE | Set to 1 only for testing: lets web capture fetch local and private-network addresses |
 
 ## Architecture
 

@@ -30,6 +30,14 @@ Several boards stay open as tabs. Ctrl+N opens a new tab, Alt+W closes the activ
 
 These are the defaults. Press ? for the current list: click any shortcut there and press new keys to change it. If another command already used those keys, they move to the one you are changing and the sheet says so. Keys the browser keeps (Ctrl+T, Ctrl+W, Ctrl+Q, Ctrl+R, Ctrl+L, F5 and others) and Space (pan) cannot be taken. Changes are saved in the data folder and come back on the next launch; Reset All returns every key to its default.
 
+## Labels
+
+Each board has its own coloured labels. Edit Board Labels (the label button in the inspector, or the palette) adds, renames, recolours and deletes them; a rename or colour change shows on every item at once, and deleting a label takes it off every item. Select one or more items and click a label in the inspector to put it on all of them, or click again to take it off. Labels show as coloured pills along the bottom of each item, and Find matches label names.
+
+## Images from the web
+
+Drag an image from a browser onto the board, paste an image or page address, or use Add Images from the Web (Insert menu or palette). An image address is downloaded and placed straight away. A page address opens a picker with the images on that page (including its preview image); pick the ones you want and FormRef downloads them. Downloaded images are kept with the board like any other file, and the item remembers where it came from. FormRef only fetches public http and https addresses: anything inside your computer or local network is refused.
+
 ## Comments
 
 Select one item and the inspector shows its comment thread. Write in the box and press Comment (or Ctrl+Enter). Each comment shows who wrote it (You, or Agent for anything an agent added) and when, with buttons to resolve or reopen it and to delete it. Every change is one undo step. Items with open comments carry an orange count in their top corner. Locked items cannot take new comments until unlocked.

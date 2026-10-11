@@ -276,6 +276,10 @@
               <button class="button compact" data-action="duplicate"><span data-icon="duplicate"></span>Duplicate</button>
               <button class="button compact danger" data-action="delete"><span data-icon="trash"></span>Delete</button>
             </div>
+            <div id="label-section" class="label-section">
+              <div class="section-label">LABELS <button class="icon-button small" data-action="edit-labels" title="Edit board labels" aria-label="Edit board labels"><span data-icon="label"></span></button></div>
+              <div id="label-chips" class="label-chips"></div>
+            </div>
             <div id="comment-section" class="comment-section" hidden>
               <div class="section-label">COMMENTS <span id="comment-count" class="count">0</span></div>
               <div id="comment-list" class="comment-list"></div>
@@ -533,6 +537,33 @@
     <div class="modal-footer">
       <span id="shortcut-note" class="field-description shortcut-note">Click a shortcut to change it, then press the new keys. Esc cancels.</span>
       <button id="shortcut-reset" class="button compact">Reset All</button>
+    </div>
+  </dialog>
+  <dialog id="label-dialog" class="modal trash-modal">
+    <div class="modal-head">
+      <strong>Board labels</strong>
+      <button class="icon-button" data-action="close-overlays" data-icon="close" aria-label="Close labels"></button>
+    </div>
+    <div class="modal-body">
+      <p class="field-description">Labels belong to this board. Renaming or recolouring one changes it on every item; deleting it takes it off every item. Each change is one undo step.</p>
+      <div id="label-rows" class="trash-list"></div>
+    </div>
+    <div class="modal-footer">
+      <span class="field-description shortcut-note">Up to 32 labels per board, 12 per item.</span>
+      <button id="label-add" class="button compact primary"><span data-icon="plus"></span>Add Label</button>
+    </div>
+  </dialog>
+  <dialog id="capture-dialog" class="modal capture-modal">
+    <div class="modal-head">
+      <strong id="capture-title">Images on this page</strong>
+      <button class="icon-button" data-action="close-overlays" data-icon="close" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+      <div id="capture-grid" class="capture-grid"></div>
+    </div>
+    <div class="modal-footer">
+      <span id="capture-note" class="field-description shortcut-note">Pick the images to add. They are downloaded and kept with your board.</span>
+      <button id="capture-add" class="button compact primary" disabled><span data-icon="web-image"></span>Add 0 Images</button>
     </div>
   </dialog>
   <dialog id="template-dialog" class="modal trash-modal">

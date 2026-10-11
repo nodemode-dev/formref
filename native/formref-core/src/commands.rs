@@ -217,6 +217,13 @@ fn apply_inner(board: &mut Board, command: &Value, source: &mut IdSource, depth:
             merge_object(value.as_object_mut().ok_or_else(|| EngineError::invalid("settings must be an object"))?, patch, 0)?;
             let settings: crate::model::BoardSettings = decode(value)?;
             settings.validate()?;
+            // A deleted label disappears from every item in the same step.
+            let kept: std::collections::HashSet<String> = settings.labels.iter().map(|label| label.id.clone()).collect();
+            for item in &mut board.items {
+                if let Some(Value::Array(ids)) = item.data.get_mut("labels") {
+                    ids.retain(|id| id.as_str().is_some_and(|id| kept.contains(id)));
+                }
+            }
             board.settings = settings;
         }
         "snap" => snap(board, command)?,

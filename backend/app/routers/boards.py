@@ -10,6 +10,7 @@ from ..core.store import store, MissingBoard
 from ..models.requests import CreateBoard, BoardCommand
 from ..core.sampling import sample_image
 from ..core.features import enrich
+from ..core.capture import capture
 from ..core.templates import delete_template, list_templates, save_template, use_template
 from ..agent.service import agents
 
@@ -151,6 +152,10 @@ async def upload_asset(file: UploadFile = File(...)):
     filename = file.filename or "asset"
     data = await read_upload(file)
     return await asyncio.to_thread(store.import_asset, filename, data)
+
+@router.post("/capture")
+async def capture_url(body: dict):
+    return await capture(str(body.get("url", "")))
 
 @router.get("/assets/{asset_id}")
 def asset(asset_id: str):

@@ -3,6 +3,7 @@ import { bindShell } from './app/commands';
 import { openPalette } from './app/bindings';
 import './app/gestures';
 import './app/comments';
+import './app/labels';
 import { bindDocks, showPanel, toggleDock } from './ui/dock';
 import { AgentPanel } from './ui/panels/agent';
 import { S, consent, drawCamera, onState, selection, toast } from './app/editor';

@@ -10,6 +10,7 @@ import {
 import type { Gesture } from './editor';
 import { commandForKey } from './commands';
 import { boardMenu } from './menu';
+import { captureUrl, droppedUrl, webUrl } from './capture';
 
 export const menu = new ContextMenu($('overlay-root'));
 
@@ -308,7 +309,8 @@ stage.addEventListener('dblclick', event => {
 
 let dragDepth = 0;
 stage.addEventListener('dragenter', event => {
-  if (!event.dataTransfer?.types.includes('Files')) return;
+  const types = event.dataTransfer?.types || [];
+  if (!types.includes('Files') && !types.includes('text/uri-list')) return;
   event.preventDefault();
   dragDepth++;
   $('drop-hint').hidden = false;
@@ -328,7 +330,10 @@ stage.addEventListener('drop', event => {
   event.preventDefault();
   dragDepth = 0;
   $('drop-hint').hidden = true;
-  void upload(Array.from(event.dataTransfer?.files || []), worldPoint(event)).catch(error);
+  const files = Array.from(event.dataTransfer?.files || []);
+  const url = files.length ? null : droppedUrl(event.dataTransfer);
+  if (url) void captureUrl(url, worldPoint(event)).catch(error);
+  else void upload(files, worldPoint(event)).catch(error);
 });
 
 document.addEventListener('paste', event => {
@@ -338,6 +343,12 @@ document.addEventListener('paste', event => {
   if (files.length) {
     event.preventDefault();
     void upload(files).catch(error);
+    return;
+  }
+  const url = webUrl(event.clipboardData?.getData('text/plain'));
+  if (url && S.state) {
+    event.preventDefault();
+    void captureUrl(url).catch(error);
   }
 });
 

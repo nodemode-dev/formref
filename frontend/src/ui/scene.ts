@@ -1,4 +1,4 @@
-import type { Board, Item, Point, Viewport } from '../lib/types';
+import type { Board, Item, Label, Point, Viewport } from '../lib/types';
 import { api } from '../lib/api';
 import { icon } from './icons';
 import { MarkdownView } from '../lib/markdown';
@@ -17,24 +17,24 @@ function svg<K extends keyof SVGElementTagNameMap>(tag: K): SVGElementTagNameMap
 function text(node: Node, value: string) { if (node.textContent !== value) node.textContent = value; }
 export interface SceneHooks { edit(id: string, patch: Partial<Item>): void; item(id: string): Item | undefined; openEditor(id: string): void }
 class ItemNode {
-  root = el('div', 'board-item'); content = el('div', 'item-content'); imageBox = el('div', 'item-content image-content'); image = el('img', 'reference-image'); fallback = el('div', 'item-fallback'); fallbackText = el('span'); imageCaption = el('div', 'image-caption'); card = el('div', 'item-content card-content'); eyebrow = el('div', 'card-eyebrow'); eyebrowIcon = el('span'); eyebrowText = el('span'); title = el('div', 'card-title'); body = el('div', 'card-text'); url = el('div', 'card-url'); footer = el('div', 'card-footer'); footerText = el('span'); footerArrow = icon('arrow-right'); checkbox = el('input', 'todo-checkbox'); shapeBox = el('div', 'item-content shape-content'); drawing = svg('svg'); rect = svg('rect'); ellipse = svg('ellipse'); line = svg('line'); path = svg('path'); lock = el('span', 'item-lock'); commentBadge = el('span', 'item-comments'); commentCount = el('span'); source = ''; loadToken = 0;
+  root = el('div', 'board-item'); content = el('div', 'item-content'); imageBox = el('div', 'item-content image-content'); image = el('img', 'reference-image'); fallback = el('div', 'item-fallback'); fallbackText = el('span'); imageCaption = el('div', 'image-caption'); card = el('div', 'item-content card-content'); eyebrow = el('div', 'card-eyebrow'); eyebrowIcon = el('span'); eyebrowText = el('span'); title = el('div', 'card-title'); body = el('div', 'card-text'); url = el('div', 'card-url'); footer = el('div', 'card-footer'); footerText = el('span'); footerArrow = icon('arrow-right'); checkbox = el('input', 'todo-checkbox'); shapeBox = el('div', 'item-content shape-content'); drawing = svg('svg'); rect = svg('rect'); ellipse = svg('ellipse'); line = svg('line'); path = svg('path'); lock = el('span', 'item-lock'); commentBadge = el('span', 'item-comments'); commentCount = el('span'); labelRow = el('div', 'item-labels'); source = ''; loadToken = 0;
   formattedBody = el('div', 'card-text formatted-card'); markdown = new MarkdownView(this.formattedBody, 48); swatchPreview = el('div', 'swatch-preview'); swatchPaint = el('div', 'swatch-paint'); sourceWidth = 0; sourceHeight = 0; current: Item | null = null;
   constructor(id: string, hooks: SceneHooks) {
     this.root.dataset.id = id; this.root.setAttribute('role', 'group'); this.image.alt = ''; this.image.decoding = 'async'; this.image.draggable = false;
     this.fallback.append(icon('image'), this.fallbackText); this.imageBox.append(this.image, this.fallback, this.imageCaption);
     this.eyebrow.append(this.eyebrowIcon, this.eyebrowText); this.footer.append(this.footerText, this.footerArrow); this.checkbox.type = 'checkbox'; this.checkbox.setAttribute('aria-label', 'Complete task');
     this.swatchPreview.append(this.swatchPaint); this.card.append(this.eyebrow, this.title, this.swatchPreview, this.body, this.formattedBody, this.url, this.footer, this.checkbox);
-    this.drawing.append(this.rect, this.ellipse, this.line, this.path); this.shapeBox.append(this.drawing); this.content.append(this.imageBox, this.card, this.shapeBox); this.lock.append(icon('lock')); this.commentBadge.append(icon('comment'), this.commentCount); this.commentBadge.hidden = true;
+    this.drawing.append(this.rect, this.ellipse, this.line, this.path); this.shapeBox.append(this.drawing); this.content.append(this.imageBox, this.card, this.shapeBox); this.lock.append(icon('lock')); this.commentBadge.append(icon('comment'), this.commentCount); this.commentBadge.hidden = true; this.labelRow.hidden = true;
     const resize = el('span', 'resize-handle'); resize.dataset.handle = 'resize'; resize.setAttribute('aria-label', 'Resize reference');
     const rotate = el('span', 'rotate-handle'); rotate.dataset.handle = 'rotate'; rotate.setAttribute('aria-label', 'Rotate reference');
-    this.root.append(this.content, this.lock, this.commentBadge, resize, rotate);
+    this.root.append(this.content, this.lock, this.commentBadge, this.labelRow, resize, rotate);
     this.body.addEventListener('dblclick', event => { const item = hooks.item(id); if (!item) return; if (item.kind === 'document' || (item.kind === 'note' && item.data.text_format === 'markdown')) { event.stopPropagation(); hooks.openEditor(id); return; } if (item.locked || !['note', 'todo'].includes(item.kind)) return; event.stopPropagation(); this.body.contentEditable = 'true'; this.body.focus(); });
     this.body.addEventListener('blur', () => { if (this.body.contentEditable !== 'true') return; this.body.contentEditable = 'false'; const item = hooks.item(id); if (item && item.text !== this.body.textContent) hooks.edit(id, { text: this.body.textContent || '' }); });
     this.body.addEventListener('keydown', event => { if (event.key === 'Escape') { const item = hooks.item(id); this.body.contentEditable = 'false'; text(this.body, item?.text || ''); this.body.blur(); } if (!((event.ctrlKey || event.metaKey) && ['s', 'k'].includes(event.key.toLowerCase()))) event.stopPropagation(); });
     this.checkbox.addEventListener('change', () => { const item = hooks.item(id); if (item) hooks.edit(id, { data: { ...item.data, checked: this.checkbox.checked } }); });
   }
   update(item: Item, selected: boolean, matching: boolean) {
-    this.current = item; const r = this.root; r.dataset.kind = item.kind; r.classList.toggle('selected', selected); r.classList.toggle('locked', item.locked); r.classList.toggle('matched-out', !matching); r.hidden = item.hidden; r.style.left = `${item.x}px`; r.style.top = `${item.y}px`; r.style.width = `${item.width}px`; r.style.height = `${item.height}px`; r.style.transform = `rotate(${item.rotation}deg)`; r.style.opacity = String(item.opacity); r.setAttribute('aria-label', item.title || `${item.kind} reference`); const open = Array.isArray(item.data.comments) ? (item.data.comments as { resolved?: boolean }[]).filter(c => !c.resolved).length : 0; this.commentBadge.hidden = !open; if (this.commentCount.textContent !== String(open)) this.commentCount.textContent = String(open);
+    this.current = item; const r = this.root; r.dataset.kind = item.kind; r.classList.toggle('selected', selected); r.classList.toggle('locked', item.locked); r.classList.toggle('matched-out', !matching); r.hidden = item.hidden; r.style.left = `${item.x}px`; r.style.top = `${item.y}px`; r.style.width = `${item.width}px`; r.style.height = `${item.height}px`; r.style.transform = `rotate(${item.rotation}deg)`; r.style.opacity = String(item.opacity); r.setAttribute('aria-label', item.title || `${item.kind} reference`); const open = Array.isArray(item.data.comments) ? (item.data.comments as { resolved?: boolean }[]).filter(c => !c.resolved).length : 0; this.commentBadge.hidden = !open; if (this.commentCount.textContent !== String(open)) this.commentCount.textContent = String(open); this.paintLabels(item);
     this.imageBox.hidden = item.kind !== 'image'; this.card.hidden = ['image', 'shape', 'stroke'].includes(item.kind); this.shapeBox.hidden = !['shape', 'stroke'].includes(item.kind);
     if (item.kind === 'image') {
       const source = item.asset_id ? api.assetUrl(item.asset_id) : '';
@@ -52,11 +52,26 @@ class ItemNode {
       text(this.footerText, item.kind === 'swatch' ? `RGB ${colorValues(item.color)!.rgb.join(' · ')}` : item.kind === 'document' || formatted ? 'Double-click to open editor' : item.kind === 'board' ? 'Double-click to open' : item.kind === 'file' ? 'Double-click to download' : item.kind === 'link' ? 'Double-click to visit' : item.kind === 'column' ? 'Place items here via inspector' : Array.isArray(item.data.tags) ? (item.data.tags as string[]).join(' · ') : item.kind === 'note' ? 'Double-click to edit' : '');
     }
   }
+  /** Coloured label pills along the item's bottom edge, patched in place. */
+  paintLabels(item: Item) {
+    const ids = Array.isArray(item.data.labels) ? (item.data.labels as string[]) : [];
+    const shown = ids.map(id => LABELS.get(id)).filter((label): label is Label => !!label);
+    this.labelRow.hidden = !shown.length;
+    while (this.labelRow.children.length > shown.length) this.labelRow.lastElementChild!.remove();
+    shown.forEach((label, index) => {
+      let pill = this.labelRow.children[index] as HTMLElement | undefined;
+      if (!pill) { pill = el('span', 'item-label'); this.labelRow.append(pill); }
+      if (pill.textContent !== label.name) pill.textContent = label.name;
+      if (pill.style.getPropertyValue('--label') !== label.color) pill.style.setProperty('--label', label.color);
+    });
+  }
 }
+const LABELS = new Map<string, Label>();
 export class Scene {
   nodes = new Map<string, ItemNode>(); lines = new Map<string, { path: SVGPathElement; label: SVGTextElement }>(); mini = new Map<string, SVGRectElement>(); miniView = svg('rect');
   constructor(readonly container: HTMLElement, readonly connections: SVGSVGElement, readonly navigator: SVGSVGElement, readonly hooks: SceneHooks) { this.miniView.classList.add('navigator-view'); navigator.append(this.miniView); }
   render(board: Board, selection: Set<string>, matches: (item: Item) => boolean) {
+    LABELS.clear(); for (const label of board.settings?.labels || []) LABELS.set(label.id, label);
     const ids = new Set(board.items.map(item => item.id)); for (const [id, node] of this.nodes) if (!ids.has(id)) { node.root.remove(); this.nodes.delete(id); this.mini.get(id)?.remove(); this.mini.delete(id); }
     for (const item of board.items) { let node = this.nodes.get(item.id); if (!node) { node = new ItemNode(item.id, this.hooks); this.nodes.set(item.id, node); this.container.append(node.root); } node.update(item, selection.has(item.id), matches(item)); }
     const ordered = board.items.map((item, index) => ({ item, index })).sort((a, b) => a.item.z - b.item.z || a.index - b.index); let next = this.container.firstElementChild; for (const { item } of ordered) { const root = this.nodes.get(item.id)!.root; if (next === root) next = next.nextElementSibling; else this.container.insertBefore(root, next); }
