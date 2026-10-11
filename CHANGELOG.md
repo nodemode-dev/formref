@@ -1,5 +1,13 @@
 # FormRef changelog
 
+## v0.4.7 · 2026-10-11
+
+Synced notes and map cards.
+
+- Synced Copy makes a linked copy of a note or document: edit any copy and the others follow, in one undo step. Stop Syncing unlinks one.
+- Google Maps and OpenStreetMap links become map cards.
+- Fixed: text typed into a note on the board was lost if you then clicked empty canvas; it now saves.
+
 ## v0.4.6 · 2026-10-11
 
 GIF frames and document export.

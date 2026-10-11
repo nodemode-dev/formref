@@ -14,7 +14,7 @@ Boards also include validated, backwards-compatible `settings` for grid visibili
 
 - add: items array; remove: ids array; update: ids array, patch object.
 - transform: ids, dx/dy defaults 0, scale default 1, rotation default 0; pivot optional x/y. Scaling/rotation around collective center when absent.
-- duplicate: ids; engine generates collision-free IDs and offsets by 24.
+- duplicate: ids, synced optional boolean; engine generates collision-free IDs and offsets by 24. A plain duplicate drops data.sync_id; with synced true, note and document copies share the source's data.sync_id (created if missing), and any update that changes title, text, color, data.text_format or data.font on one of them applies the same values to every unlocked item with that sync_id in the same step.
 - align: ids, mode:left|right|top|bottom|center_x|center_y.
 - distribute: ids, axis:x|y. pack: ids, gap default 24, columns optional integer. normalize: ids, mode:width|height|area, value positive.
 - group: ids, group_id optional string; ungroup: ids. order: ids, mode:front|back|forward|backward. Locked items reject mutating commands except update locked false.

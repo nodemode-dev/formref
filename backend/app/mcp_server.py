@@ -158,7 +158,7 @@ async def update_items(board_id: str, ids: list[str], patch: dict) -> dict:
 
 @mcp.tool(annotations=_write)
 async def arrange_items(board_id: str, ids: list[str], action: str, options: dict | None = None) -> dict:
-    """Arrange items using align, distribute, pack, sort, normalize, order, group, ungroup or duplicate. Options: align mode (left, right, top, bottom, center_x, center_y); distribute axis/gap; pack gap/columns; sort key (filename, aspect, similarity), gap, descending; normalize mode/value; order mode (front, forward, backward, back); group group_id. Similarity sort computes colour features from the original images."""
+    """Arrange items using align, distribute, pack, sort, normalize, order, group, ungroup or duplicate. Options: align mode (left, right, top, bottom, center_x, center_y); distribute axis/gap; pack gap/columns; sort key (filename, aspect, similarity), gap, descending; normalize mode/value; order mode (front, forward, backward, back); group group_id; duplicate synced (true makes note and document copies whose title, text, colour and format stay in sync with the source). Similarity sort computes colour features from the original images."""
     if action not in {"align", "distribute", "pack", "sort", "normalize", "order", "group", "ungroup", "duplicate"}:
         raise ValueError("Unsupported arrangement action.")
     value = dict(options or {})

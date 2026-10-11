@@ -10,7 +10,12 @@
 - [Scripts](#scripts)
 - [Canvas increment](#canvas-increment)
 - [Reference editing increment](#reference-editing-increment)
+- [v0.4.7 synced notes, map cards, inline edit commit](#v047-synced-notes-map-cards-inline-edit-commit)
 - [v0.4.6 GIF frames and document export](#v046-gif-frames-and-document-export)
+
+## v0.4.7 synced notes, map cards, inline edit commit
+
+Synced Copy and Stop Syncing are table commands (Insert menu, palette); the card header adds "synced". `lib/media.ts` turns Google Maps (@lat,lon,zoom, place and search links) and OpenStreetMap (#map= and mlat/mlon) into keyless embed URLs, and map links are added at 420 by 320. A real bug surfaced while testing: clicking the empty canvas after typing in a note never saved the text, because the marquee gesture calls preventDefault and focus never left the note; `gestures.ts` now blurs an open inline edit on the stage before any gesture. Throttled run: a synced copy made from the menu, an inline edit on the copy reached the source, one Ctrl+Z reverted both, Stop Syncing unlinked one, and an OpenStreetMap link became a 420 by 320 map card with the expected embed address; no shifts, no console errors. The map tiles themselves need the public web.
 - [v0.4.5 media and table cards](#v045-media-and-table-cards)
 
 ## v0.4.6 GIF frames and document export

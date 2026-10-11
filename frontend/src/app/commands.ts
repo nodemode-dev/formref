@@ -269,6 +269,8 @@ export const COMMANDS: CommandDef[] = [
   { group: 'Edit', id: 'select-all', label: 'Select All', icon: 'select-all', keys: ['mod+a'], run: selectAll, enabled: hasBoard },
   { group: 'Edit', id: 'deselect', label: 'Deselect All', icon: 'deselect', keys: ['escape'], run: () => { setSelection([]); setTool('select'); }, enabled: has },
   { group: 'Edit', id: 'duplicate', label: 'Duplicate', icon: 'duplicate', keys: ['mod+d'], run: () => execute({ type: 'duplicate', ids: editable() }), enabled: has },
+  { group: 'Edit', id: 'duplicate-synced', label: 'Synced Copy', icon: 'sync', run: () => execute({ type: 'duplicate', ids: selected().filter(i => !i.locked && ['note', 'document'].includes(i.kind)).map(i => i.id), synced: true } as Command), enabled: () => selected().some(i => ['note', 'document'].includes(i.kind)) },
+  { group: 'Edit', id: 'unsync', label: 'Stop Syncing', icon: 'unsync', run: () => execute({ type: 'update', ids: selected().filter(i => i.data.sync_id && !i.locked).map(i => i.id), patch: { data: { sync_id: null } } }), enabled: () => selected().some(i => !!i.data.sync_id) },
   { group: 'Edit', id: 'delete', label: 'Delete Selected', icon: 'trash', keys: ['delete', 'backspace'], run: removeSelection, enabled: () => has() || !!S.chosenConnection },
   { group: 'Edit', id: 'lock', label: 'Lock Selected', icon: 'lock', keys: ['l'], run: toggleLock, enabled: has },
 

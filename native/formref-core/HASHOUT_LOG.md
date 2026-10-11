@@ -29,6 +29,11 @@ Focused v0.2.0 and v0.3.0 log. The complete baseline engine map, protocol limits
 - [Comments](#comments)
 - [Labels](#labels)
 - [Tables](#tables)
+- [Synced notes](#synced-notes)
+
+## Synced notes
+
+v0.4.7: `duplicate` takes `synced: true` to give note and document copies a shared `data.sync_id`, and `update` calls `sync_copies` first, so a content change (title, text, colour, text format, font) lands on every unlocked copy inside the same command and therefore the same undo step. Position, size and everything else stay per copy. A plain duplicate drops the id, so copies are only linked on purpose. Sync is done in the engine rather than the UI so REST, MCP and agents keep copies in step too. Probed on the release binary: a synced duplicate shared the id, a plain duplicate did not, an edit reached the unlocked copy but not a locked one or an unrelated note, and one undo reverted all of it.
 
 ## Tables
 

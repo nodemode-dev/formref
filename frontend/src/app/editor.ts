@@ -1,6 +1,7 @@
 import { api, request } from '../lib/api';
 import type { Asset, Command, Item, Kind, Point, State, Summary, Viewport } from '../lib/types';
 import { emptyTable } from '../lib/table';
+import { embedUrl } from '../lib/media';
 import { newItem } from '../lib/types';
 import { HostLink } from '../lib/host';
 import { itemBounds } from '../lib/geometry';
@@ -565,11 +566,12 @@ export async function add(kind: Kind) {
   }
   if (kind === 'todo') data.checked = false;
   if (kind === 'table') data.table = emptyTable();
+  const player = kind === 'link' && !!embedUrl(form.url);
   const item = newItem(kind, p.x, p.y, {
     title: form.name || KIND_NAMES[kind], text: form.text, url: form.url, z: topZ(),
     color: kind === 'note' ? '#e7d4b4' : '#191919',
-    width: kind === 'column' ? 300 : kind === 'table' ? 380 : 260,
-    height: kind === 'column' ? 480 : kind === 'todo' ? 150 : kind === 'table' ? 230 : 190,
+    width: kind === 'column' ? 300 : kind === 'table' ? 380 : player ? 420 : 260,
+    height: kind === 'column' ? 480 : kind === 'todo' ? 150 : kind === 'table' ? 230 : player ? 320 : 190,
     data,
   });
   await execute({ type: 'add', items: [item] });

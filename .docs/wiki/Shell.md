@@ -64,6 +64,12 @@ Video and audio files dropped or added like images become playable cards (mp4, w
 
 Add Table (Insert menu or palette) makes a table card. Double-click a cell to type in it; Enter or Tab saves, Escape cancels; double-click a column name to rename it. In the inspector pick a column to set its type (text, number, currency, percent, date or checkbox) or add and remove rows and columns. A cell that starts with = is a formula: cell references (A1), ranges (B1:B4), + - * / ^, and SUM, AVERAGE, MIN, MAX, COUNT, ROUND and ABS. Errors show #ERR and loops #CYCLE. Every change is one undo step.
 
+## Synced notes and maps
+
+Synced Copy (Insert menu or palette) duplicates a note or document as a linked copy: change the title, text, colour, format or font of any copy and every copy follows in the same undo step. Copies say "synced" in their header. Stop Syncing makes the selected copy independent again; a plain Duplicate is always independent. Locked copies are left alone, and syncing works within one board.
+
+A link to Google Maps (a place, a search or an @latitude,longitude view) or to OpenStreetMap becomes a map card you can pan and zoom.
+
 ## GIF frames
 
 Open an animated GIF in the reference view (Focus Image Reference) and frame controls appear: play or pause (K), previous and next frame (comma and full stop), a frame slider, speed (0.25x to 2x) and Keep frame, which adds the current frame to the board as a PNG image. The controls need a browser with ImageDecoder (Chrome, Edge); elsewhere the GIF just plays.

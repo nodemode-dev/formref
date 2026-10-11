@@ -66,6 +66,10 @@ stage.addEventListener('pointerdown', event => {
   const target = event.target as HTMLElement;
   if (target.closest('button,input,a,video,audio,iframe,[contenteditable="true"],.floating-controls,.navigator') || !S.state || event.button === 2) return;
   menu.close();
+  // Gestures below call preventDefault, which stops the browser moving focus, so an open inline edit
+  // (a note's text or a table cell) would never blur and never save. Commit it explicitly.
+  const editing = document.activeElement as HTMLElement | null;
+  if (editing?.isContentEditable && stage.contains(editing)) editing.blur();
   const p = worldPoint(event);
   const screen = { x: event.clientX, y: event.clientY };
   const element = target.closest<HTMLElement>('.board-item');

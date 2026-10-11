@@ -78,6 +78,31 @@ fn merge_object(target: &mut Map<String, Value>, patch: &Map<String, Value>, dep
     Ok(())
 }
 
+/// Synced notes: a content change on one copy (title, text, colour, text format, font) is applied to every
+/// other unlocked item on the board that shares its data.sync_id, in the same step and so the same undo.
+fn sync_copies(board: &mut Board, updated: &[usize], patch: &Map<String, Value>) -> EngineResult<()> {
+    let mut content = Map::new();
+    for key in ["title", "text", "color"] {
+        if let Some(value) = patch.get(key) { content.insert(key.to_string(), value.clone()); }
+    }
+    if let Some(Value::Object(data)) = patch.get("data") {
+        let shared: Map<String, Value> = data.iter().filter(|(key, _)| ["text_format", "font"].contains(&key.as_str())).map(|(k, v)| (k.clone(), v.clone())).collect();
+        if !shared.is_empty() { content.insert("data".into(), Value::Object(shared)); }
+    }
+    if content.is_empty() { return Ok(()); }
+    let groups: HashSet<String> = updated.iter().filter_map(|&i| board.items[i].data.get("sync_id").and_then(Value::as_str).map(str::to_string)).collect();
+    if groups.is_empty() { return Ok(()); }
+    let chosen: HashSet<usize> = updated.iter().copied().collect();
+    for index in 0..board.items.len() {
+        let item = &board.items[index];
+        if chosen.contains(&index) || item.locked || !item.data.get("sync_id").and_then(Value::as_str).is_some_and(|id| groups.contains(id)) { continue; }
+        let mut value = serde_json::to_value(item).map_err(|e| EngineError::invalid(e.to_string()))?;
+        merge_object(value.as_object_mut().ok_or_else(|| EngineError::invalid("item is not an object"))?, &content, 0)?;
+        board.items[index] = decode(value)?;
+    }
+    Ok(())
+}
+
 pub fn apply(board: &mut Board, command: &Value, source: &mut IdSource) -> EngineResult<()> {
     board.validate()?;
     let mut candidate = board.clone();
@@ -124,6 +149,7 @@ fn apply_inner(board: &mut Board, command: &Value, source: &mut IdSource, depth:
             }
             let unlock_only = patch.len() == 1 && patch.get("locked") == Some(&Value::Bool(false));
             if !unlock_only { geometry::require_unlocked(board, &indices)?; }
+            sync_copies(board, &indices, patch)?;
             for index in indices {
                 let mut value = serde_json::to_value(&board.items[index]).map_err(|e| EngineError::invalid(e.to_string()))?;
                 let object = value.as_object_mut().ok_or_else(|| EngineError::invalid("item is not an object"))?;
@@ -259,9 +285,17 @@ fn duplicate(board: &mut Board, command: &Value, source: &mut IdSource) -> Engin
             if !groups.contains_key(group) { groups.insert(group.clone(), source.generate("group", &mut occupied)?); }
         }
     }
+    // synced: true makes note and document copies that stay in sync with their source (see sync_copies);
+    // a plain duplicate is always independent.
+    let synced = command.get("synced").and_then(Value::as_bool).unwrap_or(false);
     let mut copies = Vec::with_capacity(indices.len());
     for &index in &indices {
+        if synced && ["note", "document"].contains(&board.items[index].kind.as_str()) && board.items[index].data.get("sync_id").and_then(Value::as_str).is_none() {
+            let id = source.generate("sync", &mut occupied)?;
+            board.items[index].data.insert("sync_id".into(), Value::String(id));
+        }
         let mut item = board.items[index].clone();
+        if !synced || !["note", "document"].contains(&item.kind.as_str()) { item.data.remove("sync_id"); }
         item.id = mapping[&item.id].clone();
         item.x += 24.0;
         item.y += 24.0;

@@ -11,7 +11,32 @@ const EMBEDS: [RegExp, (m: RegExpMatchArray) => string][] = [
   [/^https?:\/\/(?:www\.)?soundcloud\.com\/[\w-]+\/[\w-]+/i, m => `https://w.soundcloud.com/player/?url=${encodeURIComponent(m[0])}`],
 ];
 
+/** Map links: Google Maps (@lat,lon,zoom or a place) and OpenStreetMap (#map=zoom/lat/lon or mlat/mlon) become map cards. */
+function mapEmbed(url: string): string | null {
+  const google = url.match(/^https?:\/\/(?:www\.)?google\.[a-z.]+\/maps\/(?:place\/([^/@]+)\/)?@(-?\d+(?:\.\d+)?),(-?\d+(?:\.\d+)?),(\d+(?:\.\d+)?)z/i);
+  if (google) {
+    const query = google[1] ? decodeURIComponent(google[1].replace(/\+/g, ' ')) : `${google[2]},${google[3]}`;
+    return `https://maps.google.com/maps?q=${encodeURIComponent(query)}&ll=${google[2]},${google[3]}&z=${Math.round(Number(google[4]))}&output=embed`;
+  }
+  const place = url.match(/^https?:\/\/(?:www\.)?google\.[a-z.]+\/maps\/(?:place|search)\/([^/?#]+)/i);
+  if (place) return `https://maps.google.com/maps?q=${encodeURIComponent(decodeURIComponent(place[1].replace(/\+/g, ' ')))}&output=embed`;
+  const hash = url.match(/^https?:\/\/(?:www\.)?openstreetmap\.org\/.*#map=(\d+)\/(-?[\d.]+)\/(-?[\d.]+)/i);
+  const marker = url.match(/^https?:\/\/(?:www\.)?openstreetmap\.org\/.*[?&]mlat=(-?[\d.]+)&mlon=(-?[\d.]+)/i);
+  if (hash || marker) {
+    const [zoom, lat, lon] = hash ? [Number(hash[1]), Number(hash[2]), Number(hash[3])] : [15, Number(marker![1]), Number(marker![2])];
+    if (![zoom, lat, lon].every(Number.isFinite) || Math.abs(lat) > 90 || Math.abs(lon) > 180) return null;
+    const span = 360 / 2 ** zoom * 2;
+    const box = [lon - span, lat - span / 2, lon + span, lat + span / 2].map(n => n.toFixed(5)).join(',');
+    return `https://www.openstreetmap.org/export/embed.html?bbox=${box}&layer=mapnik&marker=${lat},${lon}`;
+  }
+  return null;
+}
+
+export const isMap = (url: string) => !!mapEmbed(url);
+
 export function embedUrl(url: string): string | null {
+  const map = mapEmbed(url);
+  if (map) return map;
   for (const [pattern, build] of EMBEDS) {
     const match = url.match(pattern);
     if (match) return build(match);
