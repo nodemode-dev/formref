@@ -1,0 +1,39 @@
+# Engine contract
+
+## Engine protocol
+
+Long-lived executable reads one UTF-8 JSON request per line, writes exactly one JSON response per line. Request: `{"id":1,"method":"board.get","params":{"board_id":"id"}}`. Success: `{"id":1,"result":{"board":{},"can_undo":false,"can_redo":false}}`. Failure: `{"id":1,"error":{"code":"invalid_command","message":"explanation"}}`. Logs go to stderr. No UI or filesystem dependencies in Rust library. Methods: board.create (id, title), board.open (board), board.get (board_id), board.apply (board_id, command), board.undo, board.redo, board.close. Create/open/apply/history return state envelope.
+
+## Board
+
+Board: id:string, title:string, version:1, revision:integer, items:Item[], connections:Connection[], viewport:{x:number,y:number,zoom:number}, background:string. Extra serde defaults accepted when opening old boards. Item: id:string, kind:image|note|document|swatch|link|board|column|todo|shape|stroke|file, x/y/width/height numbers, rotation:number degrees, z:number, opacity:number, locked:boolean, hidden:boolean, group_id:string|null, parent_id:string|null, title:string, text:string, color:string, asset_id:string|null, url:string, data:object. Image data: flip_x/flip_y boolean, grayscale boolean, crop:{x,y,width,height} normalized source fractions, sampling:string. Todo data checked:boolean. Board card data board_id:string. Stroke data points:[{x,y}], stroke_width:number. Shape data shape:rect|ellipse|line, fill:string. Connections: id:string, from:string, to:string, label:string, color:string. Data supports future extension kinds while core geometry remains validated. Swatch canonical colors, note/document source formats, safe bounded Markdown, original-pixel sampling and conditional saves are validated in native/formref-core/src/model.rs and backend/app/core/.
+
+Boards also include validated, backwards-compatible `settings` for grid visibility, grid size, snapping and canvas grayscale preview. The `settings` and `snap` commands and optional `distribute.gap` are listed under Commands below and explained in [Canvas](Canvas.md). Preview grayscale does not change original media or imply grayscale exports.
+
+## Commands
+
+- add: items array; remove: ids array; update: ids array, patch object.
+- transform: ids, dx/dy defaults 0, scale default 1, rotation default 0; pivot optional x/y. Scaling/rotation around collective center when absent.
+- duplicate: ids; engine generates collision-free IDs and offsets by 24.
+- align: ids, mode:left|right|top|bottom|center_x|center_y.
+- distribute: ids, axis:x|y. pack: ids, gap default 24, columns optional integer. normalize: ids, mode:width|height|area, value positive.
+- group: ids, group_id optional string; ungroup: ids. order: ids, mode:front|back|forward|backward. Locked items reject mutating commands except update locked false.
+- connect: connection object. disconnect: ids. viewport: viewport object. rename: title. background: color.
+- settings: patch of grid_visible, grid_size (4 to 512), snap_enabled, grayscale. snap: ids, grid_size optional.
+- rotate: ids, degrees default 90 (-360 to 360), each root about its own centre. opacity: ids, value 0 to 1.
+- image: ids (images only), toggle array of flip_x|flip_y|grayscale and/or set {flip_x, flip_y, grayscale, sampling: smooth|nearest}.
+- crop: ids (images only), rect {x, y, width, height} normalised to the source and fitting inside it, or reset true.
+- sort: ids (at least 2 roots), key filename|aspect|similarity, gap default 24, descending optional; places the result in a grid like pack. Similarity reads data.features (at most 512 numbers); the service fills it from original pixels first.
+- batch: commands array, one atomic undo step. Validate complete command on cloned document before replacing live state. 100 undo entries; unchanged or failed commands never create history.
+
+## HTTP
+
+GET /api/health. GET /api/boards => board summaries. POST /api/boards {title} => state. GET /api/boards/{id} => state. POST /api/boards/{id}/commands {command, expected_revision?} => state; the optional nonnegative integer is compared under the store lock, and a mismatch returns 409 with unchanged state, disk and history. POST /api/boards/{id}/undo and /redo => state. DELETE /api/boards/{id}. POST /api/boards/{id}/duplicate. POST /api/assets multipart file => {id,url,width,height,name,mime,size}. GET /api/assets/{asset_id} bytes. GET /api/boards/{id}/items/{item_id}/sample?u=&v= => source-pixel result; finite normalized coordinates must be within 0..1, and sampling adds no revision/history. POST /api/import multipart file supports portable .formref zip or .istack JSON and maps into a new board. GET /api/boards/{id}/export?format=portable|json|png|svg|markdown returns a downloadable file. GET /api/boards/{id}/events SSE sends revision events from HTTP/MCP mutations. Static frontend production is served at /. GET and PUT /api/session {open, active} store the open board tabs. GET /api/agent/runners, GET and POST /api/agent/settings, POST /api/agent/turns {board_id, message, runner} streams start, text, tool, tool_result, error and done events; POST /api/agent/turns/{id}/stop and /undo. A mutating request carrying X-FormRef-Client is refused with 403 outside_agents_off unless it carries a live turn token or outside agents are allowed; the board's SSE stream then sends a consent event. API errors have a detail string. All writes auto-persist atomically. API origin is loopback; assets use registered identifiers, never arbitrary filesystem paths.
+
+## Frontend
+
+API client resolves relative /api in Vite via proxy and production FastAPI. Stable item DOM keyed by id, keeps mounted inputs and chrome. Gestures preview CSS transforms then commit final engine command; serialize commands, never replace live panel containers. Frontend owns selection and transient camera but commits camera with viewport command. Inspector inputs commit update. Every command, its label, icon and keys come from frontend/src/app/commands.ts; the right-click menu, palette, keyboard and shortcut sheet (?) all read it, so see [Shell](Shell.md) or press ? for the current keys. Space/middle drag pan, wheel anchored zoom, marquee selection, resize and rotate handles.
+
+## MCP
+
+Use official Python SDK, stdio transport as actual MCP server. Tools call the same store/core service via loopback API to share visible board state. SDK discovery on 2026-10-11 returned 21 tools: list_boards, create_board, get_board, add_items, update_items, arrange_items (now with sort), adjust_items (rotate, opacity, image, crop), transform_items, remove_items, undo, redo, import_asset, export_board, search_items, connect_items, configure_canvas, snap_items, sample_image, create_swatch, create_document and set_formatted_text. Resources formref://boards and formref://board/{board_id}. Prompt organize_references. Client config runs root formref mcp. Errors are explicit, never success envelopes for missing boards. Tool mutations cause persisted revision and SSE; sample_image is read-only and returns original source coordinates/RGBA/RGB/HSV/HEX. Formatted updates preserve other item data and use the same revision guard. Canvas settings, snap, swatches and formatted text follow the command list above and the validation in native/formref-core/src/model.rs.

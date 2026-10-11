@@ -1,7 +1,7 @@
 <p align="center"><img src="assets/formref-mark.svg" width="96" alt="FormRef"></p>
 <h1 align="center">FormRef</h1>
 <p align="center"><b>Reference boards for images, ideas & creative work.</b></p>
-<p align="center"><img alt="version" src="https://img.shields.io/badge/version-v0.3.0-f97316"> <img alt="license" src="https://img.shields.io/badge/license-Apache--2.0-blue"> <img alt="stack" src="https://img.shields.io/badge/engine-Rust-orange"></p>
+<p align="center"><img alt="version" src="https://img.shields.io/badge/version-v0.3.4-f97316"> <img alt="license" src="https://img.shields.io/badge/license-Apache--2.0-blue"> <img alt="stack" src="https://img.shields.io/badge/engine-Rust-orange"></p>
 
 FormRef is a local reference workspace in the Form family. Collect images & files, arrange them on a free canvas, add notes & tasks, connect ideas, organize boards, then export or control the same workspace through MCP.
 
@@ -15,8 +15,12 @@ Rust document engine · vanilla TypeScript/Vite view · Python/FastAPI media & p
 - **Reference editing:** source-pixel RGBA/RGB/HSV/HEX capture, editable swatches, bounded formatted notes & focused documents with guarded draft saves.
 - **Local persistence:** named boards & managed media saved on disk.
 - **Interoperability:** iStack import, portable archives & PNG/SVG/Markdown/JSON export.
-- **Agent access:** official Python MCP SDK stdio server w/ tools, resources & prompts.
-- **Form family UI:** Studio Dark tokens, orange accent, inline SVG icons & stable keyed item views.
+- **iStack's right-click menu:** File, Edit, Canvas, Organize, Images & Layer in iStack's order & shortcuts, plus Insert & Ask Agent. Press ? for every shortcut.
+- **Board tabs:** several boards open at once, restored where you left them.
+- **Organize & draw:** pack, sort by name, aspect or colour similarity, rotate 90, opacity, pixel art, brush, eraser, rectangle, circle & line.
+- **Embedded agent:** Agent panel (Ctrl+J) running Claude Code, Codex, Cursor or Ollama on your board, each tool call shown, Stop & Undo This Turn.
+- **Agent access:** official Python MCP SDK stdio server; outside agents edit only once you allow them.
+- **Form family UI:** Studio Dark tokens, orange accent, collapsible side panels, one icon per action & stable keyed item views.
 
 ## Quick Start
 
@@ -54,7 +58,7 @@ Then open http://127.0.0.1:8196.
 
 ## MCP
 
-`.mcp.json`, `.cursor/mcp.json` & `.codex/config.toml` run the root launcher. Start from the repository root. For clients using another working directory, replace the relative command w/ an absolute path to `formref`. On Windows, configure command `cmd` with arguments `/c`, `C:\path\to\formref\formref.bat`, `mcp`. The server uses the same local API as the editor. SDK line v1 is pinned intentionally for FastMCP compatibility; this is an actual protocol transport, w/ no cloud credentials required.
+`.mcp.json`, `.cursor/mcp.json` & `.codex/config.toml` run the root launcher. Outside agents are refused until you allow them in the Agent panel; FormRef asks the first time one tries. Codex reads the project config only after you trust the folder in Codex. Start from the repository root. For clients using another working directory, replace the relative command w/ an absolute path to `formref`. On Windows, configure command `cmd` with arguments `/c`, `C:\path\to\formref\formref.bat`, `mcp`. The server uses the same local API as the editor. SDK line v1 is pinned intentionally for FastMCP compatibility; this is an actual protocol transport, w/ no cloud credentials required.
 
 ## Configuration
 
@@ -77,14 +81,14 @@ Set environment variables before launch; local environment files must remain unc
 | native/formref-core/ | UI-independent board semantics & history |
 | src-tauri/ | Optional native development shell |
 | .claude/skills/formref-harness/ | Routed project development instructions |
-| .docs/wiki/ | Usage, subsystem & release guides |
-| docs/ | Contracts, sources, parity & verification |
+| .docs/wiki/ | Usage, engine contract, shell, agent & release guides |
+| licenses/ | Third-party licence texts |
 
 ## Status
 
-FormRef includes local canvas settings, grid snapping, ordered reference presentation, original-pixel color capture, swatch cards and bounded formatted notes/documents. Read `docs/PARITY.md` for row-level capabilities & gaps. Cloud collaboration, protected sharing, tables/formulas, synced notes, browser extensions, background removal & full proprietary project-format compatibility remain separate gaps. Native shell sources are provided; compiled, signed macOS/Windows installers are not included.
+FormRef covers the PureRef image-board core and Milanote's cards, columns, tasks, links and nested boards, behind iStack's menu, with an embedded agent. Cloud collaboration, protected sharing, tables/formulas, synced notes, browser extensions, background removal & desktop window modes remain gaps. Native shell sources are provided; compiled, signed macOS/Windows installers are not included. Codex, Cursor & Ollama runners are implemented but were not available on the build machine, so only Claude Code has been run end to end.
 
-The planning sidecar contains the roadmap, build record, independent TEST_PLAN & release ledger. No self-authored test suite is included. Current executed verification is in `docs/VERIFICATION_v0.3.0.md`; earlier versioned records retain their original observations. The standalone comparison is `docs/FormRef-Parity_v0.3.0.html`. FormRef grades live in `docs/parity.json`; unchanged researched vendor grades remain in `docs/PER_PRODUCT_COVERAGE_v0.2.0.json`. Both HTMLs match the final effective FormVis table/chart/typography, with font notices in `docs/FONT_NOTICES.md`.
+Planning, research and parity data live in the planning sidecar, outside this repository; the FormRef tab of the FormAI parity matrix is rendered from it each release. No self-authored test suite is included.
 
 ## Development
 
@@ -98,4 +102,4 @@ Work on `main`; see [release conventions](.docs/wiki/Releases.md). Read [CLAUDE.
 
 ## Licensing
 
-Apache-2.0. See [LICENSE](LICENSE) & [LICENSES.md](LICENSES.md) for dependency notices. The user's iStack format & FormVis design conventions were studied under their supplied permissions. No BeeRef code is included.
+Apache-2.0. See [LICENSE](LICENSE) & [NOTICE.md](NOTICE.md) for dependency and font notices. The user's iStack format & FormVis design conventions were studied under their supplied permissions. No BeeRef code is included.

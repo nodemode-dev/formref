@@ -1,64 +1,27 @@
 ---
 name: mcp
-description: "Operates FormRef boards through the actual local MCP server and diagnoses connection, tool-schema and partial-workflow failures. Loads for agent-driven board editing and MCP integration."
+description: FormRef's MCP server and operating a live board through it. Load to arrange, sort, adjust or edit a board with the formref tools, to add or change a tool, to connect Claude Code, Codex or Cursor, or to recover from a refused or failed tool call.
 ---
 
-# MCP Specialist
+# MCP
 
-## Purpose
+`backend/app/mcp_server.py` is an official Python SDK (FastMCP) stdio server. It calls the loopback REST API and starts the service itself when nothing answers on `FORMREF_API_URL`. Every request carries `X-FormRef-Client` (a turn token from the agent service, or `outside`).
 
-Turn the connected FormRef server into reliable board operations. Use sequential workflows with readback after mutation; the skill provides ordering and recovery, while the MCP server provides access and validation.
+## Connecting
 
-## Preconditions
+The repository ships `.mcp.json` (Claude Code), `.cursor/mcp.json` and `.codex/config.toml`, all launching `./formref mcp`, which uses `backend/venv`. Outside clients are refused (403 `outside_agents_off`) until the person allows outside agents in the Agent panel; the page then offers a prompt on the first refusal. Codex reads the project config only for a trusted folder.
 
-Read the master shared rules. Start the app with `./formref dev` or its documented production serve command. Connect the client to `./formref mcp` as a stdio server from the absolute repository path. Discover its current tools/resources/prompts before using the workflows below.
+## Tools
 
-## Workflow: organize an existing board
+`list_boards`, `create_board`, `get_board`, `add_items`, `update_items`, `arrange_items` (align, distribute, pack, sort, normalize, order, group, ungroup, duplicate), `adjust_items` (rotate, opacity, image flags, crop), `configure_canvas`, `snap_items`, `transform_items`, `remove_items`, `connect_items`, `undo`, `redo`, `import_asset`, `export_board`, `search_items`, `sample_image`, `create_swatch`, `create_document`, `set_formatted_text`, plus the `formref://boards` and `formref://board/[id]` resources and the `organize_references` prompt. Read the live list from discovery rather than this page when they differ.
 
-Trigger: "Arrange these references in FormRef."
+## Operating a board
 
-1. Call `list_boards`, choose the intended board from the user's context and retain its ID. Call `get_board` with that board_id; identify exact item IDs and locked items.
-2. Call `arrange_items` with the board_id and unlocked IDs from the readback. Choose the requested layout and explicit gap using the live tool schema. When requested, call `configure_canvas` with only the desired grid visibility, grid size, snap-enabled or grayscale settings, or `snap_items` with the known item IDs and optional grid size. Discover those tool schemas before supplying parameters; settings are board mutations with their own undo steps. Leave locked items intact; unlock only when the user requested it.
-3. Call `get_board` again. Confirm item geometry and revision changed as requested. If the result is wrong, use `undo` once for each confirmed mutation and read back the restored state.
+1. `get_board` first; use real item ids, never invented ones.
+2. Make each change one call so it is one undo step; respect locked items (a locked item fails the whole call).
+3. Read the board back after mutating and report the new revision and what moved.
+4. On `outside_agents_off`, tell the person to allow outside agents in FormRef rather than retrying in a loop. On `revision_conflict`, re-read and retry once.
 
-Result: the intended board is arranged in the app, persisted and undoable.
+## Adding a tool
 
-## Workflow: create a reference collection
-
-Trigger: "Make a FormRef board from these images and notes."
-
-1. Call `create_board` with the requested title and retain the returned board ID. For actual source files, call `import_asset` and keep the returned registered asset IDs. Supply raw base64 or a file beneath `FORMREF_MCP_IMPORT_DIR` (default `~/.formref/imports`); do not pass an arbitrary filesystem path.
-2. Call `add_items` with the board_id, original content and registered asset IDs; obtain exact item IDs from the result or `get_board`. Call `connect_items` only when the user requested a relationship.
-3. Arrange through `arrange_items` and read content/geometry back with `get_board`. For requested original-image colors or formatted content, read `docs/REFERENCE_EDITING_CONTRACT.md` and discover `sample_image`, `create_swatch`, `create_document` and `set_formatted_text` from the actual SDK connection before using their schemas. Supply the known board/image IDs and normalized coordinates to `sample_image`; verify asset ID, source pixel coordinates, original RGBA/HEX and unchanged board revision/history. Sampling itself has nothing to undo. Create a requested swatch from the returned canonical color with `create_swatch`, then edit through `update_items`; create a document with `create_document` or change existing source/format with `set_formatted_text`. After each mutation, read the same board through MCP and HTTP/UI, confirm canonical color or exact title/text/format and one undoable shared revision, then verify persistence and requested exports. Preserve existing document data; on a stale-save conflict, read back current source instead of retrying an overwrite. Call `export_board` only for an export the user requested and verify the resulting file is available. A source declaration or successful tool response alone cannot pass this workflow.
-
-Result: a real persisted collection with linked assets, visible content and a known undo sequence.
-
-## Workflow: recover an incomplete edit
-
-Trigger: "The FormRef agent edit failed halfway."
-
-1. Call `get_board` on the known board and inspect the current revision/content. Compare against the last successful result; do not assume a timeout means no mutation occurred.
-2. Identify which steps completed and which registered assets/items already exist. Retry only missing work using those returned IDs, or undo confirmed mutations in reverse order when the user requested rollback.
-3. Read back the final board and name any remaining state the user must resolve.
-
-Result: no duplicate imports, no repeated successful edits and an accurate report of surviving changes.
-
-## Error handling
-
-- Server absent: check the client's MCP connection status and run `./formref doctor`. Confirm backend `/api/health` on 127.0.0.1:8196 and the absolute stdio command/cwd. Configuration text alone is not a connected server.
-- Authentication or access denied: the default local server needs no cloud login. Inspect the actual loopback origin, data-folder permissions and any client policy the error names. Do not request, fabricate or print credentials for a local configuration problem.
-- Missing tool or rejected parameter: rediscover `tools/list` and use the exposed schema. Source names are case sensitive; do not repeatedly retry a guessed name.
-- Partial completion: read the board, retain completed IDs and revision, then resume or reverse confirmed steps. Every successful operation may already be persisted.
-- Isolation: call the failing tool directly without this workflow. A direct failure is a server/tool issue; changing skill prose does not fix it.
-
-## Gate
-
-Actual stdio discovery succeeds, the requested tool calls execute against the live store and subsequent `get_board` proves persisted state. Source-only inspection must be reported as source-only; never claim a client is connected without a real call.
-
-## Hands back
-
-Confirmed board IDs/revisions, completed calls, output files when requested and explicit recovery status.
-
-## Owned resources
-
-No bundled connector or credential file. The repository MCP implementation, tool descriptions and `docs/CONTRACT.md` are authoritative; the repository quick-start documents connection commands.
+Add the engine command first (engine specialist), then a tool or an action in an existing tool, with annotations (`_read`, `_write`, `_remove`) and a docstring naming every option. Prove it with the SDK client (verification specialist). The in-app Ollama runner picks new tools up automatically because it reads this server's tool list.

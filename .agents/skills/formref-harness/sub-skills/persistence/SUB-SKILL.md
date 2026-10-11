@@ -1,0 +1,27 @@
+---
+name: persistence
+description: FormRef's storage, assets, import and export. Load for saving or reopening boards, missing or relinked images, iStack or portable .formref import, PNG, SVG, Markdown or JSON export, similarity features, or the open-tabs session.
+---
+
+# Persistence
+
+## Map
+
+| File | Holds |
+| --- | --- |
+| `backend/app/core/store.py` | atomic board writes, revision guard, asset import with SHA-256 identity, SVG safety, the engine hand-off |
+| `backend/app/core/imports.py` | portable `.formref` archives and iStack `.istack` files |
+| `backend/app/core/exports.py` | portable, JSON, PNG, SVG and Markdown exports |
+| `backend/app/core/features.py` | colour and layout vectors for similarity sort, cached on the asset |
+| `backend/app/core/media.py`, `sampling.py` | decoding original pixels, colour sampling |
+| `backend/app/routers/agent.py` | `/api/session`: open tabs and the active tab |
+
+Data lives in `FORMREF_DATA_DIR` (default `~/.formref/data`): `boards/`, `assets/` (`[sha].blob` plus `[sha].json`), `agent.json`, `session.json`.
+
+## iStack import
+
+iStack saves `{format: "istack", version: "1.1", canvasRect, zoom, panX, panY, gridMode, gridSize, grayscaleCanvas, bgColor, drawings, nextId, nextZ, items}`; images carry `flipH`, `flipV`, `grayscale`, `nearestNeighbor`, `opacity`, `rotation`, `cropRect`, `groupId`, `locked`, `_imageData` (a data URL) and `_sourcePath`; drawings carry `tool`, `color`, `size`, `points`, `startPos`. The importer maps all of these. An image without `_imageData` arrives unresolved and relinkable; eraser drawings, which subtract raster pixels in iStack, are listed as unsupported in the import report rather than dropped. The `cropRect` unit is not certain from the bundle; treat imported crops as unverified.
+
+## Rules
+
+Original bytes are never rewritten. A failed write restores the engine's previous board. New stored data keys get engine validation (engine specialist) before the UI writes them.

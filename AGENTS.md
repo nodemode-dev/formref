@@ -2,7 +2,7 @@
 
 FormRef is a local reference-board editor. The Rust engine owns board state and commands; FastAPI owns assets, durable files, exports and the real MCP service; TypeScript/Vite renders engine state and previews interactions.
 
-Read `.claude/skills/formref-harness/SKILL.md` and its relevant specialist before working here. Read the planning sidecar's `DEV_PLAN.md`, `BUILD_NOTES.md` and root `HASHOUT_LOG.md` first on a continuation, then the subsystem `HASHOUT_LOG.md` before changing source. `docs/CONTRACT.md` is the shared model/command/API contract; inspect actual source and MCP discovery before relying on a documented signature.
+Read `.claude/skills/formref-harness/SKILL.md` and its relevant specialist before working here. Read the planning sidecar's `DEV_PLAN.md`, `BUILD_NOTES.md` and root `HASHOUT_LOG.md` first on a continuation, then the subsystem `HASHOUT_LOG.md` before changing source. `.docs/wiki/Engine-Contract.md` describes the shared model, commands and API; inspect actual source and MCP discovery before relying on a documented signature. The right-click menu, palette, keys and shortcut sheet all come from `frontend/src/app/commands.ts`; change commands there.
 
 - Make handmade, single-region edits against files read this turn. Do not use patch files, scripted replacements, codemods or history rewrites. Read-only attached references stay unchanged.
 - Keep Rust authoritative; UI/REST/MCP share commands, persisted revision and history. Validate a batch before replacing live state; failed commands preserve existing state.

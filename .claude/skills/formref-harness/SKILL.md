@@ -1,43 +1,54 @@
 ---
 name: formref-harness
-description: "Builds, repairs and operates FormRef reference boards. Use when asked to continue the FormRef build, fix its Rust engine or TypeScript canvas, migrate an iStack board, arrange images and notes, debug its FastAPI persistence or MCP tools, or ship a FormRef release. Routes through engine, UI, persistence, MCP and release specialists while keeping the Form family appearance and shared command semantics. Applies to this FormRef repository and its local MCP server; excludes generic moodboard advice and other Form apps."
+description: Builds, repairs and operates FormRef, the Form family reference board (PureRef plus Milanote) with a Rust engine, FastAPI service and TypeScript canvas. Use when asked to continue the FormRef build, add or fix a board command, change the right-click menu, docks, tabs, icons or shortcuts, work on the embedded agent panel or its Claude Code, Codex, Cursor or Ollama runners, debug the MCP server or outside-agent consent, import an iStack board, export or persist boards, re-render the FormRef parity tab in the FormAI matrix, or cut a FormRef release. Also use to arrange a live board through the formref MCP tools. Not for other Form apps, generic moodboard advice, or PureRef and Milanote support questions.
 ---
 
-# FormRef Harness
+# FormRef harness
 
-Develop and operate the local FormRef reference-board app through its shared Rust command engine, FastAPI service and TypeScript canvas. Keep the app's Form family appearance, portable files and real MCP state consistent.
+Route every FormRef task through this file first. It maps the subsystems, states the rules that hold everywhere, and names the specialist to load. Paths to source are relative to the repository root (the folder holding the `formref` launcher); skill paths are relative to this folder.
 
-## Start and route
+## Subsystem map
 
-Locate the FormRef repository from its `formref` dispatcher and `docs/CONTRACT.md`. Paths to source below are relative to that repository; skill paths are relative to this folder. Read root `AGENTS.md`, `CLAUDE.md`, the planning sidecar's `DEV_PLAN.md` and `BUILD_NOTES.md`, then the subsystem's `HASHOUT_LOG.md` before changing code. Preserve existing git history.
-
-For broad build work, identify the observable outcome and route each part to one specialist. For board operations, begin with the MCP specialist and use the connected server rather than changing project files behind the service.
-
-| Request | Load | Hand-back |
+| Subsystem | Root | Specialist |
 | --- | --- | --- |
-| Board model, geometry, undo, layout or command validation | [engine](sub-skills/engine/SUB-SKILL.md) | Engine command and state evidence |
-| Canvas gestures, controls, inspector, themes or rendering stability | [ui](sub-skills/ui/SUB-SKILL.md) | Browser-visible behavior and stability evidence |
-| Save/open, iStack migration, missing assets or exports | [persistence](sub-skills/persistence/SUB-SKILL.md) | Round trip and asset evidence |
-| Arrange a board through agents, connect tools or recover failed calls | [mcp](sub-skills/mcp/SUB-SKILL.md) | Verified board changes and recovery state |
-| Install, build, document, version or package a release | [release](sub-skills/release/SUB-SKILL.md) | Checked release and declared limits |
+| Board model, commands, history | `native/formref-core/src/` | `sub-skills/engine/SUB-SKILL.md` |
+| Shell, context menu, command table, docks, tabs, icons | `frontend/src/app/`, `frontend/src/ui/`, `frontend/index.html`, `frontend/src/styles/` | `sub-skills/ui-shell/SUB-SKILL.md` |
+| Agent panel, runners, Undo This Turn, consent | `frontend/src/ui/panels/agent.ts`, `backend/app/agent/`, `backend/app/routers/agent.py` | `sub-skills/agent/SUB-SKILL.md` |
+| MCP server and live board operation | `backend/app/mcp_server.py`, `.mcp.json`, `.cursor/mcp.json`, `.codex/config.toml` | `sub-skills/mcp/SUB-SKILL.md` |
+| Store, assets, iStack import, exports, session | `backend/app/core/`, `backend/app/routers/boards.py` | `sub-skills/persistence/SUB-SKILL.md` |
+| FormRef tab in the FormAI parity matrix | planning sidecar `parity_render.py`, `parity_rows.json` | `sub-skills/parity/SUB-SKILL.md` |
+| Version, commits, the two zips | version sites listed in the release specialist | `sub-skills/release/SUB-SKILL.md` |
+| Throttled browser and live service checks | a procedure, no repo code | `sub-skills/verification/SUB-SKILL.md` |
 
-## Shared rules
+## Dependency graph
 
-- Keep Rust authoritative for board mutations. UI previews are transient; UI, REST and MCP commit through the same commands so undo and persisted revision agree.
-- Read the live schema in `docs/CONTRACT.md` and exact tool schemas from MCP discovery. Do not invent commands, parameters or success results.
-- Keep edits handmade and confined to one region read this turn. Do not use patch files, bulk replacements or codemods. New modules are permitted; read-only reference projects stay untouched.
-- Preserve mounted keyed DOM nodes, focus, selection and reserved panel geometry. Decode replacement media before swapping it. Font/theme boot must precede reveal.
-- Use the shared CSS token and stacking scales, dark default and inline currentColor SVG icons. Keep Vite `server.host: false` with explicit ports.
-- Read PureRef, BeeRef and Milanote only as feature references. Never copy BeeRef source. Owned iStack may guide migration; missing source files stay visible and recoverable.
-- Run applicable builds and observable runtime checks. Do not write development tests unless the user explicitly asks; record behavior and edge cases in the sidecar `TEST_PLAN.md`.
-- Keep unsupported cloud collaboration, native OS window modes and foreign proprietary project formats labeled as gaps until implemented and verified.
+```text
+canvas (frontend)  -> REST /api -> FastAPI service -> Rust engine (JSON lines)
+MCP server (stdio) -> REST /api -> same service    -> same engine
+agent panel        -> /api/agent -> runners -> MCP server (CLI runners) or FastMCP in-process (Ollama)
+```
+
+One engine owns every mutation, so the canvas, REST, MCP and the agent share one undo history. Never add a second path that edits a board file directly.
+
+## Rules that hold everywhere
+
+- **Engine first.** A new board behaviour is an engine command (`native/formref-core/src/commands/`), then a REST or MCP surface, then a command-table entry. The canvas previews gestures but commits through the engine.
+- **One command table.** Menu, palette, keyboard and shortcut sheet read `frontend/src/app/commands.ts`. Add a command there once; never hand-build a menu item or a key handler beside it.
+- **iStack wins key collisions.** The right-click menu keeps iStack's order, labels and shortcuts; FormRef-only actions go in Insert or at the end of a submenu.
+- **Zero DOM flash.** Patch the changed node, reserve space before async content, theme and docks are set before first paint, the shell reveals only once parsed. Verify under throttling, not by eye.
+- **One stacking scale.** Every `z-index` is a token from `frontend/src/styles/tokens.css`; overlays render into `#overlay-root`.
+- **Icons mean one thing.** Add a glyph to `frontend/src/ui/icons.ts` named after its action; `icon()` throws on unknown names.
+- **Surgical edits.** Edit existing files region by region; no codemods, patch files or bulk replacements. New modules are fine.
+- **No self-written tests.** Testing pressure goes to the planning sidecar's `TEST_PLAN.md` unless the owner asks for tests.
+- **References stay references.** BeeRef is GPL: read its docs, never its code. iStack is the owner's; its compiled bundle guides behaviour and format only.
+- **Planning docs live in the sidecar.** `DEV_PLAN.md`, `BUILD_NOTES.md`, the root `HASHOUT_LOG.md`, `PARITY.md` and the parity data never enter the repository.
+
+`agents/openai.yaml` holds the display name and default prompt Codex shows for this skill; keep it in step with the description when the scope changes.
+
+## Starting a task
+
+Read the sidecar's `DEV_PLAN.md` and `BUILD_NOTES.md`, then the `HASHOUT_LOG.md` beside the code you will touch, then the code. For broad build work, split the outcome by subsystem and load one specialist per part. For operating a live board, start with the MCP specialist and use the connected server.
 
 ## Completion gate
 
-Confirm the requested behavior from a real engine, service or browser result. Record the precise input, output and meaningful limits, update subsystem logs and user documentation, then use the release specialist for delivery. A tool returning success is insufficient when its result cannot be read back from the same board.
-
-For DOM work, report the cold-load CPU/network-throttled check or explicitly state that it was not performed. For import/export, report asset counts and visible missing-source handling. For MCP, report the actual connected tool call and subsequent board revision.
-
-## Integration metadata
-
-`agents/openai.yaml` supplies optional Codex UI metadata; consult it only when exposing this same repository-local skill in another supported client. It does not install or connect an MCP server. Claude Code loads this master from `.claude/skills/formref-harness/SKILL.md`; Codex follows repository `AGENTS.md` to the same files.
+A task is done when the behaviour was observed, not inferred: an engine response, a REST or MCP readback, or a throttled browser run, each stated in the commit body. UI work states the throttled result. Every turn that changes FormRef also re-renders the parity tab (parity specialist) and ships through the release specialist.

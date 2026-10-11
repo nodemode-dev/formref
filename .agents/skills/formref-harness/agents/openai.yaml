@@ -1,0 +1,4 @@
+interface:
+  display_name: "FormRef Harness"
+  short_description: "Build and operate FormRef boards through real MCP"
+  default_prompt: "Use $formref-harness to continue the FormRef build and verify the changed workflow."

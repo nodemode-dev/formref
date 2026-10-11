@@ -9,7 +9,7 @@ cargo build --release --manifest-path native/formref-core/Cargo.toml
 native/formref-core/target/release/formref-core
 ```
 
-Use `--offline` for the build when the exact locked dependencies already exist in the Cargo cache. The binary accepts one JSON request per line on stdin, writes one response per line on stdout, and sends transport diagnostics to stderr. `docs/CONTRACT.md` specifies board fields, engine methods, commands and the shared HTTP/MCP contract.
+Use `--offline` for the build when the exact locked dependencies already exist in the Cargo cache. The binary accepts one JSON request per line on stdin, writes one response per line on stdout, and sends transport diagnostics to stderr. `.docs/wiki/Engine-Contract.md` specifies board fields, engine methods, commands and the shared HTTP/MCP contract.
 
 ```json
 {"id":1,"method":"board.create","params":{"id":"study","title":"Reference study"}}

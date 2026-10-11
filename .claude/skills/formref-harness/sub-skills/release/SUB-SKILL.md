@@ -1,36 +1,26 @@
 ---
 name: release
-description: "Installs, checks, documents and packages a FormRef release with its real git history and planning sidecar. Loads for build failures, release preparation and versioned hand-back."
+description: Shipping a FormRef turn. Load to bump the version, write commits with the right identity, update logs and notes, and produce the repository zip and the planning sidecar zip.
 ---
 
-# Release Specialist
+# Release
 
-## Purpose
+## Version sites
 
-Produce a reviewable release with accurate runtime claims, synchronized documentation and intact git history.
+Bump all of these by hand, together, to the same `x.y.z`: `frontend/package.json`, both version fields at the top of `frontend/package-lock.json`, `VERSION` in `backend/app/core/config.py`, `version` in `native/formref-core/Cargo.toml` and its own entry in `Cargo.lock`, `version` in `src-tauri/Cargo.toml` and the `formref-desktop` entry in its `Cargo.lock`, `version` in `src-tauri/tauri.conf.json`, and the footer label in `frontend/index.html`. Add a `CHANGELOG.md` entry in plain language.
 
-## Preconditions
+Interim turns of a plan are patch versions; the finished plan takes the minor version it named.
 
-Read the master shared rules, planning sidecar `DEV_PLAN.md` and `BUILD_NOTES.md`, `README.md`, `docs/CONTRACT.md` and root command implementation. Do not infer installer or desktop support from an unrun source file.
+## Commits
 
-## Procedure
+Identity on every commit and tag: `git -c user.name=nodemode-ai -c user.email=mackin@nodemode.ai`. One commit per coherent change, subject `type(scope): summary (x.y.z)`, a body that says what changed, why, and what was run. The version bump is the last commit, followed by an annotated tag `vx.y.z`. Never amend or rebase commits the owner already has.
 
-1. Use `./formref install`, `./formref doctor`, `./formref build` and the documented dev/serve commands from the repository. Inspect command help first when continuing an older version.
-2. Verify the Rust engine builds, the frontend typechecks and bundles, the backend imports, and the built app serves through FastAPI. Connect an actual MCP client and run discovery plus one reversible board mutation/readback.
-3. Verify the changed user workflows and exports. For UI changes use the throttled cold-load gate from the UI specialist; record missing hardware/platform checks explicitly.
-4. Update the manual, wiki, contract and subsystem logs; keep planning files in the sidecar and parity grades tied to observed evidence. For comparison HTML, read all stylesheets of the supplied FormVis page and trace the final effective cascade: its later restyle overrides the earlier palette and typography. Match warm light/dark paper and surface tokens, Instrument Sans body/evidence, Bricolage headings, Archivo chart/tile text and JetBrains Mono uppercase headers and 11px status badges. Keep neutral transparent product cells, 9px by 12px cell padding, tinted badges with 4px by 7px padding, radius 4px, gap 6px and 11px currentColor status SVGs, plus bordered source pills and the 1180px wrapper. Preserve the reference structure: four 56-segment product lanes above four percentage tiles, then Capability, Sources, FormRef, PureRef, BeeRef and Milanote columns. Derive scores from the same displayed weighted requirements and fixed denominator; undocumented evidence is not confirmed absence. Compare the original FormVis and corrected FormRef in paired light/dark header/table screenshots at the same viewport, with actual source font bytes loaded. CDP custom-font glyph observations must establish the title, body, feature, header, status and score faces; declared family names, computed family strings and document.fonts.check alone cannot establish this. Inspect final computed colors/type/geometry and complete stacked rows at narrow width in both standalone and consolidated iframe. Preserve filter focus and row identities, prove the embedded FormRef equals its standalone counterpart and all 13 unrelated original pages remain byte-identical. Row counts or product-colored column fills cannot pass this presentation gate.
-5. Apply semantic version `v` plus three dotted integers. Match frontend/backend/native metadata, release filenames and git tag. Retain real commits authored as `nodemode-ai` with `mackin@nodemode.ai`; do not rewrite uploaded history.
-6. Package `formref_v[major].[minor].[patch].zip` with root folder `formref/` and `.git`, excluding dependency caches and runtime data. Package `formref_planning_docs_sidecar_v[major].[minor].[patch].zip` with its matching sidecar root and planning files.
-7. Inspect archive membership and execute the root dispatcher from a freshly extracted release. Confirm source, executable setup scripts, built frontend, harness and documentation are present, and the working tree is clean before final hand-back.
+## Logs and notes
 
-## Gate
+In the repository: the `HASHOUT_LOG.md` beside each changed area. In the planning sidecar: `BUILD_NOTES.md` (state, commits, what is verified and what is not), `DEV_PLAN.md` boxes and revision notes, the root `HASHOUT_LOG.md`, and the re-rendered parity files (parity specialist).
 
-Both matching versioned ZIPs exist, the repo ZIP contains real git history, required builds/runtime checks have observable results and the status docs identify unverified or unsupported behavior.
+## Packaging
 
-## Hands back
+Rebuild Rust, backend import and Vite after the bump. Copy the repository, strip `frontend/node_modules`, `frontend/dist`, `native/formref-core/target`, `src-tauri/target` and every `__pycache__`, and zip it as `formref_vx.y.z.zip` with `.git` included. Zip the sidecar folder as `formref_planning_docs_sidecar_vx.y.z.zip`. Unzip the repository zip somewhere fresh and confirm a clean status, the commit count and `git describe` naming the new tag. Scan all markdown for emoji and em dashes first.
 
-Release files, version/tag, checked behavior and concise limitations.
-
-## Owned resources
-
-No packaged archive belongs inside this skill folder. The repository build/setup commands and release documentation are the execution surface.
+When the harness changed, copy `.claude/skills/formref-harness` over `.agents/skills/formref-harness` (Codex and Cursor read the second path, as in FormVis), run the skill validator on both, and hand back `formref-harness_vx.y.z.zip` beside the two release zips.

@@ -1,36 +1,31 @@
 ---
 name: engine
-description: "Implements and diagnoses FormRef board commands, geometry, layout and history in the Rust core. Loads for engine validation, group transforms, command failures and atomic undo."
+description: FormRef's Rust board engine. Load for any change to the board model, a new or changed board command, validation limits, undo and redo, or layout maths such as pack, sort, align, rotate or snap.
 ---
 
-# Engine Specialist
+# Engine
 
-## Purpose
+`native/formref-core` is a long-running process speaking JSON lines on stdin and stdout. The FastAPI service owns the process (`backend/app/core/engine.py`) and is the only client. Every mutation from the canvas, REST, MCP or the agent becomes one `board.apply` request, so one undo history covers all of them.
 
-Keep all board mutations in the Rust library. Return an engine change verified through its JSON-lines executable and the service that consumes it.
+## Map
 
-## Preconditions
+| File | Holds |
+| --- | --- |
+| `src/model.rs` | `Board`, `Item`, `Connection`, `BoardSettings`, every validation limit, per-kind data rules (image flags, crop, sampling, features, swatch colour, shape kind) |
+| `src/commands.rs` | `apply` (validate, clone, apply, validate again, commit), the dispatch match in `apply_inner`, add, remove, update, transform, duplicate, align, distribute, pack and `place_grid`, normalize, order, group, connect, settings, snap, batch |
+| `src/commands/image.rs` | rotate, opacity, image (flip, grayscale, sampling), crop |
+| `src/commands/arrange.rs` | sort by filename, aspect or similarity |
+| `src/geometry.rs` | bounds, descendants, roots, lock checks, transform, resize of drawings |
+| `src/session.rs` | open boards, revisions, bounded undo and redo, memory budgets |
 
-Read the master shared rules, `docs/CONTRACT.md` and the native subsystem `HASHOUT_LOG.md`. Locate `native/formref-core/Cargo.toml` and inspect the actual model and command definitions before touching callers.
+## Adding a command
 
-## Procedure
+1. Put a new family in its own file under `src/commands/` and declare it with `mod` in `commands.rs`; extend an existing family in place.
+2. Reuse the helpers in `commands.rs` (`affected` for selection plus descendants plus lock check, `layout_roots`, `number`, `place_grid`) instead of re-deriving selection rules.
+3. Register one arm in the `apply_inner` match. Reject bad input with `EngineError::invalid`; never partially apply, because `apply` only commits a board that validates.
+4. Tighten `model.rs` validation when the command writes a new `data` key.
+5. Surface it: an MCP tool or action (mcp specialist), then a command-table entry (ui-shell specialist).
 
-1. Read `native/formref-core/src/model.rs`, `geometry.rs`, `commands.rs` and `session.rs` for the requested behavior; use `lib.rs` and `main.rs` for library/protocol boundaries.
-2. State the expected change in item geometry, board revision and history. Confirm valid IDs, bounded finite geometry, group/parent relationships, locks and connection endpoints.
-3. Add a focused engine command or change its implementation. Keep DOM and filesystem dependencies out of the library; stdout of the executable carries protocol responses only.
-4. Keep multi-command edits atomic. A failed batch leaves state, revision and undo unchanged. A user gesture should commit one history entry; transient UI transforms are not engine edits.
-5. Build from the repository with `cargo build --offline --release --manifest-path native/formref-core/Cargo.toml`. If the lockfile dependencies are absent, install them through the documented setup process before retrying.
-6. Send an actual JSON-lines request to `native/formref-core/target/release/formref-core` using the method and parameters from `docs/CONTRACT.md`. Read back geometry, then undo and redo the operation. Check a meaningful rejected input leaves the prior board intact.
-7. Verify the REST/MCP consumer sees the same state, and update source contract and subsystem log if the public command changed.
+## Proving it
 
-## Gate
-
-The native crate builds, the requested geometry/state result is observed, undo restores the preceding state, and rejected operations leave it unchanged. Report any unverified caller path explicitly.
-
-## Hands back
-
-A focused implementation, its public contract changes and observed engine/service results.
-
-## Owned resources
-
-No bundled scripts. The source-of-truth schema lives at repository `docs/CONTRACT.md`; subsystem rationale lives beside the Rust crate.
+Build with `cargo build --release --offline` in `native/formref-core`, then pipe hand-written JSON-lines requests into `target/release/formref-core` (`board.create`, `board.apply`, `board.undo`, `board.get`). Show at least one accepted case, one refused case with the revision unchanged, and an undo that restores the earlier state. Keep the request file in a scratch folder, not the repository, and record what ran in `native/formref-core/HASHOUT_LOG.md`.

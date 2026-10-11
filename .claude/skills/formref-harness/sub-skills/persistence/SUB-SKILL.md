@@ -1,36 +1,27 @@
 ---
 name: persistence
-description: "Maintains FormRef durable boards, asset imports, iStack migration and portable or rendered exports. Loads for save/open, missing-media recovery and export accuracy."
+description: FormRef's storage, assets, import and export. Load for saving or reopening boards, missing or relinked images, iStack or portable .formref import, PNG, SVG, Markdown or JSON export, similarity features, or the open-tabs session.
 ---
 
-# Persistence Specialist
+# Persistence
 
-## Purpose
+## Map
 
-Keep board state and original assets durable and portable. Return a checked save/open or export result, with asset losses and unsupported records visible.
+| File | Holds |
+| --- | --- |
+| `backend/app/core/store.py` | atomic board writes, revision guard, asset import with SHA-256 identity, SVG safety, the engine hand-off |
+| `backend/app/core/imports.py` | portable `.formref` archives and iStack `.istack` files |
+| `backend/app/core/exports.py` | portable, JSON, PNG, SVG and Markdown exports |
+| `backend/app/core/features.py` | colour and layout vectors for similarity sort, cached on the asset |
+| `backend/app/core/media.py`, `sampling.py` | decoding original pixels, colour sampling |
+| `backend/app/routers/agent.py` | `/api/session`: open tabs and the active tab |
 
-## Preconditions
+Data lives in `FORMREF_DATA_DIR` (default `~/.formref/data`): `boards/`, `assets/` (`[sha].blob` plus `[sha].json`), `agent.json`, `session.json`.
 
-Read the master shared rules, `backend/HASHOUT_LOG.md` and `docs/CONTRACT.md`. Inspect the current store, import and export services before changing files; server state is authoritative while the service runs.
+## iStack import
 
-## Procedure
+iStack saves `{format: "istack", version: "1.1", canvasRect, zoom, panX, panY, gridMode, gridSize, grayscaleCanvas, bgColor, drawings, nextId, nextZ, items}`; images carry `flipH`, `flipV`, `grayscale`, `nearestNeighbor`, `opacity`, `rotation`, `cropRect`, `groupId`, `locked`, `_imageData` (a data URL) and `_sourcePath`; drawings carry `tool`, `color`, `size`, `points`, `startPos`. The importer maps all of these. An image without `_imageData` arrives unresolved and relinkable; eraser drawings, which subtract raster pixels in iStack, are listed as unsupported in the import report rather than dropped. The `cropRect` unit is not certain from the bundle; treat imported crops as unverified.
 
-1. Locate the registered board and assets through API identifiers. Distinguish a JSON state snapshot from a fully portable package with embedded assets.
-2. Keep disk writes atomic and outside the repository. Use registered asset IDs rather than accepting arbitrary paths. Validate archive paths, size/count bounds and manifests before extraction.
-3. For an iStack board, check `format: istack` and the original version. Preserve numeric ID mapping, center rotation, group membership, notes and drawing records. Normalize crop from displayed pixels by the item's original width and height.
-4. Decode embedded `_imageData` through the asset pipeline. If only `_sourcePath` is present, retain it as missing-media metadata until the user relinks actual files. Transient blob URLs cannot reconstruct an asset. Report imported, missing and unsupported counts.
-5. Build import as one engine transaction, then read the board back. A partially completed upload may leave a registered asset; do not create duplicate items when retrying.
-6. Export from original asset bytes and engine geometry, including crop/flip/rotation/opacity. Rendered PNG/SVG, board Markdown and portable package each have different limits; document the ones the current exporter actually supports.
-7. Round-trip a portable package into a new board, reopen after a service restart and compare item count, geometry, connections and original asset bytes. Exercise a location-only iStack record to confirm its missing source remains recoverable.
+## Rules
 
-## Gate
-
-The saved board survives restart, the portable import retains original assets and transforms, missing sources remain visible and exports are opened and inspected. An HTTP 200 alone does not verify a usable file.
-
-## Hands back
-
-The migration/persistence change, item/asset evidence, explicit export limits and relevant documentation updates.
-
-## Owned resources
-
-No bundled sample projects or asset payloads. The live schema is repository `docs/CONTRACT.md`; source decisions are in the backend log.
+Original bytes are never rewritten. A failed write restores the engine's previous board. New stored data keys get engine validation (engine specialist) before the UI writes them.

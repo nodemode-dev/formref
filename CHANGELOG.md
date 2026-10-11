@@ -41,4 +41,4 @@ First local Form family reference workspace.
 - Added repo-local formref-harness specialists, startup scripts, source-only Tauri development shell and dependency notices.
 - Researched PureRef, BeeRef and Milanote using official documentation; recorded row-level implementation scope and gaps.
 
-Rust, frontend, live HTTP, restart persistence, actual MCP and throttled browser checks passed. Native desktop compilation and Windows execution remain unverified. See `docs/VERIFICATION.md` and `docs/PARITY.md`.
+Rust, frontend, live HTTP, restart persistence, actual MCP and throttled browser checks passed. Native desktop compilation and Windows execution remain unverified. The verification records of that release now live in the planning sidecar; see `docs/VERIFICATION.md` and `docs/PARITY.md`.

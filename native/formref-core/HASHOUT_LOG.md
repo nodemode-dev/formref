@@ -7,11 +7,11 @@ Focused v0.2.0 and v0.3.0 log. The complete baseline engine map, protocol limits
 | Region | Files | Entry |
 | --- | --- | --- |
 | Typed canvas settings and old-board defaults | [src/model.rs](src/model.rs) | [Model](#model) |
-| Swatch colors and formatted source validation | [src/model.rs](src/model.rs), [REFERENCE_EDITING_CONTRACT.md](../../docs/REFERENCE_EDITING_CONTRACT.md), [planning-sidecar engine evidence](../../../formref_sidecar/COLOR_NOTE_ENGINE_EVIDENCE_v0.3.0.json) | [Reference editing](#reference-editing) |
+| Swatch colors and formatted source validation | [src/model.rs](src/model.rs), [Engine contract](../../.docs/wiki/Engine-Contract.md) | [Reference editing](#reference-editing) |
 | Atomic settings, connected snap and explicit distribution spacing | [src/commands.rs](src/commands.rs) | [Commands](#commands) |
 | World rectangle bounds, descendant expansion and lock ancestry | [src/geometry.rs](src/geometry.rs) | [Geometry integration](#geometry-integration) |
 | Existing revisions, undo/redo and JSON-lines protocol | [src/session.rs](src/session.rs), [src/main.rs](src/main.rs) | [History and protocol](#history-and-protocol) |
-| Cross-layer schemas and MCP mapping | [docs/CANVAS_CONTRACT.md](../../docs/CANVAS_CONTRACT.md) | [Contract](#contract) |
+| Cross-layer schemas and MCP mapping | [Engine contract](../../.docs/wiki/Engine-Contract.md) | [Contract](#contract) |
 | Release build and supplied stdin observations | [Cargo.toml](Cargo.toml), [Cargo.lock](Cargo.lock) | [Verification](#verification) |
 | iStack image commands: rotate, opacity, image flags, crop | [src/commands/image.rs](src/commands/image.rs) | [iStack commands](#istack-commands) |
 | Sort by filename, aspect and similarity; shared grid placement | [src/commands/arrange.rs](src/commands/arrange.rs), [src/commands.rs](src/commands.rs) :: place_grid | [iStack commands](#istack-commands) |
@@ -49,7 +49,7 @@ The unchanged session layer compares candidates before recording a revision or s
 
 ## Contract
 
-[CANVAS_CONTRACT.md](../../docs/CANVAS_CONTRACT.md) records the exact settings keys/defaults, command shapes, grid/gap ranges, snap closure and midpoint behavior, gesture ownership and MCP mappings. Frontend drag gestures compute one quantized delta and send existing `transform`; the engine has no implicit `transform.snap` flag. Explicit `snap` expands groups itself; existing pack/distribute retain caller-owned group expansion.
+The [Engine contract](../../.docs/wiki/Engine-Contract.md) records the settings keys/defaults, command shapes, grid/gap ranges, snap closure and midpoint behavior, gesture ownership and MCP mappings. Frontend drag gestures compute one quantized delta and send existing `transform`; the engine has no implicit `transform.snap` flag. Explicit `snap` expands groups itself; existing pack/distribute retain caller-owned group expansion.
 
 ## Verification
 

@@ -1,0 +1,43 @@
+# Shell
+
+The FormRef window follows the Form family layout: a top bar with board tabs, a left dock (boards, layers, tools), the canvas, and a right dock (inspector, agent). Both docks collapse to a narrow rail with the chevron on their edge or with Ctrl+[ and Ctrl+], and stay collapsed after a reload.
+
+## One command table
+
+Every action lives once in `frontend/src/app/commands.ts` with its label, icon and keys. The right-click menu, the command palette (Ctrl+K), keyboard handling and the shortcut sheet (?) all read that table, so a key shown in the menu is the key that works. Icons come from `frontend/src/ui/icons.ts`; asking for an unknown icon name fails the build rather than drawing a blank.
+
+## Right-click menu
+
+Right-click the canvas or a selection for iStack's menu in iStack's order: File, Edit, Canvas, Organize, Images, Layer, Lock, Add Note, Draw Mode, Slideshow, Delete, then FormRef's Insert and Ask Agent. Menus open in the overlay layer and close on Escape or an outside click.
+
+## Board tabs
+
+Several boards stay open as tabs. Ctrl+N opens a new tab, Alt+W closes the active one (browsers reserve Ctrl+T and Ctrl+W). The open tabs and the active tab are saved through `/api/session` and restored on the next launch.
+
+## Keys
+
+| Area | Keys |
+| --- | --- |
+| File | Ctrl+N new tab, Ctrl+O open board file, Alt+W close tab, Ctrl+I add images, Ctrl+V paste, Ctrl+S save .formref, Ctrl+E export |
+| Edit | Ctrl+Z undo, Ctrl+Y or Ctrl+Shift+Z redo, Ctrl+A select all, Escape deselect, Ctrl+D duplicate, Delete remove |
+| Tools | V select, H pan, D draw, E eraser, Shift+R rectangle, Shift+O circle, Shift+I line, Shift+C connect |
+| Insert | N note, I task, Shift+L link |
+| Canvas | G grid, F fit, Ctrl+0 or 1 reset zoom, = and - zoom, M navigator, Tab focus mode |
+| Organize | Ctrl+P pack, Ctrl+G group, Ctrl+Shift+G ungroup |
+| Images | C crop, R rotate 90, L lock |
+| Layer | Shift+Up front, Shift+Down back |
+| View | Shift+S slideshow, Ctrl+J agent, Ctrl+K commands, ? shortcut sheet, Ctrl+, preferences |
+
+Press ? in the app for the current list; it is generated from the table and is always the authority.
+
+## Drawing
+
+Draw Mode paints strokes with the chosen colour and width. The eraser removes whole strokes it passes over, and one drag is one undo step. Notes can use any of the bundled note fonts from the inspector.
+
+## Slideshow
+
+Shift+S presents the selected images, or every image, in board order. Preferences set the transition (fade or none) and the seconds per image; the next image is decoded before it is shown, so nothing flashes.
+
+## Stability rules
+
+The shell is hidden until the saved theme, dock state and fonts are applied, then shown in one step, so a cold load does not shift. All stacking uses the z tokens in `frontend/src/styles/`.

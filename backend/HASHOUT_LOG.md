@@ -3,7 +3,7 @@
 ## Navigation
 
 - [FormRef root](../README.md)
-- [Subsystem contract](../docs/CONTRACT.md)
+- [Subsystem contract](../.docs/wiki/Engine-Contract.md)
 - [Architecture](../.docs/wiki/Architecture.md)
 
 ## Contents
