@@ -1,5 +1,9 @@
 # FormRef changelog
 
+## v0.5.4 · 2026-10-13
+
+`./formref desktop build` builds the desktop app from the repo root: the Rust core, then the Tauri build. The app still loads its window from the FormRef backend on 127.0.0.1:8196, so the backend has to be running.
+
 ## v0.5.3 · 2026-10-11
 
 Background models and cloud storage, from FormCut.
