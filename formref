@@ -48,6 +48,11 @@ case "$action" in
     exec "$python_bin" -m app.core.clipper "${@:2}"
     ;;
   desktop)
+    if [[ "${2:-}" == build ]]; then
+      cargo build --release --manifest-path "$root/native/formref-core/Cargo.toml"
+      cd frontend
+      exec npm run tauri -- build "${@:3}"
+    fi
     api_pid=""
     if ! curl --silent --fail --connect-timeout 1 --max-time 2 http://127.0.0.1:8196/api/health >/dev/null 2>&1; then
       "$root/backend/boot_backend" &
