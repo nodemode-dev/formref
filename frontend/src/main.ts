@@ -26,6 +26,7 @@ import './app/drag-out';
 import { registerPdf } from './app/pdf';
 import { registerCropMode } from './app/crop-mode';
 import { registerTransformTools } from './app/transform-tools';
+import { registerLasso } from './app/lasso';
 
 bindLanguage();
 registerTerminal();
@@ -40,6 +41,7 @@ registerVideo();
 registerPdf();
 registerCropMode();
 registerTransformTools();
+registerLasso();
 attachCatalogue();
 
 const agent = new AgentPanel({

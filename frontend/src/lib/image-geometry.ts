@@ -7,7 +7,14 @@ export function sourceCrop(item: Item, width = 0, height = 0) {
   const right = Math.max(left + 1, Math.min(width, Math.ceil((crop.x + crop.width) * width))), bottom = Math.max(top + 1, Math.min(height, Math.ceil((crop.y + crop.height) * height)));
   return { x: left / width, y: top / height, width: (right - left) / width, height: (bottom - top) / height };
 }
+/** Lasso crop as a CSS polygon on the whole-picture image element: the mask is in source-normalized coordinates, which are the element's own, and clip-path follows its flips. */
+export function maskPath(item: Item): string {
+  const mask = item.data.mask;
+  if (!Array.isArray(mask) || mask.length < 3) return '';
+  return `polygon(${(mask as [number, number][]).map(([u, v]) => `${(u * 100).toFixed(3)}% ${(v * 100).toFixed(3)}%`).join(',')})`;
+}
 export function paintImage(image: HTMLImageElement, item: Item, width = image.naturalWidth, height = image.naturalHeight, grayscale = false) {
+  const clip = maskPath(item); if ((image.dataset.mask || '') !== clip) { image.dataset.mask = clip; image.style.clipPath = clip; }
   const crop = sourceCrop(item, width, height);
   image.style.width = `${100 / crop.width}%`; image.style.height = `${100 / crop.height}%`; image.style.left = `${-crop.x / crop.width * 100}%`; image.style.top = `${-crop.y / crop.height * 100}%`;
   image.style.transformOrigin = `${(crop.x + crop.width / 2) * 100}% ${(crop.y + crop.height / 2) * 100}%`; image.style.transform = `scale(${item.data.flip_x ? -1 : 1},${item.data.flip_y ? -1 : 1})`;

@@ -97,6 +97,8 @@ export function boardMenu(): MenuEntry[] {
         item('opacity'),
         sep,
         item('crop'),
+        item('lasso-crop'),
+        item('clear-lasso'),
         item('reset-crop'),
         sep,
         item('remove-background'),

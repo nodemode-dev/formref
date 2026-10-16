@@ -1,3 +1,6 @@
+.lasso-overlay { position: absolute; left: 0; top: 0; width: 1px; height: 1px; overflow: visible; pointer-events: none; z-index: var(--z-raised); }
+.lasso-overlay polyline { fill: color-mix(in srgb, var(--accent-color) 15%, transparent); stroke: var(--accent-color); stroke-width: var(--lasso-line, 1.5px); stroke-dasharray: 6 4; }
+.stage.lassoing { cursor: crosshair; }
 .board-item.cropping, .board-item.cropping * { visibility: hidden !important; }
 .crop-mode {position: absolute; transform-origin: center; z-index: var(--z-raised); }
 .crop-ghost { position: absolute; opacity: .4; pointer-events: none; max-width: none; transform-origin: center; }

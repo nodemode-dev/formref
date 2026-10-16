@@ -47,8 +47,22 @@ def bounds(board):
     bottom = max(point[1] for point in corners) + 32
     return left, top, max(1, right - left), max(1, bottom - top)
 
+def apply_mask(image, mask):
+    """Lasso crop: keep only the inside of a polygon given in source-normalized coordinates."""
+    if not isinstance(mask, list) or len(mask) < 3:
+        return image
+    points = [(float(p[0]) * image.width, float(p[1]) * image.height) for p in mask if isinstance(p, (list, tuple)) and len(p) == 2]
+    if len(points) < 3:
+        return image
+    shape = Image.new("L", image.size, 0)
+    ImageDraw.Draw(shape).polygon(points, fill=255)
+    alpha = Image.composite(image.getchannel("A"), shape, shape)
+    image = image.copy()
+    image.putalpha(alpha)
+    return image
+
 def image_source(item):
-    image = original_image(item["asset_id"])
+    image = apply_mask(original_image(item["asset_id"]), item.get("data", {}).get("mask"))
     if isinstance(item.get("data", {}).get("crop"), dict):
         image = image.crop(crop_bounds(item, image.width, image.height))
     data = item.get("data", {})
