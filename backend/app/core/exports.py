@@ -23,11 +23,34 @@ def safe_name(title, extension):
     return name + "." + extension
 
 def color(value, fallback="#29262e"):
+    # Pillow reads None as "no colour" and would hand it back, so only strings count.
+    if not isinstance(value, str):
+        return fallback
     try:
         Image.new("RGBA", (1, 1), value)
         return value
     except (ValueError, TypeError):
         return fallback
+
+def ink(item):
+    """Text colour for a card: its own text colour, otherwise dark ink on light paper and light ink on dark paper, as the board draws it."""
+    chosen = (item.get("data") or {}).get("text_color")
+    if isinstance(chosen, str) and color(chosen, "") == chosen:
+        return chosen
+    try:
+        red, green, blue = Image.new("RGB", (1, 1), color(item.get("color"), "#29262e")).getpixel((0, 0))
+    except (ValueError, TypeError):
+        return "#f5f5f5"
+    return "#3b3329" if 0.2126 * red + 0.7152 * green + 0.0722 * blue >= 110 else "#f5f5f5"
+
+def with_heading(item):
+    """A note or document as exported: its title on top of its text, the way the card shows both."""
+    title = (item.get("title") or "").strip()
+    if not title:
+        return item
+    markdown = (item.get("data") or {}).get("text_format") == "markdown"
+    heading = ("# " + title.replace("\n", " ") if markdown else title) + "\n"
+    return {**item, "text": heading + (item.get("text") or "")}
 
 def bounds(board):
     visible = [item for item in board["items"] if not item.get("hidden")]
@@ -168,7 +191,7 @@ def item_raster(item, scale):
     padding = max(4, round(14 * scale))
     size = max(8, float(data.get("font_size", 16)) * scale)
     selected_font = font(size)
-    text_color = color(data.get("text_color", "#f5f5f5"), "#f5f5f5")
+    text_color = ink(item)
     title = item.get("title", "")
     if item["kind"] == "image":
         title = "Missing reference: " + title
@@ -180,7 +203,7 @@ def item_raster(item, scale):
             draw.line([(padding + 3 * scale, padding + 8 * scale), (padding + 7 * scale, padding + 12 * scale), (padding + 14 * scale, padding + 3 * scale)], fill=text_color, width=max(1, round(2 * scale)))
         draw_text(draw, item.get("text") or title, padding + checkbox + padding, padding, max(1, width - checkbox - 3 * padding), selected_font, text_color, height - padding)
     elif item["kind"] in {"note", "document"}:
-        draw_formatted(draw, item, padding, padding, width - 2 * padding, height - 2 * padding, size, text_color)
+        draw_formatted(draw, with_heading(item), padding, padding, width - 2 * padding, height - 2 * padding, size, text_color)
     elif item["kind"] == "swatch":
         patch_height = round(height * 0.28)
         draw.rectangle((0, patch_height, width - 1, height - 1), fill="#191919")
@@ -302,7 +325,7 @@ def svg_export(board):
         elif item["kind"] in {"note", "document"}:
             svg_element(group, "rect", {"width": width, "height": height, "rx": 10, "fill": selected_color, "stroke": "#46404e"})
             size = max(8, min(160, float(data.get("font_size", 16))))
-            svg_formatted(group, item, 14, 14, width - 28, height - 28, size, color(data.get("text_color"), "#f5f5f5"))
+            svg_formatted(group, with_heading(item), 14, 14, width - 28, height - 28, size, ink(item))
         elif item["kind"] == "swatch":
             patch_height = height * 0.28
             alpha = int(item["color"][7:9], 16) / 255 if len(item["color"]) == 9 else 1
@@ -320,7 +343,7 @@ def svg_export(board):
             if item["kind"] == "todo":
                 title = ("[x] " if data.get("checked") else "[ ] ") + title
             size = max(8, min(160, float(data.get("font_size", 16))))
-            text = svg_element(group, "text", {"x": 14, "y": 14 + size, "fill": color(data.get("text_color"), "#f5f5f5"), "font-size": size, "font-family": "sans-serif"})
+            text = svg_element(group, "text", {"x": 14, "y": 14 + size, "fill": ink(item), "font-size": size, "font-family": "sans-serif"})
             max_chars = max(1, round((width - 28) / (size * 0.58)))
             lines = []
             for line in title.splitlines():
