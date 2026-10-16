@@ -63,6 +63,11 @@ pub struct SavedSearch {
     pub tolerance: Option<f64>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub similar: Option<SimilarSearch>,
+    /// Tag-cloud choices: items must carry every one of these tags (compared ignoring case) and label ids.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub tags: Vec<String>,
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub labels: Vec<String>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
@@ -150,8 +155,14 @@ impl BoardSettings {
                     return Err(EngineError::invalid("search.similar.level must be close, related or loose"));
                 }
             }
-            if search.text.trim().is_empty() && search.kind.is_empty() && search.color.is_none() && search.similar.is_none() {
-                return Err(EngineError::invalid("a saved search needs text, a kind, a color or a similar picture"));
+            if search.tags.len() > MAX_ITEM_LABELS || search.labels.len() > MAX_ITEM_LABELS { return Err(EngineError::invalid("a saved search can hold at most 12 tags and 12 labels")); }
+            for tag in &search.tags {
+                if tag.trim().is_empty() { return Err(EngineError::invalid("search.tags cannot hold an empty tag")); }
+                text_limit(tag, "search.tags", 60)?;
+            }
+            for label in &search.labels { identifier(label, "search.labels")?; }
+            if search.text.trim().is_empty() && search.kind.is_empty() && search.color.is_none() && search.similar.is_none() && search.tags.is_empty() && search.labels.is_empty() {
+                return Err(EngineError::invalid("a saved search needs text, a kind, a color, a similar picture, a tag or a label"));
             }
         }
         Ok(())

@@ -276,8 +276,8 @@ async def define_labels(board_id: str, labels: list[dict]) -> dict:
     return await command(board_id, {"type": "settings", "patch": {"labels": labels}})
 
 @mcp.tool(annotations=_write)
-async def save_search(board_id: str, name: str, text: str = "", kind: str = "", color: str | None = None, tolerance: float | None = None, similar_item_id: str | None = None, similar_level: str = "related") -> dict:
-    """Save a named search on the board (settings.searches, at most 24): find text, an item kind (image, note, swatch and so on), a #RRGGBB colour with optional tolerance, and/or a picture whose look-alikes to show (level close, related or loose). It needs at least one of them. A search with the same name, ignoring case, is replaced. The person applies it from the bookmark beside the item count; one undoable step."""
+async def save_search(board_id: str, name: str, text: str = "", kind: str = "", color: str | None = None, tolerance: float | None = None, similar_item_id: str | None = None, similar_level: str = "related", tags: list[str] | None = None, labels: list[str] | None = None) -> dict:
+    """Save a named search on the board (settings.searches, at most 24): find text, an item kind (image, note, swatch and so on), a #RRGGBB colour with optional tolerance, a picture whose look-alikes to show (level close, related or loose), and/or tags and label ids items must all carry (at most 12 each). It needs at least one of them. A search with the same name, ignoring case, is replaced. The person applies it from the bookmark beside the item count; one undoable step."""
     state = await get_board(board_id)
     searches = list((state["board"].get("settings") or {}).get("searches") or [])
     entry = {"name": name.strip()}
@@ -291,6 +291,10 @@ async def save_search(board_id: str, name: str, text: str = "", kind: str = "", 
             entry["tolerance"] = tolerance
     if similar_item_id:
         entry["similar"] = {"item_id": similar_item_id, "level": similar_level}
+    if tags:
+        entry["tags"] = [tag.strip() for tag in tags if tag.strip()]
+    if labels:
+        entry["labels"] = list(labels)
     existing = next((s for s in searches if s["name"].lower() == entry["name"].lower()), None)
     entry["id"] = existing["id"] if existing else uuid.uuid4().hex
     searches = [entry if s is existing else s for s in searches] if existing else searches + [entry]
