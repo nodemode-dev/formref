@@ -1,5 +1,16 @@
 # FormRef changelog
 
+## v0.6.7 · 2026-10-16
+
+Reference-board work from the PureRef, BeeRef and Milanote wishlists.
+
+- Video references: In and Out points (typed or taken from the current frame, Alt+I and Alt+O) that the player keeps to and loops between, Previous and Next Frame (, and .), and Speed from 0.25x to 2x. Present mode keeps them.
+- Flip View Horizontally (Shift+H) and Vertically (Shift+V) mirror the view to check a drawing with fresh eyes; the board is unchanged.
+- Alt-drag an image out of the window to copy its original file into a folder or another app.
+- Big boards: images load a preview sized to the zoom (256 to 2048 px) and the original only when zoomed in, which also stops zoomed-out screentone from shimmering.
+- `./formref open <board>` and `./formref import <folder>` from the command line (also in `formref.bat`).
+- The right-click Organize menu lists Select Duplicate Images, Hide, Isolate, Show All and Unlock All.
+
 ## v0.6.6 · 2026-10-16
 
 More shape tools, blending modes and duplicate detection.

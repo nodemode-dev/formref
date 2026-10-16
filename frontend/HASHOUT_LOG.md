@@ -8,6 +8,7 @@
 - [Stacking scale](#stacking-scale)
 - [Verification](#verification)
 - [Scripts](#scripts)
+- [v0.6.7 video clips, flip view, drag out, image level of detail](#v067-video-clips-flip-view-drag-out-image-level-of-detail)
 - [v0.6.6 arc, spiral, grids, blending modes, duplicates](#v066-arc-spiral-grids-blending-modes-duplicates)
 - [v0.6.5 several anchors, Outline Stroke, Pencil, gradient stops](#v065-several-anchors-outline-stroke-pencil-gradient-stops)
 - [v0.6.4 Smart Guides, Curvature, search, visibility](#v064-smart-guides-curvature-search-visibility)
@@ -21,6 +22,16 @@
 - [v0.4.8 desktop window controls and WebKit icons](#v048-desktop-window-controls-and-webkit-icons)
 - [v0.4.7 synced notes, map cards, inline edit commit](#v047-synced-notes-map-cards-inline-edit-commit)
 - [v0.4.6 GIF frames and document export](#v046-gif-frames-and-document-export)
+
+## v0.6.7 video clips, flip view, drag out, image level of detail
+
+Clip points live in `lib/media.ts`: `paintPlayer` keeps `{start, end, rate, loop}` in a WeakMap per media element, and listeners added once when the element is made read it on loadedmetadata, play and timeupdate; the native `loop` is only used when there is no clip, because it would jump to 0. Frame steps assume 30 fps unless `data.fps` is set; the browser exposes no frame rate. `app/video.ts` owns the inspector fields and commands.
+
+Flipping is view state (`S.flipX`, `S.flipY`), never saved. The camera stays in unflipped stage coordinates: `drawCamera` writes a mirrored transform, `stagePoint()` mirrors the pointer, panning negates the drag and wheel zoom passes the mirrored point. Overlays in the world layer (selection, anchors, guides) mirror with it; screen-space overlays (marquee, menus, toasts) do not.
+
+`app/drag-out.ts` only arms a native drag on Alt with the Select tool: pointerdown in the capture phase makes that item's root draggable and stops the board gesture. The drag carries `DownloadURL`, `text/uri-list`, `text/plain` and `application/x-formref-item`; capture-phase listeners swallow our own type so a drop back on the board is not imported.
+
+Level of detail (`ui/scene.ts`): `detailEdge()` picks 256, 512, 1024 or 2048 from the item size over its crop times zoom times device pixel ratio, or the original beyond 2048. `ItemNode.edge` only grows (Infinity is the original), so zooming out never reloads; `Scene.detail()` runs from `drawCamera` and updates only nodes that need more pixels. The colour picker's loaded check now accepts a preview URL; sampling reads original pixels on the server.
 
 ## v0.6.6 arc, spiral, grids, blending modes, duplicates
 

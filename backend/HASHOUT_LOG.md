@@ -8,11 +8,19 @@
 
 ## Contents
 
+- [v0.6.7 · Image previews and the command line](#v067--image-previews-and-the-command-line)
+- [v0.6.6 · Duplicate images](#v066--duplicate-images)
 - [v0.3.2 · Embedded agent service, consent gate, similarity features, session](#v032--embedded-agent-service-consent-gate-similarity-features-session)
 - [v0.3.0 · Original pixel sampling and formatted references](#v030--original-pixel-sampling-and-formatted-references)
 - [v0.2.0 · Canvas settings and snapping through MCP](#v020--canvas-settings-and-snapping-through-mcp)
 - [v0.1.0 · Local board service and SDK MCP](#v010--local-board-service-and-sdk-mcp)
 - [boot_backend.bat](#boot_backendbat)
+
+## v0.6.7 · Image previews and the command line
+
+`GET /api/assets/{id}/preview?edge=256|512|1024|2048` returns a Lanczos-resampled WebP (quality 88) cached as `assets/previews/{id}_{edge}.webp`, or the original response (same headers and ranges) for SVG, GIF, animated images, images already that small, other edges, and decode failures. Previews are derived data: deleting the folder only costs regeneration. A synthetic pattern of regular dots can be larger as WebP than as PNG; photographs are the usual case.
+
+`app/cli.py` (standard library only) backs `./formref open` and `./formref import`. It talks to the running service over HTTP like the window does (no `X-FormRef-Client`, since it is the person at their own terminal), uploads files one by one through `/api/assets`, adds items in batches of 200, and writes the session so the window opens the board. The launchers pass the caller's directory in `FORMREF_CALLER_DIR` because they change into the repository first.
 
 ## v0.6.6 · Duplicate images
 
