@@ -1470,5 +1470,8 @@
  "Rating": "Xếp hạng",
  "Select one or more pictures to rate.": "Chọn một hoặc nhiều ảnh để xếp hạng.",
  "Unrated": "Chưa xếp hạng",
- "Rated": "Đã xếp hạng"
+ "Rated": "Đã xếp hạng",
+ "Portrait pictures": "Ảnh dọc",
+ "Landscape pictures": "Ảnh ngang",
+ "Square pictures": "Ảnh vuông"
 }

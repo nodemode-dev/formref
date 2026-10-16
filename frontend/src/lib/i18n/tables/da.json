@@ -1470,5 +1470,8 @@
  "Rating": "Vurdering",
  "Select one or more pictures to rate.": "Vælg et eller flere billeder at vurdere.",
  "Unrated": "Uden vurdering",
- "Rated": "Med vurdering"
+ "Rated": "Med vurdering",
+ "Portrait pictures": "Billeder på højkant",
+ "Landscape pictures": "Billeder på tværs",
+ "Square pictures": "Kvadratiske billeder"
 }

@@ -1470,5 +1470,8 @@
  "Rating": "评分",
  "Select one or more pictures to rate.": "请选择一张或多张要评分的图片。",
  "Unrated": "未评分",
- "Rated": "已评分"
+ "Rated": "已评分",
+ "Portrait pictures": "竖向图片",
+ "Landscape pictures": "横向图片",
+ "Square pictures": "方形图片"
 }

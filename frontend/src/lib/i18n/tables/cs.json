@@ -1470,5 +1470,8 @@
  "Rating": "Hodnocení",
  "Select one or more pictures to rate.": "Vyberte jeden nebo více obrázků k hodnocení.",
  "Unrated": "Bez hodnocení",
- "Rated": "S hodnocením"
+ "Rated": "S hodnocením",
+ "Portrait pictures": "Obrázky na výšku",
+ "Landscape pictures": "Obrázky na šířku",
+ "Square pictures": "Čtvercové obrázky"
 }

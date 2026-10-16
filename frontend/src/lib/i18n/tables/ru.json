@@ -1470,5 +1470,8 @@
  "Rating": "Оценка",
  "Select one or more pictures to rate.": "Выберите одно или несколько изображений для оценки.",
  "Unrated": "Без оценки",
- "Rated": "С оценкой"
+ "Rated": "С оценкой",
+ "Portrait pictures": "Вертикальные изображения",
+ "Landscape pictures": "Горизонтальные изображения",
+ "Square pictures": "Квадратные изображения"
 }

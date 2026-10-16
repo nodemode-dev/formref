@@ -1470,5 +1470,8 @@
  "Rating": "Rating",
  "Select one or more pictures to rate.": "Pilih satu gambar atau lebih untuk diberi rating.",
  "Unrated": "Belum diberi rating",
- "Rated": "Diberi rating"
+ "Rated": "Diberi rating",
+ "Portrait pictures": "Gambar potret",
+ "Landscape pictures": "Gambar lanskap",
+ "Square pictures": "Gambar persegi"
 }

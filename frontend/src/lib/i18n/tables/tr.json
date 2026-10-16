@@ -1470,5 +1470,8 @@
  "Rating": "Puan",
  "Select one or more pictures to rate.": "Puanlamak için bir veya daha fazla resim seçin.",
  "Unrated": "Puansız",
- "Rated": "Puanlı"
+ "Rated": "Puanlı",
+ "Portrait pictures": "Dikey resimler",
+ "Landscape pictures": "Yatay resimler",
+ "Square pictures": "Kare resimler"
 }

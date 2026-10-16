@@ -1470,5 +1470,8 @@
  "Rating": "Note",
  "Select one or more pictures to rate.": "Sélectionnez une ou plusieurs images à noter.",
  "Unrated": "Sans note",
- "Rated": "Notées"
+ "Rated": "Notées",
+ "Portrait pictures": "Images en portrait",
+ "Landscape pictures": "Images en paysage",
+ "Square pictures": "Images carrées"
 }

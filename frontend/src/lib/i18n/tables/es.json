@@ -1470,5 +1470,8 @@
  "Rating": "Valoración",
  "Select one or more pictures to rate.": "Selecciona una o más imágenes para valorar.",
  "Unrated": "Sin valorar",
- "Rated": "Con valoración"
+ "Rated": "Con valoración",
+ "Portrait pictures": "Imágenes verticales",
+ "Landscape pictures": "Imágenes horizontales",
+ "Square pictures": "Imágenes cuadradas"
 }

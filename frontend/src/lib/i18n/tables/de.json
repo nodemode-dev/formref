@@ -1470,5 +1470,8 @@
  "Rating": "Bewertung",
  "Select one or more pictures to rate.": "Wählen Sie ein oder mehrere Bilder zum Bewerten aus.",
  "Unrated": "Ohne Bewertung",
- "Rated": "Bewertet"
+ "Rated": "Bewertet",
+ "Portrait pictures": "Hochformat-Bilder",
+ "Landscape pictures": "Querformat-Bilder",
+ "Square pictures": "Quadratische Bilder"
 }

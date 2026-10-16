@@ -1470,5 +1470,8 @@
  "Rating": "評価",
  "Select one or more pictures to rate.": "評価する画像を 1 枚以上選択してください。",
  "Unrated": "評価なし",
- "Rated": "評価あり"
+ "Rated": "評価あり",
+ "Portrait pictures": "縦長の画像",
+ "Landscape pictures": "横長の画像",
+ "Square pictures": "正方形の画像"
 }

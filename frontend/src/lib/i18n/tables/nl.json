@@ -1470,5 +1470,8 @@
  "Rating": "Beoordeling",
  "Select one or more pictures to rate.": "Selecteer een of meer afbeeldingen om te beoordelen.",
  "Unrated": "Zonder beoordeling",
- "Rated": "Beoordeeld"
+ "Rated": "Beoordeeld",
+ "Portrait pictures": "Staande afbeeldingen",
+ "Landscape pictures": "Liggende afbeeldingen",
+ "Square pictures": "Vierkante afbeeldingen"
 }

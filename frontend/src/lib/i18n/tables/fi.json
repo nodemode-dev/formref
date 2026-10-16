@@ -1470,5 +1470,8 @@
  "Rating": "Arvio",
  "Select one or more pictures to rate.": "Valitse arvioitavaksi yksi tai useampi kuva.",
  "Unrated": "Arvioimaton",
- "Rated": "Arvioitu"
+ "Rated": "Arvioitu",
+ "Portrait pictures": "Pystykuvat",
+ "Landscape pictures": "Vaakakuvat",
+ "Square pictures": "Neliökuvat"
 }

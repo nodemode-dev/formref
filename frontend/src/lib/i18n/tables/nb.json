@@ -1470,5 +1470,8 @@
  "Rating": "Vurdering",
  "Select one or more pictures to rate.": "Velg ett eller flere bilder å vurdere.",
  "Unrated": "Uten vurdering",
- "Rated": "Med vurdering"
+ "Rated": "Med vurdering",
+ "Portrait pictures": "Stående bilder",
+ "Landscape pictures": "Liggende bilder",
+ "Square pictures": "Kvadratiske bilder"
 }

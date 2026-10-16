@@ -1470,5 +1470,8 @@
  "Rating": "Értékelés",
  "Select one or more pictures to rate.": "Jelöljön ki egy vagy több képet az értékeléshez.",
  "Unrated": "Értékeletlen",
- "Rated": "Értékelt"
+ "Rated": "Értékelt",
+ "Portrait pictures": "Álló képek",
+ "Landscape pictures": "Fekvő képek",
+ "Square pictures": "Négyzetes képek"
 }

@@ -1470,5 +1470,8 @@
  "Rating": "Оцінка",
  "Select one or more pictures to rate.": "Виберіть одне чи кілька зображень для оцінки.",
  "Unrated": "Без оцінки",
- "Rated": "З оцінкою"
+ "Rated": "З оцінкою",
+ "Portrait pictures": "Вертикальні зображення",
+ "Landscape pictures": "Горизонтальні зображення",
+ "Square pictures": "Квадратні зображення"
 }

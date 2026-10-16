@@ -1470,5 +1470,8 @@
  "Rating": "별점",
  "Select one or more pictures to rate.": "별점을 줄 그림을 하나 이상 선택하세요.",
  "Unrated": "별점 없음",
- "Rated": "별점 있음"
+ "Rated": "별점 있음",
+ "Portrait pictures": "세로 그림",
+ "Landscape pictures": "가로 그림",
+ "Square pictures": "정사각형 그림"
 }

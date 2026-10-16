@@ -1470,5 +1470,8 @@
  "Rating": "Betyg",
  "Select one or more pictures to rate.": "Markera en eller flera bilder att betygsätta.",
  "Unrated": "Utan betyg",
- "Rated": "Med betyg"
+ "Rated": "Med betyg",
+ "Portrait pictures": "Stående bilder",
+ "Landscape pictures": "Liggande bilder",
+ "Square pictures": "Kvadratiska bilder"
 }

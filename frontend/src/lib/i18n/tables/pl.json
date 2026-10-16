@@ -1470,5 +1470,8 @@
  "Rating": "Ocena",
  "Select one or more pictures to rate.": "Zaznacz jeden lub więcej obrazów do oceny.",
  "Unrated": "Bez oceny",
- "Rated": "Z oceną"
+ "Rated": "Z oceną",
+ "Portrait pictures": "Obrazy pionowe",
+ "Landscape pictures": "Obrazy poziome",
+ "Square pictures": "Obrazy kwadratowe"
 }

@@ -1470,5 +1470,8 @@
  "Rating": "คะแนน",
  "Select one or more pictures to rate.": "เลือกรูปหนึ่งรูปขึ้นไปเพื่อให้คะแนน",
  "Unrated": "ยังไม่ให้คะแนน",
- "Rated": "ให้คะแนนแล้ว"
+ "Rated": "ให้คะแนนแล้ว",
+ "Portrait pictures": "รูปแนวตั้ง",
+ "Landscape pictures": "รูปแนวนอน",
+ "Square pictures": "รูปสี่เหลี่ยมจัตุรัส"
 }

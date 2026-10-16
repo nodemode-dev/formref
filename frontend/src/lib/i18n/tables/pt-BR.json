@@ -1470,5 +1470,8 @@
  "Rating": "Classificação",
  "Select one or more pictures to rate.": "Selecione uma ou mais imagens para classificar.",
  "Unrated": "Sem classificação",
- "Rated": "Classificadas"
+ "Rated": "Classificadas",
+ "Portrait pictures": "Imagens em retrato",
+ "Landscape pictures": "Imagens em paisagem",
+ "Square pictures": "Imagens quadradas"
 }
