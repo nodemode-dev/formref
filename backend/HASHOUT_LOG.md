@@ -8,6 +8,7 @@
 
 ## Contents
 
+- [v0.7.6 · Extract Palette](#v076--extract-palette)
 - [v0.7.5 · agents sync](#v075--agents-sync)
 - [v0.7.4 · Phone viewer](#v074--phone-viewer)
 - [v0.7.3 · PDF text and readable notes in exports](#v073--pdf-text-and-readable-notes-in-exports)
@@ -21,6 +22,10 @@
 - [v0.2.0 · Canvas settings and snapping through MCP](#v020--canvas-settings-and-snapping-through-mcp)
 - [v0.1.0 · Local board service and SDK MCP](#v010--local-board-service-and-sdk-mcp)
 - [boot_backend.bat](#boot_backendbat)
+
+## v0.7.6 · Extract Palette
+
+`core/palette.py`: `palette_colors()` takes the original with its lasso mask and crop (not the grayscale view), shrinks it to 240 px, keeps pixels at least half opaque, and quantizes with median cut refined by three k-means passes, so a colour is the average of its region rather than a box corner. Colours come back most common first with their share. `extract_palette()` adds them as one group of 140 px swatches in one `add` (one undo), starting 32 px below the picture and stepping down past anything already in that row. `POST /api/boards/{id}/items/{item}/palette?count=` and the MCP tool `extract_palette` (behind the outside-agent consent like every write). Checked: a picture of 50/30/20 percent flat red, blue and off-white came back exactly `#c82828` 0.5, `#1e3cb4` 0.3, `#f5f0e6` 0.2; cropped to its right half, blue 0.6 and white 0.4; two palettes in a row overlapped nothing; count 40 and a note were refused with their messages.
 
 ## v0.7.5 · agents sync
 

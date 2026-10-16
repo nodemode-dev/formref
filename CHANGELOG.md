@@ -1,5 +1,13 @@
 # FormRef changelog
 
+## v0.7.6 · 2026-10-16
+
+Study aids for drawing and painting from references.
+
+- Value Study (right-click, Images): shows the selected pictures as 2 to 8 flat grey values, with 2 as a notan, to judge light and shadow. The pictures and exports are unchanged; Off brings the colours back.
+- Drawing Grid (right-click, Images): an even 3 x 3 to 12 x 12 grid over the selected pictures for copying proportions. The lines invert what is under them, so they show on light and dark pictures alike. Board view only.
+- Extract Palette (right-click, Images): adds the picture's main colours as grouped swatch cards below it, most used first. It reads the visible crop, and a second palette lands below the first instead of on top of it. Agents can call it as the MCP tool `extract_palette`.
+
 ## v0.7.5 · 2026-10-16
 
 Dates in your language, and agents that know every command.

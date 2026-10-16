@@ -8,6 +8,7 @@
 - [Stacking scale](#stacking-scale)
 - [Verification](#verification)
 - [Scripts](#scripts)
+- [v0.7.6 study aids](#v076-study-aids)
 - [v0.7.5 Intl dates, keys.ts, command words](#v075-intl-dates-keysts-command-words)
 - [v0.7.4 card labels translated](#v074-card-labels-translated)
 - [v0.7.3 PDF text in search, window layouts](#v073-pdf-text-in-search-window-layouts)
@@ -29,6 +30,10 @@
 - [v0.4.8 desktop window controls and WebKit icons](#v048-desktop-window-controls-and-webkit-icons)
 - [v0.4.7 synced notes, map cards, inline edit commit](#v047-synced-notes-map-cards-inline-edit-commit)
 - [v0.4.6 GIF frames and document export](#v046-gif-frames-and-document-export)
+
+## v0.7.6 study aids
+
+`app/study.ts` puts one hidden SVG in the body with filters `formref-values-2` to `-8`: a luminance matrix (Rec. 709 weights) then a discrete component transfer with that many evenly spaced steps, in sRGB so the steps fall where the eye puts them. `paintImage()` uses the filter when `data.value_levels` is 2 to 8 and falls back to grayscale or none. The drawing grid is a `.study-grid` node inside each image box (hidden until painted, so it never flashes), two 1 px linear gradients tiled at `100 / n` percent plus an inset shadow for the far edges, with `mix-blend-mode: difference` so white lines invert whatever is under them. Both live in item data, so they undo, save and sync like any edit, and exports never read them. The right-click Images menu gets Value Study and Drawing Grid submenus (Off plus steps, checked when every selected picture agrees) built by `studyMenu()`. Verified at 4x CPU: Notan set `value_levels` 2 and the filter, the 4 x 4 grid showed at 25 percent, Off cleared both, Extract Palette added and selected 6 swatches with its message, one undo removed them, and the SVG export did not change. German menus read "Tonwertstudie", "Notan (2 Tonwerte)", "Tonwerte: 3".
 
 ## v0.7.5 Intl dates, keys.ts, command words
 
