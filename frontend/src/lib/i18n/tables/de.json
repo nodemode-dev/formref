@@ -1361,5 +1361,22 @@
  "Set a find text, a kind, a color, a similar picture or a tag first, then save it.": "Legen Sie zuerst einen Suchtext, einen Typ, eine Farbe, ein ähnliches Bild oder einen Tag fest und speichern Sie dann.",
  "Tag filter cleared.": "Tag-Filter aufgehoben.",
  "Tags on this board": "Tags auf diesem Board",
- "The board keeps the find text, kind, color, similar picture and chosen tags under this name. A saved search with the same name is replaced.": "Das Board speichert Suchtext, Typ, Farbe, ähnliches Bild und gewählte Tags unter diesem Namen. Eine gespeicherte Suche mit demselben Namen wird ersetzt."
+ "The board keeps the find text, kind, color, similar picture and chosen tags under this name. A saved search with the same name is replaced.": "Das Board speichert Suchtext, Typ, Farbe, ähnliches Bild und gewählte Tags unter diesem Namen. Eine gespeicherte Suche mit demselben Namen wird ersetzt.",
+ "A tag can be at most 60 characters.": "Ein Tag kann höchstens 60 Zeichen lang sein.",
+ "A tag name is 1 to 60 characters.": "Ein Tag-Name hat 1 bis 60 Zeichen.",
+ "A tag needs a name.": "Ein Tag braucht einen Namen.",
+ "Every item with this tag gets the new name. A name another tag already has merges the two.": "Jedes Element mit diesem Tag bekommt den neuen Namen. Ein Name, den schon ein anderer Tag hat, führt beide zusammen.",
+ "Locked items left as they were: {0}.": "Gesperrte Elemente blieben unverändert: {0}.",
+ "New name": "Neuer Name",
+ "No unlocked item carries the tag {0}.": "Kein entsperrtes Element trägt den Tag {0}.",
+ "Remove Tag From All Items": "Tag von allen Elementen entfernen",
+ "Rename": "Umbenennen",
+ "Rename or Merge Tag": "Tag umbenennen oder zusammenführen",
+ "Rename or Merge Tag…": "Tag umbenennen oder zusammenführen…",
+ "Rename tag": "Tag umbenennen",
+ "Select Items With This Label": "Elemente mit diesem Label auswählen",
+ "Select Items With This Tag": "Elemente mit diesem Tag auswählen",
+ "Tag removed from items: {0}.": "Tag von Elementen entfernt: {0}.",
+ "Tag renamed on items: {0}.": "Tag bei Elementen umbenannt: {0}.",
+ "Tags merged on items: {0}.": "Tags bei Elementen zusammengeführt: {0}."
 }

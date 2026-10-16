@@ -1361,5 +1361,22 @@
  "Set a find text, a kind, a color, a similar picture or a tag first, then save it.": "Előbb adjon meg keresőszöveget, típust, színt, hasonló képet vagy címkét, majd mentse.",
  "Tag filter cleared.": "Címkeszűrő törölve.",
  "Tags on this board": "Címkék ezen a táblán",
- "The board keeps the find text, kind, color, similar picture and chosen tags under this name. A saved search with the same name is replaced.": "A tábla ezen a néven megőrzi a keresőszöveget, a típust, a színt, a hasonló képet és a kiválasztott címkéket. Az azonos nevű mentett keresés felülíródik."
+ "The board keeps the find text, kind, color, similar picture and chosen tags under this name. A saved search with the same name is replaced.": "A tábla ezen a néven megőrzi a keresőszöveget, a típust, a színt, a hasonló képet és a kiválasztott címkéket. Az azonos nevű mentett keresés felülíródik.",
+ "A tag can be at most 60 characters.": "Egy címke legfeljebb 60 karakter lehet.",
+ "A tag name is 1 to 60 characters.": "A címke neve 1–60 karakter.",
+ "A tag needs a name.": "A címkének név kell.",
+ "Every item with this tag gets the new name. A name another tag already has merges the two.": "Minden elem, amelyen ez a címke van, megkapja az új nevet. Egy másik címke által már használt név összevonja a kettőt.",
+ "Locked items left as they were: {0}.": "Változatlanul hagyott zárolt elemek: {0}.",
+ "New name": "Új név",
+ "No unlocked item carries the tag {0}.": "Egyetlen feloldott elemen sincs {0} címke.",
+ "Remove Tag From All Items": "Címke eltávolítása minden elemről",
+ "Rename": "Átnevezés",
+ "Rename or Merge Tag": "Címke átnevezése vagy összevonása",
+ "Rename or Merge Tag…": "Címke átnevezése vagy összevonása…",
+ "Rename tag": "Címke átnevezése",
+ "Select Items With This Label": "Ezzel a jelölővel ellátott elemek kijelölése",
+ "Select Items With This Tag": "Ezzel a címkével ellátott elemek kijelölése",
+ "Tag removed from items: {0}.": "Címke eltávolítva elemekről: {0}.",
+ "Tag renamed on items: {0}.": "Címke átnevezve elemeken: {0}.",
+ "Tags merged on items: {0}.": "Címkék összevonva elemeken: {0}."
 }

@@ -1361,5 +1361,22 @@
  "Set a find text, a kind, a color, a similar picture or a tag first, then save it.": "ตั้งข้อความค้นหา ชนิด สี รูปภาพที่คล้ายกัน หรือแท็กก่อน แล้วจึงบันทึก",
  "Tag filter cleared.": "ล้างตัวกรองแท็กแล้ว",
  "Tags on this board": "แท็กบนบอร์ดนี้",
- "The board keeps the find text, kind, color, similar picture and chosen tags under this name. A saved search with the same name is replaced.": "บอร์ดจะเก็บข้อความค้นหา ชนิด สี รูปภาพที่คล้ายกัน และแท็กที่เลือกไว้ภายใต้ชื่อนี้ การค้นหาที่บันทึกไว้ซึ่งมีชื่อเดียวกันจะถูกแทนที่"
+ "The board keeps the find text, kind, color, similar picture and chosen tags under this name. A saved search with the same name is replaced.": "บอร์ดจะเก็บข้อความค้นหา ชนิด สี รูปภาพที่คล้ายกัน และแท็กที่เลือกไว้ภายใต้ชื่อนี้ การค้นหาที่บันทึกไว้ซึ่งมีชื่อเดียวกันจะถูกแทนที่",
+ "A tag can be at most 60 characters.": "แท็กยาวได้ไม่เกิน 60 อักขระ",
+ "A tag name is 1 to 60 characters.": "ชื่อแท็กยาว 1 ถึง 60 อักขระ",
+ "A tag needs a name.": "แท็กต้องมีชื่อ",
+ "Every item with this tag gets the new name. A name another tag already has merges the two.": "ทุกรายการที่มีแท็กนี้จะได้ชื่อใหม่ ชื่อที่แท็กอื่นใช้อยู่แล้วจะรวมทั้งสองเข้าด้วยกัน",
+ "Locked items left as they were: {0}.": "รายการที่ล็อกไว้คงเดิม: {0}",
+ "New name": "ชื่อใหม่",
+ "No unlocked item carries the tag {0}.": "ไม่มีรายการที่ไม่ได้ล็อกซึ่งมีแท็ก {0}",
+ "Remove Tag From All Items": "ลบแท็กออกจากทุกรายการ",
+ "Rename": "เปลี่ยนชื่อ",
+ "Rename or Merge Tag": "เปลี่ยนชื่อหรือรวมแท็ก",
+ "Rename or Merge Tag…": "เปลี่ยนชื่อหรือรวมแท็ก…",
+ "Rename tag": "เปลี่ยนชื่อแท็ก",
+ "Select Items With This Label": "เลือกรายการที่มีป้ายกำกับนี้",
+ "Select Items With This Tag": "เลือกรายการที่มีแท็กนี้",
+ "Tag removed from items: {0}.": "ลบแท็กออกจากรายการ: {0}",
+ "Tag renamed on items: {0}.": "เปลี่ยนชื่อแท็กในรายการ: {0}",
+ "Tags merged on items: {0}.": "รวมแท็กในรายการ: {0}"
 }

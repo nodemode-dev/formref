@@ -1361,5 +1361,22 @@
  "Set a find text, a kind, a color, a similar picture or a tag first, then save it.": "請先設定搜尋文字、類型、顏色、相似圖片或標籤，再儲存。",
  "Tag filter cleared.": "已清除標籤篩選。",
  "Tags on this board": "此看板上的標籤",
- "The board keeps the find text, kind, color, similar picture and chosen tags under this name. A saved search with the same name is replaced.": "看板會以此名稱保存搜尋文字、類型、顏色、相似圖片和所選標籤。同名的已儲存搜尋會被取代。"
+ "The board keeps the find text, kind, color, similar picture and chosen tags under this name. A saved search with the same name is replaced.": "看板會以此名稱保存搜尋文字、類型、顏色、相似圖片和所選標籤。同名的已儲存搜尋會被取代。",
+ "A tag can be at most 60 characters.": "標籤最多 60 個字元。",
+ "A tag name is 1 to 60 characters.": "標籤名稱為 1 到 60 個字元。",
+ "A tag needs a name.": "標籤需要名稱。",
+ "Every item with this tag gets the new name. A name another tag already has merges the two.": "帶有此標籤的所有項目都會改用新名稱。使用其他標籤已有的名稱會將兩者合併。",
+ "Locked items left as they were: {0}.": "保持不變的鎖定項目：{0}。",
+ "New name": "新名稱",
+ "No unlocked item carries the tag {0}.": "沒有未鎖定的項目帶有標籤 {0}。",
+ "Remove Tag From All Items": "從所有項目移除標籤",
+ "Rename": "重新命名",
+ "Rename or Merge Tag": "重新命名或合併標籤",
+ "Rename or Merge Tag…": "重新命名或合併標籤…",
+ "Rename tag": "重新命名標籤",
+ "Select Items With This Label": "選取帶有此標記的項目",
+ "Select Items With This Tag": "選取帶有此標籤的項目",
+ "Tag removed from items: {0}.": "已從項目中移除標籤：{0}。",
+ "Tag renamed on items: {0}.": "已在項目中重新命名標籤：{0}。",
+ "Tags merged on items: {0}.": "已在項目中合併標籤：{0}。"
 }

@@ -1361,5 +1361,22 @@
  "Set a find text, a kind, a color, a similar picture or a tag first, then save it.": "先に検索テキスト、種類、色、類似画像、タグのいずれかを設定してから保存してください。",
  "Tag filter cleared.": "タグフィルターを解除しました。",
  "Tags on this board": "このボードのタグ",
- "The board keeps the find text, kind, color, similar picture and chosen tags under this name. A saved search with the same name is replaced.": "ボードは検索テキスト、種類、色、類似画像、選んだタグをこの名前で保存します。同じ名前の保存した検索は置き換えられます。"
+ "The board keeps the find text, kind, color, similar picture and chosen tags under this name. A saved search with the same name is replaced.": "ボードは検索テキスト、種類、色、類似画像、選んだタグをこの名前で保存します。同じ名前の保存した検索は置き換えられます。",
+ "A tag can be at most 60 characters.": "タグは 60 文字までです。",
+ "A tag name is 1 to 60 characters.": "タグ名は 1 から 60 文字です。",
+ "A tag needs a name.": "タグには名前が必要です。",
+ "Every item with this tag gets the new name. A name another tag already has merges the two.": "このタグを持つすべての項目に新しい名前が付きます。ほかのタグがすでに使っている名前にすると 2 つが統合されます。",
+ "Locked items left as they were: {0}.": "そのままにしたロック中の項目: {0}。",
+ "New name": "新しい名前",
+ "No unlocked item carries the tag {0}.": "タグ {0} を持つロックされていない項目はありません。",
+ "Remove Tag From All Items": "すべての項目からタグを削除",
+ "Rename": "名前を変更",
+ "Rename or Merge Tag": "タグの名前を変更または統合",
+ "Rename or Merge Tag…": "タグの名前を変更または統合…",
+ "Rename tag": "タグの名前を変更",
+ "Select Items With This Label": "このラベルの項目を選択",
+ "Select Items With This Tag": "このタグの項目を選択",
+ "Tag removed from items: {0}.": "タグを削除した項目: {0}。",
+ "Tag renamed on items: {0}.": "タグ名を変更した項目: {0}。",
+ "Tags merged on items: {0}.": "タグを統合した項目: {0}。"
 }

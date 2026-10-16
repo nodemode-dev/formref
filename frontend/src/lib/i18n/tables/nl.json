@@ -1361,5 +1361,22 @@
  "Set a find text, a kind, a color, a similar picture or a tag first, then save it.": "Stel eerst een zoektekst, een type, een kleur, een vergelijkbare afbeelding of een tag in en sla die dan op.",
  "Tag filter cleared.": "Tagfilter gewist.",
  "Tags on this board": "Tags op dit board",
- "The board keeps the find text, kind, color, similar picture and chosen tags under this name. A saved search with the same name is replaced.": "Het board bewaart zoektekst, type, kleur, vergelijkbare afbeelding en gekozen tags onder deze naam. Een opgeslagen zoekopdracht met dezelfde naam wordt vervangen."
+ "The board keeps the find text, kind, color, similar picture and chosen tags under this name. A saved search with the same name is replaced.": "Het board bewaart zoektekst, type, kleur, vergelijkbare afbeelding en gekozen tags onder deze naam. Een opgeslagen zoekopdracht met dezelfde naam wordt vervangen.",
+ "A tag can be at most 60 characters.": "Een tag mag hoogstens 60 tekens hebben.",
+ "A tag name is 1 to 60 characters.": "Een tagnaam heeft 1 tot 60 tekens.",
+ "A tag needs a name.": "Een tag heeft een naam nodig.",
+ "Every item with this tag gets the new name. A name another tag already has merges the two.": "Elk item met deze tag krijgt de nieuwe naam. Een naam die een andere tag al heeft voegt de twee samen.",
+ "Locked items left as they were: {0}.": "Vergrendelde items bleven zoals ze waren: {0}.",
+ "New name": "Nieuwe naam",
+ "No unlocked item carries the tag {0}.": "Geen ontgrendeld item heeft de tag {0}.",
+ "Remove Tag From All Items": "Tag van alle items verwijderen",
+ "Rename": "Naam wijzigen",
+ "Rename or Merge Tag": "Tag hernoemen of samenvoegen",
+ "Rename or Merge Tag…": "Tag hernoemen of samenvoegen…",
+ "Rename tag": "Tag hernoemen",
+ "Select Items With This Label": "Items met dit label selecteren",
+ "Select Items With This Tag": "Items met deze tag selecteren",
+ "Tag removed from items: {0}.": "Tag verwijderd van items: {0}.",
+ "Tag renamed on items: {0}.": "Tag hernoemd op items: {0}.",
+ "Tags merged on items: {0}.": "Tags samengevoegd op items: {0}."
 }

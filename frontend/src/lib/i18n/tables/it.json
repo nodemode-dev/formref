@@ -1361,5 +1361,22 @@
  "Set a find text, a kind, a color, a similar picture or a tag first, then save it.": "Imposta prima un testo, un tipo, un colore, un’immagine simile o un tag, poi salvala.",
  "Tag filter cleared.": "Filtro tag rimosso.",
  "Tags on this board": "Tag su questa bacheca",
- "The board keeps the find text, kind, color, similar picture and chosen tags under this name. A saved search with the same name is replaced.": "La bacheca conserva testo, tipo, colore, immagine simile e tag scelti con questo nome. Una ricerca salvata con lo stesso nome viene sostituita."
+ "The board keeps the find text, kind, color, similar picture and chosen tags under this name. A saved search with the same name is replaced.": "La bacheca conserva testo, tipo, colore, immagine simile e tag scelti con questo nome. Una ricerca salvata con lo stesso nome viene sostituita.",
+ "A tag can be at most 60 characters.": "Un tag può avere al massimo 60 caratteri.",
+ "A tag name is 1 to 60 characters.": "Il nome di un tag ha da 1 a 60 caratteri.",
+ "A tag needs a name.": "Un tag ha bisogno di un nome.",
+ "Every item with this tag gets the new name. A name another tag already has merges the two.": "Ogni elemento con questo tag riceve il nuovo nome. Un nome che un altro tag ha già unisce i due.",
+ "Locked items left as they were: {0}.": "Elementi bloccati lasciati invariati: {0}.",
+ "New name": "Nuovo nome",
+ "No unlocked item carries the tag {0}.": "Nessun elemento sbloccato ha il tag {0}.",
+ "Remove Tag From All Items": "Rimuovi tag da tutti gli elementi",
+ "Rename": "Rinomina",
+ "Rename or Merge Tag": "Rinomina o unisci tag",
+ "Rename or Merge Tag…": "Rinomina o unisci tag…",
+ "Rename tag": "Rinomina tag",
+ "Select Items With This Label": "Seleziona elementi con questa etichetta",
+ "Select Items With This Tag": "Seleziona elementi con questo tag",
+ "Tag removed from items: {0}.": "Tag rimosso dagli elementi: {0}.",
+ "Tag renamed on items: {0}.": "Tag rinominato negli elementi: {0}.",
+ "Tags merged on items: {0}.": "Tag uniti negli elementi: {0}."
 }

@@ -1361,5 +1361,22 @@
  "Set a find text, a kind, a color, a similar picture or a tag first, then save it.": "Defina primeiro um texto, um tipo, uma cor, uma imagem parecida ou uma tag e depois salve.",
  "Tag filter cleared.": "Filtro de tags limpo.",
  "Tags on this board": "Tags deste quadro",
- "The board keeps the find text, kind, color, similar picture and chosen tags under this name. A saved search with the same name is replaced.": "O quadro guarda o texto, o tipo, a cor, a imagem parecida e as tags escolhidas com este nome. Uma busca salva com o mesmo nome é substituída."
+ "The board keeps the find text, kind, color, similar picture and chosen tags under this name. A saved search with the same name is replaced.": "O quadro guarda o texto, o tipo, a cor, a imagem parecida e as tags escolhidas com este nome. Uma busca salva com o mesmo nome é substituída.",
+ "A tag can be at most 60 characters.": "Uma tag pode ter no máximo 60 caracteres.",
+ "A tag name is 1 to 60 characters.": "O nome de uma tag tem de 1 a 60 caracteres.",
+ "A tag needs a name.": "Uma tag precisa de um nome.",
+ "Every item with this tag gets the new name. A name another tag already has merges the two.": "Cada item com esta tag recebe o novo nome. Um nome que outra tag já tem junta as duas.",
+ "Locked items left as they were: {0}.": "Itens bloqueados mantidos como estavam: {0}.",
+ "New name": "Novo nome",
+ "No unlocked item carries the tag {0}.": "Nenhum item desbloqueado tem a tag {0}.",
+ "Remove Tag From All Items": "Remover tag de todos os itens",
+ "Rename": "Renomear",
+ "Rename or Merge Tag": "Renomear ou juntar tag",
+ "Rename or Merge Tag…": "Renomear ou juntar tag…",
+ "Rename tag": "Renomear tag",
+ "Select Items With This Label": "Selecionar itens com esta etiqueta",
+ "Select Items With This Tag": "Selecionar itens com esta tag",
+ "Tag removed from items: {0}.": "Tag removida de itens: {0}.",
+ "Tag renamed on items: {0}.": "Tag renomeada em itens: {0}.",
+ "Tags merged on items: {0}.": "Tags juntadas em itens: {0}."
 }

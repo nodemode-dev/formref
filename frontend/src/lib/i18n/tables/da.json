@@ -1361,5 +1361,22 @@
  "Set a find text, a kind, a color, a similar picture or a tag first, then save it.": "Angiv først en søgetekst, en type, en farve, et lignende billede eller et tag, og gem så.",
  "Tag filter cleared.": "Tagfilter ryddet.",
  "Tags on this board": "Tags på denne tavle",
- "The board keeps the find text, kind, color, similar picture and chosen tags under this name. A saved search with the same name is replaced.": "Tavlen gemmer søgetekst, type, farve, lignende billede og valgte tags under dette navn. En gemt søgning med samme navn erstattes."
+ "The board keeps the find text, kind, color, similar picture and chosen tags under this name. A saved search with the same name is replaced.": "Tavlen gemmer søgetekst, type, farve, lignende billede og valgte tags under dette navn. En gemt søgning med samme navn erstattes.",
+ "A tag can be at most 60 characters.": "Et tag må højst have 60 tegn.",
+ "A tag name is 1 to 60 characters.": "Et tagnavn har 1 til 60 tegn.",
+ "A tag needs a name.": "Et tag skal have et navn.",
+ "Every item with this tag gets the new name. A name another tag already has merges the two.": "Alle elementer med dette tag får det nye navn. Et navn, som et andet tag allerede har, lægger de to sammen.",
+ "Locked items left as they were: {0}.": "Låste elementer blev som de var: {0}.",
+ "New name": "Nyt navn",
+ "No unlocked item carries the tag {0}.": "Intet ulåst element har tagget {0}.",
+ "Remove Tag From All Items": "Fjern tag fra alle elementer",
+ "Rename": "Omdøb",
+ "Rename or Merge Tag": "Omdøb eller sammenlæg tag",
+ "Rename or Merge Tag…": "Omdøb eller sammenlæg tag…",
+ "Rename tag": "Omdøb tag",
+ "Select Items With This Label": "Markér elementer med denne etiket",
+ "Select Items With This Tag": "Markér elementer med dette tag",
+ "Tag removed from items: {0}.": "Tag fjernet fra elementer: {0}.",
+ "Tag renamed on items: {0}.": "Tag omdøbt på elementer: {0}.",
+ "Tags merged on items: {0}.": "Tags lagt sammen på elementer: {0}."
 }

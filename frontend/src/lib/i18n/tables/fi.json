@@ -1361,5 +1361,22 @@
  "Set a find text, a kind, a color, a similar picture or a tag first, then save it.": "Aseta ensin hakuteksti, tyyppi, väri, samankaltainen kuva tai tunniste ja tallenna sitten.",
  "Tag filter cleared.": "Tunnistesuodatin poistettu.",
  "Tags on this board": "Tämän taulun tunnisteet",
- "The board keeps the find text, kind, color, similar picture and chosen tags under this name. A saved search with the same name is replaced.": "Taulu säilyttää hakutekstin, tyypin, värin, samankaltaisen kuvan ja valitut tunnisteet tällä nimellä. Samanniminen tallennettu haku korvataan."
+ "The board keeps the find text, kind, color, similar picture and chosen tags under this name. A saved search with the same name is replaced.": "Taulu säilyttää hakutekstin, tyypin, värin, samankaltaisen kuvan ja valitut tunnisteet tällä nimellä. Samanniminen tallennettu haku korvataan.",
+ "A tag can be at most 60 characters.": "Tunnisteessa voi olla enintään 60 merkkiä.",
+ "A tag name is 1 to 60 characters.": "Tunnisteen nimessä on 1–60 merkkiä.",
+ "A tag needs a name.": "Tunniste tarvitsee nimen.",
+ "Every item with this tag gets the new name. A name another tag already has merges the two.": "Jokainen kohde, jolla on tämä tunniste, saa uuden nimen. Toisen tunnisteen jo käyttämä nimi yhdistää ne.",
+ "Locked items left as they were: {0}.": "Lukitut kohteet jäivät ennalleen: {0}.",
+ "New name": "Uusi nimi",
+ "No unlocked item carries the tag {0}.": "Millään lukitsemattomalla kohteella ei ole tunnistetta {0}.",
+ "Remove Tag From All Items": "Poista tunniste kaikista kohteista",
+ "Rename": "Nimeä uudelleen",
+ "Rename or Merge Tag": "Nimeä tunniste uudelleen tai yhdistä",
+ "Rename or Merge Tag…": "Nimeä tunniste uudelleen tai yhdistä…",
+ "Rename tag": "Nimeä tunniste uudelleen",
+ "Select Items With This Label": "Valitse kohteet, joilla on tämä nimiö",
+ "Select Items With This Tag": "Valitse kohteet, joilla on tämä tunniste",
+ "Tag removed from items: {0}.": "Tunniste poistettu kohteista: {0}.",
+ "Tag renamed on items: {0}.": "Tunniste nimetty uudelleen kohteissa: {0}.",
+ "Tags merged on items: {0}.": "Tunnisteet yhdistetty kohteissa: {0}."
 }

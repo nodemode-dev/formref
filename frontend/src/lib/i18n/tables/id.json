@@ -1361,5 +1361,22 @@
  "Set a find text, a kind, a color, a similar picture or a tag first, then save it.": "Tentukan dulu teks, jenis, warna, gambar yang mirip, atau tag, lalu simpan.",
  "Tag filter cleared.": "Filter tag dihapus.",
  "Tags on this board": "Tag di papan ini",
- "The board keeps the find text, kind, color, similar picture and chosen tags under this name. A saved search with the same name is replaced.": "Papan menyimpan teks, jenis, warna, gambar mirip, dan tag pilihan dengan nama ini. Pencarian tersimpan dengan nama yang sama akan diganti."
+ "The board keeps the find text, kind, color, similar picture and chosen tags under this name. A saved search with the same name is replaced.": "Papan menyimpan teks, jenis, warna, gambar mirip, dan tag pilihan dengan nama ini. Pencarian tersimpan dengan nama yang sama akan diganti.",
+ "A tag can be at most 60 characters.": "Tag paling banyak 60 karakter.",
+ "A tag name is 1 to 60 characters.": "Nama tag 1 sampai 60 karakter.",
+ "A tag needs a name.": "Tag memerlukan nama.",
+ "Every item with this tag gets the new name. A name another tag already has merges the two.": "Setiap item dengan tag ini mendapat nama baru. Nama yang sudah dipakai tag lain menggabungkan keduanya.",
+ "Locked items left as they were: {0}.": "Item terkunci dibiarkan seperti semula: {0}.",
+ "New name": "Nama baru",
+ "No unlocked item carries the tag {0}.": "Tidak ada item tak terkunci yang memiliki tag {0}.",
+ "Remove Tag From All Items": "Hapus Tag dari Semua Item",
+ "Rename": "Ganti nama",
+ "Rename or Merge Tag": "Ganti Nama atau Gabungkan Tag",
+ "Rename or Merge Tag…": "Ganti Nama atau Gabungkan Tag…",
+ "Rename tag": "Ganti nama tag",
+ "Select Items With This Label": "Pilih Item dengan Label Ini",
+ "Select Items With This Tag": "Pilih Item dengan Tag Ini",
+ "Tag removed from items: {0}.": "Tag dihapus dari item: {0}.",
+ "Tag renamed on items: {0}.": "Tag diganti namanya pada item: {0}.",
+ "Tags merged on items: {0}.": "Tag digabungkan pada item: {0}."
 }

@@ -1361,5 +1361,22 @@
  "Set a find text, a kind, a color, a similar picture or a tag first, then save it.": "Angi først en søketekst, en type, en farge, et lignende bilde eller en tagg, og lagre så.",
  "Tag filter cleared.": "Taggfilteret er fjernet.",
  "Tags on this board": "Tagger på denne tavlen",
- "The board keeps the find text, kind, color, similar picture and chosen tags under this name. A saved search with the same name is replaced.": "Tavlen lagrer søketekst, type, farge, lignende bilde og valgte tagger under dette navnet. Et lagret søk med samme navn erstattes."
+ "The board keeps the find text, kind, color, similar picture and chosen tags under this name. A saved search with the same name is replaced.": "Tavlen lagrer søketekst, type, farge, lignende bilde og valgte tagger under dette navnet. Et lagret søk med samme navn erstattes.",
+ "A tag can be at most 60 characters.": "En tagg kan ha høyst 60 tegn.",
+ "A tag name is 1 to 60 characters.": "Et taggnavn har 1 til 60 tegn.",
+ "A tag needs a name.": "En tagg trenger et navn.",
+ "Every item with this tag gets the new name. A name another tag already has merges the two.": "Alle elementer med denne taggen får det nye navnet. Et navn som en annen tagg allerede har, slår dem sammen.",
+ "Locked items left as they were: {0}.": "Låste elementer ble som de var: {0}.",
+ "New name": "Nytt navn",
+ "No unlocked item carries the tag {0}.": "Ingen ulåste elementer har taggen {0}.",
+ "Remove Tag From All Items": "Fjern tagg fra alle elementer",
+ "Rename": "Gi nytt navn",
+ "Rename or Merge Tag": "Gi tagg nytt navn eller slå sammen",
+ "Rename or Merge Tag…": "Gi tagg nytt navn eller slå sammen…",
+ "Rename tag": "Gi tagg nytt navn",
+ "Select Items With This Label": "Velg elementer med denne etiketten",
+ "Select Items With This Tag": "Velg elementer med denne taggen",
+ "Tag removed from items: {0}.": "Tagg fjernet fra elementer: {0}.",
+ "Tag renamed on items: {0}.": "Tagg omdøpt på elementer: {0}.",
+ "Tags merged on items: {0}.": "Tagger slått sammen på elementer: {0}."
 }

@@ -1361,5 +1361,22 @@
  "Set a find text, a kind, a color, a similar picture or a tag first, then save it.": "请先设置搜索文本、类型、颜色、相似图片或标签，再保存。",
  "Tag filter cleared.": "已清除标签筛选。",
  "Tags on this board": "此画板上的标签",
- "The board keeps the find text, kind, color, similar picture and chosen tags under this name. A saved search with the same name is replaced.": "画板会以此名称保存搜索文本、类型、颜色、相似图片和所选标签。同名的已保存搜索会被替换。"
+ "The board keeps the find text, kind, color, similar picture and chosen tags under this name. A saved search with the same name is replaced.": "画板会以此名称保存搜索文本、类型、颜色、相似图片和所选标签。同名的已保存搜索会被替换。",
+ "A tag can be at most 60 characters.": "标签最多 60 个字符。",
+ "A tag name is 1 to 60 characters.": "标签名称为 1 到 60 个字符。",
+ "A tag needs a name.": "标签需要名称。",
+ "Every item with this tag gets the new name. A name another tag already has merges the two.": "带有此标签的所有项目都会改用新名称。使用其他标签已有的名称会将两者合并。",
+ "Locked items left as they were: {0}.": "保持不变的锁定项目：{0}。",
+ "New name": "新名称",
+ "No unlocked item carries the tag {0}.": "没有未锁定的项目带有标签 {0}。",
+ "Remove Tag From All Items": "从所有项目移除标签",
+ "Rename": "重命名",
+ "Rename or Merge Tag": "重命名或合并标签",
+ "Rename or Merge Tag…": "重命名或合并标签…",
+ "Rename tag": "重命名标签",
+ "Select Items With This Label": "选择带有此标记的项目",
+ "Select Items With This Tag": "选择带有此标签的项目",
+ "Tag removed from items: {0}.": "已从项目中移除标签：{0}。",
+ "Tag renamed on items: {0}.": "已在项目中重命名标签：{0}。",
+ "Tags merged on items: {0}.": "已在项目中合并标签：{0}。"
 }

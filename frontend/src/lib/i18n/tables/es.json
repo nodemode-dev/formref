@@ -1361,5 +1361,22 @@
  "Set a find text, a kind, a color, a similar picture or a tag first, then save it.": "Primero indica un texto, un tipo, un color, una imagen parecida o una etiqueta y luego guárdalo.",
  "Tag filter cleared.": "Filtro de etiquetas quitado.",
  "Tags on this board": "Etiquetas de este tablero",
- "The board keeps the find text, kind, color, similar picture and chosen tags under this name. A saved search with the same name is replaced.": "El tablero guarda el texto, el tipo, el color, la imagen parecida y las etiquetas elegidas con este nombre. Una búsqueda guardada con el mismo nombre se reemplaza."
+ "The board keeps the find text, kind, color, similar picture and chosen tags under this name. A saved search with the same name is replaced.": "El tablero guarda el texto, el tipo, el color, la imagen parecida y las etiquetas elegidas con este nombre. Una búsqueda guardada con el mismo nombre se reemplaza.",
+ "A tag can be at most 60 characters.": "Una etiqueta puede tener como máximo 60 caracteres.",
+ "A tag name is 1 to 60 characters.": "El nombre de una etiqueta tiene de 1 a 60 caracteres.",
+ "A tag needs a name.": "Una etiqueta necesita un nombre.",
+ "Every item with this tag gets the new name. A name another tag already has merges the two.": "Cada elemento con esta etiqueta recibe el nombre nuevo. Un nombre que ya tiene otra etiqueta las combina.",
+ "Locked items left as they were: {0}.": "Elementos bloqueados sin cambios: {0}.",
+ "New name": "Nombre nuevo",
+ "No unlocked item carries the tag {0}.": "Ningún elemento desbloqueado lleva la etiqueta {0}.",
+ "Remove Tag From All Items": "Quitar etiqueta de todos los elementos",
+ "Rename": "Renombrar",
+ "Rename or Merge Tag": "Renombrar o combinar etiqueta",
+ "Rename or Merge Tag…": "Renombrar o combinar etiqueta…",
+ "Rename tag": "Renombrar etiqueta",
+ "Select Items With This Label": "Seleccionar elementos con esta etiqueta de color",
+ "Select Items With This Tag": "Seleccionar elementos con esta etiqueta",
+ "Tag removed from items: {0}.": "Etiqueta quitada de elementos: {0}.",
+ "Tag renamed on items: {0}.": "Etiqueta renombrada en elementos: {0}.",
+ "Tags merged on items: {0}.": "Etiquetas combinadas en elementos: {0}."
 }

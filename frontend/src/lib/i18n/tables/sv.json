@@ -1361,5 +1361,22 @@
  "Set a find text, a kind, a color, a similar picture or a tag first, then save it.": "Ange först en söktext, en typ, en färg, en liknande bild eller en tagg och spara sedan.",
  "Tag filter cleared.": "Taggfiltret är rensat.",
  "Tags on this board": "Taggar på den här tavlan",
- "The board keeps the find text, kind, color, similar picture and chosen tags under this name. A saved search with the same name is replaced.": "Tavlan sparar söktext, typ, färg, liknande bild och valda taggar under det här namnet. En sparad sökning med samma namn ersätts."
+ "The board keeps the find text, kind, color, similar picture and chosen tags under this name. A saved search with the same name is replaced.": "Tavlan sparar söktext, typ, färg, liknande bild och valda taggar under det här namnet. En sparad sökning med samma namn ersätts.",
+ "A tag can be at most 60 characters.": "En tagg får vara högst 60 tecken.",
+ "A tag name is 1 to 60 characters.": "Ett taggnamn har 1 till 60 tecken.",
+ "A tag needs a name.": "En tagg behöver ett namn.",
+ "Every item with this tag gets the new name. A name another tag already has merges the two.": "Alla objekt med den här taggen får det nya namnet. Ett namn som en annan tagg redan har slår ihop dem.",
+ "Locked items left as they were: {0}.": "Låsta objekt lämnades som de var: {0}.",
+ "New name": "Nytt namn",
+ "No unlocked item carries the tag {0}.": "Inget olåst objekt har taggen {0}.",
+ "Remove Tag From All Items": "Ta bort taggen från alla objekt",
+ "Rename": "Byt namn",
+ "Rename or Merge Tag": "Byt namn på eller slå ihop tagg",
+ "Rename or Merge Tag…": "Byt namn på eller slå ihop tagg…",
+ "Rename tag": "Byt namn på tagg",
+ "Select Items With This Label": "Markera objekt med den här etiketten",
+ "Select Items With This Tag": "Markera objekt med den här taggen",
+ "Tag removed from items: {0}.": "Taggen borttagen från objekt: {0}.",
+ "Tag renamed on items: {0}.": "Taggen omdöpt på objekt: {0}.",
+ "Tags merged on items: {0}.": "Taggar sammanslagna på objekt: {0}."
 }

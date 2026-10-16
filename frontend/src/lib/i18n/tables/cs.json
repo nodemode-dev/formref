@@ -1361,5 +1361,22 @@
  "Set a find text, a kind, a color, a similar picture or a tag first, then save it.": "Nejprve nastavte text, druh, barvu, podobný obrázek nebo značku a pak ho uložte.",
  "Tag filter cleared.": "Filtr značek zrušen.",
  "Tags on this board": "Značky na této tabuli",
- "The board keeps the find text, kind, color, similar picture and chosen tags under this name. A saved search with the same name is replaced.": "Tabule pod tímto názvem uchová text, druh, barvu, podobný obrázek a vybrané značky. Uložené hledání se stejným názvem bude nahrazeno."
+ "The board keeps the find text, kind, color, similar picture and chosen tags under this name. A saved search with the same name is replaced.": "Tabule pod tímto názvem uchová text, druh, barvu, podobný obrázek a vybrané značky. Uložené hledání se stejným názvem bude nahrazeno.",
+ "A tag can be at most 60 characters.": "Značka může mít nejvýše 60 znaků.",
+ "A tag name is 1 to 60 characters.": "Název značky má 1 až 60 znaků.",
+ "A tag needs a name.": "Značka potřebuje název.",
+ "Every item with this tag gets the new name. A name another tag already has merges the two.": "Každá položka s touto značkou dostane nový název. Název, který už má jiná značka, obě sloučí.",
+ "Locked items left as they were: {0}.": "Zamčené položky zůstaly beze změny: {0}.",
+ "New name": "Nový název",
+ "No unlocked item carries the tag {0}.": "Žádná odemčená položka nemá značku {0}.",
+ "Remove Tag From All Items": "Odebrat značku ze všech položek",
+ "Rename": "Přejmenovat",
+ "Rename or Merge Tag": "Přejmenovat nebo sloučit značku",
+ "Rename or Merge Tag…": "Přejmenovat nebo sloučit značku…",
+ "Rename tag": "Přejmenovat značku",
+ "Select Items With This Label": "Vybrat položky s tímto štítkem",
+ "Select Items With This Tag": "Vybrat položky s touto značkou",
+ "Tag removed from items: {0}.": "Značka odebrána z položek: {0}.",
+ "Tag renamed on items: {0}.": "Značka přejmenována u položek: {0}.",
+ "Tags merged on items: {0}.": "Značky sloučeny u položek: {0}."
 }

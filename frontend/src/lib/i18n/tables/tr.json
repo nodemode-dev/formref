@@ -1361,5 +1361,22 @@
  "Set a find text, a kind, a color, a similar picture or a tag first, then save it.": "Önce bir arama metni, tür, renk, benzer resim veya etiket belirleyin, sonra kaydedin.",
  "Tag filter cleared.": "Etiket filtresi temizlendi.",
  "Tags on this board": "Bu panodaki etiketler",
- "The board keeps the find text, kind, color, similar picture and chosen tags under this name. A saved search with the same name is replaced.": "Pano arama metnini, türü, rengi, benzer resmi ve seçilen etiketleri bu adla saklar. Aynı adlı kayıtlı arama değiştirilir."
+ "The board keeps the find text, kind, color, similar picture and chosen tags under this name. A saved search with the same name is replaced.": "Pano arama metnini, türü, rengi, benzer resmi ve seçilen etiketleri bu adla saklar. Aynı adlı kayıtlı arama değiştirilir.",
+ "A tag can be at most 60 characters.": "Bir etiket en fazla 60 karakter olabilir.",
+ "A tag name is 1 to 60 characters.": "Etiket adı 1 ile 60 karakterdir.",
+ "A tag needs a name.": "Etiketin bir adı olmalı.",
+ "Every item with this tag gets the new name. A name another tag already has merges the two.": "Bu etiketi taşıyan her öğe yeni adı alır. Başka bir etiketin zaten kullandığı ad ikisini birleştirir.",
+ "Locked items left as they were: {0}.": "Olduğu gibi bırakılan kilitli öğeler: {0}.",
+ "New name": "Yeni ad",
+ "No unlocked item carries the tag {0}.": "Hiçbir kilitsiz öğede {0} etiketi yok.",
+ "Remove Tag From All Items": "Etiketi Tüm Öğelerden Kaldır",
+ "Rename": "Yeniden adlandır",
+ "Rename or Merge Tag": "Etiketi Yeniden Adlandır veya Birleştir",
+ "Rename or Merge Tag…": "Etiketi Yeniden Adlandır veya Birleştir…",
+ "Rename tag": "Etiketi yeniden adlandır",
+ "Select Items With This Label": "Bu Etiketli Öğeleri Seç",
+ "Select Items With This Tag": "Bu Etiketi Taşıyan Öğeleri Seç",
+ "Tag removed from items: {0}.": "Etiket kaldırılan öğeler: {0}.",
+ "Tag renamed on items: {0}.": "Etiketi yeniden adlandırılan öğeler: {0}.",
+ "Tags merged on items: {0}.": "Etiketleri birleştirilen öğeler: {0}."
 }
