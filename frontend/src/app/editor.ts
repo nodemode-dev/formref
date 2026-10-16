@@ -276,6 +276,7 @@ export function updateInspector() {
   $('drawing-properties').hidden = !['shape', 'stroke'].includes(first.kind);
   setInput('shape-kind', String(first.data.shape || 'rect'));
   setInput('stroke-width', Number(first.data.stroke_width || 3));
+  if (['shape', 'stroke'].includes(first.kind)) inspectorHooks.drawing(first);
   setInput('shape-fill-enabled', !!first.data.fill && first.data.fill !== 'none');
   setInput('shape-fill', /^#[0-9a-f]{6}$/i.test(String(first.data.fill)) ? String(first.data.fill) : '#f97316');
   const crop = (first.data.crop || { x: 0, y: 0, width: 1, height: 1 }) as Record<string, number>;
@@ -497,6 +498,8 @@ export function closeOverlays() {
 }
 
 let dialogResolve: ((result: { name: string; text: string; url: string } | null) => void) | null = null;
+
+export const inspectorHooks: { drawing: (item: Item) => void } = { drawing: () => undefined };
 
 export interface DialogOptions {
   name?: string; text?: string; url?: string; showText?: boolean; showUrl?: boolean;

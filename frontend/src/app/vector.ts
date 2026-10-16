@@ -1,0 +1,164 @@
+import type { Item, Point } from '../lib/types';
+import { newItem } from '../lib/types';
+import {
+  addAnchor, closePath, ellipsePath, joinPaths, polygonPath, polylinePath, rectPath, reversePath, roundAll, simplifyPoints, smoothPath, starPath,
+  maxCornerRadius, type CornerStyle, type VPath, type Vector,
+} from '../lib/vector/path';
+import { CAPS, JOINS, parseDash } from '../lib/vector/stroke';
+import { $, S, editable, error, execute, inputDialog, inspectorHooks, placement, selected, setSelection, toast, topZ } from './editor';
+import { registry } from './registry';
+
+const STYLES: CornerStyle[] = ['round', 'inverted', 'chamfer'];
+
+function drawings(): Item[] {
+  const ids = new Set(editable());
+  return selected().filter(item => ids.has(item.id) && (item.kind === 'shape' || item.kind === 'stroke'));
+}
+
+const hasDrawing = () => drawings().length > 0;
+const hasPath = () => drawings().some(item => !!item.data.vector);
+
+/** The item as a vector in its own w by h design box, converting a rectangle, ellipse, line or freehand stroke the first time. */
+export function asVector(item: Item): Vector {
+  const existing = item.data.vector as Vector | undefined;
+  if (existing) return existing;
+  const w = Math.max(1, item.width), h = Math.max(1, item.height);
+  if (item.kind === 'stroke') {
+    const points = (item.data.points || []) as Point[];
+    return { w, h, paths: [polylinePath(simplifyPoints(points, 0.6))] };
+  }
+  const kind = String(item.data.shape || 'rect');
+  if (kind === 'ellipse') return { w, h, paths: [ellipsePath(w, h)] };
+  if (kind === 'line') {
+    const ends = item.data.points as Point[] | undefined;
+    return { w, h, paths: [polylinePath([ends?.[0] || { x: 0, y: 0 }, ends?.at(-1) || { x: w, y: h }])] };
+  }
+  return { w, h, paths: [rectPath(w, h)] };
+}
+
+function withVector(item: Item, vector: Vector): Record<string, unknown> {
+  return item.kind === 'shape' ? { ...item.data, shape: 'path', vector } : { ...item.data, vector };
+}
+
+async function eachPath(change: (path: VPath, item: Item) => VPath) {
+  const items = drawings();
+  if (!items.length) return;
+  await execute({ type: 'batch', commands: items.map(item => {
+    const vector = asVector(item);
+    return { type: 'update', ids: [item.id], patch: { data: withVector(item, { ...vector, paths: vector.paths.map(p => change(p, item)) }) } };
+  }) });
+}
+
+async function setData(patch: Record<string, unknown>) {
+  const items = drawings();
+  if (!items.length) return;
+  await execute({ type: 'batch', commands: items.map(item => ({ type: 'update', ids: [item.id], patch: { data: { ...item.data, ...patch } } })) });
+}
+
+async function roundCorners(params?: Record<string, unknown>) {
+  let radius = typeof params?.radius === 'number' ? params.radius : NaN;
+  const style = STYLES.includes(params?.style as CornerStyle) ? (params!.style as CornerStyle) : (($<HTMLSelectElement>('corner-style')?.value as CornerStyle) || 'round');
+  if (!Number.isFinite(radius)) {
+    const first = drawings()[0];
+    const limit = first ? Math.round(Math.max(...asVector(first).paths.map(maxCornerRadius)) * 10) / 10 : 0;
+    const form = await inputDialog('Round corners', { name: '12', label: 'Corner radius (px)', description: `Rounds every corner point of the selected shapes and paths${limit ? `; the largest radius that fits is ${limit} px` : ''}. Smooth points stay smooth.`, submit: 'Round' });
+    if (!form) return;
+    radius = Number(form.name);
+  }
+  if (!Number.isFinite(radius) || radius < 0) throw new Error('Enter a corner radius of 0 or more.');
+  await eachPath(path => roundAll(path, radius, style));
+}
+
+async function addShape(kind: 'polygon' | 'star', params?: Record<string, unknown>) {
+  let count = typeof params?.points === 'number' ? params.points : NaN;
+  if (!Number.isFinite(count)) {
+    const form = await inputDialog(kind === 'star' ? 'Add star' : 'Add polygon', { name: kind === 'star' ? '5' : '6', label: kind === 'star' ? 'Points' : 'Sides', description: 'From 3 to 1000.', submit: 'Add' });
+    if (!form) return;
+    count = Number(form.name);
+  }
+  if (!Number.isFinite(count) || count < 3 || count > 1000) throw new Error('Enter from 3 to 1000.');
+  const w = 200, h = 200, p = placement();
+  const path = kind === 'star' ? starPath(w, h, count, typeof params?.inner === 'number' ? params.inner : 0.5) : polygonPath(w, h, count);
+  const item = newItem('shape', p.x - w / 2, p.y - h / 2, { width: w, height: h, z: topZ(), color: '#f97316', data: { shape: 'path', stroke_width: 2, fill: 'none', vector: { w, h, paths: [path] } } });
+  await execute({ type: 'add', items: [item] });
+  setSelection([item.id]);
+}
+
+async function joinSelected() {
+  const items = drawings().filter(item => asVector(item).paths.some(p => !p.closed));
+  if (items.length === 1) { await eachPath(path => (path.closed ? path : closePath(path))); return; }
+  if (items.length < 2) throw new Error('Select one open path to close, or two open paths to join.');
+  const [a, b] = items;
+  const va = asVector(a), vb = asVector(b);
+  const sx = vb.w / Math.max(1, b.width), sy = vb.h / Math.max(1, b.height);
+  const ax = va.w / Math.max(1, a.width), ay = va.h / Math.max(1, a.height);
+  const moved = vb.paths[0].anchors.map(anchor => {
+    const map = (q: Point) => ({ x: ((q.x / sx + b.x - a.x) * ax), y: ((q.y / sy + b.y - a.y) * ay) });
+    return { ...anchor, ...map(anchor), in: anchor.in ? map(anchor.in) : null, out: anchor.out ? map(anchor.out) : null };
+  });
+  const joined = joinPaths(va.paths[0], { closed: false, anchors: moved });
+  const xs = joined.anchors.map(p => p.x / ax + a.x), ys = joined.anchors.map(p => p.y / ay + a.y);
+  const x0 = Math.min(a.x, ...xs), y0 = Math.min(a.y, ...ys), x1 = Math.max(a.x + a.width, ...xs), y1 = Math.max(a.y + a.height, ...ys);
+  const shift = (q: Point) => ({ x: q.x / ax + a.x - x0, y: q.y / ay + a.y - y0 });
+  const anchors = joined.anchors.map(p => ({ ...p, ...shift(p), in: p.in ? shift(p.in) : null, out: p.out ? shift(p.out) : null }));
+  const w = Math.max(1, x1 - x0), h = Math.max(1, y1 - y0);
+  await execute({ type: 'batch', commands: [
+    { type: 'update', ids: [a.id], patch: { x: x0, y: y0, width: w, height: h, data: withVector(a, { w, h, paths: [{ closed: false, anchors }, ...va.paths.slice(1)] }) } },
+    { type: 'remove', ids: [b.id] },
+  ] });
+  setSelection([a.id]);
+}
+
+const num = (params: Record<string, unknown> | undefined, key: string) => (typeof params?.[key] === 'number' ? params[key] as number : NaN);
+
+export function registerVector(): void {
+  registry.add(
+    { group: 'Path', id: 'round-corners', label: 'Round Corners...', icon: 'shape', run: p => roundCorners(p), enabled: hasDrawing, params: { radius: { type: 'number', min: 0, description: 'corner radius in pixels' }, style: { type: 'string', enum: STYLES, description: 'round, inverted (inverted round) or chamfer' } }, description: 'Live Corners on every corner point of the selected shapes and paths, as Illustrator does; rectangles, ellipses, lines and freehand strokes become editable paths first. A radius larger than fits is clamped.' },
+    { group: 'Path', id: 'square-corners', label: 'Square Corners', icon: 'shape', run: () => eachPath(path => roundAll(path, 0)), enabled: hasPath, description: 'Removes corner rounding from the selected paths.' },
+    { group: 'Path', id: 'convert-to-path', label: 'Convert to Path', icon: 'shape', run: () => eachPath(path => path), enabled: hasDrawing, description: 'Turns rectangles, ellipses, lines and freehand strokes into editable anchor paths.' },
+    { group: 'Path', id: 'add-anchor-points', label: 'Add Anchor Points', icon: 'plus', run: () => eachPath(path => { let out = path; const count = path.closed ? path.anchors.length : path.anchors.length - 1; for (let i = count - 1; i >= 0; i--) out = addAnchor(out, i); return out; }), enabled: hasDrawing, description: 'Adds an anchor halfway along every segment without changing the shape.' },
+    { group: 'Path', id: 'simplify-path', label: 'Simplify Path', icon: 'stroke', run: p => eachPath((path, item) => (path.anchors.some(a => a.in || a.out) ? path : { closed: path.closed, anchors: simplifyPoints(path.anchors, Number.isFinite(num(p, 'tolerance')) ? num(p, 'tolerance') : Math.max(1, Math.min(item.width, item.height) / 60)) })), enabled: hasDrawing, params: { tolerance: { type: 'number', min: 0, description: 'how far, in pixels, the simpler path may move' } }, description: 'Fewer anchor points on straight-segment paths, within a tolerance.' },
+    { group: 'Path', id: 'smooth-path', label: 'Smooth Path', icon: 'stroke', run: () => eachPath(path => smoothPath(path)), enabled: hasDrawing, description: 'Makes every anchor a smooth point, as the Smooth tool does for a whole path.' },
+    { group: 'Path', id: 'reverse-path', label: 'Reverse Path Direction', icon: 'sync', run: () => eachPath(path => reversePath(path)), enabled: hasDrawing, description: 'Reverses the order of the anchors; arrowheads and dash starts swap ends.' },
+    { group: 'Path', id: 'join-paths', label: 'Join', icon: 'connect', keys: ['mod+shift+e'], run: () => joinSelected(), enabled: hasDrawing, description: 'Closes one open path, or joins the end of the first selected open path to the start of the second.' },
+    { group: 'Insert', id: 'add-polygon', label: 'Add Polygon...', icon: 'shape', run: p => addShape('polygon', p), enabled: () => !!S.state, params: { points: { type: 'integer', min: 3, max: 1000, description: 'number of sides' } }, description: 'Adds a regular polygon as an editable path.' },
+    { group: 'Insert', id: 'add-star', label: 'Add Star...', icon: 'shape', run: p => addShape('star', p), enabled: () => !!S.state, params: { points: { type: 'integer', min: 3, max: 1000, description: 'number of points' }, inner: { type: 'number', min: 0.05, max: 1, description: 'inner radius as a share of the outer, default 0.5' } }, description: 'Adds a star as an editable path.' },
+    { group: 'Path', id: 'stroke-options', label: 'Set Stroke Options', icon: 'stroke', palette: false, run: p => setData(strokePatch(p || {})), enabled: hasDrawing, params: { cap: { type: 'string', enum: CAPS }, join: { type: 'string', enum: JOINS }, miter: { type: 'number', min: 1, max: 500 }, dash: { type: 'array', description: 'dash and gap lengths, for example [8, 4]; [] for a solid line' } }, description: 'Illustrator Stroke panel options for the selected shapes and paths.' },
+  );
+  bindInspector();
+  inspectorHooks.drawing = showStroke;
+}
+
+function strokePatch(p: Record<string, unknown>): Record<string, unknown> {
+  const out: Record<string, unknown> = {};
+  if (CAPS.includes(p.cap as never)) out.cap = p.cap;
+  if (JOINS.includes(p.join as never)) out.join = p.join;
+  if (typeof p.miter === 'number' && p.miter >= 1 && p.miter <= 500) out.miter = p.miter;
+  if (Array.isArray(p.dash)) out.dash = (p.dash as unknown[]).map(Number).filter(n => Number.isFinite(n) && n >= 0).slice(0, 6);
+  return out;
+}
+
+function bindInspector() {
+  const on = (id: string, event: string, fn: () => unknown) => document.getElementById(id)?.addEventListener(event, () => { void Promise.resolve().then(fn).catch(error); });
+  on('stroke-cap', 'change', () => setData({ cap: $<HTMLSelectElement>('stroke-cap').value }));
+  on('stroke-join', 'change', () => setData({ join: $<HTMLSelectElement>('stroke-join').value }));
+  on('stroke-miter', 'change', () => { const v = Number($<HTMLInputElement>('stroke-miter').value); if (v >= 1 && v <= 500) return setData({ miter: v }); toast('Miter limit is from 1 to 500.'); });
+  on('stroke-dash', 'change', () => setData({ dash: parseDash($<HTMLInputElement>('stroke-dash').value) }));
+  on('corner-apply', 'click', () => roundCorners({ radius: Number($<HTMLInputElement>('corner-radius').value), style: $<HTMLSelectElement>('corner-style').value }));
+}
+
+/** Inspector values for the first selected drawing; called from the inspector refresh. */
+export function showStroke(item: Item) {
+  const set = (id: string, value: string) => { const el = document.getElementById(id) as HTMLInputElement | HTMLSelectElement | null; if (el && document.activeElement !== el && el.value !== value) el.value = value; };
+  set('stroke-cap', CAPS.includes(item.data.cap as never) ? String(item.data.cap) : 'round');
+  set('stroke-join', JOINS.includes(item.data.join as never) ? String(item.data.join) : 'round');
+  set('stroke-miter', String(item.data.miter ?? 10));
+  set('stroke-dash', Array.isArray(item.data.dash) ? (item.data.dash as number[]).join(' ') : '');
+  const vector = item.data.vector as Vector | undefined;
+  const first = vector?.paths[0]?.anchors.find(a => (a.radius || 0) > 0);
+  if (first) { set('corner-radius', String(first.radius)); set('corner-style', first.style || 'round'); }
+  const limit = document.getElementById('corner-limit');
+  const max = Math.round(Math.max(0, ...asVector(item).paths.map(maxCornerRadius)) * 10) / 10;
+  const text = max ? `Largest radius that fits: ${max} px` : 'No corner points to round.';
+  if (limit && limit.textContent !== text) limit.textContent = text;
+}

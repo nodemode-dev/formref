@@ -300,9 +300,22 @@
             </div>
             <div id="drawing-properties" hidden>
               <label class="field"><span>Stroke width</span><input id="stroke-width" type="number" min="0.1" max="200" step="0.5"></label>
+              <div class="field-grid">
+                <label class="field"><span>Cap</span><select id="stroke-cap"><option value="butt">Butt</option><option value="round">Round</option><option value="projecting">Projecting</option></select></label>
+                <label class="field"><span>Corner</span><select id="stroke-join"><option value="miter">Miter</option><option value="round">Round</option><option value="bevel">Bevel</option></select></label>
+                <label class="field"><span>Miter limit</span><input id="stroke-miter" type="number" min="1" max="500" step="1"></label>
+                <label class="field"><span>Dash and gap</span><input id="stroke-dash" type="text" spellcheck="false" placeholder="e.g. 8 4"></label>
+              </div>
+              <div class="section-label">CORNERS</div>
+              <div class="field-grid">
+                <label class="field"><span>Radius</span><input id="corner-radius" type="number" min="0" step="1" value="12"></label>
+                <label class="field"><span>Style</span><select id="corner-style"><option value="round">Round</option><option value="inverted">Inverted round</option><option value="chamfer">Chamfer</option></select></label>
+              </div>
+              <button id="corner-apply" class="button compact full"><span data-icon="shape"></span>Round all corner points</button>
+              <span id="corner-limit" class="field-description">Largest radius that fits: 0 px</span>
             </div>
             <div id="shape-properties" hidden>
-              <label class="field"><span>Shape</span><select id="shape-kind"><option value="rect">Rectangle</option><option value="ellipse">Ellipse</option><option value="line">Line</option></select></label>
+              <label class="field"><span>Shape</span><select id="shape-kind"><option value="rect">Rectangle</option><option value="ellipse">Ellipse</option><option value="line">Line</option><option value="path" disabled>Path</option></select></label>
               <label class="field-row"><span>Fill color</span><input id="shape-fill" type="color" value="#f97316"></label>
               <label class="check-row"><input id="shape-fill-enabled" type="checkbox">Filled shape</label>
             </div>

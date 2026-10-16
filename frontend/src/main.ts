@@ -13,8 +13,10 @@ import { S, consent, drawCamera, onState, selection, toast } from './app/editor'
 import { restore } from './app/tabs';
 import { registerTerminal } from './app/terminal';
 import { attachCatalogue } from './app/catalogue';
+import { registerVector } from './app/vector';
 
 registerTerminal();
+registerVector();
 attachCatalogue();
 
 const agent = new AgentPanel({
