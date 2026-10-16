@@ -311,6 +311,19 @@ def png_data_uri(image, item):
     image.save(output, format="PNG")
     return "data:image/png;base64," + base64.b64encode(output.getvalue()).decode("ascii")
 
+def item_tags(board, item):
+    """The item's label names (board labels it carries) then its tags, each once ignoring case."""
+    labels = {label["id"]: label["name"] for label in (board.get("settings") or {}).get("labels") or []}
+    data = item.get("data") or {}
+    names = [labels[i] for i in data.get("labels") or [] if i in labels]
+    names += [t.strip() for t in data.get("tags") or [] if isinstance(t, str) and t.strip()]
+    out = []
+    for name in names:
+        if not any(name.lower() == seen.lower() for seen in out):
+            out.append(name)
+    return out
+
+
 def svg_export(board, picture=png_data_uri):
     """The board as SVG; `picture(image, item)` turns each processed picture into the href it is embedded with (full-resolution PNG unless a caller such as the phone viewer asks for something lighter)."""
     left, top, width, height = bounds(board)
@@ -333,6 +346,10 @@ def svg_export(board, picture=png_data_uri):
         x, y, width, height = item["x"], item["y"], item["width"], item["height"]
         cx, cy = x + width / 2, y + height / 2
         group = svg_element(root, "g", {"transform": f"rotate({item.get('rotation', 0)} {cx} {cy}) translate({x} {y})", "opacity": item.get("opacity", 1)})
+        tags = item_tags(board, item)
+        if tags:
+            # The phone viewer filters by these; other SVG readers ignore data attributes.
+            group.set("data-tags", json.dumps(tags, ensure_ascii=False))
         data = item.get("data", {})
         selected_color = color(item.get("color"))
         if item["kind"] == "image" and item.get("asset_id"):
@@ -430,12 +447,23 @@ def pdf_export(board, layout="board", paper="a4"):
             shared.set_size(width, height)
             return shared, width, height
 
-    def page(view, width_pt, height_pt, svg=None):
+    def page(view, width_pt, height_pt, svg=None, caption=""):
         tree = Tree(bytestring=svg or source, unsafe=False)
         tree["viewBox"] = " ".join(f"{value:.3f}" for value in view)
         tree["width"], tree["height"] = f"{width_pt / PX_TO_PT:.3f}", f"{height_pt / PX_TO_PT:.3f}"
         tree["preserveAspectRatio"] = "xMidYMid meet"
         Page(tree, None, 96)
+        if caption:
+            # One page per item: the title and tags in the bottom margin, cut to the page width.
+            context = cairo.Context(shared)
+            context.select_font_face("sans-serif")
+            context.set_font_size(8)
+            context.set_source_rgb(0.42, 0.42, 0.45)
+            text = caption
+            while text and context.text_extents(text)[4] > width_pt - 72:
+                text = text[:-2] + "…"
+            context.move_to(36, height_pt - 16)
+            context.show_text(text)
         shared.show_page()
 
     left, top, width, height = bounds(board)
@@ -454,7 +482,9 @@ def pdf_export(board, layout="board", paper="a4"):
             pw, ph = (page_h, page_w) if landscape else (page_w, page_h)
             scale = min((pw - 2 * margin) / w, (ph - 2 * margin) / h)
             vw, vh = pw / scale, ph / scale
-            page((x - (vw - w) / 2, y - (vh - h) / 2, vw, vh), pw, ph, svg_export(alone))
+            tags = item_tags(board, item)
+            caption = " · ".join(part for part in [(item.get("title") or "").replace("\n", " ").strip(), ", ".join(tags)] if part)
+            page((x - (vw - w) / 2, y - (vh - h) / 2, vw, vh), pw, ph, svg_export(alone), caption)
             count += 1
     elif layout == "tiles":
         landscape = width > height
@@ -556,6 +586,9 @@ def markdown_export(board):
                 lines.extend(["Missing asset: " + str(item.get("data", {}).get("unresolved_source_path", title)), ""])
         else:
             lines.extend(["## " + (title or item["kind"].title()), "", item.get("text", ""), ""])
+        tags = item_tags(board, item)
+        if tags:
+            lines.extend(["Tags: " + markdown_source(", ".join(tags), "plain"), ""])
     if board.get("connections"):
         lines.extend(["## Connections", ""])
         titles = {item["id"]: item.get("title") or item["kind"] for item in board["items"]}

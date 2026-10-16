@@ -34,7 +34,7 @@ PAGE = """<!doctype html>
 :root{--bg:#141316;--bar:#1c1b1d;--line:#2e2c33;--text:#ece9f1;--muted:#9a96a3;--accent:#f97316}
 *{box-sizing:border-box}
 html,body{margin:0;height:100%;background:var(--bg);color:var(--text);font:14px system-ui,-apple-system,"Segoe UI",sans-serif;overflow:hidden;overscroll-behavior:none}
-header{position:fixed;top:0;left:0;right:0;z-index:2;display:flex;align-items:center;gap:12px;padding:calc(env(safe-area-inset-top) + 8px) 16px 8px;background:var(--bar);border-bottom:1px solid var(--line)}
+header{position:fixed;top:0;left:0;right:0;z-index:2;display:flex;flex-wrap:wrap;align-items:center;gap:12px;padding:calc(env(safe-area-inset-top) + 8px) 16px 8px;background:var(--bar);border-bottom:1px solid var(--line)}
 header strong{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:600}
 header span{color:var(--muted);font-size:12px;white-space:nowrap}
 #stage{position:fixed;inset:0;touch-action:none;cursor:grab}
@@ -45,10 +45,16 @@ nav{position:fixed;z-index:2;right:16px;bottom:calc(env(safe-area-inset-bottom) 
 nav button{width:44px;height:44px;border-radius:12px;border:1px solid var(--line);background:var(--bar);color:var(--text);font:600 18px system-ui,sans-serif;display:grid;place-items:center;padding:0}
 nav button:active{border-color:var(--accent)}
 nav svg{width:20px;height:20px}
+#tags{flex-basis:100%;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin:0 -16px;padding:0 16px 2px}
+#tags[hidden],#tags::-webkit-scrollbar{display:none}
+#tags button{flex:none;height:30px;padding:0 12px;border-radius:15px;border:1px solid var(--line);background:none;color:var(--muted);font:13px system-ui,sans-serif;white-space:nowrap}
+#tags button.on{border-color:var(--accent);color:var(--text);background:rgba(249,115,22,.16)}
+#tags small{margin-left:6px;opacity:.7}
+#board g.dim{opacity:.15}
 </style>
 </head>
 <body>
-<header><strong>__TITLE__</strong><span>__COUNT__</span></header>
+<header><strong>__TITLE__</strong><span>__COUNT__</span><div id="tags" hidden></div></header>
 <div id="stage"><div id="board">__SVG__</div></div>
 <nav>
 <button type="button" id="out" aria-label="Zoom out">&#8722;</button>
@@ -107,6 +113,29 @@ nav svg{width:20px;height:20px}
   document.getElementById('in').addEventListener('click', function () { zoomAt(innerWidth / 2, innerHeight / 2, 1.5); });
   document.getElementById('out').addEventListener('click', function () { zoomAt(innerWidth / 2, innerHeight / 2, 1 / 1.5); });
   document.getElementById('fit').addEventListener('click', fit);
+  // Tags: a chip per label and tag with its count; tapping chips leaves only the items carrying all of them clear.
+  var tagged = Array.prototype.filter.call(svg.querySelectorAll('g'), function (g) { return g.parentNode === svg; }), counts = {}, names = {}, chosen = {};
+  tagged.forEach(function (g) {
+    var list = []; try { list = JSON.parse(g.getAttribute('data-tags') || '[]'); } catch (e) { }
+    g._tags = list.map(function (t) { return t.toLowerCase(); });
+    g._tags.forEach(function (key, i) { counts[key] = (counts[key] || 0) + 1; if (!names[key]) names[key] = list[i]; });
+  });
+  var keys = Object.keys(counts).sort(function (a, b) { return counts[b] - counts[a] || names[a].localeCompare(names[b]); });
+  if (keys.length) {
+    var bar = document.getElementById('tags');
+    keys.forEach(function (key) {
+      var b = document.createElement('button'); b.type = 'button'; b.textContent = names[key];
+      var n = document.createElement('small'); n.textContent = counts[key]; b.appendChild(n);
+      b.addEventListener('click', function () {
+        if (chosen[key]) delete chosen[key]; else chosen[key] = true;
+        b.classList.toggle('on', !!chosen[key]);
+        var want = Object.keys(chosen);
+        tagged.forEach(function (g) { g.classList.toggle('dim', want.length > 0 && !want.every(function (k) { return g._tags.indexOf(k) >= 0; })); });
+      });
+      bar.appendChild(b);
+    });
+    bar.hidden = false;
+  }
   addEventListener('resize', fit);
   fit();
 })();
