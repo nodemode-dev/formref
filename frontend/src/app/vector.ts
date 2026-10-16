@@ -1,7 +1,7 @@
 import type { Item, Point } from '../lib/types';
 import { newItem } from '../lib/types';
 import {
-  addAnchor, closePath, ellipsePath, joinPaths, polygonPath, polylinePath, rectPath, reversePath, roundAll, simplifyPoints, smoothPath, starPath,
+  addAnchor, arcPath, closePath, ellipsePath, polarGridPaths, rectGridPaths, spiralPath, joinPaths, polygonPath, polylinePath, rectPath, reversePath, roundAll, simplifyPoints, smoothPath, starPath,
   maxCornerRadius, type CornerStyle, type VPath, type Vector,
 } from '../lib/vector/path';
 import { CAPS, JOINS, parseDash } from '../lib/vector/stroke';
@@ -86,6 +86,41 @@ async function addShape(kind: 'polygon' | 'star', params?: Record<string, unknow
   setSelection([item.id]);
 }
 
+const numOr = (params: Record<string, unknown> | undefined, key: string, fallback: number, min: number, max: number) => {
+  const v = params?.[key];
+  if (v === undefined) return fallback;
+  if (typeof v !== 'number' || !Number.isFinite(v) || v < min || v > max) throw new Error(`${key} is from ${min} to ${max}.`);
+  return v;
+};
+
+/** Adds one path item made of `paths` in a w by h box at the view centre, as the Arc, Spiral and grid tools do with a click. */
+async function addPaths(w: number, h: number, paths: VPath[], fill = 'none') {
+  const p = placement();
+  const item = newItem('shape', p.x - w / 2, p.y - h / 2, { width: w, height: h, z: topZ(), color: '#f97316', data: { shape: 'path', stroke_width: 2, fill, vector: { w, h, paths } } });
+  await execute({ type: 'add', items: [item] });
+  setSelection([item.id]);
+}
+
+async function addArc(p?: Record<string, unknown>) {
+  const w = numOr(p, 'width', 200, 1, 20000), h = numOr(p, 'height', 200, 1, 20000);
+  await addPaths(w, h, [arcPath(w, h, numOr(p, 'slope', 50, -100, 100), p?.closed === true)]);
+}
+
+async function addSpiral(p?: Record<string, unknown>) {
+  const r = numOr(p, 'radius', 100, 1, 10000);
+  await addPaths(r * 2, r * 2, [spiralPath(r * 2, r * 2, numOr(p, 'segments', 10, 1, 1000), numOr(p, 'decay', 80, 5, 150), p?.counterclockwise === true)]);
+}
+
+async function addRectGrid(p?: Record<string, unknown>) {
+  const w = numOr(p, 'width', 240, 1, 20000), h = numOr(p, 'height', 240, 1, 20000);
+  await addPaths(w, h, rectGridPaths(w, h, Math.round(numOr(p, 'rows', 5, 0, 499)), Math.round(numOr(p, 'columns', 5, 0, 499)), p?.frame !== false));
+}
+
+async function addPolarGrid(p?: Record<string, unknown>) {
+  const w = numOr(p, 'width', 240, 1, 20000), h = numOr(p, 'height', 240, 1, 20000);
+  await addPaths(w, h, polarGridPaths(w, h, Math.round(numOr(p, 'rings', 5, 0, 498)), Math.round(numOr(p, 'spokes', 5, 0, 499))));
+}
+
 async function joinSelected() {
   const items = drawings().filter(item => asVector(item).paths.some(p => !p.closed));
   if (items.length === 1) { await eachPath(path => (path.closed ? path : closePath(path))); return; }
@@ -125,6 +160,10 @@ export function registerVector(): void {
     { group: 'Path', id: 'join-paths', label: 'Join', icon: 'connect', keys: ['mod+shift+e'], run: () => joinSelected(), enabled: hasDrawing, description: 'Closes one open path, or joins the end of the first selected open path to the start of the second.' },
     { group: 'Insert', id: 'add-polygon', label: 'Add Polygon...', icon: 'shape', run: p => addShape('polygon', p), enabled: () => !!S.state, params: { points: { type: 'integer', min: 3, max: 1000, description: 'number of sides' } }, description: 'Adds a regular polygon as an editable path.' },
     { group: 'Insert', id: 'add-star', label: 'Add Star...', icon: 'shape', run: p => addShape('star', p), enabled: () => !!S.state, params: { points: { type: 'integer', min: 3, max: 1000, description: 'number of points' }, inner: { type: 'number', min: 0.05, max: 1, description: 'inner radius as a share of the outer, default 0.5' } }, description: 'Adds a star as an editable path.' },
+    { group: 'Insert', id: 'add-arc', label: 'Add Arc', icon: 'stroke', run: p => addArc(p), enabled: () => !!S.state, params: { width: { type: 'number', min: 1, max: 20000, description: 'length along x, default 200' }, height: { type: 'number', min: 1, max: 20000, description: 'length along y, default 200' }, slope: { type: 'number', min: -100, max: 100, description: '-100 concave to 100 convex, default 50 (a quarter ellipse)' }, closed: { type: 'boolean', description: 'close the arc through its base corner' } }, description: 'Adds an arc as Illustrator\'s Arc tool does: a quarter curve with a chosen length, slope and open or closed type.' },
+    { group: 'Insert', id: 'add-spiral', label: 'Add Spiral', icon: 'sync', run: p => addSpiral(p), enabled: () => !!S.state, params: { radius: { type: 'number', min: 1, max: 10000, description: 'outer radius, default 100' }, decay: { type: 'number', min: 5, max: 150, description: 'each quarter turn as a percent of the last, default 80' }, segments: { type: 'integer', min: 1, max: 1000, description: 'quarter turns, default 10' }, counterclockwise: { type: 'boolean' } }, description: 'Adds a spiral as Illustrator\'s Spiral tool does, with radius, decay, segments and direction.' },
+    { group: 'Insert', id: 'add-rect-grid', label: 'Add Rectangular Grid', icon: 'grid', run: p => addRectGrid(p), enabled: () => !!S.state, params: { width: { type: 'number', min: 1, max: 20000 }, height: { type: 'number', min: 1, max: 20000 }, rows: { type: 'integer', min: 0, max: 499, description: 'horizontal dividers, default 5' }, columns: { type: 'integer', min: 0, max: 499, description: 'vertical dividers, default 5' }, frame: { type: 'boolean', description: 'include the outer frame, default true' } }, description: 'Adds a rectangular grid as Illustrator\'s Rectangular Grid tool does: a frame with evenly spaced horizontal and vertical dividers, each an editable path.' },
+    { group: 'Insert', id: 'add-polar-grid', label: 'Add Polar Grid', icon: 'grid', run: p => addPolarGrid(p), enabled: () => !!S.state, params: { width: { type: 'number', min: 1, max: 20000 }, height: { type: 'number', min: 1, max: 20000 }, rings: { type: 'integer', min: 0, max: 498, description: 'concentric dividers inside the outer ellipse, default 5' }, spokes: { type: 'integer', min: 0, max: 499, description: 'radial dividers, default 5' } }, description: 'Adds a polar grid as Illustrator\'s Polar Grid tool does: concentric ellipses and radial dividers, each an editable path.' },
     { group: 'Path', id: 'gradient-fill', label: 'Gradient Fill', icon: 'palette', palette: false, run: p => setData({ gradient: p?.type === 'none' ? null : readGradient({ angle: 0, ...p }) }), enabled: hasDrawing, params: { type: { type: 'string', enum: ['linear', 'radial', 'none'], required: true }, from: { type: 'string', description: 'start colour as #RRGGBB' }, to: { type: 'string', description: 'end colour as #RRGGBB' }, angle: { type: 'number', min: -360, max: 360, description: 'linear gradient angle in degrees, 0 runs left to right' }, stops: { type: 'array', description: '2 to 16 stops as {offset: 0-100, color: "#RRGGBB", opacity?: 0-100}; when given they replace from and to' } }, description: 'Fills the selected shapes and paths with a linear or radial gradient between two colours or through several stops with their own opacity, or removes it with type none.' },
     { group: 'Path', id: 'stroke-options', label: 'Set Stroke Options', icon: 'stroke', palette: false, run: p => setData(strokePatch(p || {})), enabled: hasDrawing, params: { cap: { type: 'string', enum: CAPS }, join: { type: 'string', enum: JOINS }, miter: { type: 'number', min: 1, max: 500 }, dash: { type: 'array', description: 'dash and gap lengths, for example [8, 4]; [] for a solid line' }, arrow_start: { type: 'string', enum: ARROWHEADS }, arrow_end: { type: 'string', enum: ARROWHEADS }, arrow_scale: { type: 'number', min: 10, max: 1000, description: 'arrowhead size in percent' } }, description: 'Illustrator Stroke panel options for the selected shapes and paths, arrowheads on open paths, lines and freehand strokes included.' },
   );

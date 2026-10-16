@@ -187,6 +187,58 @@ export function starPath(w: number, h: number, points: number, inner = 0.5): VPa
   };
 }
 
+/** Illustrator's Arc tool: a quarter curve from the bottom-left to the top-right of a w by h box; slope -100 (concave) to 100 (convex), 50 a quarter ellipse; closed adds the corner point at the base. */
+export function arcPath(w: number, h: number, slope = 50, closed = false): VPath {
+  const k = KAPPA * Math.max(-100, Math.min(100, slope)) / 50;
+  const convex = k >= 0, m = Math.abs(k);
+  const start = { x: 0, y: h }, end = { x: w, y: 0 };
+  const anchors: Anchor[] = convex
+    ? [{ ...start, out: { x: 0, y: h - m * h } }, { ...end, in: { x: w - m * w, y: 0 } }]
+    : [{ ...start, out: { x: m * w, y: h } }, { ...end, in: { x: w, y: m * h } }];
+  if (closed) anchors.push({ x: convex ? w : 0, y: convex ? h : 0 });
+  return { closed, anchors };
+}
+
+/** Illustrator's Spiral tool: `segments` quarter turns from the outer radius inward, each `decay` percent of the last, clockwise unless `counter`; fitted to a w by h box. */
+export function spiralPath(w: number, h: number, segments = 10, decay = 80, counter = false): VPath {
+  const n = Math.max(1, Math.min(1000, Math.round(segments))), f = Math.max(5, Math.min(150, decay)) / 100, dir = counter ? -1 : 1;
+  const raw: Anchor[] = [];
+  for (let i = 0; i <= n; i++) {
+    const a = dir * i * Math.PI / 2, r = Math.pow(f, i);
+    const p = { x: Math.cos(a) * r, y: Math.sin(a) * r }, t = { x: -Math.sin(a) * dir, y: Math.cos(a) * dir };
+    const lenIn = i > 0 ? KAPPA * Math.pow(f, i) : 0, lenOut = i < n ? KAPPA * Math.pow(f, i) : 0;
+    raw.push({ ...p, in: i > 0 ? { x: p.x - t.x * lenIn, y: p.y - t.y * lenIn } : null, out: i < n ? { x: p.x + t.x * lenOut, y: p.y + t.y * lenOut } : null });
+  }
+  const pts = raw.flatMap(a => [a, a.in, a.out].filter(Boolean) as Pt[]);
+  const x0 = Math.min(...pts.map(p => p.x)), y0 = Math.min(...pts.map(p => p.y));
+  const sx = w / Math.max(1e-9, Math.max(...pts.map(p => p.x)) - x0), sy = h / Math.max(1e-9, Math.max(...pts.map(p => p.y)) - y0);
+  const fit = (p: Pt) => ({ x: (p.x - x0) * sx, y: (p.y - y0) * sy });
+  return { closed: false, anchors: raw.map(a => ({ ...fit(a), in: a.in ? fit(a.in) : null, out: a.out ? fit(a.out) : null })) };
+}
+
+/** Illustrator's Rectangular Grid tool: the frame plus `rows` horizontal and `columns` vertical dividers, evenly spaced, as separate paths. */
+export function rectGridPaths(w: number, h: number, rows = 5, columns = 5, frame = true): VPath[] {
+  const paths: VPath[] = frame ? [rectPath(w, h)] : [];
+  for (let i = 1; i <= rows; i++) { const y = (h * i) / (rows + 1); paths.push({ closed: false, anchors: [{ x: 0, y }, { x: w, y }] }); }
+  for (let i = 1; i <= columns; i++) { const x = (w * i) / (columns + 1); paths.push({ closed: false, anchors: [{ x, y: 0 }, { x, y: h }] }); }
+  return paths;
+}
+
+/** Illustrator's Polar Grid tool: the outer ellipse, `rings` concentric ellipses inside it and `spokes` radial dividers from the centre. */
+export function polarGridPaths(w: number, h: number, rings = 5, spokes = 5): VPath[] {
+  const paths: VPath[] = [];
+  for (let i = rings + 1; i >= 1; i--) {
+    const s = i / (rings + 1), e = ellipsePath(w * s, h * s), dx = (w - w * s) / 2, dy = (h - h * s) / 2;
+    const move = (p: Pt) => ({ x: p.x + dx, y: p.y + dy });
+    paths.push({ closed: true, anchors: e.anchors.map(a => ({ ...move(a), in: a.in ? move(a.in) : null, out: a.out ? move(a.out) : null })) });
+  }
+  for (let i = 0; i < spokes; i++) {
+    const a = -Math.PI / 2 + (i * 2 * Math.PI) / spokes;
+    paths.push({ closed: false, anchors: [{ x: w / 2, y: h / 2 }, { x: w / 2 + (w / 2) * Math.cos(a), y: h / 2 + (h / 2) * Math.sin(a) }] });
+  }
+  return paths;
+}
+
 export function polylinePath(points: Pt[], closed = false): VPath {
   return { closed, anchors: points.map(p => ({ x: p.x, y: p.y })) };
 }
