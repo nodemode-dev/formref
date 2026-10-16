@@ -2,7 +2,7 @@
 
 Written by `./formref agents sync` from the command catalogue the FormRef window publishes; do not edit by hand. Run a command with the MCP tools `run_command` or `run_commands` (the window must be open). `window-only` commands are refused for outside agents; `risky` commands ask the person first.
 
-199 commands.
+200 commands.
 
 ## Canvas
 
@@ -255,6 +255,7 @@ Written by `./formref agents sync` from the command catalogue the FormRef window
 | `forget-window` | Forget Board Window Layout |  | changes the board, window-only | Stops this board from moving or resizing the window when it opens. |
 | `help` | Keyboard Shortcuts | `?`, `shift+/` | changes the board, window-only | Opens the keyboard shortcut sheet, where shortcuts can be changed. |
 | `left-dock` | Toggle Left Panel | `mod+[` | view | Shows or hides the left panel (boards and the item outline). |
+| `practice-log` | Practice Log… |  | window-only | Opens the practice log: every finished Timed Practice session with its date, board, pictures, pace and drawing time, for all boards or this board only, with totals. Clear Log empties it after a second click. |
 | `preferences` | Preferences | `mod+,` | changes the board, window-only | Opens Preferences: theme, language, desktop window, browser clipper and cloud storage. |
 | `present` | Present | `p` | view | Starts or stops presenting the board full screen. |
 | `reference-focus` | Focus Image Reference |  | view | Shows the selected picture alone, full size, in the reference viewer. |

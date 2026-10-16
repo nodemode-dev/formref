@@ -37,6 +37,12 @@ def get_log():
     return {"sessions": read_log()}
 
 
+@router.delete("/practice")
+def clear_log():
+    store.atomic_write(settings.data_dir / "practice.json", json.dumps({"sessions": []}).encode())
+    return {"sessions": []}
+
+
 @router.post("/practice")
 def add_session(body: Session):
     entries = read_log()

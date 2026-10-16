@@ -40,9 +40,21 @@
 .practice-summary p { margin: 0; font-size: 18px; color: var(--text-primary); }
 .practice-summary-actions { display: flex; gap: var(--space-2); }
 .practice-setup .check-row { gap: var(--space-2); }
+.practice-setup .practice-log-open, .practice-log .practice-log-clear { margin-right: auto; }
+.practice-log { width: min(760px, calc(100vw - 32px)); }
+.practice-log-top { display: flex; align-items: center; gap: var(--space-3); }
+.practice-log-top select { height: 30px; font-size: 11px; flex: none; }
+.practice-log-top p { flex: 1; min-width: 0; }
+.practice-log-wrap { height: min(360px, calc(100dvh - 260px)); overflow: auto; border: 1px solid var(--border-color); border-radius: var(--radius-md); }
+.practice-log-table { width: 100%; border-collapse: collapse; font-size: 11px; font-variant-numeric: tabular-nums; }
+.practice-log-table th { position: sticky; top: 0; z-index: var(--z-raised); background: var(--bg-secondary); color: var(--text-muted); font-weight: 600; text-align: left; padding: var(--space-2) var(--space-3); border-bottom: 1px solid var(--border-color); }
+.practice-log-table td { padding: var(--space-2) var(--space-3); border-bottom: 1px solid var(--border-color); color: var(--text-secondary); white-space: nowrap; }
+.practice-log-table td:nth-child(2) { white-space: normal; overflow-wrap: anywhere; color: var(--text-primary); }
+.practice-log-wrap > p { padding: var(--space-4); }
+.practice-log-clear.danger { color: var(--danger); border-color: var(--danger); }
 .practice-setup select:disabled { opacity: .45; cursor: default; }
 .practice-setup .practice-plan { min-height: calc(2em * 1.7); margin-top: calc(var(--space-2) * -1); }
-.practice-bar .icon-button svg, .practice-setup .icon-button svg { width: 18px; height: 18px; }
+.practice-bar .icon-button svg, .practice-setup .icon-button svg, .practice-log .icon-button svg { width: 18px; height: 18px; }
 .measure-overlay { position: absolute; left: 0; top: 0; width: 1px; height: 1px; overflow: visible; pointer-events: none; z-index: var(--z-raised); }
 .measure-overlay line { stroke: var(--accent-color); }
 .measure-overlay circle { fill: var(--bg-node); stroke: var(--accent-color); }

@@ -1,6 +1,6 @@
 import type { Item } from '../lib/types';
 import { api } from '../lib/api';
-import { locale, t } from '../lib/i18n';
+import { formatLocale, locale, t } from '../lib/i18n';
 import { paintImage } from '../lib/image-geometry';
 import { icon } from '../ui/icons';
 import { $, S, selected, toast } from './editor';
@@ -145,7 +145,9 @@ setupFoot.className = 'modal-footer';
 const cancel = document.createElement('button'); cancel.type = 'button'; cancel.className = 'button'; cancel.textContent = 'Cancel';
 cancel.addEventListener('click', () => setup.close());
 const startButton = document.createElement('button'); startButton.type = 'submit'; startButton.className = 'button primary'; startButton.textContent = 'Start';
-setupFoot.append(cancel, startButton);
+const logButton = document.createElement('button'); logButton.type = 'button'; logButton.className = 'button practice-log-open'; logButton.textContent = 'Practice Log…';
+logButton.addEventListener('click', () => void openLog());
+setupFoot.append(logButton, cancel, startButton);
 setupForm.append(setupHead, setupBody, setupFoot);
 setup.append(setupForm);
 
@@ -214,7 +216,103 @@ let resting = 0;
 let restTarget = -1;
 let logged = false;
 
-interface LogEntry { at: number; pictures: number; drawing_seconds: number }
+interface LogEntry { at: number; pictures: number; drawing_seconds: number; seconds_each?: number; plan?: string; board_id?: string; board_title?: string }
+
+// Practice log view ---------------------------------------------------------------------------------------------
+
+const logDialog = document.createElement('dialog');
+logDialog.className = 'modal practice-log';
+logDialog.setAttribute('aria-labelledby', 'practice-log-title');
+const logHead = document.createElement('div'); logHead.className = 'modal-head';
+const logTitle = document.createElement('strong'); logTitle.id = 'practice-log-title'; logTitle.textContent = 'Practice Log';
+logHead.append(logTitle, button('close', 'Close', () => logDialog.close()));
+const logBody = document.createElement('div'); logBody.className = 'modal-body';
+const logScope = document.createElement('select');
+logScope.setAttribute('aria-label', 'Sessions to show');
+for (const [value, text] of [['all', 'All boards'], ['board', 'This board']]) { const option = document.createElement('option'); option.value = value; option.textContent = text; logScope.append(option); }
+const logTotals = document.createElement('p'); logTotals.className = 'field-description';
+const logTop = document.createElement('div'); logTop.className = 'practice-log-top'; logTop.append(logScope, logTotals);
+const logWrap = document.createElement('div'); logWrap.className = 'practice-log-wrap';
+const logTable = document.createElement('table'); logTable.className = 'practice-log-table';
+const logHeadRow = document.createElement('tr');
+for (const text of ['When', 'Board', 'Pictures', 'Pace', 'Drawing time']) { const cell = document.createElement('th'); cell.textContent = text; logHeadRow.append(cell); }
+const logThead = document.createElement('thead'); logThead.append(logHeadRow);
+const logRows = document.createElement('tbody');
+logTable.append(logThead, logRows);
+const logEmpty = document.createElement('p'); logEmpty.className = 'field-description'; logEmpty.textContent = 'No sessions yet. Finished practice sessions show here.';
+logWrap.append(logTable, logEmpty);
+logBody.append(logTop, logWrap);
+const logFoot = document.createElement('div'); logFoot.className = 'modal-footer';
+const clearLog = document.createElement('button'); clearLog.type = 'button'; clearLog.className = 'button practice-log-clear'; clearLog.textContent = 'Clear Log';
+const logDone = document.createElement('button'); logDone.type = 'button'; logDone.className = 'button primary'; logDone.textContent = 'Close';
+logDone.addEventListener('click', () => logDialog.close());
+logFoot.append(clearLog, logDone);
+logDialog.append(logHead, logBody, logFoot);
+let logEntries: LogEntry[] = [];
+let clearArmed = false;
+
+function pace(entry: LogEntry): string {
+  const named = PLANS.find(([id]) => id && id === entry.plan);
+  if (named) return t(named[1]);
+  return entry.seconds_each ? duration(entry.seconds_each) : t('No time limit');
+}
+
+/** Rows are built once while the dialog is closed; the scope only toggles each row's hidden flag and rewrites the totals line. */
+function fillLog(): void {
+  const when = new Intl.DateTimeFormat(formatLocale(), { dateStyle: 'medium', timeStyle: 'short' });
+  const rows = [...logEntries].reverse().map(entry => {
+    const row = document.createElement('tr');
+    row.dataset.board = entry.board_id || '';
+    const cells = [when.format(new Date(entry.at * 1000)), entry.board_title || '', String(entry.pictures), pace(entry), clock((entry.drawing_seconds || 0) * 1000)];
+    cells.forEach((text, column) => { const cell = document.createElement('td'); cell.textContent = text; if (column === 1) cell.dataset.noI18n = ''; row.append(cell); });
+    return row;
+  });
+  logRows.replaceChildren(...rows);
+  scopeLog();
+}
+
+function scopeLog(): void {
+  const board = S.state?.board.id || '';
+  const only = logScope.value === 'board';
+  let sessions = 0, pictures = 0, drawing = 0;
+  [...logRows.children].forEach((row, at) => {
+    const entry = logEntries[logEntries.length - 1 - at];
+    const show = !only || (row as HTMLElement).dataset.board === board;
+    (row as HTMLElement).hidden = !show;
+    if (show) { sessions++; pictures += entry.pictures || 0; drawing += entry.drawing_seconds || 0; }
+  });
+  logTable.hidden = !sessions;
+  logEmpty.hidden = !!sessions;
+  logTotals.textContent = t('Sessions {0}, pictures {1}, drawing time {2}.', { 0: sessions, 1: pictures, 2: clock(drawing * 1000) });
+  clearLog.disabled = !logEntries.length;
+}
+
+async function openLog(): Promise<void> {
+  if (!logDialog.isConnected) document.body.append(logDialog);
+  const response = await fetch('/api/practice').catch(() => null);
+  logEntries = response?.ok ? (await response.json()).sessions || [] : [];
+  clearArmed = false;
+  clearLog.textContent = 'Clear Log';
+  clearLog.classList.remove('danger');
+  fillLog();
+  logDialog.showModal();
+  logDone.focus();
+}
+
+logScope.addEventListener('change', scopeLog);
+// Clearing takes two clicks on the same button instead of a browser confirm.
+clearLog.addEventListener('click', async () => {
+  if (!clearArmed) { clearArmed = true; clearLog.textContent = 'Click Again to Clear'; clearLog.classList.add('danger'); return; }
+  const response = await fetch('/api/practice', { method: 'DELETE' }).catch(() => null);
+  if (!response?.ok) { toast('The practice log could not be cleared.'); return; }
+  logEntries = [];
+  clearArmed = false;
+  clearLog.textContent = 'Clear Log';
+  clearLog.classList.remove('danger');
+  logRows.replaceChildren();
+  scopeLog();
+  if (setup.open) historyLine.textContent = await history();
+});
 
 /** The log lives in the data folder (practice.json), not in a board; a failed write never interrupts the session. */
 function logSession(): void {
@@ -491,5 +589,10 @@ export function registerPractice(): void {
       plan: { type: 'string', enum: PLANS.map(([id]) => id).filter(Boolean), description: 'a class plan instead of one time for every picture: warmup (10 x 30 s, 5 x 1 min), class30 (adds 2 x 5 min, 1 x 10 min) or class60 (adds 1 x 30 min); pictures repeat when there are fewer than the plan needs' },
     },
     description: 'Shows the pictures one at a time full screen for drawing practice, each for a set time, with an optional break between them: the selection when two or more pictures are selected, otherwise the pictures the filters show, otherwise every picture. Space pauses, arrows step, H mirrors, G turns grey on or off, Esc ends with a summary. Finished sessions go into a practice log in the data folder; the setup shows the last 7 days. Nothing on the board changes.',
+  }, {
+    group: 'View', id: 'practice-log', label: 'Practice Log…', icon: 'play', agent: 'window-only', mutates: false,
+    run: () => openLog(),
+    enabled: () => true,
+    description: 'Opens the practice log: every finished Timed Practice session with its date, board, pictures, pace and drawing time, for all boards or this board only, with totals. Clear Log empties it after a second click.',
   });
 }
