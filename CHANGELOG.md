@@ -1,5 +1,17 @@
 # FormRef changelog
 
+## v0.7.8 · 2026-10-16
+
+Checking a drawing against its reference.
+
+- Compare Pictures (Alt+C, or right-click, Images) with two pictures selected opens them full screen in four views:
+  - Side by Side.
+  - Onion Skin: the second faded over the first.
+  - Swipe: a divider you drag across.
+  - Difference: areas that match go black.
+  Dragging on the pictures moves the slider. Keys 1 to 4 switch views, S swaps the pictures and Esc closes. Nothing on the board changes.
+- Inspector buttons now fit their labels in every language: icons sit above the words and long words wrap. Before, German cut off 19 labels and Ukrainian 22.
+
 ## v0.7.7 · 2026-10-16
 
 Adjusting pictures, measuring proportions, and splitting boards.

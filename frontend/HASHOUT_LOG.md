@@ -8,6 +8,7 @@
 - [Stacking scale](#stacking-scale)
 - [Verification](#verification)
 - [Scripts](#scripts)
+- [v0.7.8 compare, inspector labels](#v078-compare-inspector-labels)
 - [v0.7.7 adjustments, measure, selection to board](#v077-adjustments-measure-selection-to-board)
 - [v0.7.6 study aids](#v076-study-aids)
 - [v0.7.5 Intl dates, keys.ts, command words](#v075-intl-dates-keysts-command-words)
@@ -31,6 +32,12 @@
 - [v0.4.8 desktop window controls and WebKit icons](#v048-desktop-window-controls-and-webkit-icons)
 - [v0.4.7 synced notes, map cards, inline edit commit](#v047-synced-notes-map-cards-inline-edit-commit)
 - [v0.4.6 GIF frames and document export](#v046-gif-frames-and-document-export)
+
+## v0.7.8 compare, inspector labels
+
+`app/compare.ts` builds its overlay once (bar, two boxes, divider) and mounts it into `#overlay-root` on first use at `--z-overlay`; opening only sets two image sources and visibility. Each box takes its picture's board shape (item width over height) and `paintImage()` paints the original inside it, so crop, flips, lasso, adjustments and value studies match the board. Side by side gives both the same height; the other views centre both at the same height and change only the second box: opacity (onion skin), `clip-path: inset()` plus a divider (swipe), or `mix-blend-mode: difference`. A capturing keydown handler owns keys while it is open so nothing reaches the board. Verified at 4x CPU and a slow network: box sizes per view, opacity 0.3, clip 25 percent from a drag with the divider placed, difference blend, swap, Esc closing with the board zoom and selection unchanged; German bar labels.
+
+Inspector labels: compact inspector buttons may wrap (auto height, `overflow-wrap`, `hyphens: auto`), and in the two-column grids the icon sits above the label so the label gets the full width. A scan of every inspector button in all 23 translated languages went from many cut-off labels (German 19, Hungarian 20, Ukrainian 22) to none.
 
 ## v0.7.7 adjustments, measure, selection to board
 

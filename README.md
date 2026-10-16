@@ -1,7 +1,7 @@
 <p align="center"><img src="assets/formref-mark.svg" width="96" alt="FormRef"></p>
 <h1 align="center">FormRef</h1>
 <p align="center"><b>Reference boards for images, ideas & creative work.</b></p>
-<p align="center"><img alt="version" src="https://img.shields.io/badge/version-v0.7.7-f97316"> <img alt="license" src="https://img.shields.io/badge/license-Apache--2.0-blue"> <img alt="stack" src="https://img.shields.io/badge/engine-Rust-orange"></p>
+<p align="center"><img alt="version" src="https://img.shields.io/badge/version-v0.7.8-f97316"> <img alt="license" src="https://img.shields.io/badge/license-Apache--2.0-blue"> <img alt="stack" src="https://img.shields.io/badge/engine-Rust-orange"></p>
 
 FormRef is a local reference workspace in the Form family. Collect images & files, arrange them on a free canvas, add notes & tasks, connect ideas, organize boards, then export or control the same workspace through MCP.
 
@@ -10,7 +10,7 @@ Rust document engine · vanilla TypeScript/Vite view · Python/FastAPI media & p
 ## Highlights
 
 - **One engine:** Rust commands own geometry, locking, grouping, arrangement & undo/redo.
-- **Study aids:** Value Study (2 to 8 grey values, notan at 2), a self-inverting Drawing Grid, Extract Palette for a picture's main colours as swatches, brightness, contrast and saturation that exports keep, and Measure (Shift+M) for lengths, angles and proportions.
+- **Study aids:** Value Study (2 to 8 grey values, notan at 2), a self-inverting Drawing Grid, Extract Palette for a picture's main colours as swatches, brightness, contrast and saturation that exports keep, Measure (Shift+M) for lengths, angles and proportions, and Compare (Alt+C) for two pictures side by side, as an onion skin, with a swipe divider or as a difference.
 - **Splitting boards:** copy or move a selection to a new board, keeping column contents and connections.
 - **Reference media:** original assets, nondestructive crop on the board (C) and lasso crop, flip, per-image and canvas grayscale, opacity controls and ordered reference presentation.
 - **Canvas workflow:** persistent grid preferences, snapping with shared-engine undo, explicit pack and distribution spacing, and sizes normalized across a selection or within each group; drag items into columns, or lock a column against drops.
