@@ -8,6 +8,7 @@
 - [Stacking scale](#stacking-scale)
 - [Verification](#verification)
 - [Scripts](#scripts)
+- [v0.10.0 saved searches, palette and dialog languages](#v0100-saved-searches-palette-and-dialog-languages)
 - [v0.9.0 find similar](#v090-find-similar)
 - [v0.8.0 find by color](#v080-find-by-color)
 - [v0.7.9 overflow scan, command modules](#v079-overflow-scan-command-modules)
@@ -35,6 +36,16 @@
 - [v0.4.8 desktop window controls and WebKit icons](#v048-desktop-window-controls-and-webkit-icons)
 - [v0.4.7 synced notes, map cards, inline edit commit](#v047-synced-notes-map-cards-inline-edit-commit)
 - [v0.4.6 GIF frames and document export](#v046-gif-frames-and-document-export)
+
+## v0.10.0 saved searches, palette and dialog languages
+
+`app/saved-search.ts` reads the filters from the find input, the kind select, `colorFilter()` and `similarFilter()`, and stores them in `settings.searches` with one `settings` command (whole list replaced; same name ignoring case updates in place). Names and text are cut to the engine's byte limits on a character boundary. Applying runs `setColorFilter(..., render false)` and `findSimilar(..., render false)` (or `clearSimilar(false)`) together, then sets the kind select and the find input and dispatches one `input` event, so the existing find handler redraws the board once; both filter modules gained the `render` flag for this. The bookmark button's `active` class follows a `MutationObserver` on `#filter-row` (class and style, which the colour and similar modules set), the find input, the kind select and `onState`, so neither module knows about saved searches. The same entries serve the bookmark dropdown (`gestures.menu.show` under the button) and the right-click Edit section.
+
+Palette: `filterCommands` matched `dataset.command`, built from the English label and group, so a translated query found nothing; it now also matches the row's `textContent`, which the DOM translator keeps in the interface language.
+
+Dialog descriptions: `i18n_check.py` skipped every `description:` literal, which also hid the 12 `inputDialog` descriptions, so they showed in English everywhere. A `description:` on a line with `inputDialog(` now counts. The corner-rounding description used a nested template literal the extractor cannot read, and a semicolon it skips; it is now two plain alternatives.
+
+Verified at 4x CPU and a slow network, in English and German: the empty menu, a suggested name from text, kind and colour, save, the accent on the bookmark, Clear All Filters, a reload, applying with each item's class changing once and the inputs restored, a similar search saved from the palette as “≈ motorcycle left”, delete and undo; the header kept 207 by 40 px. German palette queries found Aktuelle Suche speichern and Gespeicherte Suchen. The save dialog's description showed in German. Overflow scan in 24 languages: nothing.
 
 ## v0.9.0 find similar
 

@@ -1,5 +1,14 @@
 # FormRef changelog
 
+## v0.10.0 · 2026-10-16
+
+Saved searches, and fixes for other languages.
+
+- Saved searches: the bookmark beside the item count in the left panel keeps your filters (find text, kind, colour and similar picture) under a name on the board. Save Current Search suggests a name from the filters, such as “window” · Images · #c0392b. Picking a saved search brings every filter back at once, and the bookmark lights up while what you see is a saved search. Clear All Filters and Delete Saved Search are in the same menu, and a deleted search comes back with Undo. A board keeps up to 24, and they travel with the board when you save or export it.
+- The command palette now finds commands by their names in your language. Before, typing a translated name found nothing.
+- Dialog explanations (for example in Delete Board, Save as Template and Set Opacity) were shown in English in every language; they are now translated.
+- Agents can save and delete searches with save_search and delete_search.
+
 ## v0.9.0 · 2026-10-16
 
 Finding pictures that look alike.
