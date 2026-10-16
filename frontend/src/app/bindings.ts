@@ -11,7 +11,8 @@ import {
   selected, selection, setInput, setText, setTool, toast, updateInspector, updateOutline, upload,
 } from './editor';
 import type { Tool } from './editor';
-import { BY_ID, RESERVED_KEYS, applyKeyOverrides, assignKey, comboOf, isEnabled, keyLabel, keyOverrides, onKeysChanged, primaryKey, run } from './commands';
+import { BY_ID, isEnabled, run } from './commands';
+import { RESERVED_KEYS, applyKeyOverrides, assignKey, comboOf, keyLabel, keyOverrides, onKeysChanged, primaryKey } from './keys';
 import type { CommandDef } from './commands';
 import { registry } from './registry';
 import { replaceActiveWithNext } from './tabs';

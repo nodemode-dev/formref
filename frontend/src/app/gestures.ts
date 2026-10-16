@@ -8,7 +8,8 @@ import {
   rememberCamera, toast, defaultSettings, error,
 } from './editor';
 import type { Gesture } from './editor';
-import { commandForKey, isEnabled } from './commands';
+import { isEnabled } from './commands';
+import { commandForKey } from './keys';
 import { boardMenu } from './menu';
 import { captureUrl, droppedUrl, webUrl } from './capture';
 import { smartAdjust } from './smart-guides';

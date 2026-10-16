@@ -1,5 +1,6 @@
 import type { MenuEntry } from '../ui/context-menu';
-import { BY_ID, SNAP_SCALES, isEnabled, lockLabel, primaryKey, run, snapScale, snapScaleNow } from './commands';
+import { BY_ID, SNAP_SCALES, isEnabled, lockLabel, run, snapScale, snapScaleNow } from './commands';
+import { primaryKey } from './keys';
 import { S, defaultSettings, selection } from './editor';
 
 function item(id: string, label?: string): MenuEntry {
