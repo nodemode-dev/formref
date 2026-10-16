@@ -259,3 +259,8 @@
 .cutout-dot { position: absolute; width: 12px; height: 12px; margin: -6px 0 0 -6px; border-radius: 50%; background: var(--ok); border: 2px solid var(--text-on-accent); box-shadow: var(--shadow-md); pointer-events: none; z-index: var(--z-raised); }
 .cutout-dot.leave { background: var(--danger); }
 .cutout-row output, .adjust-row output { min-width: 3ch; text-align: right; font: 11px var(--font-mono); color: var(--text-secondary); }
+/* Inspector buttons are about 108 px wide in two columns; longer words in other languages wrap to a second line (hyphenated where the language allows) instead of being cut off. Rows in a grid take the height of their tallest button. */
+.inspector .button.compact { height: auto; min-height: 28px; min-width: 0; padding-block: var(--space-1); white-space: normal; line-height: 1.25; text-align: center; overflow-wrap: break-word; hyphens: auto; }
+.inspector .button.compact > [data-icon] { flex: none; }
+/* In the two-column grids the icon sits above the label, so a label gets the whole button width; a single word too long even for that breaks rather than spilling out. */
+.inspector .button-grid .button.compact { flex-direction: column; gap: 2px; padding: var(--space-1) var(--space-1); overflow-wrap: anywhere; }
