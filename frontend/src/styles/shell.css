@@ -275,7 +275,16 @@
 .filter-row.has-color .color-find-dot { background: var(--find-color); opacity: 1; box-shadow: 0 0 0 1px var(--bg-primary), 0 0 0 2px var(--accent-line); }
 .color-find-clear { visibility: hidden; }
 .filter-row .color-find-clear svg { width: 12px; height: 12px; }
-.filter-row.has-color .color-find-clear, .filter-row.has-similar .color-find-clear { visibility: visible; }
+.filter-row.has-color .color-find-clear, .filter-row.has-similar .color-find-clear, .filter-row.has-tags .color-find-clear { visibility: visible; }
+/* Tag cloud: labels (with their colour dot) and tags, each with its count; chosen chips take the accent. */
+.tag-cloud { display: flex; flex-wrap: wrap; gap: var(--space-1); margin: 0 var(--space-2) var(--space-2); }
+.tag-chip { display: inline-flex; align-items: center; gap: var(--space-1); max-width: 100%; height: 20px; padding: 0 var(--space-2); border: 1px solid var(--border-color); border-radius: 10px; background: transparent; color: var(--text-secondary); font-size: 10px; }
+.tag-chip:hover { background: var(--bg-hover); color: var(--text-primary); }
+.tag-chip.active { background: var(--accent-soft); border-color: var(--accent-line); color: var(--accent-ink); }
+.tag-dot { flex: none; width: 6px; height: 6px; border-radius: 50%; }
+.tag-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 120px; }
+.tag-count { flex: none; font: 9px var(--font-mono); color: var(--text-muted); }
+.tag-chip.active .tag-count { color: inherit; }
 /* Illustrator tools are off unless turned on in Preferences; the early script sets data-illustrator before first paint, so these never flash in. */
 :root:not([data-illustrator="on"]) [data-illustrator-only] { display: none !important; }
 /* Saved searches: a bookmark beside the item count; it takes the accent while the filters on screen are a saved search. */

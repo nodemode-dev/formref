@@ -5,6 +5,7 @@ import { menu } from './gestures';
 import { registry } from './registry';
 import { colorFilter, setColorFilter } from './color-find';
 import { clearSimilar, findSimilar, similarFilter } from './similar-find';
+import { setTagFilter, tagFilter } from './tag-cloud';
 
 /** Saved searches: named filters the board remembers in settings.searches (find text, kind, colour, a similar-picture sample), like smart folders in Eagle or saved searches in a photo library; PureRef, BeeRef and Milanote have none. Applying one sets every filter and redraws the board once. */
 
@@ -31,21 +32,27 @@ function current(): Omit<SavedSearch, 'id' | 'name'> | null {
   const kind = $<HTMLSelectElement>('kind-filter').value;
   const color = colorFilter();
   const similar = similarFilter();
-  if (!text && !kind && !color && !similar) return null;
+  const { tags, labels } = tagFilter();
+  if (!text && !kind && !color && !similar && !tags.length && !labels.length) return null;
   return {
     ...(text ? { text: clip(text, 200) } : {}),
     ...(kind ? { kind } : {}),
     ...(color ? { color: color.color, ...(color.tolerance !== DEFAULT_TOLERANCE ? { tolerance: color.tolerance } : {}) } : {}),
     ...(similar ? { similar } : {}),
+    ...(tags.length ? { tags: tags.map(t => clip(t, 60)) } : {}),
+    ...(labels.length ? { labels } : {}),
   };
 }
+
+const sameSet = (a: string[] = [], b: string[] = [], fold = (s: string) => s) => a.length === b.length && a.every(x => b.some(y => fold(y) === fold(x)));
 
 function isCurrent(search: SavedSearch): boolean {
   const now = current();
   if (!now) return false;
   return (now.text || '') === (search.text || '') && (now.kind || '') === (search.kind || '')
     && (now.color || '') === (search.color || '').toLowerCase() && (now.tolerance ?? DEFAULT_TOLERANCE) === (search.tolerance ?? DEFAULT_TOLERANCE)
-    && (now.similar?.item_id || '') === (search.similar?.item_id || '') && (now.similar?.level || '') === (search.similar?.level || '');
+    && (now.similar?.item_id || '') === (search.similar?.item_id || '') && (now.similar?.level || '') === (search.similar?.level || '')
+    && sameSet(now.tags, search.tags, s => s.trim().toLowerCase()) && sameSet(now.labels, search.labels);
 }
 
 /** A name from the filters: the text in quotes, the kind as the filter shows it, the colour, and the sample picture's title. */
@@ -54,7 +61,8 @@ function suggestedName(): string {
   if (!now) return '';
   const select = $<HTMLSelectElement>('kind-filter');
   const sample = now.similar ? S.state?.board.items.find(i => i.id === now.similar!.item_id) : undefined;
-  const parts = [now.text ? `“${now.text}”` : '', now.kind ? select.selectedOptions[0]?.textContent?.trim() || now.kind : '', now.color || '', sample ? `≈ ${sample.title || sample.kind}` : ''];
+  const labelNames = (now.labels || []).map(id => S.state?.board.settings?.labels?.find(l => l.id === id)?.name).filter(Boolean);
+  const parts = [now.text ? `“${now.text}”` : '', now.kind ? select.selectedOptions[0]?.textContent?.trim() || now.kind : '', ...labelNames, ...(now.tags || []).map(t => `#${t}`), now.color || '', sample ? `≈ ${sample.title || sample.kind}` : ''];
   return clip(parts.filter(Boolean).join(' · '), 60);
 }
 
@@ -68,6 +76,7 @@ export async function applySearch(search: SavedSearch): Promise<void> {
     sample ? findSimilar(sample, search.similar!.level, false, false) : Promise.resolve(clearSimilar(false)),
   ]);
   if (S.state?.board.id !== board.id) return;
+  setTagFilter(search.tags, search.labels, false);
   const select = $<HTMLSelectElement>('kind-filter');
   select.value = [...select.options].some(o => o.value === search.kind) ? search.kind || '' : '';
   const input = $<HTMLInputElement>('search');
@@ -80,6 +89,7 @@ export async function applySearch(search: SavedSearch): Promise<void> {
 export async function clearFilters(): Promise<void> {
   await setColorFilter(null, DEFAULT_TOLERANCE, false, false);
   clearSimilar(false);
+  setTagFilter([], [], false);
   $<HTMLSelectElement>('kind-filter').value = '';
   const input = $<HTMLInputElement>('search');
   input.value = '';
@@ -89,10 +99,10 @@ export async function clearFilters(): Promise<void> {
 
 async function saveSearch(params?: Record<string, unknown>): Promise<void> {
   const now = current();
-  if (!now || !S.state) throw new Error('Set a find text, a kind, a color or a similar picture first, then save it.');
+  if (!now || !S.state) throw new Error('Set a find text, a kind, a color, a similar picture or a tag first, then save it.');
   let name = typeof params?.name === 'string' ? params.name : '';
   if (!name) {
-    const form = await inputDialog('Save search', { name: suggestedName(), label: 'Name', description: 'The board keeps the find text, kind, color and similar picture under this name. A saved search with the same name is replaced.', submit: 'Save' });
+    const form = await inputDialog('Save search', { name: suggestedName(), label: 'Name', description: 'The board keeps the find text, kind, color, similar picture and chosen tags under this name. A saved search with the same name is replaced.', submit: 'Save' });
     if (!form) return;
     name = form.name;
   }
@@ -149,6 +159,7 @@ export function registerSavedSearch(): void {
   $('kind-filter').addEventListener('change', refreshButton);
   // The colour and similar filters mark the filter row; watching it keeps those modules unaware of this one.
   new MutationObserver(refreshButton).observe($('filter-row'), { attributes: true, attributeFilter: ['class', 'style'] });
+  new MutationObserver(refreshButton).observe($('tag-cloud'), { subtree: true, attributes: true, attributeFilter: ['aria-pressed'] });
   onState(() => refreshButton());
   registry.add(
     { group: 'Edit', id: 'saved-searches', label: 'Saved Searches…', icon: 'bookmark', mutates: false, agent: 'window-only', enabled: () => !!S.state, run: openMenu },
