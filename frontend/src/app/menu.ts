@@ -75,6 +75,7 @@ export function boardMenu(): MenuEntry[] {
         item('distribute-x'),
         item('distribute-y'),
         item('normalize'),
+        item('normalize-groups'),
         item('snap'),
         sep,
         item('select-duplicates'),

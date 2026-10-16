@@ -27,6 +27,7 @@ import { registerPdf } from './app/pdf';
 import { registerCropMode } from './app/crop-mode';
 import { registerTransformTools } from './app/transform-tools';
 import { registerLasso } from './app/lasso';
+import { registerGroupNormalize } from './app/group-normalize';
 
 bindLanguage();
 registerTerminal();
@@ -42,6 +43,7 @@ registerPdf();
 registerCropMode();
 registerTransformTools();
 registerLasso();
+registerGroupNormalize();
 attachCatalogue();
 
 const agent = new AgentPanel({
