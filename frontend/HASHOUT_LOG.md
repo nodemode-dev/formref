@@ -8,6 +8,7 @@
 - [Stacking scale](#stacking-scale)
 - [Verification](#verification)
 - [Scripts](#scripts)
+- [v0.6.4 Smart Guides, Curvature, search, visibility](#v064-smart-guides-curvature-search-visibility)
 - [Canvas increment](#canvas-increment)
 - [Reference editing increment](#reference-editing-increment)
 - [v0.5.3 background models and cloud storage](#v053-background-models-and-cloud-storage)
@@ -18,6 +19,14 @@
 - [v0.4.8 desktop window controls and WebKit icons](#v048-desktop-window-controls-and-webkit-icons)
 - [v0.4.7 synced notes, map cards, inline edit commit](#v047-synced-notes-map-cards-inline-edit-commit)
 - [v0.4.6 GIF frames and document export](#v046-gif-frames-and-document-export)
+
+## v0.6.4 Smart Guides, Curvature, search, visibility
+
+`app/smart-guides.ts` snaps in `gestureDelta` after the grid snap, for move gestures only: the moving selection's union box (rotated items by their rotated bounds) is compared edge, centre, edge against every other visible item, nearest match per axis within 6 screen pixels, and one path in a world-space overlay draws both guides; pointerup and pointercancel clear it. The on or off state lives in localStorage under `formref-smart-guides` because it is a viewer preference, not board state. Resize and rotate do not snap to guides yet, and there is no snapping to anchor points.
+
+The Curvature tool shares the Pen's state in `direct-select.ts`: `curve` marks it, `curveAnchors()` runs `smoothPath` over the placed points every frame and keeps the anchors in `corners` as they are (corner points, and a picked-up path's own anchors so continuing it does not reshape it). Clicking a placed point again toggles it, which is also how a double-click lands. Open ends get no handles, as `smoothPath` leaves them.
+
+`matches()` in `editor.ts` folds case and accents (NFD with marks removed) and adds comment text and the JSON of `data.table`. `app/visibility.ts` uses ordinary `update` commands on `hidden` and `locked`, so undo and agents work; Isolate keeps the parents and children of the selection.
 
 ## v0.6.3 Pathfinder pieces, Offset Path, continue path
 

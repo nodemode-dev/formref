@@ -1,5 +1,14 @@
 # FormRef changelog
 
+## v0.6.4 · 2026-10-16
+
+Smart Guides, the Curvature tool, deeper search and hiding.
+
+- Smart Guides (Ctrl/Cmd+U): moved items snap to the edges and centres of other items, with guide lines.
+- Curvature tool (Shift+~): click points and the curve bends through them; click a placed point again to make it a corner.
+- Search also finds words in comments and table cells, ignoring case and accents.
+- Hide Selected (Ctrl/Cmd+3), Show All (Ctrl/Cmd+Alt+3), Isolate Selected and Unlock All (Ctrl/Cmd+Alt+2).
+
 ## v0.6.3 · 2026-10-16
 
 More Pathfinder, Offset Path and continuing paths.
