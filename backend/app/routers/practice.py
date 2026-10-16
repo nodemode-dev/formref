@@ -20,6 +20,7 @@ class Session(BaseModel):
     pictures: int = Field(ge=1, le=10000)
     seconds_each: int = Field(ge=0, le=3600)
     drawing_seconds: int = Field(ge=0, le=86400)
+    plan: str = Field(default="", pattern=r"^[a-z0-9]{0,24}$")
 
 
 def read_log() -> list[dict]:

@@ -19,13 +19,30 @@ const COUNTS: [number, string][] = [[0, 'All of them'], [5, '5'], [10, '10'], [2
 const RESTS: [number, string][] = [[0, 'No break'], [5, ''], [10, ''], [30, ''], [60, '']];
 const STORE = 'formref-practice';
 
-interface Choice { seconds: number; count: number; shuffle: boolean; grey: boolean; rest: number }
+/** Class plans in the shape drawing classes and Line of Action's class mode use: many short poses to warm up, then longer ones. Each step is [pictures, seconds]. */
+const PLANS: [string, string, [number, number][]][] = [
+  ['', 'Same time for every picture', []],
+  ['warmup', 'Warm-up, 10 minutes', [[10, 30], [5, 60]]],
+  ['class30', 'Class, 30 minutes', [[10, 30], [5, 60], [2, 300], [1, 600]]],
+  ['class60', 'Class, 1 hour', [[10, 30], [5, 60], [2, 300], [1, 600], [1, 1800]]],
+];
+
+const planSteps = (plan: string) => PLANS.find(([id]) => id === plan)?.[2] || [];
+
+/** "10 × 30 seconds, 5 × 1 minute" from the browser's own unit names. */
+function planText(plan: string): string {
+  const steps = planSteps(plan);
+  return steps.length ? steps.map(([count, each]) => `${count} × ${duration(each)}`).join(', ') : '';
+}
+
+interface Choice { seconds: number; count: number; shuffle: boolean; grey: boolean; rest: number; plan: string }
 
 function remembered(): Choice {
-  const fallback: Choice = { seconds: 60, count: 0, shuffle: true, grey: false, rest: 0 };
+  const fallback: Choice = { seconds: 60, count: 0, shuffle: true, grey: false, rest: 0, plan: '' };
   try {
     const saved = JSON.parse(localStorage.getItem(STORE) || '{}');
     return {
+      plan: PLANS.some(([id]) => id === saved.plan) ? saved.plan : fallback.plan,
       seconds: TIMES.some(([s]) => s === saved.seconds) ? saved.seconds : fallback.seconds,
       count: COUNTS.some(([c]) => c === saved.count) ? saved.count : fallback.count,
       rest: RESTS.some(([r]) => r === saved.rest) ? saved.rest : fallback.rest,
@@ -94,6 +111,20 @@ const [timeField, timeSelect] = selectField('Time per picture', TIMES);
 const [countField, countSelect] = selectField('Pictures', COUNTS);
 const [restField, restSelect] = selectField('Break between pictures', RESTS);
 const fields = document.createElement('div'); fields.className = 'field-grid'; fields.append(timeField, countField, restField);
+const planField = document.createElement('label'); planField.className = 'field';
+const planCaption = document.createElement('span'); planCaption.textContent = 'Session';
+const planSelect = document.createElement('select');
+for (const [id, text] of PLANS) { const option = document.createElement('option'); option.value = id; option.textContent = text; planSelect.append(option); }
+planField.append(planCaption, planSelect);
+const planLine = document.createElement('p');
+planLine.className = 'field-description practice-plan';
+/** A plan sets every picture's time and how many there are; the line under it always holds text, so choosing a plan never moves the dialog. */
+function showPlan(): void {
+  const plan = planSelect.value;
+  timeSelect.disabled = countSelect.disabled = !!plan;
+  planLine.textContent = plan ? planText(plan) : t('Each picture gets the time chosen below.');
+}
+planSelect.addEventListener('change', showPlan);
 const historyLine = document.createElement('p');
 historyLine.className = 'field-description practice-history';
 function checkField(label: string): [HTMLLabelElement, HTMLInputElement] {
@@ -108,7 +139,7 @@ const [greyRow, greyBox] = checkField('Show in grey');
 const keysLine = document.createElement('p');
 keysLine.className = 'field-description';
 keysLine.textContent = 'Space pauses, the arrow keys step, H mirrors, G turns grey on or off and Esc ends the session. Nothing on the board changes.';
-setupBody.append(sourceLine, fields, shuffleRow, greyRow, keysLine, historyLine);
+setupBody.append(sourceLine, planField, planLine, fields, shuffleRow, greyRow, keysLine, historyLine);
 const setupFoot = document.createElement('div');
 setupFoot.className = 'modal-footer';
 const cancel = document.createElement('button'); cancel.type = 'button'; cancel.className = 'button'; cancel.textContent = 'Cancel';
@@ -165,10 +196,12 @@ let mounted = false;
 let order: Item[] = [];
 let index = 0;
 let seconds = 60;
+let times: number[] = [];
+let plan = '';
 let remaining = 0;
 let last = 0;
 let spent = 0;
-let seen = new Set<string>();
+let seen = new Set<number>();
 let paused = false;
 let flipped = false;
 let grey = false;
@@ -188,7 +221,7 @@ function logSession(): void {
   if (logged || !seen.size) return;
   logged = true;
   const board = S.state?.board;
-  void fetch('/api/practice', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ board_id: board?.id || '', board_title: (board?.title || '').slice(0, 200), pictures: seen.size, seconds_each: seconds, drawing_seconds: Math.round(spent / 1000) }) }).catch(() => undefined);
+  void fetch('/api/practice', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ board_id: board?.id || '', board_title: (board?.title || '').slice(0, 200), pictures: seen.size, seconds_each: plan ? 0 : seconds, drawing_seconds: Math.round(spent / 1000), ...(plan ? { plan } : {}) }) }).catch(() => undefined);
 }
 
 async function history(): Promise<string> {
@@ -299,7 +332,9 @@ async function show(next: number): Promise<void> {
   picture.replaceWith(incoming);
   picture = incoming;
   counter.textContent = `${index + 1} / ${order.length}`;
-  seen.add(item.id);
+  seen.add(index);
+  seconds = times[index] ?? 0;
+  root.classList.toggle('untimed', !seconds);
   remaining = seconds * 1000;
   shownClock = '';
   paintClock();
@@ -342,10 +377,25 @@ function begin(choice: Choice): void {
   if (!items.length) throw new Error('There are no pictures to practise with. Add some pictures, or clear the filters.');
   mount();
   lastChoice = choice;
-  order = [...items];
-  if (choice.shuffle) for (let i = order.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [order[i], order[j]] = [order[j], order[i]]; }
-  if (choice.count) order = order.slice(0, choice.count);
-  seconds = choice.seconds;
+  const lap = () => {
+    const list = [...items];
+    if (choice.shuffle) for (let i = list.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [list[i], list[j]] = [list[j], list[i]]; }
+    return list;
+  };
+  plan = choice.plan;
+  const steps = planSteps(plan);
+  if (steps.length) {
+    // A class needs a set number of poses; with fewer pictures the list starts again (reshuffled when shuffling).
+    times = steps.flatMap(([count, each]) => Array<number>(count).fill(each));
+    order = [];
+    while (order.length < times.length) order.push(...lap());
+    order = order.slice(0, times.length);
+  } else {
+    order = lap();
+    if (choice.count) order = order.slice(0, choice.count);
+    times = order.map(() => choice.seconds);
+  }
+  seconds = times[0] ?? 0;
   rest = choice.rest;
   endRest();
   logged = false;
@@ -373,7 +423,7 @@ async function openSetup(params?: Record<string, unknown>): Promise<void> {
   const { items, from } = source();
   if (!items.length) { toast('There are no pictures to practise with. Add some pictures, or clear the filters.'); return; }
   const choice = remembered();
-  if (params && (params.seconds !== undefined || params.count !== undefined || params.shuffle !== undefined || params.rest !== undefined)) {
+  if (params && (params.seconds !== undefined || params.count !== undefined || params.shuffle !== undefined || params.rest !== undefined || params.plan !== undefined)) {
     const asked = Number(params.seconds);
     begin({
       seconds: Number.isFinite(asked) && asked >= 0 ? Math.min(3600, Math.round(asked)) : choice.seconds,
@@ -381,6 +431,7 @@ async function openSetup(params?: Record<string, unknown>): Promise<void> {
       shuffle: params.shuffle === undefined ? choice.shuffle : !!params.shuffle,
       grey: params.grey === undefined ? choice.grey : !!params.grey,
       rest: Number.isFinite(Number(params.rest)) && Number(params.rest) > 0 ? Math.min(600, Math.round(Number(params.rest))) : 0,
+      plan: PLANS.some(([id]) => id && id === params.plan) ? String(params.plan) : '',
     });
     return;
   }
@@ -393,6 +444,8 @@ async function openSetup(params?: Record<string, unknown>): Promise<void> {
   timeSelect.value = String(choice.seconds);
   countSelect.value = String(choice.count);
   restSelect.value = String(choice.rest);
+  planSelect.value = choice.plan;
+  showPlan();
   shuffleBox.checked = choice.shuffle;
   greyBox.checked = choice.grey;
   setup.showModal();
@@ -401,7 +454,7 @@ async function openSetup(params?: Record<string, unknown>): Promise<void> {
 
 setupForm.addEventListener('submit', event => {
   event.preventDefault();
-  const choice: Choice = { seconds: Number(timeSelect.value), count: Number(countSelect.value), shuffle: shuffleBox.checked, grey: greyBox.checked, rest: Number(restSelect.value) };
+  const choice: Choice = { seconds: Number(timeSelect.value), count: Number(countSelect.value), shuffle: shuffleBox.checked, grey: greyBox.checked, rest: Number(restSelect.value), plan: planSelect.value };
   remember(choice);
   setup.close();
   try { begin(choice); } catch (reason) { toast((reason as Error).message); }
@@ -435,6 +488,7 @@ export function registerPractice(): void {
       shuffle: { type: 'boolean', description: 'shuffle the order instead of reading order' },
       grey: { type: 'boolean', description: 'show the pictures in grey' },
       rest: { type: 'number', description: 'seconds of break between pictures, up to 600; 0 or left out for none' },
+      plan: { type: 'string', enum: PLANS.map(([id]) => id).filter(Boolean), description: 'a class plan instead of one time for every picture: warmup (10 x 30 s, 5 x 1 min), class30 (adds 2 x 5 min, 1 x 10 min) or class60 (adds 1 x 30 min); pictures repeat when there are fewer than the plan needs' },
     },
     description: 'Shows the pictures one at a time full screen for drawing practice, each for a set time, with an optional break between them: the selection when two or more pictures are selected, otherwise the pictures the filters show, otherwise every picture. Space pauses, arrows step, H mirrors, G turns grey on or off, Esc ends with a summary. Finished sessions go into a practice log in the data folder; the setup shows the last 7 days. Nothing on the board changes.',
   });

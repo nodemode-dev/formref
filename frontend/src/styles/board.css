@@ -40,6 +40,8 @@
 .practice-summary p { margin: 0; font-size: 18px; color: var(--text-primary); }
 .practice-summary-actions { display: flex; gap: var(--space-2); }
 .practice-setup .check-row { gap: var(--space-2); }
+.practice-setup select:disabled { opacity: .45; cursor: default; }
+.practice-setup .practice-plan { min-height: calc(2em * 1.7); margin-top: calc(var(--space-2) * -1); }
 .practice-bar .icon-button svg, .practice-setup .icon-button svg { width: 18px; height: 18px; }
 .measure-overlay { position: absolute; left: 0; top: 0; width: 1px; height: 1px; overflow: visible; pointer-events: none; z-index: var(--z-raised); }
 .measure-overlay line { stroke: var(--accent-color); }
