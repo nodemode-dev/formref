@@ -28,7 +28,9 @@ Rust document engine · vanilla TypeScript/Vite view · Python/FastAPI media & p
 - **Labels & web images:** coloured board labels on any item; drag, paste or fetch images and pages from the web.
 - **Comments & templates:** comment threads on any item, resolved or reopened; start boards from starters or your own templates.
 - **Organize & draw:** pack, sort by name, aspect or colour similarity, rotate 90, opacity, pixel art, brush, eraser, rectangle, circle & line.
-- **Vector paths (toward Illustrator parity):** Pen (Shift+P) and Direct Selection (A) with anchors, handles and Live Corner widgets; Round Corners with Round, Inverted round and Chamfer; caps, corners, miter limit and dashes; polygon and star; Convert to Path, Add Anchor Points, Simplify, Smooth, Reverse, Join.
+- **Vector paths (toward Illustrator parity):** Pen (Shift+P) and Direct Selection (A) with anchors, handles and Live Corner widgets; select, nudge, delete and add anchors; Round Corners with Round, Inverted round and Chamfer; Pathfinder (Unite, Minus Front, Intersect, Exclude, Minus Back); caps, corners, miter limit, dashes and arrowheads; linear and radial gradients; polygon and star; Convert to Path, Add Anchor Points, Simplify, Smooth, Reverse, Join, Cut Path.
+- **Languages:** the whole window in 26 languages, English by default, chosen in Preferences and switched in place; your own board text is never translated. See [Languages](.docs/wiki/Languages.md).
+- **Chat in the dock:** a Chat tab (Ctrl/Cmd+Alt+J) where Claude answers in formatted text through FormRef's tools, with tool calls, a memory and cost meter, and handoff to and from Claude Code.
 - **One command registry:** menus, palette, shortcuts and agents share it, as in formvis and formlit; `list_commands`, `describe_command` and `run_command` reach every command an agent may run.
 - **Embedded agent:** Agent panel (Ctrl+J) running Claude Code, Codex, Cursor or Ollama on your board, each tool call shown, a yes from you before it removes or bulk-moves items, Stop & Undo This Turn. Vision models can see the board as a picture.
 - **Terminal and Claude Code inside FormRef:** a terminal dock under the canvas (Ctrl/Cmd+J) runs real login shells; its Claude Code button (Ctrl/Cmd+Shift+J) starts your own Claude Code sign-in in a dock tab, already connected to FormRef's MCP tools, with no outside-agent prompt. The Ask line sends a request with the open board and selected items. Outside agents cannot open or type into the dock.
@@ -59,6 +61,7 @@ formref.bat
 | Backend | http://127.0.0.1:8196 | API & built frontend |
 | API docs | http://127.0.0.1:8196/docs | Live API schema |
 | MCP | stdio | `./formref mcp` |
+| MCP over HTTP | http://127.0.0.1:8196/mcp | Same tools; used by the dock's Claude Code and Chat |
 
 Build the whole app, start to finish (tools check, install, Rust core, window, desktop packages), from the repo root:
 

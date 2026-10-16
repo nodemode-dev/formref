@@ -14,6 +14,14 @@
 - [v0.1.0 · Local board service and SDK MCP](#v010--local-board-service-and-sdk-mcp)
 - [boot_backend.bat](#boot_backendbat)
 
+## v0.6.2 · Chat and MCP over HTTP
+
+- refers-to: `app/agent/chat.py` :: _run, send, adopt, publish; `app/routers/terminal.py` :: chat_events; `app/main.py` :: MCP_HTTP, lifespan; `app/mcp_server.py` :: client_token, run_commands
+- kind: rationale
+- logged: v0.6.2 · 2026-10-16
+
+`chat.py` is formlit's `cmd_chat.py` with its event bus replaced by a set of asyncio queues fed through the terminal module's loop and streamed as server-sent events. The FastMCP server is mounted by inserting its routes at the front of the router (a Mount would answer at `/mcp/`), stateless with JSON responses, with `session_manager.run()` in the app lifespan. Tool calls over HTTP take the agent token from `x-formref-inapp` via `mcp.get_context().request_context.request`; stdio keeps `FORMREF_AGENT_TOKEN`. The dock's Claude Code and Chat therefore need no MCP process of their own.
+
 ## v0.6.1 · Command catalogue and the window bridge
 
 - refers-to: `app/routers/commands.py` :: mirror, next_job, run, _need_window; `app/mcp_server.py` :: list_commands, describe_command, run_command

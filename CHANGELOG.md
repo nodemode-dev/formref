@@ -1,5 +1,16 @@
 # FormRef changelog
 
+## v0.6.2 · 2026-10-16
+
+Chat in the dock, 26 languages, Pathfinder, arrowheads and gradients.
+
+- Chat (Ctrl/Cmd+Alt+J): a Chat tab in the terminal dock, as in formlit. Claude answers in formatted text through FormRef's tools, with each tool call shown, a memory and cost meter, Stop, New Chat, Open in Claude Code and From Claude Code. The Agent panel keeps its title-bar button.
+- MCP over HTTP at http://127.0.0.1:8196/mcp. The dock's Claude Code and Chat use it, and other MCP clients on this computer can too (outside-agent consent still applies). New `run_commands` runs several window commands in order.
+- Languages: the whole window in 26 languages, English by default (Preferences, Language): Spanish, Mexican Spanish, Brazilian Portuguese, French, Canadian French, German, Italian, Dutch, Danish, Finnish, Norwegian Bokmål, Swedish, Russian, Polish, Czech, Hungarian, Ukrainian, Turkish, Simplified and Traditional Chinese, Japanese, Korean, Indonesian, Thai and Vietnamese. It switches in place, your own board text is never translated, and a saved language shows from the first frame.
+- Pathfinder: Unite, Minus Front, Intersect, Exclude, Minus Back.
+- Direct Selection: click an anchor to select it, then Delete removes it and the arrow keys nudge it (Shift for 10 px); double-click a segment to add an anchor; Cut Path at Selected Anchor (Ctrl/Cmd+Shift+X).
+- Arrowheads (Arrow, Open arrow, Circle, Square, Bar) with a scale, and linear and radial gradient fills.
+
 ## v0.6.1 · 2026-10-16
 
 Vector paths with Illustrator's Live Corners, and one command registry agents can use.
