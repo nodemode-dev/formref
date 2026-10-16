@@ -15,6 +15,7 @@ from ..core.pdf_pages import page_items, pdf_text
 from ..core.palette import extract_palette
 from ..core.color_find import find_by_color
 from ..core.similar import find_similar
+from ..core.picture_info import picture_info
 from ..core.extract import extract_board
 from ..core.capture import capture
 from ..core.doc_export import export_item
@@ -268,6 +269,11 @@ async def asset_preview(asset_id: str, edge: int, request: Request):
     if data is None:
         return asset(asset_id, request)
     return Response(content=data, media_type="image/webp", headers={"Cache-Control": "public, max-age=31536000, immutable", "X-Content-Type-Options": "nosniff", "Content-Security-Policy": "default-src 'none'; sandbox"})
+
+@router.get("/assets/{asset_id}/details")
+async def asset_details(asset_id: str):
+    info, data = await asyncio.to_thread(store.asset_bytes, asset_id)
+    return await asyncio.to_thread(picture_info, info, data)
 
 @router.get("/assets/{asset_id}/text")
 async def asset_text(asset_id: str):

@@ -2,7 +2,7 @@
 
 Written by `./formref agents sync` from the command catalogue the FormRef window publishes; do not edit by hand. Run a command with the MCP tools `run_command` or `run_commands` (the window must be open). `window-only` commands are refused for outside agents; `risky` commands ask the person first.
 
-200 commands.
+201 commands.
 
 ## Canvas
 
@@ -98,6 +98,7 @@ Written by `./formref agents sync` from the command catalogue the FormRef window
 | `opacity` | Set Opacity |  | changes the board | Asks for an opacity and applies it to the selected items. |
 | `pdf-to-images` | PDF Pages to Images... |  | changes the board | Renders pages of the selected PDF into image references laid out beside it, so they can be cropped, flipped, sampled and arranged like any picture. Parameters: `first` (integer): first page, 1 based; `last` (integer): last page; 0 for the end; `dpi` (integer): resolution, default 150. |
 | `pick-cutout-points` | Pick Points for Click to Select |  | changes the board, window-only | Starts picking points on the selected image for click-to-select background removal. |
+| `picture-info` | Picture Info… | `shift+alt+i` | window-only | Shows the selected picture's file details: original name, format, pixel size, file size, how large it shows on the board, the camera, lens, exposure and date taken from its EXIF, keywords stored in the file and the page it was clipped from. Copy Info puts them on the clipboard. Read only. |
 | `relink` | Replace or Relink Image |  | changes the board, window-only | Asks for an image file to replace or relink the selected picture, keeping its place and size. |
 | `remove-background` | Remove Background |  | changes the board | Removes the background of the selected images with the chosen model; the original is kept. |
 | `reset-adjust` | Reset Adjustments |  | changes the board | Puts brightness, contrast and saturation of the selected pictures back to the original. |

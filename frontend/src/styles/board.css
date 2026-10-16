@@ -15,6 +15,14 @@
 .compare-overlay:not([data-mode="side"]) .compare-box + .compare-box .compare-caption { display: none; }
 .compare-overlay[data-mode="swipe"] .compare-stage { cursor: ew-resize; }
 .compare-divider { position: absolute; width: 2px; margin-left: -1px; background: var(--accent-color); pointer-events: none; box-shadow: 0 0 0 1px var(--bg-scrim); }
+.picture-info { width: min(520px, calc(100vw - 32px)); }
+.picture-info .modal-head strong { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+.picture-info .icon-button svg { width: 18px; height: 18px; }
+.picture-info-list { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: var(--space-2) var(--space-4); margin: 0; font-size: 11px; }
+.picture-info-list dt { color: var(--text-muted); }
+.picture-info-list dd { margin: 0; color: var(--text-primary); overflow-wrap: anywhere; font-variant-numeric: tabular-nums; }
+.picture-info-list a { color: var(--accent-ink); }
+.picture-info .picture-info-copy { margin-right: auto; }
 .practice-overlay { position: fixed; inset: 0; z-index: var(--z-overlay); display: flex; flex-direction: column; background: var(--canvas-bg); }
 .practice-bar { display: flex; align-items: center; gap: var(--space-2); padding: var(--space-2) var(--space-4); min-height: var(--toolbar-h); background: var(--bg-primary); border-bottom: 1px solid var(--border-color); }
 .practice-bar .icon-button[aria-pressed="true"] { background: var(--accent-soft); color: var(--accent-ink); }
