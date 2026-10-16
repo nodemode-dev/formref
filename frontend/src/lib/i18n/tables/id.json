@@ -1345,8 +1345,6 @@
  "Saved search updated.": "Pencarian tersimpan diperbarui.",
  "Saved searches": "Pencarian tersimpan",
  "Search saved. Find it under the bookmark beside the item count.": "Pencarian disimpan. Temukan di bawah penanda di samping jumlah item.",
- "Set a find text, a kind, a color or a similar picture first, then save it.": "Tentukan dulu teks, jenis, warna, atau gambar yang mirip, lalu simpan.",
- "The board keeps the find text, kind, color and similar picture under this name. A saved search with the same name is replaced.": "Papan menyimpan teks, jenis, warna, dan gambar mirip dengan nama ini. Pencarian tersimpan dengan nama yang sama akan diganti.",
  "The board moves to the Trash, where you can restore it until the trash is emptied.": "Papan dipindahkan ke Tempat sampah, tempat Anda dapat memulihkannya sampai tempat sampah dikosongkan.",
  "The picture this search started from is no longer on the board, so only its other filters apply.": "Gambar awal pencarian ini sudah tidak ada di papan, jadi hanya filter lainnya yang berlaku.",
  "The template keeps every item, link and canvas setting. Comments are left out. Images stay linked to the same files.": "Templat menyimpan setiap item, tautan, dan pengaturan kanvas. Komentar tidak disertakan. Gambar tetap tertaut ke file yang sama.",
@@ -1355,5 +1353,13 @@
  "Illustrator drawing tools": "Alat gambar Illustrator",
  "Illustrator tools off. Paths already on the board stay as they are.": "Alat Illustrator mati. Jalur yang sudah ada di papan tetap seperti semula.",
  "Illustrator tools on: Pen, Curvature, Pencil, Direct Selection, Pathfinder and Smart Guides are in the toolbar, menus and palette.": "Alat Illustrator aktif: Pena, Kelengkungan, Pensil, Seleksi Langsung, Pathfinder, dan Panduan Cerdas ada di bilah alat, menu, dan palet.",
- "Off by default. Adds the Pen, Curvature, Pencil and Direct Selection tools, path editing and corners, Pathfinder, polygons, stars and other shapes, stroke and gradient options, and Smart Guides. Paths already on a board stay visible either way.": "Mati secara bawaan. Menambahkan alat Pena, Kelengkungan, Pensil, dan Seleksi Langsung, pengeditan jalur dan sudut, Pathfinder, poligon, bintang dan bentuk lain, opsi garis dan gradien, serta Panduan Cerdas. Jalur yang sudah ada di papan tetap terlihat."
+ "Off by default. Adds the Pen, Curvature, Pencil and Direct Selection tools, path editing and corners, Pathfinder, polygons, stars and other shapes, stroke and gradient options, and Smart Guides. Paths already on a board stay visible either way.": "Mati secara bawaan. Menambahkan alat Pena, Kelengkungan, Pensil, dan Seleksi Langsung, pengeditan jalur dan sudut, Pathfinder, poligon, bintang dan bentuk lain, opsi garis dan gradien, serta Panduan Cerdas. Jalur yang sudah ada di papan tetap terlihat.",
+ "Clear Tag Filter": "Hapus Filter Tag",
+ "Filter by Tag": "Filter menurut Tag",
+ "More tags": "Tag lainnya",
+ "No item on this board carries that tag or label.": "Tidak ada item di papan ini yang memiliki tag atau label itu.",
+ "Set a find text, a kind, a color, a similar picture or a tag first, then save it.": "Tentukan dulu teks, jenis, warna, gambar yang mirip, atau tag, lalu simpan.",
+ "Tag filter cleared.": "Filter tag dihapus.",
+ "Tags on this board": "Tag di papan ini",
+ "The board keeps the find text, kind, color, similar picture and chosen tags under this name. A saved search with the same name is replaced.": "Papan menyimpan teks, jenis, warna, gambar mirip, dan tag pilihan dengan nama ini. Pencarian tersimpan dengan nama yang sama akan diganti."
 }

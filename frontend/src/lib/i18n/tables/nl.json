@@ -1345,8 +1345,6 @@
  "Saved search updated.": "Opgeslagen zoekopdracht bijgewerkt.",
  "Saved searches": "Opgeslagen zoekopdrachten",
  "Search saved. Find it under the bookmark beside the item count.": "Zoekopdracht opgeslagen. Je vindt hem onder de bladwijzer naast het aantal.",
- "Set a find text, a kind, a color or a similar picture first, then save it.": "Stel eerst een zoektekst, een type, een kleur of een vergelijkbare afbeelding in en sla die dan op.",
- "The board keeps the find text, kind, color and similar picture under this name. A saved search with the same name is replaced.": "Het board bewaart zoektekst, type, kleur en vergelijkbare afbeelding onder deze naam. Een opgeslagen zoekopdracht met dezelfde naam wordt vervangen.",
  "The board moves to the Trash, where you can restore it until the trash is emptied.": "Het board gaat naar de prullenbak, waar je het kunt terugzetten tot de prullenbak wordt geleegd.",
  "The picture this search started from is no longer on the board, so only its other filters apply.": "De afbeelding waarvan deze zoekopdracht uitging staat niet meer op het board, dus alleen de andere filters gelden.",
  "The template keeps every item, link and canvas setting. Comments are left out. Images stay linked to the same files.": "De sjabloon bewaart elk item, elke koppeling en elke canvasinstelling. Opmerkingen worden weggelaten. Afbeeldingen blijven gekoppeld aan dezelfde bestanden.",
@@ -1355,5 +1353,13 @@
  "Illustrator drawing tools": "Illustrator-tekengereedschap",
  "Illustrator tools off. Paths already on the board stay as they are.": "Illustrator-gereedschap uit. Paden die al op het board staan blijven zoals ze zijn.",
  "Illustrator tools on: Pen, Curvature, Pencil, Direct Selection, Pathfinder and Smart Guides are in the toolbar, menus and palette.": "Illustrator-gereedschap aan: Pen, Kromming, Potlood, Directe selectie, Pathfinder en Slimme hulplijnen staan in de werkbalk, de menu’s en het palet.",
- "Off by default. Adds the Pen, Curvature, Pencil and Direct Selection tools, path editing and corners, Pathfinder, polygons, stars and other shapes, stroke and gradient options, and Smart Guides. Paths already on a board stay visible either way.": "Standaard uit. Voegt het gereedschap Pen, Kromming, Potlood en Directe selectie toe, bewerken van paden en hoeken, Pathfinder, veelhoeken, sterren en andere vormen, lijn- en verloopopties en Slimme hulplijnen. Paden die al op een board staan blijven zichtbaar."
+ "Off by default. Adds the Pen, Curvature, Pencil and Direct Selection tools, path editing and corners, Pathfinder, polygons, stars and other shapes, stroke and gradient options, and Smart Guides. Paths already on a board stay visible either way.": "Standaard uit. Voegt het gereedschap Pen, Kromming, Potlood en Directe selectie toe, bewerken van paden en hoeken, Pathfinder, veelhoeken, sterren en andere vormen, lijn- en verloopopties en Slimme hulplijnen. Paden die al op een board staan blijven zichtbaar.",
+ "Clear Tag Filter": "Tagfilter wissen",
+ "Filter by Tag": "Filteren op tag",
+ "More tags": "Meer tags",
+ "No item on this board carries that tag or label.": "Geen item op dit board heeft die tag of dat label.",
+ "Set a find text, a kind, a color, a similar picture or a tag first, then save it.": "Stel eerst een zoektekst, een type, een kleur, een vergelijkbare afbeelding of een tag in en sla die dan op.",
+ "Tag filter cleared.": "Tagfilter gewist.",
+ "Tags on this board": "Tags op dit board",
+ "The board keeps the find text, kind, color, similar picture and chosen tags under this name. A saved search with the same name is replaced.": "Het board bewaart zoektekst, type, kleur, vergelijkbare afbeelding en gekozen tags onder deze naam. Een opgeslagen zoekopdracht met dezelfde naam wordt vervangen."
 }

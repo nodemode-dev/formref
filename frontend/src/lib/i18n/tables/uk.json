@@ -1345,8 +1345,6 @@
  "Saved search updated.": "Збережений пошук оновлено.",
  "Saved searches": "Збережені пошуки",
  "Search saved. Find it under the bookmark beside the item count.": "Пошук збережено. Він під закладкою поруч із кількістю елементів.",
- "Set a find text, a kind, a color or a similar picture first, then save it.": "Спершу задайте текст, тип, колір або схоже зображення, потім збережіть.",
- "The board keeps the find text, kind, color and similar picture under this name. A saved search with the same name is replaced.": "Дошка збереже під цією назвою текст, тип, колір і схоже зображення. Збережений пошук із тією самою назвою буде замінено.",
  "The board moves to the Trash, where you can restore it until the trash is emptied.": "Дошка переміститься до кошика, звідки її можна відновити, доки кошик не очищено.",
  "The picture this search started from is no longer on the board, so only its other filters apply.": "Зображення, з якого починався цей пошук, більше немає на дошці, тому діють лише інші фільтри.",
  "The template keeps every item, link and canvas setting. Comments are left out. Images stay linked to the same files.": "Шаблон зберігає кожен елемент, зв’язок і налаштування полотна. Коментарі не включаються. Зображення лишаються пов’язаними з тими самими файлами.",
@@ -1355,5 +1353,13 @@
  "Illustrator drawing tools": "Інструменти малювання Illustrator",
  "Illustrator tools off. Paths already on the board stay as they are.": "Інструменти Illustrator вимкнено. Контури, які вже є на дошці, лишаються як є.",
  "Illustrator tools on: Pen, Curvature, Pencil, Direct Selection, Pathfinder and Smart Guides are in the toolbar, menus and palette.": "Інструменти Illustrator увімкнено: «Перо», «Кривизна», «Олівець», «Пряме виділення», «Обробка контурів» і розумні напрямні є на панелі інструментів, у меню та в палітрі.",
- "Off by default. Adds the Pen, Curvature, Pencil and Direct Selection tools, path editing and corners, Pathfinder, polygons, stars and other shapes, stroke and gradient options, and Smart Guides. Paths already on a board stay visible either way.": "Типово вимкнено. Додає інструменти «Перо», «Кривизна», «Олівець» і «Пряме виділення», редагування контурів і кутів, обробку контурів, багатокутники, зірки та інші фігури, параметри обведення й градієнта, а також розумні напрямні. Контури, які вже є на дошці, лишаються видимими."
+ "Off by default. Adds the Pen, Curvature, Pencil and Direct Selection tools, path editing and corners, Pathfinder, polygons, stars and other shapes, stroke and gradient options, and Smart Guides. Paths already on a board stay visible either way.": "Типово вимкнено. Додає інструменти «Перо», «Кривизна», «Олівець» і «Пряме виділення», редагування контурів і кутів, обробку контурів, багатокутники, зірки та інші фігури, параметри обведення й градієнта, а також розумні напрямні. Контури, які вже є на дошці, лишаються видимими.",
+ "Clear Tag Filter": "Скинути фільтр тегів",
+ "Filter by Tag": "Фільтр за тегом",
+ "More tags": "Інші теги",
+ "No item on this board carries that tag or label.": "Жоден елемент на цій дошці не має такого тегу чи мітки.",
+ "Set a find text, a kind, a color, a similar picture or a tag first, then save it.": "Спершу задайте текст, тип, колір, схоже зображення або тег, потім збережіть.",
+ "Tag filter cleared.": "Фільтр тегів скинуто.",
+ "Tags on this board": "Теги на цій дошці",
+ "The board keeps the find text, kind, color, similar picture and chosen tags under this name. A saved search with the same name is replaced.": "Дошка збереже під цією назвою текст, тип, колір, схоже зображення й вибрані теги. Збережений пошук із тією самою назвою буде замінено."
 }

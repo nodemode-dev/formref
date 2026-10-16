@@ -1345,8 +1345,6 @@
  "Saved search updated.": "저장된 검색을 업데이트했습니다.",
  "Saved searches": "저장된 검색",
  "Search saved. Find it under the bookmark beside the item count.": "검색을 저장했습니다. 항목 수 옆의 책갈피에서 찾을 수 있습니다.",
- "Set a find text, a kind, a color or a similar picture first, then save it.": "먼저 검색어, 종류, 색상 또는 비슷한 그림을 정한 뒤 저장하세요.",
- "The board keeps the find text, kind, color and similar picture under this name. A saved search with the same name is replaced.": "보드는 이 이름으로 검색어, 종류, 색상, 비슷한 그림을 저장합니다. 이름이 같은 저장된 검색은 바뀝니다.",
  "The board moves to the Trash, where you can restore it until the trash is emptied.": "보드가 휴지통으로 이동하며, 휴지통을 비우기 전까지 복원할 수 있습니다.",
  "The picture this search started from is no longer on the board, so only its other filters apply.": "이 검색의 기준 그림이 더 이상 보드에 없어 나머지 필터만 적용됩니다.",
  "The template keeps every item, link and canvas setting. Comments are left out. Images stay linked to the same files.": "템플릿은 모든 항목, 연결, 캔버스 설정을 유지합니다. 댓글은 빠집니다. 그림은 같은 파일에 연결된 채로 남습니다.",
@@ -1355,5 +1353,13 @@
  "Illustrator drawing tools": "Illustrator 그리기 도구",
  "Illustrator tools off. Paths already on the board stay as they are.": "Illustrator 도구를 껐습니다. 보드에 이미 있는 패스는 그대로 남습니다.",
  "Illustrator tools on: Pen, Curvature, Pencil, Direct Selection, Pathfinder and Smart Guides are in the toolbar, menus and palette.": "Illustrator 도구를 켰습니다. 펜, 곡률, 연필, 직접 선택, 패스파인더, 고급 안내선이 도구 모음, 메뉴, 팔레트에 있습니다.",
- "Off by default. Adds the Pen, Curvature, Pencil and Direct Selection tools, path editing and corners, Pathfinder, polygons, stars and other shapes, stroke and gradient options, and Smart Guides. Paths already on a board stay visible either way.": "기본적으로 꺼져 있습니다. 펜, 곡률, 연필, 직접 선택 도구, 패스와 모서리 편집, 패스파인더, 다각형과 별 등 도형, 선과 그레이디언트 옵션, 고급 안내선을 추가합니다. 보드에 이미 있는 패스는 어느 쪽이든 계속 보입니다."
+ "Off by default. Adds the Pen, Curvature, Pencil and Direct Selection tools, path editing and corners, Pathfinder, polygons, stars and other shapes, stroke and gradient options, and Smart Guides. Paths already on a board stay visible either way.": "기본적으로 꺼져 있습니다. 펜, 곡률, 연필, 직접 선택 도구, 패스와 모서리 편집, 패스파인더, 다각형과 별 등 도형, 선과 그레이디언트 옵션, 고급 안내선을 추가합니다. 보드에 이미 있는 패스는 어느 쪽이든 계속 보입니다.",
+ "Clear Tag Filter": "태그 필터 지우기",
+ "Filter by Tag": "태그로 필터",
+ "More tags": "태그 더 보기",
+ "No item on this board carries that tag or label.": "이 보드에 그 태그나 라벨이 있는 항목이 없습니다.",
+ "Set a find text, a kind, a color, a similar picture or a tag first, then save it.": "먼저 검색어, 종류, 색상, 비슷한 그림 또는 태그를 정한 뒤 저장하세요.",
+ "Tag filter cleared.": "태그 필터를 지웠습니다.",
+ "Tags on this board": "이 보드의 태그",
+ "The board keeps the find text, kind, color, similar picture and chosen tags under this name. A saved search with the same name is replaced.": "보드는 이 이름으로 검색어, 종류, 색상, 비슷한 그림, 선택한 태그를 저장합니다. 이름이 같은 저장된 검색은 바뀝니다."
 }

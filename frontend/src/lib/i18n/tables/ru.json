@@ -1345,8 +1345,6 @@
  "Saved search updated.": "Сохранённый поиск обновлён.",
  "Saved searches": "Сохранённые поиски",
  "Search saved. Find it under the bookmark beside the item count.": "Поиск сохранён. Он под закладкой рядом с числом элементов.",
- "Set a find text, a kind, a color or a similar picture first, then save it.": "Сначала задайте текст, тип, цвет или похожее изображение, затем сохраните.",
- "The board keeps the find text, kind, color and similar picture under this name. A saved search with the same name is replaced.": "Доска сохранит под этим названием текст, тип, цвет и похожее изображение. Сохранённый поиск с тем же названием будет заменён.",
  "The board moves to the Trash, where you can restore it until the trash is emptied.": "Доска переместится в корзину, откуда её можно восстановить, пока корзина не очищена.",
  "The picture this search started from is no longer on the board, so only its other filters apply.": "Изображения, с которого начинался этот поиск, больше нет на доске, поэтому действуют только остальные фильтры.",
  "The template keeps every item, link and canvas setting. Comments are left out. Images stay linked to the same files.": "Шаблон сохраняет каждый элемент, связь и настройку холста. Комментарии не включаются. Изображения остаются связаны с теми же файлами.",
@@ -1355,5 +1353,13 @@
  "Illustrator drawing tools": "Инструменты рисования Illustrator",
  "Illustrator tools off. Paths already on the board stay as they are.": "Инструменты Illustrator выключены. Контуры, которые уже есть на доске, остаются как есть.",
  "Illustrator tools on: Pen, Curvature, Pencil, Direct Selection, Pathfinder and Smart Guides are in the toolbar, menus and palette.": "Инструменты Illustrator включены: «Перо», «Кривизна», «Карандаш», «Прямое выделение», «Обработка контуров» и быстрые направляющие есть на панели инструментов, в меню и в палитре.",
- "Off by default. Adds the Pen, Curvature, Pencil and Direct Selection tools, path editing and corners, Pathfinder, polygons, stars and other shapes, stroke and gradient options, and Smart Guides. Paths already on a board stay visible either way.": "По умолчанию выключено. Добавляет инструменты «Перо», «Кривизна», «Карандаш» и «Прямое выделение», правку контуров и углов, обработку контуров, многоугольники, звёзды и другие фигуры, параметры обводки и градиента, а также быстрые направляющие. Контуры, которые уже есть на доске, остаются видимыми."
+ "Off by default. Adds the Pen, Curvature, Pencil and Direct Selection tools, path editing and corners, Pathfinder, polygons, stars and other shapes, stroke and gradient options, and Smart Guides. Paths already on a board stay visible either way.": "По умолчанию выключено. Добавляет инструменты «Перо», «Кривизна», «Карандаш» и «Прямое выделение», правку контуров и углов, обработку контуров, многоугольники, звёзды и другие фигуры, параметры обводки и градиента, а также быстрые направляющие. Контуры, которые уже есть на доске, остаются видимыми.",
+ "Clear Tag Filter": "Сбросить фильтр тегов",
+ "Filter by Tag": "Фильтр по тегу",
+ "More tags": "Другие теги",
+ "No item on this board carries that tag or label.": "Ни у одного элемента на этой доске нет такого тега или метки.",
+ "Set a find text, a kind, a color, a similar picture or a tag first, then save it.": "Сначала задайте текст, тип, цвет, похожее изображение или тег, затем сохраните.",
+ "Tag filter cleared.": "Фильтр тегов сброшен.",
+ "Tags on this board": "Теги на этой доске",
+ "The board keeps the find text, kind, color, similar picture and chosen tags under this name. A saved search with the same name is replaced.": "Доска сохранит под этим названием текст, тип, цвет, похожее изображение и выбранные теги. Сохранённый поиск с тем же названием будет заменён."
 }

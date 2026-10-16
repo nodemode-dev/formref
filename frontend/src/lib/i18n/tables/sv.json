@@ -1345,8 +1345,6 @@
  "Saved search updated.": "Sparad sökning uppdaterad.",
  "Saved searches": "Sparade sökningar",
  "Search saved. Find it under the bookmark beside the item count.": "Sökningen är sparad. Du hittar den under bokmärket bredvid antalet.",
- "Set a find text, a kind, a color or a similar picture first, then save it.": "Ange först en söktext, en typ, en färg eller en liknande bild och spara sedan.",
- "The board keeps the find text, kind, color and similar picture under this name. A saved search with the same name is replaced.": "Tavlan sparar söktext, typ, färg och liknande bild under det här namnet. En sparad sökning med samma namn ersätts.",
  "The board moves to the Trash, where you can restore it until the trash is emptied.": "Tavlan flyttas till papperskorgen, där du kan återställa den tills papperskorgen töms.",
  "The picture this search started from is no longer on the board, so only its other filters apply.": "Bilden som sökningen utgick från finns inte längre på tavlan, så bara dess andra filter gäller.",
  "The template keeps every item, link and canvas setting. Comments are left out. Images stay linked to the same files.": "Mallen behåller alla objekt, länkar och arbetsytans inställningar. Kommentarer utelämnas. Bilder förblir länkade till samma filer.",
@@ -1355,5 +1353,13 @@
  "Illustrator drawing tools": "Illustrators ritverktyg",
  "Illustrator tools off. Paths already on the board stay as they are.": "Illustrator-verktygen är av. Banor som redan finns på tavlan blir kvar som de är.",
  "Illustrator tools on: Pen, Curvature, Pencil, Direct Selection, Pathfinder and Smart Guides are in the toolbar, menus and palette.": "Illustrator-verktygen är på: Penna, Krökning, Blyerts, Direktmarkering, Pathfinder och Smarta stödlinjer finns i verktygsfältet, menyerna och paletten.",
- "Off by default. Adds the Pen, Curvature, Pencil and Direct Selection tools, path editing and corners, Pathfinder, polygons, stars and other shapes, stroke and gradient options, and Smart Guides. Paths already on a board stay visible either way.": "Av som standard. Lägger till verktygen Penna, Krökning, Blyerts och Direktmarkering, redigering av banor och hörn, Pathfinder, polygoner, stjärnor och andra former, linje- och övertoningsalternativ samt Smarta stödlinjer. Banor som redan finns på en tavla förblir synliga."
+ "Off by default. Adds the Pen, Curvature, Pencil and Direct Selection tools, path editing and corners, Pathfinder, polygons, stars and other shapes, stroke and gradient options, and Smart Guides. Paths already on a board stay visible either way.": "Av som standard. Lägger till verktygen Penna, Krökning, Blyerts och Direktmarkering, redigering av banor och hörn, Pathfinder, polygoner, stjärnor och andra former, linje- och övertoningsalternativ samt Smarta stödlinjer. Banor som redan finns på en tavla förblir synliga.",
+ "Clear Tag Filter": "Rensa taggfilter",
+ "Filter by Tag": "Filtrera efter tagg",
+ "More tags": "Fler taggar",
+ "No item on this board carries that tag or label.": "Inget objekt på den här tavlan har den taggen eller etiketten.",
+ "Set a find text, a kind, a color, a similar picture or a tag first, then save it.": "Ange först en söktext, en typ, en färg, en liknande bild eller en tagg och spara sedan.",
+ "Tag filter cleared.": "Taggfiltret är rensat.",
+ "Tags on this board": "Taggar på den här tavlan",
+ "The board keeps the find text, kind, color, similar picture and chosen tags under this name. A saved search with the same name is replaced.": "Tavlan sparar söktext, typ, färg, liknande bild och valda taggar under det här namnet. En sparad sökning med samma namn ersätts."
 }

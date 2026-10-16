@@ -1345,8 +1345,6 @@
  "Saved search updated.": "已更新已保存的搜索。",
  "Saved searches": "已保存的搜索",
  "Search saved. Find it under the bookmark beside the item count.": "搜索已保存。可在项目数量旁的书签中找到。",
- "Set a find text, a kind, a color or a similar picture first, then save it.": "请先设置搜索文本、类型、颜色或相似图片，再保存。",
- "The board keeps the find text, kind, color and similar picture under this name. A saved search with the same name is replaced.": "画板会以此名称保存搜索文本、类型、颜色和相似图片。同名的已保存搜索会被替换。",
  "The board moves to the Trash, where you can restore it until the trash is emptied.": "画板将移到废纸篓，在清空废纸篓之前都可以恢复。",
  "The picture this search started from is no longer on the board, so only its other filters apply.": "此搜索起始的图片已不在画板上，因此只应用其他筛选。",
  "The template keeps every item, link and canvas setting. Comments are left out. Images stay linked to the same files.": "模板保留每个项目、连接和画布设置。不包含评论。图片仍链接到相同的文件。",
@@ -1355,5 +1353,13 @@
  "Illustrator drawing tools": "Illustrator 绘图工具",
  "Illustrator tools off. Paths already on the board stay as they are.": "已关闭 Illustrator 工具。画板上已有的路径保持不变。",
  "Illustrator tools on: Pen, Curvature, Pencil, Direct Selection, Pathfinder and Smart Guides are in the toolbar, menus and palette.": "已开启 Illustrator 工具：钢笔、曲率、铅笔、直接选择、路径查找器和智能参考线已出现在工具栏、菜单和命令面板中。",
- "Off by default. Adds the Pen, Curvature, Pencil and Direct Selection tools, path editing and corners, Pathfinder, polygons, stars and other shapes, stroke and gradient options, and Smart Guides. Paths already on a board stay visible either way.": "默认关闭。添加钢笔、曲率、铅笔和直接选择工具，路径与角点编辑，路径查找器，多边形、星形等形状，描边和渐变选项，以及智能参考线。画板上已有的路径始终可见。"
+ "Off by default. Adds the Pen, Curvature, Pencil and Direct Selection tools, path editing and corners, Pathfinder, polygons, stars and other shapes, stroke and gradient options, and Smart Guides. Paths already on a board stay visible either way.": "默认关闭。添加钢笔、曲率、铅笔和直接选择工具，路径与角点编辑，路径查找器，多边形、星形等形状，描边和渐变选项，以及智能参考线。画板上已有的路径始终可见。",
+ "Clear Tag Filter": "清除标签筛选",
+ "Filter by Tag": "按标签筛选",
+ "More tags": "更多标签",
+ "No item on this board carries that tag or label.": "此画板上没有带该标签的项目。",
+ "Set a find text, a kind, a color, a similar picture or a tag first, then save it.": "请先设置搜索文本、类型、颜色、相似图片或标签，再保存。",
+ "Tag filter cleared.": "已清除标签筛选。",
+ "Tags on this board": "此画板上的标签",
+ "The board keeps the find text, kind, color, similar picture and chosen tags under this name. A saved search with the same name is replaced.": "画板会以此名称保存搜索文本、类型、颜色、相似图片和所选标签。同名的已保存搜索会被替换。"
 }

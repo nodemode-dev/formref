@@ -1345,8 +1345,6 @@
  "Saved search updated.": "Gemt søgning opdateret.",
  "Saved searches": "Gemte søgninger",
  "Search saved. Find it under the bookmark beside the item count.": "Søgning gemt. Du finder den under bogmærket ved siden af antallet.",
- "Set a find text, a kind, a color or a similar picture first, then save it.": "Angiv først en søgetekst, en type, en farve eller et lignende billede, og gem så.",
- "The board keeps the find text, kind, color and similar picture under this name. A saved search with the same name is replaced.": "Tavlen gemmer søgetekst, type, farve og lignende billede under dette navn. En gemt søgning med samme navn erstattes.",
  "The board moves to the Trash, where you can restore it until the trash is emptied.": "Tavlen flyttes til papirkurven, hvor du kan gendanne den, indtil papirkurven tømmes.",
  "The picture this search started from is no longer on the board, so only its other filters apply.": "Billedet, som søgningen tog udgangspunkt i, er ikke længere på tavlen, så kun dens andre filtre gælder.",
  "The template keeps every item, link and canvas setting. Comments are left out. Images stay linked to the same files.": "Skabelonen beholder alle elementer, forbindelser og lærredsindstillinger. Kommentarer udelades. Billeder forbliver knyttet til de samme filer.",
@@ -1355,5 +1353,13 @@
  "Illustrator drawing tools": "Illustrator-tegneværktøjer",
  "Illustrator tools off. Paths already on the board stay as they are.": "Illustrator-værktøjer slået fra. Stier, der allerede er på tavlen, bliver som de er.",
  "Illustrator tools on: Pen, Curvature, Pencil, Direct Selection, Pathfinder and Smart Guides are in the toolbar, menus and palette.": "Illustrator-værktøjer slået til: Pen, Krumning, Blyant, Direkte markering, Pathfinder og Smarte hjælpelinjer findes i værktøjslinjen, menuerne og paletten.",
- "Off by default. Adds the Pen, Curvature, Pencil and Direct Selection tools, path editing and corners, Pathfinder, polygons, stars and other shapes, stroke and gradient options, and Smart Guides. Paths already on a board stay visible either way.": "Slået fra som standard. Tilføjer værktøjerne Pen, Krumning, Blyant og Direkte markering, redigering af stier og hjørner, Pathfinder, polygoner, stjerner og andre former, streg- og forløbsindstillinger samt Smarte hjælpelinjer. Stier, der allerede er på en tavle, forbliver synlige."
+ "Off by default. Adds the Pen, Curvature, Pencil and Direct Selection tools, path editing and corners, Pathfinder, polygons, stars and other shapes, stroke and gradient options, and Smart Guides. Paths already on a board stay visible either way.": "Slået fra som standard. Tilføjer værktøjerne Pen, Krumning, Blyant og Direkte markering, redigering af stier og hjørner, Pathfinder, polygoner, stjerner og andre former, streg- og forløbsindstillinger samt Smarte hjælpelinjer. Stier, der allerede er på en tavle, forbliver synlige.",
+ "Clear Tag Filter": "Ryd tagfilter",
+ "Filter by Tag": "Filtrer efter tag",
+ "More tags": "Flere tags",
+ "No item on this board carries that tag or label.": "Intet element på denne tavle har det tag eller den etiket.",
+ "Set a find text, a kind, a color, a similar picture or a tag first, then save it.": "Angiv først en søgetekst, en type, en farve, et lignende billede eller et tag, og gem så.",
+ "Tag filter cleared.": "Tagfilter ryddet.",
+ "Tags on this board": "Tags på denne tavle",
+ "The board keeps the find text, kind, color, similar picture and chosen tags under this name. A saved search with the same name is replaced.": "Tavlen gemmer søgetekst, type, farve, lignende billede og valgte tags under dette navn. En gemt søgning med samme navn erstattes."
 }

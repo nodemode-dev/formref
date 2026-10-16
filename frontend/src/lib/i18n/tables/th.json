@@ -1345,8 +1345,6 @@
  "Saved search updated.": "อัปเดตการค้นหาที่บันทึกไว้แล้ว",
  "Saved searches": "การค้นหาที่บันทึกไว้",
  "Search saved. Find it under the bookmark beside the item count.": "บันทึกการค้นหาแล้ว ดูได้ที่บุ๊กมาร์กข้างจำนวนรายการ",
- "Set a find text, a kind, a color or a similar picture first, then save it.": "ตั้งข้อความค้นหา ชนิด สี หรือรูปภาพที่คล้ายกันก่อน แล้วจึงบันทึก",
- "The board keeps the find text, kind, color and similar picture under this name. A saved search with the same name is replaced.": "บอร์ดจะเก็บข้อความค้นหา ชนิด สี และรูปภาพที่คล้ายกันไว้ภายใต้ชื่อนี้ การค้นหาที่บันทึกไว้ซึ่งมีชื่อเดียวกันจะถูกแทนที่",
  "The board moves to the Trash, where you can restore it until the trash is emptied.": "บอร์ดจะย้ายไปที่ถังขยะ ซึ่งคุณกู้คืนได้จนกว่าจะล้างถังขยะ",
  "The picture this search started from is no longer on the board, so only its other filters apply.": "รูปภาพที่การค้นหานี้เริ่มต้นไม่อยู่บนบอร์ดแล้ว จึงใช้เฉพาะตัวกรองอื่น",
  "The template keeps every item, link and canvas setting. Comments are left out. Images stay linked to the same files.": "เทมเพลตเก็บทุกรายการ ลิงก์ และการตั้งค่าพื้นที่วาด ไม่รวมความคิดเห็น รูปภาพยังลิงก์กับไฟล์เดิม",
@@ -1355,5 +1353,13 @@
  "Illustrator drawing tools": "เครื่องมือวาดของ Illustrator",
  "Illustrator tools off. Paths already on the board stay as they are.": "ปิดเครื่องมือ Illustrator แล้ว เส้นทางที่อยู่บนบอร์ดแล้วยังคงเหมือนเดิม",
  "Illustrator tools on: Pen, Curvature, Pencil, Direct Selection, Pathfinder and Smart Guides are in the toolbar, menus and palette.": "เปิดเครื่องมือ Illustrator แล้ว ปากกา ความโค้ง ดินสอ เลือกโดยตรง Pathfinder และเส้นนำอัจฉริยะอยู่ในแถบเครื่องมือ เมนู และพาเลต",
- "Off by default. Adds the Pen, Curvature, Pencil and Direct Selection tools, path editing and corners, Pathfinder, polygons, stars and other shapes, stroke and gradient options, and Smart Guides. Paths already on a board stay visible either way.": "ปิดอยู่ตามค่าเริ่มต้น เพิ่มเครื่องมือปากกา ความโค้ง ดินสอ และเลือกโดยตรง การแก้ไขเส้นทางและมุม Pathfinder รูปหลายเหลี่ยม ดาว และรูปร่างอื่น ตัวเลือกเส้นขอบและไล่ระดับสี และเส้นนำอัจฉริยะ เส้นทางที่อยู่บนบอร์ดแล้วยังมองเห็นได้เสมอ"
+ "Off by default. Adds the Pen, Curvature, Pencil and Direct Selection tools, path editing and corners, Pathfinder, polygons, stars and other shapes, stroke and gradient options, and Smart Guides. Paths already on a board stay visible either way.": "ปิดอยู่ตามค่าเริ่มต้น เพิ่มเครื่องมือปากกา ความโค้ง ดินสอ และเลือกโดยตรง การแก้ไขเส้นทางและมุม Pathfinder รูปหลายเหลี่ยม ดาว และรูปร่างอื่น ตัวเลือกเส้นขอบและไล่ระดับสี และเส้นนำอัจฉริยะ เส้นทางที่อยู่บนบอร์ดแล้วยังมองเห็นได้เสมอ",
+ "Clear Tag Filter": "ล้างตัวกรองแท็ก",
+ "Filter by Tag": "กรองตามแท็ก",
+ "More tags": "แท็กเพิ่มเติม",
+ "No item on this board carries that tag or label.": "ไม่มีรายการบนบอร์ดนี้ที่มีแท็กหรือป้ายกำกับนั้น",
+ "Set a find text, a kind, a color, a similar picture or a tag first, then save it.": "ตั้งข้อความค้นหา ชนิด สี รูปภาพที่คล้ายกัน หรือแท็กก่อน แล้วจึงบันทึก",
+ "Tag filter cleared.": "ล้างตัวกรองแท็กแล้ว",
+ "Tags on this board": "แท็กบนบอร์ดนี้",
+ "The board keeps the find text, kind, color, similar picture and chosen tags under this name. A saved search with the same name is replaced.": "บอร์ดจะเก็บข้อความค้นหา ชนิด สี รูปภาพที่คล้ายกัน และแท็กที่เลือกไว้ภายใต้ชื่อนี้ การค้นหาที่บันทึกไว้ซึ่งมีชื่อเดียวกันจะถูกแทนที่"
 }

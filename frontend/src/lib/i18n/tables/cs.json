@@ -1345,8 +1345,6 @@
  "Saved search updated.": "Uložené hledání bylo aktualizováno.",
  "Saved searches": "Uložená hledání",
  "Search saved. Find it under the bookmark beside the item count.": "Hledání uloženo. Najdete ho pod záložkou vedle počtu položek.",
- "Set a find text, a kind, a color or a similar picture first, then save it.": "Nejprve nastavte text, druh, barvu nebo podobný obrázek a pak ho uložte.",
- "The board keeps the find text, kind, color and similar picture under this name. A saved search with the same name is replaced.": "Tabule pod tímto názvem uchová text, druh, barvu a podobný obrázek. Uložené hledání se stejným názvem bude nahrazeno.",
  "The board moves to the Trash, where you can restore it until the trash is emptied.": "Tabule se přesune do koše, odkud ji můžete obnovit, dokud koš nevysypete.",
  "The picture this search started from is no longer on the board, so only its other filters apply.": "Obrázek, ze kterého toto hledání vycházelo, už na tabuli není, takže platí jen ostatní filtry.",
  "The template keeps every item, link and canvas setting. Comments are left out. Images stay linked to the same files.": "Šablona zachová každou položku, propojení a nastavení plátna. Komentáře se vynechají. Obrázky zůstanou propojené se stejnými soubory.",
@@ -1355,5 +1353,13 @@
  "Illustrator drawing tools": "Kreslicí nástroje Illustratoru",
  "Illustrator tools off. Paths already on the board stay as they are.": "Nástroje Illustratoru vypnuty. Křivky, které už na tabuli jsou, zůstanou.",
  "Illustrator tools on: Pen, Curvature, Pencil, Direct Selection, Pathfinder and Smart Guides are in the toolbar, menus and palette.": "Nástroje Illustratoru zapnuty: Pero, Zakřivení, Tužka, Přímý výběr, Pathfinder a Inteligentní vodítka jsou na panelu nástrojů, v nabídkách a v paletě.",
- "Off by default. Adds the Pen, Curvature, Pencil and Direct Selection tools, path editing and corners, Pathfinder, polygons, stars and other shapes, stroke and gradient options, and Smart Guides. Paths already on a board stay visible either way.": "Ve výchozím stavu vypnuto. Přidá nástroje Pero, Zakřivení, Tužka a Přímý výběr, úpravy křivek a rohů, Pathfinder, mnohoúhelníky, hvězdy a další tvary, volby tahu a přechodu a Inteligentní vodítka. Křivky, které už na tabuli jsou, zůstanou viditelné."
+ "Off by default. Adds the Pen, Curvature, Pencil and Direct Selection tools, path editing and corners, Pathfinder, polygons, stars and other shapes, stroke and gradient options, and Smart Guides. Paths already on a board stay visible either way.": "Ve výchozím stavu vypnuto. Přidá nástroje Pero, Zakřivení, Tužka a Přímý výběr, úpravy křivek a rohů, Pathfinder, mnohoúhelníky, hvězdy a další tvary, volby tahu a přechodu a Inteligentní vodítka. Křivky, které už na tabuli jsou, zůstanou viditelné.",
+ "Clear Tag Filter": "Zrušit filtr značek",
+ "Filter by Tag": "Filtrovat podle značky",
+ "More tags": "Další značky",
+ "No item on this board carries that tag or label.": "Žádná položka na této tabuli tuto značku ani štítek nemá.",
+ "Set a find text, a kind, a color, a similar picture or a tag first, then save it.": "Nejprve nastavte text, druh, barvu, podobný obrázek nebo značku a pak ho uložte.",
+ "Tag filter cleared.": "Filtr značek zrušen.",
+ "Tags on this board": "Značky na této tabuli",
+ "The board keeps the find text, kind, color, similar picture and chosen tags under this name. A saved search with the same name is replaced.": "Tabule pod tímto názvem uchová text, druh, barvu, podobný obrázek a vybrané značky. Uložené hledání se stejným názvem bude nahrazeno."
 }

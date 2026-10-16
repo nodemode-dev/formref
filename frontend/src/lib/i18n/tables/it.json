@@ -1345,8 +1345,6 @@
  "Saved search updated.": "Ricerca salvata aggiornata.",
  "Saved searches": "Ricerche salvate",
  "Search saved. Find it under the bookmark beside the item count.": "Ricerca salvata. La trovi sotto il segnalibro accanto al numero di elementi.",
- "Set a find text, a kind, a color or a similar picture first, then save it.": "Imposta prima un testo, un tipo, un colore o un’immagine simile, poi salvala.",
- "The board keeps the find text, kind, color and similar picture under this name. A saved search with the same name is replaced.": "La bacheca conserva testo, tipo, colore e immagine simile con questo nome. Una ricerca salvata con lo stesso nome viene sostituita.",
  "The board moves to the Trash, where you can restore it until the trash is emptied.": "La bacheca va nel Cestino, da cui puoi ripristinarla finché non viene svuotato.",
  "The picture this search started from is no longer on the board, so only its other filters apply.": "L’immagine da cui partiva questa ricerca non è più sulla bacheca, quindi valgono solo gli altri filtri.",
  "The template keeps every item, link and canvas setting. Comments are left out. Images stay linked to the same files.": "Il modello conserva ogni elemento, collegamento e impostazione dell’area di lavoro. I commenti sono esclusi. Le immagini restano collegate agli stessi file.",
@@ -1355,5 +1353,13 @@
  "Illustrator drawing tools": "Strumenti di disegno di Illustrator",
  "Illustrator tools off. Paths already on the board stay as they are.": "Strumenti di Illustrator disattivati. I tracciati già sulla bacheca restano come sono.",
  "Illustrator tools on: Pen, Curvature, Pencil, Direct Selection, Pathfinder and Smart Guides are in the toolbar, menus and palette.": "Strumenti di Illustrator attivati: Penna, Curvatura, Matita, Selezione diretta, Pathfinder e Guide sensibili sono nella barra strumenti, nei menu e nella palette.",
- "Off by default. Adds the Pen, Curvature, Pencil and Direct Selection tools, path editing and corners, Pathfinder, polygons, stars and other shapes, stroke and gradient options, and Smart Guides. Paths already on a board stay visible either way.": "Disattivato per impostazione predefinita. Aggiunge gli strumenti Penna, Curvatura, Matita e Selezione diretta, la modifica di tracciati e angoli, Pathfinder, poligoni, stelle e altre forme, le opzioni di traccia e sfumatura e le Guide sensibili. I tracciati già su una bacheca restano visibili."
+ "Off by default. Adds the Pen, Curvature, Pencil and Direct Selection tools, path editing and corners, Pathfinder, polygons, stars and other shapes, stroke and gradient options, and Smart Guides. Paths already on a board stay visible either way.": "Disattivato per impostazione predefinita. Aggiunge gli strumenti Penna, Curvatura, Matita e Selezione diretta, la modifica di tracciati e angoli, Pathfinder, poligoni, stelle e altre forme, le opzioni di traccia e sfumatura e le Guide sensibili. I tracciati già su una bacheca restano visibili.",
+ "Clear Tag Filter": "Rimuovi filtro tag",
+ "Filter by Tag": "Filtra per tag",
+ "More tags": "Altri tag",
+ "No item on this board carries that tag or label.": "Nessun elemento su questa bacheca ha quel tag o quell’etichetta.",
+ "Set a find text, a kind, a color, a similar picture or a tag first, then save it.": "Imposta prima un testo, un tipo, un colore, un’immagine simile o un tag, poi salvala.",
+ "Tag filter cleared.": "Filtro tag rimosso.",
+ "Tags on this board": "Tag su questa bacheca",
+ "The board keeps the find text, kind, color, similar picture and chosen tags under this name. A saved search with the same name is replaced.": "La bacheca conserva testo, tipo, colore, immagine simile e tag scelti con questo nome. Una ricerca salvata con lo stesso nome viene sostituita."
 }

@@ -1345,8 +1345,6 @@
  "Saved search updated.": "Tallennettu haku päivitetty.",
  "Saved searches": "Tallennetut haut",
  "Search saved. Find it under the bookmark beside the item count.": "Haku tallennettu. Löydät sen kirjanmerkin alta määrän vierestä.",
- "Set a find text, a kind, a color or a similar picture first, then save it.": "Aseta ensin hakuteksti, tyyppi, väri tai samankaltainen kuva ja tallenna sitten.",
- "The board keeps the find text, kind, color and similar picture under this name. A saved search with the same name is replaced.": "Taulu säilyttää hakutekstin, tyypin, värin ja samankaltaisen kuvan tällä nimellä. Samanniminen tallennettu haku korvataan.",
  "The board moves to the Trash, where you can restore it until the trash is emptied.": "Taulu siirtyy roskakoriin, josta voit palauttaa sen, kunnes roskakori tyhjennetään.",
  "The picture this search started from is no longer on the board, so only its other filters apply.": "Kuva, josta haku lähti, ei ole enää taululla, joten vain sen muut suodattimet ovat voimassa.",
  "The template keeps every item, link and canvas setting. Comments are left out. Images stay linked to the same files.": "Pohja säilyttää jokaisen kohteen, linkin ja piirtoalueen asetuksen. Kommentit jätetään pois. Kuvat pysyvät linkitettyinä samoihin tiedostoihin.",
@@ -1355,5 +1353,13 @@
  "Illustrator drawing tools": "Illustratorin piirtotyökalut",
  "Illustrator tools off. Paths already on the board stay as they are.": "Illustrator-työkalut pois. Taululla jo olevat polut pysyvät ennallaan.",
  "Illustrator tools on: Pen, Curvature, Pencil, Direct Selection, Pathfinder and Smart Guides are in the toolbar, menus and palette.": "Illustrator-työkalut käytössä: Kynä, Kaarevuus, Lyijykynä, Suoravalinta, Pathfinder ja Älykkäät apuviivat ovat työkalurivillä, valikoissa ja paletissa.",
- "Off by default. Adds the Pen, Curvature, Pencil and Direct Selection tools, path editing and corners, Pathfinder, polygons, stars and other shapes, stroke and gradient options, and Smart Guides. Paths already on a board stay visible either way.": "Oletuksena pois. Lisää Kynä-, Kaarevuus-, Lyijykynä- ja Suoravalintatyökalut, polkujen ja kulmien muokkauksen, Pathfinderin, monikulmiot, tähdet ja muut muodot, viiva- ja liukuväriasetukset sekä Älykkäät apuviivat. Taululla jo olevat polut pysyvät näkyvissä."
+ "Off by default. Adds the Pen, Curvature, Pencil and Direct Selection tools, path editing and corners, Pathfinder, polygons, stars and other shapes, stroke and gradient options, and Smart Guides. Paths already on a board stay visible either way.": "Oletuksena pois. Lisää Kynä-, Kaarevuus-, Lyijykynä- ja Suoravalintatyökalut, polkujen ja kulmien muokkauksen, Pathfinderin, monikulmiot, tähdet ja muut muodot, viiva- ja liukuväriasetukset sekä Älykkäät apuviivat. Taululla jo olevat polut pysyvät näkyvissä.",
+ "Clear Tag Filter": "Poista tunnistesuodatin",
+ "Filter by Tag": "Suodata tunnisteella",
+ "More tags": "Lisää tunnisteita",
+ "No item on this board carries that tag or label.": "Millään tämän taulun kohteella ei ole tätä tunnistetta tai nimiötä.",
+ "Set a find text, a kind, a color, a similar picture or a tag first, then save it.": "Aseta ensin hakuteksti, tyyppi, väri, samankaltainen kuva tai tunniste ja tallenna sitten.",
+ "Tag filter cleared.": "Tunnistesuodatin poistettu.",
+ "Tags on this board": "Tämän taulun tunnisteet",
+ "The board keeps the find text, kind, color, similar picture and chosen tags under this name. A saved search with the same name is replaced.": "Taulu säilyttää hakutekstin, tyypin, värin, samankaltaisen kuvan ja valitut tunnisteet tällä nimellä. Samanniminen tallennettu haku korvataan."
 }

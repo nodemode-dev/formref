@@ -1345,8 +1345,6 @@
  "Saved search updated.": "A mentett keresés frissült.",
  "Saved searches": "Mentett keresések",
  "Search saved. Find it under the bookmark beside the item count.": "Keresés mentve. A darabszám melletti könyvjelzőnél találja.",
- "Set a find text, a kind, a color or a similar picture first, then save it.": "Előbb adjon meg keresőszöveget, típust, színt vagy hasonló képet, majd mentse.",
- "The board keeps the find text, kind, color and similar picture under this name. A saved search with the same name is replaced.": "A tábla ezen a néven megőrzi a keresőszöveget, a típust, a színt és a hasonló képet. Az azonos nevű mentett keresés felülíródik.",
  "The board moves to the Trash, where you can restore it until the trash is emptied.": "A tábla a kukába kerül, ahonnan visszaállíthatja, amíg a kukát ki nem üríti.",
  "The picture this search started from is no longer on the board, so only its other filters apply.": "A kép, amelyből a keresés kiindult, már nincs a táblán, ezért csak a többi szűrője érvényes.",
  "The template keeps every item, link and canvas setting. Comments are left out. Images stay linked to the same files.": "A sablon megtart minden elemet, kapcsolatot és vászonbeállítást. A megjegyzések kimaradnak. A képek ugyanazokhoz a fájlokhoz kapcsolódnak.",
@@ -1355,5 +1353,13 @@
  "Illustrator drawing tools": "Illustrator rajzeszközök",
  "Illustrator tools off. Paths already on the board stay as they are.": "Az Illustrator eszközök kikapcsolva. A táblán már meglévő vonalak változatlanok maradnak.",
  "Illustrator tools on: Pen, Curvature, Pencil, Direct Selection, Pathfinder and Smart Guides are in the toolbar, menus and palette.": "Az Illustrator eszközök bekapcsolva: a Toll, Görbület, Ceruza, Közvetlen kijelölés, Pathfinder és az Intelligens segédvonalak az eszköztáron, a menükben és a parancspalettán vannak.",
- "Off by default. Adds the Pen, Curvature, Pencil and Direct Selection tools, path editing and corners, Pathfinder, polygons, stars and other shapes, stroke and gradient options, and Smart Guides. Paths already on a board stay visible either way.": "Alapértelmezés szerint kikapcsolva. Hozzáadja a Toll, Görbület, Ceruza és Közvetlen kijelölés eszközt, a vonalak és sarkok szerkesztését, a Pathfindert, sokszögeket, csillagokat és más alakzatokat, a körvonal- és színátmenet-beállításokat, valamint az Intelligens segédvonalakat. A táblán már meglévő vonalak láthatók maradnak."
+ "Off by default. Adds the Pen, Curvature, Pencil and Direct Selection tools, path editing and corners, Pathfinder, polygons, stars and other shapes, stroke and gradient options, and Smart Guides. Paths already on a board stay visible either way.": "Alapértelmezés szerint kikapcsolva. Hozzáadja a Toll, Görbület, Ceruza és Közvetlen kijelölés eszközt, a vonalak és sarkok szerkesztését, a Pathfindert, sokszögeket, csillagokat és más alakzatokat, a körvonal- és színátmenet-beállításokat, valamint az Intelligens segédvonalakat. A táblán már meglévő vonalak láthatók maradnak.",
+ "Clear Tag Filter": "Címkeszűrő törlése",
+ "Filter by Tag": "Szűrés címkére",
+ "More tags": "További címkék",
+ "No item on this board carries that tag or label.": "Ezen a táblán egyik elemnek sincs ilyen címkéje.",
+ "Set a find text, a kind, a color, a similar picture or a tag first, then save it.": "Előbb adjon meg keresőszöveget, típust, színt, hasonló képet vagy címkét, majd mentse.",
+ "Tag filter cleared.": "Címkeszűrő törölve.",
+ "Tags on this board": "Címkék ezen a táblán",
+ "The board keeps the find text, kind, color, similar picture and chosen tags under this name. A saved search with the same name is replaced.": "A tábla ezen a néven megőrzi a keresőszöveget, a típust, a színt, a hasonló képet és a kiválasztott címkéket. Az azonos nevű mentett keresés felülíródik."
 }
