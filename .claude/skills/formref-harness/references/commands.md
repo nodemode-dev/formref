@@ -2,7 +2,7 @@
 
 Written by `./formref agents sync` from the command catalogue the FormRef window publishes; do not edit by hand. Run a command with the MCP tools `run_command` or `run_commands` (the window must be open). `window-only` commands are refused for outside agents; `risky` commands ask the person first.
 
-197 commands.
+198 commands.
 
 ## Canvas
 
@@ -25,7 +25,7 @@ Written by `./formref agents sync` from the command catalogue the FormRef window
 
 | Command | Label | Keys | Kind | What it does |
 | --- | --- | --- | --- | --- |
-| `apply-saved-search` | Apply Saved Search |  | window-only | Applies a saved search by name: every filter it holds is set and the board is redrawn once. Parameters: `name` (string): the saved search name; `id` (string): or its id. |
+| `apply-saved-search` | Apply Saved Search |  | window-only | Applies a saved search by name, the board's own first and then those for all boards: every filter it holds is set and the board is redrawn once. Parameters: `name` (string): the saved search name; `id` (string): or its id. |
 | `clear-color-find` | Clear Color Filter |  | window-only | Clears the color filter so the whole board shows again. |
 | `clear-filters` | Clear All Filters |  | window-only | Clears the find text, kind, color and similar filters together. |
 | `clear-tag-filter` | Clear Tag Filter |  | window-only | Clear Tag Filter (Edit). |
@@ -42,7 +42,8 @@ Written by `./formref agents sync` from the command catalogue the FormRef window
 | `remove-tag` | Remove Tag From All Items |  | changes the board, risky | Remove Tag From All Items (Edit). Parameters: `tag` (string): the tag to remove from every unlocked item, any case. |
 | `rename-tag` | Rename or Merge Tag |  | changes the board | Rename or Merge Tag (Edit). Parameters: `tag` (string): the tag to rename, any case; `name` (string): the new name; a name another tag has merges the two. |
 | `save-search` | Save Current Search… |  | changes the board | Saves the find text, kind, color and similar picture now on screen under a name the board keeps; a search with the same name is replaced. One undo removes it. Parameters: `name` (string): name for the search; leave out to be asked; an existing search with the same name is replaced. |
-| `saved-searches` | Saved Searches… |  | window-only | Opens the board's saved searches beside the item count: apply one, save the filters on screen, clear them, or delete a saved one. |
+| `save-shared-search` | Save Search for All Boards… |  | view | Saves the find text, kind, color, tags and label names now on screen as a search every board lists; a similar picture stays with its board. It is kept in the data folder, not in a board, so undo does not remove it. Parameters: `name` (string): name for the search; leave out to be asked; a search for all boards with the same name is replaced. |
+| `saved-searches` | Saved Searches… |  | window-only | Opens the saved searches beside the item count, the board's own and those for all boards: apply one, save the filters on screen, clear them, or delete a saved one. |
 | `select-all` | Select All | `mod+a` | view | Selects every visible item on the board. |
 | `undo` | Undo | `mod+z` | changes the board | Undoes the last change to the board. |
 | `unsync` | Stop Syncing |  | changes the board | Unlinks the selected synced copies so they can be edited separately. |

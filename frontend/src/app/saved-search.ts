@@ -1,5 +1,6 @@
-import type { Board, SavedSearch } from '../lib/types';
+import type { Board, SavedSearch, SharedSearch } from '../lib/types';
 import type { MenuEntry } from '../ui/context-menu';
+import { t } from '../lib/i18n';
 import { $, S, execute, inputDialog, onState, toast } from './editor';
 import { menu } from './gestures';
 import { registry } from './registry';
@@ -12,7 +13,39 @@ import { setTagFilter, tagFilter } from './tag-cloud';
 const MAX_SEARCHES = 24;
 const DEFAULT_TOLERANCE = 20;
 
+const MAX_SHARED = 48;
+
 const searches = (board: Board | undefined = S.state?.board) => board?.settings?.searches || [];
+
+/** Searches for all boards live in the data folder (searches.json), not in any board, so they have no undo. A similar picture belongs to one board and is left out; labels travel by name and match this board's labels ignoring case. */
+let shared: SharedSearch[] = [];
+
+async function loadShared(): Promise<void> {
+  const response = await fetch('/api/searches').catch(() => null);
+  if (response?.ok) shared = (await response.json()).searches || [];
+  refreshButton();
+}
+
+async function storeShared(list: SharedSearch[]): Promise<void> {
+  const response = await fetch('/api/searches', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ searches: list }) });
+  const body = await response.json().catch(() => ({}));
+  if (!response.ok) throw new Error(typeof body.detail === 'string' ? body.detail : 'The searches for all boards could not be saved.');
+  shared = body.searches || [];
+  refreshButton();
+}
+
+/** A search for all boards as this board would hold it, and the label names this board does not have. */
+function fromShared(search: SharedSearch): { search: SavedSearch; missing: string[] } {
+  const labels = S.state?.board.settings?.labels || [];
+  const ids: string[] = [];
+  const missing: string[] = [];
+  for (const name of search.label_names || []) {
+    const label = labels.find(l => l.name.trim().toLowerCase() === name.trim().toLowerCase());
+    if (label) ids.push(label.id); else missing.push(name);
+  }
+  const { label_names: _names, ...rest } = search;
+  return { search: { ...rest, ...(ids.length ? { labels: ids } : {}) }, missing };
+}
 const newId = () => (crypto.randomUUID ? crypto.randomUUID() : String(Date.now()) + Math.random()).replace(/-/g, '');
 
 /** At most `max` UTF-8 bytes, cut on a character boundary (the engine counts bytes). */
@@ -121,17 +154,59 @@ function deleteSearch(search: SavedSearch): Promise<unknown> {
   return execute({ type: 'settings', patch: { searches: searches().filter(s => s.id !== search.id) } });
 }
 
+async function applyShared(search: SharedSearch): Promise<void> {
+  const { search: local, missing } = fromShared(search);
+  await applySearch(local);
+  if (missing.length) toast(t('This board has no label named {0}, so that part of the search is left out.', { 0: missing.join(', ') }));
+}
+
+async function saveShared(params?: Record<string, unknown>): Promise<void> {
+  const now = current();
+  const labels = S.state?.board.settings?.labels || [];
+  const labelNames = (now?.labels || []).map(id => labels.find(l => l.id === id)?.name).filter((n): n is string => !!n);
+  const { similar: _similar, labels: _labels, ...rest } = now || {};
+  if (!now || (!rest.text && !rest.kind && !rest.color && !rest.tags?.length && !labelNames.length)) throw new Error('Set a find text, a kind, a color or a tag first. A similar picture stays with its own board.');
+  let name = typeof params?.name === 'string' ? params.name : '';
+  if (!name) {
+    const form = await inputDialog('Save Search for All Boards', { name: suggestedName(), label: 'Name', description: 'Every board lists it under the bookmark. The find text, kind, color, tags and label names are kept, and a similar picture stays with this board. A search for all boards with the same name is replaced.', submit: 'Save' });
+    if (!form) return;
+    name = form.name;
+  }
+  name = clip(name.trim(), 60) || suggestedName();
+  const list = [...shared];
+  const at = list.findIndex(s => s.name.toLowerCase() === name.toLowerCase());
+  if (at < 0 && list.length >= MAX_SHARED) throw new Error('FormRef can keep at most 48 searches for all boards. Delete one first.');
+  const entry: SharedSearch = { id: at >= 0 ? list[at].id : newId(), name, ...rest, ...(labelNames.length ? { label_names: labelNames } : {}) };
+  if (at >= 0) list[at] = entry; else list.push(entry);
+  await storeShared(list);
+  toast(at >= 0 ? 'Search for all boards updated.' : (now.similar ? 'Search saved for all boards, without its similar picture.' : 'Search saved for all boards.'));
+}
+
+function deleteShared(search: SharedSearch): Promise<void> {
+  return storeShared(shared.filter(s => s.id !== search.id));
+}
+
 /** The saved searches, then Save, Clear and Delete; used by the bookmark button and the right-click menu. */
 export function savedSearchEntries(): MenuEntry[] {
   const list = searches();
   const now = current();
   const run = (fn: () => Promise<unknown>) => () => void fn().catch(reason => toast((reason as Error).message));
+  const everywhere: MenuEntry[] = shared.length ? [{ section: 'All Boards' }, ...shared.map(search => ({ label: search.name, icon: 'bookmark' as const, checked: isCurrent(fromShared(search).search), action: run(() => applyShared(search)) }))] : [];
+  const deletable: MenuEntry[] = [
+    ...list.map(search => ({ label: search.name, danger: true, action: run(() => deleteSearch(search)) })),
+    ...(list.length && shared.length ? [{ separator: true } as const] : []),
+    ...shared.map(search => ({ label: search.name, icon: 'bookmark' as const, danger: true, action: run(() => deleteShared(search)) })),
+  ];
   return [
-    ...(list.length ? list.map(search => ({ label: search.name, icon: 'bookmark' as const, checked: isCurrent(search), action: run(() => applySearch(search)) })) : [{ label: 'No saved searches yet', disabled: true }]),
+    ...(list.length || shared.length ? [] : [{ label: 'No saved searches yet', disabled: true }]),
+    ...(list.length && shared.length ? [{ section: 'This Board' }] : []),
+    ...list.map(search => ({ label: search.name, icon: 'bookmark' as const, checked: isCurrent(search), action: run(() => applySearch(search)) })),
+    ...everywhere,
     { separator: true },
     { label: 'Save Current Search…', icon: 'plus', disabled: !now, action: run(() => saveSearch()) },
+    { label: 'Save Search for All Boards…', icon: 'plus', disabled: !now, action: run(() => saveShared()) },
     { label: 'Clear All Filters', icon: 'close', disabled: !now, action: run(clearFilters) },
-    { label: 'Delete Saved Search', icon: 'trash', disabled: !list.length, children: list.map(search => ({ label: search.name, danger: true, action: run(() => deleteSearch(search)) })) },
+    { label: 'Delete Saved Search', icon: 'trash', disabled: !list.length && !shared.length, children: deletable },
   ];
 }
 
@@ -148,7 +223,7 @@ function openMenu(): void {
 
 /** The bookmark takes the accent while the filters on screen are one of the saved searches. */
 function refreshButton(): void {
-  const match = searches().find(isCurrent);
+  const match = searches().some(isCurrent) || shared.some(search => isCurrent(fromShared(search).search));
   const button = $('saved-searches');
   button.classList.toggle('active', !!match);
 }
@@ -161,10 +236,12 @@ export function registerSavedSearch(): void {
   new MutationObserver(refreshButton).observe($('filter-row'), { attributes: true, attributeFilter: ['class', 'style'] });
   new MutationObserver(refreshButton).observe($('tag-cloud'), { subtree: true, attributes: true, attributeFilter: ['aria-pressed'] });
   onState(() => refreshButton());
+  void loadShared();
   registry.add(
     { group: 'Edit', id: 'saved-searches', label: 'Saved Searches…', icon: 'bookmark', mutates: false, agent: 'window-only', enabled: () => !!S.state, run: openMenu },
     { group: 'Edit', id: 'save-search', label: 'Save Current Search…', icon: 'bookmark', enabled: () => !!S.state && !!current(), run: p => saveSearch(p), params: { name: { type: 'string', description: 'name for the search; leave out to be asked; an existing search with the same name is replaced' } } },
+    { group: 'Edit', id: 'save-shared-search', label: 'Save Search for All Boards…', icon: 'bookmark', mutates: false, enabled: () => !!S.state && !!current(), run: p => saveShared(p), params: { name: { type: 'string', description: 'name for the search; leave out to be asked; a search for all boards with the same name is replaced' } } },
     { group: 'Edit', id: 'clear-filters', label: 'Clear All Filters', icon: 'close', mutates: false, agent: 'window-only', enabled: () => !!current(), run: () => clearFilters() },
-    { group: 'Edit', id: 'apply-saved-search', label: 'Apply Saved Search', icon: 'bookmark', mutates: false, agent: 'window-only', palette: false, enabled: () => searches().length > 0, run: p => { const name = String(p?.name || '').toLowerCase(); const search = searches().find(s => s.name.toLowerCase() === name || s.id === p?.id); if (!search) throw new Error('No saved search on this board has that name.'); return applySearch(search); }, params: { name: { type: 'string', description: 'the saved search name' }, id: { type: 'string', description: 'or its id' } } },
+    { group: 'Edit', id: 'apply-saved-search', label: 'Apply Saved Search', icon: 'bookmark', mutates: false, agent: 'window-only', palette: false, enabled: () => searches().length + shared.length > 0, run: p => { const name = String(p?.name || '').toLowerCase(); const search = searches().find(s => s.name.toLowerCase() === name || s.id === p?.id); if (search) return applySearch(search); const everywhere = shared.find(s => s.name.toLowerCase() === name || s.id === p?.id); if (!everywhere) throw new Error('No saved search on this board or for all boards has that name.'); return applyShared(everywhere); }, params: { name: { type: 'string', description: 'the saved search name' }, id: { type: 'string', description: 'or its id' } } },
   );
 }

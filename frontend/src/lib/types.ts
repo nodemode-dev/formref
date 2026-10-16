@@ -11,6 +11,7 @@ export interface Viewport { x: number; y: number; zoom: number }
 export interface Label { id: string; name: string; color: string }
 export interface WindowLayout { x: number; y: number; width: number; height: number; always_on_top: boolean; opacity: number }
 export interface SavedSearch { id: string; name: string; text?: string; kind?: string; color?: string; tolerance?: number; similar?: { item_id: string; level: 'close' | 'related' | 'loose' }; tags?: string[]; labels?: string[] }
+export interface SharedSearch { id: string; name: string; text?: string; kind?: string; color?: string; tolerance?: number; tags?: string[]; label_names?: string[] }
 export interface BoardSettings { grid_visible: boolean; grid_size: number; snap_enabled: boolean; grayscale: boolean; labels?: Label[]; window?: WindowLayout | null; searches?: SavedSearch[] }
 export interface Board { id: string; title: string; version: number; revision: number; items: Item[]; connections: Connection[]; viewport: Viewport; background: string; settings: BoardSettings }
 export interface State { board: Board; can_undo: boolean; can_redo: boolean }
