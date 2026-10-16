@@ -121,10 +121,13 @@ export function targetIds(): string[] {
 }
 
 export function matches(item: Item): boolean {
-  const term = $<HTMLInputElement>('search').value.toLowerCase().trim();
+  const fold = (s: string) => s.normalize('NFD').replace(/\p{M}/gu, '').toLowerCase();
+  const term = fold($<HTMLInputElement>('search').value.trim());
   const kind = $<HTMLSelectElement>('kind-filter').value;
   const labels = Array.isArray(item.data.labels) ? (item.data.labels as string[]).map(id => S.state?.board.settings?.labels?.find(l => l.id === id)?.name || '').join(' ') : '';
-  const haystack = `${item.title} ${item.text} ${item.url} ${item.color} ${JSON.stringify(item.data.tags || '')} ${labels}`.toLowerCase();
+  const comments = Array.isArray(item.data.comments) ? (item.data.comments as { text?: string }[]).map(c => c.text || '').join(' ') : '';
+  const table = item.data.table ? JSON.stringify(item.data.table) : '';
+  const haystack = fold(`${item.title} ${item.text} ${item.url} ${item.color} ${JSON.stringify(item.data.tags || '')} ${labels} ${comments} ${table}`);
   return (!kind || item.kind === kind) && (!term || haystack.includes(term));
 }
 
