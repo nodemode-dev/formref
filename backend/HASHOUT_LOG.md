@@ -8,6 +8,7 @@
 
 ## Contents
 
+- [v0.7.5 · agents sync](#v075--agents-sync)
 - [v0.7.4 · Phone viewer](#v074--phone-viewer)
 - [v0.7.3 · PDF text and readable notes in exports](#v073--pdf-text-and-readable-notes-in-exports)
 - [v0.7.2 · All pictures export](#v072--all-pictures-export)
@@ -20,6 +21,10 @@
 - [v0.2.0 · Canvas settings and snapping through MCP](#v020--canvas-settings-and-snapping-through-mcp)
 - [v0.1.0 · Local board service and SDK MCP](#v010--local-board-service-and-sdk-mcp)
 - [boot_backend.bat](#boot_backendbat)
+
+## v0.7.5 · agents sync
+
+`./formref agents sync [--check]` (and `formref.bat`) runs `app.cli agents`, which reads `commands-catalogue.json` (written by `POST /api/commands/catalogue` whenever a window publishes its registry) from the data folder and writes `.claude/skills/formref-harness/references/commands.md`: one table per group, sorted by id, with default keys, a kind (changes the board, risky, window-only, or view) and the words plus parameters. Sorting and default keys keep the file stable, so it changes only when a command does; `--check` exits non-zero when the file differs. Without a catalogue it says to open the app first. Checked: `--check` failed on the missing file, sync wrote 174 commands, `--check` then passed; a personal override at publish time (Alt+H) did not leak into the file.
 
 ## v0.7.4 · Phone viewer
 

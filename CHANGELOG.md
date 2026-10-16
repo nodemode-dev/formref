@@ -1,5 +1,14 @@
 # FormRef changelog
 
+## v0.7.5 · 2026-10-16
+
+Dates in your language, and agents that know every command.
+
+- Dates and numbers follow the interface language: comments and the Trash say "5 minutes ago" (or "vor 5 Minuten", "5 分前"), and table dates, money and numbers use the language's format. In English, your browser's region is kept, so a UK browser still shows day-first dates. Table check marks and a comment's resolved tag are translated too.
+- Every command now says what it does to agents (MCP `describe_command` and `list_commands`), not just its name.
+- `./formref agents sync` writes the agent skill's command reference (all commands, their default shortcuts and what they do) from the running app; `--check` reports when it is out of date.
+- Shortcut handling moved into its own module; saved shortcuts carry over unchanged.
+
 ## v0.7.4 · 2026-10-16
 
 Boards on a phone or tablet.

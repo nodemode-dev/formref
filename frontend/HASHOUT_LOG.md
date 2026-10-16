@@ -8,6 +8,7 @@
 - [Stacking scale](#stacking-scale)
 - [Verification](#verification)
 - [Scripts](#scripts)
+- [v0.7.5 Intl dates, keys.ts, command words](#v075-intl-dates-keysts-command-words)
 - [v0.7.4 card labels translated](#v074-card-labels-translated)
 - [v0.7.3 PDF text in search, window layouts](#v073-pdf-text-in-search-window-layouts)
 - [v0.7.2 drop into columns, all pictures, card hints](#v072-drop-into-columns-all-pictures-card-hints)
@@ -28,6 +29,14 @@
 - [v0.4.8 desktop window controls and WebKit icons](#v048-desktop-window-controls-and-webkit-icons)
 - [v0.4.7 synced notes, map cards, inline edit commit](#v047-synced-notes-map-cards-inline-edit-commit)
 - [v0.4.6 GIF frames and document export](#v046-gif-frames-and-document-export)
+
+## v0.7.5 Intl dates, keys.ts, command words
+
+`lib/i18n.ts` adds `formatLocale()` (the interface language's BCP 47 tag; in English the browser's own `en-*` region) and `relativeTime(ms)` through `Intl.RelativeTimeFormat` (seconds under 45 s, then minutes, hours, then a short date). Comments, Trash rows, the chat session list and table cells use them; the Trash detail now starts with a word ("Removed {0} · {1} item{2}") because the extractor skips strings that start with a placeholder. Checked at 4x CPU: German "16. Okt. 2026", "1.234,50 $", "vor 5 Minuten · Erledigt", "Entfernt vor 6 Sekunden"; en-GB browser "16 Oct 2026", "US$1,234.50"; Japanese "2026年10月16日", "6 分前 · 解決済み".
+
+`app/keys.ts` holds what was the key block of `commands.ts` unchanged (labels, `comboOf`, the keymap rebuilt on registry changes, defaults from `registry.defaults`, overrides, `assignKey`, reserved keys, `commandForKey`); `assignKey` reads `registry.get`. Importers moved to it. Verified: Ctrl+K, Shift+H and ? still work; a saved override (Flip View Horizontally on Alt+H) loaded after reload and freed Shift+H.
+
+`app/command-meta.ts` gives each command of the original table a sentence; `catalogue.ts` prefers a command's own `description`, then these words, and adds `default_keys`. All 174 catalogue entries now carry real words.
 
 ## v0.7.4 card labels translated
 
