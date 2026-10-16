@@ -1,5 +1,6 @@
 :root { --dock-rail-w: 44px; --title-lead-w: 224px; }
 :root:not(.shell-ready) .app { visibility: hidden; }
+.button-grid > .button { min-width: 0; overflow: hidden; text-overflow: ellipsis; padding: 0 var(--space-2); }
 :root[data-lang="zh-Hans"] { --font-ui: -apple-system, BlinkMacSystemFont, 'Inter', 'PingFang SC', 'Microsoft YaHei', 'Noto Sans CJK SC', 'Noto Sans SC', system-ui, sans-serif; }
 :root[data-lang="zh-Hant"] { --font-ui: -apple-system, BlinkMacSystemFont, 'Inter', 'PingFang TC', 'Microsoft JhengHei', 'Noto Sans CJK TC', 'Noto Sans TC', system-ui, sans-serif; }
 :root[data-lang="ja"] { --font-ui: -apple-system, BlinkMacSystemFont, 'Inter', 'Hiragino Sans', 'Yu Gothic UI', 'Meiryo', 'Noto Sans CJK JP', 'Noto Sans JP', system-ui, sans-serif; }
