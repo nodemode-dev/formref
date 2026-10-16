@@ -12,23 +12,14 @@ import { openLabels } from './labels';
 import { togglePresenting } from './present';
 import { cutoutOptions, downloadModel, togglePicking } from './cutout';
 import { openCloud, refreshCloudPreferences } from './cloud';
-import { newTerminal, openClaudeCode, toggleTerminal } from './terminal';
 import {
   $, S, add, applyState, arrange, closeOverlays, defaultSettings, editable, error, execute, fit, history, host, inputDialog,
   matches, open, openEditor, placement, referenceView, refreshBoards, selected, selectedImages, selection,
   setInput, setSelection, setText, setTool, start, targetIds, toast, topZ, upload, zoom, drawCamera,
 } from './editor';
 
-export interface CommandDef {
-  id: string;
-  label: string;
-  icon?: IconName;
-  keys?: string[];
-  run: () => unknown;
-  enabled?: () => boolean;
-  palette?: boolean;
-  group: string;
-}
+import { registry, type CommandDef } from './registry';
+export type { CommandDef };
 
 const has = () => selection.size > 0;
 const hasImages = () => selected().some(i => i.kind === 'image');
@@ -384,9 +375,6 @@ export const COMMANDS: CommandDef[] = [
   { group: 'View', id: 'left-dock', label: 'Toggle Left Panel', icon: 'dock-left', keys: ['mod+['], run: () => toggleDock('left') },
   { group: 'View', id: 'right-dock', label: 'Toggle Right Panel', icon: 'dock-right', keys: ['mod+]'], run: () => toggleDock('right') },
   { group: 'View', id: 'agent', label: 'Open Agent', icon: 'agent', keys: ['mod+alt+j'], run: () => showRightPanel('agent') },
-  { group: 'View', id: 'terminal', label: 'Show Terminal', icon: 'terminal', keys: ['mod+j'], run: () => toggleTerminal().catch(error) },
-  { group: 'View', id: 'new-terminal', label: 'New Terminal', icon: 'plus', run: () => newTerminal().catch(error) },
-  { group: 'View', id: 'claude-code', label: 'Claude Code', icon: 'agent', keys: ['mod+shift+j'], run: () => openClaudeCode().catch(error) },
   { group: 'View', id: 'commands', label: 'Commands', icon: 'commands', keys: ['mod+k'], run: () => openPalette(), palette: false },
   { group: 'View', id: 'help', label: 'Keyboard Shortcuts', icon: 'keyboard', keys: ['?', 'shift+/'], run: () => $<HTMLDialogElement>('help-dialog').showModal() },
   { group: 'View', id: 'preferences', label: 'Preferences', icon: 'settings', keys: ['mod+,'], run: () => { setInput('theme-select', document.documentElement.dataset.theme || 'studio'); $<HTMLDialogElement>('preferences-dialog').showModal(); void clipToken().catch(error); void refreshCloudPreferences(); } },
@@ -400,7 +388,8 @@ export const COMMANDS: CommandDef[] = [
   { group: 'Inspector', id: 'close-dialog', label: 'Close Dialog', icon: 'close', run: () => $<HTMLDialogElement>('input-dialog').close(), palette: false },
 ];
 
-export const BY_ID = new Map(COMMANDS.map(c => [c.id, c]));
+registry.add(...COMMANDS);
+export const BY_ID = registry.byId;
 
 export function lockLabel(): string {
   return anyLocked() ? 'Unlock Selected' : 'Lock Selected';
@@ -447,22 +436,23 @@ export function comboOf(event: KeyboardEvent): string {
 }
 
 const keymap = new Map<string, CommandDef>();
-const DEFAULT_KEYS = new Map(COMMANDS.map(c => [c.id, [...(c.keys || [])]]));
+const DEFAULT_KEYS = registry.defaults;
 const keyListeners: (() => void)[] = [];
 
 function rebuildKeymap() {
   keymap.clear();
-  for (const command of COMMANDS) for (const combo of command.keys || []) keymap.set(combo, command);
+  for (const command of registry.all()) for (const combo of command.keys || []) keymap.set(combo, command);
   keyListeners.forEach(listener => listener());
 }
 rebuildKeymap();
+registry.onChange(() => rebuildKeymap());
 
 export function onKeysChanged(listener: () => void) { keyListeners.push(listener); }
 
 /** Shortcut overrides: only commands whose keys differ from the defaults. */
 export function keyOverrides(): Record<string, string[]> {
   const out: Record<string, string[]> = {};
-  for (const command of COMMANDS) {
+  for (const command of registry.all()) {
     const keys = command.keys || [];
     if (keys.join(' ') !== (DEFAULT_KEYS.get(command.id) || []).join(' ')) out[command.id] = [...keys];
   }
@@ -470,7 +460,7 @@ export function keyOverrides(): Record<string, string[]> {
 }
 
 export function applyKeyOverrides(overrides: Record<string, string[]>) {
-  for (const command of COMMANDS) command.keys = [...(overrides[command.id] || DEFAULT_KEYS.get(command.id) || [])];
+  for (const command of registry.all()) command.keys = [...(overrides[command.id] || DEFAULT_KEYS.get(command.id) || [])];
   rebuildKeymap();
 }
 

@@ -9,7 +9,9 @@ import {
   selected, selection, setInput, setText, setTool, toast, updateInspector, updateOutline, upload,
 } from './editor';
 import type { Tool } from './editor';
-import { COMMANDS, RESERVED_KEYS, applyKeyOverrides, assignKey, comboOf, isEnabled, keyLabel, keyOverrides, onKeysChanged, primaryKey, run } from './commands';
+import { BY_ID, RESERVED_KEYS, applyKeyOverrides, assignKey, comboOf, isEnabled, keyLabel, keyOverrides, onKeysChanged, primaryKey, run } from './commands';
+import type { CommandDef } from './commands';
+import { registry } from './registry';
 import { replaceActiveWithNext } from './tabs';
 
 for (const node of document.querySelectorAll<HTMLElement>('[data-icon]')) node.prepend(icon(node.dataset.icon!));
@@ -34,8 +36,8 @@ document.addEventListener('click', event => {
 });
 
 const paletteRows = new Map<string, HTMLButtonElement>();
-for (const command of COMMANDS) {
-  if (command.palette === false) continue;
+function addPaletteRow(command: CommandDef) {
+  if (command.palette === false || paletteRows.has(command.id)) return;
   const button = document.createElement('button');
   button.className = 'command-row';
   button.dataset.command = `${command.label} ${command.group}`.toLowerCase();
@@ -53,11 +55,12 @@ for (const command of COMMANDS) {
   paletteRows.set(command.id, button);
   $('command-list').append(button);
 }
+registry.all().forEach(addPaletteRow);
 
 function filterCommands() {
   const query = $<HTMLInputElement>('command-search').value.toLowerCase().trim();
   for (const [id, row] of paletteRows) {
-    const command = COMMANDS.find(c => c.id === id)!;
+    const command = BY_ID.get(id)!;
     row.hidden = !row.dataset.command!.includes(query);
     row.disabled = !isEnabled(command);
   }
@@ -81,21 +84,21 @@ export function openPalette() {
 
 // Shortcut sheet: every command that has or had a key; click a key to reassign it.
 const shortcutKeys = new Map<string, HTMLButtonElement>();
-const SHORTCUT_IDS = COMMANDS.filter(c => c.keys?.length).map(c => c.id);
 let capturing: string | null = null;
+let sheetGroup = '';
 
 function keyText(id: string): string {
-  const command = COMMANDS.find(c => c.id === id)!;
+  const command = BY_ID.get(id)!;
   return command.keys?.length ? command.keys.map(k => keyLabel(k)).join('  or  ') : 'None';
 }
 
-(function buildShortcutSheet() {
+function addShortcutRows(commands: CommandDef[]) {
   const sheet = $('shortcut-list');
-  let group = '';
-  for (const id of SHORTCUT_IDS) {
-    const command = COMMANDS.find(c => c.id === id)!;
-    if (command.group !== group) {
-      group = command.group;
+  for (const command of commands) {
+    const id = command.id;
+    if (!command.keys?.length || shortcutKeys.has(id)) continue;
+    if (command.group !== sheetGroup) {
+      const group = sheetGroup = command.group;
       const head = document.createElement('div');
       head.className = 'shortcut-group';
       head.textContent = group;
@@ -112,7 +115,13 @@ function keyText(id: string): string {
     shortcutKeys.set(id, key);
     sheet.append(label, key);
   }
-})();
+}
+addShortcutRows(registry.all());
+registry.onChange((added, removed) => {
+  added.forEach(addPaletteRow);
+  addShortcutRows(added);
+  for (const id of removed) { paletteRows.get(id)?.remove(); paletteRows.delete(id); }
+});
 
 function refreshShortcutText() {
   for (const [id, key] of shortcutKeys) {
@@ -122,7 +131,7 @@ function refreshShortcutText() {
   }
   for (const [id, row] of paletteRows) {
     const kbd = row.querySelector('kbd')!;
-    const text = primaryKey(COMMANDS.find(c => c.id === id)!);
+    const text = primaryKey(BY_ID.get(id)!);
     if (kbd.textContent !== text) kbd.textContent = text;
   }
 }
@@ -160,7 +169,7 @@ window.addEventListener('keydown', event => {
   const id = capturing;
   const taken = assignKey(id, combo);
   saveKeys();
-  stopCapture(taken ? `${keyLabel(combo)} moved here from ${taken.label}.` : `${COMMANDS.find(c => c.id === id)!.label} is now ${keyLabel(combo)}.`);
+  stopCapture(taken ? `${keyLabel(combo)} moved here from ${taken.label}.` : `${BY_ID.get(id)!.label} is now ${keyLabel(combo)}.`);
 }, true);
 
 $<HTMLDialogElement>('help-dialog').addEventListener('close', () => { if (capturing) stopCapture(); });

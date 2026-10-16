@@ -10,6 +10,7 @@ function item(id: string, label?: string): MenuEntry {
     shortcut: primaryKey(command),
     disabled: !isEnabled(command),
     danger: id === 'delete',
+    ...(command.checked ? { checked: command.checked() } : {}),
     action: () => run(id),
   };
 }

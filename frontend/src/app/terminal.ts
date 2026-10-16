@@ -1,5 +1,6 @@
 import type { TerminalDock } from '../ui/terminal-dock';
-import { S, drawCamera, selection, toast } from './editor';
+import { S, drawCamera, error, selection, toast } from './editor';
+import { registry } from './registry';
 
 let dock: Promise<TerminalDock> | null = null;
 
@@ -56,4 +57,12 @@ export async function openClaudeCode(prompt?: string): Promise<void> {
   const d = await get();
   setDock(true);
   await d.claude(prompt);
+}
+
+export function registerTerminal(): void {
+  registry.add(
+    { group: 'Terminal', id: 'terminal', label: 'Show Terminal', icon: 'terminal', keys: ['mod+j'], checked: dockOpen, agent: 'window-only', mutates: false, run: () => toggleTerminal().catch(error), description: 'Shows or hides the terminal dock under the canvas; its shells keep running while hidden.' },
+    { group: 'Terminal', id: 'new-terminal', label: 'New Terminal', icon: 'plus', agent: 'window-only', mutates: false, run: () => newTerminal().catch(error), description: 'Opens another login shell tab in the terminal dock.' },
+    { group: 'Terminal', id: 'claude-code', label: 'Claude Code', icon: 'agent', keys: ['mod+shift+j'], agent: 'window-only', mutates: false, run: params => openClaudeCode(typeof params?.prompt === 'string' ? params.prompt : undefined).catch(error), params: { prompt: { type: 'string', description: 'a first message for the session' } }, description: 'Starts the person\'s own Claude Code in a dock tab, connected to FormRef\'s tools.' },
+  );
 }
