@@ -14,6 +14,10 @@
 - [v0.1.0 · Local board service and SDK MCP](#v010--local-board-service-and-sdk-mcp)
 - [boot_backend.bat](#boot_backendbat)
 
+## v0.6.6 · Duplicate images
+
+`GET /api/boards/{id}/duplicates?distance=4` returns groups of image item ids. `image_hash()` in `core/features.py` is a 64-bit difference hash of the original picture (9 by 8 grey, each pixel against its right neighbour), stored as hex `dhash` in the asset's JSON record beside `features`, so each picture is hashed once. Grouping compares each image with the first image of every existing group (identical asset ids or Hamming distance within `distance`), which is order-dependent for borderline pairs but linear in groups. Pictures that fail to decode are skipped.
+
 ## v0.6.2 · Chat and MCP over HTTP
 
 - refers-to: `app/agent/chat.py` :: _run, send, adopt, publish; `app/routers/terminal.py` :: chat_events; `app/main.py` :: MCP_HTTP, lifespan; `app/mcp_server.py` :: client_token, run_commands

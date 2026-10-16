@@ -1,5 +1,13 @@
 # FormRef changelog
 
+## v0.6.6 · 2026-10-16
+
+More shape tools, blending modes and duplicate detection.
+
+- Add Arc, Add Spiral, Add Rectangular Grid and Add Polar Grid, with Illustrator's options for agents (slope, decay, segments, dividers and more).
+- Blending mode for every item (Multiply, Screen, Overlay, Difference and the rest of Illustrator's sixteen), under Opacity in the inspector.
+- Select Duplicate Images selects the extra copies of pictures that appear more than once, the same file or a near-identical copy, leaving one of each.
+
 ## v0.6.5 · 2026-10-16
 
 Several anchors at once, Outline Stroke, the Pencil and multi-stop gradients.

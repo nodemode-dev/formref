@@ -8,6 +8,7 @@
 - [Stacking scale](#stacking-scale)
 - [Verification](#verification)
 - [Scripts](#scripts)
+- [v0.6.6 arc, spiral, grids, blending modes, duplicates](#v066-arc-spiral-grids-blending-modes-duplicates)
 - [v0.6.5 several anchors, Outline Stroke, Pencil, gradient stops](#v065-several-anchors-outline-stroke-pencil-gradient-stops)
 - [v0.6.4 Smart Guides, Curvature, search, visibility](#v064-smart-guides-curvature-search-visibility)
 - [Canvas increment](#canvas-increment)
@@ -20,6 +21,10 @@
 - [v0.4.8 desktop window controls and WebKit icons](#v048-desktop-window-controls-and-webkit-icons)
 - [v0.4.7 synced notes, map cards, inline edit commit](#v047-synced-notes-map-cards-inline-edit-commit)
 - [v0.4.6 GIF frames and document export](#v046-gif-frames-and-document-export)
+
+## v0.6.6 arc, spiral, grids, blending modes, duplicates
+
+The four generators live in `lib/vector/path.ts`. The spiral works in unit radius, one anchor per quarter turn with KAPPA handles scaled to that anchor's own radius, then fits the whole curve (handles included) to the w by h box, so the item size is the drawn size. Grids are one item of many paths; the divider limits (499, polar rings 498) keep inside the engine's 1000 paths per vector. Blending is `data.blend` drawn as `mix-blend-mode` on the item root, written only when it changes; the world layer is its own stacking context, so items blend with each other and not with the canvas colour. Normal stores null. Duplicates are found in `backend/app/core/features.py`: a 9 by 8 grey difference hash per asset, cached as `dhash` in the asset record, grouped greedily against each group's first image; identical files always group because their asset ids match.
 
 ## v0.6.5 several anchors, Outline Stroke, Pencil, gradient stops
 
