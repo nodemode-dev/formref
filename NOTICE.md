@@ -20,7 +20,8 @@ FormRef's original source and vector artwork are Apache-2.0. The repository's fu
 | `u2net_human_seg.onnx`, `isnet-general-use.onnx` | rembg release v0.0.0 | Apache-2.0 | No, downloaded on request and checked against its SHA-256 |
 | SAM 2.1 Hiera Tiny image encoder, mask decoder and constants (Meta) | square-zero-labs/sam2.1-tiny-video-onnx on Hugging Face | Apache-2.0 | No, downloaded on request and checked against its SHA-256 |
 | PureRef official handbook | Feature requirements | No source or proprietary assets included |
-| BeeRef official documentation/release notes | Feature requirements | No BeeRef code opened, downloaded, copied or shipped |
+| BeeRef official documentation/release notes | Feature requirements | No BeeRef code copied or shipped |
+| BeeRef 0.3.x (GPL-3.0) `.bee` file format | Format interoperability: `backend/app/core/beeref.py` reads and writes the documented SQLite layout | Independent implementation written from the format, not from BeeRef's code. BeeRef's source was run only outside the repository to load FormRef's exported files and confirm the geometry; none of it is copied, linked or shipped |
 | Milanote official help center | Feature requirements | No product assets or proprietary implementation included |
 
 ## Direct dependencies

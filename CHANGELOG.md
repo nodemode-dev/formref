@@ -1,5 +1,16 @@
 # FormRef changelog
 
+## v0.7.1 · 2026-10-16
+
+Moving boards to and from BeeRef, and very large boards that stay fast.
+
+- Export a board as a BeeRef `.bee` file: pictures keep their original files, crop, rotation, mirroring, opacity and grayscale; notes, documents, to-dos and links become BeeRef text. Drawings and shapes have no BeeRef form, and the export says how many were left out.
+- Open or drop a `.bee` file to bring a BeeRef board in as a new board. Positions match BeeRef to the pixel, including flipped and rotated crops.
+- Items more than a screen outside the view skip drawing, so boards with hundreds of references pan and zoom smoothly; they return before they reach the edge.
+- Normalize Sizes Within Each Group gives each group's items the group's median height, width or area while every group keeps its own scale.
+- Animated WebP and GIF references play on the board; the zoom-sized previews always serve the animated original.
+- The MCP `export_board` tool writes `.bee` too.
+
 ## v0.6.9 · 2026-10-16
 
 Cropping, shaping and arranging references on the board.

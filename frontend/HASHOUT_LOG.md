@@ -8,6 +8,7 @@
 - [Stacking scale](#stacking-scale)
 - [Verification](#verification)
 - [Scripts](#scripts)
+- [v0.7.1 off-screen culling, group sizes, BeeRef files](#v071-off-screen-culling-group-sizes-beeref-files)
 - [v0.6.9 crop on the board, lasso, rotate selection, stacking lock](#v069-crop-on-the-board-lasso-rotate-selection-stacking-lock)
 - [v0.6.8 visible-first loading, PDF tools](#v068-visible-first-loading-pdf-tools)
 - [v0.6.7 video clips, flip view, drag out, image level of detail](#v067-video-clips-flip-view-drag-out-image-level-of-detail)
@@ -24,6 +25,14 @@
 - [v0.4.8 desktop window controls and WebKit icons](#v048-desktop-window-controls-and-webkit-icons)
 - [v0.4.7 synced notes, map cards, inline edit commit](#v047-synced-notes-map-cards-inline-edit-commit)
 - [v0.4.6 GIF frames and document export](#v046-gif-frames-and-document-export)
+
+## v0.7.1 off-screen culling, group sizes, BeeRef files
+
+`ui/scene.ts` marks a node `culled` when `inView()` says it lies beyond the view plus one view of margin; `.board-item.culled` sets `content-visibility: hidden` and `visibility: hidden`, so the box keeps its size and position (no layout change) while its contents skip layout and paint. The flag is re-evaluated in `Scene.detail()` on every camera draw and in `ItemNode.update()`, so an item moved into view by an agent shows without a camera move. Pointer code finds items by `closest('.board-item')` and geometry comes from board state, so culled nodes need no special cases. Verified on a 120-picture board at 4x CPU and a slow network: 111 culled at open, none culled on screen after panning, all shown after Fit.
+
+`app/group-normalize.ts` measures each item's rotated bounds the same way the engine's `normalize` does, takes the median per group and sends one `batch` of `normalize` commands (one undo step). Items with a `parent_id`, locked or hidden items are left alone.
+
+The export row `data-export="bee"` follows the other export rows; afterwards `bindings.ts` counts items with no BeeRef form (anything not image, note, document, to-do or link) and says how many were left out. `upload()` sends dropped `.bee` files to `/api/import` as new boards. The i18n extractor skips strings that start with a camel-case word such as BeeRef, so user-facing strings put a plain word first.
 
 ## v0.6.9 crop on the board, lasso, rotate selection, stacking lock
 

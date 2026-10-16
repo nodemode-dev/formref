@@ -8,6 +8,7 @@
 
 ## Contents
 
+- [v0.7.1 · BeeRef .bee boards](#v071--beeref-bee-boards)
 - [v0.6.8 · PDF export and PDF pages](#v068--pdf-export-and-pdf-pages)
 - [v0.6.7 · Image previews and the command line](#v067--image-previews-and-the-command-line)
 - [v0.6.6 · Duplicate images](#v066--duplicate-images)
@@ -16,6 +17,12 @@
 - [v0.2.0 · Canvas settings and snapping through MCP](#v020--canvas-settings-and-snapping-through-mcp)
 - [v0.1.0 · Local board service and SDK MCP](#v010--local-board-service-and-sdk-mcp)
 - [boot_backend.bat](#boot_backendbat)
+
+## v0.7.1 · BeeRef .bee boards
+
+`core/beeref.py` writes and reads BeeRef's SQLite layout (application_id 2060242126, user_version 2, `items` plus `sqlar`). A BeeRef item maps a local pixel p to the scene as `pos + F(flip) * R(rotation) * scale * p`: Qt applies the item transform (the horizontal mirror) after rotation, so a mirrored item's stored rotation is the negative of FormRef's. FormRef's `flip_y` is written as a horizontal mirror plus a half turn. Export uses the original file, or a PNG when the image has a lasso mask, is SVG or has no known size; crop is written in source pixels and scale is the mean of the two axis scales. Import ranks z to whole numbers, turns the first line of a text item into the note heading and sizes the card so its body shows.
+
+Checked with BeeRef 0.3.x and PyQt6 run outside the repository (GPL-3.0, never copied): BeeRef's own `SQLiteIO` loaded every exported item, and the crop corners it computed matched FormRef's at 0.000 px for plain, rotated, mirrored, flip_y with rotation, cropped, and cropped plus mirrored plus rotated images; a re-import matched at 0 px. `imports.py` routes files starting `SQLite format 3` to `import_bee`.
 
 ## v0.6.8 · PDF export and PDF pages
 
