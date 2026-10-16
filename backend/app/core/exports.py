@@ -14,6 +14,7 @@ from .store import store
 from .media import original_image
 from .sampling import crop_bounds, color_values
 from .reference_text import parse_text, layout_text, markdown_source
+from .xmp_write import with_tags
 
 SVG_NS = "http://www.w3.org/2000/svg"
 ET.register_namespace("", SVG_NS)
@@ -528,8 +529,14 @@ def portable_export(state):
 IMAGE_EXTENSIONS = {"image/png": "png", "image/jpeg": "jpg", "image/webp": "webp", "image/gif": "gif", "image/bmp": "bmp", "image/svg+xml": "svg", "image/tiff": "tif", "image/avif": "avif", "image/heic": "heic"}
 
 def images_export(board):
-    """Every picture on the board as its original file, numbered in reading order; a picture used several times is written once."""
+    """Every picture on the board as its original file, numbered in reading order; a picture used several times is written once. Tagged pictures carry their labels and tags (from every use) and title as XMP: inside JPEG and PNG files, as a .xmp sidecar beside other formats; untagged pictures are the original bytes."""
     pictures = [item for item in board["items"] if item["kind"] == "image" and item.get("asset_id") and not (item.get("data") or {}).get("unresolved")]
+    tags_of: dict[str, list[str]] = {}
+    for item in reading_order(pictures):
+        merged = tags_of.setdefault(item["asset_id"], [])
+        for tag in item_tags(board, item):
+            if not any(tag.lower() == seen_tag.lower() for seen_tag in merged):
+                merged.append(tag)
     output, seen, used = io.BytesIO(), set(), set()
     with zipfile.ZipFile(output, "w", compression=zipfile.ZIP_STORED) as archive:
         for item in reading_order(pictures):
@@ -546,7 +553,13 @@ def images_export(board):
             while name in used:
                 name = f"{len(seen):03d} {stem} {len(used)}.{extension}"
             used.add(name)
+            tags = tags_of.get(item["asset_id"]) or []
+            sidecar = None
+            if tags:
+                data, sidecar = with_tags(data, info.get("mime", ""), tags, (item.get("title") or "").replace("\n", " ").strip())
             archive.writestr(name, data)
+            if sidecar is not None:
+                archive.writestr(name.rsplit(".", 1)[0] + ".xmp", sidecar)
     return output.getvalue(), len(used)
 
 def table_cells(data):
