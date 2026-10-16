@@ -1381,7 +1381,6 @@
  "A saved search can hold at most 12 tags and 12 labels.": "Сохранённый поиск может содержать не более 12 тегов и 12 меток.",
  "A shared search id must be letters, digits, - or _.": "Идентификатор общего поиска может содержать только буквы, цифры, - или _.",
  "A shared search needs a name.": "Общему поиску нужно название.",
- "A shared search needs text, a kind, a color, a tag or a label.": "Общему поиску нужен текст, тип, цвет, тег или метка.",
  "All Boards": "Все доски",
  "FormRef can keep at most {0} searches for all boards.": "FormRef может хранить не более {0} поисков для всех досок.",
  "No saved search on this board or for all boards has that name.": "Ни на этой доске, ни для всех досок нет сохранённого поиска с таким названием.",
@@ -1457,5 +1456,19 @@
  "Source page": "Исходная страница",
  "Taken": "Снято",
  "The details could not be copied.": "Не удалось скопировать сведения.",
- "The details of this picture could not be read.": "Не удалось прочитать сведения об этом изображении."
+ "The details of this picture could not be read.": "Не удалось прочитать сведения об этом изображении.",
+ "A shared search needs text, a kind, a color, a tag, a label or a rating.": "Общему поиску нужен текст, тип, цвет, тег, метка или оценка.",
+ "Any Rating": "Любая оценка",
+ "At least {0} stars": "Не меньше {0} звёзд",
+ "Clear Rating": "Снять оценку",
+ "Filter by Rating…": "Фильтр по оценке…",
+ "Filter by rating": "Фильтр по оценке",
+ "Five stars": "Пять звёзд",
+ "Rate 1 Star": "Оценить в 1 звезду",
+ "Rate {0} Stars": "Оценить в {0} звезды",
+ "Rate {0} of 5": "Оценить на {0} из 5",
+ "Rating": "Оценка",
+ "Select one or more pictures to rate.": "Выберите одно или несколько изображений для оценки.",
+ "Unrated": "Без оценки",
+ "Rated": "С оценкой"
 }

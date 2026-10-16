@@ -1381,7 +1381,6 @@
  "A saved search can hold at most 12 tags and 12 labels.": "Egy mentett keresés legfeljebb 12 címkét és 12 táblacímkét tartalmazhat.",
  "A shared search id must be letters, digits, - or _.": "A megosztott keresés azonosítója csak betűket, számjegyeket, - vagy _ jelet tartalmazhat.",
  "A shared search needs a name.": "A megosztott keresésnek név kell.",
- "A shared search needs text, a kind, a color, a tag or a label.": "A megosztott keresésnek szöveg, fajta, szín vagy címke kell.",
  "All Boards": "Minden tábla",
  "FormRef can keep at most {0} searches for all boards.": "A FormRef legfeljebb {0} keresést tud megőrizni minden táblához.",
  "No saved search on this board or for all boards has that name.": "Ezen a táblán és a minden táblához mentett keresések között sincs ilyen nevű.",
@@ -1457,5 +1456,19 @@
  "Source page": "Forrásoldal",
  "Taken": "Készült",
  "The details could not be copied.": "Az adatokat nem sikerült másolni.",
- "The details of this picture could not be read.": "A kép adatait nem sikerült beolvasni."
+ "The details of this picture could not be read.": "A kép adatait nem sikerült beolvasni.",
+ "A shared search needs text, a kind, a color, a tag, a label or a rating.": "A megosztott keresésnek szöveg, fajta, szín, címke vagy értékelés kell.",
+ "Any Rating": "Bármilyen értékelés",
+ "At least {0} stars": "Legalább {0} csillag",
+ "Clear Rating": "Értékelés törlése",
+ "Filter by Rating…": "Szűrés értékelés szerint…",
+ "Filter by rating": "Szűrés értékelés szerint",
+ "Five stars": "Öt csillag",
+ "Rate 1 Star": "1 csillagos értékelés",
+ "Rate {0} Stars": "{0} csillagos értékelés",
+ "Rate {0} of 5": "Értékelés: {0}/5",
+ "Rating": "Értékelés",
+ "Select one or more pictures to rate.": "Jelöljön ki egy vagy több képet az értékeléshez.",
+ "Unrated": "Értékeletlen",
+ "Rated": "Értékelt"
 }

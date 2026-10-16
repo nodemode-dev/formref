@@ -1381,7 +1381,6 @@
  "A saved search can hold at most 12 tags and 12 labels.": "การค้นหาที่บันทึกไว้มีแท็กได้ไม่เกิน 12 แท็กและป้ายกำกับไม่เกิน 12 รายการ",
  "A shared search id must be letters, digits, - or _.": "รหัสของการค้นหาที่แชร์ต้องมีเฉพาะตัวอักษร ตัวเลข - หรือ _",
  "A shared search needs a name.": "การค้นหาที่แชร์ต้องมีชื่อ",
- "A shared search needs text, a kind, a color, a tag or a label.": "การค้นหาที่แชร์ต้องมีข้อความ ชนิด สี แท็ก หรือป้ายกำกับ",
  "All Boards": "ทุกบอร์ด",
  "FormRef can keep at most {0} searches for all boards.": "FormRef เก็บการค้นหาสำหรับทุกบอร์ดได้ไม่เกิน {0} รายการ",
  "No saved search on this board or for all boards has that name.": "ไม่มีการค้นหาที่บันทึกไว้บนบอร์ดนี้หรือสำหรับทุกบอร์ดที่ใช้ชื่อนั้น",
@@ -1457,5 +1456,19 @@
  "Source page": "หน้าที่มา",
  "Taken": "ถ่ายเมื่อ",
  "The details could not be copied.": "คัดลอกข้อมูลไม่ได้",
- "The details of this picture could not be read.": "อ่านรายละเอียดของรูปนี้ไม่ได้"
+ "The details of this picture could not be read.": "อ่านรายละเอียดของรูปนี้ไม่ได้",
+ "A shared search needs text, a kind, a color, a tag, a label or a rating.": "การค้นหาที่แชร์ต้องมีข้อความ ชนิด สี แท็ก ป้ายกำกับ หรือคะแนน",
+ "Any Rating": "คะแนนใดก็ได้",
+ "At least {0} stars": "อย่างน้อย {0} ดาว",
+ "Clear Rating": "ล้างคะแนน",
+ "Filter by Rating…": "กรองตามคะแนน…",
+ "Filter by rating": "กรองตามคะแนน",
+ "Five stars": "ห้าดาว",
+ "Rate 1 Star": "ให้ 1 ดาว",
+ "Rate {0} Stars": "ให้ {0} ดาว",
+ "Rate {0} of 5": "ให้ {0} จาก 5",
+ "Rating": "คะแนน",
+ "Select one or more pictures to rate.": "เลือกรูปหนึ่งรูปขึ้นไปเพื่อให้คะแนน",
+ "Unrated": "ยังไม่ให้คะแนน",
+ "Rated": "ให้คะแนนแล้ว"
 }

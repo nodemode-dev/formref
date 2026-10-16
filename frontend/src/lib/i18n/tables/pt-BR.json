@@ -1381,7 +1381,6 @@
  "A saved search can hold at most 12 tags and 12 labels.": "Uma busca salva pode ter no máximo 12 tags e 12 etiquetas.",
  "A shared search id must be letters, digits, - or _.": "O id de uma busca compartilhada só pode ter letras, números, - ou _.",
  "A shared search needs a name.": "Uma busca compartilhada precisa de um nome.",
- "A shared search needs text, a kind, a color, a tag or a label.": "Uma busca compartilhada precisa de texto, um tipo, uma cor, uma tag ou uma etiqueta.",
  "All Boards": "Todos os quadros",
  "FormRef can keep at most {0} searches for all boards.": "O FormRef pode guardar no máximo {0} buscas para todos os quadros.",
  "No saved search on this board or for all boards has that name.": "Nenhuma busca salva neste quadro ou para todos os quadros tem esse nome.",
@@ -1457,5 +1456,19 @@
  "Source page": "Página de origem",
  "Taken": "Tirada em",
  "The details could not be copied.": "Não foi possível copiar as informações.",
- "The details of this picture could not be read.": "Não foi possível ler os detalhes desta imagem."
+ "The details of this picture could not be read.": "Não foi possível ler os detalhes desta imagem.",
+ "A shared search needs text, a kind, a color, a tag, a label or a rating.": "Uma busca compartilhada precisa de texto, um tipo, uma cor, uma tag, uma etiqueta ou uma classificação.",
+ "Any Rating": "Qualquer classificação",
+ "At least {0} stars": "Pelo menos {0} estrelas",
+ "Clear Rating": "Limpar classificação",
+ "Filter by Rating…": "Filtrar por classificação…",
+ "Filter by rating": "Filtrar por classificação",
+ "Five stars": "Cinco estrelas",
+ "Rate 1 Star": "Dar 1 estrela",
+ "Rate {0} Stars": "Dar {0} estrelas",
+ "Rate {0} of 5": "Dar {0} de 5",
+ "Rating": "Classificação",
+ "Select one or more pictures to rate.": "Selecione uma ou mais imagens para classificar.",
+ "Unrated": "Sem classificação",
+ "Rated": "Classificadas"
 }

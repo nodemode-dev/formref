@@ -1381,7 +1381,6 @@
  "A saved search can hold at most 12 tags and 12 labels.": "En sparad sökning kan innehålla högst 12 taggar och 12 etiketter.",
  "A shared search id must be letters, digits, - or _.": "Id för en delad sökning får bara innehålla bokstäver, siffror, - eller _.",
  "A shared search needs a name.": "En delad sökning behöver ett namn.",
- "A shared search needs text, a kind, a color, a tag or a label.": "En delad sökning behöver text, en typ, en färg, en tagg eller en etikett.",
  "All Boards": "Alla tavlor",
  "FormRef can keep at most {0} searches for all boards.": "FormRef kan spara högst {0} sökningar för alla tavlor.",
  "No saved search on this board or for all boards has that name.": "Ingen sparad sökning på den här tavlan eller för alla tavlor har det namnet.",
@@ -1457,5 +1456,19 @@
  "Source page": "Källsida",
  "Taken": "Tagen",
  "The details could not be copied.": "Uppgifterna kunde inte kopieras.",
- "The details of this picture could not be read.": "Uppgifterna för den här bilden kunde inte läsas."
+ "The details of this picture could not be read.": "Uppgifterna för den här bilden kunde inte läsas.",
+ "A shared search needs text, a kind, a color, a tag, a label or a rating.": "En delad sökning behöver text, en typ, en färg, en tagg, en etikett eller ett betyg.",
+ "Any Rating": "Alla betyg",
+ "At least {0} stars": "Minst {0} stjärnor",
+ "Clear Rating": "Ta bort betyg",
+ "Filter by Rating…": "Filtrera efter betyg…",
+ "Filter by rating": "Filtrera efter betyg",
+ "Five stars": "Fem stjärnor",
+ "Rate 1 Star": "Ge 1 stjärna",
+ "Rate {0} Stars": "Ge {0} stjärnor",
+ "Rate {0} of 5": "Ge {0} av 5",
+ "Rating": "Betyg",
+ "Select one or more pictures to rate.": "Markera en eller flera bilder att betygsätta.",
+ "Unrated": "Utan betyg",
+ "Rated": "Med betyg"
 }

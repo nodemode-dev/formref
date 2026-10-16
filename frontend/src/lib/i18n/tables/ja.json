@@ -1381,7 +1381,6 @@
  "A saved search can hold at most 12 tags and 12 labels.": "保存した検索に含められるのはタグ 12 個とラベル 12 個までです。",
  "A shared search id must be letters, digits, - or _.": "共有検索の ID には英字、数字、- または _ だけを使えます。",
  "A shared search needs a name.": "共有検索には名前が必要です。",
- "A shared search needs text, a kind, a color, a tag or a label.": "共有検索にはテキスト、種類、色、タグ、ラベルのいずれかが必要です。",
  "All Boards": "すべてのボード",
  "FormRef can keep at most {0} searches for all boards.": "FormRef が保持できるすべてのボード用の検索は {0} 件までです。",
  "No saved search on this board or for all boards has that name.": "このボードにもすべてのボード用にも、その名前の保存した検索はありません。",
@@ -1457,5 +1456,19 @@
  "Source page": "元のページ",
  "Taken": "撮影日時",
  "The details could not be copied.": "情報をコピーできませんでした。",
- "The details of this picture could not be read.": "この画像の詳細を読み取れませんでした。"
+ "The details of this picture could not be read.": "この画像の詳細を読み取れませんでした。",
+ "A shared search needs text, a kind, a color, a tag, a label or a rating.": "共有検索にはテキスト、種類、色、タグ、ラベル、評価のいずれかが必要です。",
+ "Any Rating": "すべての評価",
+ "At least {0} stars": "{0} つ星以上",
+ "Clear Rating": "評価を解除",
+ "Filter by Rating…": "評価で絞り込む…",
+ "Filter by rating": "評価で絞り込む",
+ "Five stars": "5 つ星",
+ "Rate 1 Star": "1 つ星を付ける",
+ "Rate {0} Stars": "{0} つ星を付ける",
+ "Rate {0} of 5": "5 段階中 {0} を付ける",
+ "Rating": "評価",
+ "Select one or more pictures to rate.": "評価する画像を 1 枚以上選択してください。",
+ "Unrated": "評価なし",
+ "Rated": "評価あり"
 }

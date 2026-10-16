@@ -1381,7 +1381,6 @@
  "A saved search can hold at most 12 tags and 12 labels.": "Збережений пошук може містити не більше 12 тегів і 12 міток.",
  "A shared search id must be letters, digits, - or _.": "Ідентифікатор спільного пошуку може містити лише літери, цифри, - або _.",
  "A shared search needs a name.": "Спільному пошуку потрібна назва.",
- "A shared search needs text, a kind, a color, a tag or a label.": "Спільному пошуку потрібен текст, тип, колір, тег або мітка.",
  "All Boards": "Усі дошки",
  "FormRef can keep at most {0} searches for all boards.": "FormRef може зберігати не більше {0} пошуків для всіх дошок.",
  "No saved search on this board or for all boards has that name.": "Ні на цій дошці, ні для всіх дошок немає збереженого пошуку з такою назвою.",
@@ -1457,5 +1456,19 @@
  "Source page": "Вихідна сторінка",
  "Taken": "Знято",
  "The details could not be copied.": "Не вдалося скопіювати відомості.",
- "The details of this picture could not be read.": "Не вдалося прочитати відомості про це зображення."
+ "The details of this picture could not be read.": "Не вдалося прочитати відомості про це зображення.",
+ "A shared search needs text, a kind, a color, a tag, a label or a rating.": "Спільному пошуку потрібен текст, тип, колір, тег, мітка або оцінка.",
+ "Any Rating": "Будь-яка оцінка",
+ "At least {0} stars": "Щонайменше {0} зірки",
+ "Clear Rating": "Зняти оцінку",
+ "Filter by Rating…": "Фільтр за оцінкою…",
+ "Filter by rating": "Фільтр за оцінкою",
+ "Five stars": "П'ять зірок",
+ "Rate 1 Star": "Оцінити в 1 зірку",
+ "Rate {0} Stars": "Оцінити в {0} зірки",
+ "Rate {0} of 5": "Оцінити на {0} з 5",
+ "Rating": "Оцінка",
+ "Select one or more pictures to rate.": "Виберіть одне чи кілька зображень для оцінки.",
+ "Unrated": "Без оцінки",
+ "Rated": "З оцінкою"
 }

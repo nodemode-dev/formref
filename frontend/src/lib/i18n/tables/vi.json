@@ -1381,7 +1381,6 @@
  "A saved search can hold at most 12 tags and 12 labels.": "Một tìm kiếm đã lưu có thể chứa tối đa 12 thẻ và 12 nhãn.",
  "A shared search id must be letters, digits, - or _.": "Mã của tìm kiếm dùng chung chỉ được chứa chữ, số, - hoặc _.",
  "A shared search needs a name.": "Tìm kiếm dùng chung cần có tên.",
- "A shared search needs text, a kind, a color, a tag or a label.": "Tìm kiếm dùng chung cần có văn bản, loại, màu, thẻ hoặc nhãn.",
  "All Boards": "Tất cả bảng",
  "FormRef can keep at most {0} searches for all boards.": "FormRef có thể giữ tối đa {0} tìm kiếm cho tất cả bảng.",
  "No saved search on this board or for all boards has that name.": "Không có tìm kiếm đã lưu nào trên bảng này hoặc cho tất cả bảng có tên đó.",
@@ -1457,5 +1456,19 @@
  "Source page": "Trang nguồn",
  "Taken": "Chụp lúc",
  "The details could not be copied.": "Không thể sao chép thông tin.",
- "The details of this picture could not be read.": "Không thể đọc chi tiết của ảnh này."
+ "The details of this picture could not be read.": "Không thể đọc chi tiết của ảnh này.",
+ "A shared search needs text, a kind, a color, a tag, a label or a rating.": "Tìm kiếm dùng chung cần có văn bản, loại, màu, thẻ, nhãn hoặc xếp hạng.",
+ "Any Rating": "Mọi xếp hạng",
+ "At least {0} stars": "Ít nhất {0} sao",
+ "Clear Rating": "Xóa xếp hạng",
+ "Filter by Rating…": "Lọc theo xếp hạng…",
+ "Filter by rating": "Lọc theo xếp hạng",
+ "Five stars": "Năm sao",
+ "Rate 1 Star": "Xếp hạng 1 sao",
+ "Rate {0} Stars": "Xếp hạng {0} sao",
+ "Rate {0} of 5": "Xếp hạng {0} trên 5",
+ "Rating": "Xếp hạng",
+ "Select one or more pictures to rate.": "Chọn một hoặc nhiều ảnh để xếp hạng.",
+ "Unrated": "Chưa xếp hạng",
+ "Rated": "Đã xếp hạng"
 }

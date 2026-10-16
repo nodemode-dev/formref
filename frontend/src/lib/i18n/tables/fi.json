@@ -1381,7 +1381,6 @@
  "A saved search can hold at most 12 tags and 12 labels.": "Tallennetussa haussa voi olla enintään 12 tunnistetta ja 12 nimiötä.",
  "A shared search id must be letters, digits, - or _.": "Jaetun haun tunnuksessa saa olla vain kirjaimia, numeroita, - tai _.",
  "A shared search needs a name.": "Jaettu haku tarvitsee nimen.",
- "A shared search needs text, a kind, a color, a tag or a label.": "Jaettu haku tarvitsee tekstin, lajin, värin, tunnisteen tai nimiön.",
  "All Boards": "Kaikki taulut",
  "FormRef can keep at most {0} searches for all boards.": "FormRef voi säilyttää enintään {0} hakua kaikille tauluille.",
  "No saved search on this board or for all boards has that name.": "Millään tämän taulun tai kaikkien taulujen tallennetulla haulla ei ole tätä nimeä.",
@@ -1457,5 +1456,19 @@
  "Source page": "Lähdesivu",
  "Taken": "Otettu",
  "The details could not be copied.": "Tietoja ei voitu kopioida.",
- "The details of this picture could not be read.": "Tämän kuvan tietoja ei voitu lukea."
+ "The details of this picture could not be read.": "Tämän kuvan tietoja ei voitu lukea.",
+ "A shared search needs text, a kind, a color, a tag, a label or a rating.": "Jaettu haku tarvitsee tekstin, lajin, värin, tunnisteen, nimiön tai arvion.",
+ "Any Rating": "Mikä tahansa arvio",
+ "At least {0} stars": "Vähintään {0} tähteä",
+ "Clear Rating": "Poista arvio",
+ "Filter by Rating…": "Suodata arvion mukaan…",
+ "Filter by rating": "Suodata arvion mukaan",
+ "Five stars": "Viisi tähteä",
+ "Rate 1 Star": "Anna 1 tähti",
+ "Rate {0} Stars": "Anna {0} tähteä",
+ "Rate {0} of 5": "Anna {0}/5",
+ "Rating": "Arvio",
+ "Select one or more pictures to rate.": "Valitse arvioitavaksi yksi tai useampi kuva.",
+ "Unrated": "Arvioimaton",
+ "Rated": "Arvioitu"
 }

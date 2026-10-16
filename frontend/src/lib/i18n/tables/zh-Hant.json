@@ -1381,7 +1381,6 @@
  "A saved search can hold at most 12 tags and 12 labels.": "已儲存的搜尋最多可包含 12 個標籤和 12 個看板標籤。",
  "A shared search id must be letters, digits, - or _.": "共用搜尋的 ID 只能包含字母、數字、- 或 _。",
  "A shared search needs a name.": "共用搜尋需要名稱。",
- "A shared search needs text, a kind, a color, a tag or a label.": "共用搜尋需要文字、類型、顏色或標籤。",
  "All Boards": "所有看板",
  "FormRef can keep at most {0} searches for all boards.": "FormRef 最多可為所有看板保留 {0} 個搜尋。",
  "No saved search on this board or for all boards has that name.": "此看板上和所有看板的搜尋中都沒有該名稱的已儲存搜尋。",
@@ -1457,5 +1456,19 @@
  "Source page": "來源頁面",
  "Taken": "拍攝時間",
  "The details could not be copied.": "無法複製資訊。",
- "The details of this picture could not be read.": "無法讀取這張圖片的資訊。"
+ "The details of this picture could not be read.": "無法讀取這張圖片的資訊。",
+ "A shared search needs text, a kind, a color, a tag, a label or a rating.": "共用搜尋需要文字、類型、顏色、標籤或評分。",
+ "Any Rating": "任何評分",
+ "At least {0} stars": "至少 {0} 星",
+ "Clear Rating": "清除評分",
+ "Filter by Rating…": "依評分篩選…",
+ "Filter by rating": "依評分篩選",
+ "Five stars": "五星",
+ "Rate 1 Star": "評為 1 星",
+ "Rate {0} Stars": "評為 {0} 星",
+ "Rate {0} of 5": "評為 {0}/5",
+ "Rating": "評分",
+ "Select one or more pictures to rate.": "請選擇一張或多張要評分的圖片。",
+ "Unrated": "未評分",
+ "Rated": "已評分"
 }

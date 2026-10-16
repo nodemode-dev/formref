@@ -1381,7 +1381,6 @@
  "A saved search can hold at most 12 tags and 12 labels.": "Kayıtlı bir arama en fazla 12 etiket ve 12 pano etiketi içerebilir.",
  "A shared search id must be letters, digits, - or _.": "Paylaşılan aramanın kimliği yalnızca harf, rakam, - veya _ içerebilir.",
  "A shared search needs a name.": "Paylaşılan aramanın bir adı olmalı.",
- "A shared search needs text, a kind, a color, a tag or a label.": "Paylaşılan aramanın metni, türü, rengi veya etiketi olmalı.",
  "All Boards": "Tüm Panolar",
  "FormRef can keep at most {0} searches for all boards.": "FormRef tüm panolar için en fazla {0} arama saklayabilir.",
  "No saved search on this board or for all boards has that name.": "Bu panoda veya tüm panolar için o adda kayıtlı arama yok.",
@@ -1457,5 +1456,19 @@
  "Source page": "Kaynak sayfa",
  "Taken": "Çekim",
  "The details could not be copied.": "Bilgiler kopyalanamadı.",
- "The details of this picture could not be read.": "Bu resmin ayrıntıları okunamadı."
+ "The details of this picture could not be read.": "Bu resmin ayrıntıları okunamadı.",
+ "A shared search needs text, a kind, a color, a tag, a label or a rating.": "Paylaşılan aramanın metni, türü, rengi, etiketi veya puanı olmalı.",
+ "Any Rating": "Her Puan",
+ "At least {0} stars": "En az {0} yıldız",
+ "Clear Rating": "Puanı Kaldır",
+ "Filter by Rating…": "Puana Göre Filtrele…",
+ "Filter by rating": "Puana göre filtrele",
+ "Five stars": "Beş yıldız",
+ "Rate 1 Star": "1 Yıldız Ver",
+ "Rate {0} Stars": "{0} Yıldız Ver",
+ "Rate {0} of 5": "5 üzerinden {0} ver",
+ "Rating": "Puan",
+ "Select one or more pictures to rate.": "Puanlamak için bir veya daha fazla resim seçin.",
+ "Unrated": "Puansız",
+ "Rated": "Puanlı"
 }

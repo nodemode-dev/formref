@@ -1381,7 +1381,6 @@
  "A saved search can hold at most 12 tags and 12 labels.": "Een opgeslagen zoekopdracht kan hoogstens 12 tags en 12 labels bevatten.",
  "A shared search id must be letters, digits, - or _.": "De id van een gedeelde zoekopdracht mag alleen letters, cijfers, - of _ bevatten.",
  "A shared search needs a name.": "Een gedeelde zoekopdracht heeft een naam nodig.",
- "A shared search needs text, a kind, a color, a tag or a label.": "Een gedeelde zoekopdracht heeft tekst, een soort, een kleur, een tag of een label nodig.",
  "All Boards": "Alle boards",
  "FormRef can keep at most {0} searches for all boards.": "FormRef kan hoogstens {0} zoekopdrachten voor alle boards bewaren.",
  "No saved search on this board or for all boards has that name.": "Geen opgeslagen zoekopdracht op dit board of voor alle boards heeft die naam.",
@@ -1457,5 +1456,19 @@
  "Source page": "Bronpagina",
  "Taken": "Gemaakt",
  "The details could not be copied.": "De info kon niet worden gekopieerd.",
- "The details of this picture could not be read.": "De details van deze afbeelding konden niet worden gelezen."
+ "The details of this picture could not be read.": "De details van deze afbeelding konden niet worden gelezen.",
+ "A shared search needs text, a kind, a color, a tag, a label or a rating.": "Een gedeelde zoekopdracht heeft tekst, een soort, een kleur, een tag, een label of een beoordeling nodig.",
+ "Any Rating": "Elke beoordeling",
+ "At least {0} stars": "Minstens {0} sterren",
+ "Clear Rating": "Beoordeling wissen",
+ "Filter by Rating…": "Filteren op beoordeling…",
+ "Filter by rating": "Filteren op beoordeling",
+ "Five stars": "Vijf sterren",
+ "Rate 1 Star": "1 ster geven",
+ "Rate {0} Stars": "{0} sterren geven",
+ "Rate {0} of 5": "{0} van 5 geven",
+ "Rating": "Beoordeling",
+ "Select one or more pictures to rate.": "Selecteer een of meer afbeeldingen om te beoordelen.",
+ "Unrated": "Zonder beoordeling",
+ "Rated": "Beoordeeld"
 }

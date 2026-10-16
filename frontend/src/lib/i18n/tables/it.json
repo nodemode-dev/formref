@@ -1381,7 +1381,6 @@
  "A saved search can hold at most 12 tags and 12 labels.": "Una ricerca salvata può contenere al massimo 12 tag e 12 etichette.",
  "A shared search id must be letters, digits, - or _.": "L’id di una ricerca condivisa può contenere solo lettere, cifre, - o _.",
  "A shared search needs a name.": "Una ricerca condivisa ha bisogno di un nome.",
- "A shared search needs text, a kind, a color, a tag or a label.": "Una ricerca condivisa ha bisogno di testo, un tipo, un colore, un tag o un’etichetta.",
  "All Boards": "Tutte le bacheche",
  "FormRef can keep at most {0} searches for all boards.": "FormRef può conservare al massimo {0} ricerche per tutte le bacheche.",
  "No saved search on this board or for all boards has that name.": "Nessuna ricerca salvata su questa bacheca o per tutte le bacheche ha quel nome.",
@@ -1457,5 +1456,19 @@
  "Source page": "Pagina di origine",
  "Taken": "Scattata",
  "The details could not be copied.": "Non è stato possibile copiare le info.",
- "The details of this picture could not be read.": "Non è stato possibile leggere i dettagli di questa immagine."
+ "The details of this picture could not be read.": "Non è stato possibile leggere i dettagli di questa immagine.",
+ "A shared search needs text, a kind, a color, a tag, a label or a rating.": "Una ricerca condivisa ha bisogno di testo, un tipo, un colore, un tag, un’etichetta o una valutazione.",
+ "Any Rating": "Qualsiasi valutazione",
+ "At least {0} stars": "Almeno {0} stelle",
+ "Clear Rating": "Togli valutazione",
+ "Filter by Rating…": "Filtra per valutazione…",
+ "Filter by rating": "Filtra per valutazione",
+ "Five stars": "Cinque stelle",
+ "Rate 1 Star": "Valuta 1 stella",
+ "Rate {0} Stars": "Valuta {0} stelle",
+ "Rate {0} of 5": "Valuta {0} su 5",
+ "Rating": "Valutazione",
+ "Select one or more pictures to rate.": "Seleziona una o più immagini da valutare.",
+ "Unrated": "Senza valutazione",
+ "Rated": "Con valutazione"
 }

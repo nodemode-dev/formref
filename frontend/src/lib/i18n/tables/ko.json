@@ -1381,7 +1381,6 @@
  "A saved search can hold at most 12 tags and 12 labels.": "저장된 검색에는 태그 12개와 라벨 12개까지 담을 수 있습니다.",
  "A shared search id must be letters, digits, - or _.": "공유 검색 ID에는 문자, 숫자, - 또는 _만 쓸 수 있습니다.",
  "A shared search needs a name.": "공유 검색에는 이름이 필요합니다.",
- "A shared search needs text, a kind, a color, a tag or a label.": "공유 검색에는 텍스트, 종류, 색, 태그 또는 라벨이 필요합니다.",
  "All Boards": "모든 보드",
  "FormRef can keep at most {0} searches for all boards.": "FormRef는 모든 보드용 검색을 {0}개까지 보관할 수 있습니다.",
  "No saved search on this board or for all boards has that name.": "이 보드나 모든 보드용 저장된 검색 중 그 이름을 가진 것이 없습니다.",
@@ -1457,5 +1456,19 @@
  "Source page": "출처 페이지",
  "Taken": "촬영",
  "The details could not be copied.": "정보를 복사하지 못했습니다.",
- "The details of this picture could not be read.": "이 그림의 정보를 읽지 못했습니다."
+ "The details of this picture could not be read.": "이 그림의 정보를 읽지 못했습니다.",
+ "A shared search needs text, a kind, a color, a tag, a label or a rating.": "공유 검색에는 텍스트, 종류, 색, 태그, 라벨 또는 별점이 필요합니다.",
+ "Any Rating": "모든 별점",
+ "At least {0} stars": "별 {0}개 이상",
+ "Clear Rating": "별점 지우기",
+ "Filter by Rating…": "별점으로 필터…",
+ "Filter by rating": "별점으로 필터",
+ "Five stars": "별 5개",
+ "Rate 1 Star": "별 1개 주기",
+ "Rate {0} Stars": "별 {0}개 주기",
+ "Rate {0} of 5": "5점 중 {0}점 주기",
+ "Rating": "별점",
+ "Select one or more pictures to rate.": "별점을 줄 그림을 하나 이상 선택하세요.",
+ "Unrated": "별점 없음",
+ "Rated": "별점 있음"
 }

@@ -1381,7 +1381,6 @@
  "A saved search can hold at most 12 tags and 12 labels.": "Eine gespeicherte Suche kann höchstens 12 Tags und 12 Labels enthalten.",
  "A shared search id must be letters, digits, - or _.": "Die ID einer geteilten Suche darf nur Buchstaben, Ziffern, - oder _ enthalten.",
  "A shared search needs a name.": "Eine geteilte Suche braucht einen Namen.",
- "A shared search needs text, a kind, a color, a tag or a label.": "Eine geteilte Suche braucht Text, eine Art, eine Farbe, einen Tag oder ein Label.",
  "All Boards": "Alle Boards",
  "FormRef can keep at most {0} searches for all boards.": "FormRef kann höchstens {0} Suchen für alle Boards behalten.",
  "No saved search on this board or for all boards has that name.": "Keine gespeicherte Suche auf diesem Board oder für alle Boards hat diesen Namen.",
@@ -1457,5 +1456,19 @@
  "Source page": "Quellseite",
  "Taken": "Aufgenommen",
  "The details could not be copied.": "Die Infos konnten nicht kopiert werden.",
- "The details of this picture could not be read.": "Die Infos dieses Bildes konnten nicht gelesen werden."
+ "The details of this picture could not be read.": "Die Infos dieses Bildes konnten nicht gelesen werden.",
+ "A shared search needs text, a kind, a color, a tag, a label or a rating.": "Eine geteilte Suche braucht Text, eine Art, eine Farbe, einen Tag, ein Label oder eine Bewertung.",
+ "Any Rating": "Jede Bewertung",
+ "At least {0} stars": "Mindestens {0} Sterne",
+ "Clear Rating": "Bewertung entfernen",
+ "Filter by Rating…": "Nach Bewertung filtern…",
+ "Filter by rating": "Nach Bewertung filtern",
+ "Five stars": "Fünf Sterne",
+ "Rate 1 Star": "Mit 1 Stern bewerten",
+ "Rate {0} Stars": "Mit {0} Sternen bewerten",
+ "Rate {0} of 5": "{0} von 5 vergeben",
+ "Rating": "Bewertung",
+ "Select one or more pictures to rate.": "Wählen Sie ein oder mehrere Bilder zum Bewerten aus.",
+ "Unrated": "Ohne Bewertung",
+ "Rated": "Bewertet"
 }

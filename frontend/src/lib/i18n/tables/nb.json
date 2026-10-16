@@ -1381,7 +1381,6 @@
  "A saved search can hold at most 12 tags and 12 labels.": "Et lagret søk kan inneholde høyst 12 tagger og 12 etiketter.",
  "A shared search id must be letters, digits, - or _.": "ID-en til et delt søk kan bare inneholde bokstaver, sifre, - eller _.",
  "A shared search needs a name.": "Et delt søk trenger et navn.",
- "A shared search needs text, a kind, a color, a tag or a label.": "Et delt søk trenger tekst, en type, en farge, en tagg eller en etikett.",
  "All Boards": "Alle tavler",
  "FormRef can keep at most {0} searches for all boards.": "FormRef kan ta vare på høyst {0} søk for alle tavler.",
  "No saved search on this board or for all boards has that name.": "Ingen lagrede søk på denne tavlen eller for alle tavler har det navnet.",
@@ -1457,5 +1456,19 @@
  "Source page": "Kildeside",
  "Taken": "Tatt",
  "The details could not be copied.": "Infoen kunne ikke kopieres.",
- "The details of this picture could not be read.": "Detaljene for dette bildet kunne ikke leses."
+ "The details of this picture could not be read.": "Detaljene for dette bildet kunne ikke leses.",
+ "A shared search needs text, a kind, a color, a tag, a label or a rating.": "Et delt søk trenger tekst, en type, en farge, en tagg, en etikett eller en vurdering.",
+ "Any Rating": "Alle vurderinger",
+ "At least {0} stars": "Minst {0} stjerner",
+ "Clear Rating": "Fjern vurdering",
+ "Filter by Rating…": "Filtrer etter vurdering…",
+ "Filter by rating": "Filtrer etter vurdering",
+ "Five stars": "Fem stjerner",
+ "Rate 1 Star": "Gi 1 stjerne",
+ "Rate {0} Stars": "Gi {0} stjerner",
+ "Rate {0} of 5": "Gi {0} av 5",
+ "Rating": "Vurdering",
+ "Select one or more pictures to rate.": "Velg ett eller flere bilder å vurdere.",
+ "Unrated": "Uten vurdering",
+ "Rated": "Med vurdering"
 }

@@ -1381,7 +1381,6 @@
  "A saved search can hold at most 12 tags and 12 labels.": "Uložené hledání může obsahovat nejvýše 12 značek a 12 štítků.",
  "A shared search id must be letters, digits, - or _.": "ID sdíleného hledání smí obsahovat jen písmena, číslice, - nebo _.",
  "A shared search needs a name.": "Sdílené hledání potřebuje název.",
- "A shared search needs text, a kind, a color, a tag or a label.": "Sdílené hledání potřebuje text, druh, barvu, značku nebo štítek.",
  "All Boards": "Všechny tabule",
  "FormRef can keep at most {0} searches for all boards.": "FormRef může uchovat nejvýše {0} hledání pro všechny tabule.",
  "No saved search on this board or for all boards has that name.": "Žádné uložené hledání na této tabuli ani pro všechny tabule nemá tento název.",
@@ -1457,5 +1456,19 @@
  "Source page": "Zdrojová stránka",
  "Taken": "Pořízeno",
  "The details could not be copied.": "Údaje se nepodařilo zkopírovat.",
- "The details of this picture could not be read.": "Údaje tohoto obrázku se nepodařilo načíst."
+ "The details of this picture could not be read.": "Údaje tohoto obrázku se nepodařilo načíst.",
+ "A shared search needs text, a kind, a color, a tag, a label or a rating.": "Sdílené hledání potřebuje text, druh, barvu, značku, štítek nebo hodnocení.",
+ "Any Rating": "Jakékoli hodnocení",
+ "At least {0} stars": "Alespoň {0} hvězdičky",
+ "Clear Rating": "Zrušit hodnocení",
+ "Filter by Rating…": "Filtrovat podle hodnocení…",
+ "Filter by rating": "Filtrovat podle hodnocení",
+ "Five stars": "Pět hvězdiček",
+ "Rate 1 Star": "Hodnotit 1 hvězdičkou",
+ "Rate {0} Stars": "Hodnotit {0} hvězdičkami",
+ "Rate {0} of 5": "Hodnotit {0} z 5",
+ "Rating": "Hodnocení",
+ "Select one or more pictures to rate.": "Vyberte jeden nebo více obrázků k hodnocení.",
+ "Unrated": "Bez hodnocení",
+ "Rated": "S hodnocením"
 }

@@ -1381,7 +1381,6 @@
  "A saved search can hold at most 12 tags and 12 labels.": "Zapisane wyszukiwanie może zawierać najwyżej 12 tagów i 12 etykiet.",
  "A shared search id must be letters, digits, - or _.": "Identyfikator wspólnego wyszukiwania może zawierać tylko litery, cyfry, - lub _.",
  "A shared search needs a name.": "Wspólne wyszukiwanie wymaga nazwy.",
- "A shared search needs text, a kind, a color, a tag or a label.": "Wspólne wyszukiwanie wymaga tekstu, rodzaju, koloru, tagu lub etykiety.",
  "All Boards": "Wszystkie tablice",
  "FormRef can keep at most {0} searches for all boards.": "FormRef może przechować najwyżej {0} wyszukiwań dla wszystkich tablic.",
  "No saved search on this board or for all boards has that name.": "Żadne zapisane wyszukiwanie na tej tablicy ani dla wszystkich tablic nie ma tej nazwy.",
@@ -1457,5 +1456,19 @@
  "Source page": "Strona źródłowa",
  "Taken": "Wykonano",
  "The details could not be copied.": "Nie udało się skopiować informacji.",
- "The details of this picture could not be read.": "Nie udało się odczytać szczegółów tego obrazu."
+ "The details of this picture could not be read.": "Nie udało się odczytać szczegółów tego obrazu.",
+ "A shared search needs text, a kind, a color, a tag, a label or a rating.": "Wspólne wyszukiwanie wymaga tekstu, rodzaju, koloru, tagu, etykiety lub oceny.",
+ "Any Rating": "Dowolna ocena",
+ "At least {0} stars": "Co najmniej {0} gwiazdki",
+ "Clear Rating": "Usuń ocenę",
+ "Filter by Rating…": "Filtruj według oceny…",
+ "Filter by rating": "Filtruj według oceny",
+ "Five stars": "Pięć gwiazdek",
+ "Rate 1 Star": "Oceń na 1 gwiazdkę",
+ "Rate {0} Stars": "Oceń na {0} gwiazdki",
+ "Rate {0} of 5": "Oceń na {0} z 5",
+ "Rating": "Ocena",
+ "Select one or more pictures to rate.": "Zaznacz jeden lub więcej obrazów do oceny.",
+ "Unrated": "Bez oceny",
+ "Rated": "Z oceną"
 }

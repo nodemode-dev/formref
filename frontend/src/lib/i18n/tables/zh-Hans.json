@@ -1381,7 +1381,6 @@
  "A saved search can hold at most 12 tags and 12 labels.": "已保存的搜索最多可包含 12 个标签和 12 个画板标签。",
  "A shared search id must be letters, digits, - or _.": "共享搜索的 ID 只能包含字母、数字、- 或 _。",
  "A shared search needs a name.": "共享搜索需要名称。",
- "A shared search needs text, a kind, a color, a tag or a label.": "共享搜索需要文本、类型、颜色或标签。",
  "All Boards": "所有画板",
  "FormRef can keep at most {0} searches for all boards.": "FormRef 最多可为所有画板保留 {0} 个搜索。",
  "No saved search on this board or for all boards has that name.": "此画板上和所有画板的搜索中都没有该名称的已保存搜索。",
@@ -1457,5 +1456,19 @@
  "Source page": "来源页面",
  "Taken": "拍摄时间",
  "The details could not be copied.": "无法复制信息。",
- "The details of this picture could not be read.": "无法读取这张图片的信息。"
+ "The details of this picture could not be read.": "无法读取这张图片的信息。",
+ "A shared search needs text, a kind, a color, a tag, a label or a rating.": "共享搜索需要文本、类型、颜色、标签或评分。",
+ "Any Rating": "任意评分",
+ "At least {0} stars": "至少 {0} 星",
+ "Clear Rating": "清除评分",
+ "Filter by Rating…": "按评分筛选…",
+ "Filter by rating": "按评分筛选",
+ "Five stars": "五星",
+ "Rate 1 Star": "评为 1 星",
+ "Rate {0} Stars": "评为 {0} 星",
+ "Rate {0} of 5": "评为 {0}/5",
+ "Rating": "评分",
+ "Select one or more pictures to rate.": "请选择一张或多张要评分的图片。",
+ "Unrated": "未评分",
+ "Rated": "已评分"
 }

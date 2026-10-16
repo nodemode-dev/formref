@@ -1381,7 +1381,6 @@
  "A saved search can hold at most 12 tags and 12 labels.": "Pencarian tersimpan dapat berisi paling banyak 12 tag dan 12 label.",
  "A shared search id must be letters, digits, - or _.": "Id pencarian bersama hanya boleh berisi huruf, angka, - atau _.",
  "A shared search needs a name.": "Pencarian bersama memerlukan nama.",
- "A shared search needs text, a kind, a color, a tag or a label.": "Pencarian bersama memerlukan teks, jenis, warna, tag, atau label.",
  "All Boards": "Semua Papan",
  "FormRef can keep at most {0} searches for all boards.": "FormRef dapat menyimpan paling banyak {0} pencarian untuk semua papan.",
  "No saved search on this board or for all boards has that name.": "Tidak ada pencarian tersimpan di papan ini atau untuk semua papan dengan nama itu.",
@@ -1457,5 +1456,19 @@
  "Source page": "Halaman sumber",
  "Taken": "Diambil",
  "The details could not be copied.": "Info tidak dapat disalin.",
- "The details of this picture could not be read.": "Detail gambar ini tidak dapat dibaca."
+ "The details of this picture could not be read.": "Detail gambar ini tidak dapat dibaca.",
+ "A shared search needs text, a kind, a color, a tag, a label or a rating.": "Pencarian bersama memerlukan teks, jenis, warna, tag, label, atau rating.",
+ "Any Rating": "Rating Apa Pun",
+ "At least {0} stars": "Minimal {0} bintang",
+ "Clear Rating": "Hapus Rating",
+ "Filter by Rating…": "Filter Menurut Rating…",
+ "Filter by rating": "Filter menurut rating",
+ "Five stars": "Lima bintang",
+ "Rate 1 Star": "Beri 1 Bintang",
+ "Rate {0} Stars": "Beri {0} Bintang",
+ "Rate {0} of 5": "Beri {0} dari 5",
+ "Rating": "Rating",
+ "Select one or more pictures to rate.": "Pilih satu gambar atau lebih untuk diberi rating.",
+ "Unrated": "Belum diberi rating",
+ "Rated": "Diberi rating"
 }

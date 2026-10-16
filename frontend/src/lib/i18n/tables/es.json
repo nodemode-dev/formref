@@ -1381,7 +1381,6 @@
  "A saved search can hold at most 12 tags and 12 labels.": "Una búsqueda guardada puede tener como máximo 12 etiquetas y 12 etiquetas del tablero.",
  "A shared search id must be letters, digits, - or _.": "El id de una búsqueda compartida solo puede tener letras, números, - o _.",
  "A shared search needs a name.": "Una búsqueda compartida necesita un nombre.",
- "A shared search needs text, a kind, a color, a tag or a label.": "Una búsqueda compartida necesita texto, un tipo, un color o una etiqueta.",
  "All Boards": "Todos los tableros",
  "FormRef can keep at most {0} searches for all boards.": "FormRef puede guardar como máximo {0} búsquedas para todos los tableros.",
  "No saved search on this board or for all boards has that name.": "Ninguna búsqueda guardada de este tablero ni para todos los tableros tiene ese nombre.",
@@ -1457,5 +1456,19 @@
  "Source page": "Página de origen",
  "Taken": "Tomada",
  "The details could not be copied.": "No se pudo copiar la información.",
- "The details of this picture could not be read.": "No se pudo leer la información de esta imagen."
+ "The details of this picture could not be read.": "No se pudo leer la información de esta imagen.",
+ "A shared search needs text, a kind, a color, a tag, a label or a rating.": "Una búsqueda compartida necesita texto, un tipo, un color, una etiqueta o una valoración.",
+ "Any Rating": "Cualquier valoración",
+ "At least {0} stars": "Al menos {0} estrellas",
+ "Clear Rating": "Quitar valoración",
+ "Filter by Rating…": "Filtrar por valoración…",
+ "Filter by rating": "Filtrar por valoración",
+ "Five stars": "Cinco estrellas",
+ "Rate 1 Star": "Valorar con 1 estrella",
+ "Rate {0} Stars": "Valorar con {0} estrellas",
+ "Rate {0} of 5": "Valorar {0} de 5",
+ "Rating": "Valoración",
+ "Select one or more pictures to rate.": "Selecciona una o más imágenes para valorar.",
+ "Unrated": "Sin valorar",
+ "Rated": "Con valoración"
 }

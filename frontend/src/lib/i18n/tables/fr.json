@@ -1381,7 +1381,6 @@
  "A saved search can hold at most 12 tags and 12 labels.": "Une recherche enregistrée peut contenir au plus 12 étiquettes et 12 étiquettes du tableau.",
  "A shared search id must be letters, digits, - or _.": "L’identifiant d’une recherche partagée ne peut contenir que des lettres, des chiffres, - ou _.",
  "A shared search needs a name.": "Une recherche partagée doit avoir un nom.",
- "A shared search needs text, a kind, a color, a tag or a label.": "Une recherche partagée doit avoir un texte, un type, une couleur ou une étiquette.",
  "All Boards": "Tous les tableaux",
  "FormRef can keep at most {0} searches for all boards.": "FormRef peut garder au plus {0} recherches pour tous les tableaux.",
  "No saved search on this board or for all boards has that name.": "Aucune recherche enregistrée de ce tableau ou pour tous les tableaux ne porte ce nom.",
@@ -1457,5 +1456,19 @@
  "Source page": "Page d’origine",
  "Taken": "Prise le",
  "The details could not be copied.": "Les infos n’ont pas pu être copiées.",
- "The details of this picture could not be read.": "Les infos de cette image n’ont pas pu être lues."
+ "The details of this picture could not be read.": "Les infos de cette image n’ont pas pu être lues.",
+ "A shared search needs text, a kind, a color, a tag, a label or a rating.": "Une recherche partagée doit avoir un texte, un type, une couleur, une étiquette ou une note.",
+ "Any Rating": "Toutes les notes",
+ "At least {0} stars": "Au moins {0} étoiles",
+ "Clear Rating": "Retirer la note",
+ "Filter by Rating…": "Filtrer par note…",
+ "Filter by rating": "Filtrer par note",
+ "Five stars": "Cinq étoiles",
+ "Rate 1 Star": "Noter 1 étoile",
+ "Rate {0} Stars": "Noter {0} étoiles",
+ "Rate {0} of 5": "Noter {0} sur 5",
+ "Rating": "Note",
+ "Select one or more pictures to rate.": "Sélectionnez une ou plusieurs images à noter.",
+ "Unrated": "Sans note",
+ "Rated": "Notées"
 }
