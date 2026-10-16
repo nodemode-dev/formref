@@ -80,6 +80,7 @@ export function boardMenu(): MenuEntry[] {
         item('sort-filename'),
         item('sort-similarity'),
         item('sort-color'),
+        item('sort-rating'),
         sep,
         item('group'),
         item('ungroup'),

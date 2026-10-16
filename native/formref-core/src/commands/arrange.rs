@@ -72,7 +72,12 @@ pub fn sort(board: &mut Board, command: &Value) -> EngineResult<()> {
                 (None, None) => a.cmp(&b),
             });
         }
-        _ => return Err(EngineError::invalid("sort key must be filename, aspect, similarity or color")),
+        "rating" => {
+            // Most stars first, unrated last, ties in their current order (reading a board top to bottom is how people scan it).
+            let stars = |index: usize| board.items[index].data.get("rating").and_then(Value::as_u64).unwrap_or(0);
+            ordered.sort_by(|&a, &b| stars(b).cmp(&stars(a)).then(a.cmp(&b)));
+        }
+        _ => return Err(EngineError::invalid("sort key must be filename, aspect, similarity, color or rating")),
     }
     if command.get("descending").and_then(Value::as_bool) == Some(true) { ordered.reverse(); }
     let columns = (ordered.len() as f64).sqrt().ceil() as usize;

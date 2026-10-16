@@ -60,7 +60,7 @@ class ItemNode {
     this.checkbox.addEventListener('change', () => { const item = hooks.item(id); if (item) hooks.edit(id, { data: { ...item.data, checked: this.checkbox.checked } }); });
   }
   update(item: Item, selected: boolean, matching: boolean) {
-    this.current = item; const r = this.root; r.dataset.kind = item.kind; r.classList.toggle('selected', selected); r.classList.toggle('locked', item.locked); r.classList.toggle('matched-out', !matching); r.classList.toggle('cutout', item.kind === 'image' && !!item.data.cutout); r.hidden = item.hidden; r.style.left = `${item.x}px`; r.style.top = `${item.y}px`; r.style.width = `${item.width}px`; r.style.height = `${item.height}px`; r.style.transform = `rotate(${item.rotation}deg)`; r.style.opacity = String(item.opacity); const blend = typeof item.data.blend === 'string' && BLENDS.includes(item.data.blend) ? item.data.blend : ''; if (r.style.mixBlendMode !== blend) r.style.mixBlendMode = blend; r.setAttribute('aria-label', item.title || `${item.kind} reference`); const open = Array.isArray(item.data.comments) ? (item.data.comments as { resolved?: boolean }[]).filter(c => !c.resolved).length : 0; this.commentBadge.hidden = !open; if (this.commentCount.textContent !== String(open)) this.commentCount.textContent = String(open); this.paintLabels(item); this.paintMedia(item); this.tableBox.hidden = item.kind !== 'table'; this.card.classList.toggle('table-content', item.kind === 'table'); if (item.kind === 'table') this.table.update(item);
+    this.current = item; const r = this.root; r.dataset.kind = item.kind; r.classList.toggle('selected', selected); r.classList.toggle('locked', item.locked); r.classList.toggle('matched-out', !matching); r.classList.toggle('cutout', item.kind === 'image' && !!item.data.cutout); r.hidden = item.hidden; r.style.left = `${item.x}px`; r.style.top = `${item.y}px`; r.style.width = `${item.width}px`; r.style.height = `${item.height}px`; r.style.transform = `rotate(${item.rotation}deg)`; r.style.opacity = String(item.opacity); const blend = typeof item.data.blend === 'string' && BLENDS.includes(item.data.blend) ? item.data.blend : ''; if (r.style.mixBlendMode !== blend) r.style.mixBlendMode = blend; r.setAttribute('aria-label', item.title || `${item.kind} reference`); const open = Array.isArray(item.data.comments) ? (item.data.comments as { resolved?: boolean }[]).filter(c => !c.resolved).length : 0; this.commentBadge.hidden = !open; if (this.commentCount.textContent !== String(open)) this.commentCount.textContent = String(open); this.paintLabels(item); this.paintRating(item); this.paintMedia(item); this.tableBox.hidden = item.kind !== 'table'; this.card.classList.toggle('table-content', item.kind === 'table'); if (item.kind === 'table') this.table.update(item);
     this.imageBox.hidden = item.kind !== 'image'; this.card.hidden = ['image', 'shape', 'stroke'].includes(item.kind); this.shapeBox.hidden = !['shape', 'stroke'].includes(item.kind);
     this.deferred = item.kind === 'image' && !this.source && !!item.asset_id && !inView(item);
     if (this.deferred) { this.image.hidden = true; this.fallback.hidden = true; }
@@ -91,6 +91,21 @@ class ItemNode {
     this.card.classList.toggle('audio-card', kind === 'audio');
     const src = kind === 'embed' ? embedUrl(item.url) || '' : kind ? api.assetUrl(item.asset_id!) : '';
     paintPlayer(this.mediaBox, kind, src, { loop: !!item.data.loop, autoplay: !!item.data.autoplay, title: item.title || 'Media', start: Number(item.data.clip_start) || 0, end: Number(item.data.clip_end) || 0, rate: Number(item.data.rate) || 1 });
+  }
+  ratingBadge: HTMLElement | null = null;
+  /** A picture's stars in its bottom-right corner: the badge is made the first time the item is rated, then only hidden and its stars shown or hidden. */
+  paintRating(item: Item) {
+    const stars = item.kind === 'image' && typeof item.data.rating === 'number' ? Math.max(0, Math.min(5, Math.round(item.data.rating))) : 0;
+    if (!stars && !this.ratingBadge) return;
+    if (!this.ratingBadge) {
+      this.ratingBadge = el('span', 'item-rating');
+      for (let i = 0; i < 5; i++) this.ratingBadge.append(icon('star'));
+      this.root.insertBefore(this.ratingBadge, this.labelRow);
+    }
+    const badge = this.ratingBadge;
+    if (badge.hidden !== !stars) badge.hidden = !stars;
+    [...badge.children].forEach((star, index) => { const show = index < stars; if ((star as SVGElement).style.display !== (show ? '' : 'none')) (star as SVGElement).style.display = show ? '' : 'none'; });
+    if (badge.dataset.stars !== String(stars)) { badge.dataset.stars = String(stars); badge.setAttribute('aria-label', `${stars} / 5`); }
   }
   /** Coloured label pills along the item's bottom edge, patched in place. */
   paintLabels(item: Item) {

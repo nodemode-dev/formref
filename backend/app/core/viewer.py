@@ -50,6 +50,8 @@ nav svg{width:20px;height:20px}
 #tags button{flex:none;height:30px;padding:0 12px;border-radius:15px;border:1px solid var(--line);background:none;color:var(--muted);font:13px system-ui,sans-serif;white-space:nowrap}
 #tags button.on{border-color:var(--accent);color:var(--text);background:rgba(249,115,22,.16)}
 #tags small{margin-left:6px;opacity:.7}
+#tags button.stars{display:inline-flex;align-items:center;gap:4px;color:var(--accent)}
+#tags button.stars small{margin-left:2px}
 #board g.dim{opacity:.15}
 </style>
 </head>
@@ -121,16 +123,37 @@ nav svg{width:20px;height:20px}
     g._tags.forEach(function (key, i) { counts[key] = (counts[key] || 0) + 1; if (!names[key]) names[key] = list[i]; });
   });
   var keys = Object.keys(counts).sort(function (a, b) { return counts[b] - counts[a] || names[a].localeCompare(names[b]); });
-  if (keys.length) {
+  // Stars: a chip per rating present ("3 and up"); one at a time, tapped again to clear, combined with the tag chips.
+  var least = 0, starChips = [], levels = [];
+  tagged.forEach(function (g) { g._stars = parseInt(g.getAttribute('data-rating') || '0', 10) || 0; if (g._stars && levels.indexOf(g._stars) < 0) levels.push(g._stars); });
+  levels.sort(function (a, b) { return b - a; });
+  function apply() {
+    var want = Object.keys(chosen);
+    tagged.forEach(function (g) { g.classList.toggle('dim', (want.length > 0 && !want.every(function (k) { return g._tags.indexOf(k) >= 0; })) || (least > 0 && g._stars < least)); });
+  }
+  if (keys.length || levels.length) {
     var bar = document.getElementById('tags');
+    levels.forEach(function (level) {
+      var b = document.createElement('button'); b.type = 'button'; b.className = 'stars';
+      b.innerHTML = '<svg viewBox="0 0 24 24" width="13" height="13" aria-hidden="true"><path fill="currentColor" d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/></svg>';
+      b.appendChild(document.createTextNode(level === 5 ? '5' : level + '+'));
+      b.setAttribute('aria-label', level === 5 ? '5 / 5' : level + '+ / 5');
+      var n = document.createElement('small'); n.textContent = tagged.filter(function (g) { return g._stars >= level; }).length; b.appendChild(n);
+      b.addEventListener('click', function () {
+        least = least === level ? 0 : level;
+        starChips.forEach(function (c) { c.classList.toggle('on', c === b && least > 0); });
+        apply();
+      });
+      starChips.push(b);
+      bar.appendChild(b);
+    });
     keys.forEach(function (key) {
       var b = document.createElement('button'); b.type = 'button'; b.textContent = names[key];
       var n = document.createElement('small'); n.textContent = counts[key]; b.appendChild(n);
       b.addEventListener('click', function () {
         if (chosen[key]) delete chosen[key]; else chosen[key] = true;
         b.classList.toggle('on', !!chosen[key]);
-        var want = Object.keys(chosen);
-        tagged.forEach(function (g) { g.classList.toggle('dim', want.length > 0 && !want.every(function (k) { return g._tags.indexOf(k) >= 0; })); });
+        apply();
       });
       bar.appendChild(b);
     });

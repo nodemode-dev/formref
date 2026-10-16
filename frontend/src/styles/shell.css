@@ -87,6 +87,8 @@
 .comment-section .button svg { width: 14px; height: 14px; }
 .item-comments { position: absolute; top: calc(var(--space-2) * -1); left: calc(var(--space-2) * -1); display: inline-flex; align-items: center; gap: 2px; height: 20px; padding: 0 var(--space-1); border-radius: var(--radius-sm); background: var(--accent-color); color: var(--text-on-accent); font: 600 10px var(--font-mono); pointer-events: none; }
 .item-comments svg { width: 12px; height: 12px; }
+.item-rating { position: absolute; right: var(--space-2); bottom: calc(var(--space-2) + 10px); display: inline-flex; gap: 1px; padding: 2px 4px; border-radius: var(--radius-sm); background: color-mix(in srgb, var(--bg-primary) 72%, transparent); color: var(--accent-color); pointer-events: none; }
+.item-rating svg { width: 11px; height: 11px; fill: currentColor; }
 .item-labels { position: absolute; left: var(--space-2); right: var(--space-2); bottom: calc(var(--space-2) * -1); display: flex; flex-wrap: nowrap; gap: 3px; overflow: hidden; pointer-events: none; }
 .item-label { flex: none; max-width: 120px; height: 16px; padding: 0 6px; border-radius: 8px; background: var(--label); color: #111; font: 600 9px/16px var(--font-ui); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .label-section { display: flex; flex-direction: column; gap: var(--space-2); border-top: 1px solid var(--border-color); padding-top: var(--space-3); }

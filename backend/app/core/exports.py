@@ -351,6 +351,9 @@ def svg_export(board, picture=png_data_uri):
         if tags:
             # The phone viewer filters by these; other SVG readers ignore data attributes.
             group.set("data-tags", json.dumps(tags, ensure_ascii=False))
+        stars = (item.get("data") or {}).get("rating")
+        if item["kind"] == "image" and isinstance(stars, int) and 1 <= stars <= 5:
+            group.set("data-rating", str(stars))
         data = item.get("data", {})
         selected_color = color(item.get("color"))
         if item["kind"] == "image" and item.get("asset_id"):

@@ -2,7 +2,7 @@
 
 Written by `./formref agents sync` from the command catalogue the FormRef window publishes; do not edit by hand. Run a command with the MCP tools `run_command` or `run_commands` (the window must be open). `window-only` commands are refused for outside agents; `risky` commands ask the person first.
 
-208 commands.
+209 commands.
 
 ## Canvas
 
@@ -187,6 +187,7 @@ Written by `./formref agents sync` from the command catalogue the FormRef window
 | `sort-aspect` | Sort by Aspect Ratio |  | changes the board | Arranges the selection, or every unlocked top-level item, in rows ordered by aspect ratio. |
 | `sort-color` | Sort by Color |  | changes the board | Arranges the selection, or every unlocked top-level item, in rainbow order of each picture's main color, with black, white and grey pictures after them from light to dark. |
 | `sort-filename` | Sort by Filename |  | changes the board | Arranges the selection, or every unlocked top-level item, in rows ordered by file name. |
+| `sort-rating` | Sort by Rating |  | changes the board | Arranges the selection, or every unlocked top-level item, in rows from most stars to fewest, with unrated items last in their current order. |
 | `sort-similarity` | Sort by Similarity |  | changes the board | Arranges the selection, or every unlocked top-level item, so that similar-looking pictures sit together. |
 | `ungroup` | Ungroup Selected | `mod+shift+g` | changes the board | Ungroups the selected groups. |
 | `unlock-all` | Unlock All | `mod+alt+2` | changes the board | Unlocks every locked item on the board and selects them. |
