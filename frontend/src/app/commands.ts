@@ -9,6 +9,7 @@ import { openTrash } from './trash';
 import { openTemplates, saveAsTemplate } from './templates';
 import { askForUrl } from './capture';
 import { startCrop } from './crop-mode';
+import { orderable } from './transform-tools';
 import { openLabels } from './labels';
 import { togglePresenting } from './present';
 import { cutoutOptions, downloadModel, togglePicking } from './cutout';
@@ -76,6 +77,11 @@ function pickBackground() {
   input.value = /^#[0-9a-f]{6}$/i.test(S.state?.board.background || '') ? S.state!.board.background : '#1c1b1d';
   if (typeof input.showPicker === 'function') input.showPicker();
   else input.click();
+}
+
+function reorder(mode: 'front' | 'forward' | 'backward' | 'back') {
+  const ids = orderable();
+  return ids.length ? execute({ type: 'order', ids, mode }) : undefined;
 }
 
 function focusCrop() {
@@ -364,10 +370,10 @@ export const COMMANDS: CommandDef[] = [
   { group: 'Images', id: 'save-image', label: 'Save Image As...', icon: 'save', run: () => downloadImages(selected()), enabled: hasImages },
   { group: 'Images', id: 'relink', label: 'Replace or Relink Image', icon: 'relink', run: () => $('relink-input').click(), enabled: () => selected().length === 1 && hasImages() },
 
-  { group: 'Layer', id: 'front', label: 'Bring to Front', icon: 'bring-front', keys: ['shift+arrowup'], run: () => execute({ type: 'order', ids: editable(), mode: 'front' }), enabled: has },
-  { group: 'Layer', id: 'forward', label: 'Bring Forward', icon: 'layers', run: () => execute({ type: 'order', ids: editable(), mode: 'forward' }), enabled: has },
-  { group: 'Layer', id: 'backward', label: 'Send Backward', icon: 'layers', run: () => execute({ type: 'order', ids: editable(), mode: 'backward' }), enabled: has },
-  { group: 'Layer', id: 'back', label: 'Send to Back', icon: 'send-back', keys: ['shift+arrowdown'], run: () => execute({ type: 'order', ids: editable(), mode: 'back' }), enabled: has },
+  { group: 'Layer', id: 'front', label: 'Bring to Front', icon: 'bring-front', keys: ['shift+arrowup'], run: () => reorder('front'), enabled: has },
+  { group: 'Layer', id: 'forward', label: 'Bring Forward', icon: 'layers', run: () => reorder('forward'), enabled: has },
+  { group: 'Layer', id: 'backward', label: 'Send Backward', icon: 'layers', run: () => reorder('backward'), enabled: has },
+  { group: 'Layer', id: 'back', label: 'Send to Back', icon: 'send-back', keys: ['shift+arrowdown'], run: () => reorder('back'), enabled: has },
 
   { group: 'View', id: 'present', label: 'Present', icon: 'present', keys: ['p'], run: togglePresenting, enabled: hasBoard },
   { group: 'View', id: 'slideshow', label: 'Slideshow', icon: 'play', keys: ['shift+s'], run: () => referenceView.toggle(), enabled: () => !!S.state?.board.items.some(i => i.kind === 'image') },

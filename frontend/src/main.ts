@@ -25,6 +25,7 @@ import { registerVideo } from './app/video';
 import './app/drag-out';
 import { registerPdf } from './app/pdf';
 import { registerCropMode } from './app/crop-mode';
+import { registerTransformTools } from './app/transform-tools';
 
 bindLanguage();
 registerTerminal();
@@ -38,6 +39,7 @@ registerBlend();
 registerVideo();
 registerPdf();
 registerCropMode();
+registerTransformTools();
 attachCatalogue();
 
 const agent = new AgentPanel({
