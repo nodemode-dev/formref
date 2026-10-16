@@ -13,6 +13,7 @@ from ..core.features import duplicates, enrich
 from ..core.media import preview
 from ..core.pdf_pages import page_items, pdf_text
 from ..core.palette import extract_palette
+from ..core.extract import extract_board
 from ..core.capture import capture
 from ..core.doc_export import export_item
 from ..core.cutout import change_background, DEFAULT_TOLERANCE
@@ -166,6 +167,10 @@ def purge_items(board_id: str, entry_id: str):
 @router.delete("/trash")
 def empty_trash():
     return store.empty_trash()
+
+@router.post("/boards/{board_id}/extract", status_code=201)
+def extract(board_id: str, body: dict):
+    return extract_board(board_id, body.get("ids"), str(body.get("title") or ""), bool(body.get("move")))
 
 @router.post("/boards/{board_id}/duplicate", status_code=201)
 def duplicate_board(board_id: str):

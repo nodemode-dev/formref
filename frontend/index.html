@@ -258,6 +258,11 @@
                 <button class="button compact" data-action="rotate"><span data-icon="rotate"></span>Rotate 90</button>
                 <button class="button compact" data-action="opacity"><span data-icon="opacity"></span>Opacity</button>
               </div>
+              <span class="field-description">Adjust · original kept, applied to exports</span>
+              <label class="field-row"><span>Brightness</span><input id="adjust-brightness" type="range" min="0" max="200" step="5" value="100" aria-label="Brightness"></label>
+              <label class="field-row"><span>Contrast</span><input id="adjust-contrast" type="range" min="0" max="200" step="5" value="100" aria-label="Contrast"></label>
+              <label class="field-row"><span>Saturation</span><input id="adjust-saturation" type="range" min="0" max="200" step="5" value="100" aria-label="Saturation"></label>
+              <button class="button compact full" data-action="reset-adjust"><span data-icon="restore"></span>Reset adjustments</button>
               <span class="field-description">Crop · normalized source percentages</span>
               <div class="field-grid">
                 <label class="field"><span>Left %</span><input id="crop-x" type="number" min="0" max="99"></label>

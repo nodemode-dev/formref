@@ -31,6 +31,8 @@ import { registerGroupNormalize } from './app/group-normalize';
 import { registerDropInto } from './app/drop-into';
 import { registerWindowLayout } from './app/window-layout';
 import { registerStudy } from './app/study';
+import { registerAdjust } from './app/adjust';
+import { registerBoardExtract } from './app/board-extract';
 
 bindLanguage();
 registerTerminal();
@@ -50,6 +52,8 @@ registerGroupNormalize();
 registerDropInto();
 registerWindowLayout();
 registerStudy();
+registerAdjust();
+registerBoardExtract();
 attachCatalogue();
 
 const agent = new AgentPanel({

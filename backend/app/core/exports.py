@@ -84,11 +84,41 @@ def apply_mask(image, mask):
     image.putalpha(alpha)
     return image
 
+def apply_adjust(image, adjust):
+    """Brightness, contrast and saturation in percent, the same arithmetic as the CSS filters the board uses (brightness, then contrast about mid-grey, then the saturate matrix), so exports match what is on screen."""
+    if not isinstance(adjust, dict):
+        return image
+    def percent(key):
+        try:
+            value = float(adjust.get(key, 100))
+        except (TypeError, ValueError):
+            return 1.0
+        return max(0.0, min(200.0, value)) / 100 if math.isfinite(value) else 1.0
+    brightness, contrast, saturation = percent("brightness"), percent("contrast"), percent("saturation")
+    if (brightness, contrast, saturation) == (1.0, 1.0, 1.0):
+        return image
+    alpha = image.getchannel("A") if "A" in image.getbands() else None
+    rgb = image.convert("RGB")
+    if brightness != 1.0:
+        rgb = rgb.point(lambda v: max(0, min(255, round(v * brightness))))
+    if contrast != 1.0:
+        rgb = rgb.point(lambda v: max(0, min(255, round((v - 127.5) * contrast + 127.5))))
+    if saturation != 1.0:
+        s = saturation
+        rgb = rgb.convert("RGB", (0.213 + 0.787 * s, 0.715 - 0.715 * s, 0.072 - 0.072 * s, 0,
+                                  0.213 - 0.213 * s, 0.715 + 0.285 * s, 0.072 - 0.072 * s, 0,
+                                  0.213 - 0.213 * s, 0.715 - 0.715 * s, 0.072 + 0.928 * s, 0))
+    if alpha is not None:
+        rgb = rgb.convert("RGBA")
+        rgb.putalpha(alpha)
+    return rgb
+
 def image_source(item):
     image = apply_mask(original_image(item["asset_id"]), item.get("data", {}).get("mask"))
     if isinstance(item.get("data", {}).get("crop"), dict):
         image = image.crop(crop_bounds(item, image.width, image.height))
     data = item.get("data", {})
+    image = apply_adjust(image, data.get("adjust"))
     if data.get("flip_x"):
         image = ImageOps.mirror(image)
     if data.get("flip_y"):

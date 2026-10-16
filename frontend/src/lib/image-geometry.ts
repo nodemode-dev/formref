@@ -18,8 +18,27 @@ export function paintImage(image: HTMLImageElement, item: Item, width = image.na
   const crop = sourceCrop(item, width, height);
   image.style.width = `${100 / crop.width}%`; image.style.height = `${100 / crop.height}%`; image.style.left = `${-crop.x / crop.width * 100}%`; image.style.top = `${-crop.y / crop.height * 100}%`;
   image.style.transformOrigin = `${(crop.x + crop.width / 2) * 100}% ${(crop.y + crop.height / 2) * 100}%`; image.style.transform = `scale(${item.data.flip_x ? -1 : 1},${item.data.flip_y ? -1 : 1})`;
+  image.style.filter = imageFilter(item, grayscale); image.style.imageRendering = item.data.sampling === 'nearest' ? 'pixelated' : 'auto';
+}
+
+export interface Adjust { brightness: number; contrast: number; saturation: number }
+/** Brightness, contrast and saturation in percent (100 is unchanged, 0 to 200), clamped; missing values count as 100. */
+export function adjustOf(item: Item): Adjust {
+  const raw = (item.data.adjust || {}) as Partial<Adjust>;
+  const clamp = (v: unknown) => { const n = Number(v); return Number.isFinite(n) ? Math.max(0, Math.min(200, n)) : 100; };
+  return { brightness: clamp(raw.brightness), contrast: clamp(raw.contrast), saturation: clamp(raw.saturation) };
+}
+
+/** The CSS filter for a picture: adjustments first (they change the picture), then the grayscale or value-study view on top. */
+export function imageFilter(item: Item, grayscale = false, adjust: Adjust = adjustOf(item)): string {
+  const parts: string[] = [];
+  if (adjust.brightness !== 100) parts.push(`brightness(${adjust.brightness / 100})`);
+  if (adjust.contrast !== 100) parts.push(`contrast(${adjust.contrast / 100})`);
+  if (adjust.saturation !== 100) parts.push(`saturate(${adjust.saturation / 100})`);
   const levels = valueLevels(item);
-  image.style.filter = levels ? `url(#formref-values-${levels})` : grayscale || item.data.grayscale ? 'grayscale(1)' : 'none'; image.style.imageRendering = item.data.sampling === 'nearest' ? 'pixelated' : 'auto';
+  if (levels) parts.push(`url(#formref-values-${levels})`);
+  else if (grayscale || item.data.grayscale) parts.push('grayscale(1)');
+  return parts.join(' ') || 'none';
 }
 
 /** Value study: the picture as 2 to 8 flat grey values (notan at 2), a view aid that leaves the picture and its exports unchanged. */
