@@ -1,5 +1,9 @@
 {
  "Language": "Lingua",
+ "Select Duplicate Images": "Seleziona immagini duplicate",
+ "No duplicate images on this board.": "Nessuna immagine duplicata in questa bacheca.",
+ "Duplicate copies selected: {0}. One copy of each picture stays unselected ({1}).": "Copie duplicate selezionate: {0}. Una copia di ogni immagine resta non selezionata ({1}).",
+ "No such board.": "Questa bacheca non esiste.",
  "Add Arc": "Aggiungi arco",
  "Add Spiral": "Aggiungi spirale",
  "Add Rectangular Grid": "Aggiungi griglia rettangolare",

@@ -1,5 +1,9 @@
 {
  "Language": "Bahasa",
+ "Select Duplicate Images": "Pilih Gambar Duplikat",
+ "No duplicate images on this board.": "Tidak ada gambar duplikat di papan ini.",
+ "Duplicate copies selected: {0}. One copy of each picture stays unselected ({1}).": "Salinan duplikat dipilih: {0}. Satu salinan tiap gambar tetap tidak dipilih ({1}).",
+ "No such board.": "Papan itu tidak ada.",
  "Add Arc": "Tambah Busur",
  "Add Spiral": "Tambah Spiral",
  "Add Rectangular Grid": "Tambah Kisi Persegi",

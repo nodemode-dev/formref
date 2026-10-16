@@ -1,5 +1,9 @@
 {
  "Language": "Jazyk",
+ "Select Duplicate Images": "Vybrat duplicitní obrázky",
+ "No duplicate images on this board.": "Na této tabuli nejsou žádné duplicitní obrázky.",
+ "Duplicate copies selected: {0}. One copy of each picture stays unselected ({1}).": "Vybrané duplicitní kopie: {0}. Jedna kopie každého obrázku zůstává nevybraná ({1}).",
+ "No such board.": "Taková tabule neexistuje.",
  "Add Arc": "Přidat oblouk",
  "Add Spiral": "Přidat spirálu",
  "Add Rectangular Grid": "Přidat obdélníkovou mřížku",

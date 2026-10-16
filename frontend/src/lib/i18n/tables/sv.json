@@ -1,5 +1,9 @@
 {
  "Language": "Språk",
+ "Select Duplicate Images": "Markera dubblettbilder",
+ "No duplicate images on this board.": "Inga dubblettbilder på den här tavlan.",
+ "Duplicate copies selected: {0}. One copy of each picture stays unselected ({1}).": "Markerade dubbletter: {0}. En kopia av varje bild förblir omarkerad ({1}).",
+ "No such board.": "Tavlan finns inte.",
  "Add Arc": "Lägg till båge",
  "Add Spiral": "Lägg till spiral",
  "Add Rectangular Grid": "Lägg till rektangulärt rutnät",

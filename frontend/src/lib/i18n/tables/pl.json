@@ -1,5 +1,9 @@
 {
  "Language": "Język",
+ "Select Duplicate Images": "Zaznacz zduplikowane obrazy",
+ "No duplicate images on this board.": "Na tej tablicy nie ma zduplikowanych obrazów.",
+ "Duplicate copies selected: {0}. One copy of each picture stays unselected ({1}).": "Zaznaczone duplikaty: {0}. Jedna kopia każdego obrazu pozostaje niezaznaczona ({1}).",
+ "No such board.": "Taka tablica nie istnieje.",
  "Add Arc": "Dodaj łuk",
  "Add Spiral": "Dodaj spiralę",
  "Add Rectangular Grid": "Dodaj siatkę prostokątną",

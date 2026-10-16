@@ -1,5 +1,9 @@
 {
  "Language": "Мова",
+ "Select Duplicate Images": "Вибрати повторювані зображення",
+ "No duplicate images on this board.": "На цій дошці немає повторюваних зображень.",
+ "Duplicate copies selected: {0}. One copy of each picture stays unselected ({1}).": "Вибрано повторюваних копій: {0}. По одній копії кожного зображення лишається невибраною ({1}).",
+ "No such board.": "Такої дошки немає.",
  "Add Arc": "Додати дугу",
  "Add Spiral": "Додати спіраль",
  "Add Rectangular Grid": "Додати прямокутну сітку",

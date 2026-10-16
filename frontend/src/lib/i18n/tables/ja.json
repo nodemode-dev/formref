@@ -1,5 +1,9 @@
 {
  "Language": "言語",
+ "Select Duplicate Images": "重複画像を選択",
+ "No duplicate images on this board.": "このボードに重複画像はありません。",
+ "Duplicate copies selected: {0}. One copy of each picture stays unselected ({1}).": "重複コピーを選択しました：{0}。各画像の 1 つは選択されずに残ります（{1}）。",
+ "No such board.": "そのボードはありません。",
  "Add Arc": "円弧を追加",
  "Add Spiral": "スパイラルを追加",
  "Add Rectangular Grid": "長方形グリッドを追加",

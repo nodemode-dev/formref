@@ -1,5 +1,9 @@
 {
  "Language": "Nyelv",
+ "Select Duplicate Images": "Ismétlődő képek kijelölése",
+ "No duplicate images on this board.": "Ezen a táblán nincsenek ismétlődő képek.",
+ "Duplicate copies selected: {0}. One copy of each picture stays unselected ({1}).": "Kijelölt ismétlődő másolatok: {0}. Minden képből egy másolat kijelöletlen marad ({1}).",
+ "No such board.": "Nincs ilyen tábla.",
  "Add Arc": "Ív hozzáadása",
  "Add Spiral": "Spirál hozzáadása",
  "Add Rectangular Grid": "Téglalaprács hozzáadása",

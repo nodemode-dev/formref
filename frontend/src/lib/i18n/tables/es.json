@@ -1,5 +1,9 @@
 {
  "Language": "Idioma",
+ "Select Duplicate Images": "Seleccionar imágenes duplicadas",
+ "No duplicate images on this board.": "No hay imágenes duplicadas en este tablero.",
+ "Duplicate copies selected: {0}. One copy of each picture stays unselected ({1}).": "Copias duplicadas seleccionadas: {0}. Una copia de cada imagen queda sin seleccionar ({1}).",
+ "No such board.": "Ese tablero no existe.",
  "Add Arc": "Añadir arco",
  "Add Spiral": "Añadir espiral",
  "Add Rectangular Grid": "Añadir cuadrícula rectangular",

@@ -1,5 +1,9 @@
 {
  "Language": "Kieli",
+ "Select Duplicate Images": "Valitse kaksoiskappalekuvat",
+ "No duplicate images on this board.": "Tällä taululla ei ole kaksoiskappalekuvia.",
+ "Duplicate copies selected: {0}. One copy of each picture stays unselected ({1}).": "Valitut kaksoiskappaleet: {0}. Yksi kopio jokaisesta kuvasta jää valitsematta ({1}).",
+ "No such board.": "Taulua ei ole.",
  "Add Arc": "Lisää kaari",
  "Add Spiral": "Lisää spiraali",
  "Add Rectangular Grid": "Lisää suorakulmainen ruudukko",

@@ -1,5 +1,9 @@
 {
  "Language": "语言",
+ "Select Duplicate Images": "选择重复图像",
+ "No duplicate images on this board.": "此画板上没有重复图像。",
+ "Duplicate copies selected: {0}. One copy of each picture stays unselected ({1}).": "已选择重复副本：{0}。每张图片保留一份未选中（{1}）。",
+ "No such board.": "没有该画板。",
  "Add Arc": "添加弧形",
  "Add Spiral": "添加螺旋线",
  "Add Rectangular Grid": "添加矩形网格",

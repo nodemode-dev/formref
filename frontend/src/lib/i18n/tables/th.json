@@ -1,5 +1,9 @@
 {
  "Language": "ภาษา",
+ "Select Duplicate Images": "เลือกรูปภาพที่ซ้ำกัน",
+ "No duplicate images on this board.": "ไม่มีรูปภาพที่ซ้ำกันบนบอร์ดนี้",
+ "Duplicate copies selected: {0}. One copy of each picture stays unselected ({1}).": "เลือกสำเนาที่ซ้ำแล้ว: {0} รูปละหนึ่งสำเนายังไม่ถูกเลือก ({1})",
+ "No such board.": "ไม่มีบอร์ดนี้",
  "Add Arc": "เพิ่มส่วนโค้ง",
  "Add Spiral": "เพิ่มเกลียว",
  "Add Rectangular Grid": "เพิ่มตารางสี่เหลี่ยม",

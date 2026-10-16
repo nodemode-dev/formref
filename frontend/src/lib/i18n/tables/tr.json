@@ -1,5 +1,9 @@
 {
  "Language": "Dil",
+ "Select Duplicate Images": "Yinelenen Görselleri Seç",
+ "No duplicate images on this board.": "Bu panoda yinelenen görsel yok.",
+ "Duplicate copies selected: {0}. One copy of each picture stays unselected ({1}).": "Seçilen yinelenen kopyalar: {0}. Her görselin bir kopyası seçilmeden kalır ({1}).",
+ "No such board.": "Böyle bir pano yok.",
  "Add Arc": "Yay Ekle",
  "Add Spiral": "Spiral Ekle",
  "Add Rectangular Grid": "Dikdörtgen Izgara Ekle",

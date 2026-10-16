@@ -1,5 +1,9 @@
 {
  "Language": "Taal",
+ "Select Duplicate Images": "Dubbele afbeeldingen selecteren",
+ "No duplicate images on this board.": "Geen dubbele afbeeldingen op dit bord.",
+ "Duplicate copies selected: {0}. One copy of each picture stays unselected ({1}).": "Dubbele kopieën geselecteerd: {0}. Eén kopie van elke afbeelding blijft niet geselecteerd ({1}).",
+ "No such board.": "Dit bord bestaat niet.",
  "Add Arc": "Boog toevoegen",
  "Add Spiral": "Spiraal toevoegen",
  "Add Rectangular Grid": "Rechthoekig raster toevoegen",

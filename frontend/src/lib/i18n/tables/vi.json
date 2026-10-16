@@ -1,5 +1,9 @@
 {
  "Language": "Ngôn ngữ",
+ "Select Duplicate Images": "Chọn ảnh trùng lặp",
+ "No duplicate images on this board.": "Không có ảnh trùng lặp trên bảng này.",
+ "Duplicate copies selected: {0}. One copy of each picture stays unselected ({1}).": "Đã chọn bản trùng: {0}. Mỗi ảnh giữ lại một bản không chọn ({1}).",
+ "No such board.": "Không có bảng này.",
  "Add Arc": "Thêm cung",
  "Add Spiral": "Thêm xoắn ốc",
  "Add Rectangular Grid": "Thêm lưới chữ nhật",

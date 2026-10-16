@@ -1,5 +1,9 @@
 {
  "Language": "언어",
+ "Select Duplicate Images": "중복 이미지 선택",
+ "No duplicate images on this board.": "이 보드에는 중복 이미지가 없습니다.",
+ "Duplicate copies selected: {0}. One copy of each picture stays unselected ({1}).": "선택한 중복 사본: {0}. 각 이미지의 사본 하나는 선택되지 않은 채로 남습니다({1}).",
+ "No such board.": "해당 보드가 없습니다.",
  "Add Arc": "호 추가",
  "Add Spiral": "나선형 추가",
  "Add Rectangular Grid": "사각형 격자 추가",

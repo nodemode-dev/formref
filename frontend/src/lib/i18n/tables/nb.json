@@ -1,5 +1,9 @@
 {
  "Language": "Språk",
+ "Select Duplicate Images": "Velg duplikatbilder",
+ "No duplicate images on this board.": "Ingen duplikatbilder på denne tavlen.",
+ "Duplicate copies selected: {0}. One copy of each picture stays unselected ({1}).": "Valgte duplikater: {0}. Én kopi av hvert bilde forblir ikke valgt ({1}).",
+ "No such board.": "Tavlen finnes ikke.",
  "Add Arc": "Legg til bue",
  "Add Spiral": "Legg til spiral",
  "Add Rectangular Grid": "Legg til rektangulært rutenett",
