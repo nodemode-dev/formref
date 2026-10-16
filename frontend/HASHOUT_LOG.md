@@ -8,6 +8,7 @@
 - [Stacking scale](#stacking-scale)
 - [Verification](#verification)
 - [Scripts](#scripts)
+- [v0.18.0 practice breaks and log](#v0180-practice-breaks-and-log)
 - [v0.17.0 timed practice](#v0170-timed-practice)
 - [v0.16.0 searches for all boards](#v0160-searches-for-all-boards)
 - [v0.13.0 tag suggestions](#v0130-tag-suggestions)
@@ -41,6 +42,10 @@
 - [v0.4.8 desktop window controls and WebKit icons](#v048-desktop-window-controls-and-webkit-icons)
 - [v0.4.7 synced notes, map cards, inline edit commit](#v047-synced-notes-map-cards-inline-edit-commit)
 - [v0.4.6 GIF frames and document export](#v046-gif-frames-and-document-export)
+
+## v0.18.0 practice breaks and log
+
+A break starts only when a picture times out (stepping by hand never rests). During it the `resting` class hides the frame with `visibility` and shows the centred note in the same stage, so nothing reflows; the old picture node stays in place and is swapped as before when the break ends. The next picture is decoded into a throwaway `Image` at the start of the break so the swap after it is immediate. Break time is kept apart from drawing time. Any step ends a break first. The log is written once per session from `finish()`; the setup awaits `GET /api/practice` before `showModal`, so its last line is filled before the dialog paints. Probe: $SC/ui/practice-break.cjs (English and German at 4x CPU, slow network): break state, note, countdown, automatic next picture, arrow step, summary, log entry, 7-day line, remembered choices, no blank frame outside breaks.
 
 ## v0.17.0 timed practice
 

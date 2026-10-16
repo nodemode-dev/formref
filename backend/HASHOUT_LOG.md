@@ -8,6 +8,7 @@
 
 ## Contents
 
+- [v0.18.0 · Practice log](#v0180--practice-log)
 - [v0.16.0 · Searches for all boards](#v0160--searches-for-all-boards)
 - [v0.15.0 · Tags written into exported pictures](#v0150--tags-written-into-exported-pictures)
 - [v0.14.0 · Keywords in picture files](#v0140--keywords-in-picture-files)
@@ -29,6 +30,10 @@
 - [v0.2.0 · Canvas settings and snapping through MCP](#v020--canvas-settings-and-snapping-through-mcp)
 - [v0.1.0 · Local board service and SDK MCP](#v010--local-board-service-and-sdk-mcp)
 - [boot_backend.bat](#boot_backendbat)
+
+## v0.18.0 · Practice log
+
+`routers/practice.py` appends to `practice.json` with `store.atomic_write` and keeps the last 500 entries, so the file stays small. The server stamps `at` itself rather than trusting the window's clock. Entries without a numeric `at` are dropped on read, and an unreadable file reads as empty. Checked with curl: empty log, `pictures: 0` refused, an unknown field refused; the window wrote one entry per finished session in the probe.
 
 ## v0.16.0 · Searches for all boards
 

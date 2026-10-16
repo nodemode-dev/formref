@@ -1,5 +1,12 @@
 # FormRef changelog
 
+## v0.18.0 · 2026-10-16
+
+Breaks and a log for Timed Practice.
+
+- Timed Practice can take a break of 5, 10 or 30 seconds or a minute between pictures. The screen shows "Break" and which picture comes next, the clock counts the break down, and the next picture loads during it. Space pauses a break and the right arrow ends it early. Break time is not counted as drawing time.
+- Finished sessions are kept in a practice log in the data folder (the last 500), and the setup shows the last 7 days: sessions, pictures and drawing time. Agents can set the break with the `rest` setting of `timed-practice`.
+
 ## v0.17.0 · 2026-10-16
 
 Timed Practice for drawing sessions.
