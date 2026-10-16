@@ -1,5 +1,11 @@
 {
  "Language": "Langue",
+ "Curvature Tool": "Outil Courbe",
+ "Curvature tool": "Outil Courbe",
+ "Curvature · Shift+~: click points and the curve bends through them": "Courbe · Maj+~ : cliquez des points et la courbe passe par eux",
+ "Smart Guides": "Repères commentés",
+ "Smart Guides off.": "Repères commentés désactivés.",
+ "Smart Guides on: moved items line up with the edges and centres of others.": "Repères commentés activés : les éléments déplacés s’alignent sur les bords et les centres des autres.",
  "Divide": "Diviser",
  "Enter an offset from -2000 to 2000, not 0.": "Saisissez un décalage de -2000 à 2000, différent de 0.",
  "Keeps only the parts of the shapes behind that fall inside the frontmost shape, and removes the frontmost shape.": "Conserve uniquement les parties des formes situées derrière qui tombent dans la forme au premier plan, puis supprime celle-ci.",

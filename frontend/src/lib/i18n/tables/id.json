@@ -1,5 +1,11 @@
 {
  "Language": "Bahasa",
+ "Curvature Tool": "Alat Kelengkungan",
+ "Curvature tool": "Alat Kelengkungan",
+ "Curvature · Shift+~: click points and the curve bends through them": "Kelengkungan · Shift+~: klik titik-titik dan kurva melengkung melaluinya",
+ "Smart Guides": "Panduan Cerdas",
+ "Smart Guides off.": "Panduan Cerdas mati.",
+ "Smart Guides on: moved items line up with the edges and centres of others.": "Panduan Cerdas aktif: item yang dipindah sejajar dengan tepi dan tengah item lain.",
  "Divide": "Bagi",
  "Enter an offset from -2000 to 2000, not 0.": "Masukkan offset dari -2000 hingga 2000, bukan 0.",
  "Keeps only the parts of the shapes behind that fall inside the frontmost shape, and removes the frontmost shape.": "Hanya menyimpan bagian bentuk di belakang yang berada di dalam bentuk paling depan, lalu menghapus bentuk paling depan.",

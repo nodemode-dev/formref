@@ -1,5 +1,11 @@
 {
  "Language": "Dil",
+ "Curvature Tool": "Eğrilik Aracı",
+ "Curvature tool": "Eğrilik Aracı",
+ "Curvature · Shift+~: click points and the curve bends through them": "Eğrilik · Shift+~: noktalara tıklayın, eğri onlardan geçer",
+ "Smart Guides": "Akıllı Kılavuzlar",
+ "Smart Guides off.": "Akıllı Kılavuzlar kapalı.",
+ "Smart Guides on: moved items line up with the edges and centres of others.": "Akıllı Kılavuzlar açık: taşınan öğeler diğerlerinin kenarlarına ve merkezlerine hizalanır.",
  "Divide": "Böl",
  "Enter an offset from -2000 to 2000, not 0.": "-2000 ile 2000 arasında, 0 olmayan bir kaydırma girin.",
  "Keeps only the parts of the shapes behind that fall inside the frontmost shape, and removes the frontmost shape.": "Yalnızca arkadaki şekillerin en öndeki şeklin içinde kalan kısımlarını tutar ve en öndeki şekli kaldırır.",

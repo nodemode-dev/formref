@@ -1,5 +1,11 @@
 {
  "Language": "Jazyk",
+ "Curvature Tool": "Nástroj Zakřivení",
+ "Curvature tool": "Nástroj Zakřivení",
+ "Curvature · Shift+~: click points and the curve bends through them": "Zakřivení · Shift+~: klikněte na body a křivka jimi prochází",
+ "Smart Guides": "Inteligentní vodítka",
+ "Smart Guides off.": "Inteligentní vodítka vypnuta.",
+ "Smart Guides on: moved items line up with the edges and centres of others.": "Inteligentní vodítka zapnuta: přesouvané položky se zarovnají k okrajům a středům ostatních.",
  "Divide": "Rozdělit",
  "Enter an offset from -2000 to 2000, not 0.": "Zadejte posun od -2000 do 2000, ne 0.",
  "Keeps only the parts of the shapes behind that fall inside the frontmost shape, and removes the frontmost shape.": "Ponechá jen části zadních tvarů uvnitř nejpřednějšího tvaru a ten odstraní.",

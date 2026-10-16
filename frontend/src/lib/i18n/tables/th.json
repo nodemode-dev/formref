@@ -1,5 +1,11 @@
 {
  "Language": "ภาษา",
+ "Curvature Tool": "เครื่องมือความโค้ง",
+ "Curvature tool": "เครื่องมือความโค้ง",
+ "Curvature · Shift+~: click points and the curve bends through them": "ความโค้ง · Shift+~: คลิกจุด แล้วเส้นโค้งจะผ่านจุดเหล่านั้น",
+ "Smart Guides": "เส้นนำอัจฉริยะ",
+ "Smart Guides off.": "ปิดเส้นนำอัจฉริยะแล้ว",
+ "Smart Guides on: moved items line up with the edges and centres of others.": "เปิดเส้นนำอัจฉริยะแล้ว: รายการที่ย้ายจะจัดแนวกับขอบและกึ่งกลางของรายการอื่น",
  "Divide": "แบ่ง",
  "Enter an offset from -2000 to 2000, not 0.": "ป้อนระยะเลื่อนระหว่าง -2000 ถึง 2000 ที่ไม่ใช่ 0",
  "Keeps only the parts of the shapes behind that fall inside the frontmost shape, and removes the frontmost shape.": "เก็บเฉพาะส่วนของรูปทรงด้านหลังที่อยู่ภายในรูปทรงหน้าสุด แล้วลบรูปทรงหน้าสุด",

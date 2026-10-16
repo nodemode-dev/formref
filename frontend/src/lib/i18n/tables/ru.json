@@ -1,5 +1,11 @@
 {
  "Language": "Язык",
+ "Curvature Tool": "Инструмент «Кривизна»",
+ "Curvature tool": "Инструмент «Кривизна»",
+ "Curvature · Shift+~: click points and the curve bends through them": "Кривизна · Shift+~: щелкайте точки, и кривая пройдет через них",
+ "Smart Guides": "Быстрые направляющие",
+ "Smart Guides off.": "Быстрые направляющие выключены.",
+ "Smart Guides on: moved items line up with the edges and centres of others.": "Быстрые направляющие включены: перемещаемые элементы выравниваются по краям и центрам других.",
  "Divide": "Разделение",
  "Enter an offset from -2000 to 2000, not 0.": "Введите смещение от -2000 до 2000, не 0.",
  "Keeps only the parts of the shapes behind that fall inside the frontmost shape, and removes the frontmost shape.": "Оставляет только части задних фигур внутри передней фигуры и удаляет переднюю фигуру.",

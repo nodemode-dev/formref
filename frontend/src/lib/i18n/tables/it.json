@@ -1,5 +1,11 @@
 {
  "Language": "Lingua",
+ "Curvature Tool": "Strumento Curvatura",
+ "Curvature tool": "Strumento Curvatura",
+ "Curvature · Shift+~: click points and the curve bends through them": "Curvatura · Maiusc+~: fai clic sui punti e la curva passa per essi",
+ "Smart Guides": "Guide sensibili",
+ "Smart Guides off.": "Guide sensibili disattivate.",
+ "Smart Guides on: moved items line up with the edges and centres of others.": "Guide sensibili attive: gli elementi spostati si allineano ai bordi e ai centri degli altri.",
  "Divide": "Dividi",
  "Enter an offset from -2000 to 2000, not 0.": "Inserisci uno spostamento da -2000 a 2000, diverso da 0.",
  "Keeps only the parts of the shapes behind that fall inside the frontmost shape, and removes the frontmost shape.": "Mantiene solo le parti delle forme dietro che cadono dentro la forma in primo piano, poi la rimuove.",

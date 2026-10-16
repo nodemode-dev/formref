@@ -1,5 +1,11 @@
 {
  "Language": "Sprache",
+ "Curvature Tool": "Kurvenzeichner",
+ "Curvature tool": "Kurvenzeichner",
+ "Curvature · Shift+~: click points and the curve bends through them": "Kurvenzeichner · Umschalt+~: Punkte klicken, die Kurve verläuft durch sie",
+ "Smart Guides": "Intelligente Hilfslinien",
+ "Smart Guides off.": "Intelligente Hilfslinien aus.",
+ "Smart Guides on: moved items line up with the edges and centres of others.": "Intelligente Hilfslinien an: Verschobene Elemente richten sich an Kanten und Mitten anderer aus.",
  "Divide": "Unterteilen",
  "Enter an offset from -2000 to 2000, not 0.": "Gib einen Versatz von -2000 bis 2000 ein, nicht 0.",
  "Keeps only the parts of the shapes behind that fall inside the frontmost shape, and removes the frontmost shape.": "Behält nur die Teile der hinteren Formen, die innerhalb der vordersten Form liegen, und entfernt die vorderste Form.",

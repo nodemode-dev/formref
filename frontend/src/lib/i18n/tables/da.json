@@ -1,5 +1,11 @@
 {
  "Language": "Sprog",
+ "Curvature Tool": "Krumningsværktøj",
+ "Curvature tool": "Krumningsværktøj",
+ "Curvature · Shift+~: click points and the curve bends through them": "Krumning · Skift+~: klik punkter, og kurven bøjer gennem dem",
+ "Smart Guides": "Smarte hjælpelinjer",
+ "Smart Guides off.": "Smarte hjælpelinjer fra.",
+ "Smart Guides on: moved items line up with the edges and centres of others.": "Smarte hjælpelinjer til: flyttede elementer flugter med andres kanter og midter.",
  "Divide": "Opdel",
  "Enter an offset from -2000 to 2000, not 0.": "Angiv en forskydning fra -2000 til 2000, ikke 0.",
  "Keeps only the parts of the shapes behind that fall inside the frontmost shape, and removes the frontmost shape.": "Beholder kun de dele af de bagerste figurer, der ligger inden for den forreste figur, og fjerner den forreste figur.",

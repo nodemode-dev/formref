@@ -1,5 +1,11 @@
 {
  "Language": "Kieli",
+ "Curvature Tool": "Kaarevuustyökalu",
+ "Curvature tool": "Kaarevuustyökalu",
+ "Curvature · Shift+~: click points and the curve bends through them": "Kaarevuus · Vaihto+~: napsauta pisteitä, ja käyrä kulkee niiden kautta",
+ "Smart Guides": "Älykkäät apuviivat",
+ "Smart Guides off.": "Älykkäät apuviivat pois.",
+ "Smart Guides on: moved items line up with the edges and centres of others.": "Älykkäät apuviivat päällä: siirrettävät kohteet tasautuvat muiden reunoihin ja keskikohtiin.",
  "Divide": "Jaa",
  "Enter an offset from -2000 to 2000, not 0.": "Anna siirtymä väliltä -2000–2000, ei 0.",
  "Keeps only the parts of the shapes behind that fall inside the frontmost shape, and removes the frontmost shape.": "Säilyttää vain takana olevien muotojen osat, jotka jäävät etummaisen muodon sisään, ja poistaa etummaisen muodon.",

@@ -1,5 +1,11 @@
 {
  "Language": "言語",
+ "Curvature Tool": "曲線ツール",
+ "Curvature tool": "曲線ツール",
+ "Curvature · Shift+~: click points and the curve bends through them": "曲線 · Shift+~：点をクリックすると曲線がそこを通ります",
+ "Smart Guides": "スマートガイド",
+ "Smart Guides off.": "スマートガイドをオフにしました。",
+ "Smart Guides on: moved items line up with the edges and centres of others.": "スマートガイドをオンにしました：移動した項目が他の項目の端と中心に揃います。",
  "Divide": "分割",
  "Enter an offset from -2000 to 2000, not 0.": "-2000〜2000 の 0 以外のオフセットを入力してください。",
  "Keeps only the parts of the shapes behind that fall inside the frontmost shape, and removes the frontmost shape.": "背面のシェイプのうち最前面のシェイプ内にある部分だけを残し、最前面のシェイプを削除します。",

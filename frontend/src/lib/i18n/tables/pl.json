@@ -1,5 +1,11 @@
 {
  "Language": "Język",
+ "Curvature Tool": "Narzędzie Krzywizna",
+ "Curvature tool": "Narzędzie Krzywizna",
+ "Curvature · Shift+~: click points and the curve bends through them": "Krzywizna · Shift+~: klikaj punkty, a krzywa przez nie przechodzi",
+ "Smart Guides": "Inteligentne linie pomocnicze",
+ "Smart Guides off.": "Inteligentne linie pomocnicze wyłączone.",
+ "Smart Guides on: moved items line up with the edges and centres of others.": "Inteligentne linie pomocnicze włączone: przesuwane elementy wyrównują się do krawędzi i środków innych.",
  "Divide": "Podziel",
  "Enter an offset from -2000 to 2000, not 0.": "Wpisz przesunięcie od -2000 do 2000, różne od 0.",
  "Keeps only the parts of the shapes behind that fall inside the frontmost shape, and removes the frontmost shape.": "Zachowuje tylko części tylnych kształtów leżące wewnątrz przedniego kształtu i usuwa przedni kształt.",

@@ -1,5 +1,11 @@
 {
  "Language": "언어",
+ "Curvature Tool": "곡률 도구",
+ "Curvature tool": "곡률 도구",
+ "Curvature · Shift+~: click points and the curve bends through them": "곡률 · Shift+~: 점을 클릭하면 곡선이 그 점들을 지나갑니다",
+ "Smart Guides": "고급 안내선",
+ "Smart Guides off.": "고급 안내선 끔.",
+ "Smart Guides on: moved items line up with the edges and centres of others.": "고급 안내선 켬: 이동하는 항목이 다른 항목의 가장자리와 중심에 맞춰집니다.",
  "Divide": "나누기",
  "Enter an offset from -2000 to 2000, not 0.": "-2000에서 2000 사이의 0이 아닌 오프셋을 입력하세요.",
  "Keeps only the parts of the shapes behind that fall inside the frontmost shape, and removes the frontmost shape.": "뒤쪽 모양 중 맨 앞 모양 안에 있는 부분만 남기고 맨 앞 모양을 제거합니다.",

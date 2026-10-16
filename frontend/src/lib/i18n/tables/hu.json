@@ -1,5 +1,11 @@
 {
  "Language": "Nyelv",
+ "Curvature Tool": "Görbület eszköz",
+ "Curvature tool": "Görbület eszköz",
+ "Curvature · Shift+~: click points and the curve bends through them": "Görbület · Shift+~: kattintson pontokra, és a görbe áthalad rajtuk",
+ "Smart Guides": "Intelligens segédvonalak",
+ "Smart Guides off.": "Intelligens segédvonalak ki.",
+ "Smart Guides on: moved items line up with the edges and centres of others.": "Intelligens segédvonalak be: a mozgatott elemek a többiek széleihez és közepéhez igazodnak.",
  "Divide": "Felosztás",
  "Enter an offset from -2000 to 2000, not 0.": "Adjon meg -2000 és 2000 közötti eltolást, ami nem 0.",
  "Keeps only the parts of the shapes behind that fall inside the frontmost shape, and removes the frontmost shape.": "Csak a hátsó alakzatok legelső alakzaton belüli részeit tartja meg, a legelső alakzatot eltávolítja.",

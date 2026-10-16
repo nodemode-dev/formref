@@ -1,5 +1,11 @@
 {
  "Language": "語言",
+ "Curvature Tool": "曲率工具",
+ "Curvature tool": "曲率工具",
+ "Curvature · Shift+~: click points and the curve bends through them": "曲率 · Shift+~：按一下各點，曲線會穿過它們",
+ "Smart Guides": "智慧型參考線",
+ "Smart Guides off.": "智慧型參考線已關閉。",
+ "Smart Guides on: moved items line up with the edges and centres of others.": "智慧型參考線已開啟：移動的項目會與其他項目的邊緣和中心對齊。",
  "Divide": "分割",
  "Enter an offset from -2000 to 2000, not 0.": "請輸入 -2000 到 2000 之間且不為 0 的位移。",
  "Keeps only the parts of the shapes behind that fall inside the frontmost shape, and removes the frontmost shape.": "只保留後方形狀落在最前方形狀內的部分，並刪除最前方形狀。",
