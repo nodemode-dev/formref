@@ -1426,5 +1426,18 @@
  "Each picture gets the time chosen below.": "ทุกรูปจะได้เวลาที่เลือกด้านล่าง",
  "Same time for every picture": "เวลาเท่ากันทุกรูป",
  "Session": "รอบฝึก",
- "Warm-up, 10 minutes": "วอร์มอัป 10 นาที"
+ "Warm-up, 10 minutes": "วอร์มอัป 10 นาที",
+ "All boards": "ทุกบอร์ด",
+ "Clear Log": "ล้างบันทึก",
+ "Click Again to Clear": "คลิกอีกครั้งเพื่อล้าง",
+ "Drawing time": "เวลาวาด",
+ "No sessions yet. Finished practice sessions show here.": "ยังไม่มีรอบฝึก รอบที่ฝึกจบแล้วจะแสดงที่นี่",
+ "Pace": "จังหวะ",
+ "Practice Log": "บันทึกการฝึก",
+ "Practice Log…": "บันทึกการฝึก…",
+ "Sessions to show": "รอบฝึกที่แสดง",
+ "Sessions {0}, pictures {1}, drawing time {2}.": "รอบฝึก {0} รูป {1} เวลาวาด {2}",
+ "The practice log could not be cleared.": "ล้างบันทึกการฝึกไม่ได้",
+ "This board": "บอร์ดนี้",
+ "When": "เมื่อ"
 }

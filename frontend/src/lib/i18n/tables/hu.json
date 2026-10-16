@@ -1426,5 +1426,18 @@
  "Each picture gets the time chosen below.": "Minden kép az alább választott időt kapja.",
  "Same time for every picture": "Minden képre ugyanannyi idő",
  "Session": "Gyakorlás",
- "Warm-up, 10 minutes": "Bemelegítés, 10 perc"
+ "Warm-up, 10 minutes": "Bemelegítés, 10 perc",
+ "All boards": "Minden tábla",
+ "Clear Log": "Napló törlése",
+ "Click Again to Clear": "Kattintson újra a törléshez",
+ "Drawing time": "Rajzolási idő",
+ "No sessions yet. Finished practice sessions show here.": "Még nincs gyakorlás. A befejezett gyakorlások itt jelennek meg.",
+ "Pace": "Tempó",
+ "Practice Log": "Gyakorlási napló",
+ "Practice Log…": "Gyakorlási napló…",
+ "Sessions to show": "Megjelenített gyakorlások",
+ "Sessions {0}, pictures {1}, drawing time {2}.": "Gyakorlás {0}, kép {1}, rajzolási idő {2}.",
+ "The practice log could not be cleared.": "A gyakorlási naplót nem sikerült törölni.",
+ "This board": "Ez a tábla",
+ "When": "Mikor"
 }

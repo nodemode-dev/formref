@@ -1426,5 +1426,18 @@
  "Each picture gets the time chosen below.": "Hvert bilde får tiden som er valgt nedenfor.",
  "Same time for every picture": "Samme tid for hvert bilde",
  "Session": "Økt",
- "Warm-up, 10 minutes": "Oppvarming, 10 minutter"
+ "Warm-up, 10 minutes": "Oppvarming, 10 minutter",
+ "All boards": "Alle tavler",
+ "Clear Log": "Tøm logg",
+ "Click Again to Clear": "Klikk igjen for å tømme",
+ "Drawing time": "Tegnetid",
+ "No sessions yet. Finished practice sessions show here.": "Ingen økter ennå. Fullførte økter vises her.",
+ "Pace": "Tempo",
+ "Practice Log": "Øvingslogg",
+ "Practice Log…": "Øvingslogg…",
+ "Sessions to show": "Økter som vises",
+ "Sessions {0}, pictures {1}, drawing time {2}.": "Økter {0}, bilder {1}, tegnetid {2}.",
+ "The practice log could not be cleared.": "Øvingsloggen kunne ikke tømmes.",
+ "This board": "Denne tavlen",
+ "When": "Når"
 }

@@ -1426,5 +1426,18 @@
  "Each picture gets the time chosen below.": "Ogni immagine riceve il tempo scelto qui sotto.",
  "Same time for every picture": "Stesso tempo per ogni immagine",
  "Session": "Sessione",
- "Warm-up, 10 minutes": "Riscaldamento, 10 minuti"
+ "Warm-up, 10 minutes": "Riscaldamento, 10 minuti",
+ "All boards": "Tutte le bacheche",
+ "Clear Log": "Svuota registro",
+ "Click Again to Clear": "Fai di nuovo clic per svuotare",
+ "Drawing time": "Tempo di disegno",
+ "No sessions yet. Finished practice sessions show here.": "Ancora nessuna sessione. Le sessioni concluse compaiono qui.",
+ "Pace": "Ritmo",
+ "Practice Log": "Registro esercizi",
+ "Practice Log…": "Registro esercizi…",
+ "Sessions to show": "Sessioni da mostrare",
+ "Sessions {0}, pictures {1}, drawing time {2}.": "Sessioni {0}, immagini {1}, tempo di disegno {2}.",
+ "The practice log could not be cleared.": "Non è stato possibile svuotare il registro esercizi.",
+ "This board": "Questa bacheca",
+ "When": "Quando"
 }

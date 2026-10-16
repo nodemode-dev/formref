@@ -1426,5 +1426,18 @@
  "Each picture gets the time chosen below.": "Elke afbeelding krijgt de tijd die hieronder is gekozen.",
  "Same time for every picture": "Dezelfde tijd voor elke afbeelding",
  "Session": "Sessie",
- "Warm-up, 10 minutes": "Opwarming, 10 minuten"
+ "Warm-up, 10 minutes": "Opwarming, 10 minuten",
+ "All boards": "Alle boards",
+ "Clear Log": "Logboek wissen",
+ "Click Again to Clear": "Klik nogmaals om te wissen",
+ "Drawing time": "Tekentijd",
+ "No sessions yet. Finished practice sessions show here.": "Nog geen sessies. Afgeronde sessies staan hier.",
+ "Pace": "Tempo",
+ "Practice Log": "Oefenlogboek",
+ "Practice Log…": "Oefenlogboek…",
+ "Sessions to show": "Getoonde sessies",
+ "Sessions {0}, pictures {1}, drawing time {2}.": "Sessies {0}, afbeeldingen {1}, tekentijd {2}.",
+ "The practice log could not be cleared.": "Het oefenlogboek kon niet worden gewist.",
+ "This board": "Dit board",
+ "When": "Wanneer"
 }

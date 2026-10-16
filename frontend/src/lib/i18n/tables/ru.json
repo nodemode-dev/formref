@@ -1426,5 +1426,18 @@
  "Each picture gets the time chosen below.": "Каждое изображение получает время, выбранное ниже.",
  "Same time for every picture": "Одинаковое время для каждого изображения",
  "Session": "Занятие",
- "Warm-up, 10 minutes": "Разминка, 10 минут"
+ "Warm-up, 10 minutes": "Разминка, 10 минут",
+ "All boards": "Все доски",
+ "Clear Log": "Очистить журнал",
+ "Click Again to Clear": "Нажмите ещё раз, чтобы очистить",
+ "Drawing time": "Время рисования",
+ "No sessions yet. Finished practice sessions show here.": "Занятий пока нет. Завершённые занятия появятся здесь.",
+ "Pace": "Темп",
+ "Practice Log": "Журнал практики",
+ "Practice Log…": "Журнал практики…",
+ "Sessions to show": "Показываемые занятия",
+ "Sessions {0}, pictures {1}, drawing time {2}.": "Занятий {0}, изображений {1}, время рисования {2}.",
+ "The practice log could not be cleared.": "Не удалось очистить журнал практики.",
+ "This board": "Эта доска",
+ "When": "Когда"
 }

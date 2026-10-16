@@ -1426,5 +1426,18 @@
  "Each picture gets the time chosen below.": "Varje bild får tiden som väljs nedan.",
  "Same time for every picture": "Samma tid för varje bild",
  "Session": "Pass",
- "Warm-up, 10 minutes": "Uppvärmning, 10 minuter"
+ "Warm-up, 10 minutes": "Uppvärmning, 10 minuter",
+ "All boards": "Alla tavlor",
+ "Clear Log": "Rensa logg",
+ "Click Again to Clear": "Klicka igen för att rensa",
+ "Drawing time": "Ritid",
+ "No sessions yet. Finished practice sessions show here.": "Inga pass än. Avslutade pass visas här.",
+ "Pace": "Tempo",
+ "Practice Log": "Övningslogg",
+ "Practice Log…": "Övningslogg…",
+ "Sessions to show": "Pass som visas",
+ "Sessions {0}, pictures {1}, drawing time {2}.": "Pass {0}, bilder {1}, ritid {2}.",
+ "The practice log could not be cleared.": "Övningsloggen kunde inte rensas.",
+ "This board": "Den här tavlan",
+ "When": "När"
 }

@@ -1426,5 +1426,18 @@
  "Each picture gets the time chosen below.": "各画像に下で選んだ時間が適用されます。",
  "Same time for every picture": "すべての画像で同じ時間",
  "Session": "セッション",
- "Warm-up, 10 minutes": "ウォームアップ、10 分"
+ "Warm-up, 10 minutes": "ウォームアップ、10 分",
+ "All boards": "すべてのボード",
+ "Clear Log": "記録を消去",
+ "Click Again to Clear": "もう一度クリックで消去",
+ "Drawing time": "描画時間",
+ "No sessions yet. Finished practice sessions show here.": "まだ練習はありません。終了した練習がここに表示されます。",
+ "Pace": "ペース",
+ "Practice Log": "練習記録",
+ "Practice Log…": "練習記録…",
+ "Sessions to show": "表示する練習",
+ "Sessions {0}, pictures {1}, drawing time {2}.": "練習 {0} 回、画像 {1} 枚、描画時間 {2}。",
+ "The practice log could not be cleared.": "練習記録を消去できませんでした。",
+ "This board": "このボード",
+ "When": "日時"
 }

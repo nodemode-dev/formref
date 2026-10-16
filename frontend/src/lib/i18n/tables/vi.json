@@ -1426,5 +1426,18 @@
  "Each picture gets the time chosen below.": "Mỗi ảnh nhận thời gian chọn bên dưới.",
  "Same time for every picture": "Cùng thời gian cho mọi ảnh",
  "Session": "Buổi luyện",
- "Warm-up, 10 minutes": "Khởi động, 10 phút"
+ "Warm-up, 10 minutes": "Khởi động, 10 phút",
+ "All boards": "Tất cả bảng",
+ "Clear Log": "Xóa nhật ký",
+ "Click Again to Clear": "Nhấn lần nữa để xóa",
+ "Drawing time": "Thời gian vẽ",
+ "No sessions yet. Finished practice sessions show here.": "Chưa có buổi luyện nào. Các buổi đã xong sẽ hiện ở đây.",
+ "Pace": "Nhịp",
+ "Practice Log": "Nhật ký luyện tập",
+ "Practice Log…": "Nhật ký luyện tập…",
+ "Sessions to show": "Buổi luyện được hiển thị",
+ "Sessions {0}, pictures {1}, drawing time {2}.": "{0} buổi, {1} ảnh, thời gian vẽ {2}.",
+ "The practice log could not be cleared.": "Không thể xóa nhật ký luyện tập.",
+ "This board": "Bảng này",
+ "When": "Khi nào"
 }

@@ -1426,5 +1426,18 @@
  "Each picture gets the time chosen below.": "Každý obrázek dostane čas vybraný níže.",
  "Same time for every picture": "Stejný čas pro každý obrázek",
  "Session": "Cvičení",
- "Warm-up, 10 minutes": "Rozcvička, 10 minut"
+ "Warm-up, 10 minutes": "Rozcvička, 10 minut",
+ "All boards": "Všechny tabule",
+ "Clear Log": "Vymazat záznam",
+ "Click Again to Clear": "Klikněte znovu pro vymazání",
+ "Drawing time": "Čas kreslení",
+ "No sessions yet. Finished practice sessions show here.": "Zatím žádná cvičení. Dokončená cvičení se zobrazí zde.",
+ "Pace": "Tempo",
+ "Practice Log": "Záznam cvičení",
+ "Practice Log…": "Záznam cvičení…",
+ "Sessions to show": "Zobrazená cvičení",
+ "Sessions {0}, pictures {1}, drawing time {2}.": "Cvičení {0}, obrázků {1}, čas kreslení {2}.",
+ "The practice log could not be cleared.": "Záznam cvičení se nepodařilo vymazat.",
+ "This board": "Tato tabule",
+ "When": "Kdy"
 }

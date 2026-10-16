@@ -1426,5 +1426,18 @@
  "Each picture gets the time chosen below.": "Jedes Bild bekommt die unten gewählte Zeit.",
  "Same time for every picture": "Gleiche Zeit für jedes Bild",
  "Session": "Übung",
- "Warm-up, 10 minutes": "Aufwärmen, 10 Minuten"
+ "Warm-up, 10 minutes": "Aufwärmen, 10 Minuten",
+ "All boards": "Alle Boards",
+ "Clear Log": "Protokoll leeren",
+ "Click Again to Clear": "Zum Leeren erneut klicken",
+ "Drawing time": "Zeichenzeit",
+ "No sessions yet. Finished practice sessions show here.": "Noch keine Übungen. Beendete Übungen erscheinen hier.",
+ "Pace": "Tempo",
+ "Practice Log": "Übungsprotokoll",
+ "Practice Log…": "Übungsprotokoll…",
+ "Sessions to show": "Angezeigte Übungen",
+ "Sessions {0}, pictures {1}, drawing time {2}.": "Übungen {0}, Bilder {1}, Zeichenzeit {2}.",
+ "The practice log could not be cleared.": "Das Übungsprotokoll konnte nicht geleert werden.",
+ "This board": "Dieses Board",
+ "When": "Wann"
 }

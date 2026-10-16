@@ -1426,5 +1426,18 @@
  "Each picture gets the time chosen below.": "Jokainen kuva saa alla valitun ajan.",
  "Same time for every picture": "Sama aika jokaiselle kuvalle",
  "Session": "Harjoitus",
- "Warm-up, 10 minutes": "Lämmittely, 10 minuuttia"
+ "Warm-up, 10 minutes": "Lämmittely, 10 minuuttia",
+ "All boards": "Kaikki taulut",
+ "Clear Log": "Tyhjennä loki",
+ "Click Again to Clear": "Tyhjennä napsauttamalla uudelleen",
+ "Drawing time": "Piirtoaika",
+ "No sessions yet. Finished practice sessions show here.": "Ei vielä harjoituksia. Päättyneet harjoitukset näkyvät tässä.",
+ "Pace": "Tahti",
+ "Practice Log": "Harjoitusloki",
+ "Practice Log…": "Harjoitusloki…",
+ "Sessions to show": "Näytettävät harjoitukset",
+ "Sessions {0}, pictures {1}, drawing time {2}.": "Harjoituksia {0}, kuvia {1}, piirtoaikaa {2}.",
+ "The practice log could not be cleared.": "Harjoituslokia ei voitu tyhjentää.",
+ "This board": "Tämä taulu",
+ "When": "Milloin"
 }

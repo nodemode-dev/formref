@@ -1426,5 +1426,18 @@
  "Each picture gets the time chosen below.": "每張圖片使用下面選擇的時間。",
  "Same time for every picture": "每張圖片時間相同",
  "Session": "練習方式",
- "Warm-up, 10 minutes": "熱身，10 分鐘"
+ "Warm-up, 10 minutes": "熱身，10 分鐘",
+ "All boards": "所有看板",
+ "Clear Log": "清除記錄",
+ "Click Again to Clear": "再次點擊以清除",
+ "Drawing time": "繪畫時間",
+ "No sessions yet. Finished practice sessions show here.": "還沒有練習。完成的練習會顯示在這裡。",
+ "Pace": "節奏",
+ "Practice Log": "練習記錄",
+ "Practice Log…": "練習記錄…",
+ "Sessions to show": "要顯示的練習",
+ "Sessions {0}, pictures {1}, drawing time {2}.": "練習 {0} 次，圖片 {1} 張，繪畫時間 {2}。",
+ "The practice log could not be cleared.": "無法清除練習記錄。",
+ "This board": "此看板",
+ "When": "時間"
 }
