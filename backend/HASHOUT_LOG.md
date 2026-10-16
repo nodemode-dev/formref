@@ -8,6 +8,7 @@
 
 ## Contents
 
+- [v0.22.0 · Ratings in exported pictures](#v0220--ratings-in-exported-pictures)
 - [v0.21.0 · Picture details](#v0210--picture-details)
 - [v0.18.0 · Practice log](#v0180--practice-log)
 - [v0.16.0 · Searches for all boards](#v0160--searches-for-all-boards)
@@ -31,6 +32,10 @@
 - [v0.2.0 · Canvas settings and snapping through MCP](#v020--canvas-settings-and-snapping-through-mcp)
 - [v0.1.0 · Local board service and SDK MCP](#v010--local-board-service-and-sdk-mcp)
 - [boot_backend.bat](#boot_backendbat)
+
+## v0.22.0 · Ratings in exported pictures
+
+`xmp_write` takes a `rating` (1 to 5, anything else is treated as none) alongside the tags. When rating, `merged_packet` drops `xmp:Rating` both as an attribute on any `rdf:Description` (how Lightroom and Bridge write it) and as an element, then appends one element. Without tags it now leaves dc:subject and dc:title alone, so rating a picture never wipes the keywords another tool put in it. `fresh_packet` writes only the parts it has. `with_tags` returns the bytes untouched when there is neither tag nor rating. The `xmp` prefix is registered with ElementTree alongside x, rdf and dc. `images_export` keeps each asset's highest rating across its uses. Shared searches accept `rating` 0 to 5. Checked on the keyword fixtures: rating only on a plain JPEG (pixels identical, no keywords added), rating only on a JPEG with its own XMP keywords (kept), tags and rating together, an attribute rating replaced, WebP sidecar, PNG with compressed XMP (keywords kept, pixels identical). End to end the probe's ZIP had `xmp:Rating` 4 and 5 in the two rated pictures.
 
 ## v0.21.0 · Picture details
 

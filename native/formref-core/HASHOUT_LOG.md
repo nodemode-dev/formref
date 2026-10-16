@@ -28,6 +28,7 @@ Focused v0.2.0 and v0.3.0 log. The complete baseline engine map, protocol limits
 - [Reference editing](#reference-editing)
 - [Comments](#comments)
 - [Labels](#labels)
+- [Ratings](#ratings)
 - [Tables](#tables)
 - [Synced notes](#synced-notes)
 - [Window layout](#window-layout)
@@ -47,6 +48,10 @@ v0.4.7: `duplicate` takes `synced: true` to give note and document copies a shar
 ## Tables
 
 v0.4.5: `table_data` validates table cards (1 to 26 typed columns, at most 500 rows, cell text up to 2000 characters). Cells stay raw text and formulas stay text in the engine; evaluation belongs to the frontend so the engine never interprets user formulas and undo restores exactly what was typed. An unknown column type was refused over MCP.
+
+## Ratings
+
+v0.22.0: a picture's stars are `data.rating`, a whole number from 1 to 5 checked in the image arm of `Item::validate`. They are set through the existing `image` command's `set` (`rating` 0 to 5). 0 removes the key instead of storing it, so a picture rated and cleared saves byte for byte as before. `SavedSearch.rating` (0 for unrated, 1 to 5 for at least that many) is optional and skipped when absent, so older boards stay byte-identical; it also counts as the one field a saved search needs. Probed through the window: rate with a key and the inspector, clear by clicking the same star, undo restores the previous rating.
 
 ## Labels
 

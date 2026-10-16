@@ -8,6 +8,7 @@
 - [Stacking scale](#stacking-scale)
 - [Verification](#verification)
 - [Scripts](#scripts)
+- [v0.22.0 star ratings](#v0220-star-ratings)
 - [v0.21.0 picture info](#v0210-picture-info)
 - [v0.20.0 practice log view](#v0200-practice-log-view)
 - [v0.19.0 practice class plans](#v0190-practice-class-plans)
@@ -45,6 +46,10 @@
 - [v0.4.8 desktop window controls and WebKit icons](#v048-desktop-window-controls-and-webkit-icons)
 - [v0.4.7 synced notes, map cards, inline edit commit](#v047-synced-notes-map-cards-inline-edit-commit)
 - [v0.4.6 GIF frames and document export](#v046-gif-frames-and-document-export)
+
+## v0.22.0 star ratings
+
+`app/rating.ts` follows the other filter modules. It pushes one predicate into `matchFilters`, redraws once through `scene.render`, marks `#filter-row` with `has-rating` so the shared clear button shows, and listens to that clear button. The filter state is `null` (off), 0 (unrated) or 1 to 5 (at least). The star button's badge is an `::after` from `data-rating`, absolutely positioned and hidden by `visibility`, so choosing a rating never moves the row (the probe measured the kind select at 95 px and the row at 28 px throughout). The inspector stars are five buttons made once and inserted at registration. A selection change only toggles each button's `on` class when it differs and sets `aria-pressed`; a mixed selection shows no stars, dimmed. The digit keys are commands `rate-0` to `rate-5`, whose agent words live in `command-meta.ts` so the extractor does not ask for translations of English agent text. Saved searches add `rating` to `current`, `isCurrent`, the suggested name, `applySearch` and `clearFilters`, and watch the button's `data-rating` so the bookmark lights when only the minimum changes. The menu says "Rated" for one or more stars, so it never says "1 stars". Probe: $SC/ui/rating.cjs (English and German); it rates astronaut, horse and rocket on board 9b49827f and saves a search, so restore that board afterwards (ratings set to 0 and searches back to `#nasa · #portrait`).
 
 ## v0.21.0 picture info
 

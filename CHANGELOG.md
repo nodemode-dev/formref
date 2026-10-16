@@ -1,5 +1,13 @@
 # FormRef changelog
 
+## v0.22.0 · 2026-10-16
+
+Star ratings.
+
+- Pictures can have 1 to 5 stars. Press 1 to 5 with pictures selected (0 clears), or click the stars in the inspector's Image section; clicking a picture's current star again clears it. Each change is one undo step.
+- The star button beside the kind filter keeps pictures with five stars, at least 4, 3 or 2 stars, any rating, or only unrated pictures. A small badge shows the choice, and the clear button clears it with the other filters. Saved searches, for one board and for all boards, keep the rating filter.
+- The All pictures ZIP writes each rated picture's stars into the file as an XMP rating, which Lightroom, Bridge, darktable, digiKam and Windows read. A rating already in the file is replaced; unrated pictures keep theirs.
+
 ## v0.21.0 · 2026-10-16
 
 Picture Info.
