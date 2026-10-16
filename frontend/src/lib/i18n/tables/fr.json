@@ -1,5 +1,12 @@
 {
  "Language": "Langue",
+ "Angle": "Angle",
+ "From": "De",
+ "Gradient": "Dégradé",
+ "Gradient Fill": "Remplissage dégradé",
+ "Linear": "Linéaire",
+ "Radial": "Radial",
+ "To": "À",
  "Arrow": "Flèche",
  "Arrowhead scale %": "Échelle de la pointe %",
  "Arrowhead scale is from 10 to 1000 percent.": "L'échelle de la pointe va de 10 à 1000 pour cent.",

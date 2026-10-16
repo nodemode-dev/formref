@@ -1,5 +1,12 @@
 {
  "Language": "Nyelv",
+ "Angle": "Szög",
+ "From": "Ettől",
+ "Gradient": "Színátmenet",
+ "Gradient Fill": "Színátmenetes kitöltés",
+ "Linear": "Lineáris",
+ "Radial": "Sugaras",
+ "To": "Eddig",
  "Arrow": "Nyíl",
  "Arrowhead scale %": "Nyílhegy mérete %",
  "Arrowhead scale is from 10 to 1000 percent.": "A nyílhegy mérete 10 és 1000 százalék között lehet.",

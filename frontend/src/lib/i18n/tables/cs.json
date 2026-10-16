@@ -1,5 +1,12 @@
 {
  "Language": "Jazyk",
+ "Angle": "Úhel",
+ "From": "Od",
+ "Gradient": "Přechod",
+ "Gradient Fill": "Výplň přechodem",
+ "Linear": "Lineární",
+ "Radial": "Radiální",
+ "To": "Do",
  "Arrow": "Šipka",
  "Arrowhead scale %": "Měřítko hrotu %",
  "Arrowhead scale is from 10 to 1000 percent.": "Měřítko hrotu je od 10 do 1000 procent.",

@@ -1,5 +1,12 @@
 {
  "Language": "Język",
+ "Angle": "Kąt",
+ "From": "Od",
+ "Gradient": "Gradient",
+ "Gradient Fill": "Wypełnienie gradientem",
+ "Linear": "Liniowy",
+ "Radial": "Radialny",
+ "To": "Do",
  "Arrow": "Strzałka",
  "Arrowhead scale %": "Skala grotu %",
  "Arrowhead scale is from 10 to 1000 percent.": "Skala grotu wynosi od 10 do 1000 procent.",

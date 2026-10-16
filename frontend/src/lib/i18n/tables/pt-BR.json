@@ -1,5 +1,12 @@
 {
  "Language": "Idioma",
+ "Angle": "Ângulo",
+ "From": "De",
+ "Gradient": "Gradiente",
+ "Gradient Fill": "Preenchimento gradiente",
+ "Linear": "Linear",
+ "Radial": "Radial",
+ "To": "Até",
  "Arrow": "Seta",
  "Arrowhead scale %": "Escala da ponta de seta %",
  "Arrowhead scale is from 10 to 1000 percent.": "A escala da ponta de seta vai de 10 a 1000 por cento.",

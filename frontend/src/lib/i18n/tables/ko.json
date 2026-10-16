@@ -1,5 +1,12 @@
 {
  "Language": "언어",
+ "Angle": "각도",
+ "From": "시작",
+ "Gradient": "그레이디언트",
+ "Gradient Fill": "그레이디언트 칠",
+ "Linear": "선형",
+ "Radial": "방사형",
+ "To": "끝",
  "Arrow": "화살표",
  "Arrowhead scale %": "화살촉 비율 %",
  "Arrowhead scale is from 10 to 1000 percent.": "화살촉 비율은 10~1000%입니다.",

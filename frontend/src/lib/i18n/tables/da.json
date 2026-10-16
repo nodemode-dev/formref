@@ -1,5 +1,12 @@
 {
  "Language": "Sprog",
+ "Angle": "Vinkel",
+ "From": "Fra",
+ "Gradient": "Forløb",
+ "Gradient Fill": "Forløbsudfyldning",
+ "Linear": "Lineær",
+ "Radial": "Radial",
+ "To": "Til",
  "Arrow": "Pil",
  "Arrowhead scale %": "Pilespidsskala %",
  "Arrowhead scale is from 10 to 1000 percent.": "Pilespidsskalaen går fra 10 til 1000 procent.",

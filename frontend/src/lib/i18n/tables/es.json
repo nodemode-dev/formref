@@ -1,5 +1,12 @@
 {
  "Language": "Idioma",
+ "Angle": "Ángulo",
+ "From": "Desde",
+ "Gradient": "Degradado",
+ "Gradient Fill": "Relleno degradado",
+ "Linear": "Lineal",
+ "Radial": "Radial",
+ "To": "Hasta",
  "Arrow": "Flecha",
  "Arrowhead scale %": "Escala de punta de flecha %",
  "Arrowhead scale is from 10 to 1000 percent.": "La escala de la punta de flecha va del 10 al 1000 por ciento.",

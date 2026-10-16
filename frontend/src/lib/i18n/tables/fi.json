@@ -1,5 +1,12 @@
 {
  "Language": "Kieli",
+ "Angle": "Kulma",
+ "From": "Alku",
+ "Gradient": "Liukuväri",
+ "Gradient Fill": "Liukuväritäyttö",
+ "Linear": "Lineaarinen",
+ "Radial": "Säteittäinen",
+ "To": "Loppu",
  "Arrow": "Nuoli",
  "Arrowhead scale %": "Nuolenkärjen koko %",
  "Arrowhead scale is from 10 to 1000 percent.": "Nuolenkärjen koko on 10–1000 prosenttia.",

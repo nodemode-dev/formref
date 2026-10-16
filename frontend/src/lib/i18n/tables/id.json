@@ -1,5 +1,12 @@
 {
  "Language": "Bahasa",
+ "Angle": "Sudut",
+ "From": "Dari",
+ "Gradient": "Gradasi",
+ "Gradient Fill": "Isian gradasi",
+ "Linear": "Linear",
+ "Radial": "Radial",
+ "To": "Ke",
  "Arrow": "Panah",
  "Arrowhead scale %": "Skala ujung panah %",
  "Arrowhead scale is from 10 to 1000 percent.": "Skala ujung panah berkisar 10 hingga 1000 persen.",

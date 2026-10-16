@@ -1,5 +1,12 @@
 {
  "Language": "Язык",
+ "Angle": "Угол",
+ "From": "От",
+ "Gradient": "Градиент",
+ "Gradient Fill": "Градиентная заливка",
+ "Linear": "Линейный",
+ "Radial": "Радиальный",
+ "To": "До",
  "Arrow": "Стрелка",
  "Arrowhead scale %": "Масштаб наконечника %",
  "Arrowhead scale is from 10 to 1000 percent.": "Масштаб наконечника: от 10 до 1000 процентов.",

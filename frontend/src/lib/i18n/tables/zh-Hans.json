@@ -1,5 +1,12 @@
 {
  "Language": "语言",
+ "Angle": "角度",
+ "From": "起始",
+ "Gradient": "渐变",
+ "Gradient Fill": "渐变填充",
+ "Linear": "线性",
+ "Radial": "径向",
+ "To": "结束",
  "Arrow": "箭头",
  "Arrowhead scale %": "箭头缩放 %",
  "Arrowhead scale is from 10 to 1000 percent.": "箭头缩放范围为 10% 到 1000%。",

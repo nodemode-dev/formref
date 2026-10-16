@@ -1,5 +1,12 @@
 {
  "Language": "Lingua",
+ "Angle": "Angolo",
+ "From": "Da",
+ "Gradient": "Sfumatura",
+ "Gradient Fill": "Riempimento sfumato",
+ "Linear": "Lineare",
+ "Radial": "Radiale",
+ "To": "A",
  "Arrow": "Freccia",
  "Arrowhead scale %": "Scala punta freccia %",
  "Arrowhead scale is from 10 to 1000 percent.": "La scala della punta va dal 10 al 1000 percento.",

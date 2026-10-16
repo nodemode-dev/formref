@@ -1,5 +1,12 @@
 {
  "Language": "Språk",
+ "Angle": "Vinkel",
+ "From": "Från",
+ "Gradient": "Övertoning",
+ "Gradient Fill": "Övertoningsfyllning",
+ "Linear": "Linjär",
+ "Radial": "Radiell",
+ "To": "Till",
  "Arrow": "Pil",
  "Arrowhead scale %": "Pilspetsskala %",
  "Arrowhead scale is from 10 to 1000 percent.": "Pilspetsskalan är från 10 till 1000 procent.",

@@ -1,5 +1,12 @@
 {
  "Language": "ภาษา",
+ "Angle": "มุม",
+ "From": "จาก",
+ "Gradient": "ไล่ระดับสี",
+ "Gradient Fill": "เติมสีไล่ระดับ",
+ "Linear": "เชิงเส้น",
+ "Radial": "รัศมี",
+ "To": "ถึง",
  "Arrow": "ลูกศร",
  "Arrowhead scale %": "มาตราส่วนหัวลูกศร %",
  "Arrowhead scale is from 10 to 1000 percent.": "มาตราส่วนหัวลูกศรอยู่ระหว่าง 10 ถึง 1000 เปอร์เซ็นต์",

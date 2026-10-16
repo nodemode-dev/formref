@@ -1,5 +1,12 @@
 {
  "Language": "Dil",
+ "Angle": "Açı",
+ "From": "Başlangıç",
+ "Gradient": "Degrade",
+ "Gradient Fill": "Degrade Dolgu",
+ "Linear": "Doğrusal",
+ "Radial": "Radyal",
+ "To": "Bitiş",
  "Arrow": "Ok",
  "Arrowhead scale %": "Ok ucu ölçeği %",
  "Arrowhead scale is from 10 to 1000 percent.": "Ok ucu ölçeği yüzde 10 ile 1000 arasındadır.",

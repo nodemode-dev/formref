@@ -1,5 +1,12 @@
 {
  "Language": "Sprache",
+ "Angle": "Winkel",
+ "From": "Von",
+ "Gradient": "Verlauf",
+ "Gradient Fill": "Verlaufsfüllung",
+ "Linear": "Linear",
+ "Radial": "Kreisförmig",
+ "To": "Bis",
  "Arrow": "Pfeil",
  "Arrowhead scale %": "Pfeilspitzen-Skalierung %",
  "Arrowhead scale is from 10 to 1000 percent.": "Die Pfeilspitzen-Skalierung liegt zwischen 10 und 1000 Prozent.",

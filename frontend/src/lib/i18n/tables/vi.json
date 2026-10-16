@@ -1,5 +1,12 @@
 {
  "Language": "Ngôn ngữ",
+ "Angle": "Góc",
+ "From": "Từ",
+ "Gradient": "Chuyển sắc",
+ "Gradient Fill": "Tô chuyển sắc",
+ "Linear": "Tuyến tính",
+ "Radial": "Tỏa tròn",
+ "To": "Đến",
  "Arrow": "Mũi tên",
  "Arrowhead scale %": "Tỷ lệ đầu mũi tên %",
  "Arrowhead scale is from 10 to 1000 percent.": "Tỷ lệ đầu mũi tên từ 10 đến 1000 phần trăm.",

@@ -1,5 +1,12 @@
 {
  "Language": "言語",
+ "Angle": "角度",
+ "From": "開始",
+ "Gradient": "グラデーション",
+ "Gradient Fill": "グラデーション塗り",
+ "Linear": "線形",
+ "Radial": "円形",
+ "To": "終了",
  "Arrow": "矢印",
  "Arrowhead scale %": "矢印の先端の倍率 %",
  "Arrowhead scale is from 10 to 1000 percent.": "矢印の先端の倍率は 10〜1000% です。",

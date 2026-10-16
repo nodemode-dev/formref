@@ -1,5 +1,12 @@
 {
  "Language": "Taal",
+ "Angle": "Hoek",
+ "From": "Van",
+ "Gradient": "Verloop",
+ "Gradient Fill": "Verloopvulling",
+ "Linear": "Lineair",
+ "Radial": "Radiaal",
+ "To": "Naar",
  "Arrow": "Pijl",
  "Arrowhead scale %": "Schaal pijlpunt %",
  "Arrowhead scale is from 10 to 1000 percent.": "De schaal van de pijlpunt loopt van 10 tot 1000 procent.",
