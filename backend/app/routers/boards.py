@@ -14,6 +14,7 @@ from ..core.media import preview
 from ..core.pdf_pages import page_items, pdf_text
 from ..core.palette import extract_palette
 from ..core.color_find import find_by_color
+from ..core.similar import find_similar
 from ..core.extract import extract_board
 from ..core.capture import capture
 from ..core.doc_export import export_item
@@ -58,6 +59,15 @@ async def board_colors(board_id: str, color: str, tolerance: float = 20):
         return await asyncio.to_thread(find_by_color, board_id, color, tolerance)
     except MissingBoard:
         raise HTTPException(status_code=404, detail="No such board.")
+    except ValueError as reason:
+        raise HTTPException(status_code=422, detail=str(reason))
+
+@router.get("/boards/{board_id}/items/{item_id}/similar")
+async def similar(board_id: str, item_id: str, level: str = "related"):
+    try:
+        return await asyncio.to_thread(find_similar, board_id, item_id, level)
+    except MissingBoard as reason:
+        raise HTTPException(status_code=404, detail=str(reason) or "No such board.")
     except ValueError as reason:
         raise HTTPException(status_code=422, detail=str(reason))
 

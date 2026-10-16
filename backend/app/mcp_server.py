@@ -155,6 +155,14 @@ async def find_by_color(board_id: str, color: str, tolerance: float = 20) -> dic
     response = await api("GET", f"/api/boards/{board_id}/colors", params={"color": color, "tolerance": tolerance})
     return {"board_id": board_id, **response.json()}
 
+@mcp.tool(annotations=_read)
+async def find_similar(board_id: str, item_id: str, level: str = "related") -> dict:
+    """Find the pictures on a board that look like the picture item_id: by colour mix, the layout of light and dark (a mirrored copy counts) and the colour layout. level is close (near copies: edits, recompressions, small crops), related (default: also brighter, darker, greyscale or more tightly cropped versions) or loose (also pictures of a similar kind). Returns matches at the level and scores for every other picture, best first, each 0 to 1; nothing on the board changes."""
+    checked_id(board_id)
+    checked_id(item_id)
+    response = await api("GET", f"/api/boards/{board_id}/items/{item_id}/similar", params={"level": level})
+    return {"board_id": board_id, **response.json()}
+
 @mcp.tool(annotations=_write)
 async def create_document(board_id: str, text: str, title: str = "Document", text_format: str = "markdown", x: float = 0, y: float = 0, width: float = 360, height: float = 280) -> dict:
     """Create an undoable document card with one authoritative text source and plain or markdown format. Markdown supports h1-h3, lists, strong/emphasis and absolute HTTP(S) links; supplied HTML stays literal. UTF-8 text is limited to 1 MiB by Rust."""
