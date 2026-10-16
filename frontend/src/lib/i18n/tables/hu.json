@@ -1,5 +1,8 @@
 {
  "Language": "Nyelv",
+ "Gradient stops": "Színátmenet-pontok",
+ "Colour, position % and optional opacity % for each stop, separated by commas": "Szín, pozíció % és opcionális átlátszatlanság % pontonként, vesszővel elválasztva",
+ "Write each stop as a colour, a position from 0 to 100 and an optional opacity, separated by commas: #ff0000 0, #0000ff 100.": "Minden pontot színként, 0 és 100 közötti pozícióként és opcionális átlátszatlanságként adjon meg, vesszővel elválasztva: #ff0000 0, #0000ff 100.",
  "Delete Segment": "Szakasz törlése",
  "Outline Stroke": "Körvonal körvonalazása",
  "Pencil Tool": "Ceruza eszköz",

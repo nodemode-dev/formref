@@ -1,5 +1,8 @@
 {
  "Language": "ภาษา",
+ "Gradient stops": "จุดหยุดไล่ระดับสี",
+ "Colour, position % and optional opacity % for each stop, separated by commas": "สี ตำแหน่ง % และความทึบ % (ไม่บังคับ) ของแต่ละจุด คั่นด้วยจุลภาค",
+ "Write each stop as a colour, a position from 0 to 100 and an optional opacity, separated by commas: #ff0000 0, #0000ff 100.": "เขียนแต่ละจุดเป็นสี ตำแหน่ง 0 ถึง 100 และความทึบ (ไม่บังคับ) คั่นด้วยจุลภาค: #ff0000 0, #0000ff 100",
  "Delete Segment": "ลบส่วนของเส้น",
  "Outline Stroke": "แปลงเส้นขอบเป็นรูปร่าง",
  "Pencil Tool": "เครื่องมือดินสอ",

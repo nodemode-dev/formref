@@ -1,5 +1,8 @@
 {
  "Language": "Язык",
+ "Gradient stops": "Контрольные точки градиента",
+ "Colour, position % and optional opacity % for each stop, separated by commas": "Цвет, положение % и необязательная непрозрачность % для каждой точки через запятую",
+ "Write each stop as a colour, a position from 0 to 100 and an optional opacity, separated by commas: #ff0000 0, #0000ff 100.": "Укажите каждую точку как цвет, положение от 0 до 100 и необязательную непрозрачность через запятую: #ff0000 0, #0000ff 100.",
  "Delete Segment": "Удалить сегмент",
  "Outline Stroke": "Контурная обводка",
  "Pencil Tool": "Инструмент «Карандаш»",

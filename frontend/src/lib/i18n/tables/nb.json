@@ -1,5 +1,8 @@
 {
  "Language": "Språk",
+ "Gradient stops": "Fargeovergangsstopp",
+ "Colour, position % and optional opacity % for each stop, separated by commas": "Farge, posisjon % og valgfri dekkevne % for hvert stopp, skilt med komma",
+ "Write each stop as a colour, a position from 0 to 100 and an optional opacity, separated by commas: #ff0000 0, #0000ff 100.": "Skriv hvert stopp som en farge, en posisjon fra 0 til 100 og en valgfri dekkevne, skilt med komma: #ff0000 0, #0000ff 100.",
  "Delete Segment": "Slett segment",
  "Outline Stroke": "Kontur av strek",
  "Pencil Tool": "Blyantverktøy",

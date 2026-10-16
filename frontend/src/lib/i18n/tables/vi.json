@@ -1,5 +1,8 @@
 {
  "Language": "Ngôn ngữ",
+ "Gradient stops": "Điểm dừng chuyển màu",
+ "Colour, position % and optional opacity % for each stop, separated by commas": "Màu, vị trí % và độ mờ đục % tùy chọn cho mỗi điểm, cách nhau bằng dấu phẩy",
+ "Write each stop as a colour, a position from 0 to 100 and an optional opacity, separated by commas: #ff0000 0, #0000ff 100.": "Nhập mỗi điểm dừng dưới dạng màu, vị trí từ 0 đến 100 và độ mờ đục tùy chọn, cách nhau bằng dấu phẩy: #ff0000 0, #0000ff 100.",
  "Delete Segment": "Xóa đoạn",
  "Outline Stroke": "Chuyển nét thành đường viền",
  "Pencil Tool": "Công cụ Bút chì",

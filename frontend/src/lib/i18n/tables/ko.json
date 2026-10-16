@@ -1,5 +1,8 @@
 {
  "Language": "언어",
+ "Gradient stops": "그레이디언트 정지점",
+ "Colour, position % and optional opacity % for each stop, separated by commas": "각 정지점의 색상, 위치 %, 선택적 불투명도 %를 쉼표로 구분",
+ "Write each stop as a colour, a position from 0 to 100 and an optional opacity, separated by commas: #ff0000 0, #0000ff 100.": "각 정지점을 색상, 0~100 위치, 선택적 불투명도로 쉼표로 구분해 입력하세요: #ff0000 0, #0000ff 100.",
  "Delete Segment": "세그먼트 삭제",
  "Outline Stroke": "선 윤곽선",
  "Pencil Tool": "연필 도구",

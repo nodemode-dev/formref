@@ -1,5 +1,8 @@
 {
  "Language": "Idioma",
+ "Gradient stops": "Paradas de degradado",
+ "Colour, position % and optional opacity % for each stop, separated by commas": "Color, posición % y opacidad % opcional de cada parada, separados por comas",
+ "Write each stop as a colour, a position from 0 to 100 and an optional opacity, separated by commas: #ff0000 0, #0000ff 100.": "Escribe cada parada como un color, una posición de 0 a 100 y una opacidad opcional, separadas por comas: #ff0000 0, #0000ff 100.",
  "Delete Segment": "Eliminar segmento",
  "Outline Stroke": "Contornear trazo",
  "Pencil Tool": "Herramienta Lápiz",

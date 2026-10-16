@@ -1,5 +1,8 @@
 {
  "Language": "Sprog",
+ "Gradient stops": "Forløbsstop",
+ "Colour, position % and optional opacity % for each stop, separated by commas": "Farve, position % og valgfri uigennemsigtighed % for hvert stop, adskilt med kommaer",
+ "Write each stop as a colour, a position from 0 to 100 and an optional opacity, separated by commas: #ff0000 0, #0000ff 100.": "Skriv hvert stop som en farve, en position fra 0 til 100 og en valgfri uigennemsigtighed, adskilt med kommaer: #ff0000 0, #0000ff 100.",
  "Delete Segment": "Slet segment",
  "Outline Stroke": "Kontur af streg",
  "Pencil Tool": "Blyantværktøj",

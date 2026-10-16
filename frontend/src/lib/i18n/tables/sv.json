@@ -1,5 +1,8 @@
 {
  "Language": "Språk",
+ "Gradient stops": "Övertoningsstopp",
+ "Colour, position % and optional opacity % for each stop, separated by commas": "Färg, position % och valfri opacitet % för varje stopp, åtskilda med kommatecken",
+ "Write each stop as a colour, a position from 0 to 100 and an optional opacity, separated by commas: #ff0000 0, #0000ff 100.": "Skriv varje stopp som en färg, en position från 0 till 100 och en valfri opacitet, åtskilda med kommatecken: #ff0000 0, #0000ff 100.",
  "Delete Segment": "Ta bort segment",
  "Outline Stroke": "Konturlinje",
  "Pencil Tool": "Pennverktyget",

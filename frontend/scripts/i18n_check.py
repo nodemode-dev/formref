@@ -22,7 +22,7 @@ def keys() -> set[str]:
 
     def add(s: str) -> None:
         s = s.strip()
-        if not s or len(s) > 400 or not re.search(r"[A-Za-z]", s) or re.fullmatch(r"v\d+\.\d+\.\d+", s):
+        if not s or len(s) > 400 or not re.search(r"[A-Za-z]", s) or re.fullmatch(r"v\d+\.\d+\.\d+", s) or re.fullmatch(r"[#0-9a-fA-F ,.%]+", s):
             return
         for tail in ("...", ":"):
             if s.endswith(tail):

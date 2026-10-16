@@ -1,5 +1,8 @@
 {
  "Language": "Lingua",
+ "Gradient stops": "Interruzioni sfumatura",
+ "Colour, position % and optional opacity % for each stop, separated by commas": "Colore, posizione % e opacità % facoltativa per ogni interruzione, separati da virgole",
+ "Write each stop as a colour, a position from 0 to 100 and an optional opacity, separated by commas: #ff0000 0, #0000ff 100.": "Scrivi ogni interruzione come colore, posizione da 0 a 100 e opacità facoltativa, separati da virgole: #ff0000 0, #0000ff 100.",
  "Delete Segment": "Elimina segmento",
  "Outline Stroke": "Traccia contorno",
  "Pencil Tool": "Strumento Matita",

@@ -1,5 +1,8 @@
 {
  "Language": "Kieli",
+ "Gradient stops": "Liukuvärin pisteet",
+ "Colour, position % and optional opacity % for each stop, separated by commas": "Väri, sijainti % ja valinnainen peittävyys % kullekin pisteelle pilkuilla erotettuina",
+ "Write each stop as a colour, a position from 0 to 100 and an optional opacity, separated by commas: #ff0000 0, #0000ff 100.": "Kirjoita kukin piste värinä, sijaintina 0–100 ja valinnaisena peittävyytenä pilkuilla erotettuina: #ff0000 0, #0000ff 100.",
  "Delete Segment": "Poista segmentti",
  "Outline Stroke": "Ääriviivoita viiva",
  "Pencil Tool": "Lyijykynätyökalu",

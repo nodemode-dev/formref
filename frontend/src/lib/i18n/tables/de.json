@@ -1,5 +1,8 @@
 {
  "Language": "Sprache",
+ "Gradient stops": "Verlaufsregler",
+ "Colour, position % and optional opacity % for each stop, separated by commas": "Farbe, Position % und optional Deckkraft % je Regler, durch Kommas getrennt",
+ "Write each stop as a colour, a position from 0 to 100 and an optional opacity, separated by commas: #ff0000 0, #0000ff 100.": "Geben Sie jeden Regler als Farbe, Position von 0 bis 100 und optionale Deckkraft ein, durch Kommas getrennt: #ff0000 0, #0000ff 100.",
  "Delete Segment": "Segment löschen",
  "Outline Stroke": "Konturlinie",
  "Pencil Tool": "Buntstift-Werkzeug",

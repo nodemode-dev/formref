@@ -1,5 +1,8 @@
 {
  "Language": "Taal",
+ "Gradient stops": "Verloopkleurpunten",
+ "Colour, position % and optional opacity % for each stop, separated by commas": "Kleur, positie % en optionele dekking % per punt, gescheiden door komma's",
+ "Write each stop as a colour, a position from 0 to 100 and an optional opacity, separated by commas: #ff0000 0, #0000ff 100.": "Schrijf elk punt als een kleur, een positie van 0 tot 100 en een optionele dekking, gescheiden door komma's: #ff0000 0, #0000ff 100.",
  "Delete Segment": "Segment verwijderen",
  "Outline Stroke": "Omtrek maken van lijn",
  "Pencil Tool": "Gereedschap Potlood",

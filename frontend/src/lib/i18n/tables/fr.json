@@ -1,5 +1,8 @@
 {
  "Language": "Langue",
+ "Gradient stops": "Points du dégradé",
+ "Colour, position % and optional opacity % for each stop, separated by commas": "Couleur, position % et opacité % facultative pour chaque point, séparés par des virgules",
+ "Write each stop as a colour, a position from 0 to 100 and an optional opacity, separated by commas: #ff0000 0, #0000ff 100.": "Saisissez chaque point sous la forme couleur, position de 0 à 100 et opacité facultative, séparés par des virgules : #ff0000 0, #0000ff 100.",
  "Delete Segment": "Supprimer le segment",
  "Outline Stroke": "Vectoriser le contour",
  "Pencil Tool": "Outil Crayon",

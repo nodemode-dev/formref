@@ -1,5 +1,8 @@
 {
  "Language": "Dil",
+ "Gradient stops": "Degrade durakları",
+ "Colour, position % and optional opacity % for each stop, separated by commas": "Her durak için renk, konum % ve isteğe bağlı opaklık %, virgülle ayrılmış",
+ "Write each stop as a colour, a position from 0 to 100 and an optional opacity, separated by commas: #ff0000 0, #0000ff 100.": "Her durağı renk, 0 ile 100 arası konum ve isteğe bağlı opaklık olarak virgülle ayırarak yazın: #ff0000 0, #0000ff 100.",
  "Delete Segment": "Parçayı Sil",
  "Outline Stroke": "Konturu Ana Hatlara Dönüştür",
  "Pencil Tool": "Kurşun Kalem Aracı",

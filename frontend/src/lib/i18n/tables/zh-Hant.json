@@ -1,5 +1,8 @@
 {
  "Language": "語言",
+ "Gradient stops": "漸層色標",
+ "Colour, position % and optional opacity % for each stop, separated by commas": "每個色標的顏色、位置 % 和選用不透明度 %，以逗號分隔",
+ "Write each stop as a colour, a position from 0 to 100 and an optional opacity, separated by commas: #ff0000 0, #0000ff 100.": "請將每個色標寫成顏色、0 到 100 的位置和選用不透明度，以逗號分隔：#ff0000 0, #0000ff 100。",
  "Delete Segment": "刪除線段",
  "Outline Stroke": "外框筆畫",
  "Pencil Tool": "鉛筆工具",

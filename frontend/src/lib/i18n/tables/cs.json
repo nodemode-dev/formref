@@ -1,5 +1,8 @@
 {
  "Language": "Jazyk",
+ "Gradient stops": "Body přechodu",
+ "Colour, position % and optional opacity % for each stop, separated by commas": "Barva, pozice v % a volitelně krytí v % pro každý bod, oddělené čárkami",
+ "Write each stop as a colour, a position from 0 to 100 and an optional opacity, separated by commas: #ff0000 0, #0000ff 100.": "Zadejte každý bod jako barvu, pozici od 0 do 100 a volitelné krytí, oddělené čárkami: #ff0000 0, #0000ff 100.",
  "Delete Segment": "Odstranit segment",
  "Outline Stroke": "Obrys tahu",
  "Pencil Tool": "Nástroj Tužka",
