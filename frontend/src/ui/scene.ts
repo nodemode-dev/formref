@@ -40,7 +40,7 @@ function svg<K extends keyof SVGElementTagNameMap>(tag: K): SVGElementTagNameMap
 function text(node: Node, value: string) { if (node.textContent !== value) node.textContent = value; }
 export interface SceneHooks { edit(id: string, patch: Partial<Item>): void; item(id: string): Item | undefined; openEditor(id: string): void }
 class ItemNode {
-  root = el('div', 'board-item'); content = el('div', 'item-content'); imageBox = el('div', 'item-content image-content'); image = el('img', 'reference-image'); fallback = el('div', 'item-fallback'); fallbackText = el('span'); imageCaption = el('div', 'image-caption'); card = el('div', 'item-content card-content'); eyebrow = el('div', 'card-eyebrow'); eyebrowIcon = el('span'); eyebrowText = el('span'); title = el('div', 'card-title'); body = el('div', 'card-text'); url = el('div', 'card-url'); footer = el('div', 'card-footer'); footerText = el('span'); footerArrow = icon('arrow-right'); checkbox = el('input', 'todo-checkbox'); shapeBox = el('div', 'item-content shape-content'); drawing = svg('svg'); rect = svg('rect'); ellipse = svg('ellipse'); line = svg('line'); path = svg('path'); vpath = svg('path'); arrows = svg('svg'); arrowFill = svg('path'); arrowLine = svg('path'); defs = svg('defs'); linear = svg('linearGradient') as SVGLinearGradientElement; radial = svg('radialGradient') as SVGRadialGradientElement; lock = el('span', 'item-lock'); commentBadge = el('span', 'item-comments'); commentCount = el('span'); labelRow = el('div', 'item-labels'); source = ''; loadToken = 0; edge = 0; deferred = false;
+  root = el('div', 'board-item'); content = el('div', 'item-content'); imageBox = el('div', 'item-content image-content'); image = el('img', 'reference-image'); fallback = el('div', 'item-fallback'); fallbackText = el('span'); imageCaption = el('div', 'image-caption'); card = el('div', 'item-content card-content'); eyebrow = el('div', 'card-eyebrow'); eyebrowIcon = el('span'); eyebrowText = el('span'); title = el('div', 'card-title'); body = el('div', 'card-text'); url = el('div', 'card-url'); footer = el('div', 'card-footer'); footerText = el('span'); footerArrow = icon('arrow-right'); checkbox = el('input', 'todo-checkbox'); shapeBox = el('div', 'item-content shape-content'); drawing = svg('svg'); rect = svg('rect'); ellipse = svg('ellipse'); line = svg('line'); path = svg('path'); vpath = svg('path'); arrows = svg('svg'); arrowFill = svg('path'); arrowLine = svg('path'); defs = svg('defs'); linear = svg('linearGradient') as SVGLinearGradientElement; radial = svg('radialGradient') as SVGRadialGradientElement; lock = el('span', 'item-lock'); commentBadge = el('span', 'item-comments'); commentCount = el('span'); labelRow = el('div', 'item-labels'); source = ''; loadToken = 0; edge = 0; deferred = false; culled = false;
   formattedBody = el('div', 'card-text formatted-card'); markdown = new MarkdownView(this.formattedBody, 48); swatchPreview = el('div', 'swatch-preview'); swatchPaint = el('div', 'swatch-paint'); mediaBox = el('div', 'card-media'); tableBox = el('div', 'card-table'); table!: TableView; sourceWidth = 0; sourceHeight = 0; current: Item | null = null;
   constructor(id: string, hooks: SceneHooks) {
     this.root.dataset.id = id; this.root.setAttribute('role', 'group'); this.image.alt = ''; this.image.decoding = 'async'; this.image.draggable = false;
@@ -61,6 +61,7 @@ class ItemNode {
     this.imageBox.hidden = item.kind !== 'image'; this.card.hidden = ['image', 'shape', 'stroke'].includes(item.kind); this.shapeBox.hidden = !['shape', 'stroke'].includes(item.kind);
     this.deferred = item.kind === 'image' && !this.source && !!item.asset_id && !inView(item);
     if (this.deferred) { this.image.hidden = true; this.fallback.hidden = true; }
+    const far = !inView(item); if (this.culled !== far) { this.culled = far; r.classList.toggle('culled', far); }
     else if (item.kind === 'image') {
       this.edge = Math.max(this.edge, detailEdge(item) || Infinity);
       const source = item.asset_id ? (Number.isFinite(this.edge) ? `${api.assetUrl(item.asset_id)}/preview?edge=${this.edge}` : api.assetUrl(item.asset_id)) : '';
@@ -119,7 +120,12 @@ export class Scene {
   detail(zoom: number, view?: { x: number; y: number; w: number; h: number }) {
     if (view) {
       viewRect = view;
-      for (const node of this.nodes.values()) if (node.deferred && node.current && inView(node.current)) node.update(node.current, node.root.classList.contains('selected'), !node.root.classList.contains('matched-out'));
+      for (const node of this.nodes.values()) {
+        if (!node.current) continue;
+        const near = inView(node.current);
+        if (node.deferred && near) node.update(node.current, node.root.classList.contains('selected'), !node.root.classList.contains('matched-out'));
+        if (node.culled === near) { node.culled = !near; node.root.classList.toggle('culled', !near); }
+      }
     }
     if (zoom <= detailZoom) { detailZoom = Math.min(detailZoom, zoom); return; }
     detailZoom = zoom;
