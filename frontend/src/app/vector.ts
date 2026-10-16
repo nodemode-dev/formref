@@ -6,7 +6,7 @@ import {
 } from '../lib/vector/path';
 import { CAPS, JOINS, parseDash } from '../lib/vector/stroke';
 import { ARROWHEADS, type Arrowhead } from '../lib/vector/arrows';
-import { readGradient } from '../lib/vector/gradient';
+import { formatStops, parseStops, readGradient } from '../lib/vector/gradient';
 import { $, S, editable, error, execute, inputDialog, inspectorHooks, placement, selected, setSelection, toast, topZ } from './editor';
 import { registry } from './registry';
 
@@ -125,7 +125,7 @@ export function registerVector(): void {
     { group: 'Path', id: 'join-paths', label: 'Join', icon: 'connect', keys: ['mod+shift+e'], run: () => joinSelected(), enabled: hasDrawing, description: 'Closes one open path, or joins the end of the first selected open path to the start of the second.' },
     { group: 'Insert', id: 'add-polygon', label: 'Add Polygon...', icon: 'shape', run: p => addShape('polygon', p), enabled: () => !!S.state, params: { points: { type: 'integer', min: 3, max: 1000, description: 'number of sides' } }, description: 'Adds a regular polygon as an editable path.' },
     { group: 'Insert', id: 'add-star', label: 'Add Star...', icon: 'shape', run: p => addShape('star', p), enabled: () => !!S.state, params: { points: { type: 'integer', min: 3, max: 1000, description: 'number of points' }, inner: { type: 'number', min: 0.05, max: 1, description: 'inner radius as a share of the outer, default 0.5' } }, description: 'Adds a star as an editable path.' },
-    { group: 'Path', id: 'gradient-fill', label: 'Gradient Fill', icon: 'palette', palette: false, run: p => setData({ gradient: p?.type === 'none' ? null : readGradient({ angle: 0, ...p }) }), enabled: hasDrawing, params: { type: { type: 'string', enum: ['linear', 'radial', 'none'], required: true }, from: { type: 'string', description: 'start colour as #RRGGBB' }, to: { type: 'string', description: 'end colour as #RRGGBB' }, angle: { type: 'number', min: -360, max: 360, description: 'linear gradient angle in degrees, 0 runs left to right' } }, description: 'Fills the selected shapes and paths with a linear or radial gradient between two colours, or removes it with type none.' },
+    { group: 'Path', id: 'gradient-fill', label: 'Gradient Fill', icon: 'palette', palette: false, run: p => setData({ gradient: p?.type === 'none' ? null : readGradient({ angle: 0, ...p }) }), enabled: hasDrawing, params: { type: { type: 'string', enum: ['linear', 'radial', 'none'], required: true }, from: { type: 'string', description: 'start colour as #RRGGBB' }, to: { type: 'string', description: 'end colour as #RRGGBB' }, angle: { type: 'number', min: -360, max: 360, description: 'linear gradient angle in degrees, 0 runs left to right' }, stops: { type: 'array', description: '2 to 16 stops as {offset: 0-100, color: "#RRGGBB", opacity?: 0-100}; when given they replace from and to' } }, description: 'Fills the selected shapes and paths with a linear or radial gradient between two colours or through several stops with their own opacity, or removes it with type none.' },
     { group: 'Path', id: 'stroke-options', label: 'Set Stroke Options', icon: 'stroke', palette: false, run: p => setData(strokePatch(p || {})), enabled: hasDrawing, params: { cap: { type: 'string', enum: CAPS }, join: { type: 'string', enum: JOINS }, miter: { type: 'number', min: 1, max: 500 }, dash: { type: 'array', description: 'dash and gap lengths, for example [8, 4]; [] for a solid line' }, arrow_start: { type: 'string', enum: ARROWHEADS }, arrow_end: { type: 'string', enum: ARROWHEADS }, arrow_scale: { type: 'number', min: 10, max: 1000, description: 'arrowhead size in percent' } }, description: 'Illustrator Stroke panel options for the selected shapes and paths, arrowheads on open paths, lines and freehand strokes included.' },
   );
   bindInspector();
@@ -145,16 +145,20 @@ function strokePatch(p: Record<string, unknown>): Record<string, unknown> {
 }
 
 function bindInspector() {
-  const on = (id: string, event: string, fn: () => unknown) => document.getElementById(id)?.addEventListener(event, () => { void Promise.resolve().then(fn).catch(error); });
+  const on = (id: string, event: string, fn: (e: Event) => unknown) => document.getElementById(id)?.addEventListener(event, e => { void Promise.resolve().then(() => fn(e)).catch(error); });
   on('stroke-cap', 'change', () => setData({ cap: $<HTMLSelectElement>('stroke-cap').value }));
   on('stroke-join', 'change', () => setData({ join: $<HTMLSelectElement>('stroke-join').value }));
   on('stroke-miter', 'change', () => { const v = Number($<HTMLInputElement>('stroke-miter').value); if (v >= 1 && v <= 500) return setData({ miter: v }); toast('Miter limit is from 1 to 500.'); });
   on('stroke-dash', 'change', () => setData({ dash: parseDash($<HTMLInputElement>('stroke-dash').value) }));
-  const gradient = () => {
+  const gradient = (event?: Event) => {
     const type = $<HTMLSelectElement>('gradient-type').value;
-    return setData({ gradient: type === 'none' ? null : { type, from: $<HTMLInputElement>('gradient-from').value, to: $<HTMLInputElement>('gradient-to').value, angle: Number($<HTMLInputElement>('gradient-angle').value) || 0 } });
+    const text = $<HTMLInputElement>('gradient-stops').value.trim();
+    const edited = (event?.target as HTMLElement | undefined)?.id;
+    const stops = text && edited !== 'gradient-from' && edited !== 'gradient-to' ? parseStops(text) : null;
+    if (text && !stops && edited === 'gradient-stops') { toast('Write each stop as a colour, a position from 0 to 100 and an optional opacity, separated by commas: #ff0000 0, #0000ff 100.'); return; }
+    return setData({ gradient: type === 'none' ? null : { type, from: $<HTMLInputElement>('gradient-from').value, to: $<HTMLInputElement>('gradient-to').value, angle: Number($<HTMLInputElement>('gradient-angle').value) || 0, ...(stops ? { stops } : {}) } });
   };
-  for (const id of ['gradient-type', 'gradient-from', 'gradient-to', 'gradient-angle']) on(id, 'change', gradient);
+  for (const id of ['gradient-type', 'gradient-from', 'gradient-to', 'gradient-angle', 'gradient-stops']) on(id, 'change', gradient);
   on('arrow-start', 'change', () => setData({ arrow_start: $<HTMLSelectElement>('arrow-start').value }));
   on('arrow-end', 'change', () => setData({ arrow_end: $<HTMLSelectElement>('arrow-end').value }));
   on('arrow-scale', 'change', () => { const v = Number($<HTMLInputElement>('arrow-scale').value); if (v >= 10 && v <= 1000) return setData({ arrow_scale: v }); toast('Arrowhead scale is from 10 to 1000 percent.'); });
@@ -175,6 +179,7 @@ export function showStroke(item: Item) {
   const g = readGradient(item.data.gradient);
   set('gradient-type', g ? g.type : 'none');
   if (g) { set('gradient-from', g.from.slice(0, 7)); set('gradient-to', g.to.slice(0, 7)); set('gradient-angle', String(g.angle || 0)); }
+  set('gradient-stops', g?.stops ? formatStops(g.stops) : '');
   const vector = item.data.vector as Vector | undefined;
   const first = vector?.paths[0]?.anchors.find(a => (a.radius || 0) > 0);
   if (first) { set('corner-radius', String(first.radius)); set('corner-style', first.style || 'round'); }
