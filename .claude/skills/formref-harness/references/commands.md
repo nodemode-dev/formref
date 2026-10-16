@@ -2,7 +2,7 @@
 
 Written by `./formref agents sync` from the command catalogue the FormRef window publishes; do not edit by hand. Run a command with the MCP tools `run_command` or `run_commands` (the window must be open). `window-only` commands are refused for outside agents; `risky` commands ask the person first.
 
-187 commands.
+189 commands.
 
 ## Canvas
 
@@ -74,11 +74,13 @@ Written by `./formref agents sync` from the command catalogue the FormRef window
 | --- | --- | --- | --- | --- |
 | `adjust` | Adjust Picture |  | changes the board | Sets brightness, contrast and saturation of the selected pictures (0 to 200 percent, 100 unchanged). The original is kept; the board and PNG, SVG, PDF and phone viewer exports show the adjusted picture. Parameters: `brightness` (number): percent, 100 unchanged; `contrast` (number): percent, 100 unchanged; `saturation` (number): percent, 100 unchanged; 0 is grey. |
 | `clear-lasso` | Clear Lasso |  | changes the board | Removes the lasso crop from the selected image so the whole picture shows again. |
+| `clear-similar-find` | Clear Similar Filter |  | window-only | Clears the similar-pictures filter so the whole board shows again. |
 | `crop` | Crop | `c` | changes the board, window-only | Starts cropping the selected image on the board: drag the handles, Enter applies, Escape cancels. |
 | `crop-on-canvas` | Crop on Canvas |  | changes the board, window-only | Shows the whole picture around a crop box on the board: drag the edges, corners or the box, then Enter or double-click to crop. The image keeps its scale, so it shrinks or grows with the crop. Crop works again later to bring cropped parts back. |
 | `download-cutout-model` | Download Background Model |  | view | Downloads the chosen background removal model, checked against its pinned SHA-256. |
 | `drawing-grid` | Drawing Grid |  | changes the board | Lays an even grid over the selected pictures for copying proportions; the lines invert what is under them so they show on any picture. Board view only. Parameters: `divisions` (integer): squares across and down, 2 to 24; 0 removes the grid; default toggles 4. |
 | `extract-palette` | Extract Palette |  | changes the board | Finds the main colours of the selected picture (its visible crop) and adds them as grouped swatch cards below it, most used first. Parameters: `count` (integer): how many colours, 2 to 16; default 6. |
+| `find-similar` | Find Similar Pictures |  | window-only | Dims everything except the pictures that look like the selected one, judged by colour mix, the layout of light and dark (mirrored copies count) and the colour layout; the button beside the color chip shows the sample. Near Copies, Similar Pictures and Loosely Similar set how alike they must be. Parameters: `level` (string): close finds near copies, related (default) also edited or cropped versions, loose also pictures of a similar kind. |
 | `flip-x` | Flip Horizontal |  | changes the board | Mirrors the selected images left to right. |
 | `flip-y` | Flip Vertical |  | changes the board | Mirrors the selected images top to bottom. |
 | `grayscale` | Toggle Grayscale |  | changes the board | Shows the selected images in grayscale, or in colour again; the originals are unchanged. |
