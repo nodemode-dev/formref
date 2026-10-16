@@ -2,13 +2,17 @@ import { FitAddon } from '@xterm/addon-fit';
 import { Terminal } from '@xterm/xterm';
 import '@xterm/xterm/css/xterm.css';
 import { icon, type IconName } from './icons';
+import { ChatPane } from './chat-pane';
 
 export interface TermInfo { id: string; title: string; kind?: string; alive?: boolean }
 
 export interface DockHooks {
   context: () => string;
+  note: () => string;
   fail: (message: string) => void;
   onHide: () => void;
+  select: (ids: string[]) => void;
+  exists: (id: string) => boolean;
 }
 
 interface Tab { id: string; term: Terminal; fit: FitAddon; host: HTMLElement; tab: HTMLElement; socket: WebSocket | null; kind: string }
@@ -49,6 +53,8 @@ export class TerminalDock {
   private readonly restartButton: HTMLButtonElement;
   private readonly tabs = new Map<string, Tab>();
   private active: string | null = null;
+  private chat: ChatPane | null = null;
+  private chatTab: HTMLElement | null = null;
 
   constructor(readonly root: HTMLElement, private readonly hooks: DockHooks) {
     const resize = document.createElement('div');
@@ -66,10 +72,12 @@ export class TerminalDock {
     spacer.className = 'term-dock-spacer';
     const mod = isMac ? 'Cmd' : 'Ctrl';
     const add = button('term-dock-new', 'plus', 'New Terminal');
+    const chatButton = button('term-dock-chat', 'comment', `Chat with Claude about this board (Alt+${mod}+J)`);
     const claude = button('term-dock-claude', 'agent', `Claude Code (Shift+${mod}+J)`);
     this.restartButton = button('term-dock-restart', 'restart', 'Restart this tab');
     const hide = button('term-dock-hide', 'close', `Hide Terminal (${mod}+J); programs keep running`);
-    head.append(this.tabsEl, spacer, add, claude, this.restartButton, hide);
+    head.append(this.tabsEl, spacer, add, chatButton, claude, this.restartButton, hide);
+    chatButton.addEventListener('click', () => void this.showChat());
     this.stage = document.createElement('div');
     this.stage.className = 'term-dock-stage';
     this.empty = document.createElement('p');
@@ -129,15 +137,64 @@ export class TerminalDock {
   async ensure(): Promise<void> {
     const listed = await call<{ terminals: TermInfo[] }>('GET', '/api/terminal').catch(() => ({ terminals: [] as TermInfo[] }));
     for (const t of listed.terminals) if (!this.tabs.has(t.id)) this.mount(t, false);
-    if (!this.tabs.size) await this.open();
-    else if (!this.active) this.select([...this.tabs.keys()][0]);
+    if (!this.tabs.size && !this.chatTab) await this.open();
+    else if (!this.active) this.select([...this.tabs.keys()][0] ?? 'chat');
     else this.fitActive();
     this.focus();
   }
 
   focus(): void {
-    if (this.active) this.tabs.get(this.active)?.term.focus();
+    if (this.active && this.active !== 'chat') this.tabs.get(this.active)?.term.focus();
     else this.ask.focus();
+  }
+
+  async showChat(): Promise<void> {
+    if (!this.chat) {
+      this.chat = new ChatPane({ fail: this.hooks.fail, handoff: session => void this.claude(undefined, session), select: this.hooks.select, exists: this.hooks.exists });
+      this.stage.append(this.chat.root);
+    }
+    if (!this.chatTab) {
+      const tab = document.createElement('button');
+      tab.type = 'button';
+      tab.className = 'term-dock-tab is-chat';
+      tab.setAttribute('role', 'tab');
+      const title = document.createElement('span');
+      title.className = 'term-dock-tab-title';
+      title.textContent = 'Chat';
+      const x = document.createElement('span');
+      x.className = 'term-dock-tab-x';
+      x.setAttribute('role', 'button');
+      x.setAttribute('aria-label', 'Close the Chat tab');
+      x.append(icon('close'));
+      tab.append(icon('comment'), title, x);
+      tab.addEventListener('click', e => {
+        if ((e.target as HTMLElement).closest('.term-dock-tab-x')) this.closeChat();
+        else this.select('chat');
+      });
+      this.tabsEl.prepend(tab);
+      this.chatTab = tab;
+    }
+    this.empty.hidden = true;
+    this.select('chat');
+    await this.chat.load();
+  }
+
+  private closeChat(): void {
+    this.chatTab?.remove();
+    this.chatTab = null;
+    if (this.chat) this.chat.root.hidden = true;
+    if (this.active === 'chat') {
+      this.active = null;
+      const next = [...this.tabs.keys()].pop();
+      if (next) this.select(next);
+      else this.empty.hidden = false;
+    }
+    this.syncAsk();
+  }
+
+  private syncAsk(): void {
+    const text = this.active === 'chat' ? 'Ask Claude about this board (Enter to send)' : 'Ask Claude Code to work on this board';
+    if (this.ask.placeholder !== text) this.ask.placeholder = text;
   }
 
   async open(): Promise<void> {
@@ -146,10 +203,10 @@ export class TerminalDock {
     } catch (err) { this.hooks.fail((err as Error).message); }
   }
 
-  async claude(prompt?: string): Promise<void> {
+  async claude(prompt?: string, resume?: string): Promise<void> {
     const size = this.size();
     try {
-      const info = await call<TermInfo>('POST', '/api/claudecode', { prompt: prompt || '', cols: size.cols, rows: size.rows });
+      const info = await call<TermInfo>('POST', '/api/claudecode', { prompt: prompt || '', cols: size.cols, rows: size.rows, resume: resume || '' });
       if (this.tabs.has(info.id)) this.select(info.id);
       else this.mount(info, true);
     } catch (err) { this.hooks.fail((err as Error).message); }
@@ -159,13 +216,15 @@ export class TerminalDock {
     const text = this.ask.value.trim();
     if (!text) return;
     const extra = this.hooks.context();
+    if (this.active === 'chat' && this.chat?.isBusy()) return;
     this.ask.value = '';
-    await this.claude(extra ? `${text} (${extra})` : text);
+    if (this.active === 'chat' && this.chat) await this.chat.send(text, extra, this.hooks.note());
+    else await this.claude(extra ? `${text} (${extra})` : text);
   }
 
   private size(): { cols: number; rows: number } {
     const t = this.active ? this.tabs.get(this.active) : null;
-    return t ? { cols: t.term.cols, rows: t.term.rows } : { cols: 100, rows: 20 };
+    return t ? { cols: t.term.cols, rows: t.term.rows } : { cols: Math.max(40, Math.floor(this.stage.clientWidth / 7.4)), rows: Math.max(8, Math.floor(this.stage.clientHeight / 17)) };
   }
 
   private theme() {
@@ -257,6 +316,9 @@ export class TerminalDock {
       t.tab.classList.toggle('active', on);
       t.tab.setAttribute('aria-selected', String(on));
     }
+    if (this.chat) this.chat.root.hidden = id !== 'chat';
+    if (this.chatTab) { this.chatTab.classList.toggle('active', id === 'chat'); this.chatTab.setAttribute('aria-selected', String(id === 'chat')); }
+    this.syncAsk();
     this.restartButton.disabled = !this.tabs.has(id);
     this.fitActive();
     this.focus();
@@ -283,10 +345,10 @@ export class TerminalDock {
     await call('DELETE', `/api/terminal/${encodeURIComponent(id)}`).catch(() => undefined);
     if (this.active === id) {
       this.active = null;
-      const next = [...this.tabs.keys()].pop();
+      const next = [...this.tabs.keys()].pop() ?? (this.chatTab ? 'chat' : undefined);
       if (next) this.select(next);
       else this.restartButton.disabled = true;
     }
-    this.empty.hidden = this.tabs.size > 0;
+    this.empty.hidden = this.tabs.size > 0 || !!this.chatTab;
   }
 }

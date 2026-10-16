@@ -1,11 +1,13 @@
 import asyncio
 import json
+import re
 from urllib.parse import urlparse
 
 from fastapi import APIRouter, HTTPException, Request, WebSocket, WebSocketDisconnect
+from fastapi.responses import FileResponse, StreamingResponse
 from pydantic import BaseModel, Field
 
-from ..agent import claude_code, terminal
+from ..agent import chat, claude_code, terminal
 
 router = APIRouter(prefix="/api", tags=["terminal"])
 LOCAL = {"localhost", "127.0.0.1", "::1", "tauri.localhost"}
@@ -80,6 +82,92 @@ def claude_status(request: Request):
 def claude_open(body: ClaudeOpen, request: Request):
     _window_only(request)
     return claude_code.open_tab(body.prompt or None, body.cols, body.rows, body.fresh, body.resume or None)
+
+
+class ChatSend(BaseModel):
+    text: str = Field(min_length=1, max_length=20000)
+    context: str = Field(default="", max_length=20000)
+    note: str = Field(default="", max_length=200)
+
+
+class ChatAdopt(BaseModel):
+    session: str = Field(default="", max_length=128)
+
+
+@router.get("/chat")
+def chat_state(request: Request):
+    _window_only(request)
+    return chat.state()
+
+
+@router.post("/chat")
+def chat_send(body: ChatSend, request: Request):
+    _window_only(request)
+    try:
+        return chat.send(body.text, body.context, body.note)
+    except RuntimeError as e:
+        raise HTTPException(status_code=409, detail=str(e)) from None
+
+
+@router.post("/chat/cancel")
+def chat_cancel(request: Request):
+    _window_only(request)
+    return chat.cancel()
+
+
+@router.post("/chat/reset")
+def chat_reset(request: Request):
+    _window_only(request)
+    return chat.reset()
+
+
+@router.get("/chat/sessions")
+def chat_sessions(request: Request):
+    _window_only(request)
+    return chat.sessions()
+
+
+@router.post("/chat/adopt")
+def chat_adopt(body: ChatAdopt, request: Request):
+    _window_only(request)
+    try:
+        return chat.adopt(body.session)
+    except RuntimeError as e:
+        raise HTTPException(status_code=409, detail=str(e)) from None
+    except LookupError as e:
+        raise HTTPException(status_code=404, detail=str(e)) from None
+
+
+@router.get("/chat/image/{name}")
+def chat_image(name: str, request: Request):
+    _window_only(request)
+    if not re.fullmatch(r"[0-9a-f]{32}\.(jpg|png|webp)", name):
+        raise HTTPException(status_code=404, detail="No such image.")
+    path = chat.images_dir() / name
+    if not path.is_file():
+        raise HTTPException(status_code=404, detail="No such image.")
+    return FileResponse(path)
+
+
+@router.get("/chat/events")
+async def chat_events(request: Request):
+    _window_only(request)
+    q: asyncio.Queue = asyncio.Queue()
+    chat.SUBSCRIBERS.add(q)
+
+    async def stream():
+        try:
+            yield ": connected\n\n"
+            while not await request.is_disconnected():
+                try:
+                    event = await asyncio.wait_for(q.get(), 15)
+                except asyncio.TimeoutError:
+                    yield ": keep-alive\n\n"
+                    continue
+                yield "data: " + json.dumps(event, ensure_ascii=False) + "\n\n"
+        finally:
+            chat.SUBSCRIBERS.discard(q)
+    return StreamingResponse(stream(), media_type="text/event-stream", headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"})
 
 
 @router.websocket("/terminal/{sid}/ws")
