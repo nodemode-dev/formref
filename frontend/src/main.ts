@@ -15,7 +15,9 @@ import { registerTerminal } from './app/terminal';
 import { attachCatalogue } from './app/catalogue';
 import { registerVector } from './app/vector';
 import { registerDirectSelect } from './app/direct-select';
+import { bindLanguage } from './app/language';
 
+bindLanguage();
 registerTerminal();
 registerVector();
 registerDirectSelect(setTool);

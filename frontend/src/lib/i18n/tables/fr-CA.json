@@ -1,0 +1,22 @@
+{
+ "Bring a conversation you had in a Claude Code tab into this chat": "Importer dans ce clavardage une conversation tenue dans un onglet Claude Code",
+ "CLOUD STORAGE (OPT-IN)": "STOCKAGE INFONUAGIQUE (FACULTATIF)",
+ "Chat": "Clavardage",
+ "Chat {0} tokens${u.costUsd ?": "Clavardage {0} jetons${u.costUsd ?",
+ "Close the Chat tab": "Fermer l'onglet Clavardage",
+ "Cloud storage": "Stockage infonuagique",
+ "Connect {0} in Preferences, Cloud storage, first.": "Connectez d'abord {0} dans Préférences, Stockage infonuagique.",
+ "Files from cloud storage are limited to 64 MiB.": "Les fichiers du stockage infonuagique sont limités à 64 Mio.",
+ "Memory: how much of Claude's working memory this conversation uses. Reply: tokens written so far. Chat: everything sent and written in this conversation, and what it has cost.": "Mémoire : part de la mémoire de travail de Claude utilisée par cette conversation. Réponse : jetons écrits jusqu'ici. Clavardage : tout ce qui a été envoyé et écrit dans cette conversation, et ce que cela a coûté.",
+ "New Chat": "Nouveau clavardage",
+ "No cloud service called {0}.": "Aucun service infonuagique nommé {0}.",
+ "Off until you connect. Uses your own app credentials; FormRef has no account or server in between, and tokens stay in the local service. Agents cannot move files to or from the cloud.": "Désactivé tant que vous ne vous connectez pas. Utilise vos propres identifiants d'application ; FormRef n'a ni compte ni serveur intermédiaire, et les jetons restent dans le service local. Les agents ne peuvent pas transférer de fichiers vers ou depuis l'infonuagique.",
+ "Open from Cloud…": "Ouvrir depuis l'infonuagique…",
+ "Open from cloud": "Ouvrir depuis l'infonuagique",
+ "Project uploads are limited to 64 MiB compressed size.": "Les téléversements de projet sont limités à 64 Mio compressés.",
+ "Save Board to Cloud…": "Enregistrer le tableau dans l'infonuagique…",
+ "Save board to cloud": "Enregistrer le tableau dans l'infonuagique",
+ "The uploaded file is empty.": "Le fichier téléversé est vide.",
+ "Uploaded image is invalid or unsupported.": "L'image téléversée est invalide ou non prise en charge.",
+ "Uploads are limited to 64 MiB.": "Les téléversements sont limités à 64 Mio."
+}

@@ -1,5 +1,10 @@
 :root { --dock-rail-w: 44px; --title-lead-w: 224px; }
 :root:not(.shell-ready) .app { visibility: hidden; }
+:root[data-lang="zh-Hans"] { --font-ui: -apple-system, BlinkMacSystemFont, 'Inter', 'PingFang SC', 'Microsoft YaHei', 'Noto Sans CJK SC', 'Noto Sans SC', system-ui, sans-serif; }
+:root[data-lang="zh-Hant"] { --font-ui: -apple-system, BlinkMacSystemFont, 'Inter', 'PingFang TC', 'Microsoft JhengHei', 'Noto Sans CJK TC', 'Noto Sans TC', system-ui, sans-serif; }
+:root[data-lang="ja"] { --font-ui: -apple-system, BlinkMacSystemFont, 'Inter', 'Hiragino Sans', 'Yu Gothic UI', 'Meiryo', 'Noto Sans CJK JP', 'Noto Sans JP', system-ui, sans-serif; }
+:root[data-lang="ko"] { --font-ui: -apple-system, BlinkMacSystemFont, 'Inter', 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans CJK KR', 'Noto Sans KR', system-ui, sans-serif; }
+:root[data-lang="th"] { --font-ui: -apple-system, BlinkMacSystemFont, 'Inter', 'Thonburi', 'Leelawadee UI', 'Noto Sans Thai', system-ui, sans-serif; }
 :root[data-left-dock="collapsed"] { --sidebar-w: var(--dock-rail-w); }
 :root[data-right-dock="collapsed"] { --inspector-w: var(--dock-rail-w); }
 

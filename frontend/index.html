@@ -16,6 +16,8 @@
       root.dataset.rightDock = store.getItem('formref-right-dock') === 'collapsed' ? 'collapsed' : 'open';
       var panel = store.getItem('formref-right-panel');
       if (panel === 'agent' || panel === 'inspector') root.dataset.rightPanel = panel;
+      var lang = store.getItem('formref-lang');
+      if (lang && /^[a-zA-Z-]{2,7}$/.test(lang)) root.dataset.lang = lang;
       var dockH = store.getItem('formref-term-dock-h');
       if (/^\d+px$/.test(dockH || '')) root.style.setProperty('--term-dock-h', dockH);
     } catch (_) {}
@@ -441,7 +443,7 @@
     </aside>
   </div>
 </div>
-<script>document.documentElement.classList.add('shell-ready');</script>
+<script>(function () { var root = document.documentElement, lang = root.dataset.lang || 'en'; if (lang === 'en') root.classList.add('shell-ready'); else setTimeout(function () { root.classList.add('shell-ready'); }, 4000); })();</script>
 
 <div id="overlay-root">
   <dialog id="input-dialog" class="modal">
@@ -508,6 +510,7 @@
           <option value="mono">Mono</option>
         </select>
       </label>
+      <label class="field"><span>Language</span><select id="language-select" aria-label="Language" data-no-i18n></select></label>
       <label class="field-row"><span>Accent</span><input id="accent-select" type="color" value="#f97316"></label>
       <section class="canvas-preferences">
         <div class="section-label">CANVAS</div>
