@@ -5,6 +5,7 @@ import { embedUrl } from '../lib/media';
 import { newItem } from '../lib/types';
 import { HostLink } from '../lib/host';
 import { itemBounds } from '../lib/geometry';
+import { pdfSearchText } from './pdf-text';
 import { icon } from '../ui/icons';
 import { Scene } from '../ui/scene';
 import { ReferenceView } from '../ui/reference-view';
@@ -130,7 +131,7 @@ export function matches(item: Item): boolean {
   const labels = Array.isArray(item.data.labels) ? (item.data.labels as string[]).map(id => S.state?.board.settings?.labels?.find(l => l.id === id)?.name || '').join(' ') : '';
   const comments = Array.isArray(item.data.comments) ? (item.data.comments as { text?: string }[]).map(c => c.text || '').join(' ') : '';
   const table = item.data.table ? JSON.stringify(item.data.table) : '';
-  const haystack = fold(`${item.title} ${item.text} ${item.url} ${item.color} ${JSON.stringify(item.data.tags || '')} ${labels} ${comments} ${table}`);
+  const haystack = fold(`${item.title} ${item.text} ${item.url} ${item.color} ${JSON.stringify(item.data.tags || '')} ${labels} ${comments} ${table} ${term ? pdfSearchText(item) : ''}`);
   return (!kind || item.kind === kind) && (!term || haystack.includes(term));
 }
 

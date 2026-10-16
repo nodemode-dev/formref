@@ -11,7 +11,7 @@ from ..models.requests import CreateBoard, BoardCommand
 from ..core.sampling import sample_image
 from ..core.features import duplicates, enrich
 from ..core.media import preview
-from ..core.pdf_pages import page_items
+from ..core.pdf_pages import page_items, pdf_text
 from ..core.capture import capture
 from ..core.doc_export import export_item
 from ..core.cutout import change_background, DEFAULT_TOLERANCE
@@ -238,6 +238,14 @@ async def asset_preview(asset_id: str, edge: int, request: Request):
     if data is None:
         return asset(asset_id, request)
     return Response(content=data, media_type="image/webp", headers={"Cache-Control": "public, max-age=31536000, immutable", "X-Content-Type-Options": "nosniff", "Content-Security-Policy": "default-src 'none'; sandbox"})
+
+@router.get("/assets/{asset_id}/text")
+async def asset_text(asset_id: str):
+    try:
+        pages = await asyncio.to_thread(pdf_text, asset_id)
+    except ValueError as exc:
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
+    return {"asset_id": asset_id, "pages": pages}
 
 @router.post("/import", status_code=201)
 async def import_board(file: UploadFile = File(...)):

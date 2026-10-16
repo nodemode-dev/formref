@@ -1,5 +1,6 @@
 """PDF pages as images: render the pages of a PDF reference into image references laid out beside it (researched wishlist: PureRef and BeeRef cannot show PDFs)."""
 import io
+import json
 import uuid
 
 from .config import settings
@@ -65,3 +66,43 @@ def page_items(board_id: str, item_id: str, first: int = 1, last: int = 0, dpi: 
         document.close()
     result = store.mutate(board_id, command={"type": "add", "items": items})
     return {**result, "added": [entry["id"] for entry in items], "pages": total}
+
+
+MAX_TEXT_PAGES = 2000
+MAX_TEXT_CHARS = 2_000_000
+
+
+def pdf_text(asset_id: str) -> list[str]:
+    """The text of each page of a PDF asset, for board search; cached beside the asset as JSON. Scanned pages without a text layer give empty strings."""
+    cache = store.assets_dir / "text" / f"{asset_id}.json"
+    if cache.is_file():
+        try:
+            return json.loads(cache.read_text(encoding="utf-8"))
+        except (OSError, ValueError):
+            pass
+    try:
+        import pypdfium2 as pdfium
+    except ImportError as exc:
+        raise ValueError("PDF text needs the pypdfium2 package; run ./formref install.") from exc
+    info, data = store.asset_bytes(asset_id)
+    if info.get("mime") != "application/pdf" and not data[:5] == b"%PDF-":
+        raise ValueError("That file is not a PDF.")
+    try:
+        document = pdfium.PdfDocument(data)
+    except pdfium.PdfiumError as exc:
+        raise ValueError("The PDF cannot be opened (damaged or password protected).") from exc
+    pages, used = [], 0
+    try:
+        for index in range(min(len(document), MAX_TEXT_PAGES)):
+            page = document[index]
+            textpage = page.get_textpage()
+            text = textpage.get_text_range()[: max(0, MAX_TEXT_CHARS - used)]
+            used += len(text)
+            pages.append(" ".join(text.split()))
+            textpage.close()
+            page.close()
+    finally:
+        document.close()
+    cache.parent.mkdir(parents=True, exist_ok=True)
+    cache.write_text(json.dumps(pages, ensure_ascii=False), encoding="utf-8")
+    return pages

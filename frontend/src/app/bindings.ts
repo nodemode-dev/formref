@@ -1,5 +1,6 @@
 import { api } from '../lib/api';
 import { onLanguage } from '../lib/i18n';
+import { onPdfText } from './pdf-text';
 import { isColor } from '../lib/color';
 import { nativeInvoke } from '../lib/host';
 import type { NativeWindow } from '../lib/host';
@@ -279,14 +280,15 @@ for (const key of ['x', 'y', 'width', 'height']) {
     void execute({ type: 'crop', ids: selected().filter(i => i.kind === 'image').map(i => i.id), rect: crop });
   });
 }
-for (const id of ['search', 'kind-filter']) {
-  $(id).addEventListener(id === 'search' ? 'input' : 'change', () => {
-    if (S.state) {
-      scene.render(S.state.board, selection, matches);
-      updateOutline();
-    }
-  });
-}
+const refilter = () => {
+  if (S.state) {
+    scene.render(S.state.board, selection, matches);
+    updateOutline();
+  }
+};
+for (const id of ['search', 'kind-filter']) $(id).addEventListener(id === 'search' ? 'input' : 'change', refilter);
+// PDF text arrives after the first keystroke; the search runs again with it.
+onPdfText(() => { if ($<HTMLInputElement>('search').value.trim()) refilter(); });
 
 $('theme-select').addEventListener('change', () => {
   const theme = $<HTMLSelectElement>('theme-select').value;
