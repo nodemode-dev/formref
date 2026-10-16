@@ -8,6 +8,7 @@
 
 ## Contents
 
+- [v0.13.0 · Tags in exports](#v0130--tags-in-exports)
 - [v0.9.0 · Find Similar](#v090--find-similar)
 - [v0.8.0 · Find by Color, Sort by Color](#v080--find-by-color-sort-by-color)
 - [v0.7.7 · Adjustments in exports, selection to a new board](#v077--adjustments-in-exports-selection-to-a-new-board)
@@ -25,6 +26,12 @@
 - [v0.2.0 · Canvas settings and snapping through MCP](#v020--canvas-settings-and-snapping-through-mcp)
 - [v0.1.0 · Local board service and SDK MCP](#v010--local-board-service-and-sdk-mcp)
 - [boot_backend.bat](#boot_backendbat)
+
+## v0.13.0 · Tags in exports
+
+`exports.item_tags(board, item)` returns the names of the board labels in `data.labels` (unknown ids skipped) then `data.tags`, once each ignoring case, so every export lists the same words as the tag cloud. `svg_export` sets `data-tags` (a JSON array) on an item's group only when it has some, so untagged boards export the same SVG as before; ElementTree escapes the quotes. `markdown_export` adds `Tags: ...` (escaped with `markdown_source`) after each item's block. `pdf_export`'s `page()` takes a caption and, on one-page-per-item pages, draws title and tags in 8 pt grey with a cairo context on the shared surface before `show_page`, shortened with an ellipsis to the width between the 36 pt margins. The viewer page's script reads the top-level groups' `data-tags`, counts them ignoring case, and builds the chip row inside the fixed header, so the existing fit code (which measures the header) already leaves room; chosen chips put `dim` (opacity 0.15) on every group lacking any of them; the row stays hidden without tags.
+
+Verified: Markdown "Tags: Space, nasa, portrait" lines; SVG data-tags on the ten tagged groups; a 13-page one-page-per-item PDF whose text layer reads "astronaut · Space, nasa, portrait", "rocket · Space, Vehicles, NASA", "coffee"; a rendered page shows the caption in the bottom margin. The viewer at 390 by 844 with touch: nine chips, header 78 px; tapping animal dimmed 11 groups and left the cat and horse. The earlier viewer probe on a board without tags: header 34 px, fit, tap focus, pinch, pan, double tap and zoom unchanged.
 
 ## v0.9.0 · Find Similar
 

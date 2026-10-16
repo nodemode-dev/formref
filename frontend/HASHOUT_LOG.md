@@ -8,6 +8,7 @@
 - [Stacking scale](#stacking-scale)
 - [Verification](#verification)
 - [Scripts](#scripts)
+- [v0.13.0 tag suggestions](#v0130-tag-suggestions)
 - [v0.12.0 tag editing](#v0120-tag-editing)
 - [v0.11.0 optional Illustrator tools, tag cloud](#v0110-optional-illustrator-tools-tag-cloud)
 - [v0.10.0 saved searches, palette and dialog languages](#v0100-saved-searches-palette-and-dialog-languages)
@@ -38,6 +39,12 @@
 - [v0.4.8 desktop window controls and WebKit icons](#v048-desktop-window-controls-and-webkit-icons)
 - [v0.4.7 synced notes, map cards, inline edit commit](#v047-synced-notes-map-cards-inline-edit-commit)
 - [v0.4.6 GIF frames and document export](#v046-gif-frames-and-document-export)
+
+## v0.13.0 tag suggestions
+
+`app/tag-suggest.ts` reads the word from the last comma before the caret, folds accents and case, and offers tags from `tag-cloud.boardTagNames()` (most used first) that start with it, then those containing it, at most six, leaving out tags already in the field. The list lives in `#overlay-root` at `--z-dropdown`, positioned once under the field with `position: fixed`; rows are created once and reused, and only their text, `hidden` and the `active` class change. Choosing replaces the word and adds ", " so the next tag can follow. Enter without a highlighted row is left alone so the field still saves on Enter as before; Tab takes the highlighted or first row. Blur, `change`, any scroll (a capturing listener, since scroll does not bubble) and resize close it. `pointerdown` with `preventDefault` keeps focus in the field when a row is clicked.
+
+Verified at 4x CPU: "a" offered animal then nasa, garage, portrait (labels are not tags); the list sat 4 px under the field, left-aligned; Down and Enter gave "animal, "; "na" then Tab gave "animal, nasa, " with focus kept; a clicked row added garage; Esc closed; Enter saved animal, nasa, garage; the field did not move.
 
 ## v0.12.0 tag editing
 

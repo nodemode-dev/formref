@@ -1,5 +1,14 @@
 # FormRef changelog
 
+## v0.13.0 · 2026-10-16
+
+Tags while typing, and tags in exports.
+
+- Typing in the inspector's tags field now suggests the board's tags that start with (or contain) what you are typing, most used first. Arrow keys and Enter pick one, Tab takes the first, and Esc closes the list.
+- The phone viewer page has a row of tag chips under the board's name; tap one or several to show only the pictures that carry them.
+- One page per item PDFs print each item's title and tags at the bottom of the page.
+- Markdown exports list each item's tags, and SVG exports keep them with each item.
+
 ## v0.12.0 · 2026-10-16
 
 Tidying tags from the tag cloud.
