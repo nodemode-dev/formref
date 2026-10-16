@@ -10,7 +10,7 @@ Rust document engine · vanilla TypeScript/Vite view · Python/FastAPI media & p
 ## Highlights
 
 - **One engine:** Rust commands own geometry, locking, grouping, arrangement & undo/redo.
-- **Reference media:** original assets, nondestructive crop, flip, per-image and canvas grayscale, opacity controls and ordered reference presentation.
+- **Reference media:** original assets, nondestructive crop on the board (C) and lasso crop, flip, per-image and canvas grayscale, opacity controls and ordered reference presentation.
 - **Canvas workflow:** persistent grid preferences, snapping with shared-engine undo, explicit pack and distribution spacing.
 - **Reference editing:** source-pixel RGBA/RGB/HSV/HEX capture, editable swatches, bounded formatted notes & focused documents with guarded draft saves.
 - **Local persistence:** named boards & managed media saved on disk.
@@ -29,7 +29,7 @@ Rust document engine · vanilla TypeScript/Vite view · Python/FastAPI media & p
 - **Browser clipper:** a Chrome and Firefox extension in `clipper/` saves images, selected text, links and pages to your board, paired by a token from Preferences.
 - **Labels & web images:** coloured board labels on any item; drag, paste or fetch images and pages from the web.
 - **Comments & templates:** comment threads on any item, resolved or reopened; start boards from starters or your own templates.
-- **Organize & draw:** pack, sort by name, aspect or colour similarity, rotate 90, opacity, pixel art, brush, eraser, rectangle, circle & line.
+- **Organize & draw:** pack, sort by name, aspect or colour similarity, rotate 90, rotate a selection together about its centre (Alt+R), lock stacking order, opacity, pixel art, brush, eraser, rectangle, circle & line.
 - **Vector paths (toward Illustrator parity):** Pen (Shift+P), Curvature (Shift+~), Pencil (Shift+N) and Direct Selection (A) with anchors, handles and Live Corner widgets; select one or several anchors (box or Shift-click), nudge, delete and add them, Average, Delete Segment; Round Corners with Round, Inverted round and Chamfer; Pathfinder (Unite, Minus Front, Intersect, Exclude, Minus Back, Divide, Trim, Merge, Crop); Offset Path; Outline Stroke; the Pen continues open paths; caps, corners, miter limit, dashes and arrowheads; linear and radial gradients with up to 16 stops and stop opacity; polygon, star, arc, spiral, rectangular and polar grids; blending modes on every item; Convert to Path, Add Anchor Points, Simplify, Smooth, Reverse, Join, Cut Path; Smart Guides (Ctrl/Cmd+U).
 - **Organizing big boards:** search that also reads comments and table cells and ignores accents; Hide (Ctrl/Cmd+3), Show All (Ctrl/Cmd+Alt+3), Isolate Selected, Unlock All (Ctrl/Cmd+Alt+2); Select Duplicate Images (same file or near-identical copy).
 - **Languages:** the whole window in 26 languages, English by default, chosen in Preferences and switched in place; your own board text is never translated. See [Languages](.docs/wiki/Languages.md).

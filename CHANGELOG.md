@@ -1,5 +1,14 @@
 # FormRef changelog
 
+## v0.6.9 · 2026-10-16
+
+Cropping, shaping and arranging references on the board.
+
+- Crop (C) on one image now works on the board: the whole picture shows faintly around a crop box with handles; Enter or double-click applies, and the image keeps its scale. Cropping again brings hidden parts back.
+- Lasso Crop: draw around the part of an image to keep; the rest is transparent on the board and in PNG, SVG and PDF exports. Clear Lasso undoes it.
+- Rotate Selection (Alt+R) turns several references together about the centre of the selection.
+- Lock Stacking Order keeps a background behind: Bring to Front and Send to Back skip it.
+
 ## v0.6.8 · 2026-10-16
 
 PDF in and out, and big boards that open with what is on screen.

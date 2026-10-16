@@ -8,6 +8,7 @@
 - [Stacking scale](#stacking-scale)
 - [Verification](#verification)
 - [Scripts](#scripts)
+- [v0.6.9 crop on the board, lasso, rotate selection, stacking lock](#v069-crop-on-the-board-lasso-rotate-selection-stacking-lock)
 - [v0.6.8 visible-first loading, PDF tools](#v068-visible-first-loading-pdf-tools)
 - [v0.6.7 video clips, flip view, drag out, image level of detail](#v067-video-clips-flip-view-drag-out-image-level-of-detail)
 - [v0.6.6 arc, spiral, grids, blending modes, duplicates](#v066-arc-spiral-grids-blending-modes-duplicates)
@@ -23,6 +24,14 @@
 - [v0.4.8 desktop window controls and WebKit icons](#v048-desktop-window-controls-and-webkit-icons)
 - [v0.4.7 synced notes, map cards, inline edit commit](#v047-synced-notes-map-cards-inline-edit-commit)
 - [v0.4.6 GIF frames and document export](#v046-gif-frames-and-document-export)
+
+## v0.6.9 crop on the board, lasso, rotate selection, stacking lock
+
+`app/crop-mode.ts` draws in the world layer an overlay with the item's own box and rotation: a faint full picture (`crop-ghost`), a clipped bright copy inside the crop box (`crop-window`) and the handle frame, while the real item is hidden by the `cropping` class. Geometry is kept in item-local display space (after flips); pointer positions go through `worldPoint` (so a flipped view works) and the inverse rotation. Apply converts the box back to source-normalized crop (undoing flips) and moves and resizes the item about its rotated centre, as one batch so it is one undo step.
+
+Lasso masks live in source-normalized coordinates on `data.mask`. On the board, `maskPath()` in `lib/image-geometry.ts` sets a CSS `polygon()` on the whole-picture image element, whose own box is the source, so crops and flips (CSS transforms on that element) need no conversion and previews at any level of detail clip the same. The backend applies the same polygon as alpha in `image_source`, which PNG, SVG and PDF all use.
+
+`app/transform-tools.ts`: Rotate Selection rotates centres about the selection's unrotated bounding-box centre and adds the angle, normalised to -180 to 180. `orderable()` removes stacking-locked ids before any `order` command; the engine is unchanged.
 
 ## v0.6.8 visible-first loading, PDF tools
 
