@@ -1,5 +1,12 @@
 # FormRef changelog
 
+## v0.21.0 · 2026-10-16
+
+Picture Info.
+
+- Picture Info (the button in the inspector's Image section, Images menu, or Shift+Alt+I) shows the selected picture's original file name, format, pixel size and file size, and how large it shows on the board. When the file holds camera details, it also shows the camera, lens, focal length, aperture, shutter speed, ISO, date taken and editing software. Keywords stored in the file and the page a clipped picture came from are listed too, the page as a link.
+- Copy Info puts the details on the clipboard as text. Nothing on the board changes.
+
 ## v0.20.0 · 2026-10-16
 
 A Practice Log view.

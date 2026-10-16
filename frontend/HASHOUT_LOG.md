@@ -8,6 +8,7 @@
 - [Stacking scale](#stacking-scale)
 - [Verification](#verification)
 - [Scripts](#scripts)
+- [v0.21.0 picture info](#v0210-picture-info)
 - [v0.20.0 practice log view](#v0200-practice-log-view)
 - [v0.19.0 practice class plans](#v0190-practice-class-plans)
 - [v0.18.0 practice breaks and log](#v0180-practice-breaks-and-log)
@@ -44,6 +45,10 @@
 - [v0.4.8 desktop window controls and WebKit icons](#v048-desktop-window-controls-and-webkit-icons)
 - [v0.4.7 synced notes, map cards, inline edit commit](#v047-synced-notes-map-cards-inline-edit-commit)
 - [v0.4.6 GIF frames and document export](#v046-gif-frames-and-document-export)
+
+## v0.21.0 picture info
+
+`app/picture-info.ts` is a read-only modal. It fetches `/api/assets/{id}/details`, builds the definition list while closed and then opens, as the practice dialogs do. Labels are translated text; values carry `data-no-i18n` because they are file data. Numbers, dates, byte sizes (Intl `byte`, `kilobyte`, `megabyte` units) and the EXIF time (local time with no zone, so read as local) use `formatLocale()`. Megapixels show only from 0.1 MP. The source page is `data.clip.source`, else the item url, and only http(s) becomes a link (target `_blank`, `noopener noreferrer`). The shortcut is Shift+Alt+I, not Ctrl+Shift+I, which opens DevTools in Chromium before the page sees it. Probe: $SC/ui/pinfo.cjs (English and Japanese, 4x CPU, slow network). It adds camera.jpg from $SC/pinfo to board a909d139 on first run.
 
 ## v0.20.0 practice log view
 

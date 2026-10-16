@@ -8,6 +8,7 @@
 
 ## Contents
 
+- [v0.21.0 · Picture details](#v0210--picture-details)
 - [v0.18.0 · Practice log](#v0180--practice-log)
 - [v0.16.0 · Searches for all boards](#v0160--searches-for-all-boards)
 - [v0.15.0 · Tags written into exported pictures](#v0150--tags-written-into-exported-pictures)
@@ -30,6 +31,10 @@
 - [v0.2.0 · Canvas settings and snapping through MCP](#v020--canvas-settings-and-snapping-through-mcp)
 - [v0.1.0 · Local board service and SDK MCP](#v010--local-board-service-and-sdk-mcp)
 - [boot_backend.bat](#boot_backendbat)
+
+## v0.21.0 · Picture details
+
+`core/picture_info.py` returns the stored asset record (name, mime, size, width, height, keywords) plus camera fields from EXIF. `Image.open` and `getexif` read only the header, never the pixels, so a large picture costs no decode, and any Pillow error gives no camera fields rather than a failure. The fields read are Make and Model (the make is dropped when the model already starts with it, as with "Canon EOS R6"), LensModel, DateTimeOriginal (returned as an ISO local time), FocalLength, FNumber, ExposureTime (shown as 1/n s under a second) and ISO (the first value when it is a list). Software is kept as well. Text is cut to 120 characters with NULs and runs of spaces collapsed, and numbers must be finite. SVG is skipped. Route: `GET /api/assets/{id}/details`. Checked with Pillow-made fixtures in $SC/pinfo (Canon JPEG with every field; Fujifilm PNG with a 2.5 s exposure and a list ISO), a non-image, the entity-declaring JPEG and the keyword fixtures (asset fields and keywords only), and a bad id (422).
 
 ## v0.18.0 · Practice log
 
