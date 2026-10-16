@@ -19,6 +19,10 @@
 - [v0.4.7 synced notes, map cards, inline edit commit](#v047-synced-notes-map-cards-inline-edit-commit)
 - [v0.4.6 GIF frames and document export](#v046-gif-frames-and-document-export)
 
+## v0.6.0 terminal dock
+
+`src/ui/terminal-dock.ts` is adapted from formlit's dock and loads lazily from `src/app/terminal.ts`, so xterm (about 340 kB) is not in the first paint. The dock is a grid row of `.editor`; `.statusbar` is pinned to row 4 in `styles/dock.css` so a hidden dock collapses its auto row to zero instead of shifting the status bar. Height comes from `--term-dock-h`, restored by the head script before first paint. Each tab mounts one host node and one tab button; hide only toggles `hidden` and the PTYs keep running. Keys typed in the stage stop propagating except the Ctrl/Cmd+J family, and `gestures.ts` lets `terminal`, `claude-code` and `agent` fire from inside text fields. `comboOf` reads `event.code` for Alt combinations because macOS Option changes `event.key`. Throttled run recorded in the v0.6.0 commit body.
+
 ## v0.5.3 background models and cloud storage
 
 `app/cutout.ts` owns the inspector's Background block: the Method select (Plain background, Subject (Auto), Object, Person, Sharp edges, Click to select (SAM 2.1)), the model status line with Download and Import file, and SAM point picking. Status comes from `GET /api/models`, polled each second only while a download runs. Picking is a capture-phase pointerdown on the stage, active only on the one selected image: it maps the click with `imageCoordinates` (the colour picker's mapping, so points are in the image as shown), draws keep (green) and leave-out (red, Alt-click) dots inside the painted image box, and Escape or another selection ends it. Remove Background reads the method and points through `cutoutOptions`. Status lines reserve room for their longest message (three lines for errors), because download progress and errors arrive without input; the throttled run measured a 0.005 shift before that. Choosing the method by keyboard, as a person does, then measured zero.

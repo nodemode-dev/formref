@@ -1,5 +1,15 @@
 # FormRef changelog
 
+## v0.6.0 · 2026-10-16
+
+A terminal and Claude Code inside FormRef, and one build script.
+
+- Terminal dock (Ctrl/Cmd+J): real login shells in tabs under the canvas, resizable, kept running while hidden.
+- Claude Code (Ctrl/Cmd+Shift+J): your own Claude Code sign-in in a dock tab, already connected to FormRef's tools, so it can arrange, add and edit on the open board while you watch. The Ask line sends a request with the board and the selected items. Set its start folder, program and first message in the Agent panel.
+- The Agent panel moves to Ctrl/Cmd+Alt+J. Alt shortcuts now work on macOS.
+- `./build_app` (or `build_app.bat`) builds everything from the repo root: tools check, install, Rust core, window and desktop packages. `--web` stops after the web build.
+- `./formref claude` starts Claude Code in your own terminal with FormRef's tools.
+
 ## v0.5.4 · 2026-10-13
 
 `./formref desktop build` builds the desktop app from the repo root: the Rust core, then the Tauri build. The app still loads its window from the FormRef backend on 127.0.0.1:8196, so the backend has to be running.

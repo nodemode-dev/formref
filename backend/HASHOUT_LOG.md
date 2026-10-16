@@ -14,6 +14,14 @@
 - [v0.1.0 · Local board service and SDK MCP](#v010--local-board-service-and-sdk-mcp)
 - [boot_backend.bat](#boot_backendbat)
 
+## v0.6.0 · Terminal sessions and the Claude Code tab
+
+- refers-to: `app/agent/terminal.py` :: Session, open_session, restart, _pump; `app/agent/claude_code.py` :: cli, workdir, argv, open_tab, INAPP_TOKEN; `app/routers/terminal.py` :: attach, _window_only
+- kind: rationale
+- logged: v0.6.0 · 2026-10-16
+
+Ported from formlit 0.45.3 (same owner, Apache-2.0). formlit attaches its Claude Code tab to an HTTP MCP endpoint; FormRef keeps its stdio SDK server and passes a per-process in-app token as `FORMREF_AGENT_TOKEN`, added to `agents.tokens` at import, so `agents.allows` passes it while the confirm path finds no panel turn and lets the person's own session act directly. The token exists only in the argv of processes the backend starts. The HTTP middleware does not run for WebSocket scopes, so `attach` checks Origin and Host itself; every REST route refuses `X-FormRef-Client`. `claude_bin`, `claude_folder`, `claude_first_message` and `outside_agents` cannot be written by a request carrying that header, since `claude_bin` names a program the backend runs. The sentinel `{"type": "exit"}` (with the space) must match the client byte for byte.
+
 ## v0.3.4 · Live consent prompt and iStack import check
 
 - refers-to: `app/main.py` :: local_access refusal counter; `app/routers/boards.py` :: events stream `consent`; `app/core/imports.py` :: import_istack

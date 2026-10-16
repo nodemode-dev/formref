@@ -29,7 +29,8 @@ Rust document engine · vanilla TypeScript/Vite view · Python/FastAPI media & p
 - **Comments & templates:** comment threads on any item, resolved or reopened; start boards from starters or your own templates.
 - **Organize & draw:** pack, sort by name, aspect or colour similarity, rotate 90, opacity, pixel art, brush, eraser, rectangle, circle & line.
 - **Embedded agent:** Agent panel (Ctrl+J) running Claude Code, Codex, Cursor or Ollama on your board, each tool call shown, a yes from you before it removes or bulk-moves items, Stop & Undo This Turn. Vision models can see the board as a picture.
-- **Agent access:** official Python MCP SDK stdio server; outside agents edit only once you allow them.
+- **Terminal and Claude Code inside FormRef:** a terminal dock under the canvas (Ctrl/Cmd+J) runs real login shells; its Claude Code button (Ctrl/Cmd+Shift+J) starts your own Claude Code sign-in in a dock tab, already connected to FormRef's MCP tools, with no outside-agent prompt. The Ask line sends a request with the open board and selected items. Outside agents cannot open or type into the dock.
+- **Agent access:** official Python MCP SDK stdio server; outside agents edit only once you allow them. `./formref claude` starts Claude Code in your own terminal with the same tools.
 - **Form family UI:** Studio Dark tokens, orange accent, collapsible side panels, one icon per action & stable keyed item views.
 
 ## Quick Start
@@ -56,6 +57,14 @@ formref.bat
 | Backend | http://127.0.0.1:8196 | API & built frontend |
 | API docs | http://127.0.0.1:8196/docs | Live API schema |
 | MCP | stdio | `./formref mcp` |
+
+Build the whole app, start to finish (tools check, install, Rust core, window, desktop packages), from the repo root:
+
+```bash
+./build_app            # add --web to stop after the web build, --open to start it
+```
+
+On Windows run `build_app.bat`. Every step is logged to `build_app.log`.
 
 Build & serve the frontend from one local service:
 

@@ -44,6 +44,13 @@ FormRef's original source and vector artwork are Apache-2.0. The repository's fu
 | defusedxml | 0.7.1 | PSF-2.0 | Safe XML parsing |
 | onnxruntime | 1.31.0 | MIT | Background model inference |
 | numpy | 2.5.4 | BSD-3-Clause | Background model tensors |
+| websockets | 15.0.1 | BSD-3-Clause | Uvicorn WebSocket support for the terminal dock |
+| ptyprocess | 0.7.0 | ISC | Terminal dock pseudo-terminals on macOS and Linux |
+| pywinpty | 3.0.5 | MIT | Terminal dock pseudo-terminals on Windows (ConPTY) |
+| @xterm/xterm | 6.0.0 | MIT | Terminal dock rendering in the window |
+| @xterm/addon-fit | 0.11.0 | MIT | Terminal dock sizing |
+
+The terminal dock and the Claude Code tab (`backend/app/agent/terminal.py`, `backend/app/agent/claude_code.py`, `backend/app/routers/terminal.py`, `frontend/src/ui/terminal-dock.ts`) are adapted from formlit 0.45.3, Apache-2.0, by nodemode-ai, the same owner as FormRef.
 
 CairoSVG is installed as an ordinary replaceable Python package in the server environment, unmodified. It is not statically linked into the Rust core or a proprietary desktop bundle. Its license and source URL are retained in the notices. Pillow's wheel license also contains codec/native-library notices. Native shell compilation and distribution are not claimed by this source release; platform runtime libraries are not bundled.
 
