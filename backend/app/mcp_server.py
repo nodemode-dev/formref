@@ -310,6 +310,54 @@ async def delete_search(board_id: str, name: str) -> dict:
         raise ValueError(f"No saved search is called {name}.")
     return await command(board_id, {"type": "settings", "patch": {"searches": kept}})
 
+def _retag(items: list[dict], tag: str, change) -> tuple[list[dict], int, int]:
+    """Update commands for every unlocked item carrying tag (any case); items ending with the same tags share one command. Returns the commands, items changed and locked items skipped."""
+    wanted = tag.strip().lower()
+    groups: dict[str, dict] = {}
+    changed = locked = 0
+    for item in items:
+        tags = [t for t in (item.get("data") or {}).get("tags") or [] if isinstance(t, str) and t.strip()]
+        if not any(t.strip().lower() == wanted for t in tags):
+            continue
+        if item.get("locked"):
+            locked += 1
+            continue
+        result = change(tags)
+        key = json.dumps(result)
+        groups.setdefault(key, {"type": "update", "ids": [], "patch": {"data": {"tags": result}}})["ids"].append(item["id"])
+        changed += 1
+    return list(groups.values()), changed, locked
+
+@mcp.tool(annotations=_write)
+async def rename_tag(board_id: str, tag: str, name: str) -> dict:
+    """Rename a tag (matched ignoring case) on every unlocked item of the board as one undoable step. A name another tag already has merges the two; no item ends up with a tag twice. Locked items keep the old tag and are counted."""
+    name = name.strip()
+    if not name or len(name) > 60:
+        raise ValueError("A tag name is 1 to 60 characters.")
+    state = await get_board(board_id)
+
+    def change(tags):
+        out = []
+        for value in (name if t.strip().lower() == tag.strip().lower() else t for t in tags):
+            if not any(o.lower() == value.lower() for o in out):
+                out.append(value)
+        return out
+    commands, changed, locked = _retag(state["board"]["items"], tag, change)
+    if not commands:
+        raise ValueError(f"No unlocked item carries the tag {tag}." if locked else f"No item carries the tag {tag}.")
+    result = await command(board_id, {"type": "batch", "commands": commands})
+    return {"board_id": board_id, "changed": changed, "locked": locked, "revision": result["board"]["revision"]}
+
+@mcp.tool(annotations=_write)
+async def remove_tag(board_id: str, tag: str) -> dict:
+    """Remove a tag (matched ignoring case) from every unlocked item of the board as one undoable step. Locked items keep it and are counted."""
+    state = await get_board(board_id)
+    commands, changed, locked = _retag(state["board"]["items"], tag, lambda tags: [t for t in tags if t.strip().lower() != tag.strip().lower()])
+    if not commands:
+        raise ValueError(f"No unlocked item carries the tag {tag}." if locked else f"No item carries the tag {tag}.")
+    result = await command(board_id, {"type": "batch", "commands": commands})
+    return {"board_id": board_id, "changed": changed, "locked": locked, "revision": result["board"]["revision"]}
+
 @mcp.tool(annotations=_write)
 async def label_items(board_id: str, ids: list[str], add: list[str] | None = None, remove: list[str] | None = None) -> dict:
     """Add and/or remove label ids (from define_labels or get_board settings.labels) on items, as one undoable step. An item holds at most 12 labels."""
