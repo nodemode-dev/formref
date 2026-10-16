@@ -8,6 +8,7 @@
 - [Stacking scale](#stacking-scale)
 - [Verification](#verification)
 - [Scripts](#scripts)
+- [v0.7.9 overflow scan, command modules](#v079-overflow-scan-command-modules)
 - [v0.7.8 compare, inspector labels](#v078-compare-inspector-labels)
 - [v0.7.7 adjustments, measure, selection to board](#v077-adjustments-measure-selection-to-board)
 - [v0.7.6 study aids](#v076-study-aids)
@@ -32,6 +33,12 @@
 - [v0.4.8 desktop window controls and WebKit icons](#v048-desktop-window-controls-and-webkit-icons)
 - [v0.4.7 synced notes, map cards, inline edit commit](#v047-synced-notes-map-cards-inline-edit-commit)
 - [v0.4.6 GIF frames and document export](#v046-gif-frames-and-document-export)
+
+## v0.7.9 overflow scan, command modules
+
+Overflow scan: a probe opened the shell, the export, preferences, help, commands, input, trash, template and label dialogs and the context menus in all 24 languages, and listed every text node whose scroll width exceeded its box. Hits were the sidebar wordmark (`.product-label` was 42 px with 1 px tracking; now 80 px, 0.6 px, `overflow-wrap: anywhere`), Russian "Play" and Norwegian "Spacing gap". After the fixes the scan lists nothing.
+
+Command modules: `app/commands/` has one file per menu group, each exporting a `*_COMMANDS` array, plus `when.ts` for the shared enabled checks (`has`, `hasImages`, `hasBoard`, `anyLocked`, `hasCutout`). Group files never import `../commands`, so there is no cycle. `commands.ts` spreads the arrays in the old order (the two clipper token commands keep their place after View through `CLIP_COMMANDS`, and Edit Board Labels stays among Insert), registers them, and re-exports `lockLabel`, `bindShell`, `snapScale`, `snapScaleNow` and `setOpacity` so importers are unchanged. Verified: `agents sync --check` reports the reference unchanged; the same throttled probe (add note, select all, palette with 168 rows and filter, preferences with clipper token, panel toggle) gave identical results on the build before and after the split.
 
 ## v0.7.8 compare, inspector labels
 

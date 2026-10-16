@@ -1,5 +1,12 @@
 # FormRef changelog
 
+## v0.7.9 · 2026-10-16
+
+No cut-off text, in any language.
+
+- Every panel, menu and dialog was checked in all 23 translated languages. The FormRef wordmark under the logo no longer cuts off; Russian "Play" and Norwegian "Spacing gap" got shorter words that fit.
+- Behind the scenes, the command list is now split by menu (File, Edit, Insert and so on). Nothing changes on screen: every command, shortcut and menu position is the same.
+
 ## v0.7.8 · 2026-10-16
 
 Checking a drawing against its reference.
