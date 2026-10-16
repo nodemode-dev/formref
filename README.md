@@ -1,7 +1,7 @@
 <p align="center"><img src="assets/formref-mark.svg" width="96" alt="FormRef"></p>
 <h1 align="center">FormRef</h1>
 <p align="center"><b>Reference boards for images, ideas & creative work.</b></p>
-<p align="center"><img alt="version" src="https://img.shields.io/badge/version-v0.7.3-f97316"> <img alt="license" src="https://img.shields.io/badge/license-Apache--2.0-blue"> <img alt="stack" src="https://img.shields.io/badge/engine-Rust-orange"></p>
+<p align="center"><img alt="version" src="https://img.shields.io/badge/version-v0.7.4-f97316"> <img alt="license" src="https://img.shields.io/badge/license-Apache--2.0-blue"> <img alt="stack" src="https://img.shields.io/badge/engine-Rust-orange"></p>
 
 FormRef is a local reference workspace in the Form family. Collect images & files, arrange them on a free canvas, add notes & tasks, connect ideas, organize boards, then export or control the same workspace through MCP.
 
@@ -14,7 +14,7 @@ Rust document engine · vanilla TypeScript/Vite view · Python/FastAPI media & p
 - **Canvas workflow:** persistent grid preferences, snapping with shared-engine undo, explicit pack and distribution spacing, and sizes normalized across a selection or within each group; drag items into columns, or lock a column against drops.
 - **Reference editing:** source-pixel RGBA/RGB/HSV/HEX capture, editable swatches, bounded formatted notes & focused documents with guarded draft saves.
 - **Local persistence:** named boards & managed media saved on disk.
-- **Interoperability:** iStack import, BeeRef `.bee` boards in and out, portable archives & PNG/SVG/Markdown/JSON export, every picture's original file in one ZIP; full-resolution PDF export (whole board, one page per item, or printed at 100% across A4, Letter, A3 or Tabloid pages); PDF pages turned into image references.
+- **Interoperability:** iStack import, BeeRef `.bee` boards in and out, portable archives & PNG/SVG/Markdown/JSON export, every picture's original file in one ZIP, a read-only phone viewer page; full-resolution PDF export (whole board, one page per item, or printed at 100% across A4, Letter, A3 or Tabloid pages); PDF pages turned into image references.
 - **iStack's right-click menu:** File, Edit, Canvas, Organize, Images & Layer in iStack's order & shortcuts, plus Insert & Ask Agent. Press ? for every shortcut.
 - **Board tabs:** several boards open at once, restored where you left them.
 - **Trash:** deleted boards and removed items wait in the Trash until you empty it; restore puts them back.

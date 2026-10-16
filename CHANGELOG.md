@@ -1,5 +1,12 @@
 # FormRef changelog
 
+## v0.7.4 · 2026-10-16
+
+Boards on a phone or tablet.
+
+- Export, Phone viewer: one HTML file that opens in any phone or tablet browser, read-only. Drag to move, pinch or use the buttons to zoom, tap a picture to fill the screen, double-tap to see the whole board. Pictures are sized for a phone (a 5 MB board SVG came out at 150 KB), and the page works offline. Nothing is served from your computer, so FormRef still only listens to itself; copy the file to the device by AirDrop, a cloud folder or a cable. The viewer's own few words are in English.
+- Card labels on the board ("Document", "Column" and so on) now follow the interface language.
+
 ## v0.7.3 · 2026-10-16
 
 Finding words in PDFs, boards that remember their window, and readable notes in exports.

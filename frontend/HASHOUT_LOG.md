@@ -8,6 +8,7 @@
 - [Stacking scale](#stacking-scale)
 - [Verification](#verification)
 - [Scripts](#scripts)
+- [v0.7.4 card labels translated](#v074-card-labels-translated)
 - [v0.7.3 PDF text in search, window layouts](#v073-pdf-text-in-search-window-layouts)
 - [v0.7.2 drop into columns, all pictures, card hints](#v072-drop-into-columns-all-pictures-card-hints)
 - [v0.7.1 off-screen culling, group sizes, BeeRef files](#v071-off-screen-culling-group-sizes-beeref-files)
@@ -27,6 +28,10 @@
 - [v0.4.8 desktop window controls and WebKit icons](#v048-desktop-window-controls-and-webkit-icons)
 - [v0.4.7 synced notes, map cards, inline edit commit](#v047-synced-notes-map-cards-inline-edit-commit)
 - [v0.4.6 GIF frames and document export](#v046-gif-frames-and-document-export)
+
+## v0.7.4 card labels translated
+
+`KIND_LABELS` in `ui/scene.ts` gives each card kind an English word that goes through `t()` (Task for to-dos and Synced as a capitalised word, because the extractor skips hyphenated single words and lower-case strings; the eyebrow is uppercase in CSS either way). Checked in German: "Studio-Notiz" and "Video" on the board.
 
 ## v0.7.3 PDF text in search, window layouts
 

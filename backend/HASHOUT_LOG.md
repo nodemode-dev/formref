@@ -8,6 +8,7 @@
 
 ## Contents
 
+- [v0.7.4 · Phone viewer](#v074--phone-viewer)
 - [v0.7.3 · PDF text and readable notes in exports](#v073--pdf-text-and-readable-notes-in-exports)
 - [v0.7.2 · All pictures export](#v072--all-pictures-export)
 - [v0.7.1 · BeeRef .bee boards](#v071--beeref-bee-boards)
@@ -19,6 +20,12 @@
 - [v0.2.0 · Canvas settings and snapping through MCP](#v020--canvas-settings-and-snapping-through-mcp)
 - [v0.1.0 · Local board service and SDK MCP](#v010--local-board-service-and-sdk-mcp)
 - [boot_backend.bat](#boot_backendbat)
+
+## v0.7.4 · Phone viewer
+
+The phone and tablet wish was met without serving anything: the owner was asked whether to open FormRef to the home network and did not choose, so the offline page was built and network serving stays undecided. `core/viewer.py` wraps `svg_export()` in one HTML page. `svg_export()` now takes a `picture(image, item)` callback for each processed picture's href (default: full-size PNG, so SVG and PDF exports are unchanged); the viewer passes `_webp`, which shrinks each picture to twice its board size, at most 2048 px, as WebP quality 82 with alpha kept. The page script (inline, no libraries) keeps one transform on the board layer: one finger pans, two pinch about their midpoint, the wheel zooms at the pointer, a tap on a picture frames it (the picture is noted on pointerdown, because pointer capture sends later events to the stage), a double tap fits the board. Served as an attachment, so it never runs on the loopback origin.
+
+Checked on an emulated 390 x 844 phone at 4x CPU: the board fitted under the header, a tap on a picture filled the width, a pinch tripled the size about the fingers, a drag panned, a double tap fitted again, and + zoomed by 1.5. A board whose SVG export is 5.1 MB came out at 150 KB; 120 small pictures at 60 KB.
 
 ## v0.7.3 · PDF text and readable notes in exports
 
