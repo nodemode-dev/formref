@@ -67,7 +67,7 @@ class ItemNode {
     this.card.classList.toggle('media-card', !!kind);
     this.card.classList.toggle('audio-card', kind === 'audio');
     const src = kind === 'embed' ? embedUrl(item.url) || '' : kind ? api.assetUrl(item.asset_id!) : '';
-    paintPlayer(this.mediaBox, kind, src, { loop: !!item.data.loop, autoplay: !!item.data.autoplay, title: item.title || 'Media' });
+    paintPlayer(this.mediaBox, kind, src, { loop: !!item.data.loop, autoplay: !!item.data.autoplay, title: item.title || 'Media', start: Number(item.data.clip_start) || 0, end: Number(item.data.clip_end) || 0, rate: Number(item.data.rate) || 1 });
   }
   /** Coloured label pills along the item's bottom edge, patched in place. */
   paintLabels(item: Item) {

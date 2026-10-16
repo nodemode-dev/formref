@@ -21,6 +21,7 @@ import { registerSmartGuides } from './app/smart-guides';
 import { registerVisibility } from './app/visibility';
 import { registerPencil } from './app/pencil';
 import { registerBlend } from './app/blend';
+import { registerVideo } from './app/video';
 
 bindLanguage();
 registerTerminal();
@@ -31,6 +32,7 @@ registerPathfinder();
 registerSmartGuides();
 registerVisibility();
 registerBlend();
+registerVideo();
 attachCatalogue();
 
 const agent = new AgentPanel({

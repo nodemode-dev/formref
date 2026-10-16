@@ -86,7 +86,7 @@ function show(next: number) {
     const kind = mediaKind(item.kind, item.data.mime, item.asset_id, item.url);
     const player = $('present-media');
     player.hidden = !kind;
-    paintPlayer(player, kind, kind === 'embed' ? embedUrl(item.url) || '' : kind ? api.assetUrl(item.asset_id!) : '', { loop: !!item.data.loop, autoplay: false, title: item.title || 'Media' });
+    paintPlayer(player, kind, kind === 'embed' ? embedUrl(item.url) || '' : kind ? api.assetUrl(item.asset_id!) : '', { loop: !!item.data.loop, autoplay: false, title: item.title || 'Media', start: Number(item.data.clip_start) || 0, end: Number(item.data.clip_end) || 0, rate: Number(item.data.rate) || 1 });
     const formatted = item.data.text_format === 'markdown';
     $('present-markdown').hidden = !formatted;
     $('present-plain').hidden = formatted;

@@ -24,6 +24,9 @@ function render(items: Item[]) {
   if (current && !mediaSection.hidden) {
     setInput('media-autoplay', !!current.data.autoplay);
     setInput('media-loop', !!current.data.loop);
+    setInput('media-start', Number(current.data.clip_start) > 0 ? String(current.data.clip_start) : '');
+    setInput('media-end', Number(current.data.clip_end) > 0 ? String(current.data.clip_end) : '');
+    setInput('media-rate', String(Number(current.data.rate) || 1));
   }
   if (!current || !table) return;
   const { columns } = readTable(current.data.table);
