@@ -1,5 +1,14 @@
 # FormRef changelog
 
+## v0.9.0 · 2026-10-16
+
+Finding pictures that look alike.
+
+- Find Similar: select one picture and click the similar button beside the colour dot in the left panel (or right-click, Images, Find Similar). The board dims everything except the pictures that look like it, and the button shows the picture you started from. It judges colour mix, where light and dark sit, and where colours sit, so brighter, darker, cropped, mirrored, greyscale and re-saved copies are found.
+- Three levels in the right-click menu: Near Copies, Similar Pictures (the default) and Loosely Similar, which also brings in pictures of a similar kind.
+- The x beside the filter now clears both the colour and the similar filter. Deleting the picture you started from, or switching boards, ends the search.
+- Agents can call find_similar for a ranked list with a score for every picture.
+
 ## v0.8.0 · 2026-10-16
 
 Finding pictures by colour.

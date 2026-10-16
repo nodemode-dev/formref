@@ -8,6 +8,7 @@
 - [Stacking scale](#stacking-scale)
 - [Verification](#verification)
 - [Scripts](#scripts)
+- [v0.9.0 find similar](#v090-find-similar)
 - [v0.8.0 find by color](#v080-find-by-color)
 - [v0.7.9 overflow scan, command modules](#v079-overflow-scan-command-modules)
 - [v0.7.8 compare, inspector labels](#v078-compare-inspector-labels)
@@ -34,6 +35,12 @@
 - [v0.4.8 desktop window controls and WebKit icons](#v048-desktop-window-controls-and-webkit-icons)
 - [v0.4.7 synced notes, map cards, inline edit commit](#v047-synced-notes-map-cards-inline-edit-commit)
 - [v0.4.6 GIF frames and document export](#v046-gif-frames-and-document-export)
+
+## v0.9.0 find similar
+
+`app/similar-find.ts` follows `color-find.ts`: one `matchFilters` predicate (the sample itself always passes), a request counter, a picture signature checked in `onState`, and one class change per item when the answer arrives. Both filters apply together. The button sits between the color chip and the clear button in `#filter-row`; while active it gets `has-similar` and `--similar-thumb` (the sample's asset URL) as a cover background with the icon hidden, so the kind select shrank once to 119 px and never changes while filtering. The clear button is shared: each module listens to it and clears its own filter, and its `visibility` follows `has-color` or `has-similar`. Clicking the button with one picture selected starts or restarts with that picture; with the sample still selected it clears. Removing or hiding the sample, or opening another board, clears it. `similarMenu()` builds the right-click submenu of the three levels like `studyMenu()`.
+
+Verified at 4x CPU and a slow network on a board of photographs and edited copies: widths 147, 119 and 191 px before, during and after; Similar Pictures showed the astronaut and its four copies with each item changing class once; Near Copies dropped the greyscale copy; the motorcycle found its pair; the outline listed only the five; clear restored all 13; deleting the sample cleared the filter and undo restored the item; German labels, toast and submenu; the overflow scan in 24 languages found nothing.
 
 ## v0.8.0 find by color
 

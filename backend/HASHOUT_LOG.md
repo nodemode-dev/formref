@@ -8,6 +8,7 @@
 
 ## Contents
 
+- [v0.9.0 · Find Similar](#v090--find-similar)
 - [v0.8.0 · Find by Color, Sort by Color](#v080--find-by-color-sort-by-color)
 - [v0.7.7 · Adjustments in exports, selection to a new board](#v077--adjustments-in-exports-selection-to-a-new-board)
 - [v0.7.6 · Extract Palette](#v076--extract-palette)
@@ -24,6 +25,12 @@
 - [v0.2.0 · Canvas settings and snapping through MCP](#v020--canvas-settings-and-snapping-through-mcp)
 - [v0.1.0 · Local board service and SDK MCP](#v010--local-board-service-and-sdk-mcp)
 - [boot_backend.bat](#boot_backendbat)
+
+## v0.9.0 · Find Similar
+
+`core/similar.py`: `signature_of()` composites the picture on mid grey (so transparency is neutral) and takes a 64-bin RGB histogram from a 96 px copy, an 8x8 grey layout of the picture and of its mirror, and a 4x4 colour layout; `look()` caches it in the asset JSON as `look` (version 1). The existing `features` vector was not reused: its 4x4 grey layout was too coarse to tell a cropped copy from an unrelated picture of similar tone, and it has no mirror. `likeness()` = 0.4 histogram intersection + 0.35 grey-layout Pearson correlation (negative clipped to 0; the better of as-is and mirrored; two flat pictures count as alike) + 0.25 (1 minus mean RGB cell distance over the cube diagonal). Same asset scores 1.
+
+Calibration (a scratch script, not shipped) on 32 pictures: scikit-image sample photographs (BSD) and painting references, each also brightened, darkened, cropped to 80 and 60 percent, mirrored, saved as JPEG at quality 30, shrunk, desaturated, more contrasty and greyscale. Unrelated pairs (495): median 0.38, 99th percentile 0.65, highest 0.68. Thresholds: close 0.82 (no false matches; finds mirrored, recompressed, shrunk and contrast copies, most brightness edits and 80 percent crops), related 0.7 (no false matches; also greyscale 84 percent and 60 percent crops 38 percent), loose 0.58 (4.6 percent of unrelated pairs, finds every variant). The real motorcycle left and right photographs score 0.95.
 
 ## v0.8.0 · Find by Color, Sort by Color
 
