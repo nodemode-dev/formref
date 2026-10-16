@@ -19,6 +19,12 @@
 - [v0.4.7 synced notes, map cards, inline edit commit](#v047-synced-notes-map-cards-inline-edit-commit)
 - [v0.4.6 GIF frames and document export](#v046-gif-frames-and-document-export)
 
+## v0.6.1 command registry, catalogue, vector paths
+
+`src/app/registry.ts` is the single command store; `commands.ts` registers its table into it so ids, keys and iStack's menu order stay as they were, and feature modules (`terminal.ts`, `vector.ts`, `direct-select.ts`) register their own. `bindings.ts` appends palette and shortcut rows for late registrations instead of rebuilding. `catalogue.ts` mirrors descriptions to the backend and long-polls `/api/commands/next`; the window-only, risky and read-only sets there are defaults a command can override with its own fields.
+
+`src/lib/vector/path.ts` holds no DOM. Live corners trim both neighbouring segments at the round corner's tangent points (distance r / tan(theta/2)) for all three styles, as Illustrator does, and clamp r so the trim is at most half of either segment. Vectors are stored in a w by h design box and drawn with `preserveAspectRatio="none"` and a non-scaling stroke, so the engine's resize needs no knowledge of anchors; radii stretch with non-uniform scaling (Illustrator's Scale Corners on). `direct-select.ts` pools its marker nodes and only toggles classes and attributes; it intercepts pointer events in the capture phase only on its own markers, so the select tool's move and marquee are untouched.
+
 ## v0.6.0 terminal dock
 
 `src/ui/terminal-dock.ts` is adapted from formlit's dock and loads lazily from `src/app/terminal.ts`, so xterm (about 340 kB) is not in the first paint. The dock is a grid row of `.editor`; `.statusbar` is pinned to row 4 in `styles/dock.css` so a hidden dock collapses its auto row to zero instead of shifting the status bar. Height comes from `--term-dock-h`, restored by the head script before first paint. Each tab mounts one host node and one tab button; hide only toggles `hidden` and the PTYs keep running. Keys typed in the stage stop propagating except the Ctrl/Cmd+J family, and `gestures.ts` lets `terminal`, `claude-code` and `agent` fire from inside text fields. `comboOf` reads `event.code` for Alt combinations because macOS Option changes `event.key`. Throttled run recorded in the v0.6.0 commit body.

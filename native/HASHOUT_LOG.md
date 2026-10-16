@@ -27,6 +27,10 @@
 - [Observed verification](#observed-verification)
 - [Limits of verification](#limits-of-verification)
 
+## model.rs · vector_data (v0.6.1)
+
+`data.shape` accepts `path`. `vector_data` validates `data.vector` on shapes and strokes: 1 to 1000 paths, 50000 anchors in total (the same ceiling as freehand points), finite anchors and handles, a non-negative radius and a style of round, inverted or chamfer. The engine stores but does not interpret anchors: resize leaves the vector alone because the window draws it in its own design box.
+
 ## commands.rs
 
 ### formref-core/src/commands.rs · apply and apply_inner

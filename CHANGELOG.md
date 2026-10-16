@@ -1,5 +1,15 @@
 # FormRef changelog
 
+## v0.6.1 · 2026-10-16
+
+Vector paths with Illustrator's Live Corners, and one command registry agents can use.
+
+- Round corner points: Round Corners rounds every corner of a shape or path (Round, Inverted round or Chamfer), and the inspector shows the largest radius that fits. Rectangles, ellipses, lines and freehand strokes become editable paths the first time.
+- Direct Selection tool (A): anchors, handles and a corner widget on every corner. Drag a widget to round all corners (Shift for one), Alt-click it to change the style, drag anchors and handles, Alt-click an anchor to switch corner and smooth.
+- Pen tool (Shift+P): click for corners, drag for curves, click the first point to close, Enter to finish.
+- Stroke options: caps, corners, miter limit, dashes. Add Polygon and Add Star (3 to 1000). Path commands: Convert to Path, Add Anchor Points, Simplify, Smooth, Reverse Path Direction, Join (Ctrl/Cmd+Shift+E).
+- Every menu, palette and shortcut command lives in one registry, as in formvis and formlit; agents can list, describe and run them (`list_commands`, `describe_command`, `run_command`), except window-only commands, and risky ones need your yes.
+
 ## v0.6.0 · 2026-10-16
 
 A terminal and Claude Code inside FormRef, and one build script.

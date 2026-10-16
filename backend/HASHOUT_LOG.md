@@ -14,6 +14,14 @@
 - [v0.1.0 · Local board service and SDK MCP](#v010--local-board-service-and-sdk-mcp)
 - [boot_backend.bat](#boot_backendbat)
 
+## v0.6.1 · Command catalogue and the window bridge
+
+- refers-to: `app/routers/commands.py` :: mirror, next_job, run, _need_window; `app/mcp_server.py` :: list_commands, describe_command, run_command
+- kind: rationale
+- logged: v0.6.1 · 2026-10-16
+
+UI commands live in the window, so the backend keeps a mirrored catalogue and a job queue the window long-polls (25 s); a run waits up to 60 s for the window's answer. No poll for 35 s means no window, and calls get 409 instead of hanging. Window-only entries are refused to any request carrying `X-FormRef-Client`; risky entries go through `agents.confirm` only when a panel turn owns the token, otherwise they are refused, because `confirm` lets a request through when no panel queue exists. The middleware's outside-agent gate applies first, as for every write.
+
 ## v0.6.0 · Terminal sessions and the Claude Code tab
 
 - refers-to: `app/agent/terminal.py` :: Session, open_session, restart, _pump; `app/agent/claude_code.py` :: cli, workdir, argv, open_tab, INAPP_TOKEN; `app/routers/terminal.py` :: attach, _window_only
