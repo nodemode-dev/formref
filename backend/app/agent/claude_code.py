@@ -9,7 +9,6 @@ from pathlib import Path
 
 from ..core.config import settings
 from . import terminal
-from .runners import mcp_server
 from .service import agents
 
 KEEP_ENV = {"CLAUDE_CODE_OAUTH_TOKEN", "CLAUDE_CODE_USE_BEDROCK", "CLAUDE_CODE_USE_VERTEX", "CLAUDE_CONFIG_DIR"}
@@ -79,7 +78,7 @@ def info(fresh: bool = False) -> dict:
 
 
 def mcp_config() -> str:
-    return json.dumps({"mcpServers": {"formref": mcp_server(INAPP_TOKEN, terminal.API_URL)}})
+    return json.dumps({"mcpServers": {"formref": {"type": "http", "url": terminal.API_URL + "/mcp", "headers": {"x-formref-inapp": INAPP_TOKEN}}}})
 
 
 def workdir() -> Path:

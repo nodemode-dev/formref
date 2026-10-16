@@ -18,6 +18,11 @@ from .routers.terminal import router as terminal_router
 from .routers.commands import router as commands_router
 from .agent.service import agents
 from .agent import terminal
+from .mcp_server import mcp as mcp_server
+
+mcp_server.settings.stateless_http = True
+mcp_server.settings.json_response = True
+MCP_HTTP = mcp_server.streamable_http_app()
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(name)s %(levelname)s %(message)s")
 log = logging.getLogger("formref")
@@ -26,7 +31,8 @@ log = logging.getLogger("formref")
 async def lifespan(app):
     log.info("FormRef %s using %s", VERSION, settings.data_dir)
     terminal.start(asyncio.get_running_loop())
-    yield
+    async with mcp_server.session_manager.run():
+        yield
     terminal.close_all()
     broker.close()
 
@@ -108,6 +114,8 @@ app.include_router(clip_router)
 app.include_router(cloud_router)
 app.include_router(terminal_router)
 app.include_router(commands_router)
+for mcp_route in MCP_HTTP.routes:
+    app.router.routes.insert(0, mcp_route)
 
 @app.get("/{path:path}")
 def frontend(path: str):

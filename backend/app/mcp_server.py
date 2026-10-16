@@ -61,9 +61,19 @@ async def ensure_api():
 
 CLIENT_TOKEN = contextvars.ContextVar("formref_client_token", default=os.environ.get("FORMREF_AGENT_TOKEN", "outside"))
 
+def client_token():
+    """Over HTTP the caller's x-formref-inapp header is its agent token (outside when absent); over stdio it is the process's token."""
+    try:
+        request = mcp.get_context().request_context.request
+    except (LookupError, ValueError, AttributeError):
+        request = None
+    if request is not None and hasattr(request, "headers"):
+        return request.headers.get("x-formref-inapp") or "outside"
+    return CLIENT_TOKEN.get()
+
 async def api(method, path, **kwargs):
     await ensure_api()
-    kwargs.setdefault("headers", {})["X-FormRef-Client"] = CLIENT_TOKEN.get()
+    kwargs.setdefault("headers", {})["X-FormRef-Client"] = client_token()
     # Writes may wait for the person to confirm a deletion or bulk move in the Agent panel (up to five minutes).
     async with httpx.AsyncClient(timeout=60 if method == "GET" else 330, trust_env=False) as client:
         response = await client.request(method, API_URL + path, **kwargs)
