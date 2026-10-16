@@ -2,7 +2,7 @@
 
 Written by `./formref agents sync` from the command catalogue the FormRef window publishes; do not edit by hand. Run a command with the MCP tools `run_command` or `run_commands` (the window must be open). `window-only` commands are refused for outside agents; `risky` commands ask the person first.
 
-198 commands.
+199 commands.
 
 ## Canvas
 
@@ -266,3 +266,4 @@ Written by `./formref agents sync` from the command catalogue the FormRef window
 | `right-dock` | Toggle Right Panel | `mod+]` | view | Shows or hides the right panel (inspector and agent). |
 | `slideshow` | Slideshow | `shift+s` | view | Starts or stops a slideshow of the board pictures, one at a time. |
 | `smart-guides` | Smart Guides | `mod+u` | window-only | Illustrator tools (off by default; Preferences turns them on). Turns Smart Guides on or off: while moving, items snap to the edges and centres of other items and show the line they align on. |
+| `timed-practice` | Timed Practice… | `alt+t` | window-only | Shows the pictures one at a time full screen for drawing practice, each for a set time: the selection when two or more pictures are selected, otherwise the pictures the filters show, otherwise every picture. Space pauses, arrows step, H mirrors, G turns grey on or off, Esc ends with a summary. Nothing on the board changes. Parameters: `seconds` (number): seconds per picture: 30, 60, 120, 300 or 600; 0 for no limit; leave out with the others to be asked; `count` (number): how many pictures; 0 or left out for all; `shuffle` (boolean): shuffle the order instead of reading order; `grey` (boolean): show the pictures in grey. |

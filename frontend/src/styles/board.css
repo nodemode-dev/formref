@@ -15,6 +15,26 @@
 .compare-overlay:not([data-mode="side"]) .compare-box + .compare-box .compare-caption { display: none; }
 .compare-overlay[data-mode="swipe"] .compare-stage { cursor: ew-resize; }
 .compare-divider { position: absolute; width: 2px; margin-left: -1px; background: var(--accent-color); pointer-events: none; box-shadow: 0 0 0 1px var(--bg-scrim); }
+.practice-overlay { position: fixed; inset: 0; z-index: var(--z-overlay); display: flex; flex-direction: column; background: var(--canvas-bg); }
+.practice-bar { display: flex; align-items: center; gap: var(--space-2); padding: var(--space-2) var(--space-4); min-height: var(--toolbar-h); background: var(--bg-primary); border-bottom: 1px solid var(--border-color); }
+.practice-bar .icon-button[aria-pressed="true"] { background: var(--accent-soft); color: var(--accent-ink); }
+.practice-count { min-width: 64px; font: 11px var(--font-mono); color: var(--text-muted); font-variant-numeric: tabular-nums; }
+.practice-time { min-width: 72px; font: 20px var(--font-mono); color: var(--text-primary); font-variant-numeric: tabular-nums; }
+.practice-time.ending { color: var(--accent-color); }
+.practice-overlay.paused .practice-time { color: var(--text-muted); }
+.practice-progress { height: 3px; flex: none; background: var(--bg-tertiary); overflow: hidden; }
+.practice-progress-fill { height: 100%; background: var(--accent-color); transform-origin: left center; transform: scaleX(1); }
+.practice-overlay.untimed .practice-progress { visibility: hidden; }
+.practice-overlay.finished .practice-count, .practice-overlay.finished .practice-time, .practice-overlay.finished .practice-bar .icon-button { visibility: hidden; }
+.practice-stage { position: relative; flex: 1; min-height: 0; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.practice-frame { position: relative; overflow: hidden; flex: none; background: var(--bg-tertiary); }
+.practice-frame.flipped { transform: scaleX(-1); }
+.practice-frame.grey { filter: grayscale(1); }
+.practice-summary { display: flex; flex-direction: column; align-items: center; gap: var(--space-4); }
+.practice-summary p { margin: 0; font-size: 18px; color: var(--text-primary); }
+.practice-summary-actions { display: flex; gap: var(--space-2); }
+.practice-setup .check-row { gap: var(--space-2); }
+.practice-bar .icon-button svg, .practice-setup .icon-button svg { width: 18px; height: 18px; }
 .measure-overlay { position: absolute; left: 0; top: 0; width: 1px; height: 1px; overflow: visible; pointer-events: none; z-index: var(--z-raised); }
 .measure-overlay line { stroke: var(--accent-color); }
 .measure-overlay circle { fill: var(--bg-node); stroke: var(--accent-color); }
