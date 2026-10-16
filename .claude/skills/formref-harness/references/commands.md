@@ -2,7 +2,7 @@
 
 Written by `./formref agents sync` from the command catalogue the FormRef window publishes; do not edit by hand. Run a command with the MCP tools `run_command` or `run_commands` (the window must be open). `window-only` commands are refused for outside agents; `risky` commands ask the person first.
 
-174 commands.
+177 commands.
 
 ## Canvas
 
@@ -73,6 +73,8 @@ Written by `./formref agents sync` from the command catalogue the FormRef window
 | `crop` | Crop | `c` | changes the board, window-only | Starts cropping the selected image on the board: drag the handles, Enter applies, Escape cancels. |
 | `crop-on-canvas` | Crop on Canvas |  | changes the board, window-only | Shows the whole picture around a crop box on the board: drag the edges, corners or the box, then Enter or double-click to crop. The image keeps its scale, so it shrinks or grows with the crop. Crop works again later to bring cropped parts back. |
 | `download-cutout-model` | Download Background Model |  | view | Downloads the chosen background removal model, checked against its pinned SHA-256. |
+| `drawing-grid` | Drawing Grid |  | changes the board | Lays an even grid over the selected pictures for copying proportions; the lines invert what is under them so they show on any picture. Board view only. Parameters: `divisions` (integer): squares across and down, 2 to 24; 0 removes the grid; default toggles 4. |
+| `extract-palette` | Extract Palette |  | changes the board | Finds the main colours of the selected picture (its visible crop) and adds them as grouped swatch cards below it, most used first. Parameters: `count` (integer): how many colours, 2 to 16; default 6. |
 | `flip-x` | Flip Horizontal |  | changes the board | Mirrors the selected images left to right. |
 | `flip-y` | Flip Vertical |  | changes the board | Mirrors the selected images top to bottom. |
 | `grayscale` | Toggle Grayscale |  | changes the board | Shows the selected images in grayscale, or in colour again; the originals are unchanged. |
@@ -89,6 +91,7 @@ Written by `./formref agents sync` from the command catalogue the FormRef window
 | `rotate-selection` | Rotate Selection... | `alt+r` | changes the board | Turns the selected references by any angle together about the centre of the selection (keeping their arrangement), about a chosen point, or each in place. Parameters: `degrees` (number): clockwise degrees; `pivot` (string): "selection" (default, about the selection centre), "each" (every item in place), or an object {x, y} in board coordinates. |
 | `sampling` | Toggle Pixel Art |  | changes the board | Switches the selected images between smooth and pixel-art (nearest neighbour) scaling. |
 | `save-image` | Save Image As... |  | changes the board, window-only | Downloads the selected pictures as their original files. |
+| `value-study` | Value Study |  | changes the board | Shows the selected pictures as a few flat grey values (2 is a notan) to judge light and shadow; the picture and its exports are unchanged. Parameters: `levels` (integer): number of flat grey values, 2 (notan) to 8; 0 turns it off; default toggles 3. |
 | `video-clear-clip` | Clear Video In and Out |  | changes the board | Plays the whole video again. |
 | `video-frame-back` | Previous Frame | `,` | window-only | Pauses the selected video and steps back one frame. |
 | `video-frame-forward` | Next Frame | `.` | window-only | Pauses the selected video and steps forward one frame. |
