@@ -12,6 +12,7 @@ import { commandForKey, isEnabled } from './commands';
 import { boardMenu } from './menu';
 import { captureUrl, droppedUrl, webUrl } from './capture';
 import { smartAdjust } from './smart-guides';
+import { pencilItem } from './pencil';
 
 export const menu = new ContextMenu($('overlay-root'));
 
@@ -99,7 +100,7 @@ stage.addEventListener('pointerdown', event => {
   }
   const base = { start: p, current: p, screen, items: [], initial: { ...S.camera }, points: [], shift: event.shiftKey };
   if (S.space || event.button === 1 || S.tool === 'hand') S.gesture = { type: 'pan', ...base };
-  else if (S.tool === 'pen' || S.tool === 'shape') S.gesture = { type: S.tool, ...base, points: [p] };
+  else if (S.tool === 'pen' || S.tool === 'pencil' || S.tool === 'shape') S.gesture = { type: S.tool === 'pencil' ? 'pen' : S.tool, ...base, points: [p] };
   else if (S.tool === 'eraser') {
     erased.clear();
     S.gesture = { type: 'erase', ...base };
@@ -248,8 +249,11 @@ function endGesture(event: PointerEvent, cancel = false) {
       return !i.hidden && matches(i) && b.left < x2 && b.right > x1 && b.top < y2 && b.bottom > y1;
     });
     setSelection(g.shift ? [...selection, ...expanded(found)] : expanded(found));
+  } else if (g.type === 'pen' && g.points.length > 1 && S.tool === 'pencil') {
+    const item = pencilItem(g.points);
+    if (item) void execute({ type: 'add', items: [item] }).then(() => setSelection([item.id]));
   } else if (g.type === 'pen' && g.points.length > 1) {
-    const x = Math.min(...g.points.map(pt => pt.x)) - 2;
+    const x =Math.min(...g.points.map(pt => pt.x)) - 2;
     const y = Math.min(...g.points.map(pt => pt.y)) - 2;
     const width = Math.max(4, Math.max(...g.points.map(pt => pt.x)) - x + 2);
     const height = Math.max(4, Math.max(...g.points.map(pt => pt.y)) - y + 2);

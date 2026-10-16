@@ -29,7 +29,7 @@ export interface Gesture {
   snapAnchor?: Point;
 }
 
-export type Tool = 'select' | 'direct' | 'pen-path' | 'curvature' | 'hand' | 'pen' | 'eraser' | 'shape' | 'connect' | 'sample';
+export type Tool = 'select' | 'direct' | 'pen-path' | 'curvature' | 'pencil' | 'hand' | 'pen' | 'eraser' | 'shape' | 'connect' | 'sample';
 
 export const defaultSettings = { grid_visible: true, grid_size: 24, snap_enabled: false, grayscale: false };
 
@@ -476,6 +476,7 @@ const TOOL_STATUS: Record<Tool, string> = {
   select: 'Select and move references',
   direct: 'Drag anchors, handles or corner widgets; Alt-click a widget to change the corner style',
   'pen-path': 'Click for corner points, drag for smooth points; click the first point to close, Enter to finish',
+  pencil: 'Draw freehand; the line becomes a smooth editable path. End near the start to close it',
   curvature: 'Click to place points and the curve bends through them; double-click or Alt-click for a corner point, Enter to finish',
   hand: 'Drag to pan',
   pen: 'Drag to draw freehand',
@@ -495,7 +496,7 @@ export function setTool(next: Tool) {
     button.setAttribute('aria-pressed', String(active));
   });
   stage.classList.toggle('pan', next === 'hand');
-  stage.classList.toggle('drawing', ['pen', 'pen-path', 'curvature', 'eraser', 'shape', 'connect', 'sample'].includes(next));
+  stage.classList.toggle('drawing', ['pen', 'pen-path', 'curvature', 'pencil', 'eraser', 'shape', 'connect', 'sample'].includes(next));
   setText('tool-status', next === 'shape' ? `Drag to draw a ${S.shapeKind === 'rect' ? 'rectangle' : S.shapeKind === 'ellipse' ? 'circle' : 'line'}` : TOOL_STATUS[next]);
 }
 

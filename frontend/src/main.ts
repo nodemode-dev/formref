@@ -19,11 +19,13 @@ import { bindLanguage } from './app/language';
 import { registerPathfinder } from './app/pathfinder';
 import { registerSmartGuides } from './app/smart-guides';
 import { registerVisibility } from './app/visibility';
+import { registerPencil } from './app/pencil';
 
 bindLanguage();
 registerTerminal();
 registerVector();
 registerDirectSelect(setTool);
+registerPencil(setTool);
 registerPathfinder();
 registerSmartGuides();
 registerVisibility();
