@@ -1247,10 +1247,16 @@
  "Lock Against Drops": "Lukitse pudotuksilta",
  "Locked against drops": "Lukittu pudotuksilta",
  "This board has no pictures to export.": "Tällä taululla ei ole vietäviä kuvia.",
- "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee or images.": "Vientimuodon on oltava portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee tai images.",
  "Forget Board Window Layout": "Unohda taulun ikkunan asettelu",
  "PDF text needs the pypdfium2 package; run ./formref install.": "PDF-teksti vaatii pypdfium2-paketin; suorita ./formref install.",
  "Save Window Layout with Board": "Tallenna ikkunan asettelu taulun kanssa",
  "This board no longer moves the window.": "Tämä taulu ei enää siirrä ikkunaa.",
- "This board will open in this window size and place.": "Tämä taulu avautuu tämän kokoisena ja tähän kohtaan."
+ "This board will open in this window size and place.": "Tämä taulu avautuu tämän kokoisena ja tähän kohtaan.",
+ "Audio": "Ääni",
+ "One HTML page to open on a phone or tablet: read-only, pinch to zoom, works offline": "Yksi HTML-sivu puhelimeen tai tablettiin: vain luku, nipistyszoomaus, toimii ilman verkkoa",
+ "Phone viewer": "Puhelinkatselu",
+ "Synced": "Synkronoitu",
+ "This board is too large for a single viewer page (over 256 MiB).": "Tämä taulu on liian suuri yhdelle katselusivulle (yli 256 MiB).",
+ "Video": "Video",
+ "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images or viewer.": "Vientimuodon on oltava portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images tai viewer."
 }

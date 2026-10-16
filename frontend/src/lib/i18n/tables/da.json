@@ -1247,10 +1247,16 @@
  "Lock Against Drops": "Lås mod slip",
  "Locked against drops": "Låst mod slip",
  "This board has no pictures to export.": "Denne tavle har ingen billeder at eksportere.",
- "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee or images.": "Eksportformatet skal være portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee eller images.",
  "Forget Board Window Layout": "Glem tavlens vindueslayout",
  "PDF text needs the pypdfium2 package; run ./formref install.": "PDF-tekst kræver pakken pypdfium2; kør ./formref install.",
  "Save Window Layout with Board": "Gem vindueslayout med tavlen",
  "This board no longer moves the window.": "Denne tavle flytter ikke længere vinduet.",
- "This board will open in this window size and place.": "Denne tavle åbner i denne vinduesstørrelse og placering."
+ "This board will open in this window size and place.": "Denne tavle åbner i denne vinduesstørrelse og placering.",
+ "Audio": "Lyd",
+ "One HTML page to open on a phone or tablet: read-only, pinch to zoom, works offline": "Én HTML-side til telefon eller tablet: skrivebeskyttet, knib for at zoome, virker offline",
+ "Phone viewer": "Telefonviser",
+ "Synced": "Synkroniseret",
+ "This board is too large for a single viewer page (over 256 MiB).": "Denne tavle er for stor til én viserside (over 256 MiB).",
+ "Video": "Video",
+ "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images or viewer.": "Eksportformatet skal være portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images eller viewer."
 }

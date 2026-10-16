@@ -1247,10 +1247,16 @@
  "Lock Against Drops": "鎖定拖入",
  "Locked against drops": "已鎖定拖入",
  "This board has no pictures to export.": "此白板沒有可匯出的圖片。",
- "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee or images.": "匯出格式必須是 portable、json、png、svg、markdown、pdf、pdf-pages、pdf-tiles、bee 或 images。",
  "Forget Board Window Layout": "取消白板的視窗配置",
  "PDF text needs the pypdfium2 package; run ./formref install.": "PDF 文字需要 pypdfium2 套件；請執行 ./formref install。",
  "Save Window Layout with Board": "隨白板儲存視窗配置",
  "This board no longer moves the window.": "此白板不再移動視窗。",
- "This board will open in this window size and place.": "此白板將以此視窗大小與位置開啟。"
+ "This board will open in this window size and place.": "此白板將以此視窗大小與位置開啟。",
+ "Audio": "音訊",
+ "One HTML page to open on a phone or tablet: read-only, pinch to zoom, works offline": "在手機或平板上開啟的單一 HTML 頁面：唯讀、雙指縮放、可離線使用",
+ "Phone viewer": "手機檢視頁",
+ "Synced": "已同步",
+ "This board is too large for a single viewer page (over 256 MiB).": "此白板太大，無法產生單一檢視頁（超過 256 MiB）。",
+ "Video": "影片",
+ "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images or viewer.": "匯出格式必須是 portable、json、png、svg、markdown、pdf、pdf-pages、pdf-tiles、bee、images 或 viewer。"
 }

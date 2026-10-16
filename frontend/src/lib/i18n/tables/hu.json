@@ -1247,10 +1247,16 @@
  "Lock Against Drops": "Zárolás behúzás ellen",
  "Locked against drops": "Behúzás ellen zárolva",
  "This board has no pictures to export.": "Ezen a táblán nincs exportálható kép.",
- "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee or images.": "Az exportformátum portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee vagy images lehet.",
  "Forget Board Window Layout": "Tábla ablakelrendezésének elfelejtése",
  "PDF text needs the pypdfium2 package; run ./formref install.": "A PDF-szöveghez a pypdfium2 csomag kell; futtassa: ./formref install.",
  "Save Window Layout with Board": "Ablakelrendezés mentése a táblával",
  "This board no longer moves the window.": "Ez a tábla már nem mozgatja az ablakot.",
- "This board will open in this window size and place.": "Ez a tábla ebben az ablakméretben és helyen nyílik meg."
+ "This board will open in this window size and place.": "Ez a tábla ebben az ablakméretben és helyen nyílik meg.",
+ "Audio": "Hang",
+ "One HTML page to open on a phone or tablet: read-only, pinch to zoom, works offline": "Egyetlen HTML-oldal telefonra vagy táblagépre: csak olvasható, csippentéses nagyítás, offline is működik",
+ "Phone viewer": "Telefonos nézet",
+ "Synced": "Szinkronizált",
+ "This board is too large for a single viewer page (over 256 MiB).": "Ez a tábla túl nagy egyetlen nézetoldalhoz (256 MiB felett).",
+ "Video": "Videó",
+ "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images or viewer.": "Az exportformátum portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images vagy viewer lehet."
 }

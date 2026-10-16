@@ -1247,10 +1247,16 @@
  "Lock Against Drops": "Blocca contro i rilasci",
  "Locked against drops": "Bloccata contro i rilasci",
  "This board has no pictures to export.": "Questa bacheca non ha immagini da esportare.",
- "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee or images.": "Il formato di esportazione deve essere portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee o images.",
  "Forget Board Window Layout": "Dimentica il layout della finestra della bacheca",
  "PDF text needs the pypdfium2 package; run ./formref install.": "Il testo PDF richiede il pacchetto pypdfium2; esegui ./formref install.",
  "Save Window Layout with Board": "Salva il layout della finestra con la bacheca",
  "This board no longer moves the window.": "Questa bacheca non sposta più la finestra.",
- "This board will open in this window size and place.": "Questa bacheca si aprirà con questa dimensione e posizione della finestra."
+ "This board will open in this window size and place.": "Questa bacheca si aprirà con questa dimensione e posizione della finestra.",
+ "Audio": "Audio",
+ "One HTML page to open on a phone or tablet: read-only, pinch to zoom, works offline": "Una pagina HTML da aprire su telefono o tablet: sola lettura, pizzica per lo zoom, funziona offline",
+ "Phone viewer": "Visualizzatore per telefono",
+ "Synced": "Sincronizzato",
+ "This board is too large for a single viewer page (over 256 MiB).": "Questa bacheca è troppo grande per una sola pagina del visualizzatore (oltre 256 MiB).",
+ "Video": "Video",
+ "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images or viewer.": "Il formato di esportazione deve essere portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images o viewer."
 }

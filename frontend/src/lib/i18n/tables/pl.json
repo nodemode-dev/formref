@@ -1247,10 +1247,16 @@
  "Lock Against Drops": "Zablokuj upuszczanie",
  "Locked against drops": "Upuszczanie zablokowane",
  "This board has no pictures to export.": "Na tej tablicy nie ma obrazów do eksportu.",
- "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee or images.": "Format eksportu musi być portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee lub images.",
  "Forget Board Window Layout": "Zapomnij układ okna tablicy",
  "PDF text needs the pypdfium2 package; run ./formref install.": "Tekst PDF wymaga pakietu pypdfium2; uruchom ./formref install.",
  "Save Window Layout with Board": "Zapisz układ okna z tablicą",
  "This board no longer moves the window.": "Ta tablica nie przesuwa już okna.",
- "This board will open in this window size and place.": "Ta tablica otworzy się w tym rozmiarze i miejscu okna."
+ "This board will open in this window size and place.": "Ta tablica otworzy się w tym rozmiarze i miejscu okna.",
+ "Audio": "Dźwięk",
+ "One HTML page to open on a phone or tablet: read-only, pinch to zoom, works offline": "Jedna strona HTML do otwarcia na telefonie lub tablecie: tylko do odczytu, powiększanie gestem, działa offline",
+ "Phone viewer": "Podgląd na telefon",
+ "Synced": "Zsynchronizowane",
+ "This board is too large for a single viewer page (over 256 MiB).": "Ta tablica jest za duża na jedną stronę podglądu (ponad 256 MiB).",
+ "Video": "Wideo",
+ "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images or viewer.": "Format eksportu musi być portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images lub viewer."
 }

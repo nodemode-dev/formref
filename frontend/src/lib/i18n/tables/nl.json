@@ -1247,10 +1247,16 @@
  "Lock Against Drops": "Vergrendelen tegen neerzetten",
  "Locked against drops": "Vergrendeld tegen neerzetten",
  "This board has no pictures to export.": "Dit bord heeft geen afbeeldingen om te exporteren.",
- "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee or images.": "Het exportformaat moet portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee of images zijn.",
  "Forget Board Window Layout": "Vensterindeling van het bord vergeten",
  "PDF text needs the pypdfium2 package; run ./formref install.": "PDF-tekst heeft het pakket pypdfium2 nodig; voer ./formref install uit.",
  "Save Window Layout with Board": "Vensterindeling opslaan bij het bord",
  "This board no longer moves the window.": "Dit bord verplaatst het venster niet meer.",
- "This board will open in this window size and place.": "Dit bord opent in deze venstergrootte en -positie."
+ "This board will open in this window size and place.": "Dit bord opent in deze venstergrootte en -positie.",
+ "Audio": "Audio",
+ "One HTML page to open on a phone or tablet: read-only, pinch to zoom, works offline": "Eén HTML-pagina voor telefoon of tablet: alleen-lezen, knijpen om te zoomen, werkt offline",
+ "Phone viewer": "Telefoonweergave",
+ "Synced": "Gesynchroniseerd",
+ "This board is too large for a single viewer page (over 256 MiB).": "Dit bord is te groot voor één weergavepagina (meer dan 256 MiB).",
+ "Video": "Video",
+ "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images or viewer.": "Het exportformaat moet portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images of viewer zijn."
 }

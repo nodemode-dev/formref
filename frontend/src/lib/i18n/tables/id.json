@@ -1247,10 +1247,16 @@
  "Lock Against Drops": "Kunci dari Penjatuhan",
  "Locked against drops": "Terkunci dari penjatuhan",
  "This board has no pictures to export.": "Papan ini tidak memiliki gambar untuk diekspor.",
- "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee or images.": "Format ekspor harus portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, atau images.",
  "Forget Board Window Layout": "Lupakan Tata Letak Jendela Papan",
  "PDF text needs the pypdfium2 package; run ./formref install.": "Teks PDF memerlukan paket pypdfium2; jalankan ./formref install.",
  "Save Window Layout with Board": "Simpan Tata Letak Jendela dengan Papan",
  "This board no longer moves the window.": "Papan ini tidak lagi memindahkan jendela.",
- "This board will open in this window size and place.": "Papan ini akan terbuka dengan ukuran dan posisi jendela ini."
+ "This board will open in this window size and place.": "Papan ini akan terbuka dengan ukuran dan posisi jendela ini.",
+ "Audio": "Audio",
+ "One HTML page to open on a phone or tablet: read-only, pinch to zoom, works offline": "Satu halaman HTML untuk dibuka di ponsel atau tablet: hanya baca, cubit untuk zoom, bekerja offline",
+ "Phone viewer": "Penampil ponsel",
+ "Synced": "Tersinkron",
+ "This board is too large for a single viewer page (over 256 MiB).": "Papan ini terlalu besar untuk satu halaman penampil (lebih dari 256 MiB).",
+ "Video": "Video",
+ "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images or viewer.": "Format ekspor harus portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images, atau viewer."
 }

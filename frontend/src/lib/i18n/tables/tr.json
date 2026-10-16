@@ -1247,10 +1247,16 @@
  "Lock Against Drops": "Bırakmaya Karşı Kilitle",
  "Locked against drops": "Bırakmaya karşı kilitli",
  "This board has no pictures to export.": "Bu panoda dışa aktarılacak resim yok.",
- "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee or images.": "Dışa aktarma biçimi portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee veya images olmalıdır.",
  "Forget Board Window Layout": "Pano Pencere Düzenini Unut",
  "PDF text needs the pypdfium2 package; run ./formref install.": "PDF metni için pypdfium2 paketi gerekir; ./formref install komutunu çalıştırın.",
  "Save Window Layout with Board": "Pencere Düzenini Panoyla Kaydet",
  "This board no longer moves the window.": "Bu pano artık pencereyi taşımıyor.",
- "This board will open in this window size and place.": "Bu pano bu pencere boyutunda ve konumunda açılacak."
+ "This board will open in this window size and place.": "Bu pano bu pencere boyutunda ve konumunda açılacak.",
+ "Audio": "Ses",
+ "One HTML page to open on a phone or tablet: read-only, pinch to zoom, works offline": "Telefon veya tablette açılacak tek bir HTML sayfası: salt okunur, iki parmakla yakınlaştırma, çevrimdışı çalışır",
+ "Phone viewer": "Telefon görüntüleyici",
+ "Synced": "Eşitlendi",
+ "This board is too large for a single viewer page (over 256 MiB).": "Bu pano tek bir görüntüleyici sayfası için çok büyük (256 MiB üzeri).",
+ "Video": "Video",
+ "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images or viewer.": "Dışa aktarma biçimi portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images veya viewer olmalıdır."
 }

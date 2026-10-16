@@ -1247,10 +1247,16 @@
  "Lock Against Drops": "ล็อกไม่ให้วาง",
  "Locked against drops": "ล็อกไม่ให้วางแล้ว",
  "This board has no pictures to export.": "บอร์ดนี้ไม่มีรูปภาพให้ส่งออก",
- "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee or images.": "รูปแบบส่งออกต้องเป็น portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee หรือ images",
  "Forget Board Window Layout": "ล้างเค้าโครงหน้าต่างของบอร์ด",
  "PDF text needs the pypdfium2 package; run ./formref install.": "ข้อความ PDF ต้องใช้แพ็กเกจ pypdfium2 ให้รัน ./formref install",
  "Save Window Layout with Board": "บันทึกเค้าโครงหน้าต่างกับบอร์ด",
  "This board no longer moves the window.": "บอร์ดนี้จะไม่ย้ายหน้าต่างอีกต่อไป",
- "This board will open in this window size and place.": "บอร์ดนี้จะเปิดด้วยขนาดและตำแหน่งหน้าต่างนี้"
+ "This board will open in this window size and place.": "บอร์ดนี้จะเปิดด้วยขนาดและตำแหน่งหน้าต่างนี้",
+ "Audio": "เสียง",
+ "One HTML page to open on a phone or tablet: read-only, pinch to zoom, works offline": "หน้า HTML หน้าเดียวสำหรับเปิดบนโทรศัพท์หรือแท็บเล็ต: อ่านอย่างเดียว บีบนิ้วเพื่อซูม ใช้งานออฟไลน์ได้",
+ "Phone viewer": "ตัวดูบนโทรศัพท์",
+ "Synced": "ซิงค์แล้ว",
+ "This board is too large for a single viewer page (over 256 MiB).": "บอร์ดนี้ใหญ่เกินไปสำหรับหน้าตัวดูหน้าเดียว (เกิน 256 MiB)",
+ "Video": "วิดีโอ",
+ "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images or viewer.": "รูปแบบส่งออกต้องเป็น portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images หรือ viewer"
 }

@@ -1247,10 +1247,16 @@
  "Lock Against Drops": "ドロップをロック",
  "Locked against drops": "ドロップをロック中",
  "This board has no pictures to export.": "このボードには書き出す画像がありません。",
- "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee or images.": "書き出し形式は portable、json、png、svg、markdown、pdf、pdf-pages、pdf-tiles、bee、images のいずれかです。",
  "Forget Board Window Layout": "ボードのウィンドウ配置を解除",
  "PDF text needs the pypdfium2 package; run ./formref install.": "PDF のテキストには pypdfium2 パッケージが必要です。./formref install を実行してください。",
  "Save Window Layout with Board": "ウィンドウ配置をボードに保存",
  "This board no longer moves the window.": "このボードはウィンドウを動かさなくなりました。",
- "This board will open in this window size and place.": "このボードはこのウィンドウのサイズと位置で開きます。"
+ "This board will open in this window size and place.": "このボードはこのウィンドウのサイズと位置で開きます。",
+ "Audio": "オーディオ",
+ "One HTML page to open on a phone or tablet: read-only, pinch to zoom, works offline": "スマートフォンやタブレットで開く 1 枚の HTML ページ：閲覧専用、ピンチでズーム、オフラインで動作",
+ "Phone viewer": "スマートフォン ビューア",
+ "Synced": "同期",
+ "This board is too large for a single viewer page (over 256 MiB).": "このボードは 1 枚のビューア ページには大きすぎます（256 MiB 超）。",
+ "Video": "ビデオ",
+ "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images or viewer.": "書き出し形式は portable、json、png、svg、markdown、pdf、pdf-pages、pdf-tiles、bee、images、viewer のいずれかです。"
 }

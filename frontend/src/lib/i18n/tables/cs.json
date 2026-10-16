@@ -1247,10 +1247,16 @@
  "Lock Against Drops": "Zamknout proti vkládání",
  "Locked against drops": "Zamčeno proti vkládání",
  "This board has no pictures to export.": "Tato tabule neobsahuje žádné obrázky k exportu.",
- "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee or images.": "Formát exportu musí být portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee nebo images.",
  "Forget Board Window Layout": "Zapomenout rozložení okna tabule",
  "PDF text needs the pypdfium2 package; run ./formref install.": "Text PDF vyžaduje balíček pypdfium2; spusťte ./formref install.",
  "Save Window Layout with Board": "Uložit rozložení okna s tabulí",
  "This board no longer moves the window.": "Tato tabule už s oknem nehýbe.",
- "This board will open in this window size and place.": "Tato tabule se otevře v této velikosti a na tomto místě okna."
+ "This board will open in this window size and place.": "Tato tabule se otevře v této velikosti a na tomto místě okna.",
+ "Audio": "Zvuk",
+ "One HTML page to open on a phone or tablet: read-only, pinch to zoom, works offline": "Jedna stránka HTML pro telefon nebo tablet: jen ke čtení, přiblížení prsty, funguje offline",
+ "Phone viewer": "Prohlížeč pro telefon",
+ "Synced": "Synchronizováno",
+ "This board is too large for a single viewer page (over 256 MiB).": "Tato tabule je pro jednu stránku prohlížeče příliš velká (přes 256 MiB).",
+ "Video": "Video",
+ "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images or viewer.": "Formát exportu musí být portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images nebo viewer."
 }
