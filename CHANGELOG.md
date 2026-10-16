@@ -1,5 +1,12 @@
 # FormRef changelog
 
+## v0.19.0 · 2026-10-16
+
+Class plans for Timed Practice.
+
+- Timed Practice has a Session choice. Besides the same time for every picture, it offers Warm-up, 10 minutes (10 × 30 seconds, then 5 × 1 minute), Class, 30 minutes (adding 2 × 5 minutes and 1 × 10 minutes) and Class, 1 hour (adding 1 × 30 minutes). Each picture gets its own time from the plan, and the setup lists the sequence in the chosen language.
+- When there are fewer pictures than the plan needs, they repeat, shuffled again for each round when Shuffle is on. Breaks, pause, mirror and grey work as before, and the practice log records which plan was used. Agents can choose one with the `plan` setting of `timed-practice`.
+
 ## v0.18.0 · 2026-10-16
 
 Breaks and a log for Timed Practice.

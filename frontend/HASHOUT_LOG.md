@@ -8,6 +8,7 @@
 - [Stacking scale](#stacking-scale)
 - [Verification](#verification)
 - [Scripts](#scripts)
+- [v0.19.0 practice class plans](#v0190-practice-class-plans)
 - [v0.18.0 practice breaks and log](#v0180-practice-breaks-and-log)
 - [v0.17.0 timed practice](#v0170-timed-practice)
 - [v0.16.0 searches for all boards](#v0160-searches-for-all-boards)
@@ -42,6 +43,10 @@
 - [v0.4.8 desktop window controls and WebKit icons](#v048-desktop-window-controls-and-webkit-icons)
 - [v0.4.7 synced notes, map cards, inline edit commit](#v047-synced-notes-map-cards-inline-edit-commit)
 - [v0.4.6 GIF frames and document export](#v046-gif-frames-and-document-export)
+
+## v0.19.0 practice class plans
+
+`PLANS` holds each plan as `[pictures, seconds]` steps, which `begin` flattens into `times`, one entry per position in `order`; `show` reads `seconds = times[index]`, so the clock, bar and `untimed` class follow each picture's own time. The plain mode fills `times` with the one chosen time, so both modes share the same path. Too few pictures: `order` is built from repeated laps, each reshuffled when shuffling, then cut to the plan's length. `seen` now holds positions rather than item ids, so a repeated picture counts as another pose in the summary and log. The line under the Session select always holds text and has a two-line minimum height, so changing the plan does not move the dialog (the probe measured 566 px for every choice). Time and Pictures are disabled while a plan is chosen. The log entry carries `plan`, with `seconds_each` 0. Probe: $SC/ui/practice-class.cjs (English and German); the older practice probes now pick their selects one index later.
 
 ## v0.18.0 practice breaks and log
 
