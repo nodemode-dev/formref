@@ -1,7 +1,7 @@
-import type { Item, Point } from '../lib/types';
+import type { Command, Item, Point } from '../lib/types';
 import { newItem } from '../lib/types';
 import type { MultiPolygon } from 'polygon-clipping';
-import { offset, pathfinder, pieces, shapeOf, toPaths, type PathfinderOp, type PieceOp } from '../lib/vector/boolean';
+import { offset, pathfinder, pieces, shapeOf, strokeOutline, toPaths, type PathfinderOp, type PieceOp } from '../lib/vector/boolean';
 import { flatten } from '../lib/vector/path';
 import { editable, error, execute, inputDialog, selected, setSelection, topZ } from './editor';
 import { registry } from './registry';
@@ -85,6 +85,36 @@ async function offsetPath(params?: Record<string, unknown>) {
   setSelection(made.map(item => item.id));
 }
 
+/** Outline Stroke: replaces each selected path's stroke with a filled shape of the same outline, as Illustrator does; dashes are not expanded. */
+async function outlineStroke() {
+  const ids = new Set(editable());
+  const items = selected().filter(item => ids.has(item.id) && (item.kind === 'shape' || item.kind === 'stroke') && item.data.stroke !== 'none');
+  if (!items.length) throw new Error('Select a shape or path that has a stroke.');
+  const commands: Command[] = [];
+  const made: Item[] = [];
+  for (const item of items) {
+    const vector = asVector(item);
+    const rings = worldRings(item);
+    const legacy = item.kind === 'stroke' && !item.data.vector;
+    const cap = String(item.data.cap || (legacy ? 'round' : 'butt')), join = String(item.data.join || (legacy ? 'round' : 'miter'));
+    const miter = Number(item.data.miter) >= 1 ? Number(item.data.miter) : 4;
+    const outline = strokeOutline(rings.map((points, i) => ({ points, closed: vector.paths[i].closed })), Number(item.data.stroke_width || 2), cap, join, miter);
+    const filled = item.kind === 'shape' && item.data.fill && item.data.fill !== 'none' && vector.paths.some(p => p.closed);
+    const outlined = itemFor(item, outline, item.z + (filled ? 1 : 0));
+    if (!outlined) continue;
+    outlined.data = { shape: 'path', stroke: 'none', stroke_width: 1, fill: item.color, vector: outlined.data.vector };
+    if (filled) {
+      const body = itemFor(item, shapeOf(rings.filter((_, i) => vector.paths[i].closed)), item.z);
+      if (body) { body.data = { ...body.data, stroke: 'none', stroke_width: 1 }; body.color = String(item.data.fill); made.push(body); }
+    }
+    made.push(outlined);
+    commands.push({ type: 'remove', ids: [item.id] });
+  }
+  if (!made.length) throw new Error('Nothing to outline.');
+  await execute({ type: 'batch', commands: [...commands, { type: 'add', items: made }] });
+  setSelection(made.map(item => item.id));
+}
+
 const PIECES: [PieceOp, string, string][] = [
   ['divide', 'Divide', 'Splits the selected shapes into every separate area their outlines make; each piece keeps the style of the shape on top there.'],
   ['trim', 'Trim', 'Removes the hidden parts of each selected shape, keeping each visible part as its own object.'],
@@ -109,6 +139,10 @@ export function registerPathfinder(): void {
     enabled: () => selected().some(item => item.kind === 'shape' || item.kind === 'stroke'),
     params: { distance: { type: 'number' as const, min: -2000, max: 2000, description: 'pixels outward, negative for inward' } },
     description: 'Object > Path > Offset Path: adds a path at the given distance outside (or inside) each selected shape, with round joins.',
+  }, {
+    group: 'Path', id: 'outline-stroke', label: 'Outline Stroke', icon: 'stroke' as const, run: () => outlineStroke().catch(error),
+    enabled: () => selected().some(item => (item.kind === 'shape' || item.kind === 'stroke') && item.data.stroke !== 'none'),
+    description: 'Object > Path > Outline Stroke: turns each selected stroke into a filled shape with the same outline, keeping its caps, joins and miter limit; a filled closed shape keeps its fill as a separate shape behind. Dashes are not expanded.',
   }, ...PIECES.map(([op, label, description]) => ({
     group: 'Pathfinder', id: `pathfinder-${op}`, label, icon: 'shape' as const, run: () => runPieces(op).catch(error),
     enabled: () => shapes().length >= 2, description: `Pathfinder ${label}: ${description} Curves become many short segments.`,

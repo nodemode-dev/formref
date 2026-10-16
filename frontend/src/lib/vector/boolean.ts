@@ -86,6 +86,51 @@ export function offset(shape: MultiPolygon, d: number, steps = 16): MultiPolygon
   return d > 0 ? polygonClipping.union(shape, swept) : polygonClipping.difference(shape, swept);
 }
 
+export interface StrokeLine { points: Pt[]; closed: boolean }
+
+/** Outline Stroke: the area a stroke of `width` covers along each line, with Illustrator's caps (butt, round, projecting) and joins (miter up to the limit, round, bevel), as one filled shape. */
+export function strokeOutline(lines: StrokeLine[], width: number, cap: string, join: string, miterLimit: number, steps = 16): MultiPolygon {
+  const h = width / 2;
+  if (h <= 0) return [];
+  const parts: Polygon[] = [];
+  const disc = (c: Pt): Polygon => [Array.from({ length: steps + 1 }, (_, k) => { const a = (k % steps) * 2 * Math.PI / steps; return [c.x + h * Math.cos(a), c.y + h * Math.sin(a)] as [number, number]; })];
+  const poly = (...p: Pt[]): Polygon => [[...p, p[0]].map(q => [q.x, q.y] as [number, number])];
+  for (const line of lines) {
+    const pts = line.points.filter((p, i, all) => i === 0 || Math.hypot(p.x - all[i - 1].x, p.y - all[i - 1].y) > 1e-6);
+    if (line.closed && pts.length > 2 && Math.hypot(pts[0].x - pts.at(-1)!.x, pts[0].y - pts.at(-1)!.y) < 1e-6) pts.pop();
+    if (pts.length < 2) { if (pts.length === 1 && cap !== 'butt') parts.push(cap === 'round' ? disc(pts[0]) : poly({ x: pts[0].x - h, y: pts[0].y - h }, { x: pts[0].x + h, y: pts[0].y - h }, { x: pts[0].x + h, y: pts[0].y + h }, { x: pts[0].x - h, y: pts[0].y + h })); continue; }
+    const n = pts.length, segs = line.closed ? n : n - 1;
+    for (let i = 0; i < segs; i++) {
+      let a = pts[i], b = pts[(i + 1) % n];
+      const l = Math.hypot(b.x - a.x, b.y - a.y), ux = (b.x - a.x) / l, uy = (b.y - a.y) / l;
+      if (!line.closed && cap === 'projecting') {
+        if (i === 0) a = { x: a.x - ux * h, y: a.y - uy * h };
+        if (i === segs - 1) b = { x: b.x + ux * h, y: b.y + uy * h };
+      }
+      const nx = -uy * h, ny = ux * h;
+      parts.push(poly({ x: a.x + nx, y: a.y + ny }, { x: b.x + nx, y: b.y + ny }, { x: b.x - nx, y: b.y - ny }, { x: a.x - nx, y: a.y - ny }));
+    }
+    if (!line.closed && cap === 'round') parts.push(disc(pts[0]), disc(pts[n - 1]));
+    for (let i = line.closed ? 0 : 1; i < (line.closed ? n : n - 1); i++) {
+      const p = pts[(i - 1 + n) % n], v = pts[i], q = pts[(i + 1) % n];
+      if (join === 'round') { parts.push(disc(v)); continue; }
+      const l1 = Math.hypot(v.x - p.x, v.y - p.y), l2 = Math.hypot(q.x - v.x, q.y - v.y);
+      const d1 = { x: (v.x - p.x) / l1, y: (v.y - p.y) / l1 }, d2 = { x: (q.x - v.x) / l2, y: (q.y - v.y) / l2 };
+      const n1 = { x: -d1.y, y: d1.x }, n2 = { x: -d2.y, y: d2.x };
+      const half = Math.sqrt(Math.max(0, (1 + n1.x * n2.x + n1.y * n2.y) / 2));
+      for (const s of [1, -1]) {
+        const e1 = { x: v.x + s * n1.x * h, y: v.y + s * n1.y * h }, e2 = { x: v.x + s * n2.x * h, y: v.y + s * n2.y * h };
+        if (join !== 'bevel' && half > 1e-6 && 1 / half <= miterLimit) {
+          const mx = n1.x + n2.x, my = n1.y + n2.y, ml = Math.hypot(mx, my) || 1;
+          parts.push(poly(v, e1, { x: v.x + s * mx / ml * h / half, y: v.y + s * my / ml * h / half }, e2));
+        } else parts.push(poly(v, e1, e2));
+      }
+    }
+  }
+  if (!parts.length) return [];
+  return polygonClipping.union(parts[0], ...parts.slice(1));
+}
+
 /** Result rings back to closed corner paths, with points on straight runs removed. */
 export function toPaths(result: MultiPolygon, tolerance = 0.25): VPath[] {
   const paths: VPath[] = [];
