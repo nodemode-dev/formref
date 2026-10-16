@@ -59,9 +59,12 @@ def _iptc_and_windows(data: bytes) -> list[str]:
 
 
 def embedded_keywords(data: bytes) -> list[str]:
-    """Up to 32 keywords, each trimmed and at most 60 characters, once each ignoring case, in file order (XMP first)."""
+    """Up to 32 keywords, each trimmed and at most 60 characters, once each ignoring case. When the XMP has keywords they are the answer, as the Metadata Working Group advises (tools that edit keywords keep XMP current, while old IPTC or Windows fields may still hold removed ones, including in FormRef's own exports); otherwise IPTC and Windows Tags are read."""
     out: list[str] = []
-    for word in _xmp(data) + _iptc_and_windows(data):
+    words = _xmp(data)
+    if not [w for w in words if w.strip()]:
+        words = _iptc_and_windows(data)
+    for word in words:
         word = " ".join(word.split())[:MAX_LENGTH].strip()
         if word and not any(word.lower() == seen.lower() for seen in out):
             out.append(word)
