@@ -2,7 +2,7 @@
 
 Written by `./formref agents sync` from the command catalogue the FormRef window publishes; do not edit by hand. Run a command with the MCP tools `run_command` or `run_commands` (the window must be open). `window-only` commands are refused for outside agents; `risky` commands ask the person first.
 
-201 commands.
+208 commands.
 
 ## Canvas
 
@@ -35,6 +35,7 @@ Written by `./formref agents sync` from the command catalogue the FormRef window
 | `duplicate-synced` | Synced Copy |  | changes the board | Makes linked copies of the selected notes and documents: editing the text of one changes all of them. |
 | `edit-labels` | Edit Board Labels |  | view | Opens the board labels editor to add, rename, recolour or delete coloured labels. |
 | `filter-by-tag` | Filter by Tag |  | window-only | Filter by Tag (Edit). Parameters: `tag` (string): a tag to add to or remove from the filter; `label` (string): or a label name or id. |
+| `filter-rating` | Filter by Rating… |  | window-only | Dims everything except pictures with at least the chosen number of stars, or only unrated pictures. The star button beside the kind filter shows it; the clear button beside it clears every filter. Parameters: `stars` (number): 1 to 5 keeps pictures with at least that many stars, 0 keeps unrated pictures, null shows everything; leave out to choose from a menu. |
 | `find-color` | Find by Color… |  | window-only | Dims everything on the board except pictures and swatches that contain the chosen color; the color chip beside the kind filter shows it, and choosing no color clears it. Parameters: `color` (string): #RRGGBB; leave out to open the color picker; `tolerance` (number): CIEDE2000 color difference, about 10 close, 20 default, 30 loose. |
 | `find-swatch-color` | Find This Swatch Color |  | window-only | Finds the selected swatch's color in the pictures on the board. |
 | `lock` | Lock Selected | `l` | changes the board | Locks the selected items against moving and editing, or unlocks them if any is locked. |
@@ -99,6 +100,12 @@ Written by `./formref agents sync` from the command catalogue the FormRef window
 | `pdf-to-images` | PDF Pages to Images... |  | changes the board | Renders pages of the selected PDF into image references laid out beside it, so they can be cropped, flipped, sampled and arranged like any picture. Parameters: `first` (integer): first page, 1 based; `last` (integer): last page; 0 for the end; `dpi` (integer): resolution, default 150. |
 | `pick-cutout-points` | Pick Points for Click to Select |  | changes the board, window-only | Starts picking points on the selected image for click-to-select background removal. |
 | `picture-info` | Picture Info… | `shift+alt+i` | window-only | Shows the selected picture's file details: original name, format, pixel size, file size, how large it shows on the board, the camera, lens, exposure and date taken from its EXIF, keywords stored in the file and the page it was clipped from. Copy Info puts them on the clipboard. Read only. |
+| `rate-0` | Clear Rating | `0` | changes the board | Removes the star rating from the selected pictures. One undo step. |
+| `rate-1` | Rate 1 Star | `1` | changes the board | Gives the selected pictures 1 star; the All pictures ZIP writes it into the files as xmp:Rating. One undo step. |
+| `rate-2` | Rate 2 Stars | `2` | changes the board | Gives the selected pictures 2 stars; the All pictures ZIP writes it into the files as xmp:Rating. One undo step. |
+| `rate-3` | Rate 3 Stars | `3` | changes the board | Gives the selected pictures 3 stars; the All pictures ZIP writes it into the files as xmp:Rating. One undo step. |
+| `rate-4` | Rate 4 Stars | `4` | changes the board | Gives the selected pictures 4 stars; the All pictures ZIP writes it into the files as xmp:Rating. One undo step. |
+| `rate-5` | Rate 5 Stars | `5` | changes the board | Gives the selected pictures 5 stars; the All pictures ZIP writes it into the files as xmp:Rating. One undo step. |
 | `relink` | Replace or Relink Image |  | changes the board, window-only | Asks for an image file to replace or relink the selected picture, keeping its place and size. |
 | `remove-background` | Remove Background |  | changes the board | Removes the background of the selected images with the chosen model; the original is kept. |
 | `reset-adjust` | Reset Adjustments |  | changes the board | Puts brightness, contrast and saturation of the selected pictures back to the original. |

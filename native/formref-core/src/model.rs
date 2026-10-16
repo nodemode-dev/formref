@@ -68,6 +68,9 @@ pub struct SavedSearch {
     pub tags: Vec<String>,
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub labels: Vec<String>,
+    /// Star filter: 0 keeps unrated pictures, 1 to 5 keeps pictures with at least that many stars.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub rating: Option<u8>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
@@ -161,8 +164,9 @@ impl BoardSettings {
                 text_limit(tag, "search.tags", 60)?;
             }
             for label in &search.labels { identifier(label, "search.labels")?; }
-            if search.text.trim().is_empty() && search.kind.is_empty() && search.color.is_none() && search.similar.is_none() && search.tags.is_empty() && search.labels.is_empty() {
-                return Err(EngineError::invalid("a saved search needs text, a kind, a color, a similar picture, a tag or a label"));
+            if search.rating.is_some_and(|stars| stars > 5) { return Err(EngineError::invalid("search.rating must be 0 to 5")); }
+            if search.text.trim().is_empty() && search.kind.is_empty() && search.color.is_none() && search.similar.is_none() && search.tags.is_empty() && search.labels.is_empty() && search.rating.is_none() {
+                return Err(EngineError::invalid("a saved search needs text, a kind, a color, a similar picture, a tag, a label or a rating"));
             }
         }
         Ok(())
@@ -467,6 +471,9 @@ impl Item {
                 for key in ["flip_x", "flip_y", "grayscale"] { data_boolean(&self.data, key)?; }
                 if self.data.get("sampling").is_some_and(|v| !v.as_str().is_some_and(|s| s == "smooth" || s == "nearest")) {
                     return Err(EngineError::invalid("data.sampling must be smooth or nearest"));
+                }
+                if self.data.get("rating").is_some_and(|v| !v.as_u64().is_some_and(|stars| (1..=5).contains(&stars))) {
+                    return Err(EngineError::invalid("data.rating must be a whole number of stars from 1 to 5"));
                 }
                 if let Some(value) = self.data.get("features") {
                     let vector = value.as_array().ok_or_else(|| EngineError::invalid("data.features must be an array"))?;

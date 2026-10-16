@@ -1,4 +1,4 @@
-"""Tags written back into exported pictures as XMP, so Lightroom, Bridge, darktable, digiKam and Windows see them. JPEG and PNG get the packet inside the file without touching the image data; other formats get a sidecar .xmp. Only dc:subject (tags) and dc:title change: any other XMP already in the file is kept."""
+"""Tags written back into exported pictures as XMP, so Lightroom, Bridge, darktable, digiKam and Windows see them. JPEG and PNG get the packet inside the file without touching the image data; other formats get a sidecar .xmp. Only dc:subject (tags), dc:title and xmp:Rating (stars) change: any other XMP already in the file is kept."""
 import struct
 import zlib
 from xml.sax.saxutils import escape
@@ -14,26 +14,30 @@ NS = {
     "x": "adobe:ns:meta/",
     "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
     "dc": "http://purl.org/dc/elements/1.1/",
+    "xmp": "http://ns.adobe.com/xap/1.0/",
 }
 for prefix, uri in NS.items():
     ET.register_namespace(prefix, uri)
 RDF = "{%s}" % NS["rdf"]
 DC = "{%s}" % NS["dc"]
+XMP = "{%s}" % NS["xmp"]
 
 
-def fresh_packet(tags: list[str], title: str) -> bytes:
-    """A complete XMP packet with only dc:subject and dc:title."""
+def fresh_packet(tags: list[str], title: str, rating: int = 0) -> bytes:
+    """A complete XMP packet with only dc:subject and dc:title (when there are tags) and xmp:Rating (when rated)."""
     items = "".join(f"<rdf:li>{escape(tag)}</rdf:li>" for tag in tags)
-    title_xml = f'<dc:title><rdf:Alt><rdf:li xml:lang="x-default">{escape(title)}</rdf:li></rdf:Alt></dc:title>' if title else ""
-    body = (f'<x:xmpmeta xmlns:x="{NS["x"]}"><rdf:RDF xmlns:rdf="{NS["rdf"]}"><rdf:Description rdf:about="" xmlns:dc="{NS["dc"]}">'
-            f"<dc:subject><rdf:Bag>{items}</rdf:Bag></dc:subject>{title_xml}</rdf:Description></rdf:RDF></x:xmpmeta>")
+    subject_xml = f"<dc:subject><rdf:Bag>{items}</rdf:Bag></dc:subject>" if tags else ""
+    title_xml = f'<dc:title><rdf:Alt><rdf:li xml:lang="x-default">{escape(title)}</rdf:li></rdf:Alt></dc:title>' if title and tags else ""
+    rating_xml = f"<xmp:Rating>{rating}</xmp:Rating>" if rating else ""
+    body = (f'<x:xmpmeta xmlns:x="{NS["x"]}"><rdf:RDF xmlns:rdf="{NS["rdf"]}"><rdf:Description rdf:about="" xmlns:dc="{NS["dc"]}" xmlns:xmp="{NS["xmp"]}">'
+            f"{subject_xml}{title_xml}{rating_xml}</rdf:Description></rdf:RDF></x:xmpmeta>")
     return ('<?xpacket begin="﻿" id="W5M0MpCehiHzreSzNTczkc9d"?>' + body + '<?xpacket end="w"?>').encode("utf-8")
 
 
-def merged_packet(existing: bytes | None, tags: list[str], title: str) -> bytes | None:
-    """The file's own XMP with dc:subject and dc:title replaced, or a fresh packet when there is none. None when the existing packet cannot be read safely, so the caller leaves the file alone."""
+def merged_packet(existing: bytes | None, tags: list[str], title: str, rating: int = 0) -> bytes | None:
+    """The file's own XMP with dc:subject and dc:title replaced when there are tags and xmp:Rating replaced when rated, or a fresh packet when there is none. None when the existing packet cannot be read safely, so the caller leaves the file alone."""
     if not existing:
-        return fresh_packet(tags, title)
+        return fresh_packet(tags, title, rating)
     start, end = existing.find(b"<x:xmpmeta"), existing.rfind(b"</x:xmpmeta>")
     if start < 0 or end < 0:
         return None
@@ -45,12 +49,23 @@ def merged_packet(existing: bytes | None, tags: list[str], title: str) -> bytes 
     if rdf is None:
         return None
     for description in rdf.findall(RDF + "Description"):
-        for name in ("subject", "title"):
-            for element in description.findall(DC + name):
+        if tags:
+            for name in ("subject", "title"):
+                for element in description.findall(DC + name):
+                    description.remove(element)
+        if rating:
+            # Lightroom and Bridge write the rating as an attribute, others as an element; both go so only one remains.
+            description.attrib.pop(XMP + "Rating", None)
+            for element in description.findall(XMP + "Rating"):
                 description.remove(element)
     description = rdf.find(RDF + "Description")
     if description is None:
         description = ET.SubElement(rdf, RDF + "Description", {RDF + "about": ""})
+    if rating:
+        ET.SubElement(description, XMP + "Rating").text = str(rating)
+    if not tags:
+        body = ET.tostring(root, encoding="unicode")
+        return ('<?xpacket begin="﻿" id="W5M0MpCehiHzreSzNTczkc9d"?>' + body + '<?xpacket end="w"?>').encode("utf-8")
     subject = ET.SubElement(ET.SubElement(description, DC + "subject"), RDF + "Bag")
     for tag in tags:
         ET.SubElement(subject, RDF + "li").text = tag
@@ -62,7 +77,7 @@ def merged_packet(existing: bytes | None, tags: list[str], title: str) -> bytes 
     return ('<?xpacket begin="﻿" id="W5M0MpCehiHzreSzNTczkc9d"?>' + body + '<?xpacket end="w"?>').encode("utf-8")
 
 
-def _jpeg(data: bytes, tags: list[str], title: str) -> bytes | None:
+def _jpeg(data: bytes, tags: list[str], title: str, rating: int = 0) -> bytes | None:
     """Markers up to the start of scan are walked; an XMP APP1 is replaced in place, or a new one goes after the leading APP0/APP1 segments. Image data is copied as is."""
     if data[:2] != b"\xff\xd8":
         return None
@@ -85,7 +100,7 @@ def _jpeg(data: bytes, tags: list[str], title: str) -> bytes | None:
         at += 2 + length
     if scan is None:
         return None
-    packet = merged_packet(existing, tags, title)
+    packet = merged_packet(existing, tags, title, rating)
     if packet is None or len(packet) + len(XMP_JPEG_HEADER) + 2 > 0xFFFF:
         return None
     xmp = b"\xff\xe1" + struct.pack(">H", len(packet) + len(XMP_JPEG_HEADER) + 2) + XMP_JPEG_HEADER + packet
@@ -100,7 +115,7 @@ def _png_chunk(kind: bytes, body: bytes) -> bytes:
     return struct.pack(">I", len(body)) + kind + body + struct.pack(">I", zlib.crc32(kind + body) & 0xFFFFFFFF)
 
 
-def _png(data: bytes, tags: list[str], title: str) -> bytes | None:
+def _png(data: bytes, tags: list[str], title: str, rating: int = 0) -> bytes | None:
     """An uncompressed iTXt XML:com.adobe.xmp chunk replaces any existing one (compressed or not), placed before the first IDAT; every other chunk is copied byte for byte."""
     if not data.startswith(PNG_SIGNATURE):
         return None
@@ -131,7 +146,7 @@ def _png(data: bytes, tags: list[str], title: str) -> bytes | None:
         at += 12 + length
         if kind == b"IEND":
             break
-    packet = merged_packet(existing, tags, title)
+    packet = merged_packet(existing, tags, title, rating)
     if packet is None:
         return None
     itxt = _png_chunk(b"iTXt", PNG_KEYWORD + b"\x00\x00\x00\x00\x00" + packet)
@@ -144,10 +159,13 @@ def _png(data: bytes, tags: list[str], title: str) -> bytes | None:
     return b"".join(out) if placed else None
 
 
-def with_tags(data: bytes, mime: str, tags: list[str], title: str = "") -> tuple[bytes, bytes | None]:
-    """(picture bytes, sidecar or None). JPEG and PNG carry the tags inside; anything else, or a file whose own XMP cannot be read safely, is returned untouched with a sidecar packet beside it."""
+def with_tags(data: bytes, mime: str, tags: list[str], title: str = "", rating: int = 0) -> tuple[bytes, bytes | None]:
+    """(picture bytes, sidecar or None). JPEG and PNG carry the tags and rating inside; anything else, or a file whose own XMP cannot be read safely, is returned untouched with a sidecar packet beside it."""
+    rating = rating if isinstance(rating, int) and 1 <= rating <= 5 else 0
+    if not tags and not rating:
+        return data, None
     writer = {"image/jpeg": _jpeg, "image/png": _png}.get(mime)
-    embedded = writer(data, tags, title) if writer else None
+    embedded = writer(data, tags, title, rating) if writer else None
     if embedded is not None:
         return embedded, None
-    return data, fresh_packet(tags, title)
+    return data, fresh_packet(tags, title, rating)

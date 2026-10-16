@@ -7,6 +7,7 @@ import { registry } from './registry';
 import { colorFilter, setColorFilter } from './color-find';
 import { clearSimilar, findSimilar, similarFilter } from './similar-find';
 import { setTagFilter, tagFilter } from './tag-cloud';
+import { filterLabel, ratingFilter, setRatingFilter } from './rating';
 
 /** Saved searches: named filters the board remembers in settings.searches (find text, kind, colour, a similar-picture sample), like smart folders in Eagle or saved searches in a photo library; PureRef, BeeRef and Milanote have none. Applying one sets every filter and redraws the board once. */
 
@@ -66,7 +67,8 @@ function current(): Omit<SavedSearch, 'id' | 'name'> | null {
   const color = colorFilter();
   const similar = similarFilter();
   const { tags, labels } = tagFilter();
-  if (!text && !kind && !color && !similar && !tags.length && !labels.length) return null;
+  const rating = ratingFilter();
+  if (!text && !kind && !color && !similar && !tags.length && !labels.length && rating === null) return null;
   return {
     ...(text ? { text: clip(text, 200) } : {}),
     ...(kind ? { kind } : {}),
@@ -74,6 +76,7 @@ function current(): Omit<SavedSearch, 'id' | 'name'> | null {
     ...(similar ? { similar } : {}),
     ...(tags.length ? { tags: tags.map(t => clip(t, 60)) } : {}),
     ...(labels.length ? { labels } : {}),
+    ...(rating !== null ? { rating } : {}),
   };
 }
 
@@ -85,7 +88,7 @@ function isCurrent(search: SavedSearch): boolean {
   return (now.text || '') === (search.text || '') && (now.kind || '') === (search.kind || '')
     && (now.color || '') === (search.color || '').toLowerCase() && (now.tolerance ?? DEFAULT_TOLERANCE) === (search.tolerance ?? DEFAULT_TOLERANCE)
     && (now.similar?.item_id || '') === (search.similar?.item_id || '') && (now.similar?.level || '') === (search.similar?.level || '')
-    && sameSet(now.tags, search.tags, s => s.trim().toLowerCase()) && sameSet(now.labels, search.labels);
+    && sameSet(now.tags, search.tags, s => s.trim().toLowerCase()) && sameSet(now.labels, search.labels) && (now.rating ?? null) === (search.rating ?? null);
 }
 
 /** A name from the filters: the text in quotes, the kind as the filter shows it, the colour, and the sample picture's title. */
@@ -95,7 +98,7 @@ function suggestedName(): string {
   const select = $<HTMLSelectElement>('kind-filter');
   const sample = now.similar ? S.state?.board.items.find(i => i.id === now.similar!.item_id) : undefined;
   const labelNames = (now.labels || []).map(id => S.state?.board.settings?.labels?.find(l => l.id === id)?.name).filter(Boolean);
-  const parts = [now.text ? `“${now.text}”` : '', now.kind ? select.selectedOptions[0]?.textContent?.trim() || now.kind : '', ...labelNames, ...(now.tags || []).map(t => `#${t}`), now.color || '', sample ? `≈ ${sample.title || sample.kind}` : ''];
+  const parts = [now.text ? `“${now.text}”` : '', now.kind ? select.selectedOptions[0]?.textContent?.trim() || now.kind : '', ...labelNames, ...(now.tags || []).map(t => `#${t}`), now.rating !== undefined ? filterLabel(now.rating) : '', now.color || '', sample ? `≈ ${sample.title || sample.kind}` : ''];
   return clip(parts.filter(Boolean).join(' · '), 60);
 }
 
@@ -110,6 +113,7 @@ export async function applySearch(search: SavedSearch): Promise<void> {
   ]);
   if (S.state?.board.id !== board.id) return;
   setTagFilter(search.tags, search.labels, false);
+  setRatingFilter(search.rating ?? null, false);
   const select = $<HTMLSelectElement>('kind-filter');
   select.value = [...select.options].some(o => o.value === search.kind) ? search.kind || '' : '';
   const input = $<HTMLInputElement>('search');
@@ -123,6 +127,7 @@ export async function clearFilters(): Promise<void> {
   await setColorFilter(null, DEFAULT_TOLERANCE, false, false);
   clearSimilar(false);
   setTagFilter([], [], false);
+  setRatingFilter(null, false);
   $<HTMLSelectElement>('kind-filter').value = '';
   const input = $<HTMLInputElement>('search');
   input.value = '';
@@ -165,7 +170,7 @@ async function saveShared(params?: Record<string, unknown>): Promise<void> {
   const labels = S.state?.board.settings?.labels || [];
   const labelNames = (now?.labels || []).map(id => labels.find(l => l.id === id)?.name).filter((n): n is string => !!n);
   const { similar: _similar, labels: _labels, ...rest } = now || {};
-  if (!now || (!rest.text && !rest.kind && !rest.color && !rest.tags?.length && !labelNames.length)) throw new Error('Set a find text, a kind, a color or a tag first. A similar picture stays with its own board.');
+  if (!now || (!rest.text && !rest.kind && !rest.color && !rest.tags?.length && !labelNames.length && rest.rating === undefined)) throw new Error('Set a find text, a kind, a color or a tag first. A similar picture stays with its own board.');
   let name = typeof params?.name === 'string' ? params.name : '';
   if (!name) {
     const form = await inputDialog('Save Search for All Boards', { name: suggestedName(), label: 'Name', description: 'Every board lists it under the bookmark. The find text, kind, color, tags and label names are kept, and a similar picture stays with this board. A search for all boards with the same name is replaced.', submit: 'Save' });
@@ -235,6 +240,7 @@ export function registerSavedSearch(): void {
   // The colour and similar filters mark the filter row; watching it keeps those modules unaware of this one.
   new MutationObserver(refreshButton).observe($('filter-row'), { attributes: true, attributeFilter: ['class', 'style'] });
   new MutationObserver(refreshButton).observe($('tag-cloud'), { subtree: true, attributes: true, attributeFilter: ['aria-pressed'] });
+  new MutationObserver(refreshButton).observe($('rating-find'), { attributes: true, attributeFilter: ['data-rating'] });
   onState(() => refreshButton());
   void loadShared();
   registry.add(

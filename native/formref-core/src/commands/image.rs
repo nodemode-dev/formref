@@ -47,6 +47,7 @@ pub fn flags(board: &mut crate::model::Board, command: &Value) -> EngineResult<(
         let ok = match key.as_str() {
             "flip_x" | "flip_y" | "grayscale" => value.is_boolean(),
             "sampling" => value.as_str().is_some_and(|s| s == "smooth" || s == "nearest"),
+            "rating" => value.as_u64().is_some_and(|stars| stars <= 5),
             _ => false,
         };
         if !ok { return Err(EngineError::invalid(format!("set.{key} is not a valid image flag"))); }
@@ -58,7 +59,10 @@ pub fn flags(board: &mut crate::model::Board, command: &Value) -> EngineResult<(
             let current = data.get(*key).and_then(Value::as_bool).unwrap_or(false);
             data.insert((*key).to_string(), Value::Bool(!current));
         }
-        for (key, value) in &set { data.insert(key.clone(), value.clone()); }
+        for (key, value) in &set {
+            // No stars is no rating key, so a picture rated and cleared saves as it did before.
+            if key == "rating" && value.as_u64() == Some(0) { data.remove("rating"); } else { data.insert(key.clone(), value.clone()); }
+        }
     }
     Ok(())
 }

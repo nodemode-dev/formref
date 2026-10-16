@@ -25,6 +25,7 @@ class SharedSearch(BaseModel):
     tolerance: float | None = None
     tags: list[str] = Field(default_factory=list)
     label_names: list[str] = Field(default_factory=list)
+    rating: int | None = Field(default=None, ge=0, le=5)
 
 
 class SharedSearches(BaseModel):
@@ -59,8 +60,8 @@ def _check(search: SharedSearch):
         if not name.strip():
             raise ValueError("label_names cannot hold an empty name.")
         _limit(name, "label name", 40)
-    if not (search.text.strip() or search.kind or search.color or search.tags or search.label_names):
-        raise ValueError("A shared search needs text, a kind, a color, a tag or a label.")
+    if not (search.text.strip() or search.kind or search.color or search.tags or search.label_names or search.rating is not None):
+        raise ValueError("A shared search needs text, a kind, a color, a tag, a label or a rating.")
 
 
 def read_shared() -> list[dict]:
