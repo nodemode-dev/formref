@@ -1,5 +1,12 @@
 {
  "Language": "語言",
+ "Hide Selected": "隱藏所選",
+ "Show All": "全部顯示",
+ "Isolate Selected": "隔離所選",
+ "Unlock All": "全部解鎖",
+ "Nothing on this board is hidden.": "此畫板上沒有隱藏的項目。",
+ "Nothing on this board is locked.": "此畫板上沒有鎖定的項目。",
+ "Isolated: {0} other items hidden. Show All brings them back.": "已隔離：隱藏了其他 {0} 個項目。「全部顯示」可將其還原。",
  "Curvature Tool": "曲率工具",
  "Curvature tool": "曲率工具",
  "Curvature · Shift+~: click points and the curve bends through them": "曲率 · Shift+~：按一下各點，曲線會穿過它們",

@@ -1,5 +1,12 @@
 {
  "Language": "Język",
+ "Hide Selected": "Ukryj zaznaczone",
+ "Show All": "Pokaż wszystko",
+ "Isolate Selected": "Izoluj zaznaczone",
+ "Unlock All": "Odblokuj wszystko",
+ "Nothing on this board is hidden.": "Na tej tablicy nic nie jest ukryte.",
+ "Nothing on this board is locked.": "Na tej tablicy nic nie jest zablokowane.",
+ "Isolated: {0} other items hidden. Show All brings them back.": "Wyizolowano: ukryto {0} innych elementów. Pokaż wszystko je przywróci.",
  "Curvature Tool": "Narzędzie Krzywizna",
  "Curvature tool": "Narzędzie Krzywizna",
  "Curvature · Shift+~: click points and the curve bends through them": "Krzywizna · Shift+~: klikaj punkty, a krzywa przez nie przechodzi",

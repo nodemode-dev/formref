@@ -1,5 +1,12 @@
 {
  "Language": "言語",
+ "Hide Selected": "選択を隠す",
+ "Show All": "すべてを表示",
+ "Isolate Selected": "選択を分離",
+ "Unlock All": "すべてをロック解除",
+ "Nothing on this board is hidden.": "このボードに隠れている項目はありません。",
+ "Nothing on this board is locked.": "このボードにロックされた項目はありません。",
+ "Isolated: {0} other items hidden. Show All brings them back.": "分離しました：他の {0} 項目を隠しました。「すべてを表示」で戻せます。",
  "Curvature Tool": "曲線ツール",
  "Curvature tool": "曲線ツール",
  "Curvature · Shift+~: click points and the curve bends through them": "曲線 · Shift+~：点をクリックすると曲線がそこを通ります",

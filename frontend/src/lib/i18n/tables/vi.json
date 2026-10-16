@@ -1,5 +1,12 @@
 {
  "Language": "Ngôn ngữ",
+ "Hide Selected": "Ẩn mục đã chọn",
+ "Show All": "Hiện tất cả",
+ "Isolate Selected": "Cô lập mục đã chọn",
+ "Unlock All": "Mở khóa tất cả",
+ "Nothing on this board is hidden.": "Không có gì bị ẩn trên bảng này.",
+ "Nothing on this board is locked.": "Không có gì bị khóa trên bảng này.",
+ "Isolated: {0} other items hidden. Show All brings them back.": "Đã cô lập: ẩn {0} mục khác. Hiện tất cả sẽ đưa chúng trở lại.",
  "Curvature Tool": "Công cụ Độ cong",
  "Curvature tool": "Công cụ Độ cong",
  "Curvature · Shift+~: click points and the curve bends through them": "Độ cong · Shift+~: nhấp các điểm và đường cong uốn qua chúng",

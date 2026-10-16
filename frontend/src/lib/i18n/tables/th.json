@@ -1,5 +1,12 @@
 {
  "Language": "ภาษา",
+ "Hide Selected": "ซ่อนรายการที่เลือก",
+ "Show All": "แสดงทั้งหมด",
+ "Isolate Selected": "แยกรายการที่เลือก",
+ "Unlock All": "ปลดล็อกทั้งหมด",
+ "Nothing on this board is hidden.": "ไม่มีรายการที่ซ่อนอยู่บนบอร์ดนี้",
+ "Nothing on this board is locked.": "ไม่มีรายการที่ล็อกอยู่บนบอร์ดนี้",
+ "Isolated: {0} other items hidden. Show All brings them back.": "แยกแล้ว: ซ่อนรายการอื่น {0} รายการ ใช้แสดงทั้งหมดเพื่อนำกลับมา",
  "Curvature Tool": "เครื่องมือความโค้ง",
  "Curvature tool": "เครื่องมือความโค้ง",
  "Curvature · Shift+~: click points and the curve bends through them": "ความโค้ง · Shift+~: คลิกจุด แล้วเส้นโค้งจะผ่านจุดเหล่านั้น",

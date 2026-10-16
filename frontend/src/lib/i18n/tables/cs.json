@@ -1,5 +1,12 @@
 {
  "Language": "Jazyk",
+ "Hide Selected": "Skrýt vybrané",
+ "Show All": "Zobrazit vše",
+ "Isolate Selected": "Izolovat vybrané",
+ "Unlock All": "Odemknout vše",
+ "Nothing on this board is hidden.": "Na této tabuli není nic skryté.",
+ "Nothing on this board is locked.": "Na této tabuli není nic zamčené.",
+ "Isolated: {0} other items hidden. Show All brings them back.": "Izolováno: skryto {0} dalších položek. Zobrazit vše je vrátí.",
  "Curvature Tool": "Nástroj Zakřivení",
  "Curvature tool": "Nástroj Zakřivení",
  "Curvature · Shift+~: click points and the curve bends through them": "Zakřivení · Shift+~: klikněte na body a křivka jimi prochází",

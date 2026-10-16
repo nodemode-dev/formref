@@ -1,5 +1,12 @@
 {
  "Language": "Langue",
+ "Hide Selected": "Masquer la sélection",
+ "Show All": "Tout afficher",
+ "Isolate Selected": "Isoler la sélection",
+ "Unlock All": "Tout déverrouiller",
+ "Nothing on this board is hidden.": "Rien n’est masqué sur ce tableau.",
+ "Nothing on this board is locked.": "Rien n’est verrouillé sur ce tableau.",
+ "Isolated: {0} other items hidden. Show All brings them back.": "Isolé : {0} autres éléments masqués. Tout afficher les fait revenir.",
  "Curvature Tool": "Outil Courbe",
  "Curvature tool": "Outil Courbe",
  "Curvature · Shift+~: click points and the curve bends through them": "Courbe · Maj+~ : cliquez des points et la courbe passe par eux",

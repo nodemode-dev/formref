@@ -1,5 +1,12 @@
 {
  "Language": "Sprache",
+ "Hide Selected": "Auswahl ausblenden",
+ "Show All": "Alles einblenden",
+ "Isolate Selected": "Auswahl isolieren",
+ "Unlock All": "Alle entsperren",
+ "Nothing on this board is hidden.": "Auf diesem Board ist nichts ausgeblendet.",
+ "Nothing on this board is locked.": "Auf diesem Board ist nichts gesperrt.",
+ "Isolated: {0} other items hidden. Show All brings them back.": "Isoliert: {0} andere Elemente ausgeblendet. Alles einblenden holt sie zurück.",
  "Curvature Tool": "Kurvenzeichner",
  "Curvature tool": "Kurvenzeichner",
  "Curvature · Shift+~: click points and the curve bends through them": "Kurvenzeichner · Umschalt+~: Punkte klicken, die Kurve verläuft durch sie",

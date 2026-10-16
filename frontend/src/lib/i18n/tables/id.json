@@ -1,5 +1,12 @@
 {
  "Language": "Bahasa",
+ "Hide Selected": "Sembunyikan Pilihan",
+ "Show All": "Tampilkan Semua",
+ "Isolate Selected": "Isolasi Pilihan",
+ "Unlock All": "Buka Kunci Semua",
+ "Nothing on this board is hidden.": "Tidak ada yang tersembunyi di papan ini.",
+ "Nothing on this board is locked.": "Tidak ada yang terkunci di papan ini.",
+ "Isolated: {0} other items hidden. Show All brings them back.": "Terisolasi: {0} item lain disembunyikan. Tampilkan Semua mengembalikannya.",
  "Curvature Tool": "Alat Kelengkungan",
  "Curvature tool": "Alat Kelengkungan",
  "Curvature · Shift+~: click points and the curve bends through them": "Kelengkungan · Shift+~: klik titik-titik dan kurva melengkung melaluinya",

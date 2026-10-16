@@ -1,5 +1,12 @@
 {
  "Language": "Nyelv",
+ "Hide Selected": "Kijelöltek elrejtése",
+ "Show All": "Összes megjelenítése",
+ "Isolate Selected": "Kijelöltek elkülönítése",
+ "Unlock All": "Összes feloldása",
+ "Nothing on this board is hidden.": "Ezen a táblán semmi sincs elrejtve.",
+ "Nothing on this board is locked.": "Ezen a táblán semmi sincs zárolva.",
+ "Isolated: {0} other items hidden. Show All brings them back.": "Elkülönítve: {0} további elem elrejtve. Az Összes megjelenítése visszahozza őket.",
  "Curvature Tool": "Görbület eszköz",
  "Curvature tool": "Görbület eszköz",
  "Curvature · Shift+~: click points and the curve bends through them": "Görbület · Shift+~: kattintson pontokra, és a görbe áthalad rajtuk",

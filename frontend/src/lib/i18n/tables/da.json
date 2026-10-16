@@ -1,5 +1,12 @@
 {
  "Language": "Sprog",
+ "Hide Selected": "Skjul markerede",
+ "Show All": "Vis alle",
+ "Isolate Selected": "Isoler markerede",
+ "Unlock All": "Lås alle op",
+ "Nothing on this board is hidden.": "Intet på denne tavle er skjult.",
+ "Nothing on this board is locked.": "Intet på denne tavle er låst.",
+ "Isolated: {0} other items hidden. Show All brings them back.": "Isoleret: {0} andre elementer skjult. Vis alle henter dem tilbage.",
  "Curvature Tool": "Krumningsværktøj",
  "Curvature tool": "Krumningsværktøj",
  "Curvature · Shift+~: click points and the curve bends through them": "Krumning · Skift+~: klik punkter, og kurven bøjer gennem dem",

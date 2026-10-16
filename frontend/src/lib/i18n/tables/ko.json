@@ -1,5 +1,12 @@
 {
  "Language": "언어",
+ "Hide Selected": "선택 항목 숨기기",
+ "Show All": "모두 표시",
+ "Isolate Selected": "선택 항목 격리",
+ "Unlock All": "모두 잠금 해제",
+ "Nothing on this board is hidden.": "이 보드에는 숨겨진 항목이 없습니다.",
+ "Nothing on this board is locked.": "이 보드에는 잠긴 항목이 없습니다.",
+ "Isolated: {0} other items hidden. Show All brings them back.": "격리됨: 다른 항목 {0}개를 숨겼습니다. 모두 표시로 되돌릴 수 있습니다.",
  "Curvature Tool": "곡률 도구",
  "Curvature tool": "곡률 도구",
  "Curvature · Shift+~: click points and the curve bends through them": "곡률 · Shift+~: 점을 클릭하면 곡선이 그 점들을 지나갑니다",

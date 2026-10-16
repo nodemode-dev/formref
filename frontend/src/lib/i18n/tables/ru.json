@@ -1,5 +1,12 @@
 {
  "Language": "Язык",
+ "Hide Selected": "Скрыть выделенное",
+ "Show All": "Показать все",
+ "Isolate Selected": "Изолировать выделенное",
+ "Unlock All": "Разблокировать все",
+ "Nothing on this board is hidden.": "На этой доске нет скрытых элементов.",
+ "Nothing on this board is locked.": "На этой доске нет заблокированных элементов.",
+ "Isolated: {0} other items hidden. Show All brings them back.": "Изолировано: скрыто других элементов: {0}. «Показать все» вернет их.",
  "Curvature Tool": "Инструмент «Кривизна»",
  "Curvature tool": "Инструмент «Кривизна»",
  "Curvature · Shift+~: click points and the curve bends through them": "Кривизна · Shift+~: щелкайте точки, и кривая пройдет через них",
