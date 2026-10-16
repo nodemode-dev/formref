@@ -2,7 +2,7 @@
 
 Written by `./formref agents sync` from the command catalogue the FormRef window publishes; do not edit by hand. Run a command with the MCP tools `run_command` or `run_commands` (the window must be open). `window-only` commands are refused for outside agents; `risky` commands ask the person first.
 
-189 commands.
+193 commands.
 
 ## Canvas
 
@@ -25,7 +25,9 @@ Written by `./formref agents sync` from the command catalogue the FormRef window
 
 | Command | Label | Keys | Kind | What it does |
 | --- | --- | --- | --- | --- |
+| `apply-saved-search` | Apply Saved Search |  | window-only | Applies a saved search by name: every filter it holds is set and the board is redrawn once. Parameters: `name` (string): the saved search name; `id` (string): or its id. |
 | `clear-color-find` | Clear Color Filter |  | window-only | Clears the color filter so the whole board shows again. |
+| `clear-filters` | Clear All Filters |  | window-only | Clears the find text, kind, color and similar filters together. |
 | `delete` | Delete Selected | `delete`, `backspace` | changes the board, risky | Removes the selected items (or the chosen connection) to the board Trash. |
 | `deselect` | Deselect All | `escape` | view | Clears the selection and returns to the Select tool. |
 | `duplicate` | Duplicate | `mod+d` | changes the board | Duplicates the selected unlocked items, offset slightly. |
@@ -35,6 +37,8 @@ Written by `./formref agents sync` from the command catalogue the FormRef window
 | `find-swatch-color` | Find This Swatch Color |  | window-only | Finds the selected swatch's color in the pictures on the board. |
 | `lock` | Lock Selected | `l` | changes the board | Locks the selected items against moving and editing, or unlocks them if any is locked. |
 | `redo` | Redo | `mod+y`, `mod+shift+z` | changes the board | Redoes the last undone change. |
+| `save-search` | Save Current Search… |  | changes the board | Saves the find text, kind, color and similar picture now on screen under a name the board keeps; a search with the same name is replaced. One undo removes it. Parameters: `name` (string): name for the search; leave out to be asked; an existing search with the same name is replaced. |
+| `saved-searches` | Saved Searches… |  | window-only | Opens the board's saved searches beside the item count: apply one, save the filters on screen, clear them, or delete a saved one. |
 | `select-all` | Select All | `mod+a` | view | Selects every visible item on the board. |
 | `undo` | Undo | `mod+z` | changes the board | Undoes the last change to the board. |
 | `unsync` | Stop Syncing |  | changes the board | Unlinks the selected synced copies so they can be edited separately. |
