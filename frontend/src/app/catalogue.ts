@@ -1,4 +1,5 @@
 import { isEnabled } from './commands';
+import { COMMAND_WORDS } from './command-meta';
 import { registry, type CommandDef, type CommandParam } from './registry';
 
 const WINDOW_ONLY = new Set([
@@ -19,6 +20,8 @@ export interface CatalogueEntry {
   label: string;
   group: string;
   keys: string[];
+  /** The shipped shortcut, before the person's own overrides; references for agents use these. */
+  default_keys: string[];
   description: string;
   when: string;
   params: Record<string, CommandParam>;
@@ -34,7 +37,8 @@ export function describe(command: CommandDef): CatalogueEntry {
     label: command.label,
     group: command.group,
     keys: [...(command.keys || [])],
-    description: command.description || `${command.label} (${command.group}).`,
+    default_keys: [...(registry.defaults.get(command.id) || command.keys || [])],
+    description: command.description || COMMAND_WORDS[command.id] || `${command.label} (${command.group}).`,
     when: command.when || '',
     params: command.params || {},
     mutates: command.mutates ?? !READS.has(command.id),

@@ -12,6 +12,7 @@ if "%ACTION%"=="help" (
   echo Usage: formref.bat [install^|dev^|core^|build^|backend^|frontend^|serve^|mcp^|desktop^|clipper [--new]^|help]
   echo        formref.bat open ^<board title or id^> [--no-window]
   echo        formref.bat import ^<folder^> [--title NAME] [--recursive] [--no-window]
+  echo        formref.bat agents sync [--check]
   exit /b 0
 )
 if "%ACTION%"=="backend" (call backend\boot_backend.bat & exit /b !errorlevel!)
@@ -31,6 +32,7 @@ if "%ACTION%"=="mcp" (
 )
 if "%ACTION%"=="open" goto cli
 if "%ACTION%"=="import" goto cli
+if "%ACTION%"=="agents" goto cli
 if "%ACTION%"=="clipper" (
   cd backend
   "%PYTHON_BIN%" -m app.core.clipper %2

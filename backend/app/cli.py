@@ -106,11 +106,61 @@ def import_folder(args: list[str]) -> None:
         webbrowser.open(WINDOW)
 
 
+REFERENCE = Path(__file__).resolve().parents[2] / ".claude" / "skills" / "formref-harness" / "references" / "commands.md"
+
+
+def command_reference(catalogue: dict) -> str:
+    """The harness skill's command reference, written from the catalogue the open window publishes. Sorted by group then id, so the file only changes when a command does."""
+    commands = sorted(catalogue.get("commands", []), key=lambda c: (c.get("group", ""), c.get("id", "")))
+    lines = [
+        "# FormRef command reference",
+        "",
+        "Written by `./formref agents sync` from the command catalogue the FormRef window publishes; do not edit by hand. Run a command with the MCP tools `run_command` or `run_commands` (the window must be open). `window-only` commands are refused for outside agents; `risky` commands ask the person first.",
+        "",
+        f"{len(commands)} commands.",
+    ]
+    group = None
+    for command in commands:
+        if command.get("group") != group:
+            group = command.get("group")
+            lines += ["", f"## {group}", "", "| Command | Label | Keys | Kind | What it does |", "| --- | --- | --- | --- | --- |"]
+        kind = ", ".join(word for word, on in (("changes the board", command.get("mutates")), ("risky", command.get("risky")), ("window-only", command.get("agent") == "window-only")) if on) or "view"
+        params = command.get("params") or {}
+        words = command.get("description", "")
+        if params:
+            words += " Parameters: " + "; ".join(f"`{name}` ({spec.get('type', 'value')}): {spec.get('description', '')}".rstrip(": ") for name, spec in params.items()) + "."
+        keys = ", ".join(f"`{k}`" for k in command.get("default_keys", command.get("keys")) or [])
+        cell = lambda text: str(text).replace("|", "\\|").replace("\n", " ")
+        lines.append(f"| `{command.get('id')}` | {cell(command.get('label', ''))} | {keys} | {kind} | {cell(words)} |")
+    return "\n".join(lines) + "\n"
+
+
+def agents_sync(args: list[str]) -> None:
+    if not args or args[0] != "sync":
+        raise SystemExit("Usage: ./formref agents sync [--check]")
+    from .core.config import settings
+    source = settings.data_dir / "commands-catalogue.json"
+    if not source.is_file():
+        raise SystemExit(f"formref: no command catalogue yet at {source}. Open FormRef once (./formref dev) so the window can publish it, then run this again.")
+    text = command_reference(json.loads(source.read_text(encoding="utf-8")))
+    current = REFERENCE.read_text(encoding="utf-8") if REFERENCE.is_file() else ""
+    if "--check" in args:
+        if current != text:
+            raise SystemExit(f"formref: {REFERENCE.relative_to(REFERENCE.parents[4])} is out of date; run ./formref agents sync.")
+        print("Command reference is up to date.")
+        return
+    REFERENCE.parent.mkdir(parents=True, exist_ok=True)
+    REFERENCE.write_text(text, encoding="utf-8")
+    print(f"{'Updated' if current != text else 'Unchanged'}: {REFERENCE.relative_to(REFERENCE.parents[4])} ({text.count(chr(10) + '| `')} commands).")
+
+
 if __name__ == "__main__":
     action, rest = (sys.argv[1] if len(sys.argv) > 1 else ""), sys.argv[2:]
     if action == "open":
         open_board(rest)
     elif action == "import":
         import_folder(rest)
+    elif action == "agents":
+        agents_sync(rest)
     else:
-        raise SystemExit("Usage: python -m app.cli open|import ...")
+        raise SystemExit("Usage: python -m app.cli open|import|agents ...")
