@@ -51,6 +51,9 @@ export const S = {
   presenting: false,
   shapeKind: 'rect' as 'rect' | 'ellipse' | 'line',
   pointer: null as Point | null,
+  /** Mirror the view (not the board) to check a drawing with fresh eyes, as artists flip a canvas. */
+  flipX: false,
+  flipY: false,
 };
 
 export const selection = new Set<string>();
@@ -138,11 +141,12 @@ export function topZ(): number {
 export function drawCamera() {
   const settings = S.state?.board.settings || defaultSettings;
   const c = S.camera;
-  world.style.transform = `translate(${c.x}px,${c.y}px) scale(${c.zoom})`;
+  const tx = S.flipX ? stage.clientWidth - c.x : c.x, ty = S.flipY ? stage.clientHeight - c.y : c.y;
+  world.style.transform = S.flipX || S.flipY ? `translate(${tx}px,${ty}px) scale(${S.flipX ? -c.zoom : c.zoom},${S.flipY ? -c.zoom : c.zoom})` : `translate(${c.x}px,${c.y}px) scale(${c.zoom})`;
   world.style.filter = settings.grayscale ? 'grayscale(1)' : 'none';
   stage.style.backgroundImage = settings.grid_visible ? '' : 'none';
   stage.style.backgroundSize = `${settings.grid_size * c.zoom}px ${settings.grid_size * c.zoom}px`;
-  stage.style.backgroundPosition = `${c.x}px ${c.y}px`;
+  stage.style.backgroundPosition = `${tx}px ${ty}px`;
   setText('zoom-value', `${Math.round(c.zoom * 100)}%`);
   if (S.state) scene.navigatorUpdate(S.state.board, c, stage);
 }
@@ -156,9 +160,16 @@ export function rememberCamera() {
   }, 400);
 }
 
-export function worldPoint(event: { clientX: number; clientY: number }): Point {
+/** A pointer position in the stage's own unflipped coordinates, the ones the camera is kept in. */
+export function stagePoint(event: { clientX: number; clientY: number }): Point {
   const rect = stage.getBoundingClientRect();
-  return { x: (event.clientX - rect.left - S.camera.x) / S.camera.zoom, y: (event.clientY - rect.top - S.camera.y) / S.camera.zoom };
+  const x = event.clientX - rect.left, y = event.clientY - rect.top;
+  return { x: S.flipX ? rect.width - x : x, y: S.flipY ? rect.height - y : y };
+}
+
+export function worldPoint(event: { clientX: number; clientY: number }): Point {
+  const p = stagePoint(event);
+  return { x: (p.x - S.camera.x) / S.camera.zoom, y: (p.y - S.camera.y) / S.camera.zoom };
 }
 
 export function center(): Point {

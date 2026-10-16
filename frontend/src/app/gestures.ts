@@ -4,7 +4,7 @@ import { itemBounds } from '../lib/geometry';
 import { ContextMenu } from '../ui/context-menu';
 import {
   $, S, applyState, colorPicker, descendants, execute, expanded, fit, inputDialog, matches, open, openEditor,
-  scene, selected, selection, setSelection, setText, setTool, stage, topZ, upload, worldPoint, zoom, drawCamera,
+  scene, selected, selection, setSelection, setText, setTool, stage, topZ, upload, worldPoint, stagePoint, zoom, drawCamera,
   rememberCamera, toast, defaultSettings, error,
 } from './editor';
 import type { Gesture } from './editor';
@@ -157,7 +157,7 @@ stage.addEventListener('pointermove', event => {
     stage.classList.add('dragging');
   }
   if (g.type === 'pan') {
-    S.camera = { ...g.initial, x: g.initial.x + event.clientX - g.screen.x, y: g.initial.y + event.clientY - g.screen.y };
+    S.camera = { ...g.initial, x: g.initial.x + (event.clientX - g.screen.x) * (S.flipX ? -1 : 1), y: g.initial.y + (event.clientY - g.screen.y) * (S.flipY ? -1 : 1) };
     drawCamera();
   } else if (g.type === 'move') {
     for (const item of g.items) scene.preview(item.id, { x: item.x + dx, y: item.y + dy });
@@ -277,8 +277,7 @@ stage.addEventListener('pointerleave', () => { if (!S.gesture) S.pointer = null;
 stage.addEventListener('wheel', event => {
   if ((event.target as Element).closest('[contenteditable="true"],.navigator')) return;
   event.preventDefault();
-  const rect = stage.getBoundingClientRect();
-  zoom(Math.exp(-event.deltaY * .0015), { x: event.clientX - rect.left, y: event.clientY - rect.top });
+  zoom(Math.exp(-event.deltaY * .0015), stagePoint(event));
 }, { passive: false });
 
 stage.addEventListener('contextmenu', event => {
