@@ -36,7 +36,7 @@ function showChip(): void {
 }
 
 /** Asks the service which pictures contain the color; the board changes once, when the answer is in, and an answer overtaken by a newer request is dropped. */
-async function load(announce: boolean): Promise<void> {
+async function load(announce: boolean, render = true): Promise<void> {
   const board = S.state?.board;
   if (!wanted || !board) return;
   const id = ++request_id;
@@ -46,11 +46,17 @@ async function load(announce: boolean): Promise<void> {
   if (id !== request_id || !wanted || S.state?.board.id !== board.id) return;
   matched = new Set(found.matches.map(m => m.id));
   applied = found.color;
-  refilter();
+  if (render) refilter();
   if (announce) toast(found.matches.length ? `Pictures and swatches with this color: ${found.matches.length}.` : 'Nothing on this board contains that color.');
 }
 
-export function setColorFilter(color: string | null, tolerance = DEFAULT_TOLERANCE, announce = true): Promise<void> {
+/** The color in use, for saved searches. */
+export function colorFilter(): { color: string; tolerance: number } | null {
+  return wanted ? { ...wanted } : null;
+}
+
+/** With render false the board is not redrawn; a caller setting several filters at once redraws once at the end. */
+export function setColorFilter(color: string | null, tolerance = DEFAULT_TOLERANCE, announce = true, render = true): Promise<void> {
   if (color !== null && !/^#[0-9a-f]{6}$/i.test(color)) return Promise.reject(new Error('Give the color as #RRGGBB.'));
   if (!Number.isFinite(tolerance) || tolerance < 1 || tolerance > 100) return Promise.reject(new Error('Tolerance is from 1 to 100.'));
   if (color === null) {
@@ -60,12 +66,12 @@ export function setColorFilter(color: string | null, tolerance = DEFAULT_TOLERAN
     applied = null;
     matched = new Set();
     showChip();
-    if (was) refilter();
+    if (was && render) refilter();
     return Promise.resolve();
   }
   wanted = { color: color.toLowerCase(), tolerance };
   showChip();
-  return load(announce);
+  return load(announce, render);
 }
 
 function openPicker(): void {

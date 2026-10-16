@@ -38,7 +38,7 @@ function showButton(): void {
 }
 
 /** The board changes once, when the answer is in; an answer overtaken by a newer request is dropped. */
-async function load(announce: boolean): Promise<void> {
+async function load(announce: boolean, render = true): Promise<void> {
   const board = S.state?.board;
   if (!sample || !board) return;
   const id = ++request_id;
@@ -48,26 +48,32 @@ async function load(announce: boolean): Promise<void> {
   if (id !== request_id || !sample || sample.id !== itemId || S.state?.board.id !== board.id) return;
   matched = new Set(found.matches.map(m => m.id));
   applied = true;
-  refilter();
+  if (render) refilter();
   if (announce) toast(found.matches.length ? `Pictures like this one: ${found.matches.length}.` : 'No other picture on this board looks like this one.');
 }
 
-export function findSimilar(item: Item, level: Level = 'related', announce = true): Promise<void> {
+/** The sample in use, for saved searches. */
+export function similarFilter(): { item_id: string; level: Level } | null {
+  return sample ? { item_id: sample.id, level: sample.level } : null;
+}
+
+/** With render false the board is not redrawn; a caller setting several filters at once redraws once at the end. */
+export function findSimilar(item: Item, level: Level = 'related', announce = true, render = true): Promise<void> {
   if (!pictureOf(item)) return Promise.reject(new Error('Select one picture to find pictures like it.'));
   if (!LEVELS.includes(level)) return Promise.reject(new Error('Choose close, related or loose.'));
   sample = { id: item.id, asset: item.asset_id!, level };
   showButton();
-  return load(announce);
+  return load(announce, render);
 }
 
-export function clearSimilar(): void {
+export function clearSimilar(render = true): void {
   request_id++;
   const was = applied;
   sample = null;
   applied = false;
   matched = new Set();
   showButton();
-  if (was) refilter();
+  if (was && render) refilter();
 }
 
 /** Right-click submenu: the three strictness levels, checked at the one in use. */
@@ -95,6 +101,6 @@ export function registerSimilarFind(): void {
   $('color-find-clear').addEventListener('click', () => clearSimilar());
   registry.add(
     { group: 'Images', id: 'find-similar', label: 'Find Similar Pictures', icon: 'similarity', mutates: false, agent: 'window-only', enabled: () => !!onePicture(), checked: () => !!sample, run: p => { const item = onePicture(); if (!item) throw new Error('Select one picture to find pictures like it.'); const level = typeof p?.level === 'string' ? p.level as Level : sample?.level || 'related'; return findSimilar(item, level); }, params: { level: { type: 'string', enum: LEVELS, description: 'close finds near copies, related (default) also edited or cropped versions, loose also pictures of a similar kind' } } },
-    { group: 'Images', id: 'clear-similar-find', label: 'Clear Similar Filter', icon: 'close', mutates: false, agent: 'window-only', enabled: () => !!sample, run: clearSimilar },
+    { group: 'Images', id: 'clear-similar-find', label: 'Clear Similar Filter', icon: 'close', mutates: false, agent: 'window-only', enabled: () => !!sample, run: () => clearSimilar() },
   );
 }

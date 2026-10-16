@@ -37,6 +37,7 @@ import { registerMeasure } from './app/measure';
 import { registerCompare } from './app/compare';
 import { registerColorFind } from './app/color-find';
 import { registerSimilarFind } from './app/similar-find';
+import { registerSavedSearch } from './app/saved-search';
 
 bindLanguage();
 registerTerminal();
@@ -62,6 +63,7 @@ registerMeasure();
 registerCompare();
 registerColorFind();
 registerSimilarFind();
+registerSavedSearch();
 attachCatalogue();
 
 const agent = new AgentPanel({

@@ -3,6 +3,7 @@ import { BY_ID, SNAP_SCALES, isEnabled, lockLabel, run, snapScale, snapScaleNow 
 import { primaryKey } from './keys';
 import { studyMenu } from './study';
 import { similarMenu } from './similar-find';
+import { savedSearchMenu } from './saved-search';
 import { S, defaultSettings, selection } from './editor';
 
 function item(id: string, label?: string): MenuEntry {
@@ -53,6 +54,7 @@ export function boardMenu(): MenuEntry[] {
     item('find-swatch-color'),
     item('clear-color-find'),
     item('clear-similar-find'),
+    savedSearchMenu(),
     sep,
     {
       label: 'Canvas', icon: 'grid', children: [

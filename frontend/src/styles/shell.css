@@ -274,6 +274,9 @@
 .color-find-clear { visibility: hidden; }
 .filter-row .color-find-clear svg { width: 12px; height: 12px; }
 .filter-row.has-color .color-find-clear, .filter-row.has-similar .color-find-clear { visibility: visible; }
+/* Saved searches: a bookmark beside the item count; it takes the accent while the filters on screen are a saved search. */
+.group-head-actions { display: inline-flex; align-items: center; gap: var(--space-1); }
+#saved-searches.active { color: var(--accent-color); }
 /* Find Similar: the button shows the sample picture while it is in use. */
 .filter-row .similar-find [data-icon], .filter-row .similar-find svg { width: 14px; height: 14px; }
 .filter-row.has-similar .similar-find { background: var(--similar-thumb) center / cover no-repeat; box-shadow: 0 0 0 1px var(--bg-primary), 0 0 0 2px var(--accent-line); }
