@@ -8,6 +8,7 @@
 
 ## Contents
 
+- [v0.15.0 · Tags written into exported pictures](#v0150--tags-written-into-exported-pictures)
 - [v0.14.0 · Keywords in picture files](#v0140--keywords-in-picture-files)
 - [v0.13.0 · Tags in exports](#v0130--tags-in-exports)
 - [v0.9.0 · Find Similar](#v090--find-similar)
@@ -27,6 +28,14 @@
 - [v0.2.0 · Canvas settings and snapping through MCP](#v020--canvas-settings-and-snapping-through-mcp)
 - [v0.1.0 · Local board service and SDK MCP](#v010--local-board-service-and-sdk-mcp)
 - [boot_backend.bat](#boot_backendbat)
+
+## v0.15.0 · Tags written into exported pictures
+
+`core/xmp_write.py` `with_tags(data, mime, tags, title)` returns the picture bytes and an optional sidecar. JPEG: segments from SOI up to SOS are walked by their lengths (anything malformed returns None, so the file goes out untouched with a sidecar); an existing XMP APP1 is lifted out and merged; the new APP1 goes after the leading APP0/APP1 run (JFIF, EXIF), and SOS onward is copied unchanged, so the decoded pixels are identical. Packets over the 64 KiB APP1 limit fall back to a sidecar. PNG: chunks are walked to IEND; an `XML:com.adobe.xmp` iTXt is lifted out (compressed ones inflated with `decompressobj` capped at 4 MiB) and a new uncompressed one goes before the first IDAT with its CRC. Merging parses the old `x:xmpmeta` with defusedxml, removes `dc:subject` and `dc:title` from every `rdf:Description`, and appends new ones to the first; unregistered namespaces come back with ElementTree's ns0 style prefixes, which is valid XML (registering prefixes taken from files was rejected because `register_namespace` is global and could affect the SVG export). `exports.images_export` gathers tags per asset over every use in reading order and only calls the writer for tagged pictures.
+
+`keywords.embedded_keywords` now returns XMP keywords alone when there are any; otherwise IPTC then Windows. Without this, a keyword removed on the board came back from the file's IPTC or XPKeywords on the next import.
+
+Verified with the fixtures: a plain JPEG, a JPEG with its own XMP (rating and creator kept, old keyword replaced, one XMP APP1), a JPEG with EXIF (make kept), PNG plain and with compressed XMP (rating kept), WebP and an entity-declaring JPEG (untouched, sidecar); decoded pixels identical in every case; reading back gave exactly the written tags, including ampersand and angle brackets. End to end through `format=images` on the imported board after renaming a tag: untagged files byte-identical, the renamed tag in the JPEG, a sidecar beside the WebP, a picture used twice written once.
 
 ## v0.14.0 · Keywords in picture files
 

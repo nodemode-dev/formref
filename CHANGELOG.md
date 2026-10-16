@@ -1,5 +1,12 @@
 # FormRef changelog
 
+## v0.15.0 · 2026-10-16
+
+Tags travel with exported pictures.
+
+- The All pictures ZIP now writes each tagged picture's labels, tags and title into the file, where Lightroom, Bridge, darktable, digiKam and Windows read them. JPEG and PNG files carry them inside without the picture itself changing (other information in the file, such as camera details and ratings, is kept); other formats get a small .xmp file beside them. Untagged pictures are exactly the original files, as before.
+- When a picture's file has keywords in several places, FormRef now takes them from XMP when it has them, as photo tools do. Before, a keyword removed in one tool could come back from an older field.
+
 ## v0.14.0 · 2026-10-16
 
 Pictures arrive tagged.
