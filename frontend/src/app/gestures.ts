@@ -372,7 +372,7 @@ document.addEventListener('keydown', event => {
   }
   const command = commandForKey(event);
   if (!command) return;
-  const global = modifier && ['save', 'commands', 'export'].includes(command.id);
+  const global = modifier && ['save', 'commands', 'export', 'terminal', 'claude-code', 'agent'].includes(command.id);
   if ((editing || modal) && !global) return;
   if (command.id === 'paste') return;
   if (modifier && editing && !global) return;

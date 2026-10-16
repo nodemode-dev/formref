@@ -105,7 +105,9 @@ const paths = {
   outline: '<path d="M8 6h13M8 12h13M8 18h13"/><path d="M3.5 6h.01M3.5 12h.01M3.5 18h.01"/>',
   inspector: '<rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/>',
   send: '<path d="M4 12l16-8-6 16-2.5-6.5z"/><path d="M11.5 13.5L20 4"/>',
-  stop: '<rect x="6" y="6" width="12" height="12" rx="1.5"/>'
+  stop: '<rect x="6" y="6" width="12" height="12" rx="1.5"/>',
+  terminal: '<path d="M4 6l6 6-6 6M12 19h8"/>',
+  restart: '<path d="M4.5 12a7.5 7.5 0 1 0 2.2-5.3"/><path d="M4 4v5h5"/>'
 } as const;
 
 export type IconName = keyof typeof paths;

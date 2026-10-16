@@ -16,11 +16,14 @@
       root.dataset.rightDock = store.getItem('formref-right-dock') === 'collapsed' ? 'collapsed' : 'open';
       var panel = store.getItem('formref-right-panel');
       if (panel === 'agent' || panel === 'inspector') root.dataset.rightPanel = panel;
+      var dockH = store.getItem('formref-term-dock-h');
+      if (/^\d+px$/.test(dockH || '')) root.style.setProperty('--term-dock-h', dockH);
     } catch (_) {}
   </script>
   <link rel="stylesheet" href="/src/styles/tokens.css">
   <link rel="stylesheet" href="/src/styles/main.css">
   <link rel="stylesheet" href="/src/styles/shell.css">
+  <link rel="stylesheet" href="/src/styles/dock.css">
 </head>
 <body>
 <div id="app" class="app">
@@ -45,7 +48,8 @@
       <span class="divider"></span>
       <button class="button quiet" data-action="commands"><span data-icon="commands"></span>Commands<span class="key">Ctrl K</span></button>
       <button class="button" data-action="export"><span data-icon="export"></span>Export</button>
-      <button class="icon-button" data-action="agent" data-icon="agent" title="Agent · Ctrl/Cmd+J" aria-label="Open agent"></button>
+      <button class="icon-button" data-action="agent" data-icon="agent" title="Agent · Ctrl/Cmd+Alt+J" aria-label="Open agent"></button>
+      <button class="icon-button" data-action="terminal" data-icon="terminal" title="Terminal · Ctrl/Cmd+J" aria-label="Show terminal"></button>
       <button class="icon-button" data-action="preferences" data-icon="settings" title="Preferences" aria-label="Preferences"></button>
       <button class="icon-button" data-dock-toggle="right" data-icon="dock-right" aria-label="Toggle right panel" title="Collapse right panel"></button>
     </div>
@@ -178,6 +182,8 @@
           <svg id="navigator-map" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 120"></svg>
         </div>
       </section>
+
+      <section id="term-dock" class="term-dock" aria-label="Terminal" hidden></section>
 
       <footer class="statusbar">
         <span id="tool-status">Select and move references</span>
@@ -406,6 +412,13 @@
             <p id="agent-status" class="field-description agent-status" role="status">Each change the agent makes is one undoable step.</p>
             <label class="check-row"><input id="agent-confirm" type="checkbox" checked>Ask me before an agent removes items or moves 10 or more at once</label>
             <label class="check-row"><input id="agent-outside" type="checkbox">Allow outside agents (Claude Code, Codex, Cursor or any MCP client started outside FormRef) to edit boards</label>
+          </section>
+          <section class="panel-section agent-dock-settings">
+            <span class="section-label">CLAUDE CODE IN THE TERMINAL DOCK</span>
+            <p id="agent-claude-status" class="field-description">Ctrl/Cmd+Shift+J starts your own Claude Code sign-in in the terminal dock, already connected to this board's tools.</p>
+            <label class="field"><span>Starts in folder</span><input id="agent-claude-folder" type="text" spellcheck="false" placeholder="Default: the Agent folder in FormRef's data folder" aria-label="Claude Code starts in folder"></label>
+            <label class="field"><span>Claude Code program</span><input id="agent-claude-bin" type="text" spellcheck="false" placeholder="Default: claude found on this computer" aria-label="Claude Code program"></label>
+            <label class="field"><span>Start with message</span><input id="agent-claude-first" type="text" placeholder="Optional first message for every new session" aria-label="Start with message"></label>
           </section>
         </div>
       </div>

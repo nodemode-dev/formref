@@ -12,6 +12,7 @@ import { openLabels } from './labels';
 import { togglePresenting } from './present';
 import { cutoutOptions, downloadModel, togglePicking } from './cutout';
 import { openCloud, refreshCloudPreferences } from './cloud';
+import { newTerminal, openClaudeCode, toggleTerminal } from './terminal';
 import {
   $, S, add, applyState, arrange, closeOverlays, defaultSettings, editable, error, execute, fit, history, host, inputDialog,
   matches, open, openEditor, placement, referenceView, refreshBoards, selected, selectedImages, selection,
@@ -382,7 +383,10 @@ export const COMMANDS: CommandDef[] = [
   { group: 'View', id: 'reference-stop', label: 'Exit Reference View', icon: 'close', run: () => referenceView.stop(true), palette: false },
   { group: 'View', id: 'left-dock', label: 'Toggle Left Panel', icon: 'dock-left', keys: ['mod+['], run: () => toggleDock('left') },
   { group: 'View', id: 'right-dock', label: 'Toggle Right Panel', icon: 'dock-right', keys: ['mod+]'], run: () => toggleDock('right') },
-  { group: 'View', id: 'agent', label: 'Open Agent', icon: 'agent', keys: ['mod+j'], run: () => showRightPanel('agent') },
+  { group: 'View', id: 'agent', label: 'Open Agent', icon: 'agent', keys: ['mod+alt+j'], run: () => showRightPanel('agent') },
+  { group: 'View', id: 'terminal', label: 'Show Terminal', icon: 'terminal', keys: ['mod+j'], run: () => toggleTerminal().catch(error) },
+  { group: 'View', id: 'new-terminal', label: 'New Terminal', icon: 'plus', run: () => newTerminal().catch(error) },
+  { group: 'View', id: 'claude-code', label: 'Claude Code', icon: 'agent', keys: ['mod+shift+j'], run: () => openClaudeCode().catch(error) },
   { group: 'View', id: 'commands', label: 'Commands', icon: 'commands', keys: ['mod+k'], run: () => openPalette(), palette: false },
   { group: 'View', id: 'help', label: 'Keyboard Shortcuts', icon: 'keyboard', keys: ['?', 'shift+/'], run: () => $<HTMLDialogElement>('help-dialog').showModal() },
   { group: 'View', id: 'preferences', label: 'Preferences', icon: 'settings', keys: ['mod+,'], run: () => { setInput('theme-select', document.documentElement.dataset.theme || 'studio'); $<HTMLDialogElement>('preferences-dialog').showModal(); void clipToken().catch(error); void refreshCloudPreferences(); } },
@@ -437,7 +441,8 @@ export function comboOf(event: KeyboardEvent): string {
   if (event.ctrlKey || event.metaKey) parts.push('mod');
   if (event.shiftKey && event.key !== '?' && event.key !== '+') parts.push('shift');
   if (event.altKey) parts.push('alt');
-  parts.push(event.key === ' ' ? 'space' : event.key.toLowerCase());
+  const physical = event.altKey && /^(Key[A-Z]|Digit\d)$/.test(event.code) ? event.code.slice(event.code.startsWith('Key') ? 3 : 5).toLowerCase() : '';
+  parts.push(physical || (event.key === ' ' ? 'space' : event.key.toLowerCase()));
   return parts.join('+');
 }
 

@@ -1,7 +1,7 @@
 import { icon } from '../icons';
 
 interface Runner { id: string; label: string; available: boolean; path: string; note: string; models?: string[] }
-interface AgentSettings { runner: string; ollama_url: string; ollama_model: string; outside_agents: boolean; model: string; confirm_changes: boolean }
+interface AgentSettings { runner: string; ollama_url: string; ollama_model: string; outside_agents: boolean; model: string; confirm_changes: boolean; claude_folder: string; claude_bin: string; claude_first_message: string }
 type AgentEvent =
   | { type: 'confirm'; id: string; summary: string; seconds: number }
   | { type: 'confirm_closed'; id: string; allowed: boolean; reason: string }
@@ -33,6 +33,8 @@ export class AgentPanel {
   private readonly undo = $<HTMLButtonElement>('agent-undo');
   private readonly outside = $<HTMLInputElement>('agent-outside');
   private readonly confirmChanges = $<HTMLInputElement>('agent-confirm');
+  private readonly claudeFields = { claude_folder: $<HTMLInputElement>('agent-claude-folder'), claude_bin: $<HTMLInputElement>('agent-claude-bin'), claude_first_message: $<HTMLInputElement>('agent-claude-first') };
+  private readonly claudeStatus = $('agent-claude-status');
   private readonly asks = new Map<string, HTMLElement>();
   private readonly status = $('agent-status');
   private runners: Runner[] = [];
@@ -60,6 +62,18 @@ export class AgentPanel {
     this.modelSelect.addEventListener('change', () => void this.save({ ollama_model: this.modelSelect.value }));
     this.outside.addEventListener('change', () => void this.save({ outside_agents: this.outside.checked }));
     this.confirmChanges.addEventListener('change', () => void this.save({ confirm_changes: this.confirmChanges.checked }));
+    for (const [key, field] of Object.entries(this.claudeFields)) field.addEventListener('change', () => void this.save({ [key]: field.value.trim() }).then(() => this.claudeState()));
+  }
+
+  private async claudeState() {
+    try {
+      const response = await fetch('/api/claudecode');
+      if (!response.ok) return;
+      const data = await response.json() as { installed: boolean; path: string | null; version: string | null; folder: string; binNote: string };
+      this.claudeStatus.textContent = data.installed
+        ? `Claude Code ${data.version ?? ''} at ${data.path}; starts in ${data.folder}.${data.binNote ? ' ' + data.binNote : ''}`
+        : 'Claude Code is not installed. Install it from https://claude.com/claude-code and run claude once to sign in.';
+    } catch { }
   }
 
   async load() {
@@ -87,6 +101,8 @@ export class AgentPanel {
       this.modelSelect.value = data.settings.ollama_model;
       this.outside.checked = data.settings.outside_agents;
       this.confirmChanges.checked = data.settings.confirm_changes;
+      for (const [key, field] of Object.entries(this.claudeFields)) field.value = data.settings[key as keyof typeof this.claudeFields] ?? '';
+      void this.claudeState();
       this.showRunner();
     } catch {
       this.loaded = false;

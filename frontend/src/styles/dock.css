@@ -1,0 +1,27 @@
+:root { --term-dock-h: 280px; }
+.editor { grid-template-rows: var(--toolbar-h) minmax(0, 1fr) auto var(--status-h); }
+.editor > .statusbar { grid-row: 4; }
+.term-dock { grid-row: 3; position: relative; display: grid; grid-template-rows: 34px minmax(0, 1fr) 40px; height: var(--term-dock-h); min-width: 0; min-height: 0; background: var(--bg-primary); border-top: 1px solid var(--border-color); z-index: var(--z-chrome); }
+.term-dock-resize { position: absolute; top: -3px; left: 0; right: 0; height: 6px; cursor: row-resize; z-index: var(--z-raised); }
+.term-dock-resize:hover, .term-dock-resize.dragging { background: var(--accent-line); }
+.term-dock-head { display: flex; align-items: center; gap: var(--space-1); padding: 0 var(--space-2); background: var(--bg-secondary); border-bottom: 1px solid var(--border-color); min-width: 0; }
+.term-dock-tabs { display: flex; align-items: center; gap: 2px; min-width: 0; overflow-x: auto; scrollbar-width: none; }
+.term-dock-tab { display: inline-flex; align-items: center; gap: var(--space-2); height: 26px; padding: 0 var(--space-1) 0 var(--space-2); border: 1px solid transparent; border-radius: var(--radius); background: transparent; color: var(--text-muted); font: inherit; font-size: 11px; white-space: nowrap; }
+.term-dock-tab > svg { width: 13px; height: 13px; }
+.term-dock-tab:hover { color: var(--text-primary); }
+.term-dock-tab.active { border-color: var(--border-light); background: var(--bg-tertiary); color: var(--text-primary); }
+.term-dock-tab.is-claude > svg { color: var(--accent-color); }
+.term-dock-tab-x { display: inline-grid; place-items: center; width: 16px; height: 16px; border-radius: var(--radius-sm); color: var(--text-muted); }
+.term-dock-tab-x svg { width: 11px; height: 11px; }
+.term-dock-tab-x:hover { background: var(--bg-hover); color: var(--text-primary); }
+.term-dock-spacer { flex: 1; }
+.term-dock-claude svg { color: var(--accent-color); }
+.term-dock-stage { position: relative; min-height: 0; min-width: 0; overflow: hidden; }
+.term-host { position: absolute; inset: var(--space-2) var(--space-1) 0 var(--space-3); }
+.term-host .xterm-viewport { background: transparent !important; }
+.term-dock-empty { position: absolute; inset: 0; display: grid; place-items: center; margin: 0; }
+.term-dock-ask { display: flex; align-items: center; gap: var(--space-2); padding: 0 var(--space-2); background: var(--bg-secondary); border-top: 1px solid var(--border-color); }
+.term-dock-ask-mark { display: inline-grid; place-items: center; color: var(--accent-color); }
+.term-dock-ask-mark svg { width: 15px; height: 15px; }
+.term-dock-ask input { flex: 1; height: 28px; font-size: 11px; }
+.app.presenting .term-dock { display: none; }
