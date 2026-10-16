@@ -13,6 +13,13 @@ import { paintGradient } from '../lib/vector/gradient';
 /** Level of detail for image references: the smallest server-made preview (256 to 2048 px on the long edge) that covers the item at the current zoom and pixel ratio, or 0 for the original. Big boards decode far less, and zoomed-out screentone stops shimmering because the preview is resampled properly. A node only ever moves up a level. */
 const EDGES = [256, 512, 1024, 2048];
 let detailZoom = 1;
+/** Visible-first loading: images outside the view (plus a screen of margin) wait to load until the view reaches them, so a big board opens with what is on screen. Null until the first camera is drawn. */
+let viewRect: { x: number; y: number; w: number; h: number } | null = null;
+function inView(item: Item): boolean {
+  if (!viewRect) return true;
+  const r = Math.hypot(item.width, item.height) / 2, cx = item.x + item.width / 2, cy = item.y + item.height / 2;
+  return cx + r >= viewRect.x - viewRect.w && cx - r <= viewRect.x + 2 * viewRect.w && cy + r >= viewRect.y - viewRect.h && cy - r <= viewRect.y + 2 * viewRect.h;
+}
 function detailEdge(item: Item): number {
   if (item.data.sampling === 'nearest' || item.data.lod === false) return 0;
   const crop = item.data.crop as { width?: number; height?: number } | undefined;
@@ -33,7 +40,7 @@ function svg<K extends keyof SVGElementTagNameMap>(tag: K): SVGElementTagNameMap
 function text(node: Node, value: string) { if (node.textContent !== value) node.textContent = value; }
 export interface SceneHooks { edit(id: string, patch: Partial<Item>): void; item(id: string): Item | undefined; openEditor(id: string): void }
 class ItemNode {
-  root = el('div', 'board-item'); content = el('div', 'item-content'); imageBox = el('div', 'item-content image-content'); image = el('img', 'reference-image'); fallback = el('div', 'item-fallback'); fallbackText = el('span'); imageCaption = el('div', 'image-caption'); card = el('div', 'item-content card-content'); eyebrow = el('div', 'card-eyebrow'); eyebrowIcon = el('span'); eyebrowText = el('span'); title = el('div', 'card-title'); body = el('div', 'card-text'); url = el('div', 'card-url'); footer = el('div', 'card-footer'); footerText = el('span'); footerArrow = icon('arrow-right'); checkbox = el('input', 'todo-checkbox'); shapeBox = el('div', 'item-content shape-content'); drawing = svg('svg'); rect = svg('rect'); ellipse = svg('ellipse'); line = svg('line'); path = svg('path'); vpath = svg('path'); arrows = svg('svg'); arrowFill = svg('path'); arrowLine = svg('path'); defs = svg('defs'); linear = svg('linearGradient') as SVGLinearGradientElement; radial = svg('radialGradient') as SVGRadialGradientElement; lock = el('span', 'item-lock'); commentBadge = el('span', 'item-comments'); commentCount = el('span'); labelRow = el('div', 'item-labels'); source = ''; loadToken = 0; edge = 0;
+  root = el('div', 'board-item'); content = el('div', 'item-content'); imageBox = el('div', 'item-content image-content'); image = el('img', 'reference-image'); fallback = el('div', 'item-fallback'); fallbackText = el('span'); imageCaption = el('div', 'image-caption'); card = el('div', 'item-content card-content'); eyebrow = el('div', 'card-eyebrow'); eyebrowIcon = el('span'); eyebrowText = el('span'); title = el('div', 'card-title'); body = el('div', 'card-text'); url = el('div', 'card-url'); footer = el('div', 'card-footer'); footerText = el('span'); footerArrow = icon('arrow-right'); checkbox = el('input', 'todo-checkbox'); shapeBox = el('div', 'item-content shape-content'); drawing = svg('svg'); rect = svg('rect'); ellipse = svg('ellipse'); line = svg('line'); path = svg('path'); vpath = svg('path'); arrows = svg('svg'); arrowFill = svg('path'); arrowLine = svg('path'); defs = svg('defs'); linear = svg('linearGradient') as SVGLinearGradientElement; radial = svg('radialGradient') as SVGRadialGradientElement; lock = el('span', 'item-lock'); commentBadge = el('span', 'item-comments'); commentCount = el('span'); labelRow = el('div', 'item-labels'); source = ''; loadToken = 0; edge = 0; deferred = false;
   formattedBody = el('div', 'card-text formatted-card'); markdown = new MarkdownView(this.formattedBody, 48); swatchPreview = el('div', 'swatch-preview'); swatchPaint = el('div', 'swatch-paint'); mediaBox = el('div', 'card-media'); tableBox = el('div', 'card-table'); table!: TableView; sourceWidth = 0; sourceHeight = 0; current: Item | null = null;
   constructor(id: string, hooks: SceneHooks) {
     this.root.dataset.id = id; this.root.setAttribute('role', 'group'); this.image.alt = ''; this.image.decoding = 'async'; this.image.draggable = false;
@@ -52,7 +59,9 @@ class ItemNode {
   update(item: Item, selected: boolean, matching: boolean) {
     this.current = item; const r = this.root; r.dataset.kind = item.kind; r.classList.toggle('selected', selected); r.classList.toggle('locked', item.locked); r.classList.toggle('matched-out', !matching); r.classList.toggle('cutout', item.kind === 'image' && !!item.data.cutout); r.hidden = item.hidden; r.style.left = `${item.x}px`; r.style.top = `${item.y}px`; r.style.width = `${item.width}px`; r.style.height = `${item.height}px`; r.style.transform = `rotate(${item.rotation}deg)`; r.style.opacity = String(item.opacity); const blend = typeof item.data.blend === 'string' && BLENDS.includes(item.data.blend) ? item.data.blend : ''; if (r.style.mixBlendMode !== blend) r.style.mixBlendMode = blend; r.setAttribute('aria-label', item.title || `${item.kind} reference`); const open = Array.isArray(item.data.comments) ? (item.data.comments as { resolved?: boolean }[]).filter(c => !c.resolved).length : 0; this.commentBadge.hidden = !open; if (this.commentCount.textContent !== String(open)) this.commentCount.textContent = String(open); this.paintLabels(item); this.paintMedia(item); this.tableBox.hidden = item.kind !== 'table'; this.card.classList.toggle('table-content', item.kind === 'table'); if (item.kind === 'table') this.table.update(item);
     this.imageBox.hidden = item.kind !== 'image'; this.card.hidden = ['image', 'shape', 'stroke'].includes(item.kind); this.shapeBox.hidden = !['shape', 'stroke'].includes(item.kind);
-    if (item.kind === 'image') {
+    this.deferred = item.kind === 'image' && !this.source && !!item.asset_id && !inView(item);
+    if (this.deferred) { this.image.hidden = true; this.fallback.hidden = true; }
+    else if (item.kind === 'image') {
       this.edge = Math.max(this.edge, detailEdge(item) || Infinity);
       const source = item.asset_id ? (Number.isFinite(this.edge) ? `${api.assetUrl(item.asset_id)}/preview?edge=${this.edge}` : api.assetUrl(item.asset_id)) : '';
       if (source !== this.source) { this.source = source; const token = ++this.loadToken; if (source) { const pending = new Image(); pending.src = source; pending.decode().then(() => { if (token === this.loadToken) { this.sourceWidth = pending.naturalWidth; this.sourceHeight = pending.naturalHeight; if (this.current) paintImage(this.image, this.current, this.sourceWidth, this.sourceHeight); this.image.src = source; this.image.hidden = false; this.fallback.hidden = true; } }).catch(() => { if (token === this.loadToken && !this.image.getAttribute('src')) { this.fallback.hidden = false; text(this.fallbackText, 'Image unavailable. Use Replace / relink.'); } }); } else { this.image.hidden = true; this.fallback.hidden = false; } }
@@ -107,7 +116,11 @@ export class Scene {
     for (const connection of board.connections) { let line = this.lines.get(connection.id); if (!line) { const path = svg('path'); path.classList.add('connection'); path.dataset.connection = connection.id; const label = svg('text'); label.classList.add('connection-label'); line = { path, label }; this.lines.set(connection.id, line); this.connections.append(path, label); } const from = items.get(connection.from), to = items.get(connection.to); if (!from || !to) continue; const x1 = from.x + from.width / 2, y1 = from.y + from.height / 2, x2 = to.x + to.width / 2, y2 = to.y + to.height / 2; line.path.setAttribute('d', `M${x1},${y1} C${(x1 + x2) / 2},${y1} ${(x1 + x2) / 2},${y2} ${x2},${y2}`); line.path.setAttribute('stroke', connection.color || 'var(--accent-color)'); line.path.style.display = from.hidden || to.hidden ? 'none' : ''; line.label.setAttribute('x', String((x1 + x2) / 2)); line.label.setAttribute('y', String((y1 + y2) / 2 - 8)); text(line.label, connection.label); }
   }
   /** Called when the zoom changes: image references that now need more pixels load a larger preview (never a smaller one). */
-  detail(zoom: number) {
+  detail(zoom: number, view?: { x: number; y: number; w: number; h: number }) {
+    if (view) {
+      viewRect = view;
+      for (const node of this.nodes.values()) if (node.deferred && node.current && inView(node.current)) node.update(node.current, node.root.classList.contains('selected'), !node.root.classList.contains('matched-out'));
+    }
     if (zoom <= detailZoom) { detailZoom = Math.min(detailZoom, zoom); return; }
     detailZoom = zoom;
     for (const node of this.nodes.values()) if (node.current?.kind === 'image' && Number.isFinite(node.edge) && (detailEdge(node.current) || Infinity) > node.edge) node.update(node.current, node.root.classList.contains('selected'), !node.root.classList.contains('matched-out'));
