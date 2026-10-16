@@ -2,7 +2,7 @@
 
 Written by `./formref agents sync` from the command catalogue the FormRef window publishes; do not edit by hand. Run a command with the MCP tools `run_command` or `run_commands` (the window must be open). `window-only` commands are refused for outside agents; `risky` commands ask the person first.
 
-182 commands.
+183 commands.
 
 ## Canvas
 
@@ -236,6 +236,7 @@ Written by `./formref agents sync` from the command catalogue the FormRef window
 | --- | --- | --- | --- | --- |
 | `agent` | Open Agent |  | changes the board, window-only | Opens the agent panel on the right. |
 | `commands` | Commands | `mod+k` | changes the board, window-only | Opens the command palette. |
+| `compare` | Compare Pictures | `alt+c` | window-only | Shows the two selected pictures full screen to check one against the other: side by side, overlaid with an opacity slider, with a swipe divider, or as a difference where matching areas go black. Keys 1 to 4 pick the view, S swaps, Esc closes. Nothing on the board changes. Parameters: `mode` (string): side, overlay, swipe or difference. |
 | `forget-window` | Forget Board Window Layout |  | changes the board, window-only | Stops this board from moving or resizing the window when it opens. |
 | `help` | Keyboard Shortcuts | `?`, `shift+/` | changes the board, window-only | Opens the keyboard shortcut sheet, where shortcuts can be changed. |
 | `left-dock` | Toggle Left Panel | `mod+[` | view | Shows or hides the left panel (boards and the item outline). |
