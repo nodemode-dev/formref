@@ -10,7 +10,7 @@ async function normalize() {
   await execute({ type: 'normalize', ids: editable(), mode: $<HTMLSelectElement>('normalize-mode').value, value });
 }
 
-function sortBy(key: 'filename' | 'aspect' | 'similarity') {
+function sortBy(key: 'filename' | 'aspect' | 'similarity' | 'color') {
   const ids = targetIds();
   if (ids.length < 2) throw new Error('Select at least two references to sort, or clear the selection to sort the board.');
   return execute({ type: 'sort', ids, key, gap: Number($<HTMLInputElement>('pack-gap').value) || 24 });
@@ -21,6 +21,7 @@ export const ORGANIZE_COMMANDS: CommandDef[] = [
   { group: 'Organize', id: 'sort-aspect', label: 'Sort by Aspect Ratio', icon: 'sort', run: () => sortBy('aspect'), enabled: hasBoard },
   { group: 'Organize', id: 'sort-filename', label: 'Sort by Filename', icon: 'sort', run: () => sortBy('filename'), enabled: hasBoard },
   { group: 'Organize', id: 'sort-similarity', label: 'Sort by Similarity', icon: 'similarity', run: () => sortBy('similarity'), enabled: hasBoard },
+  { group: 'Organize', id: 'sort-color', label: 'Sort by Color', icon: 'palette', run: () => sortBy('color'), enabled: hasBoard },
   { group: 'Organize', id: 'group', label: 'Group Selected', icon: 'group', keys: ['mod+g'], run: () => execute({ type: 'group', ids: editable() }), enabled: () => selection.size > 1 },
   { group: 'Organize', id: 'ungroup', label: 'Ungroup Selected', icon: 'ungroup', keys: ['mod+shift+g'], run: () => execute({ type: 'ungroup', ids: editable() }), enabled: () => selected().some(i => i.group_id) },
   { group: 'Organize', id: 'align', label: 'Align', icon: 'align-left', run: () => execute({ type: 'align', ids: editable(), mode: $<HTMLSelectElement>('align-mode').value }), enabled: () => selection.size > 1 },

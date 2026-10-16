@@ -48,6 +48,10 @@ export function boardMenu(): MenuEntry[] {
     item('select-all'),
     item('deselect'),
     sep,
+    item('find-color'),
+    item('find-swatch-color'),
+    item('clear-color-find'),
+    sep,
     {
       label: 'Canvas', icon: 'grid', children: [
         { ...item('toggle-grid'), checked: settings.grid_visible },
@@ -71,6 +75,7 @@ export function boardMenu(): MenuEntry[] {
         item('sort-aspect'),
         item('sort-filename'),
         item('sort-similarity'),
+        item('sort-color'),
         sep,
         item('group'),
         item('ungroup'),

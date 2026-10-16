@@ -124,7 +124,11 @@ export function targetIds(): string[] {
   return S.state?.board.items.filter(i => !i.hidden && !i.locked && !i.parent_id && i.kind !== 'column').map(i => i.id) || [];
 }
 
+/** Further filters from feature modules (Find by Color); an item shows only when every one passes. */
+export const matchFilters: Array<(item: Item) => boolean> = [];
+
 export function matches(item: Item): boolean {
+  if (!matchFilters.every(filter => filter(item))) return false;
   const fold = (s: string) => s.normalize('NFD').replace(/\p{M}/gu, '').toLowerCase();
   const term = fold($<HTMLInputElement>('search').value.trim());
   const kind = $<HTMLSelectElement>('kind-filter').value;

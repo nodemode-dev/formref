@@ -84,6 +84,7 @@
         <div class="sidebar-line"></div>
         <div class="sidebar-group-head"><span>ON THIS BOARD</span><span id="outline-count" class="count">0</span></div>
         <label class="find-field"><span data-icon="search"></span><input id="search" type="search" placeholder="Find references…" aria-label="Find references"></label>
+        <div class="filter-row" id="filter-row">
         <select id="kind-filter" class="filter-select" aria-label="Filter reference kind">
           <option value="">All references</option>
           <option value="image">Images</option>
@@ -98,6 +99,8 @@
           <option value="shape">Shapes</option>
           <option value="stroke">Drawings</option>
         </select>
+        <button type="button" id="color-find" class="color-find" aria-label="Find by color" title="Find by color"><span class="color-find-dot"></span></button><button type="button" id="color-find-clear" class="color-find-clear" aria-label="Clear color filter" title="Clear color filter" data-icon="close"></button>
+        </div>
         <div id="outline" class="outline"></div>
         <div class="sidebar-bottom">
           <div class="local-indicator"><span class="status-dot"></span><span id="connection-state">Engine connecting</span></div>
@@ -418,6 +421,7 @@
               <button class="button compact" data-action="snap"><span data-icon="snap"></span>Snap</button>
               <button class="button compact" data-action="sort-filename"><span data-icon="sort"></span>By name</button>
               <button class="button compact" data-action="sort-similarity"><span data-icon="similarity"></span>By similarity</button>
+              <button class="button compact" data-action="sort-color"><span data-icon="palette"></span>By color</button>
               <button class="button compact" data-action="group"><span data-icon="group"></span>Group</button>
               <button class="button compact" data-action="ungroup"><span data-icon="ungroup"></span>Ungroup</button>
             </div>
@@ -800,6 +804,7 @@
 <input id="import-input" type="file" accept=".formref,.zip,.istack,.json,.bee" hidden>
 <input id="relink-input" type="file" accept="image/*" hidden>
 <input id="menu-background" type="color" class="offscreen-input" tabindex="-1" aria-hidden="true">
+<input id="color-find-input" type="color" class="offscreen-input" tabindex="-1" aria-hidden="true">
 <script type="module" src="/src/main.ts"></script>
 </body>
 </html>
