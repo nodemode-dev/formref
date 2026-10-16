@@ -8,3 +8,5 @@ CairoSVG
 defusedxml
 onnxruntime
 numpy
+websockets
+ptyprocess

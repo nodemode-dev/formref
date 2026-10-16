@@ -1,7 +1,7 @@
 import json
 import re
 
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException, Request
 from fastapi.responses import StreamingResponse
 from pydantic import BaseModel, Field
 
@@ -34,7 +34,9 @@ def agent_settings():
 
 
 @router.post("/agent/settings")
-def save_agent_settings(patch: dict):
+def save_agent_settings(patch: dict, request: Request):
+    if request.headers.get("x-formref-client") and any(key.startswith("claude_") or key == "outside_agents" for key in patch):
+        raise HTTPException(status_code=403, detail="Only the person in the FormRef window can change these settings.")
     return agents.save(patch)
 
 

@@ -1,3 +1,4 @@
+import asyncio
 from contextlib import asynccontextmanager
 import ipaddress
 import logging
@@ -13,7 +14,9 @@ from .routers.boards import router
 from .routers.agent import router as agent_router
 from .routers.clip import router as clip_router
 from .routers.cloud import router as cloud_router
+from .routers.terminal import router as terminal_router
 from .agent.service import agents
+from .agent import terminal
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(name)s %(levelname)s %(message)s")
 log = logging.getLogger("formref")
@@ -21,7 +24,9 @@ log = logging.getLogger("formref")
 @asynccontextmanager
 async def lifespan(app):
     log.info("FormRef %s using %s", VERSION, settings.data_dir)
+    terminal.start(asyncio.get_running_loop())
     yield
+    terminal.close_all()
     broker.close()
 
 app = FastAPI(title="FormRef", version=VERSION, lifespan=lifespan)
@@ -100,6 +105,7 @@ app.include_router(router)
 app.include_router(agent_router)
 app.include_router(clip_router)
 app.include_router(cloud_router)
+app.include_router(terminal_router)
 
 @app.get("/{path:path}")
 def frontend(path: str):

@@ -11,7 +11,7 @@ from ..core.store import store
 from . import runners
 
 API_URL = os.environ.get("FORMREF_API_URL", "http://127.0.0.1:8196").rstrip("/")
-DEFAULTS = {"runner": "claude", "ollama_url": "http://127.0.0.1:11434", "ollama_model": "", "outside_agents": False, "model": "", "confirm_changes": True}
+DEFAULTS = {"runner": "claude", "ollama_url": "http://127.0.0.1:11434", "ollama_model": "", "outside_agents": False, "model": "", "confirm_changes": True, "claude_folder": "", "claude_bin": "", "claude_first_message": ""}
 MAX_STEPS = 12
 SNAPSHOT_KEYS = ("items", "connections", "settings", "title", "background")
 BULK = 10
@@ -53,7 +53,7 @@ class Agents:
                 raise ValueError(f"{key} must be true or false.")
             if key == "runner" and value not in ("claude", "codex", "cursor", "ollama"):
                 raise ValueError("runner must be claude, codex, cursor or ollama.")
-            if key in ("ollama_url", "ollama_model", "model") and not isinstance(value, str):
+            if key in ("ollama_url", "ollama_model", "model", "claude_folder", "claude_bin", "claude_first_message") and not isinstance(value, str):
                 raise ValueError(f"{key} must be text.")
             if key == "ollama_url" and not value.startswith(("http://127.0.0.1", "http://localhost", "http://[::1]")):
                 raise ValueError("ollama_url must be a loopback address.")
