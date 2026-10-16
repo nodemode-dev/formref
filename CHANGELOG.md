@@ -1,5 +1,14 @@
 # FormRef changelog
 
+## v0.6.3 · 2026-10-16
+
+More Pathfinder, Offset Path and continuing paths.
+
+- Pathfinder: Divide, Trim, Merge and Crop, which keep several pieces.
+- Offset Path: a new path a set distance outside (or inside, with a negative value) the selected shapes, with round joins; the originals stay.
+- The Pen continues an open path: select it, press Shift+P and click one of its ends.
+- German: the save status and the colour-capture buttons no longer spill out of their space.
+
 ## v0.6.2 · 2026-10-16
 
 Chat in the dock, 26 languages, Pathfinder, arrowheads and gradients.

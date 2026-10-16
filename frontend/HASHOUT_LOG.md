@@ -19,6 +19,10 @@
 - [v0.4.7 synced notes, map cards, inline edit commit](#v047-synced-notes-map-cards-inline-edit-commit)
 - [v0.4.6 GIF frames and document export](#v046-gif-frames-and-document-export)
 
+## v0.6.3 Pathfinder pieces, Offset Path, continue path
+
+`pieces()` in `lib/vector/boolean.ts` builds Divide's faces incrementally (each new shape splits every existing face into inside and outside, plus its own leftover), so a piece's style index is the topmost shape covering it. Merge keys pieces by colour and fill. `offset()` is a Minkowski sum with a disc built from edge rectangles and vertex circles (16 steps), unioned in one call; it is exact for round joins and never self-intersects, but miter and bevel joins are not offered. Pen continuation in `direct-select.ts` only picks up unrotated items, because it rewrites the item box in world pixels; Live Corner radii are carried across by the average scale.
+
 ## v0.6.2 chat, languages, Pathfinder, arrowheads, gradients
 
 `src/ui/chat-pane.ts` listens to `/api/chat/events` (one EventSource opened on first use) and appends nodes as events arrive; streamed Markdown goes through `chat-markdown.ts` (formlit's, unchanged), which renders finished blocks once and only rewrites the live tail. `src/lib/i18n.ts` keeps each translated Text node's and attribute's English in WeakMaps, so a node rewritten by the app in English is translated again and a switch back restores English exactly; the observer is idle in English unless a translated node changes. The shell stays hidden until a saved non-English table is loaded, with a 4 s safety reveal in `index.html`. `lib/vector/boolean.ts` works on `flatten()` output, so Pathfinder results are polygons, not curves. Arrowheads are drawn in a second SVG in the item's pixel box because the vector SVG stretches with `preserveAspectRatio="none"`. Gradients live in each drawing's own `<defs>` with the item id in the gradient id.

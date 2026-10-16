@@ -1,7 +1,7 @@
 <p align="center"><img src="assets/formref-mark.svg" width="96" alt="FormRef"></p>
 <h1 align="center">FormRef</h1>
 <p align="center"><b>Reference boards for images, ideas & creative work.</b></p>
-<p align="center"><img alt="version" src="https://img.shields.io/badge/version-v0.6.2-f97316"> <img alt="license" src="https://img.shields.io/badge/license-Apache--2.0-blue"> <img alt="stack" src="https://img.shields.io/badge/engine-Rust-orange"></p>
+<p align="center"><img alt="version" src="https://img.shields.io/badge/version-v0.6.3-f97316"> <img alt="license" src="https://img.shields.io/badge/license-Apache--2.0-blue"> <img alt="stack" src="https://img.shields.io/badge/engine-Rust-orange"></p>
 
 FormRef is a local reference workspace in the Form family. Collect images & files, arrange them on a free canvas, add notes & tasks, connect ideas, organize boards, then export or control the same workspace through MCP.
 
@@ -28,7 +28,7 @@ Rust document engine · vanilla TypeScript/Vite view · Python/FastAPI media & p
 - **Labels & web images:** coloured board labels on any item; drag, paste or fetch images and pages from the web.
 - **Comments & templates:** comment threads on any item, resolved or reopened; start boards from starters or your own templates.
 - **Organize & draw:** pack, sort by name, aspect or colour similarity, rotate 90, opacity, pixel art, brush, eraser, rectangle, circle & line.
-- **Vector paths (toward Illustrator parity):** Pen (Shift+P) and Direct Selection (A) with anchors, handles and Live Corner widgets; select, nudge, delete and add anchors; Round Corners with Round, Inverted round and Chamfer; Pathfinder (Unite, Minus Front, Intersect, Exclude, Minus Back); caps, corners, miter limit, dashes and arrowheads; linear and radial gradients; polygon and star; Convert to Path, Add Anchor Points, Simplify, Smooth, Reverse, Join, Cut Path.
+- **Vector paths (toward Illustrator parity):** Pen (Shift+P) and Direct Selection (A) with anchors, handles and Live Corner widgets; select, nudge, delete and add anchors; Round Corners with Round, Inverted round and Chamfer; Pathfinder (Unite, Minus Front, Intersect, Exclude, Minus Back, Divide, Trim, Merge, Crop); Offset Path; the Pen continues open paths; caps, corners, miter limit, dashes and arrowheads; linear and radial gradients; polygon and star; Convert to Path, Add Anchor Points, Simplify, Smooth, Reverse, Join, Cut Path.
 - **Languages:** the whole window in 26 languages, English by default, chosen in Preferences and switched in place; your own board text is never translated. See [Languages](.docs/wiki/Languages.md).
 - **Chat in the dock:** a Chat tab (Ctrl/Cmd+Alt+J) where Claude answers in formatted text through FormRef's tools, with tool calls, a memory and cost meter, and handoff to and from Claude Code.
 - **One command registry:** menus, palette, shortcuts and agents share it, as in formvis and formlit; `list_commands`, `describe_command` and `run_command` reach every command an agent may run.
