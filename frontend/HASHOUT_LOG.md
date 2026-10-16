@@ -8,6 +8,7 @@
 - [Stacking scale](#stacking-scale)
 - [Verification](#verification)
 - [Scripts](#scripts)
+- [v0.7.2 drop into columns, all pictures, card hints](#v072-drop-into-columns-all-pictures-card-hints)
 - [v0.7.1 off-screen culling, group sizes, BeeRef files](#v071-off-screen-culling-group-sizes-beeref-files)
 - [v0.6.9 crop on the board, lasso, rotate selection, stacking lock](#v069-crop-on-the-board-lasso-rotate-selection-stacking-lock)
 - [v0.6.8 visible-first loading, PDF tools](#v068-visible-first-loading-pdf-tools)
@@ -25,6 +26,12 @@
 - [v0.4.8 desktop window controls and WebKit icons](#v048-desktop-window-controls-and-webkit-icons)
 - [v0.4.7 synced notes, map cards, inline edit commit](#v047-synced-notes-map-cards-inline-edit-commit)
 - [v0.4.6 GIF frames and document export](#v046-gif-frames-and-document-export)
+
+## v0.7.2 drop into columns, all pictures, card hints
+
+`app/drop-into.ts`: the target is the topmost visible column under the pointer that is not itself being moved and has no `data.drops_locked`. Only the moving roots count (items whose parent is not also moving; columns never nest). `moveCommands()` returns the `transform` alone when nothing changes parent, or a `batch` of the transform plus one `update` per root: joining sets `parent_id` and, when the item sits at or below the column, a new top `z` so it shows above the column; an item dragged out of its column with the pointer outside that column gets `parent_id: null`. One batch is one undo step. `highlightDrop()` toggles `drop-target` on one column node only when the target changes. Lock Against Drops toggles `data.drops_locked` on selected columns and only appears in the right-click menu when a column is selected. Verified at 4x CPU: drop in (parent set, z above), the column carrying its child, two undos restoring the original place, a locked column refusing, drag out releasing.
+
+The All pictures export row checks the board for pictures first and shows a message instead of downloading an error. The column footer and the other card hints now come from `t()` in `ui/scene.ts` because the page translator skips card content (it is user content); `bindings.ts` re-renders the scene on a language change, and `text()` writes only nodes whose words changed. `formref://window-state` from the desktop tray feeds the same `showNative()` that the page's own window controls use.
 
 ## v0.7.1 off-screen culling, group sizes, BeeRef files
 

@@ -13,6 +13,12 @@ src-tauri/
   src/main.rs                        Native window modes and launch sizing
 ```
 
+## v0.7.2 · Tray icon and show or hide shortcut
+
+`build_tray` adds a tray icon (the bundled `icons/icon.png`) whose left click calls `toggle_visible` and whose menu holds Show or Hide FormRef, Always on Top, Click-through and Quit. `toggle_visible` hides a window that is visible and focused, and otherwise unminimises, shows and focuses it; the same function answers the global shortcut Ctrl+Alt+F (Cmd+Option+F on macOS). The two check items are kept in managed state (`TrayChecks`) and `sync_tray` sets them from the real window state after any change from the page (`window_configure`), the tray or the click-through shortcut; tray changes also emit `formref://window-state` with the whole `WindowState`, which the page's Preferences checkboxes follow. If a desktop has no tray host, or another app owns the shortcut, the shell logs it and runs on. The menu labels are English: they are native and drawn before the page's language tables load.
+
+Checked on Linux under Xvfb with webkit2gtk 4.1: `cargo check` and `cargo clippy` clean; with the window focused, Ctrl+Alt+F hid it and pressed again showed it. Xvfb has no tray host, so the tray menu itself was not exercised.
+
 ## v0.5.1 · Always on bottom
 
 `window_configure` takes `always_on_bottom`. Tauri has no getter for it, so `ON_BOTTOM` remembers it like `CLICK_THROUGH`, and `window_state` reports it. On top and on bottom exclude each other in the shell itself (turning one on turns the other off), and the reply carries the whole state so Preferences shows both boxes truthfully. Compiled on Linux; not observed, because Xvfb has no window manager to stack windows.

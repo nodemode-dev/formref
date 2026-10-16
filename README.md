@@ -1,7 +1,7 @@
 <p align="center"><img src="assets/formref-mark.svg" width="96" alt="FormRef"></p>
 <h1 align="center">FormRef</h1>
 <p align="center"><b>Reference boards for images, ideas & creative work.</b></p>
-<p align="center"><img alt="version" src="https://img.shields.io/badge/version-v0.7.1-f97316"> <img alt="license" src="https://img.shields.io/badge/license-Apache--2.0-blue"> <img alt="stack" src="https://img.shields.io/badge/engine-Rust-orange"></p>
+<p align="center"><img alt="version" src="https://img.shields.io/badge/version-v0.7.2-f97316"> <img alt="license" src="https://img.shields.io/badge/license-Apache--2.0-blue"> <img alt="stack" src="https://img.shields.io/badge/engine-Rust-orange"></p>
 
 FormRef is a local reference workspace in the Form family. Collect images & files, arrange them on a free canvas, add notes & tasks, connect ideas, organize boards, then export or control the same workspace through MCP.
 
@@ -11,10 +11,10 @@ Rust document engine · vanilla TypeScript/Vite view · Python/FastAPI media & p
 
 - **One engine:** Rust commands own geometry, locking, grouping, arrangement & undo/redo.
 - **Reference media:** original assets, nondestructive crop on the board (C) and lasso crop, flip, per-image and canvas grayscale, opacity controls and ordered reference presentation.
-- **Canvas workflow:** persistent grid preferences, snapping with shared-engine undo, explicit pack and distribution spacing, and sizes normalized across a selection or within each group.
+- **Canvas workflow:** persistent grid preferences, snapping with shared-engine undo, explicit pack and distribution spacing, and sizes normalized across a selection or within each group; drag items into columns, or lock a column against drops.
 - **Reference editing:** source-pixel RGBA/RGB/HSV/HEX capture, editable swatches, bounded formatted notes & focused documents with guarded draft saves.
 - **Local persistence:** named boards & managed media saved on disk.
-- **Interoperability:** iStack import, BeeRef `.bee` boards in and out, portable archives & PNG/SVG/Markdown/JSON export; full-resolution PDF export (whole board, one page per item, or printed at 100% across A4, Letter, A3 or Tabloid pages); PDF pages turned into image references.
+- **Interoperability:** iStack import, BeeRef `.bee` boards in and out, portable archives & PNG/SVG/Markdown/JSON export, every picture's original file in one ZIP; full-resolution PDF export (whole board, one page per item, or printed at 100% across A4, Letter, A3 or Tabloid pages); PDF pages turned into image references.
 - **iStack's right-click menu:** File, Edit, Canvas, Organize, Images & Layer in iStack's order & shortcuts, plus Insert & Ask Agent. Press ? for every shortcut.
 - **Board tabs:** several boards open at once, restored where you left them.
 - **Trash:** deleted boards and removed items wait in the Trash until you empty it; restore puts them back.
@@ -116,7 +116,7 @@ Set environment variables before launch; local environment files must remain unc
 
 ## Status
 
-FormRef covers the PureRef image-board core and Milanote's cards, columns, tasks, tables, links, maps, synced notes and nested boards, behind iStack's menu, with an embedded agent. Background removal runs FormCut's models, with U2Net small built in; SAM 2.1 is implemented from FormCut's code but could not be downloaded on the build machine. Google Drive and Dropbox storage is opt-in; real-time collaboration and protected sharing remain gaps; the browser clipper loads unpacked (no store-signed build). The desktop shell (`./formref desktop`) adds always-on-top, always-on-bottom, frameless, fullscreen, window opacity and click-through windows; it was compiled and run on Linux, while compiled, signed macOS/Windows installers are not included. Codex, Cursor & Ollama runners are implemented but were not available on the build machine, so only Claude Code has been run end to end.
+FormRef covers the PureRef image-board core and Milanote's cards, columns, tasks, tables, links, maps, synced notes and nested boards, behind iStack's menu, with an embedded agent. Background removal runs FormCut's models, with U2Net small built in; SAM 2.1 is implemented from FormCut's code but could not be downloaded on the build machine. Google Drive and Dropbox storage is opt-in; real-time collaboration and protected sharing remain gaps; the browser clipper loads unpacked (no store-signed build). The desktop shell (`./formref desktop`) adds always-on-top, always-on-bottom, frameless, fullscreen, window opacity and click-through windows, a tray icon and Ctrl+Alt+F to show or hide FormRef from any app; it was compiled and run on Linux, while compiled, signed macOS/Windows installers are not included. Codex, Cursor & Ollama runners are implemented but were not available on the build machine, so only Claude Code has been run end to end.
 
 Planning, research and parity data live in the planning sidecar, outside this repository; the FormRef tab of the FormAI parity matrix is rendered from it each release. No self-authored test suite is included.
 

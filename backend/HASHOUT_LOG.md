@@ -8,6 +8,7 @@
 
 ## Contents
 
+- [v0.7.2 · All pictures export](#v072--all-pictures-export)
 - [v0.7.1 · BeeRef .bee boards](#v071--beeref-bee-boards)
 - [v0.6.8 · PDF export and PDF pages](#v068--pdf-export-and-pdf-pages)
 - [v0.6.7 · Image previews and the command line](#v067--image-previews-and-the-command-line)
@@ -17,6 +18,10 @@
 - [v0.2.0 · Canvas settings and snapping through MCP](#v020--canvas-settings-and-snapping-through-mcp)
 - [v0.1.0 · Local board service and SDK MCP](#v010--local-board-service-and-sdk-mcp)
 - [boot_backend.bat](#boot_backendbat)
+
+## v0.7.2 · All pictures export
+
+`images_export()` in `core/exports.py` walks image items with an asset in `reading_order()`, skips unresolved references and writes each asset once, uncompressed (`ZIP_STORED`, since pictures are already compressed), as `NNN title.ext` with the extension from the asset's MIME type. A board with no pictures is a 422 with a plain message. Checked: a board with four pictures, two of them the same file, gave three files whose SHA-256 equalled their asset IDs; a 120-picture board gave 120 files in order.
 
 ## v0.7.1 · BeeRef .bee boards
 

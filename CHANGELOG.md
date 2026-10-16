@@ -1,5 +1,14 @@
 # FormRef changelog
 
+## v0.7.2 · 2026-10-16
+
+Columns that collect what you drop on them, every picture out in one go, and FormRef one keystroke away.
+
+- Drag items onto a column to put them in it; drag them out to take them out. The column is outlined while you drag, and the move is one undo step. Lock Against Drops (right-click a selected column) keeps a column closed to new items.
+- Export, All pictures: a ZIP of every picture's original file, numbered in reading order, each picture once. Also through MCP (`format: "images"`).
+- Desktop: a tray icon that shows or hides FormRef on click, with Always on Top, Click-through and Quit in its menu, and Ctrl+Alt+F (Cmd+Option+F on a Mac) to bring FormRef to the front from any app or hide it.
+- Card hints on the board ("Double-click to edit" and the like) now follow the interface language.
+
 ## v0.7.1 · 2026-10-16
 
 Moving boards to and from BeeRef, and very large boards that stay fast.
