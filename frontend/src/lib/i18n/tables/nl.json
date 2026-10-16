@@ -851,7 +851,6 @@
  "Pink": "Roze",
  "Pixel art": "Pixelart",
  "Place inside column": "In kolom plaatsen",
- "Place items here via inspector": "Plaats items hier via de inspector",
  "Plain background (no model)": "Effen achtergrond (geen model)",
  "Plain text": "Platte tekst",
  "Play": "Afspelen",
@@ -1241,5 +1240,12 @@
  "This SQLite file is not a BeeRef board.": "Dit SQLite-bestand is geen BeeRef-bord.",
  "This file is not a readable BeeRef board.": "Dit bestand is geen leesbaar BeeRef-bord.",
  "Pictures and text went to the BeeRef file; {0} drawn or other items were left out because BeeRef has no place for them.": "Afbeeldingen en tekst staan in het BeeRef-bestand; {0} tekeningen of andere items zijn weggelaten omdat BeeRef ze niet kan bevatten.",
- "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles or bee.": "Het exportformaat moet portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles of bee zijn."
+ "A ZIP of every picture's original file, numbered in reading order": "Een ZIP met het originele bestand van elke afbeelding, genummerd in leesvolgorde",
+ "All pictures": "Alle afbeeldingen",
+ "Ctrl+Alt+F (Cmd+Option+F on a Mac) brings FormRef to the front from any app, or hides it when it is in front. The tray icon does the same on click, and its menu holds Always on Top, Click-through and Quit.": "Ctrl+Alt+F (Cmd+Option+F op een Mac) haalt FormRef vanuit elke app naar voren, of verbergt het als het al vooraan staat. Het pictogram in het systeemvak doet hetzelfde bij klikken, en het menu bevat Altijd bovenop, Doorklikken en Stop.",
+ "Drag items here": "Sleep items hierheen",
+ "Lock Against Drops": "Vergrendelen tegen neerzetten",
+ "Locked against drops": "Vergrendeld tegen neerzetten",
+ "This board has no pictures to export.": "Dit bord heeft geen afbeeldingen om te exporteren.",
+ "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee or images.": "Het exportformaat moet portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee of images zijn."
 }

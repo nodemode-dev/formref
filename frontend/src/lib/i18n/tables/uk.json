@@ -851,7 +851,6 @@
  "Pink": "Рожевий",
  "Pixel art": "Піксель-арт",
  "Place inside column": "Помістити в стовпець",
- "Place items here via inspector": "Розміщуйте елементи тут через «Інспектор»",
  "Plain background (no model)": "Однорідне тло (без моделі)",
  "Plain text": "Простий текст",
  "Play": "Відтворити",
@@ -1241,5 +1240,12 @@
  "This SQLite file is not a BeeRef board.": "Цей файл SQLite не є дошкою BeeRef.",
  "This file is not a readable BeeRef board.": "Цей файл не є читабельною дошкою BeeRef.",
  "Pictures and text went to the BeeRef file; {0} drawn or other items were left out because BeeRef has no place for them.": "Зображення й текст потрапили до файлу BeeRef; малюнки та інші елементи ({0}) пропущено, бо BeeRef не може їх зберігати.",
- "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles or bee.": "Формат експорту: portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles або bee."
+ "A ZIP of every picture's original file, numbered in reading order": "ZIP з оригінальним файлом кожного зображення, пронумерованим у порядку читання",
+ "All pictures": "Усі зображення",
+ "Ctrl+Alt+F (Cmd+Option+F on a Mac) brings FormRef to the front from any app, or hides it when it is in front. The tray icon does the same on click, and its menu holds Always on Top, Click-through and Quit.": "Ctrl+Alt+F (на Mac Cmd+Option+F) виводить FormRef на передній план з будь-якої програми або ховає його, якщо він уже попереду. Значок у треї робить те саме за клацанням, а в його меню є «Завжди згори», «Наскрізні клацання» і «Вийти».",
+ "Drag items here": "Перетягніть елементи сюди",
+ "Lock Against Drops": "Заборонити перетягування всередину",
+ "Locked against drops": "Перетягування всередину заборонено",
+ "This board has no pictures to export.": "На цій дошці немає зображень для експорту.",
+ "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee or images.": "Формат експорту: portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee або images."
 }

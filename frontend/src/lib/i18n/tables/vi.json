@@ -851,7 +851,6 @@
  "Pink": "Hồng",
  "Pixel art": "Pixel art",
  "Place inside column": "Đặt vào trong cột",
- "Place items here via inspector": "Đặt các mục vào đây qua bảng thuộc tính",
  "Plain background (no model)": "Nền trơn (không dùng mô hình)",
  "Plain text": "Văn bản thuần",
  "Play": "Phát",
@@ -1241,5 +1240,12 @@
  "This SQLite file is not a BeeRef board.": "Tệp SQLite này không phải là bảng BeeRef.",
  "This file is not a readable BeeRef board.": "Tệp này không phải là bảng BeeRef đọc được.",
  "Pictures and text went to the BeeRef file; {0} drawn or other items were left out because BeeRef has no place for them.": "Ảnh và văn bản đã vào tệp BeeRef; {0} hình vẽ hoặc mục khác bị bỏ qua vì BeeRef không chứa được chúng.",
- "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles or bee.": "Định dạng xuất phải là portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles hoặc bee."
+ "A ZIP of every picture's original file, numbered in reading order": "Tệp ZIP chứa tệp gốc của mọi ảnh, đánh số theo thứ tự đọc",
+ "All pictures": "Tất cả ảnh",
+ "Ctrl+Alt+F (Cmd+Option+F on a Mac) brings FormRef to the front from any app, or hides it when it is in front. The tray icon does the same on click, and its menu holds Always on Top, Click-through and Quit.": "Ctrl+Alt+F (Cmd+Option+F trên Mac) đưa FormRef lên trước từ bất kỳ ứng dụng nào, hoặc ẩn nó khi nó đang ở trước. Biểu tượng khay làm điều tương tự khi bấm, và menu của nó có Luôn ở trên, Bấm xuyên qua và Thoát.",
+ "Drag items here": "Kéo mục vào đây",
+ "Lock Against Drops": "Khóa không cho thả vào",
+ "Locked against drops": "Đã khóa không cho thả vào",
+ "This board has no pictures to export.": "Bảng này không có ảnh nào để xuất.",
+ "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee or images.": "Định dạng xuất phải là portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee hoặc images."
 }

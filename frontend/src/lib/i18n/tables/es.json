@@ -851,7 +851,6 @@
  "Pink": "Rosa",
  "Pixel art": "Pixel art",
  "Place inside column": "Colocar dentro de la columna",
- "Place items here via inspector": "Coloca elementos aquí mediante el inspector",
  "Plain background (no model)": "Fondo liso (sin modelo)",
  "Plain text": "Texto sin formato",
  "Play": "Reproducir",
@@ -1241,5 +1240,12 @@
  "This SQLite file is not a BeeRef board.": "Este archivo SQLite no es un tablero de BeeRef.",
  "This file is not a readable BeeRef board.": "Este archivo no es un tablero de BeeRef legible.",
  "Pictures and text went to the BeeRef file; {0} drawn or other items were left out because BeeRef has no place for them.": "Las imágenes y el texto pasaron al archivo de BeeRef; se omitieron {0} dibujos u otros elementos porque BeeRef no puede guardarlos.",
- "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles or bee.": "El formato de exportación debe ser portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles o bee."
+ "A ZIP of every picture's original file, numbered in reading order": "Un ZIP con el archivo original de cada imagen, numerado en orden de lectura",
+ "All pictures": "Todas las imágenes",
+ "Ctrl+Alt+F (Cmd+Option+F on a Mac) brings FormRef to the front from any app, or hides it when it is in front. The tray icon does the same on click, and its menu holds Always on Top, Click-through and Quit.": "Ctrl+Alt+F (Cmd+Opción+F en Mac) trae FormRef al frente desde cualquier app, o lo oculta si ya está al frente. El icono de la bandeja hace lo mismo al hacer clic, y su menú incluye Siempre visible, Clic a través y Salir.",
+ "Drag items here": "Arrastra elementos aquí",
+ "Lock Against Drops": "Bloquear para soltar",
+ "Locked against drops": "Bloqueada para soltar",
+ "This board has no pictures to export.": "Este tablero no tiene imágenes que exportar.",
+ "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee or images.": "El formato de exportación debe ser portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee o images."
 }

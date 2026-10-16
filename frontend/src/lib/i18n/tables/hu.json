@@ -851,7 +851,6 @@
  "Pink": "Rózsaszín",
  "Pixel art": "Pixelgrafika",
  "Place inside column": "Elhelyezés az oszlopon belül",
- "Place items here via inspector": "Az elemeket az inspektoron keresztül helyezheted ide",
  "Plain background (no model)": "Egyszínű háttér (modell nélkül)",
  "Plain text": "Egyszerű szöveg",
  "Play": "Lejátszás",
@@ -1241,5 +1240,12 @@
  "This SQLite file is not a BeeRef board.": "Ez az SQLite-fájl nem BeeRef-tábla.",
  "This file is not a readable BeeRef board.": "Ez a fájl nem olvasható BeeRef-tábla.",
  "Pictures and text went to the BeeRef file; {0} drawn or other items were left out because BeeRef has no place for them.": "A képek és a szöveg bekerültek a BeeRef-fájlba; {0} rajz vagy egyéb elem kimaradt, mert a BeeRef nem tudja tárolni őket.",
- "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles or bee.": "Az exportformátum portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles vagy bee lehet."
+ "A ZIP of every picture's original file, numbered in reading order": "ZIP, benne minden kép eredeti fájlja olvasási sorrendben számozva",
+ "All pictures": "Összes kép",
+ "Ctrl+Alt+F (Cmd+Option+F on a Mac) brings FormRef to the front from any app, or hides it when it is in front. The tray icon does the same on click, and its menu holds Always on Top, Click-through and Quit.": "A Ctrl+Alt+F (Macen Cmd+Option+F) bármely alkalmazásból előhozza a FormRefet, vagy elrejti, ha elöl van. A tálcaikon kattintásra ugyanezt teszi, menüjében a Mindig felül, az Átkattintás és a Kilépés található.",
+ "Drag items here": "Húzzon ide elemeket",
+ "Lock Against Drops": "Zárolás behúzás ellen",
+ "Locked against drops": "Behúzás ellen zárolva",
+ "This board has no pictures to export.": "Ezen a táblán nincs exportálható kép.",
+ "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee or images.": "Az exportformátum portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee vagy images lehet."
 }

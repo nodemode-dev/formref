@@ -851,7 +851,6 @@
  "Pink": "Růžová",
  "Pixel art": "Pixel art",
  "Place inside column": "Umístit do sloupce",
- "Place items here via inspector": "Umisťujte položky sem pomocí Inspektoru",
  "Plain background (no model)": "Jednolité pozadí (bez modelu)",
  "Plain text": "Prostý text",
  "Play": "Přehrát",
@@ -1241,5 +1240,12 @@
  "This SQLite file is not a BeeRef board.": "Tento soubor SQLite není tabule BeeRef.",
  "This file is not a readable BeeRef board.": "Tento soubor není čitelná tabule BeeRef.",
  "Pictures and text went to the BeeRef file; {0} drawn or other items were left out because BeeRef has no place for them.": "Obrázky a text byly uloženy do souboru BeeRef; {0} kreseb nebo jiných položek bylo vynecháno, protože je BeeRef neumí uložit.",
- "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles or bee.": "Formát exportu musí být portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles nebo bee."
+ "A ZIP of every picture's original file, numbered in reading order": "ZIP s původním souborem každého obrázku, očíslovaným v pořadí čtení",
+ "All pictures": "Všechny obrázky",
+ "Ctrl+Alt+F (Cmd+Option+F on a Mac) brings FormRef to the front from any app, or hides it when it is in front. The tray icon does the same on click, and its menu holds Always on Top, Click-through and Quit.": "Ctrl+Alt+F (na Macu Cmd+Option+F) přenese FormRef do popředí z libovolné aplikace, nebo ho skryje, když už je vpředu. Ikona v oznamovací oblasti dělá po kliknutí totéž a její nabídka obsahuje Vždy navrchu, Průchod kliknutí a Ukončit.",
+ "Drag items here": "Sem přetáhněte položky",
+ "Lock Against Drops": "Zamknout proti vkládání",
+ "Locked against drops": "Zamčeno proti vkládání",
+ "This board has no pictures to export.": "Tato tabule neobsahuje žádné obrázky k exportu.",
+ "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee or images.": "Formát exportu musí být portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee nebo images."
 }

@@ -851,7 +851,6 @@
  "Pink": "Розовый",
  "Pixel art": "Пиксель-арт",
  "Place inside column": "Поместить в столбец",
- "Place items here via inspector": "Размещайте элементы здесь через «Инспектор»",
  "Plain background (no model)": "Однородный фон (без модели)",
  "Plain text": "Простой текст",
  "Play": "Воспроизвести",
@@ -1241,5 +1240,12 @@
  "This SQLite file is not a BeeRef board.": "Этот файл SQLite не является доской BeeRef.",
  "This file is not a readable BeeRef board.": "Этот файл не является читаемой доской BeeRef.",
  "Pictures and text went to the BeeRef file; {0} drawn or other items were left out because BeeRef has no place for them.": "Изображения и текст попали в файл BeeRef; рисунки и другие элементы ({0}) пропущены, потому что BeeRef не может их хранить.",
- "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles or bee.": "Формат экспорта: portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles или bee."
+ "A ZIP of every picture's original file, numbered in reading order": "ZIP с исходным файлом каждого изображения, пронумерованным в порядке чтения",
+ "All pictures": "Все изображения",
+ "Ctrl+Alt+F (Cmd+Option+F on a Mac) brings FormRef to the front from any app, or hides it when it is in front. The tray icon does the same on click, and its menu holds Always on Top, Click-through and Quit.": "Ctrl+Alt+F (на Mac Cmd+Option+F) выводит FormRef на передний план из любого приложения или скрывает его, если он уже впереди. Значок в трее делает то же по щелчку, а в его меню есть «Поверх всех окон», «Сквозные щелчки» и «Выйти».",
+ "Drag items here": "Перетащите элементы сюда",
+ "Lock Against Drops": "Запретить перетаскивание внутрь",
+ "Locked against drops": "Перетаскивание внутрь запрещено",
+ "This board has no pictures to export.": "На этой доске нет изображений для экспорта.",
+ "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee or images.": "Формат экспорта: portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee или images."
 }

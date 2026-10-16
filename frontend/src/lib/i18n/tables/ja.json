@@ -851,7 +851,6 @@
  "Pink": "ピンク",
  "Pixel art": "ピクセルアート",
  "Place inside column": "列の中に配置",
- "Place items here via inspector": "インスペクターからアイテムをここに配置",
  "Plain background (no model)": "単色の背景（モデルなし）",
  "Plain text": "プレーンテキスト",
  "Play": "再生",
@@ -1241,5 +1240,12 @@
  "This SQLite file is not a BeeRef board.": "この SQLite ファイルは BeeRef ボードではありません。",
  "This file is not a readable BeeRef board.": "このファイルは読み取り可能な BeeRef ボードではありません。",
  "Pictures and text went to the BeeRef file; {0} drawn or other items were left out because BeeRef has no place for them.": "画像とテキストは BeeRef ファイルに入りました。BeeRef では保持できないため、描画などの項目 {0} 個は含まれていません。",
- "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles or bee.": "書き出し形式は portable、json、png、svg、markdown、pdf、pdf-pages、pdf-tiles、bee のいずれかです。"
+ "A ZIP of every picture's original file, numbered in reading order": "各画像の元ファイルを読む順に番号付けした ZIP",
+ "All pictures": "すべての画像",
+ "Ctrl+Alt+F (Cmd+Option+F on a Mac) brings FormRef to the front from any app, or hides it when it is in front. The tray icon does the same on click, and its menu holds Always on Top, Click-through and Quit.": "Ctrl+Alt+F（Mac では Cmd+Option+F）で、どのアプリからでも FormRef を前面に出し、前面にあるときは隠します。トレイアイコンをクリックしても同じで、そのメニューには「常に手前に表示」「クリック透過」「終了」があります。",
+ "Drag items here": "ここに項目をドラッグ",
+ "Lock Against Drops": "ドロップをロック",
+ "Locked against drops": "ドロップをロック中",
+ "This board has no pictures to export.": "このボードには書き出す画像がありません。",
+ "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee or images.": "書き出し形式は portable、json、png、svg、markdown、pdf、pdf-pages、pdf-tiles、bee、images のいずれかです。"
 }

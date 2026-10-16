@@ -851,7 +851,6 @@
  "Pink": "Różowy",
  "Pixel art": "Pixel art",
  "Place inside column": "Umieść w kolumnie",
- "Place items here via inspector": "Umieszczaj elementy tutaj przez Inspektor",
  "Plain background (no model)": "Jednolite tło (bez modelu)",
  "Plain text": "Zwykły tekst",
  "Play": "Odtwórz",
@@ -1241,5 +1240,12 @@
  "This SQLite file is not a BeeRef board.": "Ten plik SQLite nie jest tablicą BeeRef.",
  "This file is not a readable BeeRef board.": "Ten plik nie jest czytelną tablicą BeeRef.",
  "Pictures and text went to the BeeRef file; {0} drawn or other items were left out because BeeRef has no place for them.": "Obrazy i tekst trafiły do pliku BeeRef; pominięto rysunki lub inne elementy ({0}), bo BeeRef nie może ich przechowywać.",
- "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles or bee.": "Format eksportu musi być portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles lub bee."
+ "A ZIP of every picture's original file, numbered in reading order": "ZIP z oryginalnym plikiem każdego obrazu, ponumerowanym w kolejności czytania",
+ "All pictures": "Wszystkie obrazy",
+ "Ctrl+Alt+F (Cmd+Option+F on a Mac) brings FormRef to the front from any app, or hides it when it is in front. The tray icon does the same on click, and its menu holds Always on Top, Click-through and Quit.": "Ctrl+Alt+F (na Macu Cmd+Option+F) przywołuje FormRef z dowolnej aplikacji albo ukrywa go, gdy jest na wierzchu. Ikona w zasobniku robi to samo po kliknięciu, a jej menu zawiera Zawsze na wierzchu, Przeklikiwanie i Zakończ.",
+ "Drag items here": "Przeciągnij tu elementy",
+ "Lock Against Drops": "Zablokuj upuszczanie",
+ "Locked against drops": "Upuszczanie zablokowane",
+ "This board has no pictures to export.": "Na tej tablicy nie ma obrazów do eksportu.",
+ "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee or images.": "Format eksportu musi być portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee lub images."
 }

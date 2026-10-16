@@ -851,7 +851,6 @@
  "Pink": "Pembe",
  "Pixel art": "Piksel sanatı",
  "Place inside column": "Sütunun içine yerleştir",
- "Place items here via inspector": "Öğeleri buraya inspector üzerinden yerleştirin",
  "Plain background (no model)": "Düz arka plan (model yok)",
  "Plain text": "Düz metin",
  "Play": "Oynat",
@@ -1241,5 +1240,12 @@
  "This SQLite file is not a BeeRef board.": "Bu SQLite dosyası bir BeeRef panosu değil.",
  "This file is not a readable BeeRef board.": "Bu dosya okunabilir bir BeeRef panosu değil.",
  "Pictures and text went to the BeeRef file; {0} drawn or other items were left out because BeeRef has no place for them.": "Resimler ve metin BeeRef dosyasına aktarıldı; BeeRef bunları tutamadığı için {0} çizim veya başka öğe dışarıda bırakıldı.",
- "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles or bee.": "Dışa aktarma biçimi portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles veya bee olmalıdır."
+ "A ZIP of every picture's original file, numbered in reading order": "Her resmin özgün dosyasını okuma sırasına göre numaralandırılmış hâlde içeren bir ZIP",
+ "All pictures": "Tüm resimler",
+ "Ctrl+Alt+F (Cmd+Option+F on a Mac) brings FormRef to the front from any app, or hides it when it is in front. The tray icon does the same on click, and its menu holds Always on Top, Click-through and Quit.": "Ctrl+Alt+F (Mac'te Cmd+Option+F) FormRef'i herhangi bir uygulamadan öne getirir, zaten öndeyse gizler. Tepsi simgesi tıklandığında aynısını yapar; menüsünde Her Zaman Üstte, Tıklamayı Geçir ve Çık bulunur.",
+ "Drag items here": "Öğeleri buraya sürükleyin",
+ "Lock Against Drops": "Bırakmaya Karşı Kilitle",
+ "Locked against drops": "Bırakmaya karşı kilitli",
+ "This board has no pictures to export.": "Bu panoda dışa aktarılacak resim yok.",
+ "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee or images.": "Dışa aktarma biçimi portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee veya images olmalıdır."
 }

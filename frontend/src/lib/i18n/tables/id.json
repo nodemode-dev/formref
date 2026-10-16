@@ -851,7 +851,6 @@
  "Pink": "Merah muda",
  "Pixel art": "Pixel art",
  "Place inside column": "Tempatkan di dalam kolom",
- "Place items here via inspector": "Tempatkan item di sini lewat inspektur",
  "Plain background (no model)": "Latar belakang polos (tanpa model)",
  "Plain text": "Teks biasa",
  "Play": "Putar",
@@ -1241,5 +1240,12 @@
  "This SQLite file is not a BeeRef board.": "File SQLite ini bukan papan BeeRef.",
  "This file is not a readable BeeRef board.": "File ini bukan papan BeeRef yang dapat dibaca.",
  "Pictures and text went to the BeeRef file; {0} drawn or other items were left out because BeeRef has no place for them.": "Gambar dan teks masuk ke file BeeRef; {0} gambar tangan atau item lain dihilangkan karena BeeRef tidak dapat menyimpannya.",
- "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles or bee.": "Format ekspor harus portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, atau bee."
+ "A ZIP of every picture's original file, numbered in reading order": "ZIP berisi file asli setiap gambar, diberi nomor sesuai urutan baca",
+ "All pictures": "Semua gambar",
+ "Ctrl+Alt+F (Cmd+Option+F on a Mac) brings FormRef to the front from any app, or hides it when it is in front. The tray icon does the same on click, and its menu holds Always on Top, Click-through and Quit.": "Ctrl+Alt+F (Cmd+Option+F di Mac) memunculkan FormRef dari aplikasi mana pun, atau menyembunyikannya saat sedang di depan. Ikon baki melakukan hal yang sama saat diklik, dan menunya berisi Selalu di Atas, Klik Tembus, dan Keluar.",
+ "Drag items here": "Seret item ke sini",
+ "Lock Against Drops": "Kunci dari Penjatuhan",
+ "Locked against drops": "Terkunci dari penjatuhan",
+ "This board has no pictures to export.": "Papan ini tidak memiliki gambar untuk diekspor.",
+ "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee or images.": "Format ekspor harus portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, atau images."
 }

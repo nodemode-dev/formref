@@ -1,4 +1,5 @@
 import { api } from '../lib/api';
+import { onLanguage } from '../lib/i18n';
 import { isColor } from '../lib/color';
 import { nativeInvoke } from '../lib/host';
 import type { NativeWindow } from '../lib/host';
@@ -29,6 +30,7 @@ document.addEventListener('click', event => {
   } else if (target.dataset.export && S.state) {
     const link = document.createElement('a');
     const format = target.dataset.export;
+    if (format === 'images' && !S.state.board.items.some(item => item.kind === 'image' && item.asset_id)) { toast('This board has no pictures to export.'); return; }
     link.href = api.exportUrl(S.state.board.id, format) + (format.startsWith('pdf') ? `&paper=${encodeURIComponent($<HTMLSelectElement>('export-paper').value)}` : '');
     link.download = '';
     link.click();
@@ -356,6 +358,10 @@ if (native) {
     setInput('native-click-through', event.payload);
     toast(event.payload ? 'Click-through is on. Press Ctrl+Alt+K to turn it off.' : 'Click-through is off.');
   });
+  // The tray menu changes window modes from outside the page too.
+  void events?.listen('formref://window-state', event => showNative(event.payload as unknown as NativeWindow));
 }
 
 setInput('accent-select', getComputedStyle(document.documentElement).getPropertyValue('--accent-color').trim());
+// Card hints on the board come from t(); a language change repaints them (text() writes only nodes whose words changed).
+onLanguage(() => { if (S.state) scene.render(S.state.board, selection, matches); });

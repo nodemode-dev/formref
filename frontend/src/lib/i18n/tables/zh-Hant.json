@@ -851,7 +851,6 @@
  "Pink": "粉紅色",
  "Pixel art": "像素畫",
  "Place inside column": "放入欄內",
- "Place items here via inspector": "透過檢查器將項目放在這裡",
  "Plain background (no model)": "純色背景（無模型）",
  "Plain text": "純文字",
  "Play": "播放",
@@ -1241,5 +1240,12 @@
  "This SQLite file is not a BeeRef board.": "此 SQLite 檔案不是 BeeRef 白板。",
  "This file is not a readable BeeRef board.": "此檔案不是可讀取的 BeeRef 白板。",
  "Pictures and text went to the BeeRef file; {0} drawn or other items were left out because BeeRef has no place for them.": "圖片和文字已寫入 BeeRef 檔案；BeeRef 無法容納繪圖等其他項目，因此省略了 {0} 個。",
- "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles or bee.": "匯出格式必須是 portable、json、png、svg、markdown、pdf、pdf-pages、pdf-tiles 或 bee。"
+ "A ZIP of every picture's original file, numbered in reading order": "包含每張圖片原始檔案的 ZIP，依閱讀順序編號",
+ "All pictures": "所有圖片",
+ "Ctrl+Alt+F (Cmd+Option+F on a Mac) brings FormRef to the front from any app, or hides it when it is in front. The tray icon does the same on click, and its menu holds Always on Top, Click-through and Quit.": "按 Ctrl+Alt+F（Mac 上為 Cmd+Option+F）可從任何 App 將 FormRef 帶到最前，若已在最前則隱藏。按一下系統匣圖示效果相同，其選單包含「永遠在最上層」「點擊穿透」和「結束」。",
+ "Drag items here": "將項目拖到這裡",
+ "Lock Against Drops": "鎖定拖入",
+ "Locked against drops": "已鎖定拖入",
+ "This board has no pictures to export.": "此白板沒有可匯出的圖片。",
+ "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee or images.": "匯出格式必須是 portable、json、png、svg、markdown、pdf、pdf-pages、pdf-tiles、bee 或 images。"
 }

@@ -851,7 +851,6 @@
  "Pink": "Rose",
  "Pixel art": "Pixel art",
  "Place inside column": "Placer dans la colonne",
- "Place items here via inspector": "Placez des éléments ici via l'inspecteur",
  "Plain background (no model)": "Arrière-plan uni (sans modèle)",
  "Plain text": "Texte brut",
  "Play": "Lecture",
@@ -1241,5 +1240,12 @@
  "This SQLite file is not a BeeRef board.": "Ce fichier SQLite n’est pas un tableau BeeRef.",
  "This file is not a readable BeeRef board.": "Ce fichier n’est pas un tableau BeeRef lisible.",
  "Pictures and text went to the BeeRef file; {0} drawn or other items were left out because BeeRef has no place for them.": "Les images et le texte sont dans le fichier BeeRef ; {0} dessins ou autres éléments ont été omis, car BeeRef ne peut pas les contenir.",
- "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles or bee.": "Le format d’export doit être portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles ou bee."
+ "A ZIP of every picture's original file, numbered in reading order": "Un ZIP contenant le fichier d’origine de chaque image, numéroté dans l’ordre de lecture",
+ "All pictures": "Toutes les images",
+ "Ctrl+Alt+F (Cmd+Option+F on a Mac) brings FormRef to the front from any app, or hides it when it is in front. The tray icon does the same on click, and its menu holds Always on Top, Click-through and Quit.": "Ctrl+Alt+F (Cmd+Option+F sur Mac) fait passer FormRef au premier plan depuis n’importe quelle app, ou le masque s’il est déjà devant. L’icône de la zone de notification fait de même au clic, et son menu propose Toujours au premier plan, Clic traversant et Quitter.",
+ "Drag items here": "Glissez des éléments ici",
+ "Lock Against Drops": "Verrouiller contre les dépôts",
+ "Locked against drops": "Verrouillée contre les dépôts",
+ "This board has no pictures to export.": "Ce tableau ne contient aucune image à exporter.",
+ "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee or images.": "Le format d’export doit être portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee ou images."
 }

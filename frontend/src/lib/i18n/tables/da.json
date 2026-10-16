@@ -851,7 +851,6 @@
  "Pink": "Lyserød",
  "Pixel art": "Pixelkunst",
  "Place inside column": "Placér i kolonne",
- "Place items here via inspector": "Placér elementer her via inspektøren",
  "Plain background (no model)": "Almindelig baggrund (ingen model)",
  "Plain text": "Almindelig tekst",
  "Play": "Afspil",
@@ -1241,5 +1240,12 @@
  "This SQLite file is not a BeeRef board.": "Denne SQLite-fil er ikke en BeeRef-tavle.",
  "This file is not a readable BeeRef board.": "Denne fil er ikke en læsbar BeeRef-tavle.",
  "Pictures and text went to the BeeRef file; {0} drawn or other items were left out because BeeRef has no place for them.": "Billeder og tekst kom med i BeeRef-filen; {0} tegninger eller andre elementer blev udeladt, fordi BeeRef ikke kan rumme dem.",
- "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles or bee.": "Eksportformatet skal være portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles eller bee."
+ "A ZIP of every picture's original file, numbered in reading order": "En ZIP med hvert billedes originale fil, nummereret i læserækkefølge",
+ "All pictures": "Alle billeder",
+ "Ctrl+Alt+F (Cmd+Option+F on a Mac) brings FormRef to the front from any app, or hides it when it is in front. The tray icon does the same on click, and its menu holds Always on Top, Click-through and Quit.": "Ctrl+Alt+F (Cmd+Option+F på en Mac) henter FormRef frem fra enhver app eller skjuler det, når det er forrest. Ikonet i systembakken gør det samme ved klik, og dets menu har Altid øverst, Klik igennem og Afslut.",
+ "Drag items here": "Træk elementer hertil",
+ "Lock Against Drops": "Lås mod slip",
+ "Locked against drops": "Låst mod slip",
+ "This board has no pictures to export.": "Denne tavle har ingen billeder at eksportere.",
+ "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee or images.": "Eksportformatet skal være portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee eller images."
 }

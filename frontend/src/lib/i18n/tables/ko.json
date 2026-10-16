@@ -851,7 +851,6 @@
  "Pink": "분홍",
  "Pixel art": "픽셀 아트",
  "Place inside column": "열 안에 배치",
- "Place items here via inspector": "인스펙터에서 항목을 여기에 배치",
  "Plain background (no model)": "단색 배경(모델 없음)",
  "Plain text": "일반 텍스트",
  "Play": "재생",
@@ -1241,5 +1240,12 @@
  "This SQLite file is not a BeeRef board.": "이 SQLite 파일은 BeeRef 보드가 아닙니다.",
  "This file is not a readable BeeRef board.": "이 파일은 읽을 수 있는 BeeRef 보드가 아닙니다.",
  "Pictures and text went to the BeeRef file; {0} drawn or other items were left out because BeeRef has no place for them.": "그림과 텍스트는 BeeRef 파일에 들어갔습니다. BeeRef가 담을 수 없어 그리기 등 항목 {0}개는 제외되었습니다.",
- "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles or bee.": "내보내기 형식은 portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee 중 하나여야 합니다."
+ "A ZIP of every picture's original file, numbered in reading order": "각 그림의 원본 파일을 읽는 순서대로 번호를 붙인 ZIP",
+ "All pictures": "모든 그림",
+ "Ctrl+Alt+F (Cmd+Option+F on a Mac) brings FormRef to the front from any app, or hides it when it is in front. The tray icon does the same on click, and its menu holds Always on Top, Click-through and Quit.": "Ctrl+Alt+F(Mac에서는 Cmd+Option+F)를 누르면 어느 앱에서든 FormRef를 앞으로 가져오고, 이미 앞에 있으면 숨깁니다. 트레이 아이콘을 클릭해도 같고, 그 메뉴에는 항상 위에, 클릭 통과, 종료가 있습니다.",
+ "Drag items here": "여기로 항목을 끌어 놓기",
+ "Lock Against Drops": "놓기 잠금",
+ "Locked against drops": "놓기 잠김",
+ "This board has no pictures to export.": "이 보드에는 내보낼 그림이 없습니다.",
+ "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee or images.": "내보내기 형식은 portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images 중 하나여야 합니다."
 }
