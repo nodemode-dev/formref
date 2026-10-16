@@ -1,0 +1,98 @@
+#!/usr/bin/env bash
+set -euo pipefail
+cd "$(dirname "$0")"
+root="$PWD"
+
+usage() {
+  cat <<'EOF'
+./build_app            build FormRef from this folder, start to finish: tools check, install, Rust core, window, desktop app
+  --web                stop after the web build (./formref serve then runs it at http://127.0.0.1:8196)
+  --open               start FormRef when the build is done
+  --clean              rebuild the Rust core and the desktop shell from nothing
+  --                   everything after this goes to tauri build (for example -- --bundles deb)
+Every step's output goes to build_app.log beside this file.
+EOF
+}
+
+web_only=0 open_app=0 clean=0 tauri_args=()
+while [ $# -gt 0 ]; do
+  case "$1" in
+    --web) web_only=1 ;;
+    --open) open_app=1 ;;
+    --clean) clean=1 ;;
+    --) shift; tauri_args=("$@"); break ;;
+    -h|--help) usage; exit 0 ;;
+    *) usage >&2; exit 2 ;;
+  esac
+  shift
+done
+
+log="$root/build_app.log"
+: > "$log"
+exec > >(tee -a "$log") 2>&1
+trap 'status=$?; [ $status -eq 0 ] || printf "\n[formref] the build stopped (exit %s). The full log is %s\n" "$status" "$log"' EXIT
+
+say() { printf '[formref] %s\n' "$*"; }
+die() { printf '[formref] %s\n' "$*" >&2; exit 1; }
+step() { printf '\n[formref] == %s\n' "$*"; }
+
+step "checking the tools"
+case "$(uname -s)" in
+  Darwin) os=macos; xcode-select -p >/dev/null 2>&1 || die "the Xcode command line tools are missing: run xcode-select --install, then ./build_app again" ;;
+  Linux) os=linux ;;
+  *) die "build_app runs on macOS and Linux; on Windows run build_app.bat" ;;
+esac
+py="${FORMREF_PYTHON_BOOT:-}"
+if [ -z "$py" ]; then
+  for candidate in python3.13 python3.12 python3; do
+    if command -v "$candidate" >/dev/null 2>&1 && "$candidate" -c 'import sys; sys.exit(0 if sys.version_info >= (3, 12) else 1)' 2>/dev/null; then py="$(command -v "$candidate")"; break; fi
+  done
+fi
+[ -n "$py" ] || die "Python 3.12 or newer is required (on macOS: brew install python)"
+command -v node >/dev/null 2>&1 || die "Node 20.19 or newer is required (on macOS: brew install node)"
+node -e 'const [a,b]=process.versions.node.split(".").map(Number); process.exit(a>22||(a===22&&b>=12)||(a===20&&b>=19)?0:1)' \
+  || die "Node $(node -v) is too old; Vite needs 20.19 or 22.12 or newer"
+[ -f "$HOME/.cargo/env" ] && . "$HOME/.cargo/env"
+command -v cargo >/dev/null 2>&1 || die "Rust is required: install it from https://rustup.rs, then run ./build_app again"
+say "python $("$py" -c 'import platform; print(platform.python_version())'), node $(node -v), $(cargo -V | awk '{print $1, $2}')"
+if command -v claude >/dev/null 2>&1; then
+  say "Claude Code $(claude --version 2>/dev/null | awk '{print $1}') found; the terminal dock's Claude Code button can start it"
+else
+  say "Claude Code is not installed; FormRef builds without it, and the dock's Claude Code button asks for it (https://claude.com/claude-code)"
+fi
+
+step "installing the backend"
+if [ ! -x backend/venv/bin/python ]; then
+  (cd backend && FORMREF_PYTHON="$py" ./oc_install)
+else
+  backend/venv/bin/python -m pip install --quiet -r backend/requirements.txt
+fi
+step "installing the window"
+if [ ! -d frontend/node_modules ] || [ frontend/package.json -nt frontend/node_modules ]; then (cd frontend && npm install); fi
+
+if [ "$clean" = 1 ]; then
+  step "cleaning earlier builds"
+  cargo clean --manifest-path native/formref-core/Cargo.toml
+  [ -f src-tauri/Cargo.toml ] && cargo clean --manifest-path src-tauri/Cargo.toml
+fi
+
+step "building the Rust core"
+cargo build --release --manifest-path native/formref-core/Cargo.toml
+step "building the window"
+(cd frontend && npm run build)
+
+if [ "$web_only" = 1 ]; then
+  say "web build done: ./formref serve, then open http://127.0.0.1:8196"
+else
+  step "building the desktop app"
+  (cd frontend && npm run tauri -- build ${tauri_args[@]+"${tauri_args[@]}"})
+  bundle="$root/src-tauri/target/release/bundle"
+  [ -d "$bundle" ] && say "desktop packages are in $bundle"
+  say "the desktop app opens its window from the local service; ./formref serve (or ./formref desktop) starts it"
+fi
+
+if [ "$open_app" = 1 ]; then
+  step "starting FormRef"
+  exec "$root/formref" serve
+fi
+say "done"
