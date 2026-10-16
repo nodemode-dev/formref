@@ -414,6 +414,22 @@ async def run_command(command_id: str, params: dict | None = None) -> dict:
     """Runs a command in the open FormRef window exactly as the person would from the menu, on the current selection, as one undo step. Commands marked window-only (file pickers, preferences, the terminal, cloud) are refused; risky ones (deleting) wait for the person to confirm in the Agent panel when a panel turn is running and are refused otherwise. Prefer the dedicated tools (add_items, arrange_items and so on) when one fits."""
     return await json_api("POST", f"/api/commands/{command_id}/run", json={"params": params or {}})
 
+@mcp.tool(annotations=_write)
+async def run_commands(steps: list[dict]) -> dict:
+    """Runs several window commands in order, each as {"command_id": ..., "params": {...}}, stopping at the first one that fails; returns what ran and why it stopped. Use describe_command for each command's parameters."""
+    if not isinstance(steps, list) or not steps or len(steps) > 50:
+        raise ValueError("steps must hold 1 to 50 commands.")
+    done = []
+    for index, step in enumerate(steps):
+        command_id = step.get("command_id") if isinstance(step, dict) else None
+        if not isinstance(command_id, str):
+            return {"ran": done, "stopped_at": index, "error": "Each step needs a command_id."}
+        try:
+            done.append({"command_id": command_id, **(await json_api("POST", f"/api/commands/{command_id}/run", json={"params": step.get("params") or {}}))})
+        except ValueError as exc:
+            return {"ran": done, "stopped_at": index, "error": str(exc)}
+    return {"ran": done}
+
 @mcp.prompt()
 async def organize_references(board_id: str, objective: str = "Organize references into coherent groups") -> str:
     """Plan a reviewable board organization using current IDs and engine commands."""
