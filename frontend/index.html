@@ -502,6 +502,10 @@
       <button class="export-row" data-export="portable"><span data-icon="save"></span><span><strong>FormRef project</strong><small>Portable .formref archive with assets</small></span></button>
       <button class="export-row" data-export="png"><span data-icon="image"></span><span><strong>PNG image</strong><small>Raster canvas composition</small></span></button>
       <button class="export-row" data-export="svg"><span data-icon="shape"></span><span><strong>SVG canvas</strong><small>Vector layout with embedded assets</small></span></button>
+      <button class="export-row" data-export="pdf"><span data-icon="document"></span><span><strong>PDF, whole board</strong><small>One page at full resolution</small></span></button>
+      <button class="export-row" data-export="pdf-pages"><span data-icon="document"></span><span><strong>PDF, one page per item</strong><small>Each reference fitted to a page, in reading order</small></span></button>
+      <button class="export-row" data-export="pdf-tiles"><span data-icon="document"></span><span><strong>PDF, print at 100%</strong><small>The board tiled across pages</small></span></button>
+      <label class="field-row"><span>PDF paper</span><select id="export-paper"><option value="a4">A4</option><option value="letter">Letter</option><option value="a3">A3</option><option value="tabloid">Tabloid</option></select></label>
       <button class="export-row" data-export="markdown"><span data-icon="note"></span><span><strong>Markdown</strong><small>Notes, links and tasks</small></span></button>
       <button class="export-row" data-export="json"><span data-icon="file"></span><span><strong>Board JSON</strong><small>Structured data; assets stay external</small></span></button>
     </div>

@@ -16,6 +16,8 @@ import { replaceActiveWithNext } from './tabs';
 
 for (const node of document.querySelectorAll<HTMLElement>('[data-icon]')) node.prepend(icon(node.dataset.icon!));
 
+if (/^(en-(US|CA)|es-(MX|US)|fr-CA)$/i.test(navigator.language)) $<HTMLSelectElement>('export-paper').value = 'letter';
+
 document.addEventListener('click', event => {
   const target = (event.target as Element).closest<HTMLElement>('[data-action],[data-tool],[data-export]');
   if (!target || (target instanceof HTMLButtonElement && target.disabled)) return;
@@ -26,7 +28,8 @@ document.addEventListener('click', event => {
     setTool(target.dataset.tool as Tool);
   } else if (target.dataset.export && S.state) {
     const link = document.createElement('a');
-    link.href = api.exportUrl(S.state.board.id, target.dataset.export);
+    const format = target.dataset.export;
+    link.href = api.exportUrl(S.state.board.id, format) + (format.startsWith('pdf') ? `&paper=${encodeURIComponent($<HTMLSelectElement>('export-paper').value)}` : '');
     link.download = '';
     link.click();
     closeOverlays();

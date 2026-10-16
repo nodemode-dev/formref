@@ -315,6 +315,99 @@ def svg_export(board):
                 svg_element(text, "tspan", {"x": 14, "dy": 0 if index == 0 else size * 1.4}, line)
     return ET.tostring(root, encoding="utf-8", xml_declaration=True)
 
+PAPERS = {"a4": (595.28, 841.89), "letter": (612.0, 792.0), "a3": (841.89, 1190.55), "tabloid": (792.0, 1224.0)}
+PDF_MAX = 14400.0
+PX_TO_PT = 0.75
+
+
+def item_box(item):
+    """Board-space box around an item, rotation included."""
+    angle = math.radians(item.get("rotation", 0))
+    cosine, sine = abs(math.cos(angle)), abs(math.sin(angle))
+    width = item["width"] * cosine + item["height"] * sine
+    height = item["width"] * sine + item["height"] * cosine
+    cx, cy = item["x"] + item["width"] / 2, item["y"] + item["height"] / 2
+    return cx - width / 2, cy - height / 2, width, height
+
+
+def reading_order(items):
+    """Top to bottom in rows, then left to right, as a person reads a board."""
+    rows = []
+    for item in sorted(items, key=lambda entry: item_box(entry)[1]):
+        box = item_box(item)
+        row = next((r for r in rows if abs(r[0] - box[1]) < max(24.0, box[3] * 0.4)), None)
+        if row:
+            row[1].append(item)
+        else:
+            rows.append([box[1], [item]])
+    return [entry for _, row in rows for entry in sorted(row, key=lambda entry: item_box(entry)[0])]
+
+
+def pdf_export(board, layout="board", paper="a4"):
+    """PDF of the board at full resolution: the whole board on one page, one page per top-level item in reading order fitted to the paper, or the board at 100 percent tiled across paper pages for printing large."""
+    import cairocffi as cairo
+    from cairosvg.parser import Tree
+    from cairosvg.surface import PDFSurface
+
+    page_w, page_h = PAPERS.get(paper, PAPERS["a4"])
+    source = svg_export(board) if layout != "pages" else None
+    output = io.BytesIO()
+    shared = cairo.PDFSurface(output, page_w, page_h)
+    shared.set_metadata(cairo.PDF_METADATA_TITLE, board.get("title") or "Board")
+    shared.set_metadata(cairo.PDF_METADATA_CREATOR, "FormRef")
+
+    class Page(PDFSurface):
+        def _create_surface(self, width, height):
+            shared.set_size(width, height)
+            return shared, width, height
+
+    def page(view, width_pt, height_pt, svg=None):
+        tree = Tree(bytestring=svg or source, unsafe=False)
+        tree["viewBox"] = " ".join(f"{value:.3f}" for value in view)
+        tree["width"], tree["height"] = f"{width_pt / PX_TO_PT:.3f}", f"{height_pt / PX_TO_PT:.3f}"
+        tree["preserveAspectRatio"] = "xMidYMid meet"
+        Page(tree, None, 96)
+        shared.show_page()
+
+    left, top, width, height = bounds(board)
+    count = 0
+    if layout == "pages":
+        items = [item for item in board["items"] if not item.get("hidden") and not item.get("parent_id")]
+        for item in reading_order(items):
+            inside = {item["id"]}
+            for entry in board["items"]:
+                if entry.get("parent_id") in inside and not entry.get("hidden"):
+                    inside.add(entry["id"])
+            alone = {**board, "items": [entry for entry in board["items"] if entry["id"] in inside], "connections": []}
+            x, y, w, h = bounds(alone)
+            margin = 36.0
+            landscape = w > h
+            pw, ph = (page_h, page_w) if landscape else (page_w, page_h)
+            scale = min((pw - 2 * margin) / w, (ph - 2 * margin) / h)
+            vw, vh = pw / scale, ph / scale
+            page((x - (vw - w) / 2, y - (vh - h) / 2, vw, vh), pw, ph, svg_export(alone))
+            count += 1
+    elif layout == "tiles":
+        landscape = width > height
+        pw, ph = (page_h, page_w) if landscape else (page_w, page_h)
+        tile_w, tile_h = pw / PX_TO_PT, ph / PX_TO_PT
+        columns, rows = max(1, math.ceil(width / tile_w)), max(1, math.ceil(height / tile_h))
+        if columns * rows > 400:
+            raise ValueError(f"At 100 percent this board needs {columns * rows} pages; export it as one page or one page per item instead.")
+        for row in range(rows):
+            for column in range(columns):
+                page((left + column * tile_w, top + row * tile_h, tile_w, tile_h), pw, ph)
+                count += 1
+    else:
+        scale = min(1.0, PDF_MAX / (width * PX_TO_PT), PDF_MAX / (height * PX_TO_PT))
+        page((left, top, width, height), width * PX_TO_PT * scale, height * PX_TO_PT * scale)
+        count = 1
+    if not count:
+        raise ValueError("There is nothing on this board to put on a page.")
+    shared.finish()
+    return output.getvalue(), count
+
+
 def portable_export(state):
     board = state["board"]
     asset_ids = {item["asset_id"] for item in board["items"] if item.get("asset_id")}
@@ -377,9 +470,14 @@ def markdown_export(board):
             lines.append("- " + titles.get(connection["from"], "Item") + " -> " + titles.get(connection["to"], "Item") + (": " + connection["label"] if connection.get("label") else ""))
     return "\n".join(lines).encode("utf-8")
 
-def export_board(state, format):
+def export_board(state, format, paper="a4"):
     board = state["board"]
     headers = {}
+    if format in {"pdf", "pdf-pages", "pdf-tiles"}:
+        data, pages = pdf_export(board, {"pdf": "board", "pdf-pages": "pages", "pdf-tiles": "tiles"}[format], paper)
+        headers["X-FormRef-Pages"] = str(pages)
+        headers["Content-Disposition"] = 'attachment; filename="' + safe_name(board["title"], "pdf") + '"'
+        return data, "application/pdf", headers
     if format == "portable":
         data, mime, extension = portable_export(state), "application/zip", "formref"
     elif format == "json":
@@ -392,6 +490,6 @@ def export_board(state, format):
     elif format == "markdown":
         data, mime, extension = markdown_export(board), "text/markdown; charset=utf-8", "md"
     else:
-        raise ValueError("Export format must be portable, json, png, svg, or markdown.")
+        raise ValueError("Export format must be portable, json, png, svg, markdown, pdf, pdf-pages or pdf-tiles.")
     headers["Content-Disposition"] = 'attachment; filename="' + safe_name(board["title"], extension) + '"'
     return data, mime, headers

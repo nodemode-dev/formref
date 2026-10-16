@@ -259,12 +259,14 @@ async def relink_asset(board_id: str, item_id: str = Form(...), file: UploadFile
     return await asyncio.to_thread(store.mutate, board_id, {"type": "update", "ids": [item_id], "patch": {"asset_id": asset["id"], "data": item_data}})
 
 @router.get("/boards/{board_id}/export")
-def export(board_id: str, format: str = "portable"):
+def export(board_id: str, format: str = "portable", paper: str = "a4"):
     state = store.get(board_id)
     handler = registry.exporters.get(format)
     if handler is None:
         raise ValueError("Export format is not registered.")
-    data, mime, headers = handler(state)
+    if format.startswith("pdf") and paper not in {"a4", "letter", "a3", "tabloid"}:
+        raise ValueError("Paper is a4, letter, a3 or tabloid.")
+    data, mime, headers = handler(state, paper=paper) if format.startswith("pdf") else handler(state)
     return Response(content=data, media_type=mime, headers=headers)
 
 @router.get("/boards/{board_id}/events")
