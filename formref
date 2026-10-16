@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
+caller="$PWD"
 cd "$(dirname "$0")"
 root="$PWD"
 action="${1:-dev}"
@@ -7,7 +8,7 @@ python_bin="${FORMREF_PYTHON:-$root/backend/venv/bin/python}"
 if [[ "${OS:-}" == "Windows_NT" ]]; then python_bin="${FORMREF_PYTHON:-$root/backend/venv/Scripts/python.exe}"; fi
 case "$action" in
   help|--help|-h)
-    printf '%s\n' 'Usage: ./formref [install|dev|core|build|backend|frontend|serve|mcp|claude|desktop|clipper [--new]|doctor|help]' 'The whole app, start to finish: ./build_app (--web, --open, --clean)'
+    printf '%s\n' 'Usage: ./formref [install|dev|core|build|backend|frontend|serve|mcp|claude|desktop|clipper [--new]|doctor|help]' '       ./formref open <board title or id> [--no-window]' '       ./formref import <folder> [--title NAME] [--recursive] [--no-window]' 'The whole app, start to finish: ./build_app (--web, --open, --clean)'
     ;;
   doctor)
     printf '%s\n' 'FormRef local environment'
@@ -43,6 +44,10 @@ case "$action" in
     cd backend
     exec "$python_bin" -m app.mcp_server
     ;;
+  open|import)
+    cd backend
+    FORMREF_CALLER_DIR="$caller" exec "$python_bin" -m app.cli "$action" "${@:2}"
+    ;;
   claude)
     command -v claude >/dev/null 2>&1 || { printf '%s\n' 'Claude Code is not installed: https://claude.com/claude-code' >&2; exit 1; }
     config="$("$python_bin" -c 'import json, sys; print(json.dumps({"mcpServers": {"formref": {"type": "stdio", "command": sys.argv[1], "args": ["mcp"]}}}))' "$root/formref")"
@@ -67,5 +72,5 @@ case "$action" in
     cd frontend
     npm run tauri -- dev
     ;;
-  *) printf '%s\n' 'Usage: ./formref [install|dev|core|build|backend|frontend|serve|mcp|claude|desktop|clipper [--new]]' >&2; exit 2 ;;
+  *) printf '%s\n' 'Usage: ./formref [install|dev|core|build|backend|frontend|serve|mcp|claude|desktop|clipper [--new]|open|import]' >&2; exit 2 ;;
 esac

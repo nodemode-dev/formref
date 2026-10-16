@@ -1,5 +1,6 @@
 @echo off
 setlocal EnableDelayedExpansion
+set "FORMREF_CALLER_DIR=%CD%"
 cd /d "%~dp0"
 set "PYTHON_BIN=%~dp0backend\venv\Scripts\python.exe"
 if defined FORMREF_PYTHON set "PYTHON_BIN=%FORMREF_PYTHON%"
@@ -9,6 +10,8 @@ if "%ACTION%"=="--help" set ACTION=help
 if "%ACTION%"=="-h" set ACTION=help
 if "%ACTION%"=="help" (
   echo Usage: formref.bat [install^|dev^|core^|build^|backend^|frontend^|serve^|mcp^|desktop^|clipper [--new]^|help]
+  echo        formref.bat open ^<board title or id^> [--no-window]
+  echo        formref.bat import ^<folder^> [--title NAME] [--recursive] [--no-window]
   exit /b 0
 )
 if "%ACTION%"=="backend" (call backend\boot_backend.bat & exit /b !errorlevel!)
@@ -26,6 +29,8 @@ if "%ACTION%"=="mcp" (
   "%PYTHON_BIN%" -m app.mcp_server
   exit /b !errorlevel!
 )
+if "%ACTION%"=="open" goto cli
+if "%ACTION%"=="import" goto cli
 if "%ACTION%"=="clipper" (
   cd backend
   "%PYTHON_BIN%" -m app.core.clipper %2
@@ -56,5 +61,10 @@ if "%ACTION%"=="dev" (
   start "FormRef UI" cmd /k call "%~dp0frontend\boot_frontend.bat"
   exit /b 0
 )
-echo Usage: formref.bat [install^|dev^|core^|build^|backend^|frontend^|serve^|mcp^|desktop^|clipper [--new]^|help]
+echo Usage: formref.bat [install^|dev^|core^|build^|backend^|frontend^|serve^|mcp^|desktop^|clipper [--new]^|open^|import^|help]
 exit /b 2
+
+:cli
+cd backend
+"%PYTHON_BIN%" -m app.cli %*
+exit /b !errorlevel!
