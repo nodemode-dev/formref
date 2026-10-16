@@ -440,6 +440,30 @@ def portable_export(state):
             archive.writestr("assets/" + asset_id + ".blob", data)
     return output.getvalue()
 
+IMAGE_EXTENSIONS = {"image/png": "png", "image/jpeg": "jpg", "image/webp": "webp", "image/gif": "gif", "image/bmp": "bmp", "image/svg+xml": "svg", "image/tiff": "tif", "image/avif": "avif", "image/heic": "heic"}
+
+def images_export(board):
+    """Every picture on the board as its original file, numbered in reading order; a picture used several times is written once."""
+    pictures = [item for item in board["items"] if item["kind"] == "image" and item.get("asset_id") and not (item.get("data") or {}).get("unresolved")]
+    output, seen, used = io.BytesIO(), set(), set()
+    with zipfile.ZipFile(output, "w", compression=zipfile.ZIP_STORED) as archive:
+        for item in reading_order(pictures):
+            if item["asset_id"] in seen:
+                continue
+            seen.add(item["asset_id"])
+            try:
+                info, data = store.asset_bytes(item["asset_id"])
+            except (KeyError, ValueError, OSError):
+                continue
+            stem = re.sub(r'[\\/:*?"<>|\x00-\x1f]+', "_", Path(item.get("title") or info.get("name") or "image").stem).strip(" ._")[:80] or "image"
+            extension = IMAGE_EXTENSIONS.get(info.get("mime"), Path(info.get("name") or "").suffix.lstrip(".").lower() or "bin")
+            name = f"{len(seen):03d} {stem}.{extension}"
+            while name in used:
+                name = f"{len(seen):03d} {stem} {len(used)}.{extension}"
+            used.add(name)
+            archive.writestr(name, data)
+    return output.getvalue(), len(used)
+
 def table_cells(data):
     """Column names and raw cell text of a table card; formulas are exported as written."""
     table = data.get("table") if isinstance(data.get("table"), dict) else {}
@@ -493,6 +517,13 @@ def export_board(state, format, paper="a4"):
         headers["X-FormRef-Items"] = str(count)
         headers["Content-Disposition"] = 'attachment; filename="' + safe_name(board["title"], "bee") + '"'
         return data, "application/vnd.sqlite3", headers
+    if format == "images":
+        data, count = images_export(board)
+        if not count:
+            raise ValueError("This board has no pictures to export.")
+        headers["X-FormRef-Items"] = str(count)
+        headers["Content-Disposition"] = 'attachment; filename="' + safe_name(board["title"] + "_images", "zip") + '"'
+        return data, "application/zip", headers
     if format in {"pdf", "pdf-pages", "pdf-tiles"}:
         data, pages = pdf_export(board, {"pdf": "board", "pdf-pages": "pages", "pdf-tiles": "tiles"}[format], paper)
         headers["X-FormRef-Pages"] = str(pages)
@@ -510,6 +541,6 @@ def export_board(state, format, paper="a4"):
     elif format == "markdown":
         data, mime, extension = markdown_export(board), "text/markdown; charset=utf-8", "md"
     else:
-        raise ValueError("Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles or bee.")
+        raise ValueError("Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee or images.")
     headers["Content-Disposition"] = 'attachment; filename="' + safe_name(board["title"], extension) + '"'
     return data, mime, headers
