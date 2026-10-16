@@ -18,6 +18,7 @@ import { registerDirectSelect } from './app/direct-select';
 import { bindLanguage } from './app/language';
 import { registerPathfinder } from './app/pathfinder';
 import { registerSmartGuides } from './app/smart-guides';
+import { registerVisibility } from './app/visibility';
 
 bindLanguage();
 registerTerminal();
@@ -25,6 +26,7 @@ registerVector();
 registerDirectSelect(setTool);
 registerPathfinder();
 registerSmartGuides();
+registerVisibility();
 attachCatalogue();
 
 const agent = new AgentPanel({
