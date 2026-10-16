@@ -1,5 +1,6 @@
 import { S, execute, selected, selection, setSelection, toast } from './editor';
 import { registry } from './registry';
+import { request } from '../lib/api';
 
 const items = () => S.state?.board.items || [];
 
@@ -35,6 +36,16 @@ async function unlockAll() {
   setSelection(locked.map(i => i.id));
 }
 
+/** Select Duplicate Images: images that are the same picture (same file, or a near-identical copy by a 64-bit difference hash within `distance` bits); the first of each group stays unselected so Delete keeps one. */
+async function selectDuplicates(params?: Record<string, unknown>) {
+  if (!S.state) return;
+  const distance = typeof params?.distance === 'number' ? params.distance : 4;
+  const { groups } = await request<{ groups: string[][] }>(`/boards/${S.state.board.id}/duplicates?distance=${encodeURIComponent(String(distance))}`);
+  const extra = groups.flatMap(group => group.slice(1));
+  setSelection(extra);
+  toast(extra.length ? `Duplicate copies selected: ${extra.length}. One copy of each picture stays unselected (${groups.length}).` : 'No duplicate images on this board.');
+}
+
 export function registerVisibility(): void {
   const has = () => selection.size > 0;
   const board = () => !!S.state;
@@ -42,6 +53,7 @@ export function registerVisibility(): void {
     { group: 'Organize', id: 'hide-selected', label: 'Hide Selected', icon: 'eye', keys: ['mod+3'], run: hideSelected, enabled: has, description: 'Hides the selected items; they stay on the board and come back with Show All.' },
     { group: 'Organize', id: 'show-all', label: 'Show All', icon: 'eye', keys: ['mod+alt+3'], run: showAll, enabled: board, description: 'Shows every hidden item on the board and selects them.' },
     { group: 'Organize', id: 'isolate-selected', label: 'Isolate Selected', icon: 'fit', run: isolate, enabled: has, description: 'Hides everything except the selection (and the items inside selected columns) so a big board can be worked on piece by piece; Show All restores the rest.' },
+    { group: 'Organize', id: 'select-duplicates', label: 'Select Duplicate Images', icon: 'similarity', run: p => selectDuplicates(p), enabled: board, mutates: false, params: { distance: { type: 'integer', min: 0, max: 16, description: 'how different two pictures may be, 0 identical to 16 loosely alike; default 4' } }, description: 'Selects the extra copies of every image that appears more than once on the board, the same file or a near-identical copy, leaving the first of each unselected, ready to delete.' },
     { group: 'Organize', id: 'unlock-all', label: 'Unlock All', icon: 'unlock', keys: ['mod+alt+2'], run: unlockAll, enabled: board, description: 'Unlocks every locked item on the board and selects them.' },
   );
 }

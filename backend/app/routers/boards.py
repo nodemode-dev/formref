@@ -9,7 +9,7 @@ from ..core.builtins import registry
 from ..core.store import store, MissingBoard
 from ..models.requests import CreateBoard, BoardCommand
 from ..core.sampling import sample_image
-from ..core.features import enrich
+from ..core.features import duplicates, enrich
 from ..core.capture import capture
 from ..core.doc_export import export_item
 from ..core.cutout import change_background, DEFAULT_TOLERANCE
@@ -38,6 +38,15 @@ async def read_upload(file: UploadFile):
 @router.get("/boards")
 def list_boards():
     return store.list_boards()
+
+@router.get("/boards/{board_id}/duplicates")
+def board_duplicates(board_id: str, distance: int = 4):
+    if not 0 <= distance <= 16:
+        raise HTTPException(status_code=422, detail="distance is from 0 (identical pictures) to 16.")
+    try:
+        return {"groups": duplicates(board_id, distance)}
+    except MissingBoard:
+        raise HTTPException(status_code=404, detail="No such board.")
 
 @router.post("/boards", status_code=201)
 def create_board(body: CreateBoard):

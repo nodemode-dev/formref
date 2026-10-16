@@ -28,6 +28,47 @@ def image_features(asset_id: str) -> list[float]:
     return vector
 
 
+def image_hash(asset_id: str) -> int:
+    info = store.asset_info(asset_id)
+    cached = info.get("dhash")
+    if isinstance(cached, str) and cached:
+        return int(cached, 16)
+    image = original_image(asset_id).convert("L").resize((9, 8))
+    pixels = list(image.getdata())
+    bits = 0
+    for row in range(8):
+        for col in range(8):
+            bits = (bits << 1) | (1 if pixels[row * 9 + col] > pixels[row * 9 + col + 1] else 0)
+    info["dhash"] = format(bits, "016x")
+    with store.lock:
+        store.atomic_write(store.assets_dir / (asset_id + ".json"), json.dumps(info, separators=(",", ":")).encode())
+    return bits
+
+
+def duplicates(board_id: str, distance: int = 4) -> list[list[str]]:
+    images = [i for i in store.get(board_id)["board"]["items"] if i["kind"] == "image" and i.get("asset_id")]
+    hashes: dict[str, int] = {}
+    for item in images:
+        if item["asset_id"] not in hashes:
+            try:
+                hashes[item["asset_id"]] = image_hash(item["asset_id"])
+            except (ValueError, OSError):
+                continue
+    groups: list[list[dict]] = []
+    for item in images:
+        h = hashes.get(item["asset_id"])
+        if h is None:
+            continue
+        for group in groups:
+            first = group[0]
+            if first["asset_id"] == item["asset_id"] or bin(hashes[first["asset_id"]] ^ h).count("1") <= distance:
+                group.append(item)
+                break
+        else:
+            groups.append([item])
+    return [[i["id"] for i in group] for group in groups if len(group) > 1]
+
+
 def enrich(board_id: str, command):
     if not isinstance(command, dict) or command.get("type") != "sort" or command.get("key") != "similarity":
         return command
