@@ -57,7 +57,11 @@ def keys() -> set[str]:
         text = Path(f).read_text(encoding="utf-8")
         for m in LIT.finditer(text):
             s = next((g for g in m.groups() if g is not None), None)
-            if s is None or CODE_BEFORE.search(text[max(0, m.start() - 40): m.start()]):
+            before = text[max(0, m.start() - 40): m.start()]
+            line = text[text.rfind("\n", 0, m.start()) + 1: m.start()]
+            # A dialog's description is shown to the person; a command's description is English for agents.
+            shown_description = re.search(r"description:\s*$", before) and "inputDialog(" in line
+            if s is None or (CODE_BEFORE.search(before) and not shown_description):
                 continue
             if m.group(3) is not None:
                 count = [0]

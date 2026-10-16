@@ -63,7 +63,7 @@ async function roundCorners(params?: Record<string, unknown>) {
   if (!Number.isFinite(radius)) {
     const first = drawings()[0];
     const limit = first ? Math.round(Math.max(...asVector(first).paths.map(maxCornerRadius)) * 10) / 10 : 0;
-    const form = await inputDialog('Round corners', { name: '12', label: 'Corner radius (px)', description: `Rounds every corner point of the selected shapes and paths${limit ? `; the largest radius that fits is ${limit} px` : ''}. Smooth points stay smooth.`, submit: 'Round' });
+    const form = await inputDialog('Round corners', { name: '12', label: 'Corner radius (px)', description: limit ? `Rounds every corner point of the selected shapes and paths. The largest radius that fits is ${limit} px. Smooth points stay smooth.` : 'Rounds every corner point of the selected shapes and paths. Smooth points stay smooth.', submit: 'Round' });
     if (!form) return;
     radius = Number(form.name);
   }
