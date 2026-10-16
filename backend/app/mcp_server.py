@@ -333,13 +333,13 @@ async def import_asset(name: str = "reference.png", data_base64: str = "", path:
 
 @mcp.tool(annotations=_read)
 async def export_board(board_id: str, format: str = "portable", include_content: bool = False, paper: str = "a4") -> dict:
-    """Generate portable, json, png, svg, markdown or PDF output (pdf: the whole board on one page; pdf-pages: one page per top-level item in reading order, fitted to the paper; pdf-tiles: the board at 100 percent tiled across paper pages). paper is a4, letter, a3 or tabloid for the PDF forms. Return a loopback download URL and verified byte hash. include_content adds base64 output when at most 16 MiB. PNG scale is capped at 8192 pixels per edge and 32 megapixels."""
+    """Generate portable, json, png, svg, markdown or PDF output (pdf: the whole board on one page; pdf-pages: one page per top-level item in reading order, fitted to the paper; pdf-tiles: the board at 100 percent tiled across paper pages) or bee (a BeeRef board holding the pictures and text items). paper is a4, letter, a3 or tabloid for the PDF forms. Return a loopback download URL and verified byte hash. include_content adds base64 output when at most 16 MiB. PNG scale is capped at 8192 pixels per edge and 32 megapixels."""
     checked_id(board_id)
-    if format not in {"portable", "json", "png", "svg", "markdown", "pdf", "pdf-pages", "pdf-tiles"}:
+    if format not in {"portable", "json", "png", "svg", "markdown", "pdf", "pdf-pages", "pdf-tiles", "bee"}:
         raise ValueError("Unsupported export format.")
     path = f"/api/boards/{board_id}/export?format={format}" + (f"&paper={paper}" if format.startswith("pdf") else "")
     response = await api("GET", path)
-    result = {"board_id": board_id, "format": format, "download_url": API_URL + path, "bytes": len(response.content), "sha256": hashlib.sha256(response.content).hexdigest(), "mime": response.headers.get("content-type"), "disposition": response.headers.get("content-disposition"), "png_scale": response.headers.get("x-formref-scale")}
+    result = {"board_id": board_id, "format": format, "download_url": API_URL + path, "bytes": len(response.content), "sha256": hashlib.sha256(response.content).hexdigest(), "mime": response.headers.get("content-type"), "disposition": response.headers.get("content-disposition"), "png_scale": response.headers.get("x-formref-scale"), "items_written": response.headers.get("x-formref-items")}
     if include_content:
         if len(response.content) > 16 * 1024 * 1024:
             raise ValueError("Generated export exceeds the 16 MiB MCP inline limit; use its download URL.")
