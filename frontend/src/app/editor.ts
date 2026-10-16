@@ -271,6 +271,8 @@ export function updateInspector() {
     setText('swatch-values', `RGB ${values.rgb.join(' · ')} · HSV ${values.hsv.map(v => v.toFixed(1)).join(' · ')}`);
   }
   setInput('prop-tags', Array.isArray(first.data.tags) ? (first.data.tags as string[]).join(', ') : '');
+  setInput('prop-blend', typeof first.data.blend === 'string' ? first.data.blend : 'normal');
+  $<HTMLSelectElement>('prop-blend').disabled = first.locked;
   $('image-properties').hidden = !items.every(i => i.kind === 'image');
   $<HTMLButtonElement>('restore-background').disabled = !items.some(i => i.kind === 'image' && i.data.cutout);
   const cutout = first.data.cutout as { tolerance?: number } | null | undefined;

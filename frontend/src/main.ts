@@ -20,6 +20,7 @@ import { registerPathfinder } from './app/pathfinder';
 import { registerSmartGuides } from './app/smart-guides';
 import { registerVisibility } from './app/visibility';
 import { registerPencil } from './app/pencil';
+import { registerBlend } from './app/blend';
 
 bindLanguage();
 registerTerminal();
@@ -29,6 +30,7 @@ registerPencil(setTool);
 registerPathfinder();
 registerSmartGuides();
 registerVisibility();
+registerBlend();
 attachCatalogue();
 
 const agent = new AgentPanel({
