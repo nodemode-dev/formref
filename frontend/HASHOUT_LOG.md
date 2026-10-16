@@ -8,6 +8,7 @@
 - [Stacking scale](#stacking-scale)
 - [Verification](#verification)
 - [Scripts](#scripts)
+- [v0.12.0 tag editing](#v0120-tag-editing)
 - [v0.11.0 optional Illustrator tools, tag cloud](#v0110-optional-illustrator-tools-tag-cloud)
 - [v0.10.0 saved searches, palette and dialog languages](#v0100-saved-searches-palette-and-dialog-languages)
 - [v0.9.0 find similar](#v090-find-similar)
@@ -37,6 +38,12 @@
 - [v0.4.8 desktop window controls and WebKit icons](#v048-desktop-window-controls-and-webkit-icons)
 - [v0.4.7 synced notes, map cards, inline edit commit](#v047-synced-notes-map-cards-inline-edit-commit)
 - [v0.4.6 GIF frames and document export](#v046-gif-frames-and-document-export)
+
+## v0.12.0 tag editing
+
+`tag-cloud.ts` `retag(key, change)` walks the items carrying the tag, skips and counts locked ones (the engine refuses updates to locked items), groups the rest by their resulting tag list and sends one `batch` of `update` commands, so the change is one undo step and stays far under the engine's 1000-command batch limit on any board. Rename keeps the first spelling of each tag on an item and drops a second one that folds to the same text, which is how a merge avoids duplicates; a chosen chip moves to its new key so the filter carries on. Chips open their menu on `contextmenu` (propagation stopped so the board menu does not open). Toasts that join two sentences translate each with `t()`, because the page translator looks up the whole text and would leave a joined sentence in English. MCP `rename_tag` and `remove_tag` repeat the same rules in Python.
+
+Verified at 4x CPU and a slow network, English and German: the tag menu and label menu; grey renamed to mono and undone; portrait merged into NASA leaving the astronaut with only nasa; a chosen portrait renamed to face kept filtering two items; garage removed with one motorcycle locked reported one locked item; select by bike and by Space chose 2 and 6; the board ended as it began. MCP with outside agents briefly allowed: rename, merge, remove and their undo, and both error messages. Overflow scan in 24 languages: nothing.
 
 ## v0.11.0 optional Illustrator tools, tag cloud
 

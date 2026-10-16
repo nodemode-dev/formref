@@ -1,5 +1,13 @@
 # FormRef changelog
 
+## v0.12.0 · 2026-10-16
+
+Tidying tags from the tag cloud.
+
+- Right-click a tag in the tag cloud: Select Items With This Tag, Rename or Merge Tag, and Remove Tag From All Items. Renaming to a name another tag already has merges the two, and no item ends up with the same tag twice; a tag you are filtering by keeps filtering under its new name. Each change is one undo step, and locked items keep their tags (the message says how many).
+- Right-click a label in the cloud: Select Items With This Label, or Edit Board Labels.
+- Agents can call rename_tag and remove_tag, with the same rules.
+
 ## v0.11.0 · 2026-10-16
 
 Illustrator tools become optional, and a tag cloud.
