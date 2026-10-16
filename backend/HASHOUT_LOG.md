@@ -8,6 +8,7 @@
 
 ## Contents
 
+- [v0.7.3 · PDF text and readable notes in exports](#v073--pdf-text-and-readable-notes-in-exports)
 - [v0.7.2 · All pictures export](#v072--all-pictures-export)
 - [v0.7.1 · BeeRef .bee boards](#v071--beeref-bee-boards)
 - [v0.6.8 · PDF export and PDF pages](#v068--pdf-export-and-pdf-pages)
@@ -18,6 +19,12 @@
 - [v0.2.0 · Canvas settings and snapping through MCP](#v020--canvas-settings-and-snapping-through-mcp)
 - [v0.1.0 · Local board service and SDK MCP](#v010--local-board-service-and-sdk-mcp)
 - [boot_backend.bat](#boot_backendbat)
+
+## v0.7.3 · PDF text and readable notes in exports
+
+`pdf_text()` in `core/pdf_pages.py` reads each page's text layer with pypdfium2 (whitespace collapsed, at most 2000 pages and 2 million characters) and caches it as `assets/text/<id>.json`; assets are content-addressed, so the cache never goes stale. `GET /api/assets/{id}/text` returns `{asset_id, pages}`, or 422 for a file that is not a PDF or an invalid ID. Checked on a two-page PDF printed from Chromium: both pages came back word for word, accents kept.
+
+Export fix: `color()` handed `None` back because Pillow accepts `None` as "no colour", so SVG and PDF wrote note text with `fill="None"` (nothing drawn) and PNG drew its default light text on light notes. `color()` now accepts strings only, and `ink()` picks a card's own text colour or, as the board's `dark-note` rule does, `#3b3329` on paper with luminance of 110 or more and `#f5f5f5` below. `with_heading()` puts a note's or document's title above its text (a `#` heading for Markdown notes). Checked: the exported PDF's text layer now reads the note's title and body, and the PNG and PDF crops show dark ink on the yellow note.
 
 ## v0.7.2 · All pictures export
 

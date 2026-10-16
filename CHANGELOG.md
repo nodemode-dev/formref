@@ -1,5 +1,13 @@
 # FormRef changelog
 
+## v0.7.3 · 2026-10-16
+
+Finding words in PDFs, boards that remember their window, and readable notes in exports.
+
+- Search finds words inside PDFs on the board. Page images made with PDF Pages to Images match page by page, so a search points at the right page. Scanned PDFs without a text layer are not searched.
+- Desktop: Save Window Layout with Board (right-click, Canvas) keeps the window's position, size, Always on Top and opacity with the board, and opening the board puts the window back. A layout from a screen that is no longer connected lands on the current screen. Forget Board Window Layout clears it.
+- Fixed: note text was missing from SVG and PDF exports and hard to read in PNG exports. Exported notes and documents now show their title above their text, in dark ink on light notes as on the board.
+
 ## v0.7.2 · 2026-10-16
 
 Columns that collect what you drop on them, every picture out in one go, and FormRef one keystroke away.

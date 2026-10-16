@@ -13,6 +13,10 @@ src-tauri/
   src/main.rs                        Native window modes and launch sizing
 ```
 
+## v0.7.3 · Window layouts
+
+`window_layout` returns the outer position and inner size in logical pixels (the units saved in `board.settings.window`). `window_place` checks the values, then finds the connected monitor that contains a point just inside the saved top-left corner; on that monitor it shrinks the size to fit and pulls the window fully on screen, and when no monitor contains it (a screen since unplugged) it centres the window on the primary monitor at a size that fits. Both commands sit behind the `formref-window-layout` permission, granted to the main window only, and are added to the app manifest in `build.rs`.
+
 ## v0.7.2 · Tray icon and show or hide shortcut
 
 `build_tray` adds a tray icon (the bundled `icons/icon.png`) whose left click calls `toggle_visible` and whose menu holds Show or Hide FormRef, Always on Top, Click-through and Quit. `toggle_visible` hides a window that is visible and focused, and otherwise unminimises, shows and focuses it; the same function answers the global shortcut Ctrl+Alt+F (Cmd+Option+F on macOS). The two check items are kept in managed state (`TrayChecks`) and `sync_tray` sets them from the real window state after any change from the page (`window_configure`), the tray or the click-through shortcut; tray changes also emit `formref://window-state` with the whole `WindowState`, which the page's Preferences checkboxes follow. If a desktop has no tray host, or another app owns the shortcut, the shell logs it and runs on. The menu labels are English: they are native and drawn before the page's language tables load.

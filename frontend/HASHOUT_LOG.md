@@ -8,6 +8,7 @@
 - [Stacking scale](#stacking-scale)
 - [Verification](#verification)
 - [Scripts](#scripts)
+- [v0.7.3 PDF text in search, window layouts](#v073-pdf-text-in-search-window-layouts)
 - [v0.7.2 drop into columns, all pictures, card hints](#v072-drop-into-columns-all-pictures-card-hints)
 - [v0.7.1 off-screen culling, group sizes, BeeRef files](#v071-off-screen-culling-group-sizes-beeref-files)
 - [v0.6.9 crop on the board, lasso, rotate selection, stacking lock](#v069-crop-on-the-board-lasso-rotate-selection-stacking-lock)
@@ -26,6 +27,12 @@
 - [v0.4.8 desktop window controls and WebKit icons](#v048-desktop-window-controls-and-webkit-icons)
 - [v0.4.7 synced notes, map cards, inline edit commit](#v047-synced-notes-map-cards-inline-edit-commit)
 - [v0.4.6 GIF frames and document export](#v046-gif-frames-and-document-export)
+
+## v0.7.3 PDF text in search, window layouts
+
+`app/pdf-text.ts` keeps page text per PDF asset. `matches()` asks it only while the search box has a term, so boards are not scanned for PDFs until someone searches; the first ask starts one fetch per asset (marked `null` while in flight) and returns nothing yet, and when the text arrives `onPdfText` runs the same re-filter as typing. A PDF file card matches on all its pages; an image from PDF Pages to Images (`data.pdf_source`, `data.pdf_page`) matches on its own page only. Verified at 4x CPU and a slow network: "verdigris" and "cafe" (accent folded from "Café") matched the PDF and page 2 only, "rim light" the PDF and page 1.
+
+`app/window-layout.ts` registers on `boardOpened`, a hook list `applyState()` runs when a different board comes up. A board with `settings.window` calls the shell's `window_place`, then sets Always on Top and window opacity through the Preferences controls themselves (setting the input and dispatching its event), so those controls and the stored opacity stay in step. Save reads `window_layout`, `window_state` and the opacity slider into one `settings` command. The commands are desktop-only (`__TAURI__.core` present) and appear in the Canvas menu only there. Verified in the shell under Xvfb: a board saved at 120,90 1000x700 opened there; after moving and resizing to 200,150 1240x780, Save stored those numbers and the 0.9 opacity; a layout at 5000,3000 3000x900 opened centred on the 1600x1000 screen at 1600x900.
 
 ## v0.7.2 drop into columns, all pictures, card hints
 

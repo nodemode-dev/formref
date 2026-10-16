@@ -30,6 +30,11 @@ Focused v0.2.0 and v0.3.0 log. The complete baseline engine map, protocol limits
 - [Labels](#labels)
 - [Tables](#tables)
 - [Synced notes](#synced-notes)
+- [Window layout](#window-layout)
+
+## Window layout
+
+v0.7.3: `BoardSettings.window` is an optional `WindowLayout` (`x`, `y`, `width`, `height` in logical pixels, `always_on_top`, `opacity`), validated in `BoardSettings::validate` (positions within 100000, sizes 200 to 20000, opacity 0.2 to 1) and denied unknown fields. It is skipped when serialising an unset value, so boards without a layout save exactly as before. The `settings` command merges a partial window patch into the stored one, and `window: null` clears it. Probed through the backend: a full layout stored, width 50 and an unknown field were refused with their messages, null cleared it.
 
 ## Synced notes
 
