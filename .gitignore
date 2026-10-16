@@ -14,3 +14,4 @@ src-tauri/binaries/*
 *.pyc
 .env
 .DS_Store
+build_app.log
