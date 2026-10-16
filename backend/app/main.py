@@ -17,6 +17,7 @@ from .routers.cloud import router as cloud_router
 from .routers.terminal import router as terminal_router
 from .routers.commands import router as commands_router
 from .routers.searches import router as searches_router
+from .routers.practice import router as practice_router
 from .agent.service import agents
 from .agent import terminal
 from .mcp_server import mcp as mcp_server
@@ -116,6 +117,7 @@ app.include_router(cloud_router)
 app.include_router(terminal_router)
 app.include_router(commands_router)
 app.include_router(searches_router)
+app.include_router(practice_router)
 for mcp_route in MCP_HTTP.routes:
     app.router.routes.insert(0, mcp_route)
 

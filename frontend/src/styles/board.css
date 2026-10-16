@@ -30,6 +30,12 @@
 .practice-frame { position: relative; overflow: hidden; flex: none; background: var(--bg-tertiary); }
 .practice-frame.flipped { transform: scaleX(-1); }
 .practice-frame.grey { filter: grayscale(1); }
+.practice-rest { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: var(--space-2); visibility: hidden; pointer-events: none; }
+.practice-rest strong { font-size: 22px; font-weight: 500; color: var(--text-primary); }
+.practice-rest span { font: 12px var(--font-mono); color: var(--text-muted); }
+.practice-overlay.resting .practice-rest { visibility: visible; }
+.practice-overlay.resting .practice-frame { visibility: hidden; }
+.practice-overlay.resting .practice-progress-fill { background: var(--text-muted); }
 .practice-summary { display: flex; flex-direction: column; align-items: center; gap: var(--space-4); }
 .practice-summary p { margin: 0; font-size: 18px; color: var(--text-primary); }
 .practice-summary-actions { display: flex; gap: var(--space-2); }
