@@ -1,6 +1,6 @@
 {
   "name": "formref-frontend",
-  "version": "0.6.9",
+  "version": "0.7.1",
   "private": true,
   "type": "module",
   "scripts": {
