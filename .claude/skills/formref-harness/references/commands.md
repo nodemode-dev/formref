@@ -2,7 +2,7 @@
 
 Written by `./formref agents sync` from the command catalogue the FormRef window publishes; do not edit by hand. Run a command with the MCP tools `run_command` or `run_commands` (the window must be open). `window-only` commands are refused for outside agents; `risky` commands ask the person first.
 
-183 commands.
+187 commands.
 
 ## Canvas
 
@@ -25,11 +25,14 @@ Written by `./formref agents sync` from the command catalogue the FormRef window
 
 | Command | Label | Keys | Kind | What it does |
 | --- | --- | --- | --- | --- |
+| `clear-color-find` | Clear Color Filter |  | window-only | Clears the color filter so the whole board shows again. |
 | `delete` | Delete Selected | `delete`, `backspace` | changes the board, risky | Removes the selected items (or the chosen connection) to the board Trash. |
 | `deselect` | Deselect All | `escape` | view | Clears the selection and returns to the Select tool. |
 | `duplicate` | Duplicate | `mod+d` | changes the board | Duplicates the selected unlocked items, offset slightly. |
 | `duplicate-synced` | Synced Copy |  | changes the board | Makes linked copies of the selected notes and documents: editing the text of one changes all of them. |
 | `edit-labels` | Edit Board Labels |  | view | Opens the board labels editor to add, rename, recolour or delete coloured labels. |
+| `find-color` | Find by Color… |  | window-only | Dims everything on the board except pictures and swatches that contain the chosen color; the color chip beside the kind filter shows it, and choosing no color clears it. Parameters: `color` (string): #RRGGBB; leave out to open the color picker; `tolerance` (number): CIEDE2000 color difference, about 10 close, 20 default, 30 loose. |
+| `find-swatch-color` | Find This Swatch Color |  | window-only | Finds the selected swatch's color in the pictures on the board. |
 | `lock` | Lock Selected | `l` | changes the board | Locks the selected items against moving and editing, or unlocks them if any is locked. |
 | `redo` | Redo | `mod+y`, `mod+shift+z` | changes the board | Redoes the last undone change. |
 | `select-all` | Select All | `mod+a` | view | Selects every visible item on the board. |
@@ -163,6 +166,7 @@ Written by `./formref agents sync` from the command catalogue the FormRef window
 | `show-all` | Show All | `mod+alt+3` | changes the board | Shows every hidden item on the board and selects them. |
 | `snap` | Snap Selection to Grid |  | changes the board | Moves the selected items onto the board grid. |
 | `sort-aspect` | Sort by Aspect Ratio |  | changes the board | Arranges the selection, or every unlocked top-level item, in rows ordered by aspect ratio. |
+| `sort-color` | Sort by Color |  | changes the board | Arranges the selection, or every unlocked top-level item, in rainbow order of each picture's main color, with black, white and grey pictures after them from light to dark. |
 | `sort-filename` | Sort by Filename |  | changes the board | Arranges the selection, or every unlocked top-level item, in rows ordered by file name. |
 | `sort-similarity` | Sort by Similarity |  | changes the board | Arranges the selection, or every unlocked top-level item, so that similar-looking pictures sit together. |
 | `ungroup` | Ungroup Selected | `mod+shift+g` | changes the board | Ungroups the selected groups. |

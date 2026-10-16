@@ -65,7 +65,7 @@ export const COMMAND_WORDS: Readonly<Record<string, string>> = {
   'sort-filename': 'Arranges the selection, or every unlocked top-level item, in rows ordered by file name.',
   'sort-similarity': 'Arranges the selection, or every unlocked top-level item, so that similar-looking pictures sit together.',
   'sort-color': 'Arranges the selection, or every unlocked top-level item, in rainbow order of each picture\'s main color, with black, white and grey pictures after them from light to dark.',
-  'find-color': 'Dims everything on the board except pictures and swatches that contain the chosen color; the color chip beside the find box shows it, and choosing no color clears it.',
+  'find-color': 'Dims everything on the board except pictures and swatches that contain the chosen color; the color chip beside the kind filter shows it, and choosing no color clears it.',
   'find-swatch-color': 'Finds the selected swatch\'s color in the pictures on the board.',
   'clear-color-find': 'Clears the color filter so the whole board shows again.',
   group: 'Groups the selected items so they select and move together.',
