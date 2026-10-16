@@ -1289,5 +1289,13 @@
  "Moved {0} items to {1}. Undo on the first board brings them back there.": "Đã chuyển {0} mục sang {1}. Hoàn tác trên bảng đầu sẽ đưa chúng trở lại.",
  "Reset Adjustments": "Đặt lại điều chỉnh",
  "Reset adjustments": "Đặt lại điều chỉnh",
- "Unlock the items first, or copy them instead of moving them.": "Hãy mở khóa các mục trước, hoặc sao chép thay vì di chuyển."
+ "Unlock the items first, or copy them instead of moving them.": "Hãy mở khóa các mục trước, hoặc sao chép thay vì di chuyển.",
+ "Compare Pictures": "So sánh ảnh",
+ "Compare pictures": "So sánh ảnh",
+ "Divider": "Đường chia",
+ "Select exactly two pictures to compare.": "Hãy chọn đúng hai ảnh để so sánh.",
+ "Side by Side": "Cạnh nhau",
+ "Swap": "Đổi chỗ",
+ "Swipe": "Vuốt",
+ "Onion Skin": "Chồng mờ"
 }

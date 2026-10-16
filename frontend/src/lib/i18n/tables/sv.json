@@ -1289,5 +1289,13 @@
  "Moved {0} items to {1}. Undo on the first board brings them back there.": "Flyttade {0} objekt till {1}. Ångra på den första tavlan hämtar tillbaka dem.",
  "Reset Adjustments": "Återställ justeringar",
  "Reset adjustments": "Återställ justeringar",
- "Unlock the items first, or copy them instead of moving them.": "Lås upp objekten först, eller kopiera dem i stället för att flytta dem."
+ "Unlock the items first, or copy them instead of moving them.": "Lås upp objekten först, eller kopiera dem i stället för att flytta dem.",
+ "Compare Pictures": "Jämför bilder",
+ "Compare pictures": "Jämför bilder",
+ "Divider": "Avdelare",
+ "Select exactly two pictures to compare.": "Markera exakt två bilder att jämföra.",
+ "Side by Side": "Sida vid sida",
+ "Swap": "Byt",
+ "Swipe": "Svep",
+ "Onion Skin": "Lökskal"
 }

@@ -1289,5 +1289,13 @@
  "Moved {0} items to {1}. Undo on the first board brings them back there.": "已將 {0} 個項目移到 {1}。在原白板復原即可移回。",
  "Reset Adjustments": "重設調整",
  "Reset adjustments": "重設調整",
- "Unlock the items first, or copy them instead of moving them.": "請先解鎖這些項目，或改為複製而非移動。"
+ "Unlock the items first, or copy them instead of moving them.": "請先解鎖這些項目，或改為複製而非移動。",
+ "Compare Pictures": "比較圖片",
+ "Compare pictures": "比較圖片",
+ "Divider": "分隔線",
+ "Select exactly two pictures to compare.": "請剛好選取兩張圖片進行比較。",
+ "Side by Side": "並排",
+ "Swap": "交換",
+ "Swipe": "滑動對比",
+ "Onion Skin": "洋蔥皮"
 }

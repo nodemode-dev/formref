@@ -1289,5 +1289,13 @@
  "Moved {0} items to {1}. Undo on the first board brings them back there.": "{0} item dipindahkan ke {1}. Urungkan di papan pertama mengembalikannya.",
  "Reset Adjustments": "Atur Ulang Penyesuaian",
  "Reset adjustments": "Atur ulang penyesuaian",
- "Unlock the items first, or copy them instead of moving them.": "Buka kunci item terlebih dahulu, atau salin alih-alih memindahkannya."
+ "Unlock the items first, or copy them instead of moving them.": "Buka kunci item terlebih dahulu, atau salin alih-alih memindahkannya.",
+ "Compare Pictures": "Bandingkan Gambar",
+ "Compare pictures": "Bandingkan gambar",
+ "Divider": "Pembatas",
+ "Select exactly two pictures to compare.": "Pilih tepat dua gambar untuk dibandingkan.",
+ "Side by Side": "Berdampingan",
+ "Swap": "Tukar",
+ "Swipe": "Geser",
+ "Onion Skin": "Kulit Bawang"
 }

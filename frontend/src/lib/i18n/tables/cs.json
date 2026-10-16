@@ -1289,5 +1289,13 @@
  "Moved {0} items to {1}. Undo on the first board brings them back there.": "Přesunuto položek: {0} do {1}. Zpět na první tabuli je vrátí.",
  "Reset Adjustments": "Obnovit úpravy",
  "Reset adjustments": "Obnovit úpravy",
- "Unlock the items first, or copy them instead of moving them.": "Nejprve položky odemkněte, nebo je místo přesunu zkopírujte."
+ "Unlock the items first, or copy them instead of moving them.": "Nejprve položky odemkněte, nebo je místo přesunu zkopírujte.",
+ "Compare Pictures": "Porovnat obrázky",
+ "Compare pictures": "Porovnat obrázky",
+ "Divider": "Dělítko",
+ "Select exactly two pictures to compare.": "Pro porovnání vyberte právě dva obrázky.",
+ "Side by Side": "Vedle sebe",
+ "Swap": "Prohodit",
+ "Swipe": "Posuvník",
+ "Onion Skin": "Cibulový pohled"
 }

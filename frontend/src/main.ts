@@ -34,6 +34,7 @@ import { registerStudy } from './app/study';
 import { registerAdjust } from './app/adjust';
 import { registerBoardExtract } from './app/board-extract';
 import { registerMeasure } from './app/measure';
+import { registerCompare } from './app/compare';
 
 bindLanguage();
 registerTerminal();
@@ -56,6 +57,7 @@ registerStudy();
 registerAdjust();
 registerBoardExtract();
 registerMeasure();
+registerCompare();
 attachCatalogue();
 
 const agent = new AgentPanel({

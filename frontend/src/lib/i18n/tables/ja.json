@@ -1289,5 +1289,13 @@
  "Moved {0} items to {1}. Undo on the first board brings them back there.": "{0} 項目を {1} に移動しました。元のボードで取り消すと戻ります。",
  "Reset Adjustments": "調整をリセット",
  "Reset adjustments": "調整をリセット",
- "Unlock the items first, or copy them instead of moving them.": "先に項目のロックを解除するか、移動ではなくコピーしてください。"
+ "Unlock the items first, or copy them instead of moving them.": "先に項目のロックを解除するか、移動ではなくコピーしてください。",
+ "Compare Pictures": "画像を比較",
+ "Compare pictures": "画像を比較",
+ "Divider": "仕切り",
+ "Select exactly two pictures to compare.": "比較する画像をちょうど 2 枚選んでください。",
+ "Side by Side": "並べて表示",
+ "Swap": "入れ替え",
+ "Swipe": "スワイプ",
+ "Onion Skin": "オニオンスキン"
 }

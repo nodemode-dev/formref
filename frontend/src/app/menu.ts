@@ -103,6 +103,7 @@ export function boardMenu(): MenuEntry[] {
         item('sampling'),
         ...studyMenu(),
         item('extract-palette'),
+        item('compare'),
         sep,
         item('opacity'),
         sep,

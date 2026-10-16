@@ -1289,5 +1289,13 @@
  "Moved {0} items to {1}. Undo on the first board brings them back there.": "{0} öğe {1} panosuna taşındı. İlk panoda geri al onları geri getirir.",
  "Reset Adjustments": "Ayarları Sıfırla",
  "Reset adjustments": "Ayarları sıfırla",
- "Unlock the items first, or copy them instead of moving them.": "Önce öğelerin kilidini açın veya taşımak yerine kopyalayın."
+ "Unlock the items first, or copy them instead of moving them.": "Önce öğelerin kilidini açın veya taşımak yerine kopyalayın.",
+ "Compare Pictures": "Resimleri Karşılaştır",
+ "Compare pictures": "Resimleri karşılaştır",
+ "Divider": "Ayırıcı",
+ "Select exactly two pictures to compare.": "Karşılaştırmak için tam iki resim seçin.",
+ "Side by Side": "Yan Yana",
+ "Swap": "Değiştir",
+ "Swipe": "Kaydırma",
+ "Onion Skin": "Soğan Zarı"
 }

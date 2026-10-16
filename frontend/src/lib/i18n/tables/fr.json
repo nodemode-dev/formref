@@ -1289,5 +1289,13 @@
  "Moved {0} items to {1}. Undo on the first board brings them back there.": "{0} éléments déplacés vers {1}. Annuler sur le premier tableau les ramène.",
  "Reset Adjustments": "Réinitialiser les réglages",
  "Reset adjustments": "Réinitialiser les réglages",
- "Unlock the items first, or copy them instead of moving them.": "Déverrouillez d’abord les éléments, ou copiez-les au lieu de les déplacer."
+ "Unlock the items first, or copy them instead of moving them.": "Déverrouillez d’abord les éléments, ou copiez-les au lieu de les déplacer.",
+ "Compare Pictures": "Comparer les images",
+ "Compare pictures": "Comparer les images",
+ "Divider": "Séparateur",
+ "Select exactly two pictures to compare.": "Sélectionnez exactement deux images à comparer.",
+ "Side by Side": "Côte à côte",
+ "Swap": "Échanger",
+ "Swipe": "Balayage",
+ "Onion Skin": "Pelure d’oignon"
 }

@@ -1289,5 +1289,13 @@
  "Moved {0} items to {1}. Undo on the first board brings them back there.": "Flyttet {0} elementer til {1}. Angre på den første tavlen henter dem tilbake.",
  "Reset Adjustments": "Tilbakestill justeringer",
  "Reset adjustments": "Tilbakestill justeringer",
- "Unlock the items first, or copy them instead of moving them.": "Lås opp elementene først, eller kopier dem i stedet for å flytte dem."
+ "Unlock the items first, or copy them instead of moving them.": "Lås opp elementene først, eller kopier dem i stedet for å flytte dem.",
+ "Compare Pictures": "Sammenlign bilder",
+ "Compare pictures": "Sammenlign bilder",
+ "Divider": "Skillelinje",
+ "Select exactly two pictures to compare.": "Velg nøyaktig to bilder å sammenligne.",
+ "Side by Side": "Side om side",
+ "Swap": "Bytt",
+ "Swipe": "Sveip",
+ "Onion Skin": "Løkskall"
 }

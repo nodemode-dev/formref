@@ -2,6 +2,19 @@
 .lasso-overlay polyline { fill: color-mix(in srgb, var(--accent-color) 15%, transparent); stroke: var(--accent-color); stroke-width: var(--lasso-line, 1.5px); stroke-dasharray: 6 4; }
 .stage.lassoing { cursor: crosshair; }
 .board-item.cropping, .board-item.cropping * { visibility: hidden !important; }
+.compare-overlay { position: fixed; inset: 0; z-index: var(--z-overlay); display: flex; flex-direction: column; background: var(--canvas-bg); }
+.compare-bar { display: flex; align-items: center; gap: var(--space-2); padding: var(--space-2) var(--space-4); min-height: var(--toolbar-h); background: var(--bg-primary); border-bottom: 1px solid var(--border-color); flex-wrap: wrap; }
+.compare-bar .button.active { background: var(--accent-soft); border-color: var(--accent-line); color: var(--accent-ink); }
+.compare-slider { display: flex; align-items: center; gap: var(--space-2); color: var(--text-secondary); font-size: 11px; margin-left: var(--space-3); }
+.compare-slider input { width: 180px; accent-color: var(--accent-color); padding: 0; }
+.compare-spacer { flex: 1; }
+.compare-stage { position: relative; flex: 1; min-height: 0; display: flex; align-items: center; justify-content: center; gap: 24px; overflow: hidden; touch-action: none; }
+.compare-box { position: relative; overflow: hidden; flex: none; background: var(--bg-tertiary); }
+.compare-caption { position: absolute; left: 0; right: 0; bottom: 0; padding: var(--space-2) var(--space-3); background: linear-gradient(transparent, var(--bg-scrim)); color: var(--text-primary); font-size: 11px; pointer-events: none; }
+.compare-overlay:not([data-mode="side"]) .compare-box { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); }
+.compare-overlay:not([data-mode="side"]) .compare-box + .compare-box .compare-caption { display: none; }
+.compare-overlay[data-mode="swipe"] .compare-stage { cursor: ew-resize; }
+.compare-divider { position: absolute; width: 2px; margin-left: -1px; background: var(--accent-color); pointer-events: none; box-shadow: 0 0 0 1px var(--bg-scrim); }
 .measure-overlay { position: absolute; left: 0; top: 0; width: 1px; height: 1px; overflow: visible; pointer-events: none; z-index: var(--z-raised); }
 .measure-overlay line { stroke: var(--accent-color); }
 .measure-overlay circle { fill: var(--bg-node); stroke: var(--accent-color); }

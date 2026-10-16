@@ -1289,5 +1289,13 @@
  "Moved {0} items to {1}. Undo on the first board brings them back there.": "Перемещено элементов: {0} в {1}. Отмена на первой доске вернёт их.",
  "Reset Adjustments": "Сбросить настройки",
  "Reset adjustments": "Сбросить настройки",
- "Unlock the items first, or copy them instead of moving them.": "Сначала разблокируйте элементы или скопируйте их вместо перемещения."
+ "Unlock the items first, or copy them instead of moving them.": "Сначала разблокируйте элементы или скопируйте их вместо перемещения.",
+ "Compare Pictures": "Сравнить изображения",
+ "Compare pictures": "Сравнить изображения",
+ "Divider": "Разделитель",
+ "Select exactly two pictures to compare.": "Выберите ровно два изображения для сравнения.",
+ "Side by Side": "Рядом",
+ "Swap": "Поменять",
+ "Swipe": "Шторка",
+ "Onion Skin": "Калька"
 }

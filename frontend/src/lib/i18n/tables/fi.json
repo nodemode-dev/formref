@@ -1289,5 +1289,13 @@
  "Moved {0} items to {1}. Undo on the first board brings them back there.": "{0} kohdetta siirretty tauluun {1}. Kumoa ensimmäisellä taululla tuo ne takaisin.",
  "Reset Adjustments": "Palauta säädöt",
  "Reset adjustments": "Palauta säädöt",
- "Unlock the items first, or copy them instead of moving them.": "Avaa kohteiden lukitus ensin tai kopioi ne siirtämisen sijaan."
+ "Unlock the items first, or copy them instead of moving them.": "Avaa kohteiden lukitus ensin tai kopioi ne siirtämisen sijaan.",
+ "Compare Pictures": "Vertaa kuvia",
+ "Compare pictures": "Vertaa kuvia",
+ "Divider": "Jakoviiva",
+ "Select exactly two pictures to compare.": "Valitse tasan kaksi kuvaa verrattavaksi.",
+ "Side by Side": "Rinnakkain",
+ "Swap": "Vaihda",
+ "Swipe": "Pyyhkäisy",
+ "Onion Skin": "Sipulinkuori"
 }

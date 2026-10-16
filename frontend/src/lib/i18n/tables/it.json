@@ -1289,5 +1289,13 @@
  "Moved {0} items to {1}. Undo on the first board brings them back there.": "{0} elementi spostati in {1}. Annulla sulla prima bacheca li riporta indietro.",
  "Reset Adjustments": "Ripristina regolazioni",
  "Reset adjustments": "Ripristina regolazioni",
- "Unlock the items first, or copy them instead of moving them.": "Sblocca prima gli elementi, oppure copiali invece di spostarli."
+ "Unlock the items first, or copy them instead of moving them.": "Sblocca prima gli elementi, oppure copiali invece di spostarli.",
+ "Compare Pictures": "Confronta immagini",
+ "Compare pictures": "Confronta immagini",
+ "Divider": "Divisore",
+ "Select exactly two pictures to compare.": "Seleziona esattamente due immagini da confrontare.",
+ "Side by Side": "Affiancate",
+ "Swap": "Scambia",
+ "Swipe": "Scorrimento",
+ "Onion Skin": "Onion skin"
 }

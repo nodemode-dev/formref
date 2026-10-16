@@ -1289,5 +1289,13 @@
  "Moved {0} items to {1}. Undo on the first board brings them back there.": "{0} items verplaatst naar {1}. Ongedaan maken op het eerste bord brengt ze terug.",
  "Reset Adjustments": "Aanpassingen herstellen",
  "Reset adjustments": "Aanpassingen herstellen",
- "Unlock the items first, or copy them instead of moving them.": "Ontgrendel de items eerst, of kopieer ze in plaats van ze te verplaatsen."
+ "Unlock the items first, or copy them instead of moving them.": "Ontgrendel de items eerst, of kopieer ze in plaats van ze te verplaatsen.",
+ "Compare Pictures": "Afbeeldingen vergelijken",
+ "Compare pictures": "Afbeeldingen vergelijken",
+ "Divider": "Scheidingslijn",
+ "Select exactly two pictures to compare.": "Selecteer precies twee afbeeldingen om te vergelijken.",
+ "Side by Side": "Naast elkaar",
+ "Swap": "Wisselen",
+ "Swipe": "Vegen",
+ "Onion Skin": "Onion skin"
 }

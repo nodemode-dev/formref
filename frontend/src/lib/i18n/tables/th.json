@@ -1289,5 +1289,13 @@
  "Moved {0} items to {1}. Undo on the first board brings them back there.": "ย้าย {0} รายการไปที่ {1} แล้ว เลิกทำบนบอร์ดแรกจะนำกลับมา",
  "Reset Adjustments": "รีเซ็ตการปรับ",
  "Reset adjustments": "รีเซ็ตการปรับ",
- "Unlock the items first, or copy them instead of moving them.": "ปลดล็อกรายการก่อน หรือคัดลอกแทนการย้าย"
+ "Unlock the items first, or copy them instead of moving them.": "ปลดล็อกรายการก่อน หรือคัดลอกแทนการย้าย",
+ "Compare Pictures": "เปรียบเทียบรูปภาพ",
+ "Compare pictures": "เปรียบเทียบรูปภาพ",
+ "Divider": "เส้นแบ่ง",
+ "Select exactly two pictures to compare.": "เลือกรูปภาพ 2 รูปพอดีเพื่อเปรียบเทียบ",
+ "Side by Side": "วางเคียงกัน",
+ "Swap": "สลับ",
+ "Swipe": "ปัด",
+ "Onion Skin": "ซ้อนโปร่ง"
 }

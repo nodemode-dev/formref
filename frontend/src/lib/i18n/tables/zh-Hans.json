@@ -1289,5 +1289,13 @@
  "Moved {0} items to {1}. Undo on the first board brings them back there.": "已将 {0} 个项目移到 {1}。在原画板撤销可将它们移回。",
  "Reset Adjustments": "重置调整",
  "Reset adjustments": "重置调整",
- "Unlock the items first, or copy them instead of moving them.": "请先解锁这些项目，或改为复制而不是移动。"
+ "Unlock the items first, or copy them instead of moving them.": "请先解锁这些项目，或改为复制而不是移动。",
+ "Compare Pictures": "比较图片",
+ "Compare pictures": "比较图片",
+ "Divider": "分隔线",
+ "Select exactly two pictures to compare.": "请正好选择两张图片进行比较。",
+ "Side by Side": "并排",
+ "Swap": "交换",
+ "Swipe": "滑动对比",
+ "Onion Skin": "洋葱皮"
 }

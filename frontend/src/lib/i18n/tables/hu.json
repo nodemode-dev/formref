@@ -1289,5 +1289,13 @@
  "Moved {0} items to {1}. Undo on the first board brings them back there.": "{0} elem áthelyezve ide: {1}. A visszavonás az első táblán visszahozza őket.",
  "Reset Adjustments": "Beállítások visszaállítása",
  "Reset adjustments": "Beállítások visszaállítása",
- "Unlock the items first, or copy them instead of moving them.": "Előbb oldja fel az elemeket, vagy áthelyezés helyett másolja őket."
+ "Unlock the items first, or copy them instead of moving them.": "Előbb oldja fel az elemeket, vagy áthelyezés helyett másolja őket.",
+ "Compare Pictures": "Képek összehasonlítása",
+ "Compare pictures": "Képek összehasonlítása",
+ "Divider": "Elválasztó",
+ "Select exactly two pictures to compare.": "Pontosan két képet jelöljön ki az összehasonlításhoz.",
+ "Side by Side": "Egymás mellett",
+ "Swap": "Csere",
+ "Swipe": "Húzás",
+ "Onion Skin": "Hagymahéj"
 }

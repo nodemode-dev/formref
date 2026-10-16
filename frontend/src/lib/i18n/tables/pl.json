@@ -1289,5 +1289,13 @@
  "Moved {0} items to {1}. Undo on the first board brings them back there.": "Przeniesiono elementy ({0}) do {1}. Cofnij na pierwszej tablicy przywraca je.",
  "Reset Adjustments": "Resetuj dostosowania",
  "Reset adjustments": "Resetuj dostosowania",
- "Unlock the items first, or copy them instead of moving them.": "Najpierw odblokuj elementy albo skopiuj je zamiast przenosić."
+ "Unlock the items first, or copy them instead of moving them.": "Najpierw odblokuj elementy albo skopiuj je zamiast przenosić.",
+ "Compare Pictures": "Porównaj obrazy",
+ "Compare pictures": "Porównaj obrazy",
+ "Divider": "Linia podziału",
+ "Select exactly two pictures to compare.": "Zaznacz dokładnie dwa obrazy do porównania.",
+ "Side by Side": "Obok siebie",
+ "Swap": "Zamień",
+ "Swipe": "Przesuwanie",
+ "Onion Skin": "Kalka"
 }
