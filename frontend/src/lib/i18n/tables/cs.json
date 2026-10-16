@@ -1272,5 +1272,22 @@
  "Palette of {0} colours added below the picture, most used first.": "Paleta {0} barev přidána pod obrázek, nejčastější první.",
  "The visible part of this picture is transparent.": "Viditelná část obrázku je průhledná.",
  "Value Study": "Tónová studie",
- "Values: {0}": "Tóny: {0}"
+ "Values: {0}": "Tóny: {0}",
+ "Adjust Picture": "Upravit obrázek",
+ "Adjust · original kept, applied to exports": "Úpravy · originál zůstává, platí i pro export",
+ "Brightness": "Jas",
+ "Choose the items to put on the new board.": "Vyberte položky pro novou tabuli.",
+ "Contrast": "Kontrast",
+ "Copied {0} items to {1}.": "Zkopírováno položek: {0} do {1}.",
+ "Copy Selection to New Board": "Kopírovat výběr na novou tabuli",
+ "Copy selection to a new board": "Kopírovat výběr na novou tabuli",
+ "Drag to measure. Later lines show their ratio to the first. Esc or Measure again ends it.": "Táhněte pro měření. Další čáry ukazují poměr k první. Esc nebo znovu Měřit ukončí.",
+ "Measure": "Měřit",
+ "Move": "Přesunout",
+ "Move Selection to New Board": "Přesunout výběr na novou tabuli",
+ "Move selection to a new board": "Přesunout výběr na novou tabuli",
+ "Moved {0} items to {1}. Undo on the first board brings them back there.": "Přesunuto položek: {0} do {1}. Zpět na první tabuli je vrátí.",
+ "Reset Adjustments": "Obnovit úpravy",
+ "Reset adjustments": "Obnovit úpravy",
+ "Unlock the items first, or copy them instead of moving them.": "Nejprve položky odemkněte, nebo je místo přesunu zkopírujte."
 }

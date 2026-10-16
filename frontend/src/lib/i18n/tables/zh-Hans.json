@@ -1272,5 +1272,22 @@
  "Palette of {0} colours added below the picture, most used first.": "已在图片下方添加 {0} 色调色板，按使用多少排序。",
  "The visible part of this picture is transparent.": "此图片的可见部分是透明的。",
  "Value Study": "明度研究",
- "Values: {0}": "层次：{0}"
+ "Values: {0}": "层次：{0}",
+ "Adjust Picture": "调整图片",
+ "Adjust · original kept, applied to exports": "调整 · 保留原图，导出时也生效",
+ "Brightness": "亮度",
+ "Choose the items to put on the new board.": "请选择要放到新画板上的项目。",
+ "Contrast": "对比度",
+ "Copied {0} items to {1}.": "已将 {0} 个项目复制到 {1}。",
+ "Copy Selection to New Board": "将所选复制到新画板",
+ "Copy selection to a new board": "将所选复制到新画板",
+ "Drag to measure. Later lines show their ratio to the first. Esc or Measure again ends it.": "拖动以测量。之后的线段会显示与第一条的比例。按 Esc 或再次点“测量”结束。",
+ "Measure": "测量",
+ "Move": "移动",
+ "Move Selection to New Board": "将所选移到新画板",
+ "Move selection to a new board": "将所选移到新画板",
+ "Moved {0} items to {1}. Undo on the first board brings them back there.": "已将 {0} 个项目移到 {1}。在原画板撤销可将它们移回。",
+ "Reset Adjustments": "重置调整",
+ "Reset adjustments": "重置调整",
+ "Unlock the items first, or copy them instead of moving them.": "请先解锁这些项目，或改为复制而不是移动。"
 }

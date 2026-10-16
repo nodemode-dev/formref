@@ -1272,5 +1272,22 @@
  "Palette of {0} colours added below the picture, most used first.": "เพิ่มชุดสี {0} สีไว้ใต้รูปแล้ว เรียงจากสีที่ใช้มากที่สุด",
  "The visible part of this picture is transparent.": "ส่วนที่มองเห็นของรูปนี้โปร่งใส",
  "Value Study": "ศึกษาค่าน้ำหนัก",
- "Values: {0}": "ระดับ: {0}"
+ "Values: {0}": "ระดับ: {0}",
+ "Adjust Picture": "ปรับรูปภาพ",
+ "Adjust · original kept, applied to exports": "ปรับ · เก็บต้นฉบับไว้ ใช้กับการส่งออกด้วย",
+ "Brightness": "ความสว่าง",
+ "Choose the items to put on the new board.": "เลือกรายการที่จะไปไว้ในบอร์ดใหม่",
+ "Contrast": "คอนทราสต์",
+ "Copied {0} items to {1}.": "คัดลอก {0} รายการไปที่ {1} แล้ว",
+ "Copy Selection to New Board": "คัดลอกส่วนที่เลือกไปบอร์ดใหม่",
+ "Copy selection to a new board": "คัดลอกส่วนที่เลือกไปบอร์ดใหม่",
+ "Drag to measure. Later lines show their ratio to the first. Esc or Measure again ends it.": "ลากเพื่อวัด เส้นถัดไปจะแสดงอัตราส่วนเทียบกับเส้นแรก กด Esc หรือวัดอีกครั้งเพื่อจบ",
+ "Measure": "วัด",
+ "Move": "ย้าย",
+ "Move Selection to New Board": "ย้ายส่วนที่เลือกไปบอร์ดใหม่",
+ "Move selection to a new board": "ย้ายส่วนที่เลือกไปบอร์ดใหม่",
+ "Moved {0} items to {1}. Undo on the first board brings them back there.": "ย้าย {0} รายการไปที่ {1} แล้ว เลิกทำบนบอร์ดแรกจะนำกลับมา",
+ "Reset Adjustments": "รีเซ็ตการปรับ",
+ "Reset adjustments": "รีเซ็ตการปรับ",
+ "Unlock the items first, or copy them instead of moving them.": "ปลดล็อกรายการก่อน หรือคัดลอกแทนการย้าย"
 }

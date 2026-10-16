@@ -2,6 +2,11 @@
 .lasso-overlay polyline { fill: color-mix(in srgb, var(--accent-color) 15%, transparent); stroke: var(--accent-color); stroke-width: var(--lasso-line, 1.5px); stroke-dasharray: 6 4; }
 .stage.lassoing { cursor: crosshair; }
 .board-item.cropping, .board-item.cropping * { visibility: hidden !important; }
+.measure-overlay { position: absolute; left: 0; top: 0; width: 1px; height: 1px; overflow: visible; pointer-events: none; z-index: var(--z-raised); }
+.measure-overlay line { stroke: var(--accent-color); }
+.measure-overlay circle { fill: var(--bg-node); stroke: var(--accent-color); }
+.measure-overlay text { fill: var(--text-primary); stroke: var(--canvas-bg); paint-order: stroke; font-family: var(--font-ui); font-variant-numeric: tabular-nums; }
+.stage.measuring { cursor: crosshair; }
 .study-grid { position: absolute; inset: 0; pointer-events: none; background-image: linear-gradient(to right, #fff 1px, transparent 1px), linear-gradient(to bottom, #fff 1px, transparent 1px); box-shadow: inset -1px -1px 0 #fff; mix-blend-mode: difference; }
 .board-item.drop-target { outline: 2px dashed var(--accent-color); outline-offset: 4px; }
 .board-item.culled { content-visibility: hidden; visibility: hidden; }

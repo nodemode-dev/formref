@@ -1272,5 +1272,22 @@
  "Palette of {0} colours added below the picture, most used first.": "{0} 色のパレットを画像の下に追加しました（多い色から順）。",
  "The visible part of this picture is transparent.": "この画像の見えている部分は透明です。",
  "Value Study": "明暗スタディ",
- "Values: {0}": "階調: {0}"
+ "Values: {0}": "階調: {0}",
+ "Adjust Picture": "画像を調整",
+ "Adjust · original kept, applied to exports": "調整 · 元画像は保持、書き出しにも適用",
+ "Brightness": "明るさ",
+ "Choose the items to put on the new board.": "新しいボードに移す項目を選んでください。",
+ "Contrast": "コントラスト",
+ "Copied {0} items to {1}.": "{0} 項目を {1} にコピーしました。",
+ "Copy Selection to New Board": "選択範囲を新しいボードにコピー",
+ "Copy selection to a new board": "選択範囲を新しいボードにコピー",
+ "Drag to measure. Later lines show their ratio to the first. Esc or Measure again ends it.": "ドラッグして測定します。2 本目以降は 1 本目との比率を表示します。Esc か再度「測定」で終了します。",
+ "Measure": "測定",
+ "Move": "移動",
+ "Move Selection to New Board": "選択範囲を新しいボードに移動",
+ "Move selection to a new board": "選択範囲を新しいボードに移動",
+ "Moved {0} items to {1}. Undo on the first board brings them back there.": "{0} 項目を {1} に移動しました。元のボードで取り消すと戻ります。",
+ "Reset Adjustments": "調整をリセット",
+ "Reset adjustments": "調整をリセット",
+ "Unlock the items first, or copy them instead of moving them.": "先に項目のロックを解除するか、移動ではなくコピーしてください。"
 }

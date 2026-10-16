@@ -33,6 +33,7 @@ import { registerWindowLayout } from './app/window-layout';
 import { registerStudy } from './app/study';
 import { registerAdjust } from './app/adjust';
 import { registerBoardExtract } from './app/board-extract';
+import { registerMeasure } from './app/measure';
 
 bindLanguage();
 registerTerminal();
@@ -54,6 +55,7 @@ registerWindowLayout();
 registerStudy();
 registerAdjust();
 registerBoardExtract();
+registerMeasure();
 attachCatalogue();
 
 const agent = new AgentPanel({

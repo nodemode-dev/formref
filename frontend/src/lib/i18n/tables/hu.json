@@ -1272,5 +1272,22 @@
  "Palette of {0} colours added below the picture, most used first.": "{0} színű paletta a kép alá helyezve, a leggyakoribb elöl.",
  "The visible part of this picture is transparent.": "A kép látható része átlátszó.",
  "Value Study": "Tónustanulmány",
- "Values: {0}": "Tónusok: {0}"
+ "Values: {0}": "Tónusok: {0}",
+ "Adjust Picture": "Kép beállítása",
+ "Adjust · original kept, applied to exports": "Beállítás · az eredeti megmarad, exportnál is érvényes",
+ "Brightness": "Fényerő",
+ "Choose the items to put on the new board.": "Válassza ki az új tábla elemeit.",
+ "Contrast": "Kontraszt",
+ "Copied {0} items to {1}.": "{0} elem átmásolva ide: {1}.",
+ "Copy Selection to New Board": "Kijelölés másolása új táblára",
+ "Copy selection to a new board": "Kijelölés másolása új táblára",
+ "Drag to measure. Later lines show their ratio to the first. Esc or Measure again ends it.": "Húzással mérhet. A további vonalak az elsőhöz viszonyított arányt mutatják. Esc vagy ismét Mérés befejezi.",
+ "Measure": "Mérés",
+ "Move": "Áthelyezés",
+ "Move Selection to New Board": "Kijelölés áthelyezése új táblára",
+ "Move selection to a new board": "Kijelölés áthelyezése új táblára",
+ "Moved {0} items to {1}. Undo on the first board brings them back there.": "{0} elem áthelyezve ide: {1}. A visszavonás az első táblán visszahozza őket.",
+ "Reset Adjustments": "Beállítások visszaállítása",
+ "Reset adjustments": "Beállítások visszaállítása",
+ "Unlock the items first, or copy them instead of moving them.": "Előbb oldja fel az elemeket, vagy áthelyezés helyett másolja őket."
 }

@@ -1272,5 +1272,22 @@
  "Palette of {0} colours added below the picture, most used first.": "Palet {0} warna ditambahkan di bawah gambar, yang paling banyak dulu.",
  "The visible part of this picture is transparent.": "Bagian gambar yang terlihat transparan.",
  "Value Study": "Studi Nilai",
- "Values: {0}": "Nilai: {0}"
+ "Values: {0}": "Nilai: {0}",
+ "Adjust Picture": "Sesuaikan Gambar",
+ "Adjust · original kept, applied to exports": "Penyesuaian · asli tetap disimpan, berlaku saat ekspor",
+ "Brightness": "Kecerahan",
+ "Choose the items to put on the new board.": "Pilih item untuk papan baru.",
+ "Contrast": "Kontras",
+ "Copied {0} items to {1}.": "{0} item disalin ke {1}.",
+ "Copy Selection to New Board": "Salin Pilihan ke Papan Baru",
+ "Copy selection to a new board": "Salin pilihan ke papan baru",
+ "Drag to measure. Later lines show their ratio to the first. Esc or Measure again ends it.": "Seret untuk mengukur. Garis berikutnya menunjukkan rasionya terhadap yang pertama. Esc atau Ukur lagi untuk selesai.",
+ "Measure": "Ukur",
+ "Move": "Pindahkan",
+ "Move Selection to New Board": "Pindahkan Pilihan ke Papan Baru",
+ "Move selection to a new board": "Pindahkan pilihan ke papan baru",
+ "Moved {0} items to {1}. Undo on the first board brings them back there.": "{0} item dipindahkan ke {1}. Urungkan di papan pertama mengembalikannya.",
+ "Reset Adjustments": "Atur Ulang Penyesuaian",
+ "Reset adjustments": "Atur ulang penyesuaian",
+ "Unlock the items first, or copy them instead of moving them.": "Buka kunci item terlebih dahulu, atau salin alih-alih memindahkannya."
 }

@@ -9,12 +9,19 @@ const KEYS: (keyof Adjust)[] = ['brightness', 'contrast', 'saturation'];
 const input = (key: keyof Adjust) => $<HTMLInputElement>(`adjust-${key}`);
 const pictures = () => selected().filter(i => i.kind === 'image' && !i.locked);
 
+/** The number beside each slider; its width is reserved by CSS (3ch), so the row never shifts. */
+function readout(key: keyof Adjust): void {
+  const out = $(`adjust-${key}-value`), value = input(key).value;
+  if (out.textContent !== value) out.textContent = value;
+}
+
 function slider(): Adjust {
   return { brightness: Number(input('brightness').value), contrast: Number(input('contrast').value), saturation: Number(input('saturation').value) };
 }
 
 /** While a slider moves, only the selected pictures' image elements change; the engine gets one update when the slider is let go. */
 function preview(key: keyof Adjust): void {
+  readout(key);
   for (const item of pictures()) {
     const image = scene.nodes.get(item.id)?.root.querySelector<HTMLImageElement>('img.reference-image');
     if (image) image.style.filter = imageFilter(item, false, { ...adjustOf(item), [key]: Number(input(key).value) });
@@ -51,6 +58,7 @@ function show(items: Item[]): void {
   for (const key of KEYS) {
     const node = input(key);
     if (document.activeElement !== node && node.value !== String(values[key])) node.value = String(values[key]);
+    readout(key);
     node.disabled = !items.some(i => i.kind === 'image' && !i.locked);
   }
 }

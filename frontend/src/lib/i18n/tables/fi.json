@@ -1272,5 +1272,22 @@
  "Palette of {0} colours added below the picture, most used first.": "{0} värin paletti lisätty kuvan alle, yleisin ensin.",
  "The visible part of this picture is transparent.": "Kuvan näkyvä osa on läpinäkyvä.",
  "Value Study": "Sävytutkielma",
- "Values: {0}": "Sävyt: {0}"
+ "Values: {0}": "Sävyt: {0}",
+ "Adjust Picture": "Säädä kuvaa",
+ "Adjust · original kept, applied to exports": "Säädöt · alkuperäinen säilyy, koskee vientejä",
+ "Brightness": "Kirkkaus",
+ "Choose the items to put on the new board.": "Valitse kohteet uudelle taululle.",
+ "Contrast": "Kontrasti",
+ "Copied {0} items to {1}.": "{0} kohdetta kopioitu tauluun {1}.",
+ "Copy Selection to New Board": "Kopioi valinta uudelle taululle",
+ "Copy selection to a new board": "Kopioi valinta uudelle taululle",
+ "Drag to measure. Later lines show their ratio to the first. Esc or Measure again ends it.": "Mittaa vetämällä. Seuraavat viivat näyttävät suhteensa ensimmäiseen. Esc tai Mittaa uudelleen lopettaa.",
+ "Measure": "Mittaa",
+ "Move": "Siirrä",
+ "Move Selection to New Board": "Siirrä valinta uudelle taululle",
+ "Move selection to a new board": "Siirrä valinta uudelle taululle",
+ "Moved {0} items to {1}. Undo on the first board brings them back there.": "{0} kohdetta siirretty tauluun {1}. Kumoa ensimmäisellä taululla tuo ne takaisin.",
+ "Reset Adjustments": "Palauta säädöt",
+ "Reset adjustments": "Palauta säädöt",
+ "Unlock the items first, or copy them instead of moving them.": "Avaa kohteiden lukitus ensin tai kopioi ne siirtämisen sijaan."
 }

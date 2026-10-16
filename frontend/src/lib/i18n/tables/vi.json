@@ -1272,5 +1272,22 @@
  "Palette of {0} colours added below the picture, most used first.": "Đã thêm bảng {0} màu bên dưới ảnh, màu dùng nhiều nhất trước.",
  "The visible part of this picture is transparent.": "Phần nhìn thấy của ảnh này trong suốt.",
  "Value Study": "Nghiên cứu sắc độ",
- "Values: {0}": "Sắc độ: {0}"
+ "Values: {0}": "Sắc độ: {0}",
+ "Adjust Picture": "Điều chỉnh ảnh",
+ "Adjust · original kept, applied to exports": "Điều chỉnh · giữ bản gốc, áp dụng khi xuất",
+ "Brightness": "Độ sáng",
+ "Choose the items to put on the new board.": "Chọn các mục cho bảng mới.",
+ "Contrast": "Độ tương phản",
+ "Copied {0} items to {1}.": "Đã sao chép {0} mục sang {1}.",
+ "Copy Selection to New Board": "Sao chép vùng chọn sang bảng mới",
+ "Copy selection to a new board": "Sao chép vùng chọn sang bảng mới",
+ "Drag to measure. Later lines show their ratio to the first. Esc or Measure again ends it.": "Kéo để đo. Các đường sau hiện tỉ lệ so với đường đầu. Esc hoặc bấm Đo lần nữa để kết thúc.",
+ "Measure": "Đo",
+ "Move": "Di chuyển",
+ "Move Selection to New Board": "Di chuyển vùng chọn sang bảng mới",
+ "Move selection to a new board": "Di chuyển vùng chọn sang bảng mới",
+ "Moved {0} items to {1}. Undo on the first board brings them back there.": "Đã chuyển {0} mục sang {1}. Hoàn tác trên bảng đầu sẽ đưa chúng trở lại.",
+ "Reset Adjustments": "Đặt lại điều chỉnh",
+ "Reset adjustments": "Đặt lại điều chỉnh",
+ "Unlock the items first, or copy them instead of moving them.": "Hãy mở khóa các mục trước, hoặc sao chép thay vì di chuyển."
 }

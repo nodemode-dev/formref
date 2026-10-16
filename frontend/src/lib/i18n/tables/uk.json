@@ -1272,5 +1272,22 @@
  "Palette of {0} colours added below the picture, most used first.": "Палітру з {0} кольорів додано під зображенням, найчастіші першими.",
  "The visible part of this picture is transparent.": "Видима частина зображення прозора.",
  "Value Study": "Тональний етюд",
- "Values: {0}": "Тони: {0}"
+ "Values: {0}": "Тони: {0}",
+ "Adjust Picture": "Налаштувати зображення",
+ "Adjust · original kept, applied to exports": "Налаштування · оригінал зберігається, діє під час експорту",
+ "Brightness": "Яскравість",
+ "Choose the items to put on the new board.": "Виберіть елементи для нової дошки.",
+ "Contrast": "Контраст",
+ "Copied {0} items to {1}.": "Скопійовано елементів: {0} до {1}.",
+ "Copy Selection to New Board": "Копіювати виділене на нову дошку",
+ "Copy selection to a new board": "Копіювати виділене на нову дошку",
+ "Drag to measure. Later lines show their ratio to the first. Esc or Measure again ends it.": "Тягніть, щоб виміряти. Наступні лінії показують відношення до першої. Esc або повторне «Виміряти» завершує.",
+ "Measure": "Виміряти",
+ "Move": "Перемістити",
+ "Move Selection to New Board": "Перемістити виділене на нову дошку",
+ "Move selection to a new board": "Перемістити виділене на нову дошку",
+ "Moved {0} items to {1}. Undo on the first board brings them back there.": "Переміщено елементів: {0} до {1}. Скасування на першій дошці поверне їх.",
+ "Reset Adjustments": "Скинути налаштування",
+ "Reset adjustments": "Скинути налаштування",
+ "Unlock the items first, or copy them instead of moving them.": "Спершу розблокуйте елементи або скопіюйте їх замість переміщення."
 }

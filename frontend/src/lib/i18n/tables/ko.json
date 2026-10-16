@@ -1272,5 +1272,22 @@
  "Palette of {0} colours added below the picture, most used first.": "{0}색 팔레트를 그림 아래에 추가했습니다(많이 쓰인 색부터).",
  "The visible part of this picture is transparent.": "이 그림의 보이는 부분이 투명합니다.",
  "Value Study": "명암 연구",
- "Values: {0}": "단계: {0}"
+ "Values: {0}": "단계: {0}",
+ "Adjust Picture": "그림 조정",
+ "Adjust · original kept, applied to exports": "조정 · 원본 유지, 내보내기에도 적용",
+ "Brightness": "밝기",
+ "Choose the items to put on the new board.": "새 보드에 넣을 항목을 선택하세요.",
+ "Contrast": "대비",
+ "Copied {0} items to {1}.": "항목 {0}개를 {1}(으)로 복사했습니다.",
+ "Copy Selection to New Board": "선택 항목을 새 보드로 복사",
+ "Copy selection to a new board": "선택 항목을 새 보드로 복사",
+ "Drag to measure. Later lines show their ratio to the first. Esc or Measure again ends it.": "드래그하여 측정합니다. 이후 선은 첫 선에 대한 비율을 표시합니다. Esc나 측정을 다시 누르면 끝납니다.",
+ "Measure": "측정",
+ "Move": "이동",
+ "Move Selection to New Board": "선택 항목을 새 보드로 이동",
+ "Move selection to a new board": "선택 항목을 새 보드로 이동",
+ "Moved {0} items to {1}. Undo on the first board brings them back there.": "항목 {0}개를 {1}(으)로 옮겼습니다. 원래 보드에서 실행 취소하면 돌아옵니다.",
+ "Reset Adjustments": "조정 초기화",
+ "Reset adjustments": "조정 초기화",
+ "Unlock the items first, or copy them instead of moving them.": "먼저 항목 잠금을 풀거나, 옮기는 대신 복사하세요."
 }

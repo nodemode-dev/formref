@@ -55,6 +55,7 @@ export function boardMenu(): MenuEntry[] {
         { ...item('grayscale-canvas'), checked: settings.grayscale },
         item('flip-view-horizontal'),
         item('flip-view-vertical'),
+        item('measure'),
         item('background'),
         sep,
         item('fit'),

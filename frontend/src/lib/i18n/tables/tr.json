@@ -1272,5 +1272,22 @@
  "Palette of {0} colours added below the picture, most used first.": "{0} renklik palet resmin altına eklendi, en çok kullanılanlar önce.",
  "The visible part of this picture is transparent.": "Bu resmin görünen kısmı saydam.",
  "Value Study": "Değer Çalışması",
- "Values: {0}": "Değerler: {0}"
+ "Values: {0}": "Değerler: {0}",
+ "Adjust Picture": "Resmi Ayarla",
+ "Adjust · original kept, applied to exports": "Ayar · özgün korunur, dışa aktarmada uygulanır",
+ "Brightness": "Parlaklık",
+ "Choose the items to put on the new board.": "Yeni pano için öğeleri seçin.",
+ "Contrast": "Kontrast",
+ "Copied {0} items to {1}.": "{0} öğe {1} panosuna kopyalandı.",
+ "Copy Selection to New Board": "Seçimi Yeni Panoya Kopyala",
+ "Copy selection to a new board": "Seçimi yeni bir panoya kopyala",
+ "Drag to measure. Later lines show their ratio to the first. Esc or Measure again ends it.": "Ölçmek için sürükleyin. Sonraki çizgiler ilkine oranlarını gösterir. Esc veya yeniden Ölç bitirir.",
+ "Measure": "Ölç",
+ "Move": "Taşı",
+ "Move Selection to New Board": "Seçimi Yeni Panoya Taşı",
+ "Move selection to a new board": "Seçimi yeni bir panoya taşı",
+ "Moved {0} items to {1}. Undo on the first board brings them back there.": "{0} öğe {1} panosuna taşındı. İlk panoda geri al onları geri getirir.",
+ "Reset Adjustments": "Ayarları Sıfırla",
+ "Reset adjustments": "Ayarları sıfırla",
+ "Unlock the items first, or copy them instead of moving them.": "Önce öğelerin kilidini açın veya taşımak yerine kopyalayın."
 }

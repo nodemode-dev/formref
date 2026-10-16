@@ -1272,5 +1272,22 @@
  "Palette of {0} colours added below the picture, most used first.": "Paleta de {0} colores añadida debajo de la imagen, los más usados primero.",
  "The visible part of this picture is transparent.": "La parte visible de esta imagen es transparente.",
  "Value Study": "Estudio de valores",
- "Values: {0}": "Valores: {0}"
+ "Values: {0}": "Valores: {0}",
+ "Adjust Picture": "Ajustar imagen",
+ "Adjust · original kept, applied to exports": "Ajustes · se conserva el original, se aplican al exportar",
+ "Brightness": "Brillo",
+ "Choose the items to put on the new board.": "Elige los elementos para el nuevo tablero.",
+ "Contrast": "Contraste",
+ "Copied {0} items to {1}.": "Se copiaron {0} elementos a {1}.",
+ "Copy Selection to New Board": "Copiar selección a un tablero nuevo",
+ "Copy selection to a new board": "Copiar la selección a un tablero nuevo",
+ "Drag to measure. Later lines show their ratio to the first. Esc or Measure again ends it.": "Arrastra para medir. Las líneas siguientes muestran su proporción respecto a la primera. Esc o Medir de nuevo termina.",
+ "Measure": "Medir",
+ "Move": "Mover",
+ "Move Selection to New Board": "Mover selección a un tablero nuevo",
+ "Move selection to a new board": "Mover la selección a un tablero nuevo",
+ "Moved {0} items to {1}. Undo on the first board brings them back there.": "Se movieron {0} elementos a {1}. Deshacer en el primer tablero los devuelve.",
+ "Reset Adjustments": "Restablecer ajustes",
+ "Reset adjustments": "Restablecer ajustes",
+ "Unlock the items first, or copy them instead of moving them.": "Desbloquea primero los elementos, o cópialos en lugar de moverlos."
 }

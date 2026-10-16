@@ -1272,5 +1272,22 @@
  "Palette of {0} colours added below the picture, most used first.": "Palet van {0} kleuren onder de afbeelding gezet, meest gebruikte eerst.",
  "The visible part of this picture is transparent.": "Het zichtbare deel van deze afbeelding is transparant.",
  "Value Study": "Toonstudie",
- "Values: {0}": "Toonwaarden: {0}"
+ "Values: {0}": "Toonwaarden: {0}",
+ "Adjust Picture": "Afbeelding aanpassen",
+ "Adjust · original kept, applied to exports": "Aanpassen · origineel blijft, geldt voor exports",
+ "Brightness": "Helderheid",
+ "Choose the items to put on the new board.": "Kies de items voor het nieuwe bord.",
+ "Contrast": "Contrast",
+ "Copied {0} items to {1}.": "{0} items gekopieerd naar {1}.",
+ "Copy Selection to New Board": "Selectie naar nieuw bord kopiëren",
+ "Copy selection to a new board": "Selectie naar een nieuw bord kopiëren",
+ "Drag to measure. Later lines show their ratio to the first. Esc or Measure again ends it.": "Sleep om te meten. Volgende lijnen tonen hun verhouding tot de eerste. Esc of nogmaals Meten stopt.",
+ "Measure": "Meten",
+ "Move": "Verplaatsen",
+ "Move Selection to New Board": "Selectie naar nieuw bord verplaatsen",
+ "Move selection to a new board": "Selectie naar een nieuw bord verplaatsen",
+ "Moved {0} items to {1}. Undo on the first board brings them back there.": "{0} items verplaatst naar {1}. Ongedaan maken op het eerste bord brengt ze terug.",
+ "Reset Adjustments": "Aanpassingen herstellen",
+ "Reset adjustments": "Aanpassingen herstellen",
+ "Unlock the items first, or copy them instead of moving them.": "Ontgrendel de items eerst, of kopieer ze in plaats van ze te verplaatsen."
 }

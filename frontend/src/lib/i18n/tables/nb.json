@@ -1272,5 +1272,22 @@
  "Palette of {0} colours added below the picture, most used first.": "Palett med {0} farger lagt til under bildet, mest brukte først.",
  "The visible part of this picture is transparent.": "Den synlige delen av bildet er gjennomsiktig.",
  "Value Study": "Valørstudie",
- "Values: {0}": "Valører: {0}"
+ "Values: {0}": "Valører: {0}",
+ "Adjust Picture": "Juster bilde",
+ "Adjust · original kept, applied to exports": "Juster · originalen beholdes, brukes ved eksport",
+ "Brightness": "Lysstyrke",
+ "Choose the items to put on the new board.": "Velg elementene til den nye tavlen.",
+ "Contrast": "Kontrast",
+ "Copied {0} items to {1}.": "Kopierte {0} elementer til {1}.",
+ "Copy Selection to New Board": "Kopier utvalg til ny tavle",
+ "Copy selection to a new board": "Kopier utvalget til en ny tavle",
+ "Drag to measure. Later lines show their ratio to the first. Esc or Measure again ends it.": "Dra for å måle. Senere linjer viser forholdet til den første. Esc eller Mål igjen avslutter.",
+ "Measure": "Mål",
+ "Move": "Flytt",
+ "Move Selection to New Board": "Flytt utvalg til ny tavle",
+ "Move selection to a new board": "Flytt utvalget til en ny tavle",
+ "Moved {0} items to {1}. Undo on the first board brings them back there.": "Flyttet {0} elementer til {1}. Angre på den første tavlen henter dem tilbake.",
+ "Reset Adjustments": "Tilbakestill justeringer",
+ "Reset adjustments": "Tilbakestill justeringer",
+ "Unlock the items first, or copy them instead of moving them.": "Lås opp elementene først, eller kopier dem i stedet for å flytte dem."
 }

@@ -1272,5 +1272,22 @@
  "Palette of {0} colours added below the picture, most used first.": "Paletę {0} kolorów dodano pod obrazem, najczęstsze pierwsze.",
  "The visible part of this picture is transparent.": "Widoczna część tego obrazu jest przezroczysta.",
  "Value Study": "Studium walorowe",
- "Values: {0}": "Walory: {0}"
+ "Values: {0}": "Walory: {0}",
+ "Adjust Picture": "Dostosuj obraz",
+ "Adjust · original kept, applied to exports": "Dostosowanie · oryginał zostaje, obowiązuje w eksporcie",
+ "Brightness": "Jasność",
+ "Choose the items to put on the new board.": "Wybierz elementy na nową tablicę.",
+ "Contrast": "Kontrast",
+ "Copied {0} items to {1}.": "Skopiowano elementy ({0}) do {1}.",
+ "Copy Selection to New Board": "Kopiuj zaznaczenie na nową tablicę",
+ "Copy selection to a new board": "Kopiuj zaznaczenie na nową tablicę",
+ "Drag to measure. Later lines show their ratio to the first. Esc or Measure again ends it.": "Przeciągnij, aby zmierzyć. Kolejne linie pokazują stosunek do pierwszej. Esc lub ponownie Mierz kończy.",
+ "Measure": "Mierz",
+ "Move": "Przenieś",
+ "Move Selection to New Board": "Przenieś zaznaczenie na nową tablicę",
+ "Move selection to a new board": "Przenieś zaznaczenie na nową tablicę",
+ "Moved {0} items to {1}. Undo on the first board brings them back there.": "Przeniesiono elementy ({0}) do {1}. Cofnij na pierwszej tablicy przywraca je.",
+ "Reset Adjustments": "Resetuj dostosowania",
+ "Reset adjustments": "Resetuj dostosowania",
+ "Unlock the items first, or copy them instead of moving them.": "Najpierw odblokuj elementy albo skopiuj je zamiast przenosić."
 }

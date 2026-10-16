@@ -1272,5 +1272,22 @@
  "Palette of {0} colours added below the picture, most used first.": "Palette di {0} colori aggiunta sotto l’immagine, i più usati per primi.",
  "The visible part of this picture is transparent.": "La parte visibile di questa immagine è trasparente.",
  "Value Study": "Studio dei valori",
- "Values: {0}": "Valori: {0}"
+ "Values: {0}": "Valori: {0}",
+ "Adjust Picture": "Regola immagine",
+ "Adjust · original kept, applied to exports": "Regolazioni · l’originale resta, valgono per le esportazioni",
+ "Brightness": "Luminosità",
+ "Choose the items to put on the new board.": "Scegli gli elementi per la nuova bacheca.",
+ "Contrast": "Contrasto",
+ "Copied {0} items to {1}.": "{0} elementi copiati in {1}.",
+ "Copy Selection to New Board": "Copia selezione in una nuova bacheca",
+ "Copy selection to a new board": "Copia la selezione in una nuova bacheca",
+ "Drag to measure. Later lines show their ratio to the first. Esc or Measure again ends it.": "Trascina per misurare. Le linee successive mostrano il rapporto con la prima. Esc o di nuovo Misura per finire.",
+ "Measure": "Misura",
+ "Move": "Sposta",
+ "Move Selection to New Board": "Sposta selezione in una nuova bacheca",
+ "Move selection to a new board": "Sposta la selezione in una nuova bacheca",
+ "Moved {0} items to {1}. Undo on the first board brings them back there.": "{0} elementi spostati in {1}. Annulla sulla prima bacheca li riporta indietro.",
+ "Reset Adjustments": "Ripristina regolazioni",
+ "Reset adjustments": "Ripristina regolazioni",
+ "Unlock the items first, or copy them instead of moving them.": "Sblocca prima gli elementi, oppure copiali invece di spostarli."
 }

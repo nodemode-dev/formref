@@ -1272,5 +1272,22 @@
  "Palette of {0} colours added below the picture, most used first.": "Палитра из {0} цветов добавлена под изображением, частые первыми.",
  "The visible part of this picture is transparent.": "Видимая часть изображения прозрачна.",
  "Value Study": "Тональный этюд",
- "Values: {0}": "Тона: {0}"
+ "Values: {0}": "Тона: {0}",
+ "Adjust Picture": "Настроить изображение",
+ "Adjust · original kept, applied to exports": "Настройка · оригинал сохраняется, действует при экспорте",
+ "Brightness": "Яркость",
+ "Choose the items to put on the new board.": "Выберите элементы для новой доски.",
+ "Contrast": "Контраст",
+ "Copied {0} items to {1}.": "Скопировано элементов: {0} в {1}.",
+ "Copy Selection to New Board": "Копировать выделение на новую доску",
+ "Copy selection to a new board": "Копировать выделение на новую доску",
+ "Drag to measure. Later lines show their ratio to the first. Esc or Measure again ends it.": "Тяните, чтобы измерить. Следующие линии показывают отношение к первой. Esc или повторное «Измерить» завершает.",
+ "Measure": "Измерить",
+ "Move": "Переместить",
+ "Move Selection to New Board": "Переместить выделение на новую доску",
+ "Move selection to a new board": "Переместить выделение на новую доску",
+ "Moved {0} items to {1}. Undo on the first board brings them back there.": "Перемещено элементов: {0} в {1}. Отмена на первой доске вернёт их.",
+ "Reset Adjustments": "Сбросить настройки",
+ "Reset adjustments": "Сбросить настройки",
+ "Unlock the items first, or copy them instead of moving them.": "Сначала разблокируйте элементы или скопируйте их вместо перемещения."
 }

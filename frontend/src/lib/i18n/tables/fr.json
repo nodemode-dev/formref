@@ -1272,5 +1272,22 @@
  "Palette of {0} colours added below the picture, most used first.": "Palette de {0} couleurs ajoutée sous l’image, les plus présentes d’abord.",
  "The visible part of this picture is transparent.": "La partie visible de cette image est transparente.",
  "Value Study": "Étude de valeurs",
- "Values: {0}": "Valeurs : {0}"
+ "Values: {0}": "Valeurs : {0}",
+ "Adjust Picture": "Ajuster l’image",
+ "Adjust · original kept, applied to exports": "Réglages · l’original est conservé, appliqués aux exports",
+ "Brightness": "Luminosité",
+ "Choose the items to put on the new board.": "Choisissez les éléments à placer sur le nouveau tableau.",
+ "Contrast": "Contraste",
+ "Copied {0} items to {1}.": "{0} éléments copiés vers {1}.",
+ "Copy Selection to New Board": "Copier la sélection vers un nouveau tableau",
+ "Copy selection to a new board": "Copier la sélection vers un nouveau tableau",
+ "Drag to measure. Later lines show their ratio to the first. Esc or Measure again ends it.": "Faites glisser pour mesurer. Les lignes suivantes indiquent leur rapport à la première. Échap ou Mesurer à nouveau termine.",
+ "Measure": "Mesurer",
+ "Move": "Déplacer",
+ "Move Selection to New Board": "Déplacer la sélection vers un nouveau tableau",
+ "Move selection to a new board": "Déplacer la sélection vers un nouveau tableau",
+ "Moved {0} items to {1}. Undo on the first board brings them back there.": "{0} éléments déplacés vers {1}. Annuler sur le premier tableau les ramène.",
+ "Reset Adjustments": "Réinitialiser les réglages",
+ "Reset adjustments": "Réinitialiser les réglages",
+ "Unlock the items first, or copy them instead of moving them.": "Déverrouillez d’abord les éléments, ou copiez-les au lieu de les déplacer."
 }

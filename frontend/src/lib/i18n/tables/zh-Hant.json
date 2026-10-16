@@ -1272,5 +1272,22 @@
  "Palette of {0} colours added below the picture, most used first.": "已在圖片下方加入 {0} 色調色盤，依使用多寡排序。",
  "The visible part of this picture is transparent.": "此圖片的可見部分是透明的。",
  "Value Study": "明度研究",
- "Values: {0}": "層次：{0}"
+ "Values: {0}": "層次：{0}",
+ "Adjust Picture": "調整圖片",
+ "Adjust · original kept, applied to exports": "調整 · 保留原圖，匯出時也套用",
+ "Brightness": "亮度",
+ "Choose the items to put on the new board.": "請選擇要放到新白板上的項目。",
+ "Contrast": "對比",
+ "Copied {0} items to {1}.": "已將 {0} 個項目複製到 {1}。",
+ "Copy Selection to New Board": "將所選複製到新白板",
+ "Copy selection to a new board": "將所選複製到新白板",
+ "Drag to measure. Later lines show their ratio to the first. Esc or Measure again ends it.": "拖曳以測量。之後的線段會顯示與第一條的比例。按 Esc 或再按「測量」結束。",
+ "Measure": "測量",
+ "Move": "移動",
+ "Move Selection to New Board": "將所選移到新白板",
+ "Move selection to a new board": "將所選移到新白板",
+ "Moved {0} items to {1}. Undo on the first board brings them back there.": "已將 {0} 個項目移到 {1}。在原白板復原即可移回。",
+ "Reset Adjustments": "重設調整",
+ "Reset adjustments": "重設調整",
+ "Unlock the items first, or copy them instead of moving them.": "請先解鎖這些項目，或改為複製而非移動。"
 }

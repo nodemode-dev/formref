@@ -1272,5 +1272,22 @@
  "Palette of {0} colours added below the picture, most used first.": "Palett med {0} färger tillagd under bilden, vanligaste först.",
  "The visible part of this picture is transparent.": "Den synliga delen av bilden är genomskinlig.",
  "Value Study": "Valörstudie",
- "Values: {0}": "Valörer: {0}"
+ "Values: {0}": "Valörer: {0}",
+ "Adjust Picture": "Justera bild",
+ "Adjust · original kept, applied to exports": "Justera · originalet behålls, gäller vid export",
+ "Brightness": "Ljusstyrka",
+ "Choose the items to put on the new board.": "Välj objekten för den nya tavlan.",
+ "Contrast": "Kontrast",
+ "Copied {0} items to {1}.": "Kopierade {0} objekt till {1}.",
+ "Copy Selection to New Board": "Kopiera markering till ny tavla",
+ "Copy selection to a new board": "Kopiera markeringen till en ny tavla",
+ "Drag to measure. Later lines show their ratio to the first. Esc or Measure again ends it.": "Dra för att mäta. Senare linjer visar sitt förhållande till den första. Esc eller Mät igen avslutar.",
+ "Measure": "Mät",
+ "Move": "Flytta",
+ "Move Selection to New Board": "Flytta markering till ny tavla",
+ "Move selection to a new board": "Flytta markeringen till en ny tavla",
+ "Moved {0} items to {1}. Undo on the first board brings them back there.": "Flyttade {0} objekt till {1}. Ångra på den första tavlan hämtar tillbaka dem.",
+ "Reset Adjustments": "Återställ justeringar",
+ "Reset adjustments": "Återställ justeringar",
+ "Unlock the items first, or copy them instead of moving them.": "Lås upp objekten först, eller kopiera dem i stället för att flytta dem."
 }

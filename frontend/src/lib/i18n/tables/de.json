@@ -1272,5 +1272,22 @@
  "Palette of {0} colours added below the picture, most used first.": "Palette mit {0} Farben unter dem Bild eingefügt, häufigste zuerst.",
  "The visible part of this picture is transparent.": "Der sichtbare Teil dieses Bildes ist transparent.",
  "Value Study": "Tonwertstudie",
- "Values: {0}": "Tonwerte: {0}"
+ "Values: {0}": "Tonwerte: {0}",
+ "Adjust Picture": "Bild anpassen",
+ "Adjust · original kept, applied to exports": "Anpassen · Original bleibt, gilt für Exporte",
+ "Brightness": "Helligkeit",
+ "Choose the items to put on the new board.": "Wählen Sie die Elemente für das neue Board.",
+ "Contrast": "Kontrast",
+ "Copied {0} items to {1}.": "{0} Elemente nach {1} kopiert.",
+ "Copy Selection to New Board": "Auswahl in neues Board kopieren",
+ "Copy selection to a new board": "Auswahl in ein neues Board kopieren",
+ "Drag to measure. Later lines show their ratio to the first. Esc or Measure again ends it.": "Ziehen zum Messen. Weitere Linien zeigen ihr Verhältnis zur ersten. Esc oder erneut Messen beendet.",
+ "Measure": "Messen",
+ "Move": "Verschieben",
+ "Move Selection to New Board": "Auswahl in neues Board verschieben",
+ "Move selection to a new board": "Auswahl in ein neues Board verschieben",
+ "Moved {0} items to {1}. Undo on the first board brings them back there.": "{0} Elemente nach {1} verschoben. Rückgängig im ersten Board holt sie zurück.",
+ "Reset Adjustments": "Anpassungen zurücksetzen",
+ "Reset adjustments": "Anpassungen zurücksetzen",
+ "Unlock the items first, or copy them instead of moving them.": "Entsperren Sie die Elemente zuerst oder kopieren Sie sie, statt sie zu verschieben."
 }
