@@ -295,6 +295,41 @@ export function bounds(vector: Vector): { x: number; y: number; w: number; h: nu
   return Number.isFinite(x0) ? { x: x0, y: y0, w: x1 - x0, h: y1 - y0 } : { x: 0, y: 0, w: 0, h: 0 };
 }
 
+function connectorCubic(v: Pt, a: Pt, b: Pt, tIn: Pt, tOut: Pt, plan: CornerPlan): Cubic {
+  if (plan.style === 'chamfer') return [a, a, b, b];
+  if (plan.style === 'round') {
+    const k = (4 / 3) * Math.tan(Math.acos(Math.max(-1, Math.min(1, dot(tIn, tOut)))) / 4) * plan.radius;
+    return [a, add(a, mul(tIn, k)), sub(b, mul(tOut, k)), b];
+  }
+  const u = unit(sub(a, v)), w = unit(sub(b, v));
+  const k = (4 / 3) * Math.tan(Math.acos(Math.max(-1, Math.min(1, dot(u, w)))) / 4) * plan.trim;
+  return [a, add(a, mul(unit(sub(w, mul(u, dot(u, w)))), k)), add(b, mul(unit(sub(u, mul(w, dot(u, w)))), k)), b];
+}
+
+/** The outline as points, live corners included, for Pathfinder and hit testing; curves are sampled about every `step` units. */
+export function flatten(path: VPath, step = 2): Pt[] {
+  const count = segmentCount(path);
+  if (!count) return path.anchors.map(pt);
+  const n = path.anchors.length;
+  const plans = cornerPlan(path);
+  const segs = Array.from({ length: count }, (_, i) => {
+    const raw = segment(path, i);
+    return { raw, cut: trim(raw, plans[i]?.trim || 0, plans[(i + 1) % n]?.trim || 0) };
+  });
+  const out: Pt[] = [pt(segs[0].cut[0])];
+  const push = (c: Cubic) => {
+    const straight = len(sub(c[1], c[0])) < EPS && len(sub(c[2], c[3])) < EPS;
+    const steps = straight ? 1 : Math.max(2, Math.min(96, Math.ceil(arcLength(c) / step)));
+    for (let k = 1; k <= steps; k++) out.push(at(c, k / steps));
+  };
+  for (let i = 0; i < count; i++) {
+    push(segs[i].cut);
+    const corner = (i + 1) % n, plan = plans[corner], next = segs[(i + 1) % count];
+    if (plan && plan.trim > EPS && (path.closed || i + 1 < count)) push(connectorCubic(path.anchors[corner], segs[i].cut[3], next.cut[0], tangentIn(segs[i].raw), tangentOut(next.raw), plan));
+  }
+  return out;
+}
+
 export function maxCornerRadius(path: VPath): number {
   return Math.max(0, ...cornerPlan(path).map(p => p?.max || 0));
 }

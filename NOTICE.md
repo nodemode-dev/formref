@@ -49,8 +49,11 @@ FormRef's original source and vector artwork are Apache-2.0. The repository's fu
 | pywinpty | 3.0.5 | MIT | Terminal dock pseudo-terminals on Windows (ConPTY) |
 | @xterm/xterm | 6.0.0 | MIT | Terminal dock rendering in the window |
 | @xterm/addon-fit | 0.11.0 | MIT | Terminal dock sizing |
+| polygon-clipping | 0.15.7 | MIT | Pathfinder shape modes |
+| splaytree | 3.2.3 | MIT | polygon-clipping dependency |
+| robust-predicates | 3.0.3 | Unlicense | polygon-clipping dependency |
 
-The terminal dock and the Claude Code tab (`backend/app/agent/terminal.py`, `backend/app/agent/claude_code.py`, `backend/app/routers/terminal.py`, `frontend/src/ui/terminal-dock.ts`) are adapted from formlit 0.45.3, Apache-2.0, by nodemode-ai, the same owner as FormRef.
+The terminal dock and the Claude Code tab (`backend/app/agent/terminal.py`, `backend/app/agent/claude_code.py`, `backend/app/routers/terminal.py`, `frontend/src/ui/terminal-dock.ts`) are adapted from formlit 0.45.3, Apache-2.0, by nodemode-ai, the same owner as FormRef. So are the dock's Chat (`backend/app/agent/chat.py`, `frontend/src/ui/chat-pane.ts`) and `frontend/src/ui/chat-markdown.ts`, which is formlit's Markdown streamer unchanged. The interface translator follows formvis 1.72.8's design (same owner); the 25 translation tables were written for FormRef.
 
 CairoSVG is installed as an ordinary replaceable Python package in the server environment, unmodified. It is not statically linked into the Rust core or a proprietary desktop bundle. Its license and source URL are retained in the notices. Pillow's wheel license also contains codec/native-library notices. Native shell compilation and distribution are not claimed by this source release; platform runtime libraries are not bundled.
 
