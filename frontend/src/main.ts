@@ -28,6 +28,7 @@ import { registerCropMode } from './app/crop-mode';
 import { registerTransformTools } from './app/transform-tools';
 import { registerLasso } from './app/lasso';
 import { registerGroupNormalize } from './app/group-normalize';
+import { registerDropInto } from './app/drop-into';
 
 bindLanguage();
 registerTerminal();
@@ -44,6 +45,7 @@ registerCropMode();
 registerTransformTools();
 registerLasso();
 registerGroupNormalize();
+registerDropInto();
 attachCatalogue();
 
 const agent = new AgentPanel({

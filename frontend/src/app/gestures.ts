@@ -13,6 +13,7 @@ import { boardMenu } from './menu';
 import { captureUrl, droppedUrl, webUrl } from './capture';
 import { smartAdjust } from './smart-guides';
 import { pencilItem } from './pencil';
+import { clearDropHighlight, highlightDrop, moveCommands } from './drop-into';
 
 export const menu = new ContextMenu($('overlay-root'));
 
@@ -161,6 +162,7 @@ stage.addEventListener('pointermove', event => {
     drawCamera();
   } else if (g.type === 'move') {
     for (const item of g.items) scene.preview(item.id, { x: item.x + dx, y: item.y + dy });
+    highlightDrop(g.items, g.current);
   } else if (g.type === 'resize') {
     const item = g.items[0];
     const angle = item.rotation * Math.PI / 180;
@@ -212,6 +214,7 @@ function endGesture(event: PointerEvent, cancel = false) {
   stage.classList.remove('dragging');
   $('marquee').hidden = true;
   $('draw-path').setAttribute('d', '');
+  clearDropHighlight();
   if (stage.hasPointerCapture(event.pointerId)) stage.releasePointerCapture(event.pointerId);
   if (g.type === 'erase') {
     const ids = [...erased];
@@ -229,7 +232,7 @@ function endGesture(event: PointerEvent, cancel = false) {
   const { dx, dy } = gestureDelta(g);
   if (g.type === 'pan') rememberCamera();
   else if (g.type === 'move' && Math.hypot((g.current.x - g.start.x) * S.camera.zoom, (g.current.y - g.start.y) * S.camera.zoom) >= 3) {
-    void execute({ type: 'transform', ids: g.items.map(item => item.id), dx, dy });
+    void execute(moveCommands(g.items, dx, dy, g.current));
   } else if (g.type === 'move') scene.render(S.state.board, selection, matches);
   else if (g.type === 'resize' || g.type === 'rotate') {
     const root = scene.nodes.get(g.items[0].id)?.root;

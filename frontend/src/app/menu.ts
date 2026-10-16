@@ -115,6 +115,7 @@ export function boardMenu(): MenuEntry[] {
     { label: 'Layer', icon: 'layers', children: [item('front'), item('forward'), item('backward'), item('back'), sep, item('lock-stacking')] },
     sep,
     { ...item('lock', lockLabel()), icon: lockLabel().startsWith('Unlock') ? 'unlock' : 'lock' },
+    ...(isEnabled(BY_ID.get('lock-drops')!) ? [item('lock-drops')] : []),
     item('note'),
     {
       label: 'Insert', icon: 'plus', children: [
