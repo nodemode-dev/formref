@@ -1,0 +1,12 @@
+.anchor-overlay { position: absolute; left: 0; top: 0; width: 1px; height: 1px; overflow: visible; pointer-events: none; z-index: var(--z-raised); }
+.anchor-preview { fill: none; stroke: var(--accent-color); stroke-width: var(--anchor-line, 1px); }
+.anchor-lines { fill: none; stroke: var(--accent-color); stroke-width: var(--anchor-line, 1px); opacity: .8; }
+.anchor-mark { fill: var(--bg-primary); stroke: var(--accent-color); stroke-width: var(--anchor-line, 1px); pointer-events: all; cursor: default; }
+.anchor-mark.smooth { fill: var(--bg-primary); }
+.anchor-mark.corner { fill: var(--accent-color); }
+.anchor-mark.handle { fill: var(--accent-color); }
+.anchor-mark.widget { fill: var(--bg-primary); stroke: var(--text-primary); cursor: pointer; }
+.anchor-mark.widget.at-limit { stroke: var(--danger); }
+.anchor-mark.unused { display: none; }
+.stage[data-tool="direct"] { cursor: default; }
+#drawing-properties { display: flex; flex-direction: column; gap: var(--space-3); }

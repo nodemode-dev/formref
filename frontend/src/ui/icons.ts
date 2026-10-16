@@ -107,6 +107,7 @@ const paths = {
   send: '<path d="M4 12l16-8-6 16-2.5-6.5z"/><path d="M11.5 13.5L20 4"/>',
   stop: '<rect x="6" y="6" width="12" height="12" rx="1.5"/>',
   terminal: '<path d="M4 6l6 6-6 6M12 19h8"/>',
+  direct: '<path d="M5 3l12 7-5.5 1.4L9 17z"/><rect x="15" y="15" width="5" height="5"/>',
   restart: '<path d="M4.5 12a7.5 7.5 0 1 0 2.2-5.3"/><path d="M4 4v5h5"/>'
 } as const;
 

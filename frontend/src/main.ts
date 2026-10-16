@@ -9,14 +9,16 @@ import './app/cutout';
 import './app/cloud';
 import { bindDocks, showPanel, toggleDock } from './ui/dock';
 import { AgentPanel } from './ui/panels/agent';
-import { S, consent, drawCamera, onState, selection, toast } from './app/editor';
+import { S, consent, drawCamera, onState, selection, setTool, toast } from './app/editor';
 import { restore } from './app/tabs';
 import { registerTerminal } from './app/terminal';
 import { attachCatalogue } from './app/catalogue';
 import { registerVector } from './app/vector';
+import { registerDirectSelect } from './app/direct-select';
 
 registerTerminal();
 registerVector();
+registerDirectSelect(setTool);
 attachCatalogue();
 
 const agent = new AgentPanel({

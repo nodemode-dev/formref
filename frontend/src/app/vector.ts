@@ -36,7 +36,7 @@ export function asVector(item: Item): Vector {
   return { w, h, paths: [rectPath(w, h)] };
 }
 
-function withVector(item: Item, vector: Vector): Record<string, unknown> {
+export function withVector(item: Item, vector: Vector): Record<string, unknown> {
   return item.kind === 'shape' ? { ...item.data, shape: 'path', vector } : { ...item.data, vector };
 }
 

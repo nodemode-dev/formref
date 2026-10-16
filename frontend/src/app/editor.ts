@@ -29,7 +29,7 @@ export interface Gesture {
   snapAnchor?: Point;
 }
 
-export type Tool = 'select' | 'hand' | 'pen' | 'eraser' | 'shape' | 'connect' | 'sample';
+export type Tool = 'select' | 'direct' | 'hand' | 'pen' | 'eraser' | 'shape' | 'connect' | 'sample';
 
 export const defaultSettings = { grid_visible: true, grid_size: 24, snap_enabled: false, grayscale: false };
 
@@ -471,6 +471,7 @@ export function zoom(factor: number, point = { x: stage.clientWidth / 2, y: stag
 
 const TOOL_STATUS: Record<Tool, string> = {
   select: 'Select and move references',
+  direct: 'Drag anchors, handles or corner widgets; Alt-click a widget to change the corner style',
   hand: 'Drag to pan',
   pen: 'Drag to draw freehand',
   eraser: 'Drag across drawings to erase them',
