@@ -276,6 +276,37 @@ async def define_labels(board_id: str, labels: list[dict]) -> dict:
     return await command(board_id, {"type": "settings", "patch": {"labels": labels}})
 
 @mcp.tool(annotations=_write)
+async def save_search(board_id: str, name: str, text: str = "", kind: str = "", color: str | None = None, tolerance: float | None = None, similar_item_id: str | None = None, similar_level: str = "related") -> dict:
+    """Save a named search on the board (settings.searches, at most 24): find text, an item kind (image, note, swatch and so on), a #RRGGBB colour with optional tolerance, and/or a picture whose look-alikes to show (level close, related or loose). It needs at least one of them. A search with the same name, ignoring case, is replaced. The person applies it from the bookmark beside the item count; one undoable step."""
+    state = await get_board(board_id)
+    searches = list((state["board"].get("settings") or {}).get("searches") or [])
+    entry = {"name": name.strip()}
+    if text.strip():
+        entry["text"] = text.strip()
+    if kind:
+        entry["kind"] = kind
+    if color:
+        entry["color"] = color.lower()
+        if tolerance is not None:
+            entry["tolerance"] = tolerance
+    if similar_item_id:
+        entry["similar"] = {"item_id": similar_item_id, "level": similar_level}
+    existing = next((s for s in searches if s["name"].lower() == entry["name"].lower()), None)
+    entry["id"] = existing["id"] if existing else uuid.uuid4().hex
+    searches = [entry if s is existing else s for s in searches] if existing else searches + [entry]
+    return await command(board_id, {"type": "settings", "patch": {"searches": searches}})
+
+@mcp.tool(annotations=_write)
+async def delete_search(board_id: str, name: str) -> dict:
+    """Delete the saved search with this name (ignoring case) from the board, as one undoable step."""
+    state = await get_board(board_id)
+    searches = list((state["board"].get("settings") or {}).get("searches") or [])
+    kept = [s for s in searches if s["name"].lower() != name.strip().lower()]
+    if len(kept) == len(searches):
+        raise ValueError(f"No saved search is called {name}.")
+    return await command(board_id, {"type": "settings", "patch": {"searches": kept}})
+
+@mcp.tool(annotations=_write)
 async def label_items(board_id: str, ids: list[str], add: list[str] | None = None, remove: list[str] | None = None) -> dict:
     """Add and/or remove label ids (from define_labels or get_board settings.labels) on items, as one undoable step. An item holds at most 12 labels."""
     state = await get_board(board_id)

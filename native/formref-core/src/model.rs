@@ -43,7 +43,36 @@ pub struct BoardSettings {
     /// The desktop window this board opens in: logical position and size, on top, and window opacity.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub window: Option<WindowLayout>,
+    /// Named filters the board remembers: find text, kind, colour and a similar-picture sample. Left out of the saved board while empty, so older boards stay byte-identical.
+    #[serde(skip_serializing_if = "Vec::is_empty")]
+    pub searches: Vec<SavedSearch>,
 }
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+#[serde(deny_unknown_fields)]
+pub struct SavedSearch {
+    pub id: String,
+    pub name: String,
+    #[serde(default, skip_serializing_if = "String::is_empty")]
+    pub text: String,
+    #[serde(default, skip_serializing_if = "String::is_empty")]
+    pub kind: String,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub color: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub tolerance: Option<f64>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub similar: Option<SimilarSearch>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+#[serde(deny_unknown_fields)]
+pub struct SimilarSearch {
+    pub item_id: String,
+    pub level: String,
+}
+
+pub const MAX_SEARCHES: usize = 24;
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(deny_unknown_fields)]
@@ -70,7 +99,7 @@ pub struct Label {
 
 impl Default for BoardSettings {
     fn default() -> Self {
-        Self { grid_visible: true, grid_size: 24.0, snap_enabled: false, grayscale: false, labels: Vec::new(), window: None }
+        Self { grid_visible: true, grid_size: 24.0, snap_enabled: false, grayscale: false, labels: Vec::new(), window: None, searches: Vec::new() }
     }
 }
 
@@ -98,6 +127,32 @@ impl BoardSettings {
             finite(window.width, "settings.window.width", 200.0, 20_000.0)?;
             finite(window.height, "settings.window.height", 200.0, 20_000.0)?;
             finite(window.opacity, "settings.window.opacity", 0.2, 1.0)?;
+        }
+        if self.searches.len() > MAX_SEARCHES { return Err(EngineError::invalid("a board can keep at most 24 saved searches")); }
+        let mut seen = std::collections::HashSet::new();
+        for search in &self.searches {
+            identifier(&search.id, "search.id")?;
+            if !seen.insert(search.id.as_str()) { return Err(EngineError::invalid("saved search ids must be unique")); }
+            if search.name.trim().is_empty() { return Err(EngineError::invalid("search.name cannot be empty")); }
+            text_limit(&search.name, "search.name", 60)?;
+            text_limit(&search.text, "search.text", 200)?;
+            if !search.kind.is_empty() { identifier(&search.kind, "search.kind")?; text_limit(&search.kind, "search.kind", 32)?; }
+            if let Some(color) = &search.color {
+                let bytes = color.as_bytes();
+                if bytes.len() != 7 || bytes[0] != b'#' || !bytes[1..].iter().all(u8::is_ascii_hexdigit) {
+                    return Err(EngineError::invalid("search.color must be #RRGGBB"));
+                }
+            }
+            if let Some(tolerance) = search.tolerance { finite(tolerance, "search.tolerance", 1.0, 100.0)?; }
+            if let Some(similar) = &search.similar {
+                identifier(&similar.item_id, "search.similar.item_id")?;
+                if !matches!(similar.level.as_str(), "close" | "related" | "loose") {
+                    return Err(EngineError::invalid("search.similar.level must be close, related or loose"));
+                }
+            }
+            if search.text.trim().is_empty() && search.kind.is_empty() && search.color.is_none() && search.similar.is_none() {
+                return Err(EngineError::invalid("a saved search needs text, a kind, a color or a similar picture"));
+            }
         }
         Ok(())
     }
