@@ -164,8 +164,9 @@ function bindInspector() {
 /** Inspector values for the first selected drawing; called from the inspector refresh. */
 export function showStroke(item: Item) {
   const set = (id: string, value: string) => { const el = document.getElementById(id) as HTMLInputElement | HTMLSelectElement | null; if (el && document.activeElement !== el && el.value !== value) el.value = value; };
-  set('stroke-cap', CAPS.includes(item.data.cap as never) ? String(item.data.cap) : 'round');
-  set('stroke-join', JOINS.includes(item.data.join as never) ? String(item.data.join) : 'round');
+  const freehand = item.kind === 'stroke' && !item.data.vector;
+  set('stroke-cap', CAPS.includes(item.data.cap as never) ? String(item.data.cap) : freehand ? 'round' : 'butt');
+  set('stroke-join', JOINS.includes(item.data.join as never) ? String(item.data.join) : freehand ? 'round' : 'miter');
   set('stroke-miter', String(item.data.miter ?? 10));
   set('stroke-dash', Array.isArray(item.data.dash) ? (item.data.dash as number[]).join(' ') : '');
   set('arrow-start', ARROWHEADS.includes(item.data.arrow_start as Arrowhead) ? String(item.data.arrow_start) : 'none');

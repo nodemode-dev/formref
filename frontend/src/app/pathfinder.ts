@@ -97,7 +97,7 @@ async function outlineStroke() {
     const rings = worldRings(item);
     const legacy = item.kind === 'stroke' && !item.data.vector;
     const cap = String(item.data.cap || (legacy ? 'round' : 'butt')), join = String(item.data.join || (legacy ? 'round' : 'miter'));
-    const miter = Number(item.data.miter) >= 1 ? Number(item.data.miter) : 4;
+    const miter = Number(item.data.miter) >= 1 ? Number(item.data.miter) : 10;
     const outline = strokeOutline(rings.map((points, i) => ({ points, closed: vector.paths[i].closed })), Number(item.data.stroke_width || 2), cap, join, miter);
     const filled = item.kind === 'shape' && item.data.fill && item.data.fill !== 'none' && vector.paths.some(p => p.closed);
     const outlined = itemFor(item, outline, item.z + (filled ? 1 : 0));

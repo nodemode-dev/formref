@@ -11,7 +11,7 @@ export function strokeStyle(el: SVGElement, data: Record<string, unknown>): void
   if (cap) el.setAttribute('stroke-linecap', cap === 'projecting' ? 'square' : cap); else el.removeAttribute('stroke-linecap');
   if (join) el.setAttribute('stroke-linejoin', join); else el.removeAttribute('stroke-linejoin');
   const miter = Number(data.miter);
-  if (Number.isFinite(miter) && miter >= 1 && miter <= 500) el.setAttribute('stroke-miterlimit', String(miter)); else el.removeAttribute('stroke-miterlimit');
+  el.setAttribute('stroke-miterlimit', String(Number.isFinite(miter) && miter >= 1 && miter <= 500 ? miter : 10));
   const dash = Array.isArray(data.dash) ? (data.dash as unknown[]).map(Number).filter(n => Number.isFinite(n) && n >= 0).slice(0, 6) : [];
   if (dash.some(n => n > 0)) el.setAttribute('stroke-dasharray', dash.join(' ')); else el.removeAttribute('stroke-dasharray');
 }
