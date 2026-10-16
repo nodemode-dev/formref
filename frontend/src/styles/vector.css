@@ -1,4 +1,6 @@
 .anchor-overlay { position: absolute; left: 0; top: 0; width: 1px; height: 1px; overflow: visible; pointer-events: none; z-index: var(--z-raised); }
+.smart-guides { position: absolute; left: 0; top: 0; width: 1px; height: 1px; overflow: visible; pointer-events: none; z-index: var(--z-raised); }
+.smart-guides path { fill: none; stroke: var(--accent-color); stroke-dasharray: 4 2; stroke-width: var(--guide-line, 1px); }
 .anchor-preview { fill: none; stroke: var(--accent-color); stroke-width: var(--anchor-line, 1px); }
 .anchor-lines { fill: none; stroke: var(--accent-color); stroke-width: var(--anchor-line, 1px); opacity: .8; }
 .anchor-mark { fill: var(--bg-primary); stroke: var(--accent-color); stroke-width: var(--anchor-line, 1px); pointer-events: all; cursor: default; }

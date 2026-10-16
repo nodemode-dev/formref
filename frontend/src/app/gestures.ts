@@ -11,6 +11,7 @@ import type { Gesture } from './editor';
 import { commandForKey, isEnabled } from './commands';
 import { boardMenu } from './menu';
 import { captureUrl, droppedUrl, webUrl } from './capture';
+import { smartAdjust } from './smart-guides';
 
 export const menu = new ContextMenu($('overlay-root'));
 
@@ -23,6 +24,7 @@ function gestureDelta(g: Gesture) {
     dx = snap(g.snapAnchor.x + dx) - g.snapAnchor.x;
     dy = snap(g.snapAnchor.y + dy) - g.snapAnchor.y;
   }
+  if (g.type === 'move') return smartAdjust(g.items, dx, dy);
   return { dx, dy };
 }
 

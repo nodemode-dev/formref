@@ -17,12 +17,14 @@ import { registerVector } from './app/vector';
 import { registerDirectSelect } from './app/direct-select';
 import { bindLanguage } from './app/language';
 import { registerPathfinder } from './app/pathfinder';
+import { registerSmartGuides } from './app/smart-guides';
 
 bindLanguage();
 registerTerminal();
 registerVector();
 registerDirectSelect(setTool);
 registerPathfinder();
+registerSmartGuides();
 attachCatalogue();
 
 const agent = new AgentPanel({
