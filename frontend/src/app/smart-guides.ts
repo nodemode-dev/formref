@@ -12,6 +12,9 @@ world.append(overlay);
 
 let enabled = true;
 try { enabled = localStorage.getItem(STORE) !== 'off'; } catch { }
+/** Smart Guides belong to the Illustrator tools, which are off unless turned on in Preferences. */
+let available = false;
+export function setSmartGuidesAvailable(on: boolean): void { available = on; if (!on) clearGuides(); }
 
 interface Box { left: number; top: number; right: number; bottom: number }
 
@@ -28,7 +31,7 @@ export function smartGuidesOn(): boolean {
 
 /** Illustrator's Smart Guides while moving: snaps the moving selection's edges and centres to other items' edges and centres within 6 screen pixels and draws the lines it lines up on. */
 export function smartAdjust(moving: Item[], dx: number, dy: number): { dx: number; dy: number } {
-  if (!enabled || !S.state || !moving.length) { clearGuides(); return { dx, dy }; }
+  if (!enabled || !available || !S.state || !moving.length) { clearGuides(); return { dx, dy }; }
   const ids = new Set(moving.map(i => i.id));
   const boxes = moving.map(box);
   const m: Box = { left: Math.min(...boxes.map(b => b.left)) + dx, top: Math.min(...boxes.map(b => b.top)) + dy, right: Math.max(...boxes.map(b => b.right)) + dx, bottom: Math.max(...boxes.map(b => b.bottom)) + dy };

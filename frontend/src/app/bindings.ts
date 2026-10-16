@@ -96,8 +96,18 @@ export function openPalette() {
 
 // Shortcut sheet: every command that has or had a key; click a key to reassign it.
 const shortcutKeys = new Map<string, HTMLButtonElement>();
+// A removed command (the Illustrator tools switched off) keeps its row hidden, and its group heading hides with its last row; adding it back shows them again.
+const shortcutRows = new Map<string, { label: HTMLElement; key: HTMLElement; head: HTMLElement }>();
+// One heading per group: commands registered later by feature modules join their group's heading instead of starting a second one.
+const sheetGroups = new Map<string, { head: HTMLElement; last: HTMLElement }>();
+function showShortcutRow(id: string, visible: boolean) {
+  const row = shortcutRows.get(id);
+  if (!row) return;
+  row.label.hidden = row.key.hidden = !visible;
+  const anyShown = [...shortcutRows.values()].some(r => r.head === row.head && !r.label.hidden);
+  if (row.head.hidden === anyShown) row.head.hidden = !anyShown;
+}
 let capturing: string | null = null;
-let sheetGroup = '';
 
 function keyText(id: string): string {
   const command = BY_ID.get(id)!;
@@ -108,14 +118,18 @@ function addShortcutRows(commands: CommandDef[]) {
   const sheet = $('shortcut-list');
   for (const command of commands) {
     const id = command.id;
+    if (shortcutRows.has(id)) { showShortcutRow(id, true); continue; }
     if (!command.keys?.length || shortcutKeys.has(id)) continue;
-    if (command.group !== sheetGroup) {
-      const group = sheetGroup = command.group;
+    let group = sheetGroups.get(command.group);
+    if (!group) {
       const head = document.createElement('div');
       head.className = 'shortcut-group';
-      head.textContent = group;
+      head.textContent = command.group;
       sheet.append(head);
+      group = { head, last: head };
+      sheetGroups.set(command.group, group);
     }
+    const head = group.head;
     const label = document.createElement('span');
     label.className = 'shortcut-label';
     label.append(icon(command.icon || 'keyboard'), document.createTextNode(command.label));
@@ -125,25 +139,31 @@ function addShortcutRows(commands: CommandDef[]) {
     key.textContent = keyText(id);
     key.addEventListener('click', () => startCapture(id));
     shortcutKeys.set(id, key);
-    sheet.append(label, key);
+    shortcutRows.set(id, { label, key, head });
+    group.last.after(label, key);
+    group.last = key;
   }
 }
 addShortcutRows(registry.all());
 registry.onChange((added, removed) => {
   added.forEach(addPaletteRow);
   addShortcutRows(added);
-  for (const id of removed) { paletteRows.get(id)?.remove(); paletteRows.delete(id); }
+  for (const id of removed) { paletteRows.get(id)?.remove(); paletteRows.delete(id); showShortcutRow(id, false); }
 });
 
 function refreshShortcutText() {
   for (const [id, key] of shortcutKeys) {
+    if (!BY_ID.has(id)) continue;
     const text = capturing === id ? 'Press keys…' : keyText(id);
     if (key.textContent !== text) key.textContent = text;
     key.classList.toggle('capturing', capturing === id);
   }
   for (const [id, row] of paletteRows) {
+    // The keymap rebuilds before this row's removal is handled; a command already gone is skipped.
+    const command = BY_ID.get(id);
+    if (!command) continue;
     const kbd = row.querySelector('kbd')!;
-    const text = primaryKey(BY_ID.get(id)!);
+    const text = primaryKey(command);
     if (kbd.textContent !== text) kbd.textContent = text;
   }
 }

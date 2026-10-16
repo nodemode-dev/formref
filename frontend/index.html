@@ -10,6 +10,7 @@
     try {
       var root = document.documentElement, store = window.localStorage;
       root.dataset.theme = store.getItem('formref-theme') || 'studio';
+      root.dataset.illustrator = store.getItem('formref-illustrator') === 'on' ? 'on' : 'off';
       var accent = store.getItem('formref-accent');
       if (accent) root.style.setProperty('--accent-color', accent);
       root.dataset.leftDock = store.getItem('formref-left-dock') === 'collapsed' ? 'collapsed' : 'open';
@@ -114,10 +115,10 @@
       <nav class="toolbar" aria-label="Board tools">
         <div class="tool-group">
           <button class="tool active" data-tool="select" data-icon="cursor" aria-label="Select tool" title="Select · V"></button>
-          <button class="tool" data-tool="direct" data-icon="direct" aria-label="Direct selection tool" title="Direct Selection · A: drag anchors, handles and corner widgets"></button>
-          <button class="tool" data-tool="pen-path" data-icon="bezier" aria-label="Pen tool" title="Pen · Shift+P: click for corners, drag for curves"></button>
-          <button class="tool" data-tool="curvature" data-icon="curvature" aria-label="Curvature tool" title="Curvature · Shift+~: click points and the curve bends through them"></button>
-          <button class="tool" data-tool="pencil" data-icon="pen" aria-label="Pencil tool" title="Pencil · Shift+N: freehand that becomes an editable path"></button>
+          <button class="tool" data-tool="direct" data-icon="direct" data-illustrator-only aria-label="Direct selection tool" title="Direct Selection · A: drag anchors, handles and corner widgets"></button>
+          <button class="tool" data-tool="pen-path" data-icon="bezier" data-illustrator-only aria-label="Pen tool" title="Pen · Shift+P: click for corners, drag for curves"></button>
+          <button class="tool" data-tool="curvature" data-icon="curvature" data-illustrator-only aria-label="Curvature tool" title="Curvature · Shift+~: click points and the curve bends through them"></button>
+          <button class="tool" data-tool="pencil" data-icon="pen" data-illustrator-only aria-label="Pencil tool" title="Pencil · Shift+N: freehand that becomes an editable path"></button>
           <button class="tool" data-tool="hand" data-icon="hand" aria-label="Pan tool" title="Pan · H or hold Space"></button>
         </div>
         <span class="divider"></span>
@@ -318,7 +319,7 @@
             </div>
             <div id="drawing-properties" hidden>
               <label class="field"><span>Stroke width</span><input id="stroke-width" type="number" min="0.1" max="200" step="0.5"></label>
-              <div class="field-grid">
+              <div class="field-grid" data-illustrator-only>
                 <label class="field"><span>Cap</span><select id="stroke-cap"><option value="butt">Butt</option><option value="round">Round</option><option value="projecting">Projecting</option></select></label>
                 <label class="field"><span>Corner</span><select id="stroke-join"><option value="miter">Miter</option><option value="round">Round</option><option value="bevel">Bevel</option></select></label>
                 <label class="field"><span>Miter limit</span><input id="stroke-miter" type="number" min="1" max="500" step="1"></label>
@@ -327,25 +328,25 @@
                 <label class="field"><span>End arrowhead</span><select id="arrow-end"><option value="none">None</option><option value="arrow">Arrow</option><option value="open">Open arrow</option><option value="circle">Circle</option><option value="square">Square</option><option value="bar">Bar</option></select></label>
                 <label class="field"><span>Arrowhead scale %</span><input id="arrow-scale" type="number" min="10" max="1000" step="10" value="100"></label>
               </div>
-              <div class="section-label">CORNERS</div>
-              <div class="field-grid">
+              <div class="section-label" data-illustrator-only>CORNERS</div>
+              <div class="field-grid" data-illustrator-only>
                 <label class="field"><span>Radius</span><input id="corner-radius" type="number" min="0" step="1" value="12"></label>
                 <label class="field"><span>Style</span><select id="corner-style"><option value="round">Round</option><option value="inverted">Inverted round</option><option value="chamfer">Chamfer</option></select></label>
               </div>
-              <button id="corner-apply" class="button compact full"><span data-icon="shape"></span>Round all corner points</button>
-              <span id="corner-limit" class="field-description">Largest radius that fits: 0 px</span>
+              <button id="corner-apply" class="button compact full" data-illustrator-only><span data-icon="shape"></span>Round all corner points</button>
+              <span id="corner-limit" class="field-description" data-illustrator-only>Largest radius that fits: 0 px</span>
             </div>
             <div id="shape-properties" hidden>
               <label class="field"><span>Shape</span><select id="shape-kind"><option value="rect">Rectangle</option><option value="ellipse">Ellipse</option><option value="line">Line</option><option value="path" disabled>Path</option></select></label>
               <label class="field-row"><span>Fill color</span><input id="shape-fill" type="color" value="#f97316"></label>
               <label class="check-row"><input id="shape-fill-enabled" type="checkbox">Filled shape</label>
-              <div class="field-grid">
+              <div class="field-grid" data-illustrator-only>
                 <label class="field"><span>Gradient</span><select id="gradient-type"><option value="none">None</option><option value="linear">Linear</option><option value="radial">Radial</option></select></label>
                 <label class="field"><span>Angle</span><input id="gradient-angle" type="number" min="-360" max="360" step="15" value="0"></label>
                 <label class="field-row"><span>From</span><input id="gradient-from" type="color" value="#f97316"></label>
                 <label class="field-row"><span>To</span><input id="gradient-to" type="color" value="#111111"></label>
               </div>
-              <label class="field"><span>Gradient stops</span><input id="gradient-stops" type="text" spellcheck="false" placeholder="#f97316 0, #ffffff 50 60, #111111 100" title="Colour, position % and optional opacity % for each stop, separated by commas"></label>
+              <label class="field" data-illustrator-only><span>Gradient stops</span><input id="gradient-stops" type="text" spellcheck="false" placeholder="#f97316 0, #ffffff 50 60, #111111 100" title="Colour, position % and optional opacity % for each stop, separated by commas"></label>
             </div>
             <div id="table-properties" class="table-properties" hidden>
               <div class="section-label">TABLE</div>
@@ -562,6 +563,11 @@
         <p class="field-description">Snapping works with the grid hidden. Grayscale preserves the source images.</p>
         <label class="field-row"><span>Slideshow speed (seconds per image)</span><input id="presentation-interval" type="number" min="1" max="60" step="1" value="10"></label>
         <label class="field-row"><span>Slideshow transition</span><select id="presentation-transition"><option value="fade">Fade</option><option value="none">None</option></select></label>
+      </section>
+      <section class="illustrator-preferences">
+        <div class="section-label">ILLUSTRATOR TOOLS</div>
+        <label class="check-row"><input id="illustrator-tools" type="checkbox">Illustrator drawing tools</label>
+        <p class="field-description">Off by default. Adds the Pen, Curvature, Pencil and Direct Selection tools, path editing and corners, Pathfinder, polygons, stars and other shapes, stroke and gradient options, and Smart Guides. Paths already on a board stay visible either way.</p>
       </section>
       <p class="field-description">Browser workspace: canvas, files, local persistence and MCP automation are available. Native window controls appear only in the desktop shell.</p>
       <section id="native-controls" hidden>

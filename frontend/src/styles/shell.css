@@ -231,6 +231,8 @@
 .cutout-row input[type="range"], .adjust-row input[type="range"] { flex: 1; margin: 0 var(--space-3); accent-color: var(--accent-color); padding: 0; height: 30px; }
 .adjust-row > span { min-width: 8ch; }
 .clipper-preferences { display: flex; flex-direction: column; gap: var(--space-2); }
+.illustrator-preferences { display: flex; flex-direction: column; gap: var(--space-3); padding-bottom: var(--space-4); border-bottom: 1px solid var(--border-color); }
+.illustrator-preferences .field-description { margin: 0; }
 .clipper-preferences .inline-field input { flex: 1; width: 0; height: 28px; font: 11px var(--font-mono); }
 .clipper-preferences code { font: 10px var(--font-mono); color: var(--text-secondary); }
 .cloud-preferences, .cloud-service { display: flex; flex-direction: column; gap: var(--space-2); }
@@ -274,6 +276,8 @@
 .color-find-clear { visibility: hidden; }
 .filter-row .color-find-clear svg { width: 12px; height: 12px; }
 .filter-row.has-color .color-find-clear, .filter-row.has-similar .color-find-clear { visibility: visible; }
+/* Illustrator tools are off unless turned on in Preferences; the early script sets data-illustrator before first paint, so these never flash in. */
+:root:not([data-illustrator="on"]) [data-illustrator-only] { display: none !important; }
 /* Saved searches: a bookmark beside the item count; it takes the accent while the filters on screen are a saved search. */
 .group-head-actions { display: inline-flex; align-items: center; gap: var(--space-1); }
 #saved-searches.active { color: var(--accent-color); }
