@@ -14,7 +14,7 @@ Focused v0.2.0 and v0.3.0 log. The complete baseline engine map, protocol limits
 | Cross-layer schemas and MCP mapping | [Engine contract](../../.docs/wiki/Engine-Contract.md) | [Contract](#contract) |
 | Release build and supplied stdin observations | [Cargo.toml](Cargo.toml), [Cargo.lock](Cargo.lock) | [Verification](#verification) |
 | iStack image commands: rotate, opacity, image flags, crop | [src/commands/image.rs](src/commands/image.rs) | [iStack commands](#istack-commands) |
-| Sort by filename, aspect and similarity; shared grid placement | [src/commands/arrange.rs](src/commands/arrange.rs), [src/commands.rs](src/commands.rs) :: place_grid | [iStack commands](#istack-commands) |
+| Sort by filename, aspect, similarity and color (`data.color_order`, missing values last in original order); shared grid placement | [src/commands/arrange.rs](src/commands/arrange.rs), [src/commands.rs](src/commands.rs) :: place_grid | [iStack commands](#istack-commands) |
 
 ## Table of contents
 

@@ -1,5 +1,14 @@
 # FormRef changelog
 
+## v0.8.0 · 2026-10-16
+
+Finding pictures by colour.
+
+- Find by Color: the colour dot beside the reference filter in the left panel opens a colour picker. The board dims everything except the pictures and swatches that contain the colour, and the list on the left shows only those. Select All then selects just them. The x clears it. Dragging in the picker narrows the board as you go.
+- Find This Swatch Color (right-click, or the command palette) looks for a selected swatch's colour, so a swatch from Extract Palette finds every picture that shares it.
+- Sort by Color (right-click, Organize, or By color in the inspector) lays pictures out in rainbow order of their main colour, with black, white and grey pictures after them from light to dark. One undo puts them back.
+- Agents can call find_by_color to get the matching pictures, best first, and sort with the key color.
+
 ## v0.7.9 · 2026-10-16
 
 No cut-off text, in any language.

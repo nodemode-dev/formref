@@ -8,6 +8,7 @@
 - [Stacking scale](#stacking-scale)
 - [Verification](#verification)
 - [Scripts](#scripts)
+- [v0.8.0 find by color](#v080-find-by-color)
 - [v0.7.9 overflow scan, command modules](#v079-overflow-scan-command-modules)
 - [v0.7.8 compare, inspector labels](#v078-compare-inspector-labels)
 - [v0.7.7 adjustments, measure, selection to board](#v077-adjustments-measure-selection-to-board)
@@ -33,6 +34,12 @@
 - [v0.4.8 desktop window controls and WebKit icons](#v048-desktop-window-controls-and-webkit-icons)
 - [v0.4.7 synced notes, map cards, inline edit commit](#v047-synced-notes-map-cards-inline-edit-commit)
 - [v0.4.6 GIF frames and document export](#v046-gif-frames-and-document-export)
+
+## v0.8.0 find by color
+
+`editor.matchFilters` is a list of extra predicates that `matches()` checks first, so feature modules narrow the board filter (canvas dimming, outline rows, Select All) without editor importing them. `app/color-find.ts` pushes one: an item passes when no colour is applied or its id is in the last answer. The chip sets `has-color` and `--find-color` on `#filter-row` at once; the board changes only when `GET /boards/{id}/colors` answers (a request counter drops overtaken answers), so each item changes class once. While a colour is applied, `onState` compares a signature of picture and swatch ids with their asset or colour and asks again when it changes; until then a new picture counts as not containing the colour. The picker's `input` events are coalesced to one request per 150 ms and `change` gives the count toast. The chip first sat inside the find box; that shrank the search input to 91 px, so it moved beside the kind filter, whose select takes the remaining width; the clear button is always laid out and only toggles `visibility`.
+
+Verified at 4x CPU and a slow network on a probe board: input and filter widths identical before, during and after (147, 143, 191 px); seven items dimmed and three shown for #ff0000; every item's `matched-out` class changed exactly once; Select All took the three; clear restored all; Find This Swatch Color from the palette matched the same three; Sort by Color from the palette gave rainbow order. German labels, toast and menu checked; the overflow scan in 24 languages found nothing new (its only hit is the intentionally offscreen board-title button).
 
 ## v0.7.9 overflow scan, command modules
 

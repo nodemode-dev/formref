@@ -8,6 +8,7 @@
 
 ## Contents
 
+- [v0.8.0 · Find by Color, Sort by Color](#v080--find-by-color-sort-by-color)
 - [v0.7.7 · Adjustments in exports, selection to a new board](#v077--adjustments-in-exports-selection-to-a-new-board)
 - [v0.7.6 · Extract Palette](#v076--extract-palette)
 - [v0.7.5 · agents sync](#v075--agents-sync)
@@ -23,6 +24,12 @@
 - [v0.2.0 · Canvas settings and snapping through MCP](#v020--canvas-settings-and-snapping-through-mcp)
 - [v0.1.0 · Local board service and SDK MCP](#v010--local-board-service-and-sdk-mcp)
 - [boot_backend.bat](#boot_backendbat)
+
+## v0.8.0 · Find by Color, Sort by Color
+
+`core/color_find.py`: `asset_colors()` shrinks the whole original to 160 px, keeps pixels at least half opaque, quantizes to 8 colours (median cut, 2 k-means passes) and stores `[{hex, share}]` in the asset's JSON as `colors`, so each picture is worked out once. Whole picture on purpose: a crop or lasso changes what shows, not what the picture is, and caching per asset keeps a board of hundreds fast. `delta()` is CIEDE2000 (Sharma, Wu and Dalal 2005); plain Lab distance put pure red about 40 from a barn red, so no single tolerance worked for saturated colours. Checked against six of the published reference pairs to four decimals. `find_by_color()` scores a picture by the summed share of its colours within tolerance and keeps those at 0.03 or more, so a speck does not count; swatches compare their own colour. `color_order()` takes the most common colour with share of at least 0.08 and Lab chroma of at least 15 and returns its hue angle, else 360 plus the share-weighted darkness. `features.color_enrich()` writes `data.color_order` into a batch ahead of the sort only where it changed, so the sort and its data are one undo step and a relinked picture sorts by its new colours. Route `GET /boards/{id}/colors` runs in a worker thread; MCP `find_by_color` is read-only and calls it.
+
+Verified on a board of eight generated pictures, a swatch and a note: #b42823 and #ff0000 found the red picture, the swatch and the half-red sunset (0.5); a 1 percent red patch on black did not count; #ff0000 at tolerance 10 found nothing; bad colour and tolerance 0 gave 422 with the message. The color sort placed red, orange, yellow, green, blue, violet, then grey and black, and one undo restored places and data.
 
 ## v0.7.7 · Adjustments in exports, selection to a new board
 
