@@ -8,6 +8,7 @@
 - [Stacking scale](#stacking-scale)
 - [Verification](#verification)
 - [Scripts](#scripts)
+- [v0.6.8 visible-first loading, PDF tools](#v068-visible-first-loading-pdf-tools)
 - [v0.6.7 video clips, flip view, drag out, image level of detail](#v067-video-clips-flip-view-drag-out-image-level-of-detail)
 - [v0.6.6 arc, spiral, grids, blending modes, duplicates](#v066-arc-spiral-grids-blending-modes-duplicates)
 - [v0.6.5 several anchors, Outline Stroke, Pencil, gradient stops](#v065-several-anchors-outline-stroke-pencil-gradient-stops)
@@ -22,6 +23,10 @@
 - [v0.4.8 desktop window controls and WebKit icons](#v048-desktop-window-controls-and-webkit-icons)
 - [v0.4.7 synced notes, map cards, inline edit commit](#v047-synced-notes-map-cards-inline-edit-commit)
 - [v0.4.6 GIF frames and document export](#v046-gif-frames-and-document-export)
+
+## v0.6.8 visible-first loading, PDF tools
+
+`ui/scene.ts` keeps the visible world rectangle in `viewRect`, set by `Scene.detail()` from `drawCamera`. An image node with no source yet that lies outside the view plus one view of margin on every side stays `deferred` (image and fallback hidden, the grey image box showing) and loads when a camera change brings it in range; nothing is unloaded. The first render of a session, before any camera, loads everything as before. `app/pdf.ts` runs PDF Pages to Images through the backend and selects the new pages; the Export dialog's paper choice defaults to Letter for en-US, en-CA, es-MX, es-US and fr-CA.
 
 ## v0.6.7 video clips, flip view, drag out, image level of detail
 

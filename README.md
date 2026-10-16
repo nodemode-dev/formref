@@ -14,7 +14,7 @@ Rust document engine · vanilla TypeScript/Vite view · Python/FastAPI media & p
 - **Canvas workflow:** persistent grid preferences, snapping with shared-engine undo, explicit pack and distribution spacing.
 - **Reference editing:** source-pixel RGBA/RGB/HSV/HEX capture, editable swatches, bounded formatted notes & focused documents with guarded draft saves.
 - **Local persistence:** named boards & managed media saved on disk.
-- **Interoperability:** iStack import, portable archives & PNG/SVG/Markdown/JSON export.
+- **Interoperability:** iStack import, portable archives & PNG/SVG/Markdown/JSON export; full-resolution PDF export (whole board, one page per item, or printed at 100% across A4, Letter, A3 or Tabloid pages); PDF pages turned into image references.
 - **iStack's right-click menu:** File, Edit, Canvas, Organize, Images & Layer in iStack's order & shortcuts, plus Insert & Ask Agent. Press ? for every shortcut.
 - **Board tabs:** several boards open at once, restored where you left them.
 - **Trash:** deleted boards and removed items wait in the Trash until you empty it; restore puts them back.
@@ -22,7 +22,7 @@ Rust document engine · vanilla TypeScript/Vite view · Python/FastAPI media & p
 - **Synced notes & maps:** linked copies of a note that change together; Google Maps and OpenStreetMap links as map cards.
 - **GIF frames & document export:** pause, step, scrub and keep GIF frames; export any document as PDF, Word, Markdown or text.
 - **Video, audio & tables:** playable video and audio cards with In and Out points, frame stepping (, and .) and speed; YouTube, Vimeo, Spotify and SoundCloud players; table cards with typed columns and formulas.
-- **Viewing references:** flip the view horizontally (Shift+H) or vertically (Shift+V) to check a drawing; images load a preview sized to the zoom, so big boards stay light and zoomed-out screentone does not shimmer; Alt-drag an image out to copy its file into another app.
+- **Viewing references:** flip the view horizontally (Shift+H) or vertically (Shift+V) to check a drawing; images load a preview sized to the zoom and only once they are near the view, so big boards open fast and stay light and zoomed-out screentone does not shimmer; Alt-drag an image out to copy its file into another app.
 - **Command line:** `./formref open <board>` and `./formref import <folder> [--title] [--recursive]` work with the running app.
 - **Background removal:** FormCut's models (U2Net built in, Person, IS-Net, Auto and SAM 2.1 click to select) or a model-free plain-background cut; the original is kept and restored any time.
 - **Cloud storage (opt-in):** save boards to and open files from Google Drive or Dropbox with your own app credentials; off until you connect.

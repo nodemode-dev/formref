@@ -8,6 +8,7 @@
 
 ## Contents
 
+- [v0.6.8 · PDF export and PDF pages](#v068--pdf-export-and-pdf-pages)
 - [v0.6.7 · Image previews and the command line](#v067--image-previews-and-the-command-line)
 - [v0.6.6 · Duplicate images](#v066--duplicate-images)
 - [v0.3.2 · Embedded agent service, consent gate, similarity features, session](#v032--embedded-agent-service-consent-gate-similarity-features-session)
@@ -15,6 +16,12 @@
 - [v0.2.0 · Canvas settings and snapping through MCP](#v020--canvas-settings-and-snapping-through-mcp)
 - [v0.1.0 · Local board service and SDK MCP](#v010--local-board-service-and-sdk-mcp)
 - [boot_backend.bat](#boot_backendbat)
+
+## v0.6.8 · PDF export and PDF pages
+
+`pdf_export()` in `core/exports.py` reuses `svg_export()` so the PDF matches the SVG export exactly (original pixels, crops, flips, cards and connections). CairoSVG renders each page onto one shared cairocffi `PDFSurface`: a `PDFSurface` subclass overrides `_create_surface` to resize and return the shared surface, then `show_page()` ends the page. One page per item builds a board containing only that item (and what sits inside it), so neighbours never bleed onto its page; the page turns landscape when the item is wider than tall, and the view is centred with 36 pt margins. Tiles use the board at 1 px = 0.75 pt and stop at 400 pages; the single page shrinks only beyond PDF's 14400 pt limit. Video and audio cards print as cards.
+
+`core/pdf_pages.py` renders pages with pypdfium2 (each page capped to the 64 megapixel image limit), imports them as ordinary PNG assets and adds image items in rows beside the PDF in one `add` command, so one Undo removes them. Items carry `pdf_page` and `pdf_source`.
 
 ## v0.6.7 · Image previews and the command line
 

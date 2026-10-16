@@ -1,5 +1,13 @@
 # FormRef changelog
 
+## v0.6.8 · 2026-10-16
+
+PDF in and out, and big boards that open with what is on screen.
+
+- Export a board as PDF at full resolution: the whole board on one page, one page per item in reading order, or printed at 100% across pages, on A4, Letter, A3 or Tabloid.
+- PDF Pages to Images turns pages of a PDF on the board into image references beside it.
+- Images outside the view wait to load until you pan or zoom near them, so big boards open faster.
+
 ## v0.6.7 · 2026-10-16
 
 Reference-board work from the PureRef, BeeRef and Milanote wishlists.
