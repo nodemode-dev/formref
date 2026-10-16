@@ -11,6 +11,11 @@ import { bindDocks, showPanel, toggleDock } from './ui/dock';
 import { AgentPanel } from './ui/panels/agent';
 import { S, consent, drawCamera, onState, selection, toast } from './app/editor';
 import { restore } from './app/tabs';
+import { registerTerminal } from './app/terminal';
+import { attachCatalogue } from './app/catalogue';
+
+registerTerminal();
+attachCatalogue();
 
 const agent = new AgentPanel({
   boardId: () => S.state?.board.id || null,

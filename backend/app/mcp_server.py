@@ -389,6 +389,21 @@ async def board_resource(board_id: str) -> str:
     """Authoritative document state for a specific persistent reference board."""
     return json.dumps(await get_board(board_id), ensure_ascii=False, indent=2)
 
+@mcp.tool(annotations=_read)
+async def list_commands(group: str = "", text: str = "") -> dict:
+    """Every command of the open FormRef window (menus, palette and shortcuts share them): id, label, group, keys, whether it changes the board, whether it is risky, and whether only the person may run it. Filter by group or by words in the label or description. Needs the FormRef window open."""
+    return await json_api("GET", "/api/commands", params={"group": group, "text": text})
+
+@mcp.tool(annotations=_read)
+async def describe_command(command_id: str) -> dict:
+    """One command's full entry, including its parameters, from list_commands."""
+    return await json_api("GET", f"/api/commands/{command_id}")
+
+@mcp.tool(annotations=_write)
+async def run_command(command_id: str, params: dict | None = None) -> dict:
+    """Runs a command in the open FormRef window exactly as the person would from the menu, on the current selection, as one undo step. Commands marked window-only (file pickers, preferences, the terminal, cloud) are refused; risky ones (deleting) wait for the person to confirm in the Agent panel when a panel turn is running and are refused otherwise. Prefer the dedicated tools (add_items, arrange_items and so on) when one fits."""
+    return await json_api("POST", f"/api/commands/{command_id}/run", json={"params": params or {}})
+
 @mcp.prompt()
 async def organize_references(board_id: str, objective: str = "Organize references into coherent groups") -> str:
     """Plan a reviewable board organization using current IDs and engine commands."""

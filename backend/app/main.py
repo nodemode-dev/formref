@@ -15,6 +15,7 @@ from .routers.agent import router as agent_router
 from .routers.clip import router as clip_router
 from .routers.cloud import router as cloud_router
 from .routers.terminal import router as terminal_router
+from .routers.commands import router as commands_router
 from .agent.service import agents
 from .agent import terminal
 
@@ -106,6 +107,7 @@ app.include_router(agent_router)
 app.include_router(clip_router)
 app.include_router(cloud_router)
 app.include_router(terminal_router)
+app.include_router(commands_router)
 
 @app.get("/{path:path}")
 def frontend(path: str):

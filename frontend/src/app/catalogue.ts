@@ -1,0 +1,108 @@
+import { isEnabled } from './commands';
+import { registry, type CommandDef, type CommandParam } from './registry';
+
+const WINDOW_ONLY = new Set([
+  'open-file', 'open-file-tab', 'images', 'file', 'paste', 'save-to-cloud', 'open-from-cloud', 'export', 'export-png', 'export-all-images',
+  'export-selected', 'save-image', 'relink', 'import-cutout-model', 'pick-cutout-points', 'pick-color', 'sample', 'crop', 'assign',
+  'copy-clip-token', 'reset-clip-token', 'preferences', 'agent', 'commands', 'help', 'close-overlays', 'close-dialog', 'save-template',
+]);
+const RISKY = new Set(['delete', 'delete-board']);
+const READS = new Set([
+  'select-all', 'deselect', 'tool-select', 'tool-hand', 'draw', 'tool-eraser', 'tool-rect', 'tool-circle', 'tool-line', 'tool-connect', 'fit',
+  'fit-all', 'reset-zoom', 'zoom-in', 'zoom-out', 'navigator', 'focus', 'present', 'slideshow', 'reference-focus', 'reference-prev', 'reference-next',
+  'reference-play', 'reference-stop', 'left-dock', 'right-dock', 'trash', 'new-tab', 'close-tab', 'save', 'export', 'export-png', 'export-all-images',
+  'export-selected', 'open-source', 'edit-labels', 'new-from-template', 'download-cutout-model',
+]);
+
+export interface CatalogueEntry {
+  id: string;
+  label: string;
+  group: string;
+  keys: string[];
+  description: string;
+  when: string;
+  params: Record<string, CommandParam>;
+  mutates: boolean;
+  risky: boolean;
+  agent: 'allow' | 'window-only';
+  enabled: boolean;
+}
+
+export function describe(command: CommandDef): CatalogueEntry {
+  return {
+    id: command.id,
+    label: command.label,
+    group: command.group,
+    keys: [...(command.keys || [])],
+    description: command.description || `${command.label} (${command.group}).`,
+    when: command.when || '',
+    params: command.params || {},
+    mutates: command.mutates ?? !READS.has(command.id),
+    risky: command.risky ?? RISKY.has(command.id),
+    agent: command.agent || (WINDOW_ONLY.has(command.id) ? 'window-only' : 'allow'),
+    enabled: isEnabled(command),
+  };
+}
+
+export function catalogue(): CatalogueEntry[] {
+  return registry.all().map(describe);
+}
+
+function checkParams(command: CommandDef, params: Record<string, unknown>): string | null {
+  const schema = command.params || {};
+  for (const key of Object.keys(params)) if (!(key in schema)) return `${command.id} takes no parameter ${key}.`;
+  for (const [key, spec] of Object.entries(schema)) {
+    const value = params[key];
+    if (value === undefined) { if (spec.required) return `${command.id} needs ${key}.`; continue; }
+    const kind = Array.isArray(value) ? 'array' : value === null ? 'null' : typeof value;
+    const ok = spec.type === 'integer' ? Number.isInteger(value) : spec.type === kind;
+    if (!ok) return `${key} must be ${spec.type === 'integer' ? 'an integer' : `a ${spec.type}`}.`;
+    if (spec.enum && !spec.enum.includes(value as string | number)) return `${key} must be one of ${spec.enum.join(', ')}.`;
+    if (typeof value === 'number' && ((spec.min !== undefined && value < spec.min) || (spec.max !== undefined && value > spec.max))) return `${key} is out of range.`;
+  }
+  return null;
+}
+
+export async function runCommand(id: string, params: Record<string, unknown> = {}): Promise<{ ok: boolean; error?: string; dialog?: string }> {
+  const command = registry.get(id);
+  if (!command) return { ok: false, error: `No command ${id}. Use list_commands for the ids.` };
+  const bad = checkParams(command, params);
+  if (bad) return { ok: false, error: bad };
+  if (!isEnabled(command)) return { ok: false, error: `${command.label} is not available right now (for example nothing suitable is selected).` };
+  try {
+    await Promise.resolve(command.run(params));
+  } catch (reason) {
+    return { ok: false, error: reason instanceof Error ? reason.message : String(reason) };
+  }
+  const dialog = document.querySelector<HTMLDialogElement>('dialog[open]');
+  return dialog ? { ok: true, dialog: `${command.label} opened a dialog in the window; the person needs to finish it.` } : { ok: true };
+}
+
+let mirrorTimer = 0;
+function mirror() {
+  window.clearTimeout(mirrorTimer);
+  mirrorTimer = window.setTimeout(() => {
+    void fetch('/api/commands/catalogue', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ commands: catalogue() }) }).catch(() => undefined);
+  }, 600);
+}
+
+async function bridge() {
+  for (;;) {
+    try {
+      const response = await fetch('/api/commands/next', { cache: 'no-store' });
+      if (response.status === 204) continue;
+      if (!response.ok) { await new Promise(r => setTimeout(r, 3000)); continue; }
+      const job = await response.json() as { rid: string; id: string; params: Record<string, unknown> };
+      const result = await runCommand(job.id, job.params || {});
+      await fetch(`/api/commands/result/${encodeURIComponent(job.rid)}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(result) });
+    } catch {
+      await new Promise(r => setTimeout(r, 3000));
+    }
+  }
+}
+
+export function attachCatalogue(): void {
+  registry.onChange(mirror);
+  mirror();
+  void bridge();
+}
