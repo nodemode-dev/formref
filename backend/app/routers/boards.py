@@ -13,6 +13,7 @@ from ..core.features import duplicates, enrich
 from ..core.media import preview
 from ..core.pdf_pages import page_items, pdf_text
 from ..core.palette import extract_palette
+from ..core.color_find import find_by_color
 from ..core.extract import extract_board
 from ..core.capture import capture
 from ..core.doc_export import export_item
@@ -50,6 +51,15 @@ async def pdf_pages(board_id: str, item_id: str, first: int = 1, last: int = 0, 
 @router.post("/boards/{board_id}/items/{item_id}/palette")
 async def palette(board_id: str, item_id: str, count: int = 6):
     return await asyncio.to_thread(extract_palette, board_id, item_id, count)
+
+@router.get("/boards/{board_id}/colors")
+async def board_colors(board_id: str, color: str, tolerance: float = 20):
+    try:
+        return await asyncio.to_thread(find_by_color, board_id, color, tolerance)
+    except MissingBoard:
+        raise HTTPException(status_code=404, detail="No such board.")
+    except ValueError as reason:
+        raise HTTPException(status_code=422, detail=str(reason))
 
 @router.get("/boards/{board_id}/duplicates")
 def board_duplicates(board_id: str, distance: int = 4):

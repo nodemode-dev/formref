@@ -148,6 +148,13 @@ async def extract_palette(board_id: str, item_id: str, count: int = 6) -> dict:
     result = (await api("POST", f"/api/boards/{board_id}/items/{item_id}/palette?count={int(count)}")).json()
     return {"board_id": board_id, "colors": result.get("colors", []), "added": result.get("added", []), "revision": result.get("board", {}).get("revision")}
 
+@mcp.tool(annotations=_read)
+async def find_by_color(board_id: str, color: str, tolerance: float = 20) -> dict:
+    """Find the pictures and swatches on a board that contain a colour (#RRGGBB). tolerance is a CIEDE2000 colour difference from 1 to 100: about 10 is close, 20 the default, 30 loose. Pictures are judged by their whole image; each match has a score, the share of the picture near the colour (swatches score 1). Matches come back best first; nothing on the board changes."""
+    checked_id(board_id)
+    response = await api("GET", f"/api/boards/{board_id}/colors", params={"color": color, "tolerance": tolerance})
+    return {"board_id": board_id, **response.json()}
+
 @mcp.tool(annotations=_write)
 async def create_document(board_id: str, text: str, title: str = "Document", text_format: str = "markdown", x: float = 0, y: float = 0, width: float = 360, height: float = 280) -> dict:
     """Create an undoable document card with one authoritative text source and plain or markdown format. Markdown supports h1-h3, lists, strong/emphasis and absolute HTTP(S) links; supplied HTML stays literal. UTF-8 text is limited to 1 MiB by Rust."""
@@ -176,7 +183,7 @@ async def update_items(board_id: str, ids: list[str], patch: dict) -> dict:
 
 @mcp.tool(annotations=_write)
 async def arrange_items(board_id: str, ids: list[str], action: str, options: dict | None = None) -> dict:
-    """Arrange items using align, distribute, pack, sort, normalize, order, group, ungroup or duplicate. Options: align mode (left, right, top, bottom, center_x, center_y); distribute axis/gap; pack gap/columns; sort key (filename, aspect, similarity), gap, descending; normalize mode/value; order mode (front, forward, backward, back); group group_id; duplicate synced (true makes note and document copies whose title, text, colour and format stay in sync with the source). Similarity sort computes colour features from the original images."""
+    """Arrange items using align, distribute, pack, sort, normalize, order, group, ungroup or duplicate. Options: align mode (left, right, top, bottom, center_x, center_y); distribute axis/gap; pack gap/columns; sort key (filename, aspect, similarity, color), gap, descending; normalize mode/value; order mode (front, forward, backward, back); group group_id; duplicate synced (true makes note and document copies whose title, text, colour and format stay in sync with the source). Similarity sort computes colour features from the original images; color sort puts pictures in hue order of their main colour, with black, white and grey pictures last from light to dark."""
     if action not in {"align", "distribute", "pack", "sort", "normalize", "order", "group", "ungroup", "duplicate"}:
         raise ValueError("Unsupported arrangement action.")
     value = dict(options or {})

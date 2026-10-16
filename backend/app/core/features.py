@@ -1,5 +1,6 @@
 import json
 
+from .color_find import color_order
 from .media import original_image
 from .store import store
 
@@ -69,7 +70,25 @@ def duplicates(board_id: str, distance: int = 4) -> list[list[str]]:
     return [[i["id"] for i in group] for group in groups if len(group) > 1]
 
 
+def color_enrich(board_id: str, command):
+    """Sort by Colour reads data.color_order; it is refreshed from the picture each time, so a relinked picture sorts by its new colours."""
+    wanted = set(command.get("ids") or [])
+    updates = []
+    for item in store.get(board_id)["board"]["items"]:
+        if item["id"] not in wanted or item["kind"] != "image" or item.get("locked") or not item.get("asset_id"):
+            continue
+        try:
+            order = color_order(item["asset_id"])
+        except (ValueError, OSError):
+            continue
+        if order is not None and item.get("data", {}).get("color_order") != order:
+            updates.append({"type": "update", "ids": [item["id"]], "patch": {"data": {"color_order": order}}})
+    return {"type": "batch", "commands": updates + [command]} if updates else command
+
+
 def enrich(board_id: str, command):
+    if isinstance(command, dict) and command.get("type") == "sort" and command.get("key") == "color":
+        return color_enrich(board_id, command)
     if not isinstance(command, dict) or command.get("type") != "sort" or command.get("key") != "similarity":
         return command
     wanted = set(command.get("ids") or [])

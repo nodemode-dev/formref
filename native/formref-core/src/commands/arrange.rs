@@ -63,7 +63,16 @@ pub fn sort(board: &mut Board, command: &Value) -> EngineResult<()> {
             ordered = keyed.into_iter().map(|(index, _)| index).collect();
         }
         "similarity" => ordered = similarity_order(board, &roots),
-        _ => return Err(EngineError::invalid("sort key must be filename, aspect or similarity")),
+        "color" => {
+            let order = |index: usize| board.items[index].data.get("color_order").and_then(Value::as_f64).filter(|n| n.is_finite());
+            ordered.sort_by(|&a, &b| match (order(a), order(b)) {
+                (Some(x), Some(y)) => x.total_cmp(&y).then(a.cmp(&b)),
+                (Some(_), None) => std::cmp::Ordering::Less,
+                (None, Some(_)) => std::cmp::Ordering::Greater,
+                (None, None) => a.cmp(&b),
+            });
+        }
+        _ => return Err(EngineError::invalid("sort key must be filename, aspect, similarity or color")),
     }
     if command.get("descending").and_then(Value::as_bool) == Some(true) { ordered.reverse(); }
     let columns = (ordered.len() as f64).sqrt().ceil() as usize;
