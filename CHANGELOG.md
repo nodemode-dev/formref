@@ -1,5 +1,13 @@
 # FormRef changelog
 
+## v0.16.0 · 2026-10-16
+
+Saved searches for every board.
+
+- The bookmark beside the item count has Save Search for All Boards. Such a search keeps the find text, kind, color, tags and label names, and every board lists it in an All Boards section next to its own searches. A similar picture stays with the board it came from.
+- Labels match by name on each board, ignoring case; a board without one of the labels says so and applies the rest.
+- Searches for all boards are kept in the data folder, not in a board, so undo does not bring a deleted one back. Agents can save one with `save-shared-search`, and `apply-saved-search` finds them too.
+
 ## v0.15.0 · 2026-10-16
 
 Tags travel with exported pictures.

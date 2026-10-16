@@ -8,6 +8,7 @@
 
 ## Contents
 
+- [v0.16.0 · Searches for all boards](#v0160--searches-for-all-boards)
 - [v0.15.0 · Tags written into exported pictures](#v0150--tags-written-into-exported-pictures)
 - [v0.14.0 · Keywords in picture files](#v0140--keywords-in-picture-files)
 - [v0.13.0 · Tags in exports](#v0130--tags-in-exports)
@@ -28,6 +29,12 @@
 - [v0.2.0 · Canvas settings and snapping through MCP](#v020--canvas-settings-and-snapping-through-mcp)
 - [v0.1.0 · Local board service and SDK MCP](#v010--local-board-service-and-sdk-mcp)
 - [boot_backend.bat](#boot_backendbat)
+
+## v0.16.0 · Searches for all boards
+
+`routers/searches.py` keeps the list in `searches.json` beside `preferences.json`, written with `store.atomic_write`. They were put in the service rather than the engine because the engine owns one board at a time and its undo history; a list that belongs to no board has no history to join. The model refuses unknown fields so a board-only `similar` sample cannot slip in, and checks the same limits the engine applies to board searches (name 60 bytes, text 200, tags 12 of 60 bytes) plus 12 label names of 40 bytes. Labels are stored by name because label ids are made per board; the window maps names back to ids. A file that cannot be read gives an empty list rather than an error, so a damaged file never blocks the window.
+
+Checked with curl (empty list, a valid save with an ampersand in the name, an empty search, duplicate names ignoring case, an id with a path in it, and a `similar` field each refused) and in the window at 4x CPU with slow network in English and German ($SC/ui/shared.cjs): saved on one board, listed and applied on another with the missing-label notice, one class change per item on apply, the board's own searches untouched, deleting from the shared list.
 
 ## v0.15.0 · Tags written into exported pictures
 
