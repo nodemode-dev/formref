@@ -1,5 +1,5 @@
 import type { Item, Point } from '../lib/types';
-import { convertAnchor, cornerPlan, isCorner, pathData, type Anchor, type CornerStyle, type Vector } from '../lib/vector/path';
+import { addAnchor, convertAnchor, cornerPlan, cutAt, deleteAnchor, isCorner, pathData, type Anchor, type CornerStyle, type Vector } from '../lib/vector/path';
 import { newItem } from '../lib/types';
 import { S, error, execute, onState, selection, setSelection, stage, topZ, world, worldPoint } from './editor';
 import { registry } from './registry';
@@ -22,6 +22,7 @@ world.append(overlay);
 const pool: SVGElement[] = [];
 let drag: Drag | null = null;
 let frame = 0;
+let chosen: { item: string; path: number; index: number } | null = null;
 
 function el(index: number): SVGElement {
   while (pool.length <= index) { const node = document.createElementNS(NS, 'rect'); node.classList.add('anchor-mark'); overlay.append(node); pool.push(node); }
@@ -90,7 +91,7 @@ function render() {
       }
       const node = el(used++);
       node.setAttribute('x', String(w.x - size / 2)); node.setAttribute('y', String(w.y - size / 2)); node.setAttribute('width', String(size)); node.setAttribute('height', String(size)); node.setAttribute('rx', '0');
-      node.dataset.hit = `anchor:${pi}:${i}`; node.setAttribute('class', `anchor-mark ${isCorner(a) ? 'corner' : 'smooth'}`);
+      node.dataset.hit = `anchor:${pi}:${i}`; node.setAttribute('class', `anchor-mark ${isCorner(a) ? 'corner' : 'smooth'}${chosen && chosen.item === item.id && chosen.path === pi && chosen.index === i ? ' chosen' : ''}`);
       const plan = plans[i];
       const bis = plan && isCorner(a) ? bisector(path.anchors, i, path.closed) : null;
       if (plan && bis) {
@@ -188,9 +189,93 @@ stage.addEventListener('pointerdown', event => {
     void execute({ type: 'update', ids: [item.id], patch: { data: withVector(item, copy) } }).catch(error);
     return;
   }
+  if (hit.kind === 'anchor') chosen = { item: item.id, path: hit.path, index: hit.index };
   stage.setPointerCapture(event.pointerId);
   drag = { hit, item, vector, origin: clone(vector), start: worldPoint(event), moved: false, only: event.shiftKey };
 }, true);
+
+function commit(item: Item, vector: Vector) {
+  return execute({ type: 'update', ids: [item.id], patch: { data: withVector(item, vector) } }).catch(error).finally(refreshAnchors);
+}
+
+/** The selected anchor of the selected path, when the Direct Selection tool shows it. */
+export function chosenAnchor(): { item: Item; vector: Vector; path: number; index: number } | null {
+  const item = target();
+  if (!item || !chosen || chosen.item !== item.id) return null;
+  const vector = asVector(item);
+  const path = vector.paths[chosen.path];
+  return path && path.anchors[chosen.index] ? { item, vector, path: chosen.path, index: chosen.index } : null;
+}
+
+window.addEventListener('keydown', event => {
+  const at = S.tool === 'direct' && !pen ? chosenAnchor() : null;
+  if (!at || (event.target as HTMLElement).closest('input,textarea,select,[contenteditable="true"],.term-dock')) return;
+  const copy = clone(at.vector);
+  const path = copy.paths[at.path];
+  if (event.key === 'Delete' || event.key === 'Backspace') {
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    if (path.anchors.length <= 2 && copy.paths.length === 1) return;
+    if (path.anchors.length <= 2) copy.paths.splice(at.path, 1);
+    else copy.paths[at.path] = deleteAnchor(path, at.index);
+    chosen = null;
+    void commit(at.item, copy);
+    return;
+  }
+  const step = event.shiftKey ? 10 : 1;
+  const d = { ArrowLeft: [-step, 0], ArrowRight: [step, 0], ArrowUp: [0, -step], ArrowDown: [0, step] }[event.key];
+  if (!d) return;
+  event.preventDefault();
+  event.stopImmediatePropagation();
+  const sx = at.vector.w / Math.max(1, at.item.width), sy = at.vector.h / Math.max(1, at.item.height);
+  const a = path.anchors[at.index], dx = d[0] * sx, dy = d[1] * sy;
+  a.x += dx; a.y += dy;
+  if (a.in) { a.in.x += dx; a.in.y += dy; }
+  if (a.out) { a.out.x += dx; a.out.y += dy; }
+  void commit(at.item, copy);
+}, true);
+
+stage.addEventListener('dblclick', event => {
+  const item = target();
+  if (!item) return;
+  const vector = asVector(item);
+  const m = mapper(item, vector);
+  const p = m.toLocal(worldPoint(event));
+  const tolerance = 8 / S.camera.zoom * (vector.w / Math.max(1, item.width));
+  let best: { path: number; seg: number; t: number; d: number } | null = null;
+  vector.paths.forEach((path, pi) => {
+    const count = path.closed ? path.anchors.length : path.anchors.length - 1;
+    for (let i = 0; i < count; i++) {
+      const a = path.anchors[i], b = path.anchors[(i + 1) % path.anchors.length];
+      const c: [Point, Point, Point, Point] = [a, a.out || a, b.in || b, b];
+      for (let k = 1; k < 64; k++) {
+        const t = k / 64, u = 1 - t;
+        const x = u * u * u * c[0].x + 3 * u * u * t * c[1].x + 3 * u * t * t * c[2].x + t * t * t * c[3].x;
+        const y = u * u * u * c[0].y + 3 * u * u * t * c[1].y + 3 * u * t * t * c[2].y + t * t * t * c[3].y;
+        const dist = Math.hypot(x - p.x, y - p.y);
+        if (dist < tolerance && (!best || dist < best.d)) best = { path: pi, seg: i, t, d: dist };
+      }
+    }
+  });
+  if (!best) return;
+  event.preventDefault();
+  event.stopImmediatePropagation();
+  const hit = best as { path: number; seg: number; t: number };
+  const copy = clone(vector);
+  copy.paths[hit.path] = addAnchor(copy.paths[hit.path], hit.seg, hit.t);
+  chosen = { item: item.id, path: hit.path, index: hit.seg + 1 };
+  void commit(item, copy);
+}, true);
+
+export function cutAtChosen(): boolean {
+  const at = chosenAnchor();
+  if (!at) return false;
+  const copy = clone(at.vector);
+  copy.paths.splice(at.path, 1, ...cutAt(copy.paths[at.path], at.index));
+  chosen = null;
+  void commit(at.item, copy);
+  return true;
+}
 
 stage.addEventListener('pointermove', event => { if (drag) { event.stopImmediatePropagation(); applyDrag(event); } }, true);
 
@@ -289,6 +374,7 @@ window.addEventListener('keydown', event => {
 }, true);
 
 export function registerDirectSelect(setTool: (tool: 'direct' | 'pen-path') => void) {
+  registry.add({ group: 'Path', id: 'cut-path', label: 'Cut Path at Selected Anchor', icon: 'crop', keys: ['mod+shift+x'], agent: 'window-only', run: () => { if (!cutAtChosen()) throw new Error('With the Direct Selection tool, click the anchor to cut at first.'); }, enabled: () => !!chosenAnchor(), description: 'Scissors: opens a closed path at the selected anchor, or splits an open path in two there.' });
   registry.add({ group: 'Tools', id: 'tool-pen-path', label: 'Pen Tool', icon: 'bezier', keys: ['shift+p'], run: () => { if (pen) void finishPen(false); setTool('pen-path'); }, agent: 'window-only', mutates: false, description: 'Draws an anchor path as Illustrator\'s Pen does: click for a corner point, drag for a smooth point, click the first point to close the path, Enter or Esc to finish an open path, Backspace removes the last point.' });
   registry.add({ group: 'Tools', id: 'tool-direct', label: 'Direct Selection Tool', icon: 'direct', keys: ['a'], run: () => { setTool('direct'); refreshAnchors(); }, agent: 'window-only', mutates: false, description: 'Shows the anchor points, handles and corner widgets of the selected shape or path: drag an anchor or handle to reshape, drag a corner widget to round every corner (Shift: only that corner), Alt-click a corner widget to switch Round, Inverted round and Chamfer, Alt-click an anchor to convert it between corner and smooth, Alt-drag a handle to break a smooth point.' });
 }
