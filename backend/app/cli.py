@@ -94,7 +94,7 @@ def import_folder(args: list[str]) -> None:
             w, h = 320.0, 240.0
         if x > 0 and x + w > 2400:
             x, y, row = 0.0, y + row + 24, 0.0
-        item = {"id": str(uuid.uuid4()), "kind": "image" if image else "file", "x": x, "y": y, "width": w, "height": h, "rotation": 0, "z": index, "opacity": 1, "locked": False, "hidden": False, "group_id": None, "parent_id": None, "title": file.name, "text": "", "color": "#ffffff", "asset_id": asset["id"], "url": "", "data": ({"tags": asset["keywords"]} if asset.get("keywords") else {}) if image else {"mime": asset.get("mime", "")}}
+        item = {"id": str(uuid.uuid4()), "kind": "image" if image else "file", "x": x, "y": y, "width": w, "height": h, "rotation": 0, "z": index, "opacity": 1, "locked": False, "hidden": False, "group_id": None, "parent_id": None, "title": file.name, "text": "", "color": "#ffffff", "asset_id": asset["id"], "url": "", "data": ({**({"tags": asset["keywords"]} if asset.get("keywords") else {}), **({"rating": asset["rating"]} if asset.get("rating") else {})}) if image else {"mime": asset.get("mime", "")}}
         items.append(item)
         x, row = x + w + 24, max(row, h)
         print(f"  {index}/{len(files)} {file.name}")

@@ -16,7 +16,7 @@ export interface BoardSettings { grid_visible: boolean; grid_size: number; snap_
 export interface Board { id: string; title: string; version: number; revision: number; items: Item[]; connections: Connection[]; viewport: Viewport; background: string; settings: BoardSettings }
 export interface State { board: Board; can_undo: boolean; can_redo: boolean }
 export interface Summary { id: string; title: string; item_count?: number; revision?: number; updated_at?: string }
-export interface Asset { id: string; url: string; width: number; height: number; name: string; mime: string; size: number; keywords?: string[] }
+export interface Asset { id: string; url: string; width: number; height: number; name: string; mime: string; size: number; keywords?: string[]; rating?: number }
 export type Command = { type: string; [key: string]: unknown };
 export const uid = () => crypto.randomUUID();
 export function newItem(kind: Kind, x: number, y: number, patch: Partial<Item> = {}): Item {

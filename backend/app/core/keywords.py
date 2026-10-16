@@ -1,4 +1,4 @@
-"""Keywords stored inside image files, read as tags when a picture is added (reference-board gap: PureRef and BeeRef drop them; Eagle keeps them). Three places hold them: XMP dc:subject (Lightroom, Bridge, Apple Photos, darktable, digiKam), IPTC keywords (record 2, dataset 25; older Photoshop and newsroom tools) and the Windows Tags field (EXIF XPKeywords, 0x9C9E)."""
+"""Keywords stored inside image files, read as tags when a picture is added (reference-board gap: PureRef and BeeRef drop them; Eagle keeps them). Three places hold them: XMP dc:subject (Lightroom, Bridge, Apple Photos, darktable, digiKam), IPTC keywords (record 2, dataset 25; older Photoshop and newsroom tools) and the Windows Tags field (EXIF XPKeywords, 0x9C9E). The star rating is read the same way (v0.23.0)."""
 import io
 import re
 
@@ -56,6 +56,42 @@ def _iptc_and_windows(data: bytes) -> list[str]:
         # A file Pillow cannot read further simply has no keywords here; the upload itself was validated earlier.
         return out
     return out
+
+
+XMP_RATING = "{http://ns.adobe.com/xap/1.0/}Rating"
+EXIF_RATING = 0x4746
+
+
+def _stars(value) -> int | None:
+    """1 to 5 stars, or None: Lightroom writes -1 for a rejected picture and 0 for none, and some tools write decimals."""
+    try:
+        stars = round(float(str(value).strip()))
+    except (TypeError, ValueError, OverflowError):
+        return None
+    return stars if 1 <= stars <= 5 else None
+
+
+def embedded_rating(data: bytes) -> int | None:
+    """The star rating stored in a picture: xmp:Rating, written as an attribute (Lightroom, Bridge) or an element, from the first XMP packet; otherwise the Windows Rating field (EXIF 0x4746)."""
+    match = PACKET.search(data[:16 * 1024 * 1024])
+    if match:
+        try:
+            root = ET.fromstring(match.group(0))
+        except (ET.ParseError, DefusedXmlException):
+            root = None
+        if root is not None:
+            for description in root.iter(RDF + "Description"):
+                found = _stars(description.get(XMP_RATING))
+                if found is None:
+                    element = description.find(XMP_RATING)
+                    found = _stars(element.text) if element is not None else None
+                if found is not None:
+                    return found
+    try:
+        with Image.open(io.BytesIO(data)) as image:
+            return _stars(image.getexif().get(EXIF_RATING))
+    except Exception:
+        return None
 
 
 def embedded_keywords(data: bytes) -> list[str]:

@@ -14,7 +14,7 @@ import defusedxml.ElementTree as ET
 from PIL import Image
 from .config import settings
 from .engine import broker, EngineError
-from .keywords import embedded_keywords
+from .keywords import embedded_keywords, embedded_rating
 
 ID_PATTERN = re.compile(r"^[A-Za-z0-9_-]{1,96}$")
 ASSET_PATTERN = re.compile(r"^[0-9a-f]{64}$")
@@ -384,9 +384,14 @@ class BoardStore:
         asset_id = hashlib.sha256(data).hexdigest()
         info = {"id": asset_id, "url": "/api/assets/" + asset_id, "name": name, "mime": mime, "size": len(data), "width": width, "height": height}
         # Keywords stored in the picture (XMP, IPTC, Windows Tags) become the new item's tags.
-        keywords = embedded_keywords(data) if mime.startswith("image/") and mime != "image/svg+xml" else []
+        picture = mime.startswith("image/") and mime != "image/svg+xml"
+        keywords = embedded_keywords(data) if picture else []
         if keywords:
             info["keywords"] = keywords
+        # So does a star rating stored in it (xmp:Rating or the Windows Rating field).
+        rating = embedded_rating(data) if picture else None
+        if rating:
+            info["rating"] = rating
         with self.lock:
             blob_path = self.assets_dir / (asset_id + ".blob")
             if not blob_path.exists():
@@ -395,8 +400,14 @@ class BoardStore:
             if metadata_path.exists():
                 info = self.asset_info(asset_id)
                 # A picture first added before keywords were read gets them the next time it is added.
+                added = False
                 if keywords and "keywords" not in info:
                     info["keywords"] = keywords
+                    added = True
+                if rating and "rating" not in info:
+                    info["rating"] = rating
+                    added = True
+                if added:
                     self.atomic_write(metadata_path, json.dumps(info, separators=(",", ":")).encode())
             else:
                 self.atomic_write(metadata_path, json.dumps(info, separators=(",", ":")).encode())

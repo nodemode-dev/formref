@@ -136,7 +136,21 @@ export function matches(item: Item): boolean {
   const comments = Array.isArray(item.data.comments) ? (item.data.comments as { text?: string }[]).map(c => c.text || '').join(' ') : '';
   const table = item.data.table ? JSON.stringify(item.data.table) : '';
   const haystack = fold(`${item.title} ${item.text} ${item.url} ${item.color} ${JSON.stringify(item.data.tags || '')} ${labels} ${comments} ${table} ${term ? pdfSearchText(item) : ''}`);
-  return (!kind || item.kind === kind) && (!term || haystack.includes(term));
+  return kindMatches(item, kind) && (!term || haystack.includes(term));
+}
+
+/** Picture shape as it shows on the board (a quarter turn swaps the sides); within 10% counts as square. */
+export function shapeOf(item: Item): 'portrait' | 'landscape' | 'square' {
+  const turned = Math.round(((item.rotation % 360) + 360) % 360 / 90) % 2 === 1;
+  const [w, h] = turned ? [item.height, item.width] : [item.width, item.height];
+  return h > w * 1.1 ? 'portrait' : w > h * 1.1 ? 'landscape' : 'square';
+}
+
+/** The kind filter: an item kind, or image-portrait, image-landscape or image-square for pictures of that shape. */
+function kindMatches(item: Item, kind: string): boolean {
+  if (!kind) return true;
+  if (kind.startsWith('image-')) return item.kind === 'image' && shapeOf(item) === kind.slice(6);
+  return item.kind === kind;
 }
 
 export function topZ(): number {
@@ -654,7 +668,7 @@ export async function placeAssets(assets: { asset: Asset; name: string; url?: st
     items.push(newItem(image ? 'image' : 'file', at.x + index * 28, at.y + index * 28, {
       title: asset.name, asset_id: asset.id, width, height, z: initialZ + index + 1, url: url || '',
       // Keywords stored in the picture file arrive as its tags.
-      data: { mime: asset.mime, size: asset.size, source_name: file.name, natural_width: asset.width, natural_height: asset.height, ...(image && asset.keywords?.length ? { tags: asset.keywords } : {}) },
+      data: { mime: asset.mime, size: asset.size, source_name: file.name, natural_width: asset.width, natural_height: asset.height, ...(image && asset.keywords?.length ? { tags: asset.keywords } : {}), ...(image && asset.rating ? { rating: asset.rating } : {}) },
     }));
   }
   await execute({ type: 'add', items }, boardId);

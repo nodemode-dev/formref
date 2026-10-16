@@ -245,7 +245,7 @@ async def capture_from_web(board_id: str, url: str, x: float = 0, y: float = 0) 
     width = min(400, asset.get("width") or 300)
     height = width * ((asset.get("height") or 200) / (asset.get("width") or 300))
     kind = "image" if str(asset.get("mime", "")).startswith("image/") else "file"
-    return await command(board_id, {"type": "add", "items": [{"id": uuid.uuid4().hex, "kind": kind, "x": x, "y": y, "width": width, "height": height, "title": asset["name"], "asset_id": asset["id"], "url": result.get("url", url), "data": {"mime": asset["mime"], "size": asset["size"], "natural_width": asset.get("width"), "natural_height": asset.get("height"), **({"tags": asset["keywords"]} if kind == "image" and asset.get("keywords") else {})}}]})
+    return await command(board_id, {"type": "add", "items": [{"id": uuid.uuid4().hex, "kind": kind, "x": x, "y": y, "width": width, "height": height, "title": asset["name"], "asset_id": asset["id"], "url": result.get("url", url), "data": {"mime": asset["mime"], "size": asset["size"], "natural_width": asset.get("width"), "natural_height": asset.get("height"), **({"tags": asset["keywords"]} if kind == "image" and asset.get("keywords") else {}), **({"rating": asset["rating"]} if kind == "image" and asset.get("rating") else {})}}]})
 
 @mcp.tool(annotations=_write)
 async def remove_background(board_id: str, ids: list[str], method: str = "plain", tolerance: int = 12, points: list[dict] | None = None, box: dict | None = None, restore: bool = False) -> dict:
@@ -417,7 +417,7 @@ async def redo(board_id: str) -> dict:
 
 @mcp.tool(annotations=_write)
 async def import_asset(name: str = "reference.png", data_base64: str = "", path: str = "") -> dict:
-    """Import an asset into the shared store. Supply exactly one of data_base64 (raw base64, no URI prefix) or path. A path must stay beneath FORMREF_MCP_IMPORT_DIR; no arbitrary filesystem reads are permitted. For a picture with keywords stored in it (XMP, IPTC or Windows Tags) the result lists them as keywords; give them to the new image item as data.tags, as the window does."""
+    """Import an asset into the shared store. Supply exactly one of data_base64 (raw base64, no URI prefix) or path. A path must stay beneath FORMREF_MCP_IMPORT_DIR; no arbitrary filesystem reads are permitted. For a picture with keywords stored in it (XMP, IPTC or Windows Tags) the result lists them as keywords; give them to the new image item as data.tags, as the window does. A star rating stored in the picture comes back as rating (1 to 5); give it to the item as data.rating."""
     if bool(data_base64) == bool(path):
         raise ValueError("Supply exactly one of data_base64 or path.")
     if path:
