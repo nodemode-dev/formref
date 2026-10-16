@@ -333,9 +333,9 @@ async def import_asset(name: str = "reference.png", data_base64: str = "", path:
 
 @mcp.tool(annotations=_read)
 async def export_board(board_id: str, format: str = "portable", include_content: bool = False, paper: str = "a4") -> dict:
-    """Generate portable, json, png, svg, markdown or PDF output (pdf: the whole board on one page; pdf-pages: one page per top-level item in reading order, fitted to the paper; pdf-tiles: the board at 100 percent tiled across paper pages) or bee (a BeeRef board holding the pictures and text items) or images (a ZIP of every picture's original file, numbered in reading order). paper is a4, letter, a3 or tabloid for the PDF forms. Return a loopback download URL and verified byte hash. include_content adds base64 output when at most 16 MiB. PNG scale is capped at 8192 pixels per edge and 32 megapixels."""
+    """Generate portable, json, png, svg, markdown or PDF output (pdf: the whole board on one page; pdf-pages: one page per top-level item in reading order, fitted to the paper; pdf-tiles: the board at 100 percent tiled across paper pages) or bee (a BeeRef board holding the pictures and text items) or images (a ZIP of every picture's original file, numbered in reading order) or viewer (one self-contained HTML page to open on a phone or tablet, read-only, with pinch zoom). paper is a4, letter, a3 or tabloid for the PDF forms. Return a loopback download URL and verified byte hash. include_content adds base64 output when at most 16 MiB. PNG scale is capped at 8192 pixels per edge and 32 megapixels."""
     checked_id(board_id)
-    if format not in {"portable", "json", "png", "svg", "markdown", "pdf", "pdf-pages", "pdf-tiles", "bee", "images"}:
+    if format not in {"portable", "json", "png", "svg", "markdown", "pdf", "pdf-pages", "pdf-tiles", "bee", "images", "viewer"}:
         raise ValueError("Unsupported export format.")
     path = f"/api/boards/{board_id}/export?format={format}" + (f"&paper={paper}" if format.startswith("pdf") else "")
     response = await api("GET", path)

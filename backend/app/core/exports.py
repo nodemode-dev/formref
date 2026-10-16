@@ -276,7 +276,13 @@ def svg_formatted(parent, item, x, y, width, height, size, fill):
                 attributes["text-decoration"] = "underline"
             svg_element(container, "text", attributes, run["text"])
 
-def svg_export(board):
+def png_data_uri(image, item):
+    output = io.BytesIO()
+    image.save(output, format="PNG")
+    return "data:image/png;base64," + base64.b64encode(output.getvalue()).decode("ascii")
+
+def svg_export(board, picture=png_data_uri):
+    """The board as SVG; `picture(image, item)` turns each processed picture into the href it is embedded with (full-resolution PNG unless a caller such as the phone viewer asks for something lighter)."""
     left, top, width, height = bounds(board)
     root = ET.Element("{" + SVG_NS + "}svg", {"width": str(width), "height": str(height), "viewBox": f"{left} {top} {width} {height}"})
     svg_element(root, "title", text=board["title"])
@@ -300,11 +306,7 @@ def svg_export(board):
         data = item.get("data", {})
         selected_color = color(item.get("color"))
         if item["kind"] == "image" and item.get("asset_id"):
-            image = image_source(item)
-            output = io.BytesIO()
-            image.save(output, format="PNG")
-            encoded = base64.b64encode(output.getvalue()).decode("ascii")
-            svg_element(group, "image", {"width": width, "height": height, "href": "data:image/png;base64," + encoded, "preserveAspectRatio": "none", "style": "image-rendering:pixelated" if data.get("sampling") == "nearest" else "image-rendering:auto"})
+            svg_element(group, "image", {"width": width, "height": height, "href": picture(image_source(item), item), "preserveAspectRatio": "none", "style": "image-rendering:pixelated" if data.get("sampling") == "nearest" else "image-rendering:auto"})
         elif item["kind"] in {"stroke", "shape"}:
             attributes = {"stroke": selected_color, "stroke-width": data.get("stroke_width", 2), "fill": "none" if data.get("fill", "none") == "none" else color(data["fill"])}
             if data.get("style") in {"dashed", "dotted"}:
@@ -540,6 +542,12 @@ def export_board(state, format, paper="a4"):
         headers["X-FormRef-Items"] = str(count)
         headers["Content-Disposition"] = 'attachment; filename="' + safe_name(board["title"], "bee") + '"'
         return data, "application/vnd.sqlite3", headers
+    if format == "viewer":
+        from .viewer import viewer_export
+        data, count = viewer_export(board)
+        headers["X-FormRef-Items"] = str(count)
+        headers["Content-Disposition"] = 'attachment; filename="' + safe_name(board["title"], "html") + '"'
+        return data, "text/html; charset=utf-8", headers
     if format == "images":
         data, count = images_export(board)
         if not count:
@@ -564,6 +572,6 @@ def export_board(state, format, paper="a4"):
     elif format == "markdown":
         data, mime, extension = markdown_export(board), "text/markdown; charset=utf-8", "md"
     else:
-        raise ValueError("Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee or images.")
+        raise ValueError("Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images or viewer.")
     headers["Content-Disposition"] = 'attachment; filename="' + safe_name(board["title"], extension) + '"'
     return data, mime, headers
