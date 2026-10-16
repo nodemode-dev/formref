@@ -1240,7 +1240,6 @@
  "This SQLite file is not a BeeRef board.": "Tämä SQLite-tiedosto ei ole BeeRef-taulu.",
  "This file is not a readable BeeRef board.": "Tämä tiedosto ei ole luettava BeeRef-taulu.",
  "Pictures and text went to the BeeRef file; {0} drawn or other items were left out because BeeRef has no place for them.": "Kuvat ja teksti siirtyivät BeeRef-tiedostoon; {0} piirrosta tai muuta kohdetta jätettiin pois, koska BeeRef ei voi tallentaa niitä.",
- "A ZIP of every picture's original file, numbered in reading order": "ZIP, jossa on jokaisen kuvan alkuperäinen tiedosto lukujärjestyksessä numeroituna",
  "All pictures": "Kaikki kuvat",
  "Ctrl+Alt+F (Cmd+Option+F on a Mac) brings FormRef to the front from any app, or hides it when it is in front. The tray icon does the same on click, and its menu holds Always on Top, Click-through and Quit.": "Ctrl+Alt+F (Macissa Cmd+Optio+F) tuo FormRefin eteen mistä tahansa sovelluksesta tai piilottaa sen, kun se on edessä. Ilmaisinalueen kuvake tekee saman napsautettaessa, ja sen valikossa ovat Aina päällimmäisenä, Läpinapsautus ja Lopeta.",
  "Drag items here": "Vedä kohteita tähän",
@@ -1378,5 +1377,6 @@
  "Select Items With This Tag": "Valitse kohteet, joilla on tämä tunniste",
  "Tag removed from items: {0}.": "Tunniste poistettu kohteista: {0}.",
  "Tag renamed on items: {0}.": "Tunniste nimetty uudelleen kohteissa: {0}.",
- "Tags merged on items: {0}.": "Tunnisteet yhdistetty kohteissa: {0}."
+ "Tags merged on items: {0}.": "Tunnisteet yhdistetty kohteissa: {0}.",
+ "A ZIP of every picture's original file, numbered in reading order; tagged pictures carry their tags for Lightroom, Bridge and Windows": "ZIP, jossa on jokaisen kuvan alkuperäinen tiedosto lukujärjestyksessä numeroituna; tunnisteelliset kuvat kantavat tunnisteensa Lightroomia, Bridgeä ja Windowsia varten"
 }

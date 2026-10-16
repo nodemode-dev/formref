@@ -1240,7 +1240,6 @@
  "This SQLite file is not a BeeRef board.": "ไฟล์ SQLite นี้ไม่ใช่บอร์ด BeeRef",
  "This file is not a readable BeeRef board.": "ไฟล์นี้ไม่ใช่บอร์ด BeeRef ที่อ่านได้",
  "Pictures and text went to the BeeRef file; {0} drawn or other items were left out because BeeRef has no place for them.": "รูปภาพและข้อความอยู่ในไฟล์ BeeRef แล้ว ส่วนภาพวาดหรือรายการอื่น {0} รายการถูกละไว้เพราะ BeeRef เก็บไม่ได้",
- "A ZIP of every picture's original file, numbered in reading order": "ไฟล์ ZIP ที่รวมไฟล์ต้นฉบับของทุกรูป เรียงเลขตามลำดับการอ่าน",
  "All pictures": "รูปภาพทั้งหมด",
  "Ctrl+Alt+F (Cmd+Option+F on a Mac) brings FormRef to the front from any app, or hides it when it is in front. The tray icon does the same on click, and its menu holds Always on Top, Click-through and Quit.": "Ctrl+Alt+F (Cmd+Option+F บน Mac) จะเรียก FormRef ขึ้นมาด้านหน้าจากแอปใดก็ได้ หรือซ่อนไว้เมื่ออยู่ด้านหน้าแล้ว ไอคอนในถาดระบบทำแบบเดียวกันเมื่อคลิก และเมนูของไอคอนมี อยู่บนสุดเสมอ คลิกทะลุ และออก",
  "Drag items here": "ลากรายการมาที่นี่",
@@ -1378,5 +1377,6 @@
  "Select Items With This Tag": "เลือกรายการที่มีแท็กนี้",
  "Tag removed from items: {0}.": "ลบแท็กออกจากรายการ: {0}",
  "Tag renamed on items: {0}.": "เปลี่ยนชื่อแท็กในรายการ: {0}",
- "Tags merged on items: {0}.": "รวมแท็กในรายการ: {0}"
+ "Tags merged on items: {0}.": "รวมแท็กในรายการ: {0}",
+ "A ZIP of every picture's original file, numbered in reading order; tagged pictures carry their tags for Lightroom, Bridge and Windows": "ไฟล์ ZIP ที่รวมไฟล์ต้นฉบับของทุกรูป เรียงเลขตามลำดับการอ่าน รูปที่มีแท็กจะเก็บแท็กไว้ให้ Lightroom, Bridge และ Windows อ่านได้"
 }

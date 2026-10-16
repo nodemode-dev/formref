@@ -1240,7 +1240,6 @@
  "This SQLite file is not a BeeRef board.": "Tệp SQLite này không phải là bảng BeeRef.",
  "This file is not a readable BeeRef board.": "Tệp này không phải là bảng BeeRef đọc được.",
  "Pictures and text went to the BeeRef file; {0} drawn or other items were left out because BeeRef has no place for them.": "Ảnh và văn bản đã vào tệp BeeRef; {0} hình vẽ hoặc mục khác bị bỏ qua vì BeeRef không chứa được chúng.",
- "A ZIP of every picture's original file, numbered in reading order": "Tệp ZIP chứa tệp gốc của mọi ảnh, đánh số theo thứ tự đọc",
  "All pictures": "Tất cả ảnh",
  "Ctrl+Alt+F (Cmd+Option+F on a Mac) brings FormRef to the front from any app, or hides it when it is in front. The tray icon does the same on click, and its menu holds Always on Top, Click-through and Quit.": "Ctrl+Alt+F (Cmd+Option+F trên Mac) đưa FormRef lên trước từ bất kỳ ứng dụng nào, hoặc ẩn nó khi nó đang ở trước. Biểu tượng khay làm điều tương tự khi bấm, và menu của nó có Luôn ở trên, Bấm xuyên qua và Thoát.",
  "Drag items here": "Kéo mục vào đây",
@@ -1378,5 +1377,6 @@
  "Select Items With This Tag": "Chọn các mục có thẻ này",
  "Tag removed from items: {0}.": "Đã gỡ thẻ khỏi số mục: {0}.",
  "Tag renamed on items: {0}.": "Đã đổi tên thẻ ở số mục: {0}.",
- "Tags merged on items: {0}.": "Đã gộp thẻ ở số mục: {0}."
+ "Tags merged on items: {0}.": "Đã gộp thẻ ở số mục: {0}.",
+ "A ZIP of every picture's original file, numbered in reading order; tagged pictures carry their tags for Lightroom, Bridge and Windows": "Tệp ZIP chứa tệp gốc của mọi ảnh, đánh số theo thứ tự đọc; ảnh có thẻ mang theo thẻ cho Lightroom, Bridge và Windows"
 }

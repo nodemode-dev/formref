@@ -1240,7 +1240,6 @@
  "This SQLite file is not a BeeRef board.": "Bu SQLite dosyası bir BeeRef panosu değil.",
  "This file is not a readable BeeRef board.": "Bu dosya okunabilir bir BeeRef panosu değil.",
  "Pictures and text went to the BeeRef file; {0} drawn or other items were left out because BeeRef has no place for them.": "Resimler ve metin BeeRef dosyasına aktarıldı; BeeRef bunları tutamadığı için {0} çizim veya başka öğe dışarıda bırakıldı.",
- "A ZIP of every picture's original file, numbered in reading order": "Her resmin özgün dosyasını okuma sırasına göre numaralandırılmış hâlde içeren bir ZIP",
  "All pictures": "Tüm resimler",
  "Ctrl+Alt+F (Cmd+Option+F on a Mac) brings FormRef to the front from any app, or hides it when it is in front. The tray icon does the same on click, and its menu holds Always on Top, Click-through and Quit.": "Ctrl+Alt+F (Mac'te Cmd+Option+F) FormRef'i herhangi bir uygulamadan öne getirir, zaten öndeyse gizler. Tepsi simgesi tıklandığında aynısını yapar; menüsünde Her Zaman Üstte, Tıklamayı Geçir ve Çık bulunur.",
  "Drag items here": "Öğeleri buraya sürükleyin",
@@ -1378,5 +1377,6 @@
  "Select Items With This Tag": "Bu Etiketi Taşıyan Öğeleri Seç",
  "Tag removed from items: {0}.": "Etiket kaldırılan öğeler: {0}.",
  "Tag renamed on items: {0}.": "Etiketi yeniden adlandırılan öğeler: {0}.",
- "Tags merged on items: {0}.": "Etiketleri birleştirilen öğeler: {0}."
+ "Tags merged on items: {0}.": "Etiketleri birleştirilen öğeler: {0}.",
+ "A ZIP of every picture's original file, numbered in reading order; tagged pictures carry their tags for Lightroom, Bridge and Windows": "Her resmin özgün dosyasını okuma sırasına göre numaralandırılmış hâlde içeren bir ZIP; etiketli resimler etiketlerini Lightroom, Bridge ve Windows için taşır"
 }

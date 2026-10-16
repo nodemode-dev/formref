@@ -1240,7 +1240,6 @@
  "This SQLite file is not a BeeRef board.": "この SQLite ファイルは BeeRef ボードではありません。",
  "This file is not a readable BeeRef board.": "このファイルは読み取り可能な BeeRef ボードではありません。",
  "Pictures and text went to the BeeRef file; {0} drawn or other items were left out because BeeRef has no place for them.": "画像とテキストは BeeRef ファイルに入りました。BeeRef では保持できないため、描画などの項目 {0} 個は含まれていません。",
- "A ZIP of every picture's original file, numbered in reading order": "各画像の元ファイルを読む順に番号付けした ZIP",
  "All pictures": "すべての画像",
  "Ctrl+Alt+F (Cmd+Option+F on a Mac) brings FormRef to the front from any app, or hides it when it is in front. The tray icon does the same on click, and its menu holds Always on Top, Click-through and Quit.": "Ctrl+Alt+F（Mac では Cmd+Option+F）で、どのアプリからでも FormRef を前面に出し、前面にあるときは隠します。トレイアイコンをクリックしても同じで、そのメニューには「常に手前に表示」「クリック透過」「終了」があります。",
  "Drag items here": "ここに項目をドラッグ",
@@ -1378,5 +1377,6 @@
  "Select Items With This Tag": "このタグの項目を選択",
  "Tag removed from items: {0}.": "タグを削除した項目: {0}。",
  "Tag renamed on items: {0}.": "タグ名を変更した項目: {0}。",
- "Tags merged on items: {0}.": "タグを統合した項目: {0}。"
+ "Tags merged on items: {0}.": "タグを統合した項目: {0}。",
+ "A ZIP of every picture's original file, numbered in reading order; tagged pictures carry their tags for Lightroom, Bridge and Windows": "各画像の元ファイルを読む順に番号付けした ZIP。タグ付きの画像は Lightroom、Bridge、Windows で読めるタグを持ちます"
 }

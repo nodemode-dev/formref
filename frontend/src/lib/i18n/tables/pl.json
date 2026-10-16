@@ -1240,7 +1240,6 @@
  "This SQLite file is not a BeeRef board.": "Ten plik SQLite nie jest tablicą BeeRef.",
  "This file is not a readable BeeRef board.": "Ten plik nie jest czytelną tablicą BeeRef.",
  "Pictures and text went to the BeeRef file; {0} drawn or other items were left out because BeeRef has no place for them.": "Obrazy i tekst trafiły do pliku BeeRef; pominięto rysunki lub inne elementy ({0}), bo BeeRef nie może ich przechowywać.",
- "A ZIP of every picture's original file, numbered in reading order": "ZIP z oryginalnym plikiem każdego obrazu, ponumerowanym w kolejności czytania",
  "All pictures": "Wszystkie obrazy",
  "Ctrl+Alt+F (Cmd+Option+F on a Mac) brings FormRef to the front from any app, or hides it when it is in front. The tray icon does the same on click, and its menu holds Always on Top, Click-through and Quit.": "Ctrl+Alt+F (na Macu Cmd+Option+F) przywołuje FormRef z dowolnej aplikacji albo ukrywa go, gdy jest na wierzchu. Ikona w zasobniku robi to samo po kliknięciu, a jej menu zawiera Zawsze na wierzchu, Przeklikiwanie i Zakończ.",
  "Drag items here": "Przeciągnij tu elementy",
@@ -1378,5 +1377,6 @@
  "Select Items With This Tag": "Zaznacz elementy z tym tagiem",
  "Tag removed from items: {0}.": "Tag usunięty z elementów: {0}.",
  "Tag renamed on items: {0}.": "Zmieniono nazwę tagu w elementach: {0}.",
- "Tags merged on items: {0}.": "Tagi połączone w elementach: {0}."
+ "Tags merged on items: {0}.": "Tagi połączone w elementach: {0}.",
+ "A ZIP of every picture's original file, numbered in reading order; tagged pictures carry their tags for Lightroom, Bridge and Windows": "ZIP z oryginalnym plikiem każdego obrazu, ponumerowanym w kolejności czytania; obrazy z tagami zachowują tagi dla Lightrooma, Bridge’a i Windows"
 }

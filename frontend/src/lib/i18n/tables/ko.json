@@ -1240,7 +1240,6 @@
  "This SQLite file is not a BeeRef board.": "이 SQLite 파일은 BeeRef 보드가 아닙니다.",
  "This file is not a readable BeeRef board.": "이 파일은 읽을 수 있는 BeeRef 보드가 아닙니다.",
  "Pictures and text went to the BeeRef file; {0} drawn or other items were left out because BeeRef has no place for them.": "그림과 텍스트는 BeeRef 파일에 들어갔습니다. BeeRef가 담을 수 없어 그리기 등 항목 {0}개는 제외되었습니다.",
- "A ZIP of every picture's original file, numbered in reading order": "각 그림의 원본 파일을 읽는 순서대로 번호를 붙인 ZIP",
  "All pictures": "모든 그림",
  "Ctrl+Alt+F (Cmd+Option+F on a Mac) brings FormRef to the front from any app, or hides it when it is in front. The tray icon does the same on click, and its menu holds Always on Top, Click-through and Quit.": "Ctrl+Alt+F(Mac에서는 Cmd+Option+F)를 누르면 어느 앱에서든 FormRef를 앞으로 가져오고, 이미 앞에 있으면 숨깁니다. 트레이 아이콘을 클릭해도 같고, 그 메뉴에는 항상 위에, 클릭 통과, 종료가 있습니다.",
  "Drag items here": "여기로 항목을 끌어 놓기",
@@ -1378,5 +1377,6 @@
  "Select Items With This Tag": "이 태그가 있는 항목 선택",
  "Tag removed from items: {0}.": "태그를 제거한 항목: {0}.",
  "Tag renamed on items: {0}.": "태그 이름을 바꾼 항목: {0}.",
- "Tags merged on items: {0}.": "태그를 합친 항목: {0}."
+ "Tags merged on items: {0}.": "태그를 합친 항목: {0}.",
+ "A ZIP of every picture's original file, numbered in reading order; tagged pictures carry their tags for Lightroom, Bridge and Windows": "각 그림의 원본 파일을 읽는 순서대로 번호를 붙인 ZIP. 태그가 있는 그림은 Lightroom, Bridge, Windows용 태그를 담습니다"
 }

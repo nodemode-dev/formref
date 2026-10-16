@@ -1240,7 +1240,6 @@
  "This SQLite file is not a BeeRef board.": "Denne SQLite-filen er ikke en BeeRef-tavle.",
  "This file is not a readable BeeRef board.": "Denne filen er ikke en lesbar BeeRef-tavle.",
  "Pictures and text went to the BeeRef file; {0} drawn or other items were left out because BeeRef has no place for them.": "Bilder og tekst kom med i BeeRef-filen; {0} tegninger eller andre elementer ble utelatt fordi BeeRef ikke kan lagre dem.",
- "A ZIP of every picture's original file, numbered in reading order": "En ZIP med originalfilen til hvert bilde, nummerert i leserekkefølge",
  "All pictures": "Alle bilder",
  "Ctrl+Alt+F (Cmd+Option+F on a Mac) brings FormRef to the front from any app, or hides it when it is in front. The tray icon does the same on click, and its menu holds Always on Top, Click-through and Quit.": "Ctrl+Alt+F (Cmd+Option+F på Mac) henter FormRef frem fra hvilken som helst app, eller skjuler det når det er foran. Ikonet i systemstatusfeltet gjør det samme ved klikk, og menyen har Alltid øverst, Klikk gjennom og Avslutt.",
  "Drag items here": "Dra elementer hit",
@@ -1378,5 +1377,6 @@
  "Select Items With This Tag": "Velg elementer med denne taggen",
  "Tag removed from items: {0}.": "Tagg fjernet fra elementer: {0}.",
  "Tag renamed on items: {0}.": "Tagg omdøpt på elementer: {0}.",
- "Tags merged on items: {0}.": "Tagger slått sammen på elementer: {0}."
+ "Tags merged on items: {0}.": "Tagger slått sammen på elementer: {0}.",
+ "A ZIP of every picture's original file, numbered in reading order; tagged pictures carry their tags for Lightroom, Bridge and Windows": "En ZIP med originalfilen til hvert bilde, nummerert i leserekkefølge; bilder med tagger tar med seg taggene til Lightroom, Bridge og Windows"
 }
