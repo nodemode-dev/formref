@@ -1,5 +1,14 @@
 # FormRef changelog
 
+## v0.11.0 · 2026-10-16
+
+Illustrator tools become optional, and a tag cloud.
+
+- The Illustrator tools are now off by default and can only be turned on in Preferences, under Illustrator tools. That covers the Pen, Curvature, Pencil and Direct Selection tools, path editing and corners, Pathfinder, polygons, stars and the other shapes, stroke, arrowhead and gradient options, and Smart Guides. Off, they are gone from the toolbar, menus, command palette, shortcuts and inspector; on, they come back at once without a restart. Paths already on a board stay visible and can still be moved either way.
+- Tag cloud: under the reference filter in the left panel, chips show every label (with its colour) and tag on the board, with how many items carry it. Click one or several to show only the items that carry all of them; the x clears them. Saved searches remember the chosen tags.
+- The shortcut sheet lists each group once; commands that modules added later used to start a second heading.
+- Swedish: the Pencil tool had the Pen's name.
+
 ## v0.10.0 · 2026-10-16
 
 Saved searches, and fixes for other languages.

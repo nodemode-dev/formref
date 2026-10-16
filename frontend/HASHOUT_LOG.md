@@ -8,6 +8,7 @@
 - [Stacking scale](#stacking-scale)
 - [Verification](#verification)
 - [Scripts](#scripts)
+- [v0.11.0 optional Illustrator tools, tag cloud](#v0110-optional-illustrator-tools-tag-cloud)
 - [v0.10.0 saved searches, palette and dialog languages](#v0100-saved-searches-palette-and-dialog-languages)
 - [v0.9.0 find similar](#v090-find-similar)
 - [v0.8.0 find by color](#v080-find-by-color)
@@ -36,6 +37,18 @@
 - [v0.4.8 desktop window controls and WebKit icons](#v048-desktop-window-controls-and-webkit-icons)
 - [v0.4.7 synced notes, map cards, inline edit commit](#v047-synced-notes-map-cards-inline-edit-commit)
 - [v0.4.6 GIF frames and document export](#v046-gif-frames-and-document-export)
+
+## v0.11.0 optional Illustrator tools, tag cloud
+
+Owner direction: every Illustrator feature is optional, off by default and switched only in Preferences. What counts: everything that came in under `feat(vector)` (Pen, Direct Selection, Curvature, Pencil and its fidelity, path commands and Live Corners, polygon, star, arc, spiral and grids, stroke cap, join, miter, dash and arrowheads, gradients, Outline Stroke, Offset Path, Pathfinder) plus Smart Guides. Blend modes stay: they came from the reference-board research for overlaying drawings on references. The stroke width and shape fill controls predate the vector work and stay.
+
+`app/illustrator.ts` calls the five register functions once, takes the command ids they added by diffing the registry, and removes those commands while off. The modules' own listeners (direct-select, pencil, pen) are all gated on `S.tool`, so with the tools unreachable they do nothing; switching off returns a vector tool to Select. Smart Guides gained `setSmartGuidesAvailable`, checked in `smartAdjust`. The early script in `index.html` sets `data-illustrator` from `formref-illustrator` in localStorage (like the theme) before first paint, and `:root:not([data-illustrator="on"]) [data-illustrator-only]` hides the four toolbar tools and the inspector's stroke options, arrowheads, corners and gradient fields. Switching on adds the commands back live, appended to the palette. The catalogue lists dormant commands with `enabled: false` and every Illustrator command's description starts with a line saying they are optional, so the agent reference is the same whichever way the switch is set; `runCommand` answers how to turn them on.
+
+Removing commands exposed two assumptions in `bindings.ts`: the keymap rebuild runs before the palette's removal handler and looked up removed commands, and the shortcut sheet kept rows for them. The palette refresh now skips missing commands; sheet rows hide (and their heading with the last visible row) and show again when re-added. The sheet also keeps one heading per group: commands registered later by modules join their group instead of starting a second heading.
+
+Tag cloud: `app/tag-cloud.ts` counts labels (from `settings.labels` and `data.labels`) and tags (`data.tags`, folded to lower case, shown as first seen) over visible items; labels first, then by count and name. Chips are reused by key, only changed text is written, and the strip's children are replaced only when the order changes. The fourteen most used show (chosen chips always show) and `+N` opens the rest in the shared context menu. A `matchFilters` predicate requires every chosen key; `has-tags` on `#filter-row` makes the shared clear button visible, and it clears the chips. Saved searches store `tags` and `labels`, apply them without drawing, and the bookmark watches the chips' `aria-pressed`.
+
+Verified at 4x CPU and a slow network: Illustrator tools hidden at the first paint (display none at DOMContentLoaded) and shown at first paint when on; with them off no Pen or Unite in the palette, A did nothing, no Path heading in the shortcut sheet; on in Preferences, the four tools appeared and A chose Direct Selection; a star added while on stayed drawn after switching off, and the tool went back to Select; the setting survived a reload; the catalogue kept 193 commands with the Pen marked not enabled. Tag cloud in English and German: Space 6, Vehicles 3, nasa 6 (with one NASA), animal, bike, garage, portrait, grey, silhouette; nasa then portrait narrowed to the two astronauts with each item changing once; Space and Vehicles left only the rocket; a saved search with #nasa and #portrait restored both chips and lit the bookmark; removing the only silhouette tag while chosen ended the filter; widths unchanged; a board without tags hides the cloud. Overflow scan in 24 languages: nothing.
 
 ## v0.10.0 saved searches, palette and dialog languages
 

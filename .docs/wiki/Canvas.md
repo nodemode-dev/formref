@@ -36,6 +36,10 @@ Align, distribute, pack and normalize operate on engine-selected IDs. Locked con
 
 The current manual and toolbar are authoritative for offered controls; keyboard shortcuts reserved by a browser may behave differently from a native desktop shell. Rendering/gesture checks and any unfinished controls are recorded in the release's verification notes.
 
+## Illustrator tools are optional
+
+The Pen, Curvature, Pencil and Direct Selection tools, path editing and Live Corners, polygon, star, arc, spiral and grid shapes, stroke, arrowhead and gradient options, Pathfinder and Smart Guides are off by default (v0.11.0). Preferences, Illustrator tools turns them on for this browser or desktop window and they appear at once; turning them off removes their commands, keys and controls and returns an active vector tool to Select. Paths already on a board draw, move and export either way. Agents see these commands in the catalogue marked as optional; running one while they are off answers that the person can turn them on.
+
 ## Grid and reference viewing
 
 Canvas preferences persist on the board through Rust settings. Grid visibility is independent from snapping; changing grid size changes world spacing even while the grid is hidden. Snap selected uses visible rotated bounds and moves group/parent units together. With snapping enabled, dragging uses one common movement delta for the selection. Undo reverses the completed mutation.
