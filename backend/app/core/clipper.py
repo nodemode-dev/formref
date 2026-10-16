@@ -136,7 +136,7 @@ async def clip(body: dict):
         width = min(400, asset.get("width") or 300)
         height = round(width * ((asset.get("height") or 200) / (asset.get("width") or 300)))
         item = {"kind": "image", "width": width, "height": height, "title": _text(body.get("alt"), 300, "alt")[:200] or asset["name"], "asset_id": asset["id"], "url": page_url,
-                "data": {"mime": asset["mime"], "size": asset["size"], "natural_width": asset.get("width"), "natural_height": asset.get("height"), "clip": source}}
+                "data": {"mime": asset["mime"], "size": asset["size"], "natural_width": asset.get("width"), "natural_height": asset.get("height"), "clip": source, **({"tags": asset["keywords"]} if asset.get("keywords") else {})}}
     elif kind == "text":
         text = _text(body.get("text"), MAX_TEXT, "text")
         if not text:

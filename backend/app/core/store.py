@@ -14,6 +14,7 @@ import defusedxml.ElementTree as ET
 from PIL import Image
 from .config import settings
 from .engine import broker, EngineError
+from .keywords import embedded_keywords
 
 ID_PATTERN = re.compile(r"^[A-Za-z0-9_-]{1,96}$")
 ASSET_PATTERN = re.compile(r"^[0-9a-f]{64}$")
@@ -382,6 +383,10 @@ class BoardStore:
                     mime = "application/octet-stream"  # an extension alone never makes a file playable
         asset_id = hashlib.sha256(data).hexdigest()
         info = {"id": asset_id, "url": "/api/assets/" + asset_id, "name": name, "mime": mime, "size": len(data), "width": width, "height": height}
+        # Keywords stored in the picture (XMP, IPTC, Windows Tags) become the new item's tags.
+        keywords = embedded_keywords(data) if mime.startswith("image/") and mime != "image/svg+xml" else []
+        if keywords:
+            info["keywords"] = keywords
         with self.lock:
             blob_path = self.assets_dir / (asset_id + ".blob")
             if not blob_path.exists():
@@ -389,6 +394,10 @@ class BoardStore:
             metadata_path = self.assets_dir / (asset_id + ".json")
             if metadata_path.exists():
                 info = self.asset_info(asset_id)
+                # A picture first added before keywords were read gets them the next time it is added.
+                if keywords and "keywords" not in info:
+                    info["keywords"] = keywords
+                    self.atomic_write(metadata_path, json.dumps(info, separators=(",", ":")).encode())
             else:
                 self.atomic_write(metadata_path, json.dumps(info, separators=(",", ":")).encode())
         return info
