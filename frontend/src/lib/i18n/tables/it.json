@@ -1297,5 +1297,16 @@
  "Side by Side": "Affiancate",
  "Swap": "Scambia",
  "Swipe": "Scorrimento",
- "Onion Skin": "Onion skin"
+ "Onion Skin": "Onion skin",
+ "By color": "Per colore",
+ "Clear Color Filter": "Rimuovi filtro colore",
+ "Clear color filter": "Rimuovi filtro colore",
+ "Find This Swatch Color": "Cerca il colore di questo campione",
+ "Find by Color…": "Cerca per colore…",
+ "Find by color": "Cerca per colore",
+ "Give the color as #RRGGBB.": "Indica il colore come #RRGGBB.",
+ "Nothing on this board contains that color.": "Niente su questa bacheca contiene quel colore.",
+ "Pictures and swatches with this color: {0}.": "Immagini e campioni con questo colore: {0}.",
+ "Sort by Color": "Ordina per colore",
+ "Tolerance is from 1 to 100.": "La tolleranza va da 1 a 100."
 }

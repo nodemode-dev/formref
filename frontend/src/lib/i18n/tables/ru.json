@@ -1297,5 +1297,16 @@
  "Side by Side": "Рядом",
  "Swap": "Поменять",
  "Swipe": "Шторка",
- "Onion Skin": "Калька"
+ "Onion Skin": "Калька",
+ "By color": "По цвету",
+ "Clear Color Filter": "Сбросить фильтр цвета",
+ "Clear color filter": "Сбросить фильтр цвета",
+ "Find This Swatch Color": "Найти цвет этого образца",
+ "Find by Color…": "Найти по цвету…",
+ "Find by color": "Найти по цвету",
+ "Give the color as #RRGGBB.": "Укажите цвет в виде #RRGGBB.",
+ "Nothing on this board contains that color.": "На этой доске нет ничего с таким цветом.",
+ "Pictures and swatches with this color: {0}.": "Изображения и образцы с этим цветом: {0}.",
+ "Sort by Color": "Сортировать по цвету",
+ "Tolerance is from 1 to 100.": "Допуск от 1 до 100."
 }

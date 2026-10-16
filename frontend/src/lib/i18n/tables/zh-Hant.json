@@ -1297,5 +1297,16 @@
  "Side by Side": "並排",
  "Swap": "交換",
  "Swipe": "滑動對比",
- "Onion Skin": "洋蔥皮"
+ "Onion Skin": "洋蔥皮",
+ "By color": "依顏色",
+ "Clear Color Filter": "清除顏色篩選",
+ "Clear color filter": "清除顏色篩選",
+ "Find This Swatch Color": "尋找此色票的顏色",
+ "Find by Color…": "依顏色尋找…",
+ "Find by color": "依顏色尋找",
+ "Give the color as #RRGGBB.": "請以 #RRGGBB 格式填寫顏色。",
+ "Nothing on this board contains that color.": "此看板上沒有包含該顏色的內容。",
+ "Pictures and swatches with this color: {0}.": "含有此顏色的圖片與色票：{0}。",
+ "Sort by Color": "依顏色排序",
+ "Tolerance is from 1 to 100.": "容許差範圍為 1 到 100。"
 }

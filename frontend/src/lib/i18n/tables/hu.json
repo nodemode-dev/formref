@@ -1297,5 +1297,16 @@
  "Side by Side": "Egymás mellett",
  "Swap": "Csere",
  "Swipe": "Húzás",
- "Onion Skin": "Hagymahéj"
+ "Onion Skin": "Hagymahéj",
+ "By color": "Szín szerint",
+ "Clear Color Filter": "Színszűrő törlése",
+ "Clear color filter": "Színszűrő törlése",
+ "Find This Swatch Color": "A színminta színének keresése",
+ "Find by Color…": "Keresés szín szerint…",
+ "Find by color": "Keresés szín szerint",
+ "Give the color as #RRGGBB.": "A színt #RRGGBB alakban adja meg.",
+ "Nothing on this board contains that color.": "A táblán semmi sem tartalmazza ezt a színt.",
+ "Pictures and swatches with this color: {0}.": "Képek és színminták ezzel a színnel: {0}.",
+ "Sort by Color": "Rendezés szín szerint",
+ "Tolerance is from 1 to 100.": "A tűrés 1 és 100 között lehet."
 }

@@ -1297,5 +1297,16 @@
  "Side by Side": "Side om side",
  "Swap": "Byt",
  "Swipe": "Skyder",
- "Onion Skin": "Løgskind"
+ "Onion Skin": "Løgskind",
+ "By color": "Efter farve",
+ "Clear Color Filter": "Ryd farvefilter",
+ "Clear color filter": "Ryd farvefilter",
+ "Find This Swatch Color": "Find denne farveprøves farve",
+ "Find by Color…": "Find efter farve…",
+ "Find by color": "Find efter farve",
+ "Give the color as #RRGGBB.": "Angiv farven som #RRGGBB.",
+ "Nothing on this board contains that color.": "Intet på denne tavle indeholder den farve.",
+ "Pictures and swatches with this color: {0}.": "Billeder og farveprøver med denne farve: {0}.",
+ "Sort by Color": "Sorter efter farve",
+ "Tolerance is from 1 to 100.": "Tolerancen er fra 1 til 100."
 }

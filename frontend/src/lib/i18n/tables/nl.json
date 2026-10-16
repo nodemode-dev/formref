@@ -1297,5 +1297,16 @@
  "Side by Side": "Naast elkaar",
  "Swap": "Wisselen",
  "Swipe": "Vegen",
- "Onion Skin": "Onion skin"
+ "Onion Skin": "Onion skin",
+ "By color": "Op kleur",
+ "Clear Color Filter": "Kleurfilter wissen",
+ "Clear color filter": "Kleurfilter wissen",
+ "Find This Swatch Color": "Kleur van dit kleurstaal zoeken",
+ "Find by Color…": "Zoeken op kleur…",
+ "Find by color": "Zoeken op kleur",
+ "Give the color as #RRGGBB.": "Geef de kleur op als #RRGGBB.",
+ "Nothing on this board contains that color.": "Niets op dit board bevat die kleur.",
+ "Pictures and swatches with this color: {0}.": "Afbeeldingen en kleurstalen met deze kleur: {0}.",
+ "Sort by Color": "Sorteren op kleur",
+ "Tolerance is from 1 to 100.": "De tolerantie loopt van 1 tot 100."
 }

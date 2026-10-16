@@ -1297,5 +1297,16 @@
  "Side by Side": "Поруч",
  "Swap": "Поміняти",
  "Swipe": "Шторка",
- "Onion Skin": "Калька"
+ "Onion Skin": "Калька",
+ "By color": "За кольором",
+ "Clear Color Filter": "Скинути фільтр кольору",
+ "Clear color filter": "Скинути фільтр кольору",
+ "Find This Swatch Color": "Знайти колір цього зразка",
+ "Find by Color…": "Знайти за кольором…",
+ "Find by color": "Знайти за кольором",
+ "Give the color as #RRGGBB.": "Вкажіть колір у вигляді #RRGGBB.",
+ "Nothing on this board contains that color.": "На цій дошці немає нічого з таким кольором.",
+ "Pictures and swatches with this color: {0}.": "Зображення та зразки з цим кольором: {0}.",
+ "Sort by Color": "Сортувати за кольором",
+ "Tolerance is from 1 to 100.": "Допуск від 1 до 100."
 }

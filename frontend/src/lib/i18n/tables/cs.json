@@ -1297,5 +1297,16 @@
  "Side by Side": "Vedle sebe",
  "Swap": "Prohodit",
  "Swipe": "Posuvník",
- "Onion Skin": "Cibulový pohled"
+ "Onion Skin": "Cibulový pohled",
+ "By color": "Podle barvy",
+ "Clear Color Filter": "Zrušit barevný filtr",
+ "Clear color filter": "Zrušit barevný filtr",
+ "Find This Swatch Color": "Najít barvu tohoto vzorku",
+ "Find by Color…": "Najít podle barvy…",
+ "Find by color": "Najít podle barvy",
+ "Give the color as #RRGGBB.": "Zadejte barvu jako #RRGGBB.",
+ "Nothing on this board contains that color.": "Nic na této tabuli tuto barvu neobsahuje.",
+ "Pictures and swatches with this color: {0}.": "Obrázky a vzorky s touto barvou: {0}.",
+ "Sort by Color": "Seřadit podle barvy",
+ "Tolerance is from 1 to 100.": "Tolerance je od 1 do 100."
 }

@@ -1297,5 +1297,16 @@
  "Side by Side": "Side om side",
  "Swap": "Bytt",
  "Swipe": "Sveip",
- "Onion Skin": "Løkskall"
+ "Onion Skin": "Løkskall",
+ "By color": "Etter farge",
+ "Clear Color Filter": "Fjern fargefilter",
+ "Clear color filter": "Fjern fargefilter",
+ "Find This Swatch Color": "Finn fargen til denne fargeprøven",
+ "Find by Color…": "Finn etter farge…",
+ "Find by color": "Finn etter farge",
+ "Give the color as #RRGGBB.": "Oppgi fargen som #RRGGBB.",
+ "Nothing on this board contains that color.": "Ingenting på denne tavlen inneholder den fargen.",
+ "Pictures and swatches with this color: {0}.": "Bilder og fargeprøver med denne fargen: {0}.",
+ "Sort by Color": "Sorter etter farge",
+ "Tolerance is from 1 to 100.": "Toleransen er fra 1 til 100."
 }

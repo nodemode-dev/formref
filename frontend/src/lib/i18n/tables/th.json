@@ -1297,5 +1297,16 @@
  "Side by Side": "วางเคียงกัน",
  "Swap": "สลับ",
  "Swipe": "ปัด",
- "Onion Skin": "ซ้อนโปร่ง"
+ "Onion Skin": "ซ้อนโปร่ง",
+ "By color": "ตามสี",
+ "Clear Color Filter": "ล้างตัวกรองสี",
+ "Clear color filter": "ล้างตัวกรองสี",
+ "Find This Swatch Color": "ค้นหาสีของตัวอย่างสีนี้",
+ "Find by Color…": "ค้นหาตามสี…",
+ "Find by color": "ค้นหาตามสี",
+ "Give the color as #RRGGBB.": "ระบุสีในรูปแบบ #RRGGBB",
+ "Nothing on this board contains that color.": "ไม่มีสิ่งใดบนบอร์ดนี้ที่มีสีนั้น",
+ "Pictures and swatches with this color: {0}.": "รูปภาพและตัวอย่างสีที่มีสีนี้: {0}",
+ "Sort by Color": "เรียงตามสี",
+ "Tolerance is from 1 to 100.": "ค่าความคลาดเคลื่อนอยู่ระหว่าง 1 ถึง 100"
 }

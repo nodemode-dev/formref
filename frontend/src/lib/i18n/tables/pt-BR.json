@@ -1297,5 +1297,16 @@
  "Side by Side": "Lado a lado",
  "Swap": "Trocar",
  "Swipe": "Deslizar",
- "Onion Skin": "Papel cebola"
+ "Onion Skin": "Papel cebola",
+ "By color": "Por cor",
+ "Clear Color Filter": "Limpar filtro de cor",
+ "Clear color filter": "Limpar filtro de cor",
+ "Find This Swatch Color": "Buscar a cor desta amostra",
+ "Find by Color…": "Buscar por cor…",
+ "Find by color": "Buscar por cor",
+ "Give the color as #RRGGBB.": "Informe a cor como #RRGGBB.",
+ "Nothing on this board contains that color.": "Nada neste quadro contém essa cor.",
+ "Pictures and swatches with this color: {0}.": "Imagens e amostras com esta cor: {0}.",
+ "Sort by Color": "Ordenar por cor",
+ "Tolerance is from 1 to 100.": "A tolerância vai de 1 a 100."
 }

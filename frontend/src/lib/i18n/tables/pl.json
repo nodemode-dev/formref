@@ -1297,5 +1297,16 @@
  "Side by Side": "Obok siebie",
  "Swap": "Zamień",
  "Swipe": "Przesuwanie",
- "Onion Skin": "Kalka"
+ "Onion Skin": "Kalka",
+ "By color": "Według koloru",
+ "Clear Color Filter": "Wyczyść filtr koloru",
+ "Clear color filter": "Wyczyść filtr koloru",
+ "Find This Swatch Color": "Znajdź kolor tej próbki",
+ "Find by Color…": "Znajdź według koloru…",
+ "Find by color": "Znajdź według koloru",
+ "Give the color as #RRGGBB.": "Podaj kolor jako #RRGGBB.",
+ "Nothing on this board contains that color.": "Nic na tej tablicy nie zawiera tego koloru.",
+ "Pictures and swatches with this color: {0}.": "Obrazy i próbki z tym kolorem: {0}.",
+ "Sort by Color": "Sortuj według koloru",
+ "Tolerance is from 1 to 100.": "Tolerancja wynosi od 1 do 100."
 }

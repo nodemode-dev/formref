@@ -1297,5 +1297,16 @@
  "Side by Side": "나란히",
  "Swap": "바꾸기",
  "Swipe": "스와이프",
- "Onion Skin": "어니언 스킨"
+ "Onion Skin": "어니언 스킨",
+ "By color": "색상순",
+ "Clear Color Filter": "색상 필터 지우기",
+ "Clear color filter": "색상 필터 지우기",
+ "Find This Swatch Color": "이 견본의 색상 찾기",
+ "Find by Color…": "색상으로 찾기…",
+ "Find by color": "색상으로 찾기",
+ "Give the color as #RRGGBB.": "색상을 #RRGGBB 형식으로 입력하세요.",
+ "Nothing on this board contains that color.": "이 보드에는 그 색상이 포함된 항목이 없습니다.",
+ "Pictures and swatches with this color: {0}.": "이 색상이 있는 그림과 견본: {0}.",
+ "Sort by Color": "색상으로 정렬",
+ "Tolerance is from 1 to 100.": "허용 오차는 1에서 100까지입니다."
 }

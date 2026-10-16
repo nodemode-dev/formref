@@ -1297,5 +1297,16 @@
  "Side by Side": "Sida vid sida",
  "Swap": "Byt",
  "Swipe": "Svep",
- "Onion Skin": "Lökskal"
+ "Onion Skin": "Lökskal",
+ "By color": "Efter färg",
+ "Clear Color Filter": "Rensa färgfilter",
+ "Clear color filter": "Rensa färgfilter",
+ "Find This Swatch Color": "Hitta färgen i den här färgrutan",
+ "Find by Color…": "Hitta efter färg…",
+ "Find by color": "Hitta efter färg",
+ "Give the color as #RRGGBB.": "Ange färgen som #RRGGBB.",
+ "Nothing on this board contains that color.": "Inget på den här tavlan innehåller den färgen.",
+ "Pictures and swatches with this color: {0}.": "Bilder och färgrutor med den här färgen: {0}.",
+ "Sort by Color": "Sortera efter färg",
+ "Tolerance is from 1 to 100.": "Toleransen är från 1 till 100."
 }

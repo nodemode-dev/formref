@@ -1297,5 +1297,16 @@
  "Side by Side": "Cạnh nhau",
  "Swap": "Đổi chỗ",
  "Swipe": "Vuốt",
- "Onion Skin": "Chồng mờ"
+ "Onion Skin": "Chồng mờ",
+ "By color": "Theo màu",
+ "Clear Color Filter": "Xóa bộ lọc màu",
+ "Clear color filter": "Xóa bộ lọc màu",
+ "Find This Swatch Color": "Tìm màu của mẫu màu này",
+ "Find by Color…": "Tìm theo màu…",
+ "Find by color": "Tìm theo màu",
+ "Give the color as #RRGGBB.": "Hãy nhập màu dạng #RRGGBB.",
+ "Nothing on this board contains that color.": "Không có gì trên bảng này chứa màu đó.",
+ "Pictures and swatches with this color: {0}.": "Ảnh và mẫu màu có màu này: {0}.",
+ "Sort by Color": "Sắp xếp theo màu",
+ "Tolerance is from 1 to 100.": "Dung sai từ 1 đến 100."
 }

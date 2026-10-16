@@ -1297,5 +1297,16 @@
  "Side by Side": "Nebeneinander",
  "Swap": "Tauschen",
  "Swipe": "Wischen",
- "Onion Skin": "Zwiebelhaut"
+ "Onion Skin": "Zwiebelhaut",
+ "By color": "Nach Farbe",
+ "Clear Color Filter": "Farbfilter aufheben",
+ "Clear color filter": "Farbfilter aufheben",
+ "Find This Swatch Color": "Farbe dieses Farbfelds suchen",
+ "Find by Color…": "Nach Farbe suchen…",
+ "Find by color": "Nach Farbe suchen",
+ "Give the color as #RRGGBB.": "Geben Sie die Farbe als #RRGGBB an.",
+ "Nothing on this board contains that color.": "Nichts auf diesem Board enthält diese Farbe.",
+ "Pictures and swatches with this color: {0}.": "Bilder und Farbfelder mit dieser Farbe: {0}.",
+ "Sort by Color": "Nach Farbe sortieren",
+ "Tolerance is from 1 to 100.": "Die Toleranz reicht von 1 bis 100."
 }

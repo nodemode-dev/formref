@@ -1297,5 +1297,16 @@
  "Side by Side": "並べて表示",
  "Swap": "入れ替え",
  "Swipe": "スワイプ",
- "Onion Skin": "オニオンスキン"
+ "Onion Skin": "オニオンスキン",
+ "By color": "色順",
+ "Clear Color Filter": "色フィルターを解除",
+ "Clear color filter": "色フィルターを解除",
+ "Find This Swatch Color": "このスウォッチの色を検索",
+ "Find by Color…": "色で検索…",
+ "Find by color": "色で検索",
+ "Give the color as #RRGGBB.": "色は #RRGGBB の形式で指定してください。",
+ "Nothing on this board contains that color.": "このボードにその色を含むものはありません。",
+ "Pictures and swatches with this color: {0}.": "この色を含む画像とスウォッチ: {0}。",
+ "Sort by Color": "色で並べ替え",
+ "Tolerance is from 1 to 100.": "許容差は 1 から 100 です。"
 }

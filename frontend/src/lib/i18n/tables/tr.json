@@ -1297,5 +1297,16 @@
  "Side by Side": "Yan Yana",
  "Swap": "Değiştir",
  "Swipe": "Kaydırma",
- "Onion Skin": "Soğan Zarı"
+ "Onion Skin": "Soğan Zarı",
+ "By color": "Renge göre",
+ "Clear Color Filter": "Renk Filtresini Temizle",
+ "Clear color filter": "Renk filtresini temizle",
+ "Find This Swatch Color": "Bu Örneğin Rengini Bul",
+ "Find by Color…": "Renge Göre Bul…",
+ "Find by color": "Renge göre bul",
+ "Give the color as #RRGGBB.": "Rengi #RRGGBB biçiminde girin.",
+ "Nothing on this board contains that color.": "Bu panoda o rengi içeren bir şey yok.",
+ "Pictures and swatches with this color: {0}.": "Bu rengi içeren resimler ve örnekler: {0}.",
+ "Sort by Color": "Renge Göre Sırala",
+ "Tolerance is from 1 to 100.": "Tolerans 1 ile 100 arasındadır."
 }

@@ -1297,5 +1297,16 @@
  "Side by Side": "Rinnakkain",
  "Swap": "Vaihda",
  "Swipe": "Pyyhkäisy",
- "Onion Skin": "Sipulinkuori"
+ "Onion Skin": "Sipulinkuori",
+ "By color": "Värin mukaan",
+ "Clear Color Filter": "Poista värisuodatin",
+ "Clear color filter": "Poista värisuodatin",
+ "Find This Swatch Color": "Etsi tämän värinäytteen väri",
+ "Find by Color…": "Etsi värin mukaan…",
+ "Find by color": "Etsi värin mukaan",
+ "Give the color as #RRGGBB.": "Anna väri muodossa #RRGGBB.",
+ "Nothing on this board contains that color.": "Mikään tällä taululla ei sisällä tätä väriä.",
+ "Pictures and swatches with this color: {0}.": "Kuvat ja värinäytteet, joissa on tätä väriä: {0}.",
+ "Sort by Color": "Lajittele värin mukaan",
+ "Tolerance is from 1 to 100.": "Toleranssi on 1–100."
 }

@@ -1297,5 +1297,16 @@
  "Side by Side": "Berdampingan",
  "Swap": "Tukar",
  "Swipe": "Geser",
- "Onion Skin": "Kulit Bawang"
+ "Onion Skin": "Kulit Bawang",
+ "By color": "Menurut warna",
+ "Clear Color Filter": "Hapus Filter Warna",
+ "Clear color filter": "Hapus filter warna",
+ "Find This Swatch Color": "Cari Warna Contoh Ini",
+ "Find by Color…": "Cari menurut Warna…",
+ "Find by color": "Cari menurut warna",
+ "Give the color as #RRGGBB.": "Tulis warna sebagai #RRGGBB.",
+ "Nothing on this board contains that color.": "Tidak ada apa pun di papan ini yang berisi warna itu.",
+ "Pictures and swatches with this color: {0}.": "Gambar dan contoh warna dengan warna ini: {0}.",
+ "Sort by Color": "Urutkan menurut Warna",
+ "Tolerance is from 1 to 100.": "Toleransi dari 1 sampai 100."
 }
