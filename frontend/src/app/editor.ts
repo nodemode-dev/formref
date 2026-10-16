@@ -653,7 +653,8 @@ export async function placeAssets(assets: { asset: Asset; name: string; url?: st
     const height = image ? width * ((asset.height || 200) / (asset.width || 300)) : video ? 300 : audio ? 150 : 140;
     items.push(newItem(image ? 'image' : 'file', at.x + index * 28, at.y + index * 28, {
       title: asset.name, asset_id: asset.id, width, height, z: initialZ + index + 1, url: url || '',
-      data: { mime: asset.mime, size: asset.size, source_name: file.name, natural_width: asset.width, natural_height: asset.height },
+      // Keywords stored in the picture file arrive as its tags.
+      data: { mime: asset.mime, size: asset.size, source_name: file.name, natural_width: asset.width, natural_height: asset.height, ...(image && asset.keywords?.length ? { tags: asset.keywords } : {}) },
     }));
   }
   await execute({ type: 'add', items }, boardId);
