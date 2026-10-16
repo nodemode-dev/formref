@@ -72,7 +72,8 @@ function filterCommands() {
   const query = $<HTMLInputElement>('command-search').value.toLowerCase().trim();
   for (const [id, row] of paletteRows) {
     const command = BY_ID.get(id)!;
-    row.hidden = !row.dataset.command!.includes(query);
+    // English words always match; the row's shown text adds the words of the interface language.
+    row.hidden = !`${row.dataset.command!} ${(row.textContent || '').toLowerCase()}`.includes(query);
     row.disabled = !isEnabled(command);
   }
 }
