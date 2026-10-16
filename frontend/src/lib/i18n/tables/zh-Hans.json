@@ -1247,5 +1247,10 @@
  "Lock Against Drops": "锁定拖入",
  "Locked against drops": "已锁定拖入",
  "This board has no pictures to export.": "此画板没有可导出的图片。",
- "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee or images.": "导出格式必须是 portable、json、png、svg、markdown、pdf、pdf-pages、pdf-tiles、bee 或 images。"
+ "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee or images.": "导出格式必须是 portable、json、png、svg、markdown、pdf、pdf-pages、pdf-tiles、bee 或 images。",
+ "Forget Board Window Layout": "取消画板的窗口布局",
+ "PDF text needs the pypdfium2 package; run ./formref install.": "PDF 文字需要 pypdfium2 包；请运行 ./formref install。",
+ "Save Window Layout with Board": "随画板保存窗口布局",
+ "This board no longer moves the window.": "此画板不再移动窗口。",
+ "This board will open in this window size and place.": "此画板将以此窗口大小和位置打开。"
 }

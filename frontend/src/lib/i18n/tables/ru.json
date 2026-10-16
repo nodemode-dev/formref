@@ -1247,5 +1247,10 @@
  "Lock Against Drops": "Запретить перетаскивание внутрь",
  "Locked against drops": "Перетаскивание внутрь запрещено",
  "This board has no pictures to export.": "На этой доске нет изображений для экспорта.",
- "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee or images.": "Формат экспорта: portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee или images."
+ "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee or images.": "Формат экспорта: portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee или images.",
+ "Forget Board Window Layout": "Забыть расположение окна доски",
+ "PDF text needs the pypdfium2 package; run ./formref install.": "Для текста PDF нужен пакет pypdfium2; выполните ./formref install.",
+ "Save Window Layout with Board": "Сохранить расположение окна с доской",
+ "This board no longer moves the window.": "Эта доска больше не меняет окно.",
+ "This board will open in this window size and place.": "Эта доска будет открываться в этом размере и положении окна."
 }

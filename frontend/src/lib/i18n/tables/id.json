@@ -1247,5 +1247,10 @@
  "Lock Against Drops": "Kunci dari Penjatuhan",
  "Locked against drops": "Terkunci dari penjatuhan",
  "This board has no pictures to export.": "Papan ini tidak memiliki gambar untuk diekspor.",
- "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee or images.": "Format ekspor harus portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, atau images."
+ "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee or images.": "Format ekspor harus portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, atau images.",
+ "Forget Board Window Layout": "Lupakan Tata Letak Jendela Papan",
+ "PDF text needs the pypdfium2 package; run ./formref install.": "Teks PDF memerlukan paket pypdfium2; jalankan ./formref install.",
+ "Save Window Layout with Board": "Simpan Tata Letak Jendela dengan Papan",
+ "This board no longer moves the window.": "Papan ini tidak lagi memindahkan jendela.",
+ "This board will open in this window size and place.": "Papan ini akan terbuka dengan ukuran dan posisi jendela ini."
 }

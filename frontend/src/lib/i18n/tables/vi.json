@@ -1247,5 +1247,10 @@
  "Lock Against Drops": "Khóa không cho thả vào",
  "Locked against drops": "Đã khóa không cho thả vào",
  "This board has no pictures to export.": "Bảng này không có ảnh nào để xuất.",
- "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee or images.": "Định dạng xuất phải là portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee hoặc images."
+ "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee or images.": "Định dạng xuất phải là portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee hoặc images.",
+ "Forget Board Window Layout": "Quên bố cục cửa sổ của bảng",
+ "PDF text needs the pypdfium2 package; run ./formref install.": "Văn bản PDF cần gói pypdfium2; hãy chạy ./formref install.",
+ "Save Window Layout with Board": "Lưu bố cục cửa sổ cùng bảng",
+ "This board no longer moves the window.": "Bảng này không còn di chuyển cửa sổ nữa.",
+ "This board will open in this window size and place.": "Bảng này sẽ mở với kích thước và vị trí cửa sổ này."
 }

@@ -1247,5 +1247,10 @@
  "Lock Against Drops": "Zárolás behúzás ellen",
  "Locked against drops": "Behúzás ellen zárolva",
  "This board has no pictures to export.": "Ezen a táblán nincs exportálható kép.",
- "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee or images.": "Az exportformátum portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee vagy images lehet."
+ "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee or images.": "Az exportformátum portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee vagy images lehet.",
+ "Forget Board Window Layout": "Tábla ablakelrendezésének elfelejtése",
+ "PDF text needs the pypdfium2 package; run ./formref install.": "A PDF-szöveghez a pypdfium2 csomag kell; futtassa: ./formref install.",
+ "Save Window Layout with Board": "Ablakelrendezés mentése a táblával",
+ "This board no longer moves the window.": "Ez a tábla már nem mozgatja az ablakot.",
+ "This board will open in this window size and place.": "Ez a tábla ebben az ablakméretben és helyen nyílik meg."
 }

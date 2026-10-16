@@ -1247,5 +1247,10 @@
  "Lock Against Drops": "Bırakmaya Karşı Kilitle",
  "Locked against drops": "Bırakmaya karşı kilitli",
  "This board has no pictures to export.": "Bu panoda dışa aktarılacak resim yok.",
- "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee or images.": "Dışa aktarma biçimi portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee veya images olmalıdır."
+ "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee or images.": "Dışa aktarma biçimi portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee veya images olmalıdır.",
+ "Forget Board Window Layout": "Pano Pencere Düzenini Unut",
+ "PDF text needs the pypdfium2 package; run ./formref install.": "PDF metni için pypdfium2 paketi gerekir; ./formref install komutunu çalıştırın.",
+ "Save Window Layout with Board": "Pencere Düzenini Panoyla Kaydet",
+ "This board no longer moves the window.": "Bu pano artık pencereyi taşımıyor.",
+ "This board will open in this window size and place.": "Bu pano bu pencere boyutunda ve konumunda açılacak."
 }

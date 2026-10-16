@@ -1247,5 +1247,10 @@
  "Lock Against Drops": "ล็อกไม่ให้วาง",
  "Locked against drops": "ล็อกไม่ให้วางแล้ว",
  "This board has no pictures to export.": "บอร์ดนี้ไม่มีรูปภาพให้ส่งออก",
- "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee or images.": "รูปแบบส่งออกต้องเป็น portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee หรือ images"
+ "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee or images.": "รูปแบบส่งออกต้องเป็น portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee หรือ images",
+ "Forget Board Window Layout": "ล้างเค้าโครงหน้าต่างของบอร์ด",
+ "PDF text needs the pypdfium2 package; run ./formref install.": "ข้อความ PDF ต้องใช้แพ็กเกจ pypdfium2 ให้รัน ./formref install",
+ "Save Window Layout with Board": "บันทึกเค้าโครงหน้าต่างกับบอร์ด",
+ "This board no longer moves the window.": "บอร์ดนี้จะไม่ย้ายหน้าต่างอีกต่อไป",
+ "This board will open in this window size and place.": "บอร์ดนี้จะเปิดด้วยขนาดและตำแหน่งหน้าต่างนี้"
 }

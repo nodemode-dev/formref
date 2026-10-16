@@ -1247,5 +1247,10 @@
  "Lock Against Drops": "ドロップをロック",
  "Locked against drops": "ドロップをロック中",
  "This board has no pictures to export.": "このボードには書き出す画像がありません。",
- "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee or images.": "書き出し形式は portable、json、png、svg、markdown、pdf、pdf-pages、pdf-tiles、bee、images のいずれかです。"
+ "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee or images.": "書き出し形式は portable、json、png、svg、markdown、pdf、pdf-pages、pdf-tiles、bee、images のいずれかです。",
+ "Forget Board Window Layout": "ボードのウィンドウ配置を解除",
+ "PDF text needs the pypdfium2 package; run ./formref install.": "PDF のテキストには pypdfium2 パッケージが必要です。./formref install を実行してください。",
+ "Save Window Layout with Board": "ウィンドウ配置をボードに保存",
+ "This board no longer moves the window.": "このボードはウィンドウを動かさなくなりました。",
+ "This board will open in this window size and place.": "このボードはこのウィンドウのサイズと位置で開きます。"
 }

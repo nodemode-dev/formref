@@ -1247,5 +1247,10 @@
  "Lock Against Drops": "놓기 잠금",
  "Locked against drops": "놓기 잠김",
  "This board has no pictures to export.": "이 보드에는 내보낼 그림이 없습니다.",
- "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee or images.": "내보내기 형식은 portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images 중 하나여야 합니다."
+ "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee or images.": "내보내기 형식은 portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images 중 하나여야 합니다.",
+ "Forget Board Window Layout": "보드 창 배치 잊기",
+ "PDF text needs the pypdfium2 package; run ./formref install.": "PDF 텍스트에는 pypdfium2 패키지가 필요합니다. ./formref install을 실행하세요.",
+ "Save Window Layout with Board": "창 배치를 보드에 저장",
+ "This board no longer moves the window.": "이 보드는 더 이상 창을 옮기지 않습니다.",
+ "This board will open in this window size and place.": "이 보드는 이 창 크기와 위치로 열립니다."
 }

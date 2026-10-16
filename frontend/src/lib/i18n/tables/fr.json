@@ -1247,5 +1247,10 @@
  "Lock Against Drops": "Verrouiller contre les dépôts",
  "Locked against drops": "Verrouillée contre les dépôts",
  "This board has no pictures to export.": "Ce tableau ne contient aucune image à exporter.",
- "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee or images.": "Le format d’export doit être portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee ou images."
+ "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee or images.": "Le format d’export doit être portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee ou images.",
+ "Forget Board Window Layout": "Oublier la disposition de fenêtre du tableau",
+ "PDF text needs the pypdfium2 package; run ./formref install.": "Le texte PDF nécessite le paquet pypdfium2 ; lancez ./formref install.",
+ "Save Window Layout with Board": "Enregistrer la disposition de fenêtre avec le tableau",
+ "This board no longer moves the window.": "Ce tableau ne déplace plus la fenêtre.",
+ "This board will open in this window size and place.": "Ce tableau s’ouvrira à cette taille et à cet emplacement de fenêtre."
 }

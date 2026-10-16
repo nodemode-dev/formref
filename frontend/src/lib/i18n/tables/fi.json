@@ -1247,5 +1247,10 @@
  "Lock Against Drops": "Lukitse pudotuksilta",
  "Locked against drops": "Lukittu pudotuksilta",
  "This board has no pictures to export.": "Tällä taululla ei ole vietäviä kuvia.",
- "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee or images.": "Vientimuodon on oltava portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee tai images."
+ "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee or images.": "Vientimuodon on oltava portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee tai images.",
+ "Forget Board Window Layout": "Unohda taulun ikkunan asettelu",
+ "PDF text needs the pypdfium2 package; run ./formref install.": "PDF-teksti vaatii pypdfium2-paketin; suorita ./formref install.",
+ "Save Window Layout with Board": "Tallenna ikkunan asettelu taulun kanssa",
+ "This board no longer moves the window.": "Tämä taulu ei enää siirrä ikkunaa.",
+ "This board will open in this window size and place.": "Tämä taulu avautuu tämän kokoisena ja tähän kohtaan."
 }

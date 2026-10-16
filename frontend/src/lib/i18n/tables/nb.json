@@ -1247,5 +1247,10 @@
  "Lock Against Drops": "Lås mot slipp",
  "Locked against drops": "Låst mot slipp",
  "This board has no pictures to export.": "Denne tavlen har ingen bilder å eksportere.",
- "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee or images.": "Eksportformatet må være portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee eller images."
+ "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee or images.": "Eksportformatet må være portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee eller images.",
+ "Forget Board Window Layout": "Glem tavlens vindusoppsett",
+ "PDF text needs the pypdfium2 package; run ./formref install.": "PDF-tekst krever pakken pypdfium2; kjør ./formref install.",
+ "Save Window Layout with Board": "Lagre vindusoppsett med tavlen",
+ "This board no longer moves the window.": "Denne tavlen flytter ikke lenger vinduet.",
+ "This board will open in this window size and place.": "Denne tavlen åpnes i denne vindusstørrelsen og plasseringen."
 }
