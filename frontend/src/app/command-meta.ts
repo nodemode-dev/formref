@@ -68,6 +68,8 @@ export const COMMAND_WORDS: Readonly<Record<string, string>> = {
   'find-color': 'Dims everything on the board except pictures and swatches that contain the chosen color; the color chip beside the kind filter shows it, and choosing no color clears it.',
   'find-swatch-color': 'Finds the selected swatch\'s color in the pictures on the board.',
   'clear-color-find': 'Clears the color filter so the whole board shows again.',
+  'find-similar': 'Dims everything except the pictures that look like the selected one, judged by colour mix, the layout of light and dark (mirrored copies count) and the colour layout; the button beside the color chip shows the sample. Near Copies, Similar Pictures and Loosely Similar set how alike they must be.',
+  'clear-similar-find': 'Clears the similar-pictures filter so the whole board shows again.',
   group: 'Groups the selected items so they select and move together.',
   ungroup: 'Ungroups the selected groups.',
   align: 'Aligns the selected items by the edge or centre chosen in the inspector.',

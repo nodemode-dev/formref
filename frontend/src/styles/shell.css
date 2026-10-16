@@ -267,10 +267,14 @@
 /* Find by Color: a chip beside the kind filter. Its clear button always takes its space and only becomes visible, so the filter never changes width. */
 .filter-row { display: flex; align-items: center; gap: var(--space-1); margin: 0 var(--space-2) var(--space-2); }
 .filter-row .filter-select { flex: 1; min-width: 0; margin: 0; }
-.filter-row .color-find, .filter-row .color-find-clear { flex: none; display: inline-grid; place-items: center; width: 20px; height: 20px; padding: 0; border: 0; border-radius: var(--radius-sm); background: transparent; color: var(--text-muted); }
-.color-find:hover, .color-find-clear:hover { background: var(--bg-hover); color: var(--text-primary); }
+.filter-row .color-find, .filter-row .similar-find, .filter-row .color-find-clear { flex: none; display: inline-grid; place-items: center; width: 20px; height: 20px; padding: 0; border: 0; border-radius: var(--radius-sm); background: transparent; color: var(--text-muted); }
+.color-find:hover, .similar-find:hover, .color-find-clear:hover { background: var(--bg-hover); color: var(--text-primary); }
 .color-find-dot { width: 12px; height: 12px; border-radius: 50%; background: conic-gradient(#e5484d, #f5d90a, #46a758, #12a594, #0090ff, #8e4ec6, #e5484d); opacity: .7; box-shadow: inset 0 0 0 1px var(--border-light); }
 .filter-row.has-color .color-find-dot { background: var(--find-color); opacity: 1; box-shadow: 0 0 0 1px var(--bg-primary), 0 0 0 2px var(--accent-line); }
 .color-find-clear { visibility: hidden; }
 .filter-row .color-find-clear svg { width: 12px; height: 12px; }
-.filter-row.has-color .color-find-clear { visibility: visible; }
+.filter-row.has-color .color-find-clear, .filter-row.has-similar .color-find-clear { visibility: visible; }
+/* Find Similar: the button shows the sample picture while it is in use. */
+.filter-row .similar-find [data-icon], .filter-row .similar-find svg { width: 14px; height: 14px; }
+.filter-row.has-similar .similar-find { background: var(--similar-thumb) center / cover no-repeat; box-shadow: 0 0 0 1px var(--bg-primary), 0 0 0 2px var(--accent-line); }
+.filter-row.has-similar .similar-find [data-icon] { visibility: hidden; }

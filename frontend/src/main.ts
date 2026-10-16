@@ -36,6 +36,7 @@ import { registerBoardExtract } from './app/board-extract';
 import { registerMeasure } from './app/measure';
 import { registerCompare } from './app/compare';
 import { registerColorFind } from './app/color-find';
+import { registerSimilarFind } from './app/similar-find';
 
 bindLanguage();
 registerTerminal();
@@ -60,6 +61,7 @@ registerBoardExtract();
 registerMeasure();
 registerCompare();
 registerColorFind();
+registerSimilarFind();
 attachCatalogue();
 
 const agent = new AgentPanel({

@@ -2,6 +2,7 @@ import type { MenuEntry } from '../ui/context-menu';
 import { BY_ID, SNAP_SCALES, isEnabled, lockLabel, run, snapScale, snapScaleNow } from './commands';
 import { primaryKey } from './keys';
 import { studyMenu } from './study';
+import { similarMenu } from './similar-find';
 import { S, defaultSettings, selection } from './editor';
 
 function item(id: string, label?: string): MenuEntry {
@@ -51,6 +52,7 @@ export function boardMenu(): MenuEntry[] {
     item('find-color'),
     item('find-swatch-color'),
     item('clear-color-find'),
+    item('clear-similar-find'),
     sep,
     {
       label: 'Canvas', icon: 'grid', children: [
@@ -109,6 +111,7 @@ export function boardMenu(): MenuEntry[] {
         ...studyMenu(),
         item('extract-palette'),
         item('compare'),
+        similarMenu(),
         sep,
         item('opacity'),
         sep,
