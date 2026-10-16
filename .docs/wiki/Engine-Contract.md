@@ -19,7 +19,7 @@ Boards also include validated, backwards-compatible `settings` for grid visibili
 - distribute: ids, axis:x|y. pack: ids, gap default 24, columns optional integer. normalize: ids, mode:width|height|area, value positive.
 - group: ids, group_id optional string; ungroup: ids. order: ids, mode:front|back|forward|backward. Locked items reject mutating commands except update locked false.
 - connect: connection object. disconnect: ids. viewport: viewport object. rename: title. background: color.
-- settings: patch of grid_visible, grid_size (4 to 512), snap_enabled, grayscale. snap: ids, grid_size optional.
+- settings: patch of grid_visible, grid_size (4 to 512), snap_enabled, grayscale, labels, and window (v0.7.3: the desktop window this board opens in, {x, y (-100000 to 100000), width, height (200 to 20000, logical pixels), always_on_top, opacity (0.2 to 1)}, or null to forget it; omitted from saved boards when unset). snap: ids, grid_size optional.
 - rotate: ids, degrees default 90 (-360 to 360), each root about its own centre. opacity: ids, value 0 to 1.
 - image: ids (images only), toggle array of flip_x|flip_y|grayscale and/or set {flip_x, flip_y, grayscale, sampling: smooth|nearest}.
 - crop: ids (images only), rect {x, y, width, height} normalised to the source and fitting inside it, or reset true.

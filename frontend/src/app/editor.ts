@@ -323,6 +323,9 @@ export const consent = { ask: () => undefined as void };
 const stateListeners: ((state: State) => void)[] = [];
 export function onState(listener: (state: State) => void) { stateListeners.push(listener); }
 
+/** Modules that act when a different board comes up (the desktop window layout, for one). */
+export const boardOpened: Array<(state: State) => void> = [];
+
 export function applyState(next: State, switchBoard = false) {
   if (S.state && S.state.board.id === next.board.id && next.board.revision < S.state.board.revision) return;
   if (S.gesture && !switchBoard) { S.deferred = next; return; }
@@ -330,6 +333,7 @@ export function applyState(next: State, switchBoard = false) {
     selection.clear();
     S.camera = { ...next.board.viewport };
     S.connectionStart = null;
+    for (const hook of boardOpened) hook(next);
   }
   S.state = next;
   const ids = new Set(next.board.items.map(i => i.id));

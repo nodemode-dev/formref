@@ -29,6 +29,7 @@ import { registerTransformTools } from './app/transform-tools';
 import { registerLasso } from './app/lasso';
 import { registerGroupNormalize } from './app/group-normalize';
 import { registerDropInto } from './app/drop-into';
+import { registerWindowLayout } from './app/window-layout';
 
 bindLanguage();
 registerTerminal();
@@ -46,6 +47,7 @@ registerTransformTools();
 registerLasso();
 registerGroupNormalize();
 registerDropInto();
+registerWindowLayout();
 attachCatalogue();
 
 const agent = new AgentPanel({

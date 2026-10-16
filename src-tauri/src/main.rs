@@ -164,6 +164,63 @@ fn window_configure(
     read_window_state(&window)
 }
 
+#[derive(Serialize)]
+struct Placement {
+    x: f64,
+    y: f64,
+    width: f64,
+    height: f64,
+}
+
+/// The window's outer position and inner size in logical pixels, the units a saved board layout uses.
+#[tauri::command]
+fn window_layout(window: WebviewWindow) -> Result<Placement, String> {
+    main_window_only(&window)?;
+    let scale = window.scale_factor().map_err(|error| error.to_string())?;
+    let position = window.outer_position().map_err(|error| error.to_string())?.to_logical::<f64>(scale);
+    let size = window.inner_size().map_err(|error| error.to_string())?.to_logical::<f64>(scale);
+    Ok(Placement { x: position.x, y: position.y, width: size.width, height: size.height })
+}
+
+/// Moves and sizes the window to a saved layout, kept on a connected monitor so a layout from a larger
+/// or since-unplugged screen never leaves the window out of reach.
+#[tauri::command]
+fn window_place(window: WebviewWindow, x: f64, y: f64, width: f64, height: f64) -> Result<Placement, String> {
+    main_window_only(&window)?;
+    if ![x, y, width, height].iter().all(|value| value.is_finite()) || width < 200.0 || height < 200.0 {
+        return Err("Window layout is out of range".into());
+    }
+    let monitors = window.available_monitors().map_err(|error| error.to_string())?;
+    let fits = |m: &tauri::Monitor| {
+        let scale = m.scale_factor();
+        let p = m.position().to_logical::<f64>(scale);
+        let s = m.size().to_logical::<f64>(scale);
+        (x + 40.0 >= p.x && x + 40.0 <= p.x + s.width && y + 20.0 >= p.y && y + 20.0 <= p.y + s.height).then_some((p, s))
+    };
+    let (mut x, mut y, mut width, mut height) = (x, y, width, height);
+    match monitors.iter().find_map(fits) {
+        Some((p, s)) => {
+            width = width.min(s.width);
+            height = height.min(s.height);
+            x = x.min(p.x + s.width - width).max(p.x);
+            y = y.min(p.y + s.height - height).max(p.y);
+        }
+        None => {
+            if let Some(monitor) = window.primary_monitor().map_err(|error| error.to_string())? {
+                let s = monitor.size().to_logical::<f64>(monitor.scale_factor());
+                let p = monitor.position().to_logical::<f64>(monitor.scale_factor());
+                width = width.min(s.width);
+                height = height.min(s.height);
+                x = p.x + (s.width - width) / 2.0;
+                y = p.y + (s.height - height) / 2.0;
+            }
+        }
+    }
+    window.set_size(LogicalSize::new(width, height)).map_err(|error| error.to_string())?;
+    window.set_position(tauri::LogicalPosition::new(x, y)).map_err(|error| error.to_string())?;
+    window_layout(window)
+}
+
 #[tauri::command]
 fn window_start_drag(window: WebviewWindow) -> Result<(), String> {
     main_window_only(&window)?;
@@ -197,7 +254,9 @@ fn main() {
         .invoke_handler(tauri::generate_handler![
             window_configure,
             window_state,
-            window_start_drag
+            window_start_drag,
+            window_layout,
+            window_place
         ])
         .setup(move |app| {
             let window = app.get_webview_window("main").ok_or("Main window missing")?;

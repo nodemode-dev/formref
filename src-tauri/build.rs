@@ -5,6 +5,8 @@ fn main() {
                 "window_configure",
                 "window_state",
                 "window_start_drag",
+                "window_layout",
+                "window_place",
             ]),
         ),
     )

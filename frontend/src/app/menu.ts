@@ -58,6 +58,7 @@ export function boardMenu(): MenuEntry[] {
         item('fit'),
         item('fit-all'),
         item('reset-zoom'),
+        ...(isEnabled(BY_ID.get('remember-window')!) ? [sep, item('remember-window'), item('forget-window')] : []),
       ],
     },
     {

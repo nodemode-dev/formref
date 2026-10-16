@@ -9,6 +9,11 @@ description = "Read main window topmost, fullscreen and native frame state."
 commands.allow = ["window_state"]
 
 [[permission]]
+identifier = "formref-window-layout"
+description = "Read and set the main window's position and size, for window layouts saved with a board."
+commands.allow = ["window_layout", "window_place"]
+
+[[permission]]
 identifier = "formref-window-start-drag"
 description = "Move the main window from an explicit drag gesture."
 commands.allow = ["window_start_drag"]

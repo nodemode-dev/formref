@@ -12,6 +12,7 @@
     "formref-window-configure",
     "formref-window-state",
     "formref-window-start-drag",
+    "formref-window-layout",
     "core:event:allow-listen",
     "core:event:allow-unlisten"
   ]

@@ -40,7 +40,25 @@ pub struct BoardSettings {
     pub grayscale: bool,
     /// Board-wide coloured labels; items refer to them by id in data.labels.
     pub labels: Vec<Label>,
+    /// The desktop window this board opens in: logical position and size, on top, and window opacity.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub window: Option<WindowLayout>,
 }
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+#[serde(deny_unknown_fields)]
+pub struct WindowLayout {
+    pub x: f64,
+    pub y: f64,
+    pub width: f64,
+    pub height: f64,
+    #[serde(default)]
+    pub always_on_top: bool,
+    #[serde(default = "full_opacity")]
+    pub opacity: f64,
+}
+
+fn full_opacity() -> f64 { 1.0 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(deny_unknown_fields)]
@@ -52,7 +70,7 @@ pub struct Label {
 
 impl Default for BoardSettings {
     fn default() -> Self {
-        Self { grid_visible: true, grid_size: 24.0, snap_enabled: false, grayscale: false, labels: Vec::new() }
+        Self { grid_visible: true, grid_size: 24.0, snap_enabled: false, grayscale: false, labels: Vec::new(), window: None }
     }
 }
 
@@ -73,6 +91,13 @@ impl BoardSettings {
             if bytes.len() != 7 || bytes[0] != b'#' || !bytes[1..].iter().all(u8::is_ascii_hexdigit) {
                 return Err(EngineError::invalid("label.color must be #RRGGBB"));
             }
+        }
+        if let Some(window) = &self.window {
+            finite(window.x, "settings.window.x", -100_000.0, 100_000.0)?;
+            finite(window.y, "settings.window.y", -100_000.0, 100_000.0)?;
+            finite(window.width, "settings.window.width", 200.0, 20_000.0)?;
+            finite(window.height, "settings.window.height", 200.0, 20_000.0)?;
+            finite(window.opacity, "settings.window.opacity", 0.2, 1.0)?;
         }
         Ok(())
     }
