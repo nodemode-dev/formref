@@ -108,6 +108,7 @@ const paths = {
   stop: '<rect x="6" y="6" width="12" height="12" rx="1.5"/>',
   terminal: '<path d="M4 6l6 6-6 6M12 19h8"/>',
   direct: '<path d="M5 3l12 7-5.5 1.4L9 17z"/><rect x="15" y="15" width="5" height="5"/>',
+  bezier: '<path d="M12 3l5 8.5L12 21l-5-9.5z"/><circle cx="12" cy="12" r="1.6"/><path d="M12 3v7.4"/>',
   restart: '<path d="M4.5 12a7.5 7.5 0 1 0 2.2-5.3"/><path d="M4 4v5h5"/>'
 } as const;
 

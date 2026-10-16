@@ -1,6 +1,7 @@
 import type { Item, Point } from '../lib/types';
 import { convertAnchor, cornerPlan, isCorner, pathData, type Anchor, type CornerStyle, type Vector } from '../lib/vector/path';
-import { S, error, execute, onState, selection, stage, world, worldPoint } from './editor';
+import { newItem } from '../lib/types';
+import { S, error, execute, onState, selection, setSelection, stage, topZ, world, worldPoint } from './editor';
 import { registry } from './registry';
 import { asVector, withVector } from './vector';
 
@@ -60,6 +61,7 @@ function bisector(anchors: Anchor[], i: number, closed: boolean) {
 
 function render() {
   frame = 0;
+  if (pen) { drawPen(); return; }
   const item = drag?.item || target();
   if (!item) { overlay.style.display = 'none'; return; }
   const vector = drag?.vector || asVector(item);
@@ -206,6 +208,87 @@ document.addEventListener('pointerup', refreshAnchors);
 window.addEventListener('keyup', refreshAnchors);
 onState(() => refreshAnchors());
 
-export function registerDirectSelect(setTool: (tool: 'direct') => void) {
+interface PenState { anchors: Anchor[]; down: Point | null; hover: Point | null }
+let pen: PenState | null = null;
+const penPath = document.createElementNS(NS, 'path');
+penPath.classList.add('pen-preview');
+overlay.append(penPath);
+
+function drawPen() {
+  if (!pen || !pen.anchors.length) { penPath.setAttribute('d', ''); return; }
+  const anchors = pen.hover && !pen.down ? [...pen.anchors, { x: pen.hover.x, y: pen.hover.y }] : pen.anchors;
+  overlay.style.display = '';
+  overlay.style.setProperty('--anchor-line', `${1 / S.camera.zoom}px`);
+  penPath.setAttribute('d', pathData({ closed: false, anchors }));
+  const z = S.camera.zoom, size = 6 / z;
+  let used = 0;
+  for (const a of pen.anchors) {
+    const node = el(used++);
+    node.setAttribute('x', String(a.x - size / 2)); node.setAttribute('y', String(a.y - size / 2)); node.setAttribute('width', String(size)); node.setAttribute('height', String(size)); node.setAttribute('rx', '0');
+    node.dataset.hit = ''; node.setAttribute('class', `anchor-mark ${a.in ? 'smooth' : 'corner'}`);
+  }
+  for (let i = used; i < pool.length; i++) pool[i].setAttribute('class', 'anchor-mark unused');
+  lines.setAttribute('d', pen.anchors.flatMap(a => [a.in ? `M${a.x},${a.y}L${a.in.x},${a.in.y}` : '', a.out ? `M${a.x},${a.y}L${a.out.x},${a.out.y}` : '']).join(''));
+  preview.setAttribute('d', '');
+}
+
+async function finishPen(closed: boolean) {
+  const done = pen;
+  pen = null;
+  penPath.setAttribute('d', '');
+  if (!done || done.anchors.length < 2) { refreshAnchors(); return; }
+  const all = done.anchors.flatMap(a => [a, a.in, a.out].filter(Boolean) as Point[]);
+  const x0 = Math.min(...all.map(p => p.x)), y0 = Math.min(...all.map(p => p.y));
+  const w = Math.max(1, Math.max(...all.map(p => p.x)) - x0), h = Math.max(1, Math.max(...all.map(p => p.y)) - y0);
+  const local = (p: Point) => ({ x: p.x - x0, y: p.y - y0 });
+  const anchors = done.anchors.map(a => ({ ...local(a), in: a.in ? local(a.in) : null, out: a.out ? local(a.out) : null }));
+  const item = newItem('shape', x0, y0, { width: w, height: h, z: topZ(), color: '#f97316', data: { shape: 'path', stroke_width: 2, fill: 'none', vector: { w, h, paths: [{ closed, anchors }] } } });
+  await execute({ type: 'add', items: [item] });
+  setSelection([item.id]);
+  refreshAnchors();
+}
+
+stage.addEventListener('pointerdown', event => {
+  if (S.tool !== 'pen-path' || event.button !== 0 || !S.state) return;
+  if ((event.target as Element).closest('button,input,.floating-controls,.navigator')) return;
+  event.preventDefault();
+  event.stopImmediatePropagation();
+  const p = worldPoint(event);
+  pen ??= { anchors: [], down: null, hover: null };
+  const first = pen.anchors[0];
+  if (first && pen.anchors.length > 2 && Math.hypot(p.x - first.x, p.y - first.y) * S.camera.zoom < 8) { void finishPen(true).catch(error); return; }
+  stage.setPointerCapture(event.pointerId);
+  pen.anchors.push({ x: p.x, y: p.y });
+  pen.down = p;
+  drawPen();
+}, true);
+
+stage.addEventListener('pointermove', event => {
+  if (S.tool !== 'pen-path' || !pen) return;
+  event.stopImmediatePropagation();
+  const p = worldPoint(event);
+  pen.hover = p;
+  if (pen.down) {
+    const a = pen.anchors[pen.anchors.length - 1];
+    if (Math.hypot(p.x - a.x, p.y - a.y) * S.camera.zoom > 3) { a.out = { x: p.x, y: p.y }; a.in = { x: 2 * a.x - p.x, y: 2 * a.y - p.y }; }
+  }
+  drawPen();
+}, true);
+
+stage.addEventListener('pointerup', event => {
+  if (S.tool !== 'pen-path' || !pen) return;
+  event.stopImmediatePropagation();
+  pen.down = null;
+  drawPen();
+}, true);
+
+window.addEventListener('keydown', event => {
+  if (!pen || S.tool !== 'pen-path') return;
+  if (event.key === 'Enter' || event.key === 'Escape') { event.preventDefault(); event.stopImmediatePropagation(); void finishPen(false).catch(error); }
+  else if (event.key === 'Backspace' || event.key === 'Delete') { event.preventDefault(); event.stopImmediatePropagation(); pen.anchors.pop(); drawPen(); }
+}, true);
+
+export function registerDirectSelect(setTool: (tool: 'direct' | 'pen-path') => void) {
+  registry.add({ group: 'Tools', id: 'tool-pen-path', label: 'Pen Tool', icon: 'bezier', keys: ['shift+p'], run: () => { if (pen) void finishPen(false); setTool('pen-path'); }, agent: 'window-only', mutates: false, description: 'Draws an anchor path as Illustrator\'s Pen does: click for a corner point, drag for a smooth point, click the first point to close the path, Enter or Esc to finish an open path, Backspace removes the last point.' });
   registry.add({ group: 'Tools', id: 'tool-direct', label: 'Direct Selection Tool', icon: 'direct', keys: ['a'], run: () => { setTool('direct'); refreshAnchors(); }, agent: 'window-only', mutates: false, description: 'Shows the anchor points, handles and corner widgets of the selected shape or path: drag an anchor or handle to reshape, drag a corner widget to round every corner (Shift: only that corner), Alt-click a corner widget to switch Round, Inverted round and Chamfer, Alt-click an anchor to convert it between corner and smooth, Alt-drag a handle to break a smooth point.' });
 }

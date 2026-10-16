@@ -8,5 +8,6 @@
 .anchor-mark.widget { fill: var(--bg-primary); stroke: var(--text-primary); cursor: pointer; }
 .anchor-mark.widget.at-limit { stroke: var(--danger); }
 .anchor-mark.unused { display: none; }
+.pen-preview { fill: none; stroke: var(--accent-color); stroke-width: calc(var(--anchor-line, 1px) * 2); }
 .stage[data-tool="direct"] { cursor: default; }
 #drawing-properties { display: flex; flex-direction: column; gap: var(--space-3); }
