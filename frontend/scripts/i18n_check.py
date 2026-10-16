@@ -51,7 +51,8 @@ def keys() -> set[str]:
 
     Page().feed((ROOT / "frontend" / "index.html").read_text(encoding="utf-8"))
     for f in glob.glob(str(ROOT / "frontend" / "src" / "**" / "*.ts"), recursive=True):
-        if "/lib/i18n" in f or f.endswith(("chat-markdown.ts", "icons.ts")):
+        # command-meta.ts holds English words for agents (MCP and the skill reference), never shown in the interface.
+        if "/lib/i18n" in f or f.endswith(("chat-markdown.ts", "icons.ts", "command-meta.ts")):
             continue
         text = Path(f).read_text(encoding="utf-8")
         for m in LIT.finditer(text):

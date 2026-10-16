@@ -30,6 +30,7 @@ import { registerLasso } from './app/lasso';
 import { registerGroupNormalize } from './app/group-normalize';
 import { registerDropInto } from './app/drop-into';
 import { registerWindowLayout } from './app/window-layout';
+import { registerStudy } from './app/study';
 
 bindLanguage();
 registerTerminal();
@@ -48,6 +49,7 @@ registerLasso();
 registerGroupNormalize();
 registerDropInto();
 registerWindowLayout();
+registerStudy();
 attachCatalogue();
 
 const agent = new AgentPanel({

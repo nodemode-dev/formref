@@ -1261,5 +1261,16 @@
  "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images or viewer.": "Het exportformaat moet portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images of viewer zijn.",
  "Deleted {0} · {1} item{2}": "Verwijderd {0} · items: {1}{2}",
  "Removed {0} · {1} item{2}": "Weggehaald {0} · items: {1}{2}",
- "Resolved": "Opgelost"
+ "Resolved": "Opgelost",
+ "Choose from 2 to 16 colours.": "Kies 2 tot 16 kleuren.",
+ "Choose from 2 to 24 divisions, or 0 to remove the grid.": "Kies 2 tot 24 vakken, of 0 om het raster weg te halen.",
+ "Choose from 2 to 8 values, or 0 to turn the value study off.": "Kies 2 tot 8 toonwaarden, of 0 om de toonstudie uit te zetten.",
+ "Drawing Grid": "Tekenraster",
+ "Extract Palette": "Palet uithalen",
+ "Extract Palette works on pictures.": "Palet uithalen werkt op afbeeldingen.",
+ "Notan (2 values)": "Notan (2 toonwaarden)",
+ "Palette of {0} colours added below the picture, most used first.": "Palet van {0} kleuren onder de afbeelding gezet, meest gebruikte eerst.",
+ "The visible part of this picture is transparent.": "Het zichtbare deel van deze afbeelding is transparant.",
+ "Value Study": "Toonstudie",
+ "Values: {0}": "Toonwaarden: {0}"
 }

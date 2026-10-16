@@ -1261,5 +1261,16 @@
  "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images or viewer.": "Eksportformatet må være portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images eller viewer.",
  "Deleted {0} · {1} item{2}": "Slettet {0} · elementer: {1}{2}",
  "Removed {0} · {1} item{2}": "Fjernet {0} · elementer: {1}{2}",
- "Resolved": "Løst"
+ "Resolved": "Løst",
+ "Choose from 2 to 16 colours.": "Velg 2 til 16 farger.",
+ "Choose from 2 to 24 divisions, or 0 to remove the grid.": "Velg 2 til 24 inndelinger, eller 0 for å fjerne rutenettet.",
+ "Choose from 2 to 8 values, or 0 to turn the value study off.": "Velg 2 til 8 valører, eller 0 for å slå av valørstudien.",
+ "Drawing Grid": "Tegnerutenett",
+ "Extract Palette": "Hent palett",
+ "Extract Palette works on pictures.": "Hent palett virker på bilder.",
+ "Notan (2 values)": "Notan (2 valører)",
+ "Palette of {0} colours added below the picture, most used first.": "Palett med {0} farger lagt til under bildet, mest brukte først.",
+ "The visible part of this picture is transparent.": "Den synlige delen av bildet er gjennomsiktig.",
+ "Value Study": "Valørstudie",
+ "Values: {0}": "Valører: {0}"
 }

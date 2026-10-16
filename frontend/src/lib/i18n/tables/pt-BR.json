@@ -1261,5 +1261,16 @@
  "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images or viewer.": "O formato de exportação deve ser portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images ou viewer.",
  "Deleted {0} · {1} item{2}": "Excluído {0} · itens: {1}{2}",
  "Removed {0} · {1} item{2}": "Removido {0} · itens: {1}{2}",
- "Resolved": "Resolvido"
+ "Resolved": "Resolvido",
+ "Choose from 2 to 16 colours.": "Escolha de 2 a 16 cores.",
+ "Choose from 2 to 24 divisions, or 0 to remove the grid.": "Escolha de 2 a 24 divisões, ou 0 para remover a grade.",
+ "Choose from 2 to 8 values, or 0 to turn the value study off.": "Escolha de 2 a 8 valores, ou 0 para desligar o estudo de valores.",
+ "Drawing Grid": "Grade de desenho",
+ "Extract Palette": "Extrair paleta",
+ "Extract Palette works on pictures.": "Extrair paleta funciona em imagens.",
+ "Notan (2 values)": "Notan (2 valores)",
+ "Palette of {0} colours added below the picture, most used first.": "Paleta de {0} cores adicionada abaixo da imagem, as mais usadas primeiro.",
+ "The visible part of this picture is transparent.": "A parte visível desta imagem é transparente.",
+ "Value Study": "Estudo de valores",
+ "Values: {0}": "Valores: {0}"
 }

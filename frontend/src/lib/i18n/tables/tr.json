@@ -1261,5 +1261,16 @@
  "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images or viewer.": "Dışa aktarma biçimi portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images veya viewer olmalıdır.",
  "Deleted {0} · {1} item{2}": "Silindi {0} · öğe sayısı: {1}{2}",
  "Removed {0} · {1} item{2}": "Kaldırıldı {0} · öğe sayısı: {1}{2}",
- "Resolved": "Çözüldü"
+ "Resolved": "Çözüldü",
+ "Choose from 2 to 16 colours.": "2 ile 16 arasında renk seçin.",
+ "Choose from 2 to 24 divisions, or 0 to remove the grid.": "2 ile 24 arasında bölme seçin veya ızgarayı kaldırmak için 0.",
+ "Choose from 2 to 8 values, or 0 to turn the value study off.": "2 ile 8 arasında değer seçin veya değer çalışmasını kapatmak için 0.",
+ "Drawing Grid": "Çizim Izgarası",
+ "Extract Palette": "Paleti Çıkar",
+ "Extract Palette works on pictures.": "Paleti Çıkar resimlerde çalışır.",
+ "Notan (2 values)": "Notan (2 değer)",
+ "Palette of {0} colours added below the picture, most used first.": "{0} renklik palet resmin altına eklendi, en çok kullanılanlar önce.",
+ "The visible part of this picture is transparent.": "Bu resmin görünen kısmı saydam.",
+ "Value Study": "Değer Çalışması",
+ "Values: {0}": "Değerler: {0}"
 }

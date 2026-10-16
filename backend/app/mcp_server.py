@@ -141,6 +141,14 @@ async def create_swatch(board_id: str, color: str, title: str = "", x: float = 0
     return await command(board_id, {"type": "add", "items": [{"id": uuid.uuid4().hex, "kind": "swatch", "color": color, "title": title, "x": x, "y": y, "width": width, "height": height}]})
 
 @mcp.tool(annotations=_write)
+async def extract_palette(board_id: str, item_id: str, count: int = 6) -> dict:
+    """Find the main colours of a picture (its visible crop and lasso, not its grayscale view) and add them as grouped swatch cards below it, most used first, in one undo step. count is 2 to 16. Returns the colours with their share of the picture and the new swatch IDs."""
+    checked_id(board_id)
+    checked_id(item_id)
+    result = (await api("POST", f"/api/boards/{board_id}/items/{item_id}/palette?count={int(count)}")).json()
+    return {"board_id": board_id, "colors": result.get("colors", []), "added": result.get("added", []), "revision": result.get("board", {}).get("revision")}
+
+@mcp.tool(annotations=_write)
 async def create_document(board_id: str, text: str, title: str = "Document", text_format: str = "markdown", x: float = 0, y: float = 0, width: float = 360, height: float = 280) -> dict:
     """Create an undoable document card with one authoritative text source and plain or markdown format. Markdown supports h1-h3, lists, strong/emphasis and absolute HTTP(S) links; supplied HTML stays literal. UTF-8 text is limited to 1 MiB by Rust."""
     return await command(board_id, {"type": "add", "items": [{"id": uuid.uuid4().hex, "kind": "document", "text": text, "title": title, "data": {"text_format": text_format}, "x": x, "y": y, "width": width, "height": height}]})

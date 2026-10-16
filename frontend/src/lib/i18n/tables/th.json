@@ -1261,5 +1261,16 @@
  "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images or viewer.": "รูปแบบส่งออกต้องเป็น portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images หรือ viewer",
  "Deleted {0} · {1} item{2}": "ลบเมื่อ {0} · {1}{2} รายการ",
  "Removed {0} · {1} item{2}": "นำออกเมื่อ {0} · {1}{2} รายการ",
- "Resolved": "แก้ไขแล้ว"
+ "Resolved": "แก้ไขแล้ว",
+ "Choose from 2 to 16 colours.": "เลือก 2 ถึง 16 สี",
+ "Choose from 2 to 24 divisions, or 0 to remove the grid.": "เลือก 2 ถึง 24 ช่อง หรือ 0 เพื่อเอาตารางออก",
+ "Choose from 2 to 8 values, or 0 to turn the value study off.": "เลือก 2 ถึง 8 ระดับค่าน้ำหนัก หรือ 0 เพื่อปิดการศึกษาค่าน้ำหนัก",
+ "Drawing Grid": "ตารางวาดภาพ",
+ "Extract Palette": "ดึงชุดสี",
+ "Extract Palette works on pictures.": "ดึงชุดสีใช้ได้กับรูปภาพ",
+ "Notan (2 values)": "โนตัน (2 ระดับ)",
+ "Palette of {0} colours added below the picture, most used first.": "เพิ่มชุดสี {0} สีไว้ใต้รูปแล้ว เรียงจากสีที่ใช้มากที่สุด",
+ "The visible part of this picture is transparent.": "ส่วนที่มองเห็นของรูปนี้โปร่งใส",
+ "Value Study": "ศึกษาค่าน้ำหนัก",
+ "Values: {0}": "ระดับ: {0}"
 }

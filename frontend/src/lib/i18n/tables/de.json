@@ -1261,5 +1261,16 @@
  "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images or viewer.": "Das Exportformat muss portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images oder viewer sein.",
  "Deleted {0} · {1} item{2}": "Gelöscht {0} · Elemente: {1}{2}",
  "Removed {0} · {1} item{2}": "Entfernt {0} · Elemente: {1}{2}",
- "Resolved": "Erledigt"
+ "Resolved": "Erledigt",
+ "Choose from 2 to 16 colours.": "Wählen Sie 2 bis 16 Farben.",
+ "Choose from 2 to 24 divisions, or 0 to remove the grid.": "Wählen Sie 2 bis 24 Teilungen oder 0, um das Raster zu entfernen.",
+ "Choose from 2 to 8 values, or 0 to turn the value study off.": "Wählen Sie 2 bis 8 Tonwerte oder 0, um die Tonwertstudie auszuschalten.",
+ "Drawing Grid": "Zeichenraster",
+ "Extract Palette": "Palette extrahieren",
+ "Extract Palette works on pictures.": "Palette extrahieren funktioniert nur bei Bildern.",
+ "Notan (2 values)": "Notan (2 Tonwerte)",
+ "Palette of {0} colours added below the picture, most used first.": "Palette mit {0} Farben unter dem Bild eingefügt, häufigste zuerst.",
+ "The visible part of this picture is transparent.": "Der sichtbare Teil dieses Bildes ist transparent.",
+ "Value Study": "Tonwertstudie",
+ "Values: {0}": "Tonwerte: {0}"
 }

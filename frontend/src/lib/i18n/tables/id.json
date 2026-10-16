@@ -1261,5 +1261,16 @@
  "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images or viewer.": "Format ekspor harus portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images, atau viewer.",
  "Deleted {0} · {1} item{2}": "Dihapus {0} · item: {1}{2}",
  "Removed {0} · {1} item{2}": "Disingkirkan {0} · item: {1}{2}",
- "Resolved": "Selesai"
+ "Resolved": "Selesai",
+ "Choose from 2 to 16 colours.": "Pilih 2 sampai 16 warna.",
+ "Choose from 2 to 24 divisions, or 0 to remove the grid.": "Pilih 2 sampai 24 bagian, atau 0 untuk menghapus kisi.",
+ "Choose from 2 to 8 values, or 0 to turn the value study off.": "Pilih 2 sampai 8 nilai, atau 0 untuk mematikan studi nilai.",
+ "Drawing Grid": "Kisi Gambar",
+ "Extract Palette": "Ambil Palet",
+ "Extract Palette works on pictures.": "Ambil Palet berlaku untuk gambar.",
+ "Notan (2 values)": "Notan (2 nilai)",
+ "Palette of {0} colours added below the picture, most used first.": "Palet {0} warna ditambahkan di bawah gambar, yang paling banyak dulu.",
+ "The visible part of this picture is transparent.": "Bagian gambar yang terlihat transparan.",
+ "Value Study": "Studi Nilai",
+ "Values: {0}": "Nilai: {0}"
 }

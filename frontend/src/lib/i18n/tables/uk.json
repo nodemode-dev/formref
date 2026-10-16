@@ -1261,5 +1261,16 @@
  "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images or viewer.": "Формат експорту: portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images або viewer.",
  "Deleted {0} · {1} item{2}": "Видалено {0} · елементів: {1}{2}",
  "Removed {0} · {1} item{2}": "Прибрано {0} · елементів: {1}{2}",
- "Resolved": "Вирішено"
+ "Resolved": "Вирішено",
+ "Choose from 2 to 16 colours.": "Виберіть від 2 до 16 кольорів.",
+ "Choose from 2 to 24 divisions, or 0 to remove the grid.": "Виберіть від 2 до 24 поділок або 0, щоб прибрати сітку.",
+ "Choose from 2 to 8 values, or 0 to turn the value study off.": "Виберіть від 2 до 8 тонів або 0, щоб вимкнути тональний етюд.",
+ "Drawing Grid": "Сітка для малювання",
+ "Extract Palette": "Витягти палітру",
+ "Extract Palette works on pictures.": "Витягти палітру можна лише із зображень.",
+ "Notan (2 values)": "Нотан (2 тони)",
+ "Palette of {0} colours added below the picture, most used first.": "Палітру з {0} кольорів додано під зображенням, найчастіші першими.",
+ "The visible part of this picture is transparent.": "Видима частина зображення прозора.",
+ "Value Study": "Тональний етюд",
+ "Values: {0}": "Тони: {0}"
 }

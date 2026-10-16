@@ -1261,5 +1261,16 @@
  "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images or viewer.": "Vientimuodon on oltava portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images tai viewer.",
  "Deleted {0} · {1} item{2}": "Poistettu {0} · kohteita: {1}{2}",
  "Removed {0} · {1} item{2}": "Siirretty pois {0} · kohteita: {1}{2}",
- "Resolved": "Ratkaistu"
+ "Resolved": "Ratkaistu",
+ "Choose from 2 to 16 colours.": "Valitse 2–16 väriä.",
+ "Choose from 2 to 24 divisions, or 0 to remove the grid.": "Valitse 2–24 jakoa tai 0 poistaaksesi ruudukon.",
+ "Choose from 2 to 8 values, or 0 to turn the value study off.": "Valitse 2–8 sävyarvoa tai 0 poistaaksesi sävytutkielman.",
+ "Drawing Grid": "Piirrosruudukko",
+ "Extract Palette": "Poimi paletti",
+ "Extract Palette works on pictures.": "Paletin poiminta toimii kuvissa.",
+ "Notan (2 values)": "Notan (2 sävyä)",
+ "Palette of {0} colours added below the picture, most used first.": "{0} värin paletti lisätty kuvan alle, yleisin ensin.",
+ "The visible part of this picture is transparent.": "Kuvan näkyvä osa on läpinäkyvä.",
+ "Value Study": "Sävytutkielma",
+ "Values: {0}": "Sävyt: {0}"
 }

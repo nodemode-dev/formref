@@ -1261,5 +1261,16 @@
  "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images or viewer.": "Формат экспорта: portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images или viewer.",
  "Deleted {0} · {1} item{2}": "Удалено {0} · элементов: {1}{2}",
  "Removed {0} · {1} item{2}": "Убрано {0} · элементов: {1}{2}",
- "Resolved": "Решено"
+ "Resolved": "Решено",
+ "Choose from 2 to 16 colours.": "Выберите от 2 до 16 цветов.",
+ "Choose from 2 to 24 divisions, or 0 to remove the grid.": "Выберите от 2 до 24 делений или 0, чтобы убрать сетку.",
+ "Choose from 2 to 8 values, or 0 to turn the value study off.": "Выберите от 2 до 8 тонов или 0, чтобы выключить тональный этюд.",
+ "Drawing Grid": "Сетка для рисования",
+ "Extract Palette": "Извлечь палитру",
+ "Extract Palette works on pictures.": "Извлечь палитру можно только из изображений.",
+ "Notan (2 values)": "Нотан (2 тона)",
+ "Palette of {0} colours added below the picture, most used first.": "Палитра из {0} цветов добавлена под изображением, частые первыми.",
+ "The visible part of this picture is transparent.": "Видимая часть изображения прозрачна.",
+ "Value Study": "Тональный этюд",
+ "Values: {0}": "Тона: {0}"
 }

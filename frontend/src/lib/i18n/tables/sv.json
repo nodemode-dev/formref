@@ -1261,5 +1261,16 @@
  "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images or viewer.": "Exportformatet måste vara portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images eller viewer.",
  "Deleted {0} · {1} item{2}": "Raderad {0} · objekt: {1}{2}",
  "Removed {0} · {1} item{2}": "Borttaget {0} · objekt: {1}{2}",
- "Resolved": "Löst"
+ "Resolved": "Löst",
+ "Choose from 2 to 16 colours.": "Välj 2 till 16 färger.",
+ "Choose from 2 to 24 divisions, or 0 to remove the grid.": "Välj 2 till 24 delningar, eller 0 för att ta bort rutnätet.",
+ "Choose from 2 to 8 values, or 0 to turn the value study off.": "Välj 2 till 8 valörer, eller 0 för att stänga av valörstudien.",
+ "Drawing Grid": "Ritrutnät",
+ "Extract Palette": "Hämta palett",
+ "Extract Palette works on pictures.": "Hämta palett fungerar på bilder.",
+ "Notan (2 values)": "Notan (2 valörer)",
+ "Palette of {0} colours added below the picture, most used first.": "Palett med {0} färger tillagd under bilden, vanligaste först.",
+ "The visible part of this picture is transparent.": "Den synliga delen av bilden är genomskinlig.",
+ "Value Study": "Valörstudie",
+ "Values: {0}": "Valörer: {0}"
 }

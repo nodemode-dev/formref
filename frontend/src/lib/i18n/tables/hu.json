@@ -1261,5 +1261,16 @@
  "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images or viewer.": "Az exportformátum portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images vagy viewer lehet.",
  "Deleted {0} · {1} item{2}": "Törölve {0} · elemek: {1}{2}",
  "Removed {0} · {1} item{2}": "Eltávolítva {0} · elemek: {1}{2}",
- "Resolved": "Megoldva"
+ "Resolved": "Megoldva",
+ "Choose from 2 to 16 colours.": "Válasszon 2–16 színt.",
+ "Choose from 2 to 24 divisions, or 0 to remove the grid.": "Válasszon 2–24 osztást, vagy 0-t a rács eltávolításához.",
+ "Choose from 2 to 8 values, or 0 to turn the value study off.": "Válasszon 2–8 tónust, vagy 0-t a tónustanulmány kikapcsolásához.",
+ "Drawing Grid": "Rajzrács",
+ "Extract Palette": "Paletta kinyerése",
+ "Extract Palette works on pictures.": "A paletta kinyerése képeken működik.",
+ "Notan (2 values)": "Notan (2 tónus)",
+ "Palette of {0} colours added below the picture, most used first.": "{0} színű paletta a kép alá helyezve, a leggyakoribb elöl.",
+ "The visible part of this picture is transparent.": "A kép látható része átlátszó.",
+ "Value Study": "Tónustanulmány",
+ "Values: {0}": "Tónusok: {0}"
 }

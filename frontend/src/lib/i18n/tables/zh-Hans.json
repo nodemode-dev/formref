@@ -1261,5 +1261,16 @@
  "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images or viewer.": "导出格式必须是 portable、json、png、svg、markdown、pdf、pdf-pages、pdf-tiles、bee、images 或 viewer。",
  "Deleted {0} · {1} item{2}": "删除于{0} · {1}{2} 个项目",
  "Removed {0} · {1} item{2}": "移除于{0} · {1}{2} 个项目",
- "Resolved": "已解决"
+ "Resolved": "已解决",
+ "Choose from 2 to 16 colours.": "请选择 2 到 16 种颜色。",
+ "Choose from 2 to 24 divisions, or 0 to remove the grid.": "请选择 2 到 24 等分，或选 0 移除网格。",
+ "Choose from 2 to 8 values, or 0 to turn the value study off.": "请选择 2 到 8 个明度层次，或选 0 关闭明度研究。",
+ "Drawing Grid": "绘画网格",
+ "Extract Palette": "提取调色板",
+ "Extract Palette works on pictures.": "提取调色板仅适用于图片。",
+ "Notan (2 values)": "黑白分明（2 个层次）",
+ "Palette of {0} colours added below the picture, most used first.": "已在图片下方添加 {0} 色调色板，按使用多少排序。",
+ "The visible part of this picture is transparent.": "此图片的可见部分是透明的。",
+ "Value Study": "明度研究",
+ "Values: {0}": "层次：{0}"
 }

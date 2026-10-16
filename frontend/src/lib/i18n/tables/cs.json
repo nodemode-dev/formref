@@ -1261,5 +1261,16 @@
  "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images or viewer.": "Formát exportu musí být portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images nebo viewer.",
  "Deleted {0} · {1} item{2}": "Smazáno {0} · položky: {1}{2}",
  "Removed {0} · {1} item{2}": "Odebráno {0} · položky: {1}{2}",
- "Resolved": "Vyřešeno"
+ "Resolved": "Vyřešeno",
+ "Choose from 2 to 16 colours.": "Zvolte 2 až 16 barev.",
+ "Choose from 2 to 24 divisions, or 0 to remove the grid.": "Zvolte 2 až 24 dílků, nebo 0 pro odebrání mřížky.",
+ "Choose from 2 to 8 values, or 0 to turn the value study off.": "Zvolte 2 až 8 tónů, nebo 0 pro vypnutí tónové studie.",
+ "Drawing Grid": "Kreslicí mřížka",
+ "Extract Palette": "Vytáhnout paletu",
+ "Extract Palette works on pictures.": "Vytáhnout paletu lze jen z obrázků.",
+ "Notan (2 values)": "Notan (2 tóny)",
+ "Palette of {0} colours added below the picture, most used first.": "Paleta {0} barev přidána pod obrázek, nejčastější první.",
+ "The visible part of this picture is transparent.": "Viditelná část obrázku je průhledná.",
+ "Value Study": "Tónová studie",
+ "Values: {0}": "Tóny: {0}"
 }

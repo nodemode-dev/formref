@@ -18,7 +18,28 @@ export function paintImage(image: HTMLImageElement, item: Item, width = image.na
   const crop = sourceCrop(item, width, height);
   image.style.width = `${100 / crop.width}%`; image.style.height = `${100 / crop.height}%`; image.style.left = `${-crop.x / crop.width * 100}%`; image.style.top = `${-crop.y / crop.height * 100}%`;
   image.style.transformOrigin = `${(crop.x + crop.width / 2) * 100}% ${(crop.y + crop.height / 2) * 100}%`; image.style.transform = `scale(${item.data.flip_x ? -1 : 1},${item.data.flip_y ? -1 : 1})`;
-  image.style.filter = grayscale || item.data.grayscale ? 'grayscale(1)' : 'none'; image.style.imageRendering = item.data.sampling === 'nearest' ? 'pixelated' : 'auto';
+  const levels = valueLevels(item);
+  image.style.filter = levels ? `url(#formref-values-${levels})` : grayscale || item.data.grayscale ? 'grayscale(1)' : 'none'; image.style.imageRendering = item.data.sampling === 'nearest' ? 'pixelated' : 'auto';
+}
+
+/** Value study: the picture as 2 to 8 flat grey values (notan at 2), a view aid that leaves the picture and its exports unchanged. */
+export function valueLevels(item: Item): number {
+  const levels = Number(item.data.value_levels) || 0;
+  return levels >= 2 && levels <= 8 ? Math.round(levels) : 0;
+}
+
+/** Drawing grid: equal divisions over the visible picture for copying proportions; lines invert what is under them so they show on any picture. */
+export function studyGridDivisions(item: Item): number {
+  const divisions = Number((item.data.study_grid as { divisions?: number } | undefined)?.divisions) || 0;
+  return divisions >= 2 && divisions <= 24 ? Math.round(divisions) : 0;
+}
+
+export function paintStudyGrid(node: HTMLElement, item: Item) {
+  const divisions = studyGridDivisions(item);
+  if (node.hidden !== !divisions) node.hidden = !divisions;
+  if (!divisions) return;
+  const size = `${100 / divisions}% ${100 / divisions}%`;
+  if (node.style.backgroundSize !== size) node.style.backgroundSize = size;
 }
 export function imageCoordinates(item: Item, point: Point, root: HTMLElement): { u: number; v: number } | null {
   const box = root.querySelector<HTMLElement>('.image-content'); if (!box) return null;

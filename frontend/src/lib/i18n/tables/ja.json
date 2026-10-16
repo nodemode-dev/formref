@@ -1261,5 +1261,16 @@
  "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images or viewer.": "書き出し形式は portable、json、png、svg、markdown、pdf、pdf-pages、pdf-tiles、bee、images、viewer のいずれかです。",
  "Deleted {0} · {1} item{2}": "削除 {0} · 項目 {1}{2} 個",
  "Removed {0} · {1} item{2}": "除去 {0} · 項目 {1}{2} 個",
- "Resolved": "解決済み"
+ "Resolved": "解決済み",
+ "Choose from 2 to 16 colours.": "2〜16 色を選んでください。",
+ "Choose from 2 to 24 divisions, or 0 to remove the grid.": "2〜24 分割を選ぶか、0 でグリッドを外してください。",
+ "Choose from 2 to 8 values, or 0 to turn the value study off.": "2〜8 階調を選ぶか、0 で明暗スタディをオフにしてください。",
+ "Drawing Grid": "描画グリッド",
+ "Extract Palette": "パレットを抽出",
+ "Extract Palette works on pictures.": "パレットの抽出は画像で使えます。",
+ "Notan (2 values)": "ノータン（2 階調）",
+ "Palette of {0} colours added below the picture, most used first.": "{0} 色のパレットを画像の下に追加しました（多い色から順）。",
+ "The visible part of this picture is transparent.": "この画像の見えている部分は透明です。",
+ "Value Study": "明暗スタディ",
+ "Values: {0}": "階調: {0}"
 }

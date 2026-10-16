@@ -12,6 +12,7 @@ from ..core.sampling import sample_image
 from ..core.features import duplicates, enrich
 from ..core.media import preview
 from ..core.pdf_pages import page_items, pdf_text
+from ..core.palette import extract_palette
 from ..core.capture import capture
 from ..core.doc_export import export_item
 from ..core.cutout import change_background, DEFAULT_TOLERANCE
@@ -44,6 +45,10 @@ def list_boards():
 @router.post("/boards/{board_id}/items/{item_id}/pdf-pages")
 async def pdf_pages(board_id: str, item_id: str, first: int = 1, last: int = 0, dpi: int = 150):
     return await asyncio.to_thread(page_items, board_id, item_id, first, last, dpi)
+
+@router.post("/boards/{board_id}/items/{item_id}/palette")
+async def palette(board_id: str, item_id: str, count: int = 6):
+    return await asyncio.to_thread(extract_palette, board_id, item_id, count)
 
 @router.get("/boards/{board_id}/duplicates")
 def board_duplicates(board_id: str, distance: int = 4):

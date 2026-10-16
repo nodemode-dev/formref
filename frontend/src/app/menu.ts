@@ -1,6 +1,7 @@
 import type { MenuEntry } from '../ui/context-menu';
 import { BY_ID, SNAP_SCALES, isEnabled, lockLabel, run, snapScale, snapScaleNow } from './commands';
 import { primaryKey } from './keys';
+import { studyMenu } from './study';
 import { S, defaultSettings, selection } from './editor';
 
 function item(id: string, label?: string): MenuEntry {
@@ -96,6 +97,8 @@ export function boardMenu(): MenuEntry[] {
         sep,
         item('grayscale'),
         item('sampling'),
+        ...studyMenu(),
+        item('extract-palette'),
         sep,
         item('opacity'),
         sep,

@@ -1261,5 +1261,16 @@
  "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images or viewer.": "Định dạng xuất phải là portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images hoặc viewer.",
  "Deleted {0} · {1} item{2}": "Đã xóa {0} · {1}{2} mục",
  "Removed {0} · {1} item{2}": "Đã gỡ {0} · {1}{2} mục",
- "Resolved": "Đã giải quyết"
+ "Resolved": "Đã giải quyết",
+ "Choose from 2 to 16 colours.": "Chọn từ 2 đến 16 màu.",
+ "Choose from 2 to 24 divisions, or 0 to remove the grid.": "Chọn từ 2 đến 24 ô, hoặc 0 để bỏ lưới.",
+ "Choose from 2 to 8 values, or 0 to turn the value study off.": "Chọn từ 2 đến 8 sắc độ, hoặc 0 để tắt nghiên cứu sắc độ.",
+ "Drawing Grid": "Lưới vẽ",
+ "Extract Palette": "Trích bảng màu",
+ "Extract Palette works on pictures.": "Trích bảng màu chỉ dùng cho ảnh.",
+ "Notan (2 values)": "Notan (2 sắc độ)",
+ "Palette of {0} colours added below the picture, most used first.": "Đã thêm bảng {0} màu bên dưới ảnh, màu dùng nhiều nhất trước.",
+ "The visible part of this picture is transparent.": "Phần nhìn thấy của ảnh này trong suốt.",
+ "Value Study": "Nghiên cứu sắc độ",
+ "Values: {0}": "Sắc độ: {0}"
 }

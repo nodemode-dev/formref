@@ -1261,5 +1261,16 @@
  "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images or viewer.": "Format eksportu musi być portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images lub viewer.",
  "Deleted {0} · {1} item{2}": "Usunięto {0} · elementy: {1}{2}",
  "Removed {0} · {1} item{2}": "Zdjęto {0} · elementy: {1}{2}",
- "Resolved": "Rozwiązane"
+ "Resolved": "Rozwiązane",
+ "Choose from 2 to 16 colours.": "Wybierz od 2 do 16 kolorów.",
+ "Choose from 2 to 24 divisions, or 0 to remove the grid.": "Wybierz od 2 do 24 podziałów albo 0, aby usunąć siatkę.",
+ "Choose from 2 to 8 values, or 0 to turn the value study off.": "Wybierz od 2 do 8 walorów albo 0, aby wyłączyć studium walorowe.",
+ "Drawing Grid": "Siatka rysunkowa",
+ "Extract Palette": "Wyodrębnij paletę",
+ "Extract Palette works on pictures.": "Wyodrębnianie palety działa na obrazach.",
+ "Notan (2 values)": "Notan (2 walory)",
+ "Palette of {0} colours added below the picture, most used first.": "Paletę {0} kolorów dodano pod obrazem, najczęstsze pierwsze.",
+ "The visible part of this picture is transparent.": "Widoczna część tego obrazu jest przezroczysta.",
+ "Value Study": "Studium walorowe",
+ "Values: {0}": "Walory: {0}"
 }
