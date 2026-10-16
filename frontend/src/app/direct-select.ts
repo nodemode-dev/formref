@@ -293,7 +293,26 @@ document.addEventListener('pointerup', refreshAnchors);
 window.addEventListener('keyup', refreshAnchors);
 onState(() => refreshAnchors());
 
-interface PenState { anchors: Anchor[]; down: Point | null; hover: Point | null }
+interface PenState { anchors: Anchor[]; down: Point | null; hover: Point | null; continuing?: { item: Item; path: number } }
+
+/** With the Pen, a click on an end of the selected open path picks that path up to continue it (Illustrator's continue path). */
+function pickUpEnd(p: Point): PenState | null {
+  if (selection.size !== 1 || !S.state) return null;
+  const item = S.state.board.items.find(i => selection.has(i.id));
+  if (!item || item.locked || (item.kind !== 'shape' && item.kind !== 'stroke') || (item.rotation || 0) !== 0) return null;
+  const vector = asVector(item);
+  const sx = item.width / vector.w, sy = item.height / vector.h;
+  const world = (q: Point): Point => ({ x: item.x + q.x * sx, y: item.y + q.y * sy });
+  for (let pi = 0; pi < vector.paths.length; pi++) {
+    const path = vector.paths[pi];
+    if (path.closed || path.anchors.length < 2) continue;
+    const mapped = path.anchors.map(a => ({ ...a, ...world(a), in: a.in ? world(a.in) : null, out: a.out ? world(a.out) : null, radius: a.radius ? a.radius * (sx + sy) / 2 : a.radius }));
+    const near = (a: Point) => Math.hypot(a.x - p.x, a.y - p.y) * S.camera.zoom < 8;
+    if (near(mapped[mapped.length - 1])) return { anchors: mapped, down: null, hover: null, continuing: { item, path: pi } };
+    if (near(mapped[0])) return { anchors: [...mapped].reverse().map(a => ({ ...a, in: a.out ?? null, out: a.in ?? null })), down: null, hover: null, continuing: { item, path: pi } };
+  }
+  return null;
+}
 let pen: PenState | null = null;
 const penPath = document.createElementNS(NS, 'path');
 penPath.classList.add('pen-preview');
@@ -327,6 +346,26 @@ async function finishPen(closed: boolean) {
   const w = Math.max(1, Math.max(...all.map(p => p.x)) - x0), h = Math.max(1, Math.max(...all.map(p => p.y)) - y0);
   const local = (p: Point) => ({ x: p.x - x0, y: p.y - y0 });
   const anchors = done.anchors.map(a => ({ ...local(a), in: a.in ? local(a.in) : null, out: a.out ? local(a.out) : null }));
+  if (done.continuing) {
+    const { item: old, path: index } = done.continuing;
+    const vector = asVector(old);
+    const sx = old.width / vector.w, sy = old.height / vector.h;
+    const others = vector.paths.map((path, i) => i === index ? null : path.anchors.map(a => {
+      const w = (q: Point) => ({ x: old.x + q.x * sx, y: old.y + q.y * sy });
+      return { ...a, ...w(a), in: a.in ? w(a.in) : null, out: a.out ? w(a.out) : null };
+    }));
+    const every = [...all, ...others.flat().filter(Boolean).flatMap(a => [a!, a!.in, a!.out].filter(Boolean) as Point[])];
+    const nx = Math.min(...every.map(q => q.x)), ny = Math.min(...every.map(q => q.y));
+    const nw = Math.max(1, Math.max(...every.map(q => q.x)) - nx), nh = Math.max(1, Math.max(...every.map(q => q.y)) - ny);
+    const shift = (q: Point) => ({ x: q.x - nx, y: q.y - ny });
+    const paths = vector.paths.map((path, i) => {
+      const source = i === index ? done.anchors : others[i]!;
+      return { closed: i === index ? closed : path.closed, anchors: source.map(a => ({ ...a, ...shift(a), in: a.in ? shift(a.in) : null, out: a.out ? shift(a.out) : null })) };
+    });
+    await execute({ type: 'update', ids: [old.id], patch: { x: nx, y: ny, width: nw, height: nh, data: withVector(old, { w: nw, h: nh, paths }) } });
+    refreshAnchors();
+    return;
+  }
   const item = newItem('shape', x0, y0, { width: w, height: h, z: topZ(), color: '#f97316', data: { shape: 'path', stroke_width: 2, fill: 'none', vector: { w, h, paths: [{ closed, anchors }] } } });
   await execute({ type: 'add', items: [item] });
   setSelection([item.id]);
@@ -339,6 +378,10 @@ stage.addEventListener('pointerdown', event => {
   event.preventDefault();
   event.stopImmediatePropagation();
   const p = worldPoint(event);
+  if (!pen) {
+    const picked = pickUpEnd(p);
+    if (picked) { pen = picked; drawPen(); return; }
+  }
   pen ??= { anchors: [], down: null, hover: null };
   const first = pen.anchors[0];
   if (first && pen.anchors.length > 2 && Math.hypot(p.x - first.x, p.y - first.y) * S.camera.zoom < 8) { void finishPen(true).catch(error); return; }
