@@ -33,6 +33,10 @@ document.addEventListener('click', event => {
     link.download = '';
     link.click();
     closeOverlays();
+    if (format === 'bee') {
+      const left = S.state.board.items.filter(item => !['image', 'note', 'document', 'todo', 'link'].includes(item.kind)).length;
+      if (left) toast(`BeeRef holds pictures and text only, so ${left} drawn or other items were left out.`);
+    }
   } else if (target.dataset.action) {
     run(target.dataset.action);
   }

@@ -506,6 +506,7 @@
       <button class="export-row" data-export="pdf"><span data-icon="document"></span><span><strong>PDF, whole board</strong><small>One page at full resolution</small></span></button>
       <button class="export-row" data-export="pdf-pages"><span data-icon="document"></span><span><strong>PDF, one page per item</strong><small>Each reference fitted to a page, in reading order</small></span></button>
       <button class="export-row" data-export="pdf-tiles"><span data-icon="document"></span><span><strong>PDF, print at 100%</strong><small>The board tiled across pages</small></span></button>
+      <button class="export-row" data-export="bee"><span data-icon="file"></span><span><strong>BeeRef board</strong><small>A .bee file that opens in BeeRef, with the original pictures</small></span></button>
       <label class="field-row"><span>PDF paper</span><select id="export-paper"><option value="a4">A4</option><option value="letter">Letter</option><option value="a3">A3</option><option value="tabloid">Tabloid</option></select></label>
       <button class="export-row" data-export="markdown"><span data-icon="note"></span><span><strong>Markdown</strong><small>Notes, links and tasks</small></span></button>
       <button class="export-row" data-export="json"><span data-icon="file"></span><span><strong>Board JSON</strong><small>Structured data; assets stay external</small></span></button>
@@ -788,7 +789,7 @@
 
 <div id="toast-root" role="status" aria-live="polite"><span id="toast" hidden></span></div>
 <input id="files-input" type="file" multiple hidden>
-<input id="import-input" type="file" accept=".formref,.zip,.istack,.json" hidden>
+<input id="import-input" type="file" accept=".formref,.zip,.istack,.json,.bee" hidden>
 <input id="relink-input" type="file" accept="image/*" hidden>
 <input id="menu-background" type="color" class="offscreen-input" tabindex="-1" aria-hidden="true">
 <script type="module" src="/src/main.ts"></script>

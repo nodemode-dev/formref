@@ -160,6 +160,9 @@ def import_project(filename: str, data: bytes):
         raise ValueError("Project uploads are limited to 64 MiB compressed size.")
     if data.startswith(b"PK\x03\x04"):
         return import_portable(data)
+    if data.startswith(b"SQLite format 3\x00"):
+        from .beeref import import_bee
+        return import_bee(filename, data)
     try:
         source = json.loads(data)
     except (ValueError, UnicodeError) as exc:

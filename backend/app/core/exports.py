@@ -487,6 +487,12 @@ def markdown_export(board):
 def export_board(state, format, paper="a4"):
     board = state["board"]
     headers = {}
+    if format == "bee":
+        from .beeref import export_bee
+        data, count = export_bee(board)
+        headers["X-FormRef-Items"] = str(count)
+        headers["Content-Disposition"] = 'attachment; filename="' + safe_name(board["title"], "bee") + '"'
+        return data, "application/vnd.sqlite3", headers
     if format in {"pdf", "pdf-pages", "pdf-tiles"}:
         data, pages = pdf_export(board, {"pdf": "board", "pdf-pages": "pages", "pdf-tiles": "tiles"}[format], paper)
         headers["X-FormRef-Pages"] = str(pages)
@@ -504,6 +510,6 @@ def export_board(state, format, paper="a4"):
     elif format == "markdown":
         data, mime, extension = markdown_export(board), "text/markdown; charset=utf-8", "md"
     else:
-        raise ValueError("Export format must be portable, json, png, svg, markdown, pdf, pdf-pages or pdf-tiles.")
+        raise ValueError("Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles or bee.")
     headers["Content-Disposition"] = 'attachment; filename="' + safe_name(board["title"], extension) + '"'
     return data, mime, headers

@@ -616,6 +616,14 @@ export async function add(kind: Kind) {
 
 export async function upload(files: File[], at = placement()) {
   if (!S.state || !files.length) return;
+  const boards = files.filter(file => /\.bee$/i.test(file.name));
+  for (const file of boards) {
+    const result = await api.import(file);
+    await open(result.board.id, result);
+    toast(`Opened the BeeRef board ${file.name} as a new board.`);
+  }
+  files = files.filter(file => !boards.includes(file));
+  if (!files.length) return;
   setText('save-status', 'Importing…');
   const assets: { asset: Asset; name: string }[] = [];
   for (const file of files) assets.push({ asset: await api.upload(file), name: file.name });
