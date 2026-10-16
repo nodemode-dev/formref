@@ -1,0 +1,17 @@
+.board-item.cropping, .board-item.cropping * { visibility: hidden !important; }
+.crop-mode {position: absolute; transform-origin: center; z-index: var(--z-raised); }
+.crop-ghost { position: absolute; opacity: .4; pointer-events: none; max-width: none; transform-origin: center; }
+.crop-window { position: absolute; overflow: hidden; pointer-events: none; }
+.crop-bright { position: absolute; max-width: none; transform-origin: center; }
+.crop-frame { position: absolute; outline: var(--crop-line, 1px) solid var(--accent-color); cursor: move; touch-action: none; }
+.crop-handle { position: absolute; width: var(--crop-handle, 10px); height: var(--crop-handle, 10px); background: var(--text-primary); outline: var(--crop-line, 1px) solid var(--accent-color); transform: translate(-50%, -50%); }
+.crop-n, .crop-s { left: 50%; cursor: ns-resize; }
+.crop-n { top: 0; }
+.crop-s { top: 100%; }
+.crop-e, .crop-w { top: 50%; cursor: ew-resize; }
+.crop-e { left: 100%; }
+.crop-w { left: 0; }
+.crop-ne { left: 100%; top: 0; cursor: nesw-resize; }
+.crop-sw { left: 0; top: 100%; cursor: nesw-resize; }
+.crop-nw { left: 0; top: 0; cursor: nwse-resize; }
+.crop-se { left: 100%; top: 100%; cursor: nwse-resize; }

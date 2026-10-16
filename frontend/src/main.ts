@@ -24,6 +24,7 @@ import { registerBlend } from './app/blend';
 import { registerVideo } from './app/video';
 import './app/drag-out';
 import { registerPdf } from './app/pdf';
+import { registerCropMode } from './app/crop-mode';
 
 bindLanguage();
 registerTerminal();
@@ -36,6 +37,7 @@ registerVisibility();
 registerBlend();
 registerVideo();
 registerPdf();
+registerCropMode();
 attachCatalogue();
 
 const agent = new AgentPanel({

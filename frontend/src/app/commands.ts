@@ -8,6 +8,7 @@ import { close as closeTab, forget, replaceActiveWithNext } from './tabs';
 import { openTrash } from './trash';
 import { openTemplates, saveAsTemplate } from './templates';
 import { askForUrl } from './capture';
+import { startCrop } from './crop-mode';
 import { openLabels } from './labels';
 import { togglePresenting } from './present';
 import { cutoutOptions, downloadModel, togglePicking } from './cutout';
@@ -79,6 +80,7 @@ function pickBackground() {
 
 function focusCrop() {
   if (!hasImages()) throw new Error('Select an image to crop.');
+  if (selected().length === 1) { startCrop(); return; }
   document.documentElement.dataset.rightDock = 'open';
   try { localStorage.setItem('formref-right-dock', 'open'); } catch { }
   $('crop-x').focus();
