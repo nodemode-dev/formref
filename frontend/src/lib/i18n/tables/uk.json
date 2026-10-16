@@ -1420,5 +1420,11 @@
  "Break between pictures": "Перерва між зображеннями",
  "Last 7 days: sessions {0}, pictures {1}, drawing time {2}.": "Останні 7 днів: занять {0}, зображень {1}, час малювання {2}.",
  "No break": "Без перерви",
- "No practice in the last 7 days.": "За останні 7 днів занять не було."
+ "No practice in the last 7 days.": "За останні 7 днів занять не було.",
+ "Class, 1 hour": "Урок, 1 година",
+ "Class, 30 minutes": "Урок, 30 хвилин",
+ "Each picture gets the time chosen below.": "Кожне зображення отримує час, вибраний нижче.",
+ "Same time for every picture": "Однаковий час для кожного зображення",
+ "Session": "Заняття",
+ "Warm-up, 10 minutes": "Розминка, 10 хвилин"
 }

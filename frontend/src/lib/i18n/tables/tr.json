@@ -1420,5 +1420,11 @@
  "Break between pictures": "Resimler arasında mola",
  "Last 7 days: sessions {0}, pictures {1}, drawing time {2}.": "Son 7 gün: oturum {0}, resim {1}, çizim süresi {2}.",
  "No break": "Mola yok",
- "No practice in the last 7 days.": "Son 7 günde çalışma yok."
+ "No practice in the last 7 days.": "Son 7 günde çalışma yok.",
+ "Class, 1 hour": "Ders, 1 saat",
+ "Class, 30 minutes": "Ders, 30 dakika",
+ "Each picture gets the time chosen below.": "Her resim aşağıda seçilen süreyi alır.",
+ "Same time for every picture": "Her resim için aynı süre",
+ "Session": "Oturum",
+ "Warm-up, 10 minutes": "Isınma, 10 dakika"
 }

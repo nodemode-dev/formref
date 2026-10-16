@@ -1420,5 +1420,11 @@
  "Break between pictures": "Nghỉ giữa các ảnh",
  "Last 7 days: sessions {0}, pictures {1}, drawing time {2}.": "7 ngày qua: {0} buổi, {1} ảnh, thời gian vẽ {2}.",
  "No break": "Không nghỉ",
- "No practice in the last 7 days.": "Không có buổi luyện nào trong 7 ngày qua."
+ "No practice in the last 7 days.": "Không có buổi luyện nào trong 7 ngày qua.",
+ "Class, 1 hour": "Lớp, 1 giờ",
+ "Class, 30 minutes": "Lớp, 30 phút",
+ "Each picture gets the time chosen below.": "Mỗi ảnh nhận thời gian chọn bên dưới.",
+ "Same time for every picture": "Cùng thời gian cho mọi ảnh",
+ "Session": "Buổi luyện",
+ "Warm-up, 10 minutes": "Khởi động, 10 phút"
 }

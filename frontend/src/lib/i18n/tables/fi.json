@@ -1420,5 +1420,11 @@
  "Break between pictures": "Tauko kuvien välillä",
  "Last 7 days: sessions {0}, pictures {1}, drawing time {2}.": "Viimeiset 7 päivää: harjoituksia {0}, kuvia {1}, piirtoaikaa {2}.",
  "No break": "Ei taukoa",
- "No practice in the last 7 days.": "Ei harjoituksia viimeisten 7 päivän aikana."
+ "No practice in the last 7 days.": "Ei harjoituksia viimeisten 7 päivän aikana.",
+ "Class, 1 hour": "Tunti, 1 tunti",
+ "Class, 30 minutes": "Tunti, 30 minuuttia",
+ "Each picture gets the time chosen below.": "Jokainen kuva saa alla valitun ajan.",
+ "Same time for every picture": "Sama aika jokaiselle kuvalle",
+ "Session": "Harjoitus",
+ "Warm-up, 10 minutes": "Lämmittely, 10 minuuttia"
 }

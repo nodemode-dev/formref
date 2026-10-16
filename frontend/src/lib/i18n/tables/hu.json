@@ -1420,5 +1420,11 @@
  "Break between pictures": "Szünet a képek között",
  "Last 7 days: sessions {0}, pictures {1}, drawing time {2}.": "Utolsó 7 nap: gyakorlás {0}, kép {1}, rajzolási idő {2}.",
  "No break": "Nincs szünet",
- "No practice in the last 7 days.": "Az utolsó 7 napban nem volt gyakorlás."
+ "No practice in the last 7 days.": "Az utolsó 7 napban nem volt gyakorlás.",
+ "Class, 1 hour": "Óra, 1 óra",
+ "Class, 30 minutes": "Óra, 30 perc",
+ "Each picture gets the time chosen below.": "Minden kép az alább választott időt kapja.",
+ "Same time for every picture": "Minden képre ugyanannyi idő",
+ "Session": "Gyakorlás",
+ "Warm-up, 10 minutes": "Bemelegítés, 10 perc"
 }

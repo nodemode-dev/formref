@@ -1420,5 +1420,11 @@
  "Break between pictures": "Pause mellom bildene",
  "Last 7 days: sessions {0}, pictures {1}, drawing time {2}.": "Siste 7 dager: økter {0}, bilder {1}, tegnetid {2}.",
  "No break": "Ingen pause",
- "No practice in the last 7 days.": "Ingen øving de siste 7 dagene."
+ "No practice in the last 7 days.": "Ingen øving de siste 7 dagene.",
+ "Class, 1 hour": "Klasse, 1 time",
+ "Class, 30 minutes": "Klasse, 30 minutter",
+ "Each picture gets the time chosen below.": "Hvert bilde får tiden som er valgt nedenfor.",
+ "Same time for every picture": "Samme tid for hvert bilde",
+ "Session": "Økt",
+ "Warm-up, 10 minutes": "Oppvarming, 10 minutter"
 }

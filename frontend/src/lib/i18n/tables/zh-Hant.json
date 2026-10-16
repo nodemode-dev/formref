@@ -1420,5 +1420,11 @@
  "Break between pictures": "圖片之間休息",
  "Last 7 days: sessions {0}, pictures {1}, drawing time {2}.": "最近 7 天：練習 {0} 次，圖片 {1} 張，繪畫時間 {2}。",
  "No break": "不休息",
- "No practice in the last 7 days.": "最近 7 天沒有練習。"
+ "No practice in the last 7 days.": "最近 7 天沒有練習。",
+ "Class, 1 hour": "課程，1 小時",
+ "Class, 30 minutes": "課程，30 分鐘",
+ "Each picture gets the time chosen below.": "每張圖片使用下面選擇的時間。",
+ "Same time for every picture": "每張圖片時間相同",
+ "Session": "練習方式",
+ "Warm-up, 10 minutes": "熱身，10 分鐘"
 }

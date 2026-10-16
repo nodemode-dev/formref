@@ -1420,5 +1420,11 @@
  "Break between pictures": "Intervalo entre imagens",
  "Last 7 days: sessions {0}, pictures {1}, drawing time {2}.": "Últimos 7 dias: sessões {0}, imagens {1}, tempo de desenho {2}.",
  "No break": "Sem intervalo",
- "No practice in the last 7 days.": "Nenhuma prática nos últimos 7 dias."
+ "No practice in the last 7 days.": "Nenhuma prática nos últimos 7 dias.",
+ "Class, 1 hour": "Aula, 1 hora",
+ "Class, 30 minutes": "Aula, 30 minutos",
+ "Each picture gets the time chosen below.": "Cada imagem recebe o tempo escolhido abaixo.",
+ "Same time for every picture": "O mesmo tempo para cada imagem",
+ "Session": "Sessão",
+ "Warm-up, 10 minutes": "Aquecimento, 10 minutos"
 }

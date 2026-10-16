@@ -1420,5 +1420,11 @@
  "Break between pictures": "Jeda antargambar",
  "Last 7 days: sessions {0}, pictures {1}, drawing time {2}.": "7 hari terakhir: sesi {0}, gambar {1}, waktu menggambar {2}.",
  "No break": "Tanpa jeda",
- "No practice in the last 7 days.": "Tidak ada latihan dalam 7 hari terakhir."
+ "No practice in the last 7 days.": "Tidak ada latihan dalam 7 hari terakhir.",
+ "Class, 1 hour": "Kelas, 1 jam",
+ "Class, 30 minutes": "Kelas, 30 menit",
+ "Each picture gets the time chosen below.": "Setiap gambar mendapat waktu yang dipilih di bawah.",
+ "Same time for every picture": "Waktu yang sama untuk setiap gambar",
+ "Session": "Sesi",
+ "Warm-up, 10 minutes": "Pemanasan, 10 menit"
 }

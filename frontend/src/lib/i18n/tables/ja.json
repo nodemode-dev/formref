@@ -1420,5 +1420,11 @@
  "Break between pictures": "画像間の休憩",
  "Last 7 days: sessions {0}, pictures {1}, drawing time {2}.": "過去 7 日間: 練習 {0} 回、画像 {1} 枚、描画時間 {2}。",
  "No break": "休憩なし",
- "No practice in the last 7 days.": "過去 7 日間に練習はありません。"
+ "No practice in the last 7 days.": "過去 7 日間に練習はありません。",
+ "Class, 1 hour": "クラス、1 時間",
+ "Class, 30 minutes": "クラス、30 分",
+ "Each picture gets the time chosen below.": "各画像に下で選んだ時間が適用されます。",
+ "Same time for every picture": "すべての画像で同じ時間",
+ "Session": "セッション",
+ "Warm-up, 10 minutes": "ウォームアップ、10 分"
 }

@@ -1420,5 +1420,11 @@
  "Break between pictures": "Paus mellan bilderna",
  "Last 7 days: sessions {0}, pictures {1}, drawing time {2}.": "Senaste 7 dagarna: pass {0}, bilder {1}, ritid {2}.",
  "No break": "Ingen paus",
- "No practice in the last 7 days.": "Ingen övning de senaste 7 dagarna."
+ "No practice in the last 7 days.": "Ingen övning de senaste 7 dagarna.",
+ "Class, 1 hour": "Lektion, 1 timme",
+ "Class, 30 minutes": "Lektion, 30 minuter",
+ "Each picture gets the time chosen below.": "Varje bild får tiden som väljs nedan.",
+ "Same time for every picture": "Samma tid för varje bild",
+ "Session": "Pass",
+ "Warm-up, 10 minutes": "Uppvärmning, 10 minuter"
 }

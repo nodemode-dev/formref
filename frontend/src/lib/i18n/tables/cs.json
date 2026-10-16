@@ -1420,5 +1420,11 @@
  "Break between pictures": "Přestávka mezi obrázky",
  "Last 7 days: sessions {0}, pictures {1}, drawing time {2}.": "Posledních 7 dní: cvičení {0}, obrázků {1}, čas kreslení {2}.",
  "No break": "Bez přestávky",
- "No practice in the last 7 days.": "Za posledních 7 dní žádné cvičení."
+ "No practice in the last 7 days.": "Za posledních 7 dní žádné cvičení.",
+ "Class, 1 hour": "Lekce, 1 hodina",
+ "Class, 30 minutes": "Lekce, 30 minut",
+ "Each picture gets the time chosen below.": "Každý obrázek dostane čas vybraný níže.",
+ "Same time for every picture": "Stejný čas pro každý obrázek",
+ "Session": "Cvičení",
+ "Warm-up, 10 minutes": "Rozcvička, 10 minut"
 }
