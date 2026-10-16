@@ -148,6 +148,7 @@ export function drawCamera() {
   stage.style.backgroundSize = `${settings.grid_size * c.zoom}px ${settings.grid_size * c.zoom}px`;
   stage.style.backgroundPosition = `${tx}px ${ty}px`;
   setText('zoom-value', `${Math.round(c.zoom * 100)}%`);
+  scene.detail(c.zoom);
   if (S.state) scene.navigatorUpdate(S.state.board, c, stage);
 }
 

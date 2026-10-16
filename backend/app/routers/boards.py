@@ -10,6 +10,7 @@ from ..core.store import store, MissingBoard
 from ..models.requests import CreateBoard, BoardCommand
 from ..core.sampling import sample_image
 from ..core.features import duplicates, enrich
+from ..core.media import preview
 from ..core.capture import capture
 from ..core.doc_export import export_item
 from ..core.cutout import change_background, DEFAULT_TOLERANCE
@@ -222,6 +223,16 @@ def asset(asset_id: str, request: Request):
             return Response(content=data[start:end + 1], status_code=206, media_type=info["mime"], headers=headers)
         return Response(status_code=416, headers={"Content-Range": f"bytes */{len(data)}"})
     return Response(content=data, media_type=info["mime"], headers=headers)
+
+@router.get("/assets/{asset_id}/preview")
+async def asset_preview(asset_id: str, edge: int, request: Request):
+    try:
+        data = await asyncio.to_thread(preview, asset_id, edge)
+    except ValueError:
+        data = None
+    if data is None:
+        return asset(asset_id, request)
+    return Response(content=data, media_type="image/webp", headers={"Cache-Control": "public, max-age=31536000, immutable", "X-Content-Type-Options": "nosniff", "Content-Security-Policy": "default-src 'none'; sandbox"})
 
 @router.post("/import", status_code=201)
 async def import_board(file: UploadFile = File(...)):
