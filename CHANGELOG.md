@@ -1,5 +1,13 @@
 # FormRef changelog
 
+## v0.24.0 · 2026-10-16
+
+Stars where you look at pictures.
+
+- Rated pictures show their stars in the bottom-right corner on the board.
+- Organize, Sort by Rating arranges the selection, or the board, from most stars to fewest, with unrated pictures last in their current order. Agents can sort by rating too.
+- The phone viewer adds a chip for each rating on the board (5, 4 and up, 3 and up, and so on) beside the tag chips; tapping one dims every picture below it, and it combines with chosen tags.
+
 ## v0.23.0 · 2026-10-16
 
 Ratings from picture files, and a picture shape filter.

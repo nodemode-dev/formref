@@ -8,6 +8,7 @@
 - [Stacking scale](#stacking-scale)
 - [Verification](#verification)
 - [Scripts](#scripts)
+- [v0.24.0 stars on the board](#v0240-stars-on-the-board)
 - [v0.23.0 picture shape filter](#v0230-picture-shape-filter)
 - [v0.22.0 star ratings](#v0220-star-ratings)
 - [v0.21.0 picture info](#v0210-picture-info)
@@ -47,6 +48,10 @@
 - [v0.4.8 desktop window controls and WebKit icons](#v048-desktop-window-controls-and-webkit-icons)
 - [v0.4.7 synced notes, map cards, inline edit commit](#v047-synced-notes-map-cards-inline-edit-commit)
 - [v0.4.6 GIF frames and document export](#v046-gif-frames-and-document-export)
+
+## v0.24.0 stars on the board
+
+`ItemView.paintRating` in `ui/scene.ts` makes the badge lazily, so an unrated item never gains a node. The first time an item is rated, five star icons are inserted before the label row. After that each paint only flips `hidden`, each star's `display` when it differs, and `data-stars`. The probe watched `#items` for removed board items while rating three pictures and clearing one, and saw none. The badge sits 10 px above the label pills' band, inside the bottom-right corner, with `pointer-events: none`. Sort by Rating is one more `sortBy` key in `commands/organize.ts` and the Organize menu. Probe: $SC/ui/stars.cjs (English and German) also exports the phone viewer to $SC/vstars and taps a star chip there; viewer.cjs on that file still passes. Restore board 9b49827f's ratings after it.
 
 ## v0.23.0 picture shape filter
 

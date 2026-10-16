@@ -8,6 +8,7 @@
 
 ## Contents
 
+- [v0.24.0 · Ratings in the SVG and phone viewer](#v0240--ratings-in-the-svg-and-phone-viewer)
 - [v0.23.0 · Ratings read from pictures](#v0230--ratings-read-from-pictures)
 - [v0.22.0 · Ratings in exported pictures](#v0220--ratings-in-exported-pictures)
 - [v0.21.0 · Picture details](#v0210--picture-details)
@@ -33,6 +34,10 @@
 - [v0.2.0 · Canvas settings and snapping through MCP](#v020--canvas-settings-and-snapping-through-mcp)
 - [v0.1.0 · Local board service and SDK MCP](#v010--local-board-service-and-sdk-mcp)
 - [boot_backend.bat](#boot_backendbat)
+
+## v0.24.0 · Ratings in the SVG and phone viewer
+
+`svg_export` sets `data-rating` on a rated picture's group, next to `data-tags`. The viewer script reads it into `g._stars` and builds a chip per level present, highest first: "5", then "N+", each with its count. The chips work one at a time, and a tap on the chosen one clears it. One `apply()` now dims by tags and by stars together, replacing the tag handler's own loop. The star in each chip is inline SVG, not a text character. The MCP `arrange_items` description lists the rating sort key.
 
 ## v0.23.0 · Ratings read from pictures
 
