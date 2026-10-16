@@ -1415,5 +1415,10 @@
  "There are no pictures to practise with. Add some pictures, or clear the filters.": "Der er ingen billeder at øve med. Tilføj billeder, eller ryd filtrene.",
  "Time per picture": "Tid pr. billede",
  "Timed Practice": "Tidsøvelse",
- "Timed Practice…": "Tidsøvelse…"
+ "Timed Practice…": "Tidsøvelse…",
+ "Break": "Pause",
+ "Break between pictures": "Pause mellem billeder",
+ "Last 7 days: sessions {0}, pictures {1}, drawing time {2}.": "Seneste 7 dage: øvelser {0}, billeder {1}, tegnetid {2}.",
+ "No break": "Ingen pause",
+ "No practice in the last 7 days.": "Ingen øvelse de seneste 7 dage."
 }

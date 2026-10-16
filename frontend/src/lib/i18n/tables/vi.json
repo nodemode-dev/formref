@@ -1415,5 +1415,10 @@
  "There are no pictures to practise with. Add some pictures, or clear the filters.": "Không có ảnh để luyện. Hãy thêm ảnh hoặc xóa bộ lọc.",
  "Time per picture": "Thời gian mỗi ảnh",
  "Timed Practice": "Luyện tập tính giờ",
- "Timed Practice…": "Luyện tập tính giờ…"
+ "Timed Practice…": "Luyện tập tính giờ…",
+ "Break": "Nghỉ",
+ "Break between pictures": "Nghỉ giữa các ảnh",
+ "Last 7 days: sessions {0}, pictures {1}, drawing time {2}.": "7 ngày qua: {0} buổi, {1} ảnh, thời gian vẽ {2}.",
+ "No break": "Không nghỉ",
+ "No practice in the last 7 days.": "Không có buổi luyện nào trong 7 ngày qua."
 }

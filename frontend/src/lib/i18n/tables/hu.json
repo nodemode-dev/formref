@@ -1415,5 +1415,10 @@
  "There are no pictures to practise with. Add some pictures, or clear the filters.": "Nincs kép a gyakorláshoz. Adjon hozzá képeket, vagy törölje a szűrőket.",
  "Time per picture": "Idő képenként",
  "Timed Practice": "Időzített gyakorlás",
- "Timed Practice…": "Időzített gyakorlás…"
+ "Timed Practice…": "Időzített gyakorlás…",
+ "Break": "Szünet",
+ "Break between pictures": "Szünet a képek között",
+ "Last 7 days: sessions {0}, pictures {1}, drawing time {2}.": "Utolsó 7 nap: gyakorlás {0}, kép {1}, rajzolási idő {2}.",
+ "No break": "Nincs szünet",
+ "No practice in the last 7 days.": "Az utolsó 7 napban nem volt gyakorlás."
 }

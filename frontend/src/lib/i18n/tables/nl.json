@@ -1415,5 +1415,10 @@
  "There are no pictures to practise with. Add some pictures, or clear the filters.": "Er zijn geen afbeeldingen om mee te oefenen. Voeg afbeeldingen toe of wis de filters.",
  "Time per picture": "Tijd per afbeelding",
  "Timed Practice": "Getimede oefening",
- "Timed Practice…": "Getimede oefening…"
+ "Timed Practice…": "Getimede oefening…",
+ "Break": "Pauze",
+ "Break between pictures": "Pauze tussen afbeeldingen",
+ "Last 7 days: sessions {0}, pictures {1}, drawing time {2}.": "Afgelopen 7 dagen: sessies {0}, afbeeldingen {1}, tekentijd {2}.",
+ "No break": "Geen pauze",
+ "No practice in the last 7 days.": "Geen oefening in de afgelopen 7 dagen."
 }

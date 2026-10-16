@@ -1415,5 +1415,10 @@
  "There are no pictures to practise with. Add some pictures, or clear the filters.": "Není s čím cvičit. Přidejte obrázky nebo zrušte filtry.",
  "Time per picture": "Čas na obrázek",
  "Timed Practice": "Cvičení na čas",
- "Timed Practice…": "Cvičení na čas…"
+ "Timed Practice…": "Cvičení na čas…",
+ "Break": "Přestávka",
+ "Break between pictures": "Přestávka mezi obrázky",
+ "Last 7 days: sessions {0}, pictures {1}, drawing time {2}.": "Posledních 7 dní: cvičení {0}, obrázků {1}, čas kreslení {2}.",
+ "No break": "Bez přestávky",
+ "No practice in the last 7 days.": "Za posledních 7 dní žádné cvičení."
 }

@@ -1415,5 +1415,10 @@
  "There are no pictures to practise with. Add some pictures, or clear the filters.": "没有可练习的图片。请添加图片或清除筛选。",
  "Time per picture": "每张图片的时间",
  "Timed Practice": "计时练习",
- "Timed Practice…": "计时练习…"
+ "Timed Practice…": "计时练习…",
+ "Break": "休息",
+ "Break between pictures": "图片之间休息",
+ "Last 7 days: sessions {0}, pictures {1}, drawing time {2}.": "最近 7 天：练习 {0} 次，图片 {1} 张，绘画时间 {2}。",
+ "No break": "不休息",
+ "No practice in the last 7 days.": "最近 7 天没有练习。"
 }

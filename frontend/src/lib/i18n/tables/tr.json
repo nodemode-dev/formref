@@ -1415,5 +1415,10 @@
  "There are no pictures to practise with. Add some pictures, or clear the filters.": "Çalışmak için resim yok. Resim ekleyin veya filtreleri temizleyin.",
  "Time per picture": "Resim başına süre",
  "Timed Practice": "Süreli Çalışma",
- "Timed Practice…": "Süreli Çalışma…"
+ "Timed Practice…": "Süreli Çalışma…",
+ "Break": "Mola",
+ "Break between pictures": "Resimler arasında mola",
+ "Last 7 days: sessions {0}, pictures {1}, drawing time {2}.": "Son 7 gün: oturum {0}, resim {1}, çizim süresi {2}.",
+ "No break": "Mola yok",
+ "No practice in the last 7 days.": "Son 7 günde çalışma yok."
 }

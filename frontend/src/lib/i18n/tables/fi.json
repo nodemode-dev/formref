@@ -1415,5 +1415,10 @@
  "There are no pictures to practise with. Add some pictures, or clear the filters.": "Harjoiteltavia kuvia ei ole. Lisää kuvia tai poista suodattimet.",
  "Time per picture": "Aika kuvaa kohden",
  "Timed Practice": "Ajastettu harjoitus",
- "Timed Practice…": "Ajastettu harjoitus…"
+ "Timed Practice…": "Ajastettu harjoitus…",
+ "Break": "Tauko",
+ "Break between pictures": "Tauko kuvien välillä",
+ "Last 7 days: sessions {0}, pictures {1}, drawing time {2}.": "Viimeiset 7 päivää: harjoituksia {0}, kuvia {1}, piirtoaikaa {2}.",
+ "No break": "Ei taukoa",
+ "No practice in the last 7 days.": "Ei harjoituksia viimeisten 7 päivän aikana."
 }

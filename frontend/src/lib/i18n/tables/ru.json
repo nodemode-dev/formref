@@ -1415,5 +1415,10 @@
  "There are no pictures to practise with. Add some pictures, or clear the filters.": "Нет изображений для практики. Добавьте изображения или сбросьте фильтры.",
  "Time per picture": "Время на изображение",
  "Timed Practice": "Практика на время",
- "Timed Practice…": "Практика на время…"
+ "Timed Practice…": "Практика на время…",
+ "Break": "Перерыв",
+ "Break between pictures": "Перерыв между изображениями",
+ "Last 7 days: sessions {0}, pictures {1}, drawing time {2}.": "Последние 7 дней: занятий {0}, изображений {1}, время рисования {2}.",
+ "No break": "Без перерыва",
+ "No practice in the last 7 days.": "За последние 7 дней занятий не было."
 }

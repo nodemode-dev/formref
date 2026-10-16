@@ -1415,5 +1415,10 @@
  "There are no pictures to practise with. Add some pictures, or clear the filters.": "練習できる画像がありません。画像を追加するか、フィルターを解除してください。",
  "Time per picture": "1 枚あたりの時間",
  "Timed Practice": "タイム練習",
- "Timed Practice…": "タイム練習…"
+ "Timed Practice…": "タイム練習…",
+ "Break": "休憩",
+ "Break between pictures": "画像間の休憩",
+ "Last 7 days: sessions {0}, pictures {1}, drawing time {2}.": "過去 7 日間: 練習 {0} 回、画像 {1} 枚、描画時間 {2}。",
+ "No break": "休憩なし",
+ "No practice in the last 7 days.": "過去 7 日間に練習はありません。"
 }

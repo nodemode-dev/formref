@@ -1415,5 +1415,10 @@
  "There are no pictures to practise with. Add some pictures, or clear the filters.": "연습할 그림이 없습니다. 그림을 추가하거나 필터를 지우세요.",
  "Time per picture": "그림당 시간",
  "Timed Practice": "시간 연습",
- "Timed Practice…": "시간 연습…"
+ "Timed Practice…": "시간 연습…",
+ "Break": "휴식",
+ "Break between pictures": "그림 사이 휴식",
+ "Last 7 days: sessions {0}, pictures {1}, drawing time {2}.": "최근 7일: 연습 {0}회, 그림 {1}개, 그린 시간 {2}.",
+ "No break": "휴식 없음",
+ "No practice in the last 7 days.": "최근 7일 동안 연습하지 않았습니다."
 }

@@ -1415,5 +1415,10 @@
  "There are no pictures to practise with. Add some pictures, or clear the filters.": "Nie ma obrazów do ćwiczeń. Dodaj obrazy lub wyczyść filtry.",
  "Time per picture": "Czas na obraz",
  "Timed Practice": "Ćwiczenie na czas",
- "Timed Practice…": "Ćwiczenie na czas…"
+ "Timed Practice…": "Ćwiczenie na czas…",
+ "Break": "Przerwa",
+ "Break between pictures": "Przerwa między obrazami",
+ "Last 7 days: sessions {0}, pictures {1}, drawing time {2}.": "Ostatnie 7 dni: sesje {0}, obrazy {1}, czas rysowania {2}.",
+ "No break": "Bez przerwy",
+ "No practice in the last 7 days.": "Brak ćwiczeń w ostatnich 7 dniach."
 }

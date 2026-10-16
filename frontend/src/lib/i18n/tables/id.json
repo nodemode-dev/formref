@@ -1415,5 +1415,10 @@
  "There are no pictures to practise with. Add some pictures, or clear the filters.": "Tidak ada gambar untuk latihan. Tambahkan gambar, atau hapus filter.",
  "Time per picture": "Waktu per gambar",
  "Timed Practice": "Latihan Berwaktu",
- "Timed Practice…": "Latihan Berwaktu…"
+ "Timed Practice…": "Latihan Berwaktu…",
+ "Break": "Jeda",
+ "Break between pictures": "Jeda antargambar",
+ "Last 7 days: sessions {0}, pictures {1}, drawing time {2}.": "7 hari terakhir: sesi {0}, gambar {1}, waktu menggambar {2}.",
+ "No break": "Tanpa jeda",
+ "No practice in the last 7 days.": "Tidak ada latihan dalam 7 hari terakhir."
 }

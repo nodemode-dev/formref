@@ -1415,5 +1415,10 @@
  "There are no pictures to practise with. Add some pictures, or clear the filters.": "ไม่มีรูปภาพให้ฝึก เพิ่มรูปภาพหรือล้างตัวกรอง",
  "Time per picture": "เวลาต่อรูป",
  "Timed Practice": "ฝึกจับเวลา",
- "Timed Practice…": "ฝึกจับเวลา…"
+ "Timed Practice…": "ฝึกจับเวลา…",
+ "Break": "พัก",
+ "Break between pictures": "พักระหว่างรูป",
+ "Last 7 days: sessions {0}, pictures {1}, drawing time {2}.": "7 วันที่ผ่านมา: ฝึก {0} ครั้ง รูป {1} รูป เวลาวาด {2}",
+ "No break": "ไม่พัก",
+ "No practice in the last 7 days.": "ไม่มีการฝึกใน 7 วันที่ผ่านมา"
 }
