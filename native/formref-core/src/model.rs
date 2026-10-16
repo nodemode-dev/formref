@@ -245,6 +245,44 @@ fn drawing_data(data: &Map<String, Value>) -> EngineResult<()> {
     Ok(())
 }
 
+/// Vector paths: data.vector = {w, h, paths: [{closed, anchors: [{x, y, in?, out?, radius?, style?}]}]} in a w by h design box.
+fn vector_data(data: &Map<String, Value>) -> EngineResult<()> {
+    let Some(value) = data.get("vector") else { return Ok(()) };
+    let vector = value.as_object().ok_or_else(|| EngineError::invalid("data.vector must be an object"))?;
+    data_number(vector, "w", MIN_DIMENSION, MAX_COORDINATE)?;
+    data_number(vector, "h", MIN_DIMENSION, MAX_COORDINATE)?;
+    let paths = vector.get("paths").and_then(Value::as_array).ok_or_else(|| EngineError::invalid("data.vector.paths must be an array"))?;
+    if paths.is_empty() || paths.len() > 1000 { return Err(EngineError::invalid("a vector holds 1 to 1000 paths")); }
+    let mut total = 0usize;
+    for path in paths {
+        let path = path.as_object().ok_or_else(|| EngineError::invalid("each vector path must be an object"))?;
+        data_boolean(path, "closed")?;
+        let anchors = path.get("anchors").and_then(Value::as_array).ok_or_else(|| EngineError::invalid("vector path anchors must be an array"))?;
+        total += anchors.len();
+        if total > 50_000 { return Err(EngineError::invalid("a vector exceeds 50000 anchors")); }
+        for anchor in anchors {
+            let anchor = anchor.as_object().ok_or_else(|| EngineError::invalid("each anchor must be an object"))?;
+            for key in ["x", "y"] {
+                let n = anchor.get(key).and_then(Value::as_f64).ok_or_else(|| EngineError::invalid("anchors need numeric x and y"))?;
+                finite(n, "anchor", -MAX_COORDINATE, MAX_COORDINATE)?;
+            }
+            for handle in ["in", "out"] {
+                if let Some(h) = anchor.get(handle).filter(|h| !h.is_null()) {
+                    for key in ["x", "y"] {
+                        let n = h.get(key).and_then(Value::as_f64).ok_or_else(|| EngineError::invalid("anchor handles need numeric x and y"))?;
+                        finite(n, "anchor handle", -MAX_COORDINATE, MAX_COORDINATE)?;
+                    }
+                }
+            }
+            data_number(anchor, "radius", 0.0, MAX_COORDINATE)?;
+            if anchor.get("style").is_some_and(|s| !s.as_str().is_some_and(|s| ["round", "inverted", "chamfer"].contains(&s))) {
+                return Err(EngineError::invalid("anchor style must be round, inverted or chamfer"));
+            }
+        }
+    }
+    Ok(())
+}
+
 pub const TABLE_TYPES: [&str; 6] = ["text", "number", "currency", "percent", "date", "checkbox"];
 
 /// Table cards: data.table = {columns: [{name, type}], rows: [[cell text]]}; formulas are cell text starting with =.
@@ -364,15 +402,16 @@ impl Item {
                     identifier(value.as_str().ok_or_else(|| EngineError::invalid("data.board_id must be a string"))?, "data.board_id")?;
                 }
             }
-            "stroke" => drawing_data(&self.data)?,
+            "stroke" => { drawing_data(&self.data)?; vector_data(&self.data)?; }
             "table" => table_data(&self.data)?,
             "shape" => {
                 drawing_data(&self.data)?;
                 if let Some(value) = self.data.get("shape") {
-                    if !value.as_str().is_some_and(|s| ["rect", "ellipse", "line"].contains(&s)) {
-                        return Err(EngineError::invalid("data.shape must be rect, ellipse or line"));
+                    if !value.as_str().is_some_and(|s| ["rect", "ellipse", "line", "path"].contains(&s)) {
+                        return Err(EngineError::invalid("data.shape must be rect, ellipse, line or path"));
                     }
                 }
+                vector_data(&self.data)?;
                 if self.data.get("fill").is_some_and(|v| !v.is_string()) {
                     return Err(EngineError::invalid("data.fill must be a string"));
                 }
