@@ -2,7 +2,7 @@
 
 Written by `./formref agents sync` from the command catalogue the FormRef window publishes; do not edit by hand. Run a command with the MCP tools `run_command` or `run_commands` (the window must be open). `window-only` commands are refused for outside agents; `risky` commands ask the person first.
 
-195 commands.
+197 commands.
 
 ## Canvas
 
@@ -39,6 +39,8 @@ Written by `./formref agents sync` from the command catalogue the FormRef window
 | `find-swatch-color` | Find This Swatch Color |  | window-only | Finds the selected swatch's color in the pictures on the board. |
 | `lock` | Lock Selected | `l` | changes the board | Locks the selected items against moving and editing, or unlocks them if any is locked. |
 | `redo` | Redo | `mod+y`, `mod+shift+z` | changes the board | Redoes the last undone change. |
+| `remove-tag` | Remove Tag From All Items |  | changes the board, risky | Remove Tag From All Items (Edit). Parameters: `tag` (string): the tag to remove from every unlocked item, any case. |
+| `rename-tag` | Rename or Merge Tag |  | changes the board | Rename or Merge Tag (Edit). Parameters: `tag` (string): the tag to rename, any case; `name` (string): the new name; a name another tag has merges the two. |
 | `save-search` | Save Current Search… |  | changes the board | Saves the find text, kind, color and similar picture now on screen under a name the board keeps; a search with the same name is replaced. One undo removes it. Parameters: `name` (string): name for the search; leave out to be asked; an existing search with the same name is replaced. |
 | `saved-searches` | Saved Searches… |  | window-only | Opens the board's saved searches beside the item count: apply one, save the filters on screen, clear them, or delete a saved one. |
 | `select-all` | Select All | `mod+a` | view | Selects every visible item on the board. |
