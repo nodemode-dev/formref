@@ -1350,5 +1350,10 @@
  "The board moves to the Trash, where you can restore it until the trash is emptied.": "Das Board kommt in den Papierkorb, wo Sie es wiederherstellen können, bis der Papierkorb geleert wird.",
  "The picture this search started from is no longer on the board, so only its other filters apply.": "Das Bild, von dem diese Suche ausging, ist nicht mehr auf dem Board, daher gelten nur ihre übrigen Filter.",
  "The template keeps every item, link and canvas setting. Comments are left out. Images stay linked to the same files.": "Die Vorlage behält jedes Element, jede Verbindung und jede Einstellung der Arbeitsfläche. Kommentare werden weggelassen. Bilder bleiben mit denselben Dateien verknüpft.",
- "Use #RRGGBB or #RRGGBBAA. Alpha remains part of the saved color.": "Verwenden Sie #RRGGBB oder #RRGGBBAA. Die Deckkraft bleibt Teil der gespeicherten Farbe."
+ "Use #RRGGBB or #RRGGBBAA. Alpha remains part of the saved color.": "Verwenden Sie #RRGGBB oder #RRGGBBAA. Die Deckkraft bleibt Teil der gespeicherten Farbe.",
+ "ILLUSTRATOR TOOLS": "ILLUSTRATOR-WERKZEUGE",
+ "Illustrator drawing tools": "Illustrator-Zeichenwerkzeuge",
+ "Illustrator tools off. Paths already on the board stay as they are.": "Illustrator-Werkzeuge aus. Pfade, die schon auf dem Board sind, bleiben unverändert.",
+ "Illustrator tools on: Pen, Curvature, Pencil, Direct Selection, Pathfinder and Smart Guides are in the toolbar, menus and palette.": "Illustrator-Werkzeuge an: Zeichenstift, Kurvenzeichner, Buntstift, Direktauswahl, Pathfinder und Intelligente Hilfslinien sind in Werkzeugleiste, Menüs und Befehlspalette.",
+ "Off by default. Adds the Pen, Curvature, Pencil and Direct Selection tools, path editing and corners, Pathfinder, polygons, stars and other shapes, stroke and gradient options, and Smart Guides. Paths already on a board stay visible either way.": "Standardmäßig aus. Fügt Zeichenstift, Kurvenzeichner, Buntstift und Direktauswahl hinzu, Pfad- und Eckenbearbeitung, Pathfinder, Polygone, Sterne und weitere Formen, Kontur- und Verlaufsoptionen sowie Intelligente Hilfslinien. Pfade, die schon auf einem Board sind, bleiben sichtbar."
 }

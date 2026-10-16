@@ -1350,5 +1350,10 @@
  "The board moves to the Trash, where you can restore it until the trash is emptied.": "看板將移到垃圾桶，在清空垃圾桶之前都可以復原。",
  "The picture this search started from is no longer on the board, so only its other filters apply.": "此搜尋起始的圖片已不在看板上，因此只套用其他篩選。",
  "The template keeps every item, link and canvas setting. Comments are left out. Images stay linked to the same files.": "範本保留每個項目、連結和畫布設定。不包含留言。圖片仍連結到相同的檔案。",
- "Use #RRGGBB or #RRGGBBAA. Alpha remains part of the saved color.": "請使用 #RRGGBB 或 #RRGGBBAA。透明度仍是所儲存顏色的一部分。"
+ "Use #RRGGBB or #RRGGBBAA. Alpha remains part of the saved color.": "請使用 #RRGGBB 或 #RRGGBBAA。透明度仍是所儲存顏色的一部分。",
+ "ILLUSTRATOR TOOLS": "ILLUSTRATOR 工具",
+ "Illustrator drawing tools": "Illustrator 繪圖工具",
+ "Illustrator tools off. Paths already on the board stay as they are.": "已關閉 Illustrator 工具。看板上已有的路徑保持不變。",
+ "Illustrator tools on: Pen, Curvature, Pencil, Direct Selection, Pathfinder and Smart Guides are in the toolbar, menus and palette.": "已開啟 Illustrator 工具：筆型、曲率、鉛筆、直接選取、路徑管理員和智慧型參考線已出現在工具列、選單和命令面板中。",
+ "Off by default. Adds the Pen, Curvature, Pencil and Direct Selection tools, path editing and corners, Pathfinder, polygons, stars and other shapes, stroke and gradient options, and Smart Guides. Paths already on a board stay visible either way.": "預設關閉。加入筆型、曲率、鉛筆和直接選取工具，路徑與角點編輯，路徑管理員，多邊形、星形等形狀，筆畫和漸層選項，以及智慧型參考線。看板上已有的路徑始終可見。"
 }

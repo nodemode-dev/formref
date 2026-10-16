@@ -1350,5 +1350,10 @@
  "The board moves to the Trash, where you can restore it until the trash is emptied.": "보드가 휴지통으로 이동하며, 휴지통을 비우기 전까지 복원할 수 있습니다.",
  "The picture this search started from is no longer on the board, so only its other filters apply.": "이 검색의 기준 그림이 더 이상 보드에 없어 나머지 필터만 적용됩니다.",
  "The template keeps every item, link and canvas setting. Comments are left out. Images stay linked to the same files.": "템플릿은 모든 항목, 연결, 캔버스 설정을 유지합니다. 댓글은 빠집니다. 그림은 같은 파일에 연결된 채로 남습니다.",
- "Use #RRGGBB or #RRGGBBAA. Alpha remains part of the saved color.": "#RRGGBB 또는 #RRGGBBAA를 사용하세요. 투명도는 저장된 색상의 일부로 남습니다."
+ "Use #RRGGBB or #RRGGBBAA. Alpha remains part of the saved color.": "#RRGGBB 또는 #RRGGBBAA를 사용하세요. 투명도는 저장된 색상의 일부로 남습니다.",
+ "ILLUSTRATOR TOOLS": "ILLUSTRATOR 도구",
+ "Illustrator drawing tools": "Illustrator 그리기 도구",
+ "Illustrator tools off. Paths already on the board stay as they are.": "Illustrator 도구를 껐습니다. 보드에 이미 있는 패스는 그대로 남습니다.",
+ "Illustrator tools on: Pen, Curvature, Pencil, Direct Selection, Pathfinder and Smart Guides are in the toolbar, menus and palette.": "Illustrator 도구를 켰습니다. 펜, 곡률, 연필, 직접 선택, 패스파인더, 고급 안내선이 도구 모음, 메뉴, 팔레트에 있습니다.",
+ "Off by default. Adds the Pen, Curvature, Pencil and Direct Selection tools, path editing and corners, Pathfinder, polygons, stars and other shapes, stroke and gradient options, and Smart Guides. Paths already on a board stay visible either way.": "기본적으로 꺼져 있습니다. 펜, 곡률, 연필, 직접 선택 도구, 패스와 모서리 편집, 패스파인더, 다각형과 별 등 도형, 선과 그레이디언트 옵션, 고급 안내선을 추가합니다. 보드에 이미 있는 패스는 어느 쪽이든 계속 보입니다."
 }

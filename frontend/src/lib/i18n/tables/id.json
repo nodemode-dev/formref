@@ -1350,5 +1350,10 @@
  "The board moves to the Trash, where you can restore it until the trash is emptied.": "Papan dipindahkan ke Tempat sampah, tempat Anda dapat memulihkannya sampai tempat sampah dikosongkan.",
  "The picture this search started from is no longer on the board, so only its other filters apply.": "Gambar awal pencarian ini sudah tidak ada di papan, jadi hanya filter lainnya yang berlaku.",
  "The template keeps every item, link and canvas setting. Comments are left out. Images stay linked to the same files.": "Templat menyimpan setiap item, tautan, dan pengaturan kanvas. Komentar tidak disertakan. Gambar tetap tertaut ke file yang sama.",
- "Use #RRGGBB or #RRGGBBAA. Alpha remains part of the saved color.": "Gunakan #RRGGBB atau #RRGGBBAA. Transparansi tetap menjadi bagian dari warna yang disimpan."
+ "Use #RRGGBB or #RRGGBBAA. Alpha remains part of the saved color.": "Gunakan #RRGGBB atau #RRGGBBAA. Transparansi tetap menjadi bagian dari warna yang disimpan.",
+ "ILLUSTRATOR TOOLS": "ALAT ILLUSTRATOR",
+ "Illustrator drawing tools": "Alat gambar Illustrator",
+ "Illustrator tools off. Paths already on the board stay as they are.": "Alat Illustrator mati. Jalur yang sudah ada di papan tetap seperti semula.",
+ "Illustrator tools on: Pen, Curvature, Pencil, Direct Selection, Pathfinder and Smart Guides are in the toolbar, menus and palette.": "Alat Illustrator aktif: Pena, Kelengkungan, Pensil, Seleksi Langsung, Pathfinder, dan Panduan Cerdas ada di bilah alat, menu, dan palet.",
+ "Off by default. Adds the Pen, Curvature, Pencil and Direct Selection tools, path editing and corners, Pathfinder, polygons, stars and other shapes, stroke and gradient options, and Smart Guides. Paths already on a board stay visible either way.": "Mati secara bawaan. Menambahkan alat Pena, Kelengkungan, Pensil, dan Seleksi Langsung, pengeditan jalur dan sudut, Pathfinder, poligon, bintang dan bentuk lain, opsi garis dan gradien, serta Panduan Cerdas. Jalur yang sudah ada di papan tetap terlihat."
 }

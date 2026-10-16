@@ -1350,5 +1350,10 @@
  "The board moves to the Trash, where you can restore it until the trash is emptied.": "Tabule se přesune do koše, odkud ji můžete obnovit, dokud koš nevysypete.",
  "The picture this search started from is no longer on the board, so only its other filters apply.": "Obrázek, ze kterého toto hledání vycházelo, už na tabuli není, takže platí jen ostatní filtry.",
  "The template keeps every item, link and canvas setting. Comments are left out. Images stay linked to the same files.": "Šablona zachová každou položku, propojení a nastavení plátna. Komentáře se vynechají. Obrázky zůstanou propojené se stejnými soubory.",
- "Use #RRGGBB or #RRGGBBAA. Alpha remains part of the saved color.": "Použijte #RRGGBB nebo #RRGGBBAA. Průhlednost zůstává součástí uložené barvy."
+ "Use #RRGGBB or #RRGGBBAA. Alpha remains part of the saved color.": "Použijte #RRGGBB nebo #RRGGBBAA. Průhlednost zůstává součástí uložené barvy.",
+ "ILLUSTRATOR TOOLS": "NÁSTROJE ILLUSTRATORU",
+ "Illustrator drawing tools": "Kreslicí nástroje Illustratoru",
+ "Illustrator tools off. Paths already on the board stay as they are.": "Nástroje Illustratoru vypnuty. Křivky, které už na tabuli jsou, zůstanou.",
+ "Illustrator tools on: Pen, Curvature, Pencil, Direct Selection, Pathfinder and Smart Guides are in the toolbar, menus and palette.": "Nástroje Illustratoru zapnuty: Pero, Zakřivení, Tužka, Přímý výběr, Pathfinder a Inteligentní vodítka jsou na panelu nástrojů, v nabídkách a v paletě.",
+ "Off by default. Adds the Pen, Curvature, Pencil and Direct Selection tools, path editing and corners, Pathfinder, polygons, stars and other shapes, stroke and gradient options, and Smart Guides. Paths already on a board stay visible either way.": "Ve výchozím stavu vypnuto. Přidá nástroje Pero, Zakřivení, Tužka a Přímý výběr, úpravy křivek a rohů, Pathfinder, mnohoúhelníky, hvězdy a další tvary, volby tahu a přechodu a Inteligentní vodítka. Křivky, které už na tabuli jsou, zůstanou viditelné."
 }

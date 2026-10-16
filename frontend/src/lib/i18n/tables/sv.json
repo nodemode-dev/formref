@@ -108,7 +108,7 @@
  "Write each stop as a colour, a position from 0 to 100 and an optional opacity, separated by commas: #ff0000 0, #0000ff 100.": "Skriv varje stopp som en färg, en position från 0 till 100 och en valfri opacitet, åtskilda med kommatecken: #ff0000 0, #0000ff 100.",
  "Delete Segment": "Ta bort segment",
  "Outline Stroke": "Konturlinje",
- "Pencil Tool": "Pennverktyget",
+ "Pencil Tool": "Blyertsverktyget",
  "Pencil tool": "Pennverktyget",
  "Pencil Fidelity": "Pennans noggrannhet",
  "Pencil · Shift+N: freehand that becomes an editable path": "Penna · Skift+N: frihand som blir en redigerbar bana",
@@ -1350,5 +1350,10 @@
  "The board moves to the Trash, where you can restore it until the trash is emptied.": "Tavlan flyttas till papperskorgen, där du kan återställa den tills papperskorgen töms.",
  "The picture this search started from is no longer on the board, so only its other filters apply.": "Bilden som sökningen utgick från finns inte längre på tavlan, så bara dess andra filter gäller.",
  "The template keeps every item, link and canvas setting. Comments are left out. Images stay linked to the same files.": "Mallen behåller alla objekt, länkar och arbetsytans inställningar. Kommentarer utelämnas. Bilder förblir länkade till samma filer.",
- "Use #RRGGBB or #RRGGBBAA. Alpha remains part of the saved color.": "Använd #RRGGBB eller #RRGGBBAA. Genomskinligheten är en del av den sparade färgen."
+ "Use #RRGGBB or #RRGGBBAA. Alpha remains part of the saved color.": "Använd #RRGGBB eller #RRGGBBAA. Genomskinligheten är en del av den sparade färgen.",
+ "ILLUSTRATOR TOOLS": "ILLUSTRATOR-VERKTYG",
+ "Illustrator drawing tools": "Illustrators ritverktyg",
+ "Illustrator tools off. Paths already on the board stay as they are.": "Illustrator-verktygen är av. Banor som redan finns på tavlan blir kvar som de är.",
+ "Illustrator tools on: Pen, Curvature, Pencil, Direct Selection, Pathfinder and Smart Guides are in the toolbar, menus and palette.": "Illustrator-verktygen är på: Penna, Krökning, Blyerts, Direktmarkering, Pathfinder och Smarta stödlinjer finns i verktygsfältet, menyerna och paletten.",
+ "Off by default. Adds the Pen, Curvature, Pencil and Direct Selection tools, path editing and corners, Pathfinder, polygons, stars and other shapes, stroke and gradient options, and Smart Guides. Paths already on a board stay visible either way.": "Av som standard. Lägger till verktygen Penna, Krökning, Blyerts och Direktmarkering, redigering av banor och hörn, Pathfinder, polygoner, stjärnor och andra former, linje- och övertoningsalternativ samt Smarta stödlinjer. Banor som redan finns på en tavla förblir synliga."
 }

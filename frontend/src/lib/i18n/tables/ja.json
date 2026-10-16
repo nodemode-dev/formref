@@ -1350,5 +1350,10 @@
  "The board moves to the Trash, where you can restore it until the trash is emptied.": "ボードはゴミ箱へ移り、ゴミ箱を空にするまで復元できます。",
  "The picture this search started from is no longer on the board, so only its other filters apply.": "この検索の元になった画像はもうボードにないため、ほかのフィルターだけが適用されます。",
  "The template keeps every item, link and canvas setting. Comments are left out. Images stay linked to the same files.": "テンプレートにはすべての項目、リンク、キャンバス設定が残ります。コメントは含まれません。画像は同じファイルにリンクされたままです。",
- "Use #RRGGBB or #RRGGBBAA. Alpha remains part of the saved color.": "#RRGGBB または #RRGGBBAA で指定します。透明度も保存される色に含まれます。"
+ "Use #RRGGBB or #RRGGBBAA. Alpha remains part of the saved color.": "#RRGGBB または #RRGGBBAA で指定します。透明度も保存される色に含まれます。",
+ "ILLUSTRATOR TOOLS": "ILLUSTRATOR ツール",
+ "Illustrator drawing tools": "Illustrator の描画ツール",
+ "Illustrator tools off. Paths already on the board stay as they are.": "Illustrator ツールをオフにしました。ボード上の既存のパスはそのまま残ります。",
+ "Illustrator tools on: Pen, Curvature, Pencil, Direct Selection, Pathfinder and Smart Guides are in the toolbar, menus and palette.": "Illustrator ツールをオンにしました。ペン、曲線、鉛筆、ダイレクト選択、パスファインダー、スマートガイドがツールバー、メニュー、パレットに表示されます。",
+ "Off by default. Adds the Pen, Curvature, Pencil and Direct Selection tools, path editing and corners, Pathfinder, polygons, stars and other shapes, stroke and gradient options, and Smart Guides. Paths already on a board stay visible either way.": "初期設定ではオフです。ペン、曲線、鉛筆、ダイレクト選択の各ツール、パスとコーナーの編集、パスファインダー、多角形やスターなどのシェイプ、線とグラデーションのオプション、スマートガイドを追加します。ボード上の既存のパスはどちらの場合も表示されます。"
 }

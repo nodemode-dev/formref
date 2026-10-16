@@ -1350,5 +1350,10 @@
  "The board moves to the Trash, where you can restore it until the trash is emptied.": "Taulu siirtyy roskakoriin, josta voit palauttaa sen, kunnes roskakori tyhjennetään.",
  "The picture this search started from is no longer on the board, so only its other filters apply.": "Kuva, josta haku lähti, ei ole enää taululla, joten vain sen muut suodattimet ovat voimassa.",
  "The template keeps every item, link and canvas setting. Comments are left out. Images stay linked to the same files.": "Pohja säilyttää jokaisen kohteen, linkin ja piirtoalueen asetuksen. Kommentit jätetään pois. Kuvat pysyvät linkitettyinä samoihin tiedostoihin.",
- "Use #RRGGBB or #RRGGBBAA. Alpha remains part of the saved color.": "Käytä muotoa #RRGGBB tai #RRGGBBAA. Läpinäkyvyys on osa tallennettua väriä."
+ "Use #RRGGBB or #RRGGBBAA. Alpha remains part of the saved color.": "Käytä muotoa #RRGGBB tai #RRGGBBAA. Läpinäkyvyys on osa tallennettua väriä.",
+ "ILLUSTRATOR TOOLS": "ILLUSTRATOR-TYÖKALUT",
+ "Illustrator drawing tools": "Illustratorin piirtotyökalut",
+ "Illustrator tools off. Paths already on the board stay as they are.": "Illustrator-työkalut pois. Taululla jo olevat polut pysyvät ennallaan.",
+ "Illustrator tools on: Pen, Curvature, Pencil, Direct Selection, Pathfinder and Smart Guides are in the toolbar, menus and palette.": "Illustrator-työkalut käytössä: Kynä, Kaarevuus, Lyijykynä, Suoravalinta, Pathfinder ja Älykkäät apuviivat ovat työkalurivillä, valikoissa ja paletissa.",
+ "Off by default. Adds the Pen, Curvature, Pencil and Direct Selection tools, path editing and corners, Pathfinder, polygons, stars and other shapes, stroke and gradient options, and Smart Guides. Paths already on a board stay visible either way.": "Oletuksena pois. Lisää Kynä-, Kaarevuus-, Lyijykynä- ja Suoravalintatyökalut, polkujen ja kulmien muokkauksen, Pathfinderin, monikulmiot, tähdet ja muut muodot, viiva- ja liukuväriasetukset sekä Älykkäät apuviivat. Taululla jo olevat polut pysyvät näkyvissä."
 }
