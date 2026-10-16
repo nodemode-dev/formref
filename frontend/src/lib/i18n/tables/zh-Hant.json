@@ -1258,5 +1258,8 @@
  "Synced": "已同步",
  "This board is too large for a single viewer page (over 256 MiB).": "此白板太大，無法產生單一檢視頁（超過 256 MiB）。",
  "Video": "影片",
- "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images or viewer.": "匯出格式必須是 portable、json、png、svg、markdown、pdf、pdf-pages、pdf-tiles、bee、images 或 viewer。"
+ "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images or viewer.": "匯出格式必須是 portable、json、png、svg、markdown、pdf、pdf-pages、pdf-tiles、bee、images 或 viewer。",
+ "Deleted {0} · {1} item{2}": "刪除於{0} · {1}{2} 個項目",
+ "Removed {0} · {1} item{2}": "移除於{0} · {1}{2} 個項目",
+ "Resolved": "已解決"
 }

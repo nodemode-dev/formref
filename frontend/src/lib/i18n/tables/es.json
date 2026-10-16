@@ -1258,5 +1258,8 @@
  "Synced": "Sincronizado",
  "This board is too large for a single viewer page (over 256 MiB).": "Este tablero es demasiado grande para una sola página de visor (más de 256 MiB).",
  "Video": "Vídeo",
- "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images or viewer.": "El formato de exportación debe ser portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images o viewer."
+ "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images or viewer.": "El formato de exportación debe ser portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images o viewer.",
+ "Deleted {0} · {1} item{2}": "Eliminado {0} · elementos: {1}{2}",
+ "Removed {0} · {1} item{2}": "Quitado {0} · elementos: {1}{2}",
+ "Resolved": "Resuelto"
 }

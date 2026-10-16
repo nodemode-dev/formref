@@ -1258,5 +1258,8 @@
  "Synced": "Gesynchroniseerd",
  "This board is too large for a single viewer page (over 256 MiB).": "Dit bord is te groot voor één weergavepagina (meer dan 256 MiB).",
  "Video": "Video",
- "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images or viewer.": "Het exportformaat moet portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images of viewer zijn."
+ "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images or viewer.": "Het exportformaat moet portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images of viewer zijn.",
+ "Deleted {0} · {1} item{2}": "Verwijderd {0} · items: {1}{2}",
+ "Removed {0} · {1} item{2}": "Weggehaald {0} · items: {1}{2}",
+ "Resolved": "Opgelost"
 }

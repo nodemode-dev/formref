@@ -1258,5 +1258,8 @@
  "Synced": "已同步",
  "This board is too large for a single viewer page (over 256 MiB).": "此画板太大，无法生成单个查看页（超过 256 MiB）。",
  "Video": "视频",
- "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images or viewer.": "导出格式必须是 portable、json、png、svg、markdown、pdf、pdf-pages、pdf-tiles、bee、images 或 viewer。"
+ "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images or viewer.": "导出格式必须是 portable、json、png、svg、markdown、pdf、pdf-pages、pdf-tiles、bee、images 或 viewer。",
+ "Deleted {0} · {1} item{2}": "删除于{0} · {1}{2} 个项目",
+ "Removed {0} · {1} item{2}": "移除于{0} · {1}{2} 个项目",
+ "Resolved": "已解决"
 }

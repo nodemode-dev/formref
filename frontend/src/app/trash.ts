@@ -1,4 +1,5 @@
 import { request } from '../lib/api';
+import { relativeTime } from '../lib/i18n';
 import type { State } from '../lib/types';
 import { icon } from '../ui/icons';
 import { $, S, applyState, error, open, refreshBoards, toast } from './editor';
@@ -11,13 +12,7 @@ const dialog = $<HTMLDialogElement>('trash-dialog');
 const itemList = $('trash-items');
 const boardList = $('trash-boards');
 
-function when(seconds: number): string {
-  const minutes = Math.round((Date.now() / 1000 - seconds) / 60);
-  if (minutes < 1) return 'just now';
-  if (minutes < 60) return `${minutes} min ago`;
-  if (minutes < 60 * 24) return `${Math.round(minutes / 60)} h ago`;
-  return new Date(seconds * 1000).toLocaleDateString();
-}
+const when = (seconds: number) => relativeTime(seconds * 1000);
 
 function row(kind: string, title: string, detail: string, actions: [string, string, () => Promise<void>][]): HTMLElement {
   const node = document.createElement('div');
@@ -57,7 +52,7 @@ async function render() {
   const trash = await request<Trash>(`/trash${boardId ? `?board_id=${boardId}` : ''}`);
   const items = trash.items.map(entry => row(entry.kinds.length === 1 && entry.kinds[0] ? entry.kinds[0] : 'layers',
     entry.names.join(', ') + (entry.count > entry.names.length ? ` and ${entry.count - entry.names.length} more` : ''),
-    `${entry.count} item${entry.count === 1 ? '' : 's'} · removed ${when(entry.at)}`, [
+    `Removed ${when(entry.at)} · ${entry.count} item${entry.count === 1 ? '' : 's'}`, [
       ['Put back on the board', 'restore', async () => {
         const state = await request<State>(`/trash/items/${boardId}/${entry.id}/restore`, { method: 'POST' });
         applyState(state);
@@ -65,7 +60,7 @@ async function render() {
       }],
       ['Delete forever', 'delete', async () => { await request(`/trash/items/${boardId}/${entry.id}`, { method: 'DELETE' }); }],
     ]));
-  const boards = trash.boards.map(board => row('board', board.title, `${board.item_count} item${board.item_count === 1 ? '' : 's'} · deleted ${when(board.deleted_at)}`, [
+  const boards = trash.boards.map(board => row('board', board.title, `Deleted ${when(board.deleted_at)} · ${board.item_count} item${board.item_count === 1 ? '' : 's'}`, [
     ['Restore board', 'restore', async () => {
       await request(`/trash/boards/${board.id}/restore`, { method: 'POST' });
       await refreshBoards();

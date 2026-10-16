@@ -1258,5 +1258,8 @@
  "Synced": "Đã đồng bộ",
  "This board is too large for a single viewer page (over 256 MiB).": "Bảng này quá lớn cho một trang xem (trên 256 MiB).",
  "Video": "Video",
- "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images or viewer.": "Định dạng xuất phải là portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images hoặc viewer."
+ "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images or viewer.": "Định dạng xuất phải là portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images hoặc viewer.",
+ "Deleted {0} · {1} item{2}": "Đã xóa {0} · {1}{2} mục",
+ "Removed {0} · {1} item{2}": "Đã gỡ {0} · {1}{2} mục",
+ "Resolved": "Đã giải quyết"
 }

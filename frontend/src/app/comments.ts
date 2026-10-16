@@ -1,4 +1,5 @@
 import { request } from '../lib/api';
+import { relativeTime, t } from '../lib/i18n';
 import type { Item, State } from '../lib/types';
 import { icon } from '../ui/icons';
 import { $, S, applyState, error, onInspector, setText } from './editor';
@@ -12,13 +13,7 @@ const addButton = $<HTMLButtonElement>('comment-add');
 const rows = new Map<string, HTMLElement>();
 let itemId: string | null = null;
 
-function when(ms: number): string {
-  const minutes = Math.round((Date.now() - ms) / 60000);
-  if (minutes < 1) return 'just now';
-  if (minutes < 60) return `${minutes} min ago`;
-  if (minutes < 60 * 24) return `${Math.round(minutes / 60)} h ago`;
-  return new Date(ms).toLocaleDateString();
-}
+const when = relativeTime;
 
 async function send(path: string, method: string, body?: unknown) {
   const boardId = S.state?.board.id;
@@ -57,7 +52,7 @@ function row(comment: Comment): HTMLElement {
   const [head, body] = node.children as unknown as [HTMLElement, HTMLElement];
   const [author, time, resolve] = head.children as unknown as [HTMLElement, HTMLElement, HTMLButtonElement];
   if (author.textContent !== comment.author) author.textContent = comment.author;
-  const stamp = when(comment.at) + (comment.resolved ? ' · resolved' : '');
+  const stamp = when(comment.at) + (comment.resolved ? ' · ' + t('Resolved') : '');
   if (time.textContent !== stamp) time.textContent = stamp;
   if (body.textContent !== comment.text) body.textContent = comment.text;
   node.classList.toggle('resolved', !!comment.resolved);

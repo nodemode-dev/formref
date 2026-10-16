@@ -1258,5 +1258,8 @@
  "Synced": "Синхронізовано",
  "This board is too large for a single viewer page (over 256 MiB).": "Ця дошка завелика для однієї сторінки перегляду (понад 256 МіБ).",
  "Video": "Відео",
- "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images or viewer.": "Формат експорту: portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images або viewer."
+ "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images or viewer.": "Формат експорту: portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images або viewer.",
+ "Deleted {0} · {1} item{2}": "Видалено {0} · елементів: {1}{2}",
+ "Removed {0} · {1} item{2}": "Прибрано {0} · елементів: {1}{2}",
+ "Resolved": "Вирішено"
 }

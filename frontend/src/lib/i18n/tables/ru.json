@@ -1258,5 +1258,8 @@
  "Synced": "Синхронизировано",
  "This board is too large for a single viewer page (over 256 MiB).": "Эта доска слишком велика для одной страницы просмотра (более 256 МиБ).",
  "Video": "Видео",
- "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images or viewer.": "Формат экспорта: portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images или viewer."
+ "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images or viewer.": "Формат экспорта: portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images или viewer.",
+ "Deleted {0} · {1} item{2}": "Удалено {0} · элементов: {1}{2}",
+ "Removed {0} · {1} item{2}": "Убрано {0} · элементов: {1}{2}",
+ "Resolved": "Решено"
 }

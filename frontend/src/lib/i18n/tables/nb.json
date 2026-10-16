@@ -1258,5 +1258,8 @@
  "Synced": "Synkronisert",
  "This board is too large for a single viewer page (over 256 MiB).": "Denne tavlen er for stor for én visningsside (over 256 MiB).",
  "Video": "Video",
- "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images or viewer.": "Eksportformatet må være portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images eller viewer."
+ "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images or viewer.": "Eksportformatet må være portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images eller viewer.",
+ "Deleted {0} · {1} item{2}": "Slettet {0} · elementer: {1}{2}",
+ "Removed {0} · {1} item{2}": "Fjernet {0} · elementer: {1}{2}",
+ "Resolved": "Løst"
 }

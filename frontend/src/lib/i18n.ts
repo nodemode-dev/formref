@@ -75,6 +75,21 @@ export function language(): Lang { return current; }
 
 export function locale(): string { return BCP47[current] || current; }
 
+/** Locale for dates and numbers: the interface language, keeping the browser's own English region in English (an en-GB browser keeps day-first dates). */
+export function formatLocale(): string {
+  return current === 'en' && /^en(-|$)/i.test(navigator.language) ? navigator.language : locale();
+}
+
+/** "now", "5 minutes ago", "3 hours ago" in the interface language, then a short date. */
+export function relativeTime(ms: number): string {
+  const seconds = (ms - Date.now()) / 1000, size = Math.abs(seconds);
+  const words = new Intl.RelativeTimeFormat(formatLocale(), { numeric: 'auto' });
+  if (size < 45) return words.format(Math.min(-1, Math.round(seconds)), 'second');
+  if (size < 3600) return words.format(Math.round(seconds / 60), 'minute');
+  if (size < 86400) return words.format(Math.round(seconds / 3600), 'hour');
+  return new Date(ms).toLocaleDateString(formatLocale(), { year: 'numeric', month: 'short', day: 'numeric' });
+}
+
 export function languages(): [Lang, string][] { return LANG_CODES.map(code => [code, LANG_NAMES[code]]); }
 
 export function onLanguage(fn: () => void): () => void {

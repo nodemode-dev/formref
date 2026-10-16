@@ -1,4 +1,5 @@
 /** Table cards: typed columns, raw cell text, and a small formula language (=SUM(A1:A3)*2). */
+import { formatLocale, t } from './i18n';
 
 export type ColumnType = 'text' | 'number' | 'currency' | 'percent' | 'date' | 'checkbox';
 export interface Column { name: string; type: ColumnType }
@@ -138,15 +139,15 @@ function formula(source: string, cell: (r: number, c: number) => Value, table: T
 
 export function display(value: Value, type: ColumnType): string {
   if (value === null) return '';
-  if (typeof value === 'boolean') return value ? 'Yes' : '';
+  if (typeof value === 'boolean') return value ? t('Yes') : '';
   if (typeof value === 'string') {
     if (type === 'date' && /^\d{4}-\d{2}-\d{2}$/.test(value)) {
       const date = new Date(`${value}T00:00:00`);
-      return Number.isNaN(date.getTime()) ? value : date.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
+      return Number.isNaN(date.getTime()) ? value : date.toLocaleDateString(formatLocale(), { year: 'numeric', month: 'short', day: 'numeric' });
     }
     return value;
   }
-  if (type === 'currency') return value.toLocaleString(undefined, { style: 'currency', currency: 'USD' });
-  if (type === 'percent') return value.toLocaleString(undefined, { style: 'percent', maximumFractionDigits: 2 });
-  return value.toLocaleString(undefined, { maximumFractionDigits: 4 });
+  if (type === 'currency') return value.toLocaleString(formatLocale(), { style: 'currency', currency: 'USD' });
+  if (type === 'percent') return value.toLocaleString(formatLocale(), { style: 'percent', maximumFractionDigits: 2 });
+  return value.toLocaleString(formatLocale(), { maximumFractionDigits: 4 });
 }

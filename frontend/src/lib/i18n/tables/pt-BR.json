@@ -1258,5 +1258,8 @@
  "Synced": "Sincronizado",
  "This board is too large for a single viewer page (over 256 MiB).": "Este quadro é grande demais para uma única página de visualização (mais de 256 MiB).",
  "Video": "Vídeo",
- "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images or viewer.": "O formato de exportação deve ser portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images ou viewer."
+ "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images or viewer.": "O formato de exportação deve ser portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images ou viewer.",
+ "Deleted {0} · {1} item{2}": "Excluído {0} · itens: {1}{2}",
+ "Removed {0} · {1} item{2}": "Removido {0} · itens: {1}{2}",
+ "Resolved": "Resolvido"
 }

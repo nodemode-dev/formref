@@ -1258,5 +1258,8 @@
  "Synced": "Szinkronizált",
  "This board is too large for a single viewer page (over 256 MiB).": "Ez a tábla túl nagy egyetlen nézetoldalhoz (256 MiB felett).",
  "Video": "Videó",
- "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images or viewer.": "Az exportformátum portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images vagy viewer lehet."
+ "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images or viewer.": "Az exportformátum portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images vagy viewer lehet.",
+ "Deleted {0} · {1} item{2}": "Törölve {0} · elemek: {1}{2}",
+ "Removed {0} · {1} item{2}": "Eltávolítva {0} · elemek: {1}{2}",
+ "Resolved": "Megoldva"
 }

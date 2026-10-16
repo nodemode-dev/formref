@@ -1258,5 +1258,8 @@
  "Synced": "同期",
  "This board is too large for a single viewer page (over 256 MiB).": "このボードは 1 枚のビューア ページには大きすぎます（256 MiB 超）。",
  "Video": "ビデオ",
- "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images or viewer.": "書き出し形式は portable、json、png、svg、markdown、pdf、pdf-pages、pdf-tiles、bee、images、viewer のいずれかです。"
+ "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images or viewer.": "書き出し形式は portable、json、png、svg、markdown、pdf、pdf-pages、pdf-tiles、bee、images、viewer のいずれかです。",
+ "Deleted {0} · {1} item{2}": "削除 {0} · 項目 {1}{2} 個",
+ "Removed {0} · {1} item{2}": "除去 {0} · 項目 {1}{2} 個",
+ "Resolved": "解決済み"
 }

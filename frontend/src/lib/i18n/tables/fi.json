@@ -1258,5 +1258,8 @@
  "Synced": "Synkronoitu",
  "This board is too large for a single viewer page (over 256 MiB).": "Tämä taulu on liian suuri yhdelle katselusivulle (yli 256 MiB).",
  "Video": "Video",
- "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images or viewer.": "Vientimuodon on oltava portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images tai viewer."
+ "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images or viewer.": "Vientimuodon on oltava portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images tai viewer.",
+ "Deleted {0} · {1} item{2}": "Poistettu {0} · kohteita: {1}{2}",
+ "Removed {0} · {1} item{2}": "Siirretty pois {0} · kohteita: {1}{2}",
+ "Resolved": "Ratkaistu"
 }

@@ -1258,5 +1258,8 @@
  "Synced": "동기화됨",
  "This board is too large for a single viewer page (over 256 MiB).": "이 보드는 뷰어 페이지 하나에 담기에 너무 큽니다(256MiB 초과).",
  "Video": "동영상",
- "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images or viewer.": "내보내기 형식은 portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images, viewer 중 하나여야 합니다."
+ "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images or viewer.": "내보내기 형식은 portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images, viewer 중 하나여야 합니다.",
+ "Deleted {0} · {1} item{2}": "삭제됨 {0} · 항목 {1}{2}개",
+ "Removed {0} · {1} item{2}": "제거됨 {0} · 항목 {1}{2}개",
+ "Resolved": "해결됨"
 }

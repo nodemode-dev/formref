@@ -1258,5 +1258,8 @@
  "Synced": "ซิงค์แล้ว",
  "This board is too large for a single viewer page (over 256 MiB).": "บอร์ดนี้ใหญ่เกินไปสำหรับหน้าตัวดูหน้าเดียว (เกิน 256 MiB)",
  "Video": "วิดีโอ",
- "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images or viewer.": "รูปแบบส่งออกต้องเป็น portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images หรือ viewer"
+ "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images or viewer.": "รูปแบบส่งออกต้องเป็น portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images หรือ viewer",
+ "Deleted {0} · {1} item{2}": "ลบเมื่อ {0} · {1}{2} รายการ",
+ "Removed {0} · {1} item{2}": "นำออกเมื่อ {0} · {1}{2} รายการ",
+ "Resolved": "แก้ไขแล้ว"
 }

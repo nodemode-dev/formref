@@ -1258,5 +1258,8 @@
  "Synced": "Tersinkron",
  "This board is too large for a single viewer page (over 256 MiB).": "Papan ini terlalu besar untuk satu halaman penampil (lebih dari 256 MiB).",
  "Video": "Video",
- "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images or viewer.": "Format ekspor harus portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images, atau viewer."
+ "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images or viewer.": "Format ekspor harus portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images, atau viewer.",
+ "Deleted {0} · {1} item{2}": "Dihapus {0} · item: {1}{2}",
+ "Removed {0} · {1} item{2}": "Disingkirkan {0} · item: {1}{2}",
+ "Resolved": "Selesai"
 }

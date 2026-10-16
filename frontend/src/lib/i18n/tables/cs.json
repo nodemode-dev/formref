@@ -1258,5 +1258,8 @@
  "Synced": "Synchronizováno",
  "This board is too large for a single viewer page (over 256 MiB).": "Tato tabule je pro jednu stránku prohlížeče příliš velká (přes 256 MiB).",
  "Video": "Video",
- "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images or viewer.": "Formát exportu musí být portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images nebo viewer."
+ "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images or viewer.": "Formát exportu musí být portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images nebo viewer.",
+ "Deleted {0} · {1} item{2}": "Smazáno {0} · položky: {1}{2}",
+ "Removed {0} · {1} item{2}": "Odebráno {0} · položky: {1}{2}",
+ "Resolved": "Vyřešeno"
 }

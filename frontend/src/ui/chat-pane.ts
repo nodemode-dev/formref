@@ -1,5 +1,6 @@
 import { MarkdownStream } from './chat-markdown';
 import { icon } from './icons';
+import { formatLocale } from '../lib/i18n';
 
 interface Part { kind: 'text' | 'tool'; text?: string; id?: string; name?: string; input?: string; status?: string; items?: string[]; images?: string[] }
 interface Meta { seconds?: number; turns?: number | null; costUsd?: number | null; inputTokens?: number; outputTokens?: number }
@@ -224,7 +225,7 @@ export class ChatPane {
     try {
       const r = await call<{ sessions: Array<{ id: string; title: string; modified: number; current: boolean }> }>('GET', '/api/chat/sessions');
       if (!r.sessions.length) { this.hooks.fail('No Claude Code conversation in FormRef yet: open one with the Claude Code button first.'); return; }
-      const when = (t: number) => new Date(t * 1000).toLocaleString(document.documentElement.lang || undefined, { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+      const when = (t: number) => new Date(t * 1000).toLocaleString(formatLocale(), { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
       const first = node('option', '', 'Continue a conversation...');
       first.value = '';
       this.sessionPick.replaceChildren(first, ...r.sessions.map(s => { const o = node('option', '', `${when(s.modified)} · ${s.title || 'untitled'}${s.current ? ' (this chat)' : ''}`); o.value = s.id; return o; }));

@@ -1258,5 +1258,8 @@
  "Synced": "Eşitlendi",
  "This board is too large for a single viewer page (over 256 MiB).": "Bu pano tek bir görüntüleyici sayfası için çok büyük (256 MiB üzeri).",
  "Video": "Video",
- "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images or viewer.": "Dışa aktarma biçimi portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images veya viewer olmalıdır."
+ "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images or viewer.": "Dışa aktarma biçimi portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee, images veya viewer olmalıdır.",
+ "Deleted {0} · {1} item{2}": "Silindi {0} · öğe sayısı: {1}{2}",
+ "Removed {0} · {1} item{2}": "Kaldırıldı {0} · öğe sayısı: {1}{2}",
+ "Resolved": "Çözüldü"
 }
