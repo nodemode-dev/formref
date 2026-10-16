@@ -2,7 +2,7 @@
 
 Written by `./formref agents sync` from the command catalogue the FormRef window publishes; do not edit by hand. Run a command with the MCP tools `run_command` or `run_commands` (the window must be open). `window-only` commands are refused for outside agents; `risky` commands ask the person first.
 
-177 commands.
+182 commands.
 
 ## Canvas
 
@@ -69,6 +69,7 @@ Written by `./formref agents sync` from the command catalogue the FormRef window
 
 | Command | Label | Keys | Kind | What it does |
 | --- | --- | --- | --- | --- |
+| `adjust` | Adjust Picture |  | changes the board | Sets brightness, contrast and saturation of the selected pictures (0 to 200 percent, 100 unchanged). The original is kept; the board and PNG, SVG, PDF and phone viewer exports show the adjusted picture. Parameters: `brightness` (number): percent, 100 unchanged; `contrast` (number): percent, 100 unchanged; `saturation` (number): percent, 100 unchanged; 0 is grey. |
 | `clear-lasso` | Clear Lasso |  | changes the board | Removes the lasso crop from the selected image so the whole picture shows again. |
 | `crop` | Crop | `c` | changes the board, window-only | Starts cropping the selected image on the board: drag the handles, Enter applies, Escape cancels. |
 | `crop-on-canvas` | Crop on Canvas |  | changes the board, window-only | Shows the whole picture around a crop box on the board: drag the edges, corners or the box, then Enter or double-click to crop. The image keeps its scale, so it shrinks or grows with the crop. Crop works again later to bring cropped parts back. |
@@ -85,6 +86,7 @@ Written by `./formref agents sync` from the command catalogue the FormRef window
 | `pick-cutout-points` | Pick Points for Click to Select |  | changes the board, window-only | Starts picking points on the selected image for click-to-select background removal. |
 | `relink` | Replace or Relink Image |  | changes the board, window-only | Asks for an image file to replace or relink the selected picture, keeping its place and size. |
 | `remove-background` | Remove Background |  | changes the board | Removes the background of the selected images with the chosen model; the original is kept. |
+| `reset-adjust` | Reset Adjustments |  | changes the board | Puts brightness, contrast and saturation of the selected pictures back to the original. |
 | `reset-crop` | Reset Crop |  | changes the board | Removes the crop from the selected images so the whole picture shows. |
 | `restore-background` | Restore Background |  | changes the board | Brings back the original of images whose background was removed. |
 | `rotate` | Rotate 90 | `r` | changes the board | Rotates the selected items a quarter turn clockwise. |
@@ -146,12 +148,14 @@ Written by `./formref agents sync` from the command catalogue the FormRef window
 | Command | Label | Keys | Kind | What it does |
 | --- | --- | --- | --- | --- |
 | `align` | Align |  | changes the board | Aligns the selected items by the edge or centre chosen in the inspector. |
+| `copy-to-board` | Copy Selection to New Board |  | changes the board | Copies the selected items, their column children and the connections between them onto a new board, opened in a new tab; this board is unchanged. Parameters: `title` (string): title of the new board; default "<board> selection". |
 | `distribute-x` | Space Horizontally |  | changes the board | Spaces the selected items evenly from left to right. |
 | `distribute-y` | Space Vertically |  | changes the board | Spaces the selected items evenly from top to bottom. |
 | `group` | Group Selected | `mod+g` | changes the board | Groups the selected items so they select and move together. |
 | `hide-selected` | Hide Selected | `mod+3` | changes the board | Hides the selected items; they stay on the board and come back with Show All. |
 | `isolate-selected` | Isolate Selected |  | changes the board | Hides everything except the selection (and the items inside selected columns) so a big board can be worked on piece by piece; Show All restores the rest. |
 | `lock-drops` | Lock Against Drops |  | changes the board | Stops items dragged onto the selected columns from joining them; items already inside stay, and can still be dragged out. |
+| `move-to-board` | Move Selection to New Board |  | changes the board | Moves the selected items, their column children and the connections between them onto a new board, opened in a new tab; they leave this board through the Trash, and Undo here brings them back. Parameters: `title` (string): title of the new board; default "<board> selection". |
 | `normalize` | Normalize Sizes |  | changes the board | Asks for a target width, height or area and resizes the selected items to it, keeping each aspect ratio. |
 | `normalize-groups` | Normalize Sizes Within Each Group |  | changes the board | Gives the items of each group the same size (the group's median height, width or area) while every group keeps its own scale. Works on the groups in the selection, or every group when nothing is selected. Parameters: `mode` (string): which size to match; default height. |
 | `pack` | Pack | `mod+p` | changes the board | Packs the selection, or every unlocked top-level item when nothing is selected, into tight rows with the pack spacing. |
@@ -212,6 +216,7 @@ Written by `./formref agents sync` from the command catalogue the FormRef window
 | Command | Label | Keys | Kind | What it does |
 | --- | --- | --- | --- | --- |
 | `draw` | Draw Mode | `d` | view | Switches to freehand drawing on the board. |
+| `measure` | Measure | `shift+m` | window-only | Drag on the board to measure a length in board pixels and its angle; each later measurement also shows its ratio to the first. Shift keeps lines at 45 degree steps; Esc or Measure again clears them. Nothing is saved. |
 | `pencil-fidelity` | Pencil Fidelity... |  | window-only | Sets the Pencil's fidelity from 1 (accurate, more anchors) to 5 (smooth, fewer anchors); without a value it steps to the next setting. Parameters: `fidelity` (integer): 1 follows the hand closely with more anchors, 5 is smoothest with fewest. |
 | `tool-circle` | Circle Tool | `shift+o` | view | Switches to the ellipse tool for annotation circles. |
 | `tool-connect` | Connect References | `shift+c` | view | Switches to the connect tool: click two items to draw a connection between them. |
