@@ -1,5 +1,5 @@
 import type { Item, Point } from '../lib/types';
-import { addAnchor, convertAnchor, cornerPlan, cutAt, deleteAnchor, isCorner, pathData, type Anchor, type CornerStyle, type Vector } from '../lib/vector/path';
+import { addAnchor, convertAnchor, cornerPlan, cutAt, deleteAnchor, isCorner, pathData, smoothPath, type Anchor, type CornerStyle, type Vector } from '../lib/vector/path';
 import { newItem } from '../lib/types';
 import { S, error, execute, onState, selection, setSelection, stage, topZ, world, worldPoint } from './editor';
 import { registry } from './registry';
@@ -293,7 +293,17 @@ document.addEventListener('pointerup', refreshAnchors);
 window.addEventListener('keyup', refreshAnchors);
 onState(() => refreshAnchors());
 
-interface PenState { anchors: Anchor[]; down: Point | null; hover: Point | null; continuing?: { item: Item; path: number } }
+interface PenState { anchors: Anchor[]; down: Point | null; hover: Point | null; continuing?: { item: Item; path: number }; curve?: boolean; corners?: Set<Anchor> }
+
+const penTool = () => S.tool === 'pen-path' || S.tool === 'curvature';
+
+/** The Curvature tool's anchors: the placed points with handles worked out so the curve bends through them; points in `corners` (corner points, and the anchors of a path picked up to continue) keep their own handles. */
+function curveAnchors(state: PenState, closed: boolean, extra?: Point | null): Anchor[] {
+  const points: Anchor[] = extra ? [...state.anchors, { x: extra.x, y: extra.y }] : state.anchors;
+  if (!state.curve) return points;
+  const smooth = smoothPath({ closed, anchors: points.map(a => ({ x: a.x, y: a.y })) }, 1).anchors;
+  return smooth.map((a, i) => state.corners?.has(points[i]) ? points[i] : a);
+}
 
 /** With the Pen, a click on an end of the selected open path picks that path up to continue it (Illustrator's continue path). */
 function pickUpEnd(p: Point): PenState | null {
@@ -320,7 +330,7 @@ overlay.append(penPath);
 
 function drawPen() {
   if (!pen || !pen.anchors.length) { penPath.setAttribute('d', ''); return; }
-  const anchors = pen.hover && !pen.down ? [...pen.anchors, { x: pen.hover.x, y: pen.hover.y }] : pen.anchors;
+  const anchors = curveAnchors(pen, false, pen.hover && !pen.down ? pen.hover : null);
   overlay.style.display = '';
   overlay.style.setProperty('--anchor-line', `${1 / S.camera.zoom}px`);
   penPath.setAttribute('d', pathData({ closed: false, anchors }));
@@ -332,7 +342,7 @@ function drawPen() {
     node.dataset.hit = ''; node.setAttribute('class', `anchor-mark ${a.in ? 'smooth' : 'corner'}`);
   }
   for (let i = used; i < pool.length; i++) pool[i].setAttribute('class', 'anchor-mark unused');
-  lines.setAttribute('d', pen.anchors.flatMap(a => [a.in ? `M${a.x},${a.y}L${a.in.x},${a.in.y}` : '', a.out ? `M${a.x},${a.y}L${a.out.x},${a.out.y}` : '']).join(''));
+  lines.setAttribute('d', curveAnchors(pen, false).flatMap(a => [a.in ? `M${a.x},${a.y}L${a.in.x},${a.in.y}` : '', a.out ? `M${a.x},${a.y}L${a.out.x},${a.out.y}` : '']).join(''));
   preview.setAttribute('d', '');
 }
 
@@ -341,7 +351,8 @@ async function finishPen(closed: boolean) {
   pen = null;
   penPath.setAttribute('d', '');
   if (!done || done.anchors.length < 2) { refreshAnchors(); return; }
-  const all = done.anchors.flatMap(a => [a, a.in, a.out].filter(Boolean) as Point[]);
+  if (done.curve) { done.anchors = curveAnchors(done, closed); done.curve = false; }
+  const all =done.anchors.flatMap(a => [a, a.in, a.out].filter(Boolean) as Point[]);
   const x0 = Math.min(...all.map(p => p.x)), y0 = Math.min(...all.map(p => p.y));
   const w = Math.max(1, Math.max(...all.map(p => p.x)) - x0), h = Math.max(1, Math.max(...all.map(p => p.y)) - y0);
   const local = (p: Point) => ({ x: p.x - x0, y: p.y - y0 });
@@ -373,18 +384,26 @@ async function finishPen(closed: boolean) {
 }
 
 stage.addEventListener('pointerdown', event => {
-  if (S.tool !== 'pen-path' || event.button !== 0 || !S.state) return;
+  if (!penTool() || event.button !== 0 || !S.state) return;
   if ((event.target as Element).closest('button,input,.floating-controls,.navigator')) return;
   event.preventDefault();
   event.stopImmediatePropagation();
   const p = worldPoint(event);
+  const curve = S.tool === 'curvature';
   if (!pen) {
     const picked = pickUpEnd(p);
-    if (picked) { pen = picked; drawPen(); return; }
+    if (picked) { pen = picked; if (curve) { pen.curve = true; pen.corners = new Set(pen.anchors); } drawPen(); return; }
   }
-  pen ??= { anchors: [], down: null, hover: null };
+  pen ??= { anchors: [], down: null, hover: null, curve, corners: new Set() };
+  const near = (a: Anchor) => Math.hypot(p.x - a.x, p.y - a.y) * S.camera.zoom < 8;
   const first = pen.anchors[0];
-  if (first && pen.anchors.length > 2 && Math.hypot(p.x - first.x, p.y - first.y) * S.camera.zoom < 8) { void finishPen(true).catch(error); return; }
+  if (first && pen.anchors.length > 2 && near(first)) { void finishPen(true).catch(error); return; }
+  const hit = pen.curve ? pen.anchors.find(near) : undefined;
+  if (hit && pen.corners) {
+    if (pen.corners.has(hit)) pen.corners.delete(hit); else pen.corners.add(hit);
+    drawPen();
+    return;
+  }
   stage.setPointerCapture(event.pointerId);
   pen.anchors.push({ x: p.x, y: p.y });
   pen.down = p;
@@ -392,11 +411,12 @@ stage.addEventListener('pointerdown', event => {
 }, true);
 
 stage.addEventListener('pointermove', event => {
-  if (S.tool !== 'pen-path' || !pen) return;
+  if (!penTool() || !pen) return;
   event.stopImmediatePropagation();
   const p = worldPoint(event);
   pen.hover = p;
-  if (pen.down) {
+  if (pen.down && pen.curve) { const a = pen.anchors[pen.anchors.length - 1]; a.x = p.x; a.y = p.y; }
+  else if (pen.down) {
     const a = pen.anchors[pen.anchors.length - 1];
     if (Math.hypot(p.x - a.x, p.y - a.y) * S.camera.zoom > 3) { a.out = { x: p.x, y: p.y }; a.in = { x: 2 * a.x - p.x, y: 2 * a.y - p.y }; }
   }
@@ -404,19 +424,20 @@ stage.addEventListener('pointermove', event => {
 }, true);
 
 stage.addEventListener('pointerup', event => {
-  if (S.tool !== 'pen-path' || !pen) return;
+  if (!penTool() || !pen) return;
   event.stopImmediatePropagation();
   pen.down = null;
   drawPen();
 }, true);
 
 window.addEventListener('keydown', event => {
-  if (!pen || S.tool !== 'pen-path') return;
+  if (!pen || !penTool()) return;
   if (event.key === 'Enter' || event.key === 'Escape') { event.preventDefault(); event.stopImmediatePropagation(); void finishPen(false).catch(error); }
   else if (event.key === 'Backspace' || event.key === 'Delete') { event.preventDefault(); event.stopImmediatePropagation(); pen.anchors.pop(); drawPen(); }
 }, true);
 
-export function registerDirectSelect(setTool: (tool: 'direct' | 'pen-path') => void) {
+export function registerDirectSelect(setTool: (tool: 'direct' | 'pen-path' | 'curvature') => void) {
+  registry.add({ group: 'Tools', id: 'tool-curvature', label: 'Curvature Tool', icon: 'curvature', keys: ['shift+~'], run: () => { if (pen) void finishPen(false); setTool('curvature'); }, agent: 'window-only', mutates: false, description: 'Draws a path as Illustrator\'s Curvature tool does: each click places a point and the curve bends smoothly through all of them; drag while placing to move the point, double-click or Alt-click a placed point to switch it between smooth and corner, click the first point to close, Enter or Esc to finish, Backspace removes the last point.' });
   registry.add({ group: 'Path', id: 'cut-path', label: 'Cut Path at Selected Anchor', icon: 'crop', keys: ['mod+shift+x'], agent: 'window-only', run: () => { if (!cutAtChosen()) throw new Error('With the Direct Selection tool, click the anchor to cut at first.'); }, enabled: () => !!chosenAnchor(), description: 'Scissors: opens a closed path at the selected anchor, or splits an open path in two there.' });
   registry.add({ group: 'Tools', id: 'tool-pen-path', label: 'Pen Tool', icon: 'bezier', keys: ['shift+p'], run: () => { if (pen) void finishPen(false); setTool('pen-path'); }, agent: 'window-only', mutates: false, description: 'Draws an anchor path as Illustrator\'s Pen does: click for a corner point, drag for a smooth point, click the first point to close the path, Enter or Esc to finish an open path, Backspace removes the last point.' });
   registry.add({ group: 'Tools', id: 'tool-direct', label: 'Direct Selection Tool', icon: 'direct', keys: ['a'], run: () => { setTool('direct'); refreshAnchors(); }, agent: 'window-only', mutates: false, description: 'Shows the anchor points, handles and corner widgets of the selected shape or path: drag an anchor or handle to reshape, drag a corner widget to round every corner (Shift: only that corner), Alt-click a corner widget to switch Round, Inverted round and Chamfer, Alt-click an anchor to convert it between corner and smooth, Alt-drag a handle to break a smooth point.' });
