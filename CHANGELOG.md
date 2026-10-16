@@ -1,5 +1,12 @@
 # FormRef changelog
 
+## v0.20.0 · 2026-10-16
+
+A Practice Log view.
+
+- View, Practice Log, or Practice Log in the Timed Practice setup, lists every finished session, newest first, with its date and time, board, number of pictures, pace (the time per picture or the class plan) and drawing time. A menu switches between all boards and this board only, and totals for what is shown sit beside it.
+- Clear Log empties the log after a second click on the same button.
+
 ## v0.19.0 · 2026-10-16
 
 Class plans for Timed Practice.

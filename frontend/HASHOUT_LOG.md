@@ -8,6 +8,7 @@
 - [Stacking scale](#stacking-scale)
 - [Verification](#verification)
 - [Scripts](#scripts)
+- [v0.20.0 practice log view](#v0200-practice-log-view)
 - [v0.19.0 practice class plans](#v0190-practice-class-plans)
 - [v0.18.0 practice breaks and log](#v0180-practice-breaks-and-log)
 - [v0.17.0 timed practice](#v0170-timed-practice)
@@ -43,6 +44,10 @@
 - [v0.4.8 desktop window controls and WebKit icons](#v048-desktop-window-controls-and-webkit-icons)
 - [v0.4.7 synced notes, map cards, inline edit commit](#v047-synced-notes-map-cards-inline-edit-commit)
 - [v0.4.6 GIF frames and document export](#v046-gif-frames-and-document-export)
+
+## v0.20.0 practice log view
+
+The log dialog is another script-built modal in `practice.ts`. `openLog` fetches the log, builds every row while the dialog is still closed and only then calls `showModal`, so the table never fills in visibly. The scope menu only toggles `hidden` on existing rows and rewrites the totals line (the probe checks the row nodes are the same objects afterwards). The table sits in a fixed-height scroller, so the dialog keeps one height whether it is full, filtered or empty (570 px in the probe). Board titles are user text and carry `data-no-i18n`. Pace shows a plan's own label through `t()`, otherwise the time per picture from `Intl` units. Clear Log takes a second click on the same button rather than a browser confirm, and refreshes the setup's 7-day line when the setup is open underneath. Probe: $SC/ui/practice-log.cjs (`de`; `en clear`) with three seeded entries.
 
 ## v0.19.0 practice class plans
 
