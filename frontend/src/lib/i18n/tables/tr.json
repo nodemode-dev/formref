@@ -1300,7 +1300,6 @@
  "Onion Skin": "Soğan Zarı",
  "By color": "Renge göre",
  "Clear Color Filter": "Renk Filtresini Temizle",
- "Clear color filter": "Renk filtresini temizle",
  "Find This Swatch Color": "Bu Örneğin Rengini Bul",
  "Find by Color…": "Renge Göre Bul…",
  "Find by color": "Renge göre bul",
@@ -1308,5 +1307,18 @@
  "Nothing on this board contains that color.": "Bu panoda o rengi içeren bir şey yok.",
  "Pictures and swatches with this color: {0}.": "Bu rengi içeren resimler ve örnekler: {0}.",
  "Sort by Color": "Renge Göre Sırala",
- "Tolerance is from 1 to 100.": "Tolerans 1 ile 100 arasındadır."
+ "Tolerance is from 1 to 100.": "Tolerans 1 ile 100 arasındadır.",
+ "Choose close, related or loose.": "close, related veya loose seçin.",
+ "Clear Similar Filter": "Benzerlik Filtresini Temizle",
+ "Clear filters": "Filtreleri temizle",
+ "Find Similar": "Benzerlerini Bul",
+ "Find Similar Pictures": "Benzer Resimleri Bul",
+ "Find Similar works on pictures.": "Benzerlerini bulma resimlerde çalışır.",
+ "Find pictures like the selected one": "Seçilen resme benzeyen resimleri bul",
+ "Loosely Similar": "Az Benzer",
+ "Near Copies": "Neredeyse Kopyalar",
+ "No other picture on this board looks like this one.": "Bu panoda buna benzeyen başka resim yok.",
+ "Pictures like this one: {0}.": "Buna benzeyen resimler: {0}.",
+ "Select one picture to find pictures like it.": "Benzerlerini bulmak için bir resim seçin.",
+ "Similar Pictures": "Benzer Resimler"
 }

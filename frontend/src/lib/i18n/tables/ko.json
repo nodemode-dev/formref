@@ -1300,7 +1300,6 @@
  "Onion Skin": "어니언 스킨",
  "By color": "색상순",
  "Clear Color Filter": "색상 필터 지우기",
- "Clear color filter": "색상 필터 지우기",
  "Find This Swatch Color": "이 견본의 색상 찾기",
  "Find by Color…": "색상으로 찾기…",
  "Find by color": "색상으로 찾기",
@@ -1308,5 +1307,18 @@
  "Nothing on this board contains that color.": "이 보드에는 그 색상이 포함된 항목이 없습니다.",
  "Pictures and swatches with this color: {0}.": "이 색상이 있는 그림과 견본: {0}.",
  "Sort by Color": "색상으로 정렬",
- "Tolerance is from 1 to 100.": "허용 오차는 1에서 100까지입니다."
+ "Tolerance is from 1 to 100.": "허용 오차는 1에서 100까지입니다.",
+ "Choose close, related or loose.": "close, related, loose 중에서 고르세요.",
+ "Clear Similar Filter": "유사 필터 지우기",
+ "Clear filters": "필터 지우기",
+ "Find Similar": "비슷한 그림 찾기",
+ "Find Similar Pictures": "비슷한 그림 찾기",
+ "Find Similar works on pictures.": "비슷한 그림 찾기는 그림에서만 작동합니다.",
+ "Find pictures like the selected one": "선택한 그림과 비슷한 그림 찾기",
+ "Loosely Similar": "대략 비슷함",
+ "Near Copies": "거의 복사본",
+ "No other picture on this board looks like this one.": "이 보드에 이 그림과 비슷한 다른 그림이 없습니다.",
+ "Pictures like this one: {0}.": "이 그림과 비슷한 그림: {0}.",
+ "Select one picture to find pictures like it.": "그림 하나를 선택하면 비슷한 그림을 찾습니다.",
+ "Similar Pictures": "비슷한 그림"
 }

@@ -1300,7 +1300,6 @@
  "Onion Skin": "洋蔥皮",
  "By color": "依顏色",
  "Clear Color Filter": "清除顏色篩選",
- "Clear color filter": "清除顏色篩選",
  "Find This Swatch Color": "尋找此色票的顏色",
  "Find by Color…": "依顏色尋找…",
  "Find by color": "依顏色尋找",
@@ -1308,5 +1307,18 @@
  "Nothing on this board contains that color.": "此看板上沒有包含該顏色的內容。",
  "Pictures and swatches with this color: {0}.": "含有此顏色的圖片與色票：{0}。",
  "Sort by Color": "依顏色排序",
- "Tolerance is from 1 to 100.": "容許差範圍為 1 到 100。"
+ "Tolerance is from 1 to 100.": "容許差範圍為 1 到 100。",
+ "Choose close, related or loose.": "請選擇 close、related 或 loose。",
+ "Clear Similar Filter": "清除相似篩選",
+ "Clear filters": "清除篩選",
+ "Find Similar": "尋找相似",
+ "Find Similar Pictures": "尋找相似圖片",
+ "Find Similar works on pictures.": "尋找相似僅適用於圖片。",
+ "Find pictures like the selected one": "尋找與所選圖片相似的圖片",
+ "Loosely Similar": "大致相似",
+ "Near Copies": "近似副本",
+ "No other picture on this board looks like this one.": "此看板上沒有其他圖片與這張相似。",
+ "Pictures like this one: {0}.": "與這張相似的圖片：{0}。",
+ "Select one picture to find pictures like it.": "選取一張圖片即可尋找相似圖片。",
+ "Similar Pictures": "相似圖片"
 }

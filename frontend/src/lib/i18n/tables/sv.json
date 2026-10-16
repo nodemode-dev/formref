@@ -1300,7 +1300,6 @@
  "Onion Skin": "Lökskal",
  "By color": "Efter färg",
  "Clear Color Filter": "Rensa färgfilter",
- "Clear color filter": "Rensa färgfilter",
  "Find This Swatch Color": "Hitta färgen i den här färgrutan",
  "Find by Color…": "Hitta efter färg…",
  "Find by color": "Hitta efter färg",
@@ -1308,5 +1307,18 @@
  "Nothing on this board contains that color.": "Inget på den här tavlan innehåller den färgen.",
  "Pictures and swatches with this color: {0}.": "Bilder och färgrutor med den här färgen: {0}.",
  "Sort by Color": "Sortera efter färg",
- "Tolerance is from 1 to 100.": "Toleransen är från 1 till 100."
+ "Tolerance is from 1 to 100.": "Toleransen är från 1 till 100.",
+ "Choose close, related or loose.": "Välj close, related eller loose.",
+ "Clear Similar Filter": "Rensa likhetsfilter",
+ "Clear filters": "Rensa filter",
+ "Find Similar": "Hitta liknande",
+ "Find Similar Pictures": "Hitta liknande bilder",
+ "Find Similar works on pictures.": "Hitta liknande fungerar på bilder.",
+ "Find pictures like the selected one": "Hitta bilder som liknar den markerade",
+ "Loosely Similar": "Löst liknande",
+ "Near Copies": "Nästan kopior",
+ "No other picture on this board looks like this one.": "Ingen annan bild på den här tavlan liknar den här.",
+ "Pictures like this one: {0}.": "Bilder som liknar den här: {0}.",
+ "Select one picture to find pictures like it.": "Markera en bild för att hitta bilder som liknar den.",
+ "Similar Pictures": "Liknande bilder"
 }

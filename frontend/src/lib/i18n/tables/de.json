@@ -1300,7 +1300,6 @@
  "Onion Skin": "Zwiebelhaut",
  "By color": "Nach Farbe",
  "Clear Color Filter": "Farbfilter aufheben",
- "Clear color filter": "Farbfilter aufheben",
  "Find This Swatch Color": "Farbe dieses Farbfelds suchen",
  "Find by Color…": "Nach Farbe suchen…",
  "Find by color": "Nach Farbe suchen",
@@ -1308,5 +1307,18 @@
  "Nothing on this board contains that color.": "Nichts auf diesem Board enthält diese Farbe.",
  "Pictures and swatches with this color: {0}.": "Bilder und Farbfelder mit dieser Farbe: {0}.",
  "Sort by Color": "Nach Farbe sortieren",
- "Tolerance is from 1 to 100.": "Die Toleranz reicht von 1 bis 100."
+ "Tolerance is from 1 to 100.": "Die Toleranz reicht von 1 bis 100.",
+ "Choose close, related or loose.": "Wählen Sie close, related oder loose.",
+ "Clear Similar Filter": "Ähnlichkeitsfilter aufheben",
+ "Clear filters": "Filter aufheben",
+ "Find Similar": "Ähnliche finden",
+ "Find Similar Pictures": "Ähnliche Bilder finden",
+ "Find Similar works on pictures.": "Ähnliche finden funktioniert mit Bildern.",
+ "Find pictures like the selected one": "Bilder finden, die dem ausgewählten ähneln",
+ "Loosely Similar": "Entfernt ähnlich",
+ "Near Copies": "Fast-Kopien",
+ "No other picture on this board looks like this one.": "Kein anderes Bild auf diesem Board sieht so aus.",
+ "Pictures like this one: {0}.": "Bilder wie dieses: {0}.",
+ "Select one picture to find pictures like it.": "Wählen Sie ein Bild aus, um ähnliche Bilder zu finden.",
+ "Similar Pictures": "Ähnliche Bilder"
 }

@@ -1300,7 +1300,6 @@
  "Onion Skin": "ซ้อนโปร่ง",
  "By color": "ตามสี",
  "Clear Color Filter": "ล้างตัวกรองสี",
- "Clear color filter": "ล้างตัวกรองสี",
  "Find This Swatch Color": "ค้นหาสีของตัวอย่างสีนี้",
  "Find by Color…": "ค้นหาตามสี…",
  "Find by color": "ค้นหาตามสี",
@@ -1308,5 +1307,18 @@
  "Nothing on this board contains that color.": "ไม่มีสิ่งใดบนบอร์ดนี้ที่มีสีนั้น",
  "Pictures and swatches with this color: {0}.": "รูปภาพและตัวอย่างสีที่มีสีนี้: {0}",
  "Sort by Color": "เรียงตามสี",
- "Tolerance is from 1 to 100.": "ค่าความคลาดเคลื่อนอยู่ระหว่าง 1 ถึง 100"
+ "Tolerance is from 1 to 100.": "ค่าความคลาดเคลื่อนอยู่ระหว่าง 1 ถึง 100",
+ "Choose close, related or loose.": "เลือก close, related หรือ loose",
+ "Clear Similar Filter": "ล้างตัวกรองความคล้าย",
+ "Clear filters": "ล้างตัวกรอง",
+ "Find Similar": "ค้นหาที่คล้ายกัน",
+ "Find Similar Pictures": "ค้นหารูปภาพที่คล้ายกัน",
+ "Find Similar works on pictures.": "การค้นหาที่คล้ายกันใช้ได้กับรูปภาพ",
+ "Find pictures like the selected one": "ค้นหารูปภาพที่คล้ายกับรูปที่เลือก",
+ "Loosely Similar": "คล้ายกันบ้าง",
+ "Near Copies": "เกือบเป็นสำเนา",
+ "No other picture on this board looks like this one.": "ไม่มีรูปภาพอื่นบนบอร์ดนี้ที่คล้ายกับรูปนี้",
+ "Pictures like this one: {0}.": "รูปภาพที่คล้ายกับรูปนี้: {0}",
+ "Select one picture to find pictures like it.": "เลือกรูปภาพหนึ่งรูปเพื่อค้นหารูปที่คล้ายกัน",
+ "Similar Pictures": "รูปภาพที่คล้ายกัน"
 }

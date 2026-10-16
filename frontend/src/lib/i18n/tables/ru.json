@@ -1300,7 +1300,6 @@
  "Onion Skin": "Калька",
  "By color": "По цвету",
  "Clear Color Filter": "Сбросить фильтр цвета",
- "Clear color filter": "Сбросить фильтр цвета",
  "Find This Swatch Color": "Найти цвет этого образца",
  "Find by Color…": "Найти по цвету…",
  "Find by color": "Найти по цвету",
@@ -1308,5 +1307,18 @@
  "Nothing on this board contains that color.": "На этой доске нет ничего с таким цветом.",
  "Pictures and swatches with this color: {0}.": "Изображения и образцы с этим цветом: {0}.",
  "Sort by Color": "Сортировать по цвету",
- "Tolerance is from 1 to 100.": "Допуск от 1 до 100."
+ "Tolerance is from 1 to 100.": "Допуск от 1 до 100.",
+ "Choose close, related or loose.": "Выберите close, related или loose.",
+ "Clear Similar Filter": "Сбросить фильтр похожих",
+ "Clear filters": "Сбросить фильтры",
+ "Find Similar": "Найти похожие",
+ "Find Similar Pictures": "Найти похожие изображения",
+ "Find Similar works on pictures.": "Поиск похожих работает с изображениями.",
+ "Find pictures like the selected one": "Найти изображения, похожие на выбранное",
+ "Loosely Similar": "Отдалённо похожие",
+ "Near Copies": "Почти копии",
+ "No other picture on this board looks like this one.": "На этой доске нет других изображений, похожих на это.",
+ "Pictures like this one: {0}.": "Похожие изображения: {0}.",
+ "Select one picture to find pictures like it.": "Выберите одно изображение, чтобы найти похожие.",
+ "Similar Pictures": "Похожие изображения"
 }

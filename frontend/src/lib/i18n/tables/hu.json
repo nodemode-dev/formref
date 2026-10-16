@@ -1300,7 +1300,6 @@
  "Onion Skin": "Hagymahéj",
  "By color": "Szín szerint",
  "Clear Color Filter": "Színszűrő törlése",
- "Clear color filter": "Színszűrő törlése",
  "Find This Swatch Color": "A színminta színének keresése",
  "Find by Color…": "Keresés szín szerint…",
  "Find by color": "Keresés szín szerint",
@@ -1308,5 +1307,18 @@
  "Nothing on this board contains that color.": "A táblán semmi sem tartalmazza ezt a színt.",
  "Pictures and swatches with this color: {0}.": "Képek és színminták ezzel a színnel: {0}.",
  "Sort by Color": "Rendezés szín szerint",
- "Tolerance is from 1 to 100.": "A tűrés 1 és 100 között lehet."
+ "Tolerance is from 1 to 100.": "A tűrés 1 és 100 között lehet.",
+ "Choose close, related or loose.": "Válassza a close, related vagy loose értéket.",
+ "Clear Similar Filter": "Hasonlósági szűrő törlése",
+ "Clear filters": "Szűrők törlése",
+ "Find Similar": "Hasonlók keresése",
+ "Find Similar Pictures": "Hasonló képek keresése",
+ "Find Similar works on pictures.": "A hasonlók keresése képeken működik.",
+ "Find pictures like the selected one": "A kijelölthöz hasonló képek keresése",
+ "Loosely Similar": "Távolról hasonló",
+ "Near Copies": "Majdnem másolatok",
+ "No other picture on this board looks like this one.": "A táblán egyetlen másik kép sem hasonlít erre.",
+ "Pictures like this one: {0}.": "Ehhez hasonló képek: {0}.",
+ "Select one picture to find pictures like it.": "Jelöljön ki egy képet a hozzá hasonlók kereséséhez.",
+ "Similar Pictures": "Hasonló képek"
 }

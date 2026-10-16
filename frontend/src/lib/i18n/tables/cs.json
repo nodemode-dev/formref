@@ -1300,7 +1300,6 @@
  "Onion Skin": "Cibulový pohled",
  "By color": "Podle barvy",
  "Clear Color Filter": "Zrušit barevný filtr",
- "Clear color filter": "Zrušit barevný filtr",
  "Find This Swatch Color": "Najít barvu tohoto vzorku",
  "Find by Color…": "Najít podle barvy…",
  "Find by color": "Najít podle barvy",
@@ -1308,5 +1307,18 @@
  "Nothing on this board contains that color.": "Nic na této tabuli tuto barvu neobsahuje.",
  "Pictures and swatches with this color: {0}.": "Obrázky a vzorky s touto barvou: {0}.",
  "Sort by Color": "Seřadit podle barvy",
- "Tolerance is from 1 to 100.": "Tolerance je od 1 do 100."
+ "Tolerance is from 1 to 100.": "Tolerance je od 1 do 100.",
+ "Choose close, related or loose.": "Zvolte close, related nebo loose.",
+ "Clear Similar Filter": "Zrušit filtr podobnosti",
+ "Clear filters": "Zrušit filtry",
+ "Find Similar": "Najít podobné",
+ "Find Similar Pictures": "Najít podobné obrázky",
+ "Find Similar works on pictures.": "Hledání podobných funguje u obrázků.",
+ "Find pictures like the selected one": "Najít obrázky podobné vybranému",
+ "Loosely Similar": "Volně podobné",
+ "Near Copies": "Téměř kopie",
+ "No other picture on this board looks like this one.": "Žádný jiný obrázek na této tabuli nevypadá jako tento.",
+ "Pictures like this one: {0}.": "Obrázky podobné tomuto: {0}.",
+ "Select one picture to find pictures like it.": "Vyberte jeden obrázek a najděte obrázky jemu podobné.",
+ "Similar Pictures": "Podobné obrázky"
 }

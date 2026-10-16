@@ -1300,7 +1300,6 @@
  "Onion Skin": "Sipulinkuori",
  "By color": "Värin mukaan",
  "Clear Color Filter": "Poista värisuodatin",
- "Clear color filter": "Poista värisuodatin",
  "Find This Swatch Color": "Etsi tämän värinäytteen väri",
  "Find by Color…": "Etsi värin mukaan…",
  "Find by color": "Etsi värin mukaan",
@@ -1308,5 +1307,18 @@
  "Nothing on this board contains that color.": "Mikään tällä taululla ei sisällä tätä väriä.",
  "Pictures and swatches with this color: {0}.": "Kuvat ja värinäytteet, joissa on tätä väriä: {0}.",
  "Sort by Color": "Lajittele värin mukaan",
- "Tolerance is from 1 to 100.": "Toleranssi on 1–100."
+ "Tolerance is from 1 to 100.": "Toleranssi on 1–100.",
+ "Choose close, related or loose.": "Valitse close, related tai loose.",
+ "Clear Similar Filter": "Poista samankaltaisuussuodatin",
+ "Clear filters": "Poista suodattimet",
+ "Find Similar": "Etsi samankaltaiset",
+ "Find Similar Pictures": "Etsi samankaltaiset kuvat",
+ "Find Similar works on pictures.": "Samankaltaisten haku toimii kuville.",
+ "Find pictures like the selected one": "Etsi valitun kaltaisia kuvia",
+ "Loosely Similar": "Väljästi samankaltaiset",
+ "Near Copies": "Lähes kopiot",
+ "No other picture on this board looks like this one.": "Mikään muu kuva tällä taululla ei näytä tältä.",
+ "Pictures like this one: {0}.": "Tämän kaltaiset kuvat: {0}.",
+ "Select one picture to find pictures like it.": "Valitse yksi kuva, niin löydät sen kaltaiset.",
+ "Similar Pictures": "Samankaltaiset kuvat"
 }

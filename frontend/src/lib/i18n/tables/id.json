@@ -1300,7 +1300,6 @@
  "Onion Skin": "Kulit Bawang",
  "By color": "Menurut warna",
  "Clear Color Filter": "Hapus Filter Warna",
- "Clear color filter": "Hapus filter warna",
  "Find This Swatch Color": "Cari Warna Contoh Ini",
  "Find by Color…": "Cari menurut Warna…",
  "Find by color": "Cari menurut warna",
@@ -1308,5 +1307,18 @@
  "Nothing on this board contains that color.": "Tidak ada apa pun di papan ini yang berisi warna itu.",
  "Pictures and swatches with this color: {0}.": "Gambar dan contoh warna dengan warna ini: {0}.",
  "Sort by Color": "Urutkan menurut Warna",
- "Tolerance is from 1 to 100.": "Toleransi dari 1 sampai 100."
+ "Tolerance is from 1 to 100.": "Toleransi dari 1 sampai 100.",
+ "Choose close, related or loose.": "Pilih close, related, atau loose.",
+ "Clear Similar Filter": "Hapus Filter Kemiripan",
+ "Clear filters": "Hapus filter",
+ "Find Similar": "Cari yang Mirip",
+ "Find Similar Pictures": "Cari Gambar yang Mirip",
+ "Find Similar works on pictures.": "Cari yang Mirip hanya untuk gambar.",
+ "Find pictures like the selected one": "Cari gambar yang mirip dengan yang dipilih",
+ "Loosely Similar": "Agak Mirip",
+ "Near Copies": "Hampir Salinan",
+ "No other picture on this board looks like this one.": "Tidak ada gambar lain di papan ini yang mirip dengan ini.",
+ "Pictures like this one: {0}.": "Gambar yang mirip dengan ini: {0}.",
+ "Select one picture to find pictures like it.": "Pilih satu gambar untuk mencari gambar yang mirip.",
+ "Similar Pictures": "Gambar Mirip"
 }

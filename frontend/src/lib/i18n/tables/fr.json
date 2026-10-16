@@ -1300,7 +1300,6 @@
  "Onion Skin": "Pelure d’oignon",
  "By color": "Par couleur",
  "Clear Color Filter": "Effacer le filtre de couleur",
- "Clear color filter": "Effacer le filtre de couleur",
  "Find This Swatch Color": "Chercher la couleur de cet échantillon",
  "Find by Color…": "Chercher par couleur…",
  "Find by color": "Chercher par couleur",
@@ -1308,5 +1307,18 @@
  "Nothing on this board contains that color.": "Rien sur ce tableau ne contient cette couleur.",
  "Pictures and swatches with this color: {0}.": "Images et échantillons avec cette couleur : {0}.",
  "Sort by Color": "Trier par couleur",
- "Tolerance is from 1 to 100.": "La tolérance va de 1 à 100."
+ "Tolerance is from 1 to 100.": "La tolérance va de 1 à 100.",
+ "Choose close, related or loose.": "Choisissez close, related ou loose.",
+ "Clear Similar Filter": "Effacer le filtre de ressemblance",
+ "Clear filters": "Effacer les filtres",
+ "Find Similar": "Trouver des semblables",
+ "Find Similar Pictures": "Trouver des images semblables",
+ "Find Similar works on pictures.": "La recherche d’images semblables fonctionne sur les images.",
+ "Find pictures like the selected one": "Trouver des images semblables à celle sélectionnée",
+ "Loosely Similar": "Vaguement semblables",
+ "Near Copies": "Quasi-copies",
+ "No other picture on this board looks like this one.": "Aucune autre image de ce tableau ne ressemble à celle-ci.",
+ "Pictures like this one: {0}.": "Images semblables à celle-ci : {0}.",
+ "Select one picture to find pictures like it.": "Sélectionnez une image pour trouver des images semblables.",
+ "Similar Pictures": "Images semblables"
 }

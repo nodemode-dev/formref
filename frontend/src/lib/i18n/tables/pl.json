@@ -1300,7 +1300,6 @@
  "Onion Skin": "Kalka",
  "By color": "Według koloru",
  "Clear Color Filter": "Wyczyść filtr koloru",
- "Clear color filter": "Wyczyść filtr koloru",
  "Find This Swatch Color": "Znajdź kolor tej próbki",
  "Find by Color…": "Znajdź według koloru…",
  "Find by color": "Znajdź według koloru",
@@ -1308,5 +1307,18 @@
  "Nothing on this board contains that color.": "Nic na tej tablicy nie zawiera tego koloru.",
  "Pictures and swatches with this color: {0}.": "Obrazy i próbki z tym kolorem: {0}.",
  "Sort by Color": "Sortuj według koloru",
- "Tolerance is from 1 to 100.": "Tolerancja wynosi od 1 do 100."
+ "Tolerance is from 1 to 100.": "Tolerancja wynosi od 1 do 100.",
+ "Choose close, related or loose.": "Wybierz close, related lub loose.",
+ "Clear Similar Filter": "Wyczyść filtr podobieństwa",
+ "Clear filters": "Wyczyść filtry",
+ "Find Similar": "Znajdź podobne",
+ "Find Similar Pictures": "Znajdź podobne obrazy",
+ "Find Similar works on pictures.": "Wyszukiwanie podobnych działa na obrazach.",
+ "Find pictures like the selected one": "Znajdź obrazy podobne do zaznaczonego",
+ "Loosely Similar": "Luźno podobne",
+ "Near Copies": "Prawie kopie",
+ "No other picture on this board looks like this one.": "Żaden inny obraz na tej tablicy nie wygląda jak ten.",
+ "Pictures like this one: {0}.": "Obrazy podobne do tego: {0}.",
+ "Select one picture to find pictures like it.": "Zaznacz jeden obraz, aby znaleźć podobne.",
+ "Similar Pictures": "Podobne obrazy"
 }

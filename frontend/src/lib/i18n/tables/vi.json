@@ -1300,7 +1300,6 @@
  "Onion Skin": "Chồng mờ",
  "By color": "Theo màu",
  "Clear Color Filter": "Xóa bộ lọc màu",
- "Clear color filter": "Xóa bộ lọc màu",
  "Find This Swatch Color": "Tìm màu của mẫu màu này",
  "Find by Color…": "Tìm theo màu…",
  "Find by color": "Tìm theo màu",
@@ -1308,5 +1307,18 @@
  "Nothing on this board contains that color.": "Không có gì trên bảng này chứa màu đó.",
  "Pictures and swatches with this color: {0}.": "Ảnh và mẫu màu có màu này: {0}.",
  "Sort by Color": "Sắp xếp theo màu",
- "Tolerance is from 1 to 100.": "Dung sai từ 1 đến 100."
+ "Tolerance is from 1 to 100.": "Dung sai từ 1 đến 100.",
+ "Choose close, related or loose.": "Hãy chọn close, related hoặc loose.",
+ "Clear Similar Filter": "Xóa bộ lọc tương tự",
+ "Clear filters": "Xóa bộ lọc",
+ "Find Similar": "Tìm ảnh tương tự",
+ "Find Similar Pictures": "Tìm ảnh tương tự",
+ "Find Similar works on pictures.": "Tìm ảnh tương tự chỉ dùng cho ảnh.",
+ "Find pictures like the selected one": "Tìm ảnh giống ảnh đã chọn",
+ "Loosely Similar": "Hơi giống",
+ "Near Copies": "Gần như bản sao",
+ "No other picture on this board looks like this one.": "Không có ảnh nào khác trên bảng này giống ảnh này.",
+ "Pictures like this one: {0}.": "Ảnh giống ảnh này: {0}.",
+ "Select one picture to find pictures like it.": "Hãy chọn một ảnh để tìm ảnh giống nó.",
+ "Similar Pictures": "Ảnh tương tự"
 }

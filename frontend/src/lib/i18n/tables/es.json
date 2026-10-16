@@ -1300,7 +1300,6 @@
  "Onion Skin": "Papel cebolla",
  "By color": "Por color",
  "Clear Color Filter": "Quitar filtro de color",
- "Clear color filter": "Quitar filtro de color",
  "Find This Swatch Color": "Buscar el color de esta muestra",
  "Find by Color…": "Buscar por color…",
  "Find by color": "Buscar por color",
@@ -1308,5 +1307,18 @@
  "Nothing on this board contains that color.": "Nada en este tablero contiene ese color.",
  "Pictures and swatches with this color: {0}.": "Imágenes y muestras con este color: {0}.",
  "Sort by Color": "Ordenar por color",
- "Tolerance is from 1 to 100.": "La tolerancia va de 1 a 100."
+ "Tolerance is from 1 to 100.": "La tolerancia va de 1 a 100.",
+ "Choose close, related or loose.": "Elige close, related o loose.",
+ "Clear Similar Filter": "Quitar filtro de parecidas",
+ "Clear filters": "Quitar filtros",
+ "Find Similar": "Buscar parecidas",
+ "Find Similar Pictures": "Buscar imágenes parecidas",
+ "Find Similar works on pictures.": "Buscar parecidas funciona con imágenes.",
+ "Find pictures like the selected one": "Buscar imágenes parecidas a la seleccionada",
+ "Loosely Similar": "Vagamente parecidas",
+ "Near Copies": "Casi copias",
+ "No other picture on this board looks like this one.": "Ninguna otra imagen de este tablero se parece a esta.",
+ "Pictures like this one: {0}.": "Imágenes como esta: {0}.",
+ "Select one picture to find pictures like it.": "Selecciona una imagen para buscar otras parecidas.",
+ "Similar Pictures": "Imágenes parecidas"
 }
