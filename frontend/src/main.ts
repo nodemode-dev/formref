@@ -22,6 +22,7 @@ import { registerVisibility } from './app/visibility';
 import { registerPencil } from './app/pencil';
 import { registerBlend } from './app/blend';
 import { registerVideo } from './app/video';
+import './app/drag-out';
 
 bindLanguage();
 registerTerminal();
