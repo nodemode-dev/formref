@@ -89,6 +89,8 @@ export function boardMenu(): MenuEntry[] {
         item('flip-x'),
         item('flip-y'),
         sep,
+        item('pdf-to-images'),
+        sep,
         item('grayscale'),
         item('sampling'),
         sep,

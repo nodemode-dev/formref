@@ -11,6 +11,7 @@ from ..models.requests import CreateBoard, BoardCommand
 from ..core.sampling import sample_image
 from ..core.features import duplicates, enrich
 from ..core.media import preview
+from ..core.pdf_pages import page_items
 from ..core.capture import capture
 from ..core.doc_export import export_item
 from ..core.cutout import change_background, DEFAULT_TOLERANCE
@@ -39,6 +40,10 @@ async def read_upload(file: UploadFile):
 @router.get("/boards")
 def list_boards():
     return store.list_boards()
+
+@router.post("/boards/{board_id}/items/{item_id}/pdf-pages")
+async def pdf_pages(board_id: str, item_id: str, first: int = 1, last: int = 0, dpi: int = 150):
+    return await asyncio.to_thread(page_items, board_id, item_id, first, last, dpi)
 
 @router.get("/boards/{board_id}/duplicates")
 def board_duplicates(board_id: str, distance: int = 4):

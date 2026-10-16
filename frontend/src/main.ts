@@ -23,6 +23,7 @@ import { registerPencil } from './app/pencil';
 import { registerBlend } from './app/blend';
 import { registerVideo } from './app/video';
 import './app/drag-out';
+import { registerPdf } from './app/pdf';
 
 bindLanguage();
 registerTerminal();
@@ -34,6 +35,7 @@ registerSmartGuides();
 registerVisibility();
 registerBlend();
 registerVideo();
+registerPdf();
 attachCatalogue();
 
 const agent = new AgentPanel({

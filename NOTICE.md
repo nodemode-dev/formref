@@ -45,6 +45,7 @@ FormRef's original source and vector artwork are Apache-2.0. The repository's fu
 | onnxruntime | 1.31.0 | MIT | Background model inference |
 | numpy | 2.5.4 | BSD-3-Clause | Background model tensors |
 | websockets | 15.0.1 | BSD-3-Clause | Uvicorn WebSocket support for the terminal dock |
+| pypdfium2 | 5.14.0 | Apache-2.0 or BSD-3-Clause; bundled PDFium BSD-3-Clause | Server-side rendering of PDF pages into image references |
 | ptyprocess | 0.7.0 | ISC | Terminal dock pseudo-terminals on macOS and Linux |
 | pywinpty | 3.0.5 | MIT | Terminal dock pseudo-terminals on Windows (ConPTY) |
 | @xterm/xterm | 6.0.0 | MIT | Terminal dock rendering in the window |
