@@ -1,5 +1,16 @@
 # FormRef changelog
 
+## v0.6.5 · 2026-10-16
+
+Several anchors at once, Outline Stroke, the Pencil and multi-stop gradients.
+
+- Direct Selection: drag a box on empty canvas to select the anchors inside it, or Shift-click anchors; dragging, Delete and the arrow keys act on all of them.
+- Average (both, horizontal or vertical) and Delete Segment between two selected neighbouring anchors.
+- Outline Stroke turns a stroke into a filled shape with its caps, joins and miter limit.
+- Pencil (Shift+N): freehand that becomes a smooth editable path, with Pencil Fidelity from 1 (accurate) to 5 (smooth); end near the start to close it.
+- Gradients take up to 16 stops, each with its own opacity (Gradient stops field in the inspector).
+- Fix: the inspector showed Round caps and corners for paths that were drawn with butt caps and miter corners; it now shows what is drawn, and the miter limit draws at 10 as shown.
+
 ## v0.6.4 · 2026-10-16
 
 Smart Guides, the Curvature tool, deeper search and hiding.

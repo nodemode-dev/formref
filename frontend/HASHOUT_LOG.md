@@ -8,6 +8,7 @@
 - [Stacking scale](#stacking-scale)
 - [Verification](#verification)
 - [Scripts](#scripts)
+- [v0.6.5 several anchors, Outline Stroke, Pencil, gradient stops](#v065-several-anchors-outline-stroke-pencil-gradient-stops)
 - [v0.6.4 Smart Guides, Curvature, search, visibility](#v064-smart-guides-curvature-search-visibility)
 - [Canvas increment](#canvas-increment)
 - [Reference editing increment](#reference-editing-increment)
@@ -19,6 +20,14 @@
 - [v0.4.8 desktop window controls and WebKit icons](#v048-desktop-window-controls-and-webkit-icons)
 - [v0.4.7 synced notes, map cards, inline edit commit](#v047-synced-notes-map-cards-inline-edit-commit)
 - [v0.4.6 GIF frames and document export](#v046-gif-frames-and-document-export)
+
+## v0.6.5 several anchors, Outline Stroke, Pencil, gradient stops
+
+`direct-select.ts` keeps the selected anchors as `picked` (keys `path:index`) for one item, `pickedItem`; `chosen` stays the last one so `chosenAnchor()` and Cut Path work as before. The box starts on a pointerdown that misses every anchor, handle and board item while a path is the target, and is captured on the stage so the item marquee in `gestures.ts` never starts; a click without a drag clears the picks and the item selection, as a click on empty canvas did. Delete removes picked anchors per path from the highest index down so indices stay valid. Average's horizontal means one shared y, vertical one shared x. Delete Segment needs two picked neighbours; a closed path is reopened starting after the segment.
+
+`strokeOutline()` in `lib/vector/boolean.ts` unions a rectangle per flattened segment with join pieces (a disc for round, the bevel triangle on both sides, plus the miter tip while 1 / cos(theta/2) is within the limit) and caps (discs for round, the end segments lengthened by half the width for projecting). The inner join pieces fall inside the segment rectangles, so both sides are added without working out which side is outer. The result is drawn with `data.stroke = "none"`, which `scene.ts` honours, because the engine refuses a stroke width of 0. Dashes are not expanded. An unset miter limit now draws at 10 (it was SVG's 4 while the inspector said 10).
+
+The Pencil reuses the Draw gesture (`type: 'pen'`) and only differs at pointerup, where `pencilItem()` in `app/pencil.ts` simplifies at a fidelity-dependent screen tolerance and runs `smoothPath`. Gradient stops are an optional `stops` array; two-stop gradients keep the old `from`/`to` shape, and `paintGradient` adds or removes `stop` elements inside the item's own gradient element only.
 
 ## v0.6.4 Smart Guides, Curvature, search, visibility
 
