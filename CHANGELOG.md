@@ -1,5 +1,11 @@
 # FormRef changelog
 
+## v0.14.0 · 2026-10-16
+
+Pictures arrive tagged.
+
+- Keywords saved inside picture files now become the picture's tags when you add it: from Lightroom, Bridge, Apple Photos, darktable or digiKam (XMP), older Photoshop and newsroom tools (IPTC), and the Tags field in Windows. This works for dropped and pasted files, Add Images, the browser clipper, Add Images from the Web, and `./formref import` of a folder. The tags show in the tag cloud and the inspector straight away and can be renamed or removed like any others.
+
 ## v0.13.0 · 2026-10-16
 
 Tags while typing, and tags in exports.

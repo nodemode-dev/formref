@@ -8,6 +8,7 @@
 
 ## Contents
 
+- [v0.14.0 · Keywords in picture files](#v0140--keywords-in-picture-files)
 - [v0.13.0 · Tags in exports](#v0130--tags-in-exports)
 - [v0.9.0 · Find Similar](#v090--find-similar)
 - [v0.8.0 · Find by Color, Sort by Color](#v080--find-by-color-sort-by-color)
@@ -26,6 +27,14 @@
 - [v0.2.0 · Canvas settings and snapping through MCP](#v020--canvas-settings-and-snapping-through-mcp)
 - [v0.1.0 · Local board service and SDK MCP](#v010--local-board-service-and-sdk-mcp)
 - [boot_backend.bat](#boot_backendbat)
+
+## v0.14.0 · Keywords in picture files
+
+`core/keywords.py` `embedded_keywords(data)`. XMP: a regex finds the first `<x:xmpmeta ... </x:xmpmeta>` in the first 16 MiB, which covers JPEG APP1, PNG iTXt (uncompressed), WebP and TIFF without a parser per container; defusedxml parses it, so a packet with a DTD or entity is refused rather than expanded; every `rdf:li` under `dc:subject` counts, or the element's text when a writer skipped the Bag. IPTC: Pillow's `IptcImagePlugin.getiptcinfo` finds the Photoshop APP13 or TIFF IPTC block; dataset 2:25 may be one value or a list, decoded as UTF-8 with Latin-1 as the fallback (IIM 1:90 is not consulted). Windows: EXIF 0x9C9E is UTF-16-LE, semicolon separated, null terminated. Results are whitespace-collapsed, cut to 60 characters, deduplicated ignoring case, capped at 32. Any Pillow error while reading metadata yields no keywords instead of failing the upload, which was validated already.
+
+`Store.import_asset` runs it for raster images, stores `keywords` in the asset JSON only when there are some, and adds them to an asset stored before v0.14.0 the next time the same file arrives. The upload route returns the info, so the window's `placeAssets` sets `data.tags` for images; the clipper, `./formref import` and MCP `capture_from_web` do the same server side.
+
+Verified with fixtures built in scratch: XMP in JPEG, PNG iTXt and WebP; IPTC in a Photoshop APP13 block with UTF-8 umlauts; Windows XPKeywords; a packet declaring an entity (no keywords); a plain JPEG (none). Through the upload route, `./formref import` of the folder (all seven items tagged as expected), the clipper with a paired token, and the window at 4x CPU (four files added, tags on three, nine chips in the cloud, inspector "portrait, Ölgemälde, studio light", one undo removed all four).
 
 ## v0.13.0 · Tags in exports
 
