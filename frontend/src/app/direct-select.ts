@@ -9,7 +9,7 @@ const NS = 'http://www.w3.org/2000/svg';
 const STYLES: CornerStyle[] = ['round', 'inverted', 'chamfer'];
 
 type Hit = { kind: 'anchor' | 'in' | 'out' | 'corner'; path: number; index: number };
-interface Drag { hit: Hit; item: Item; vector: Vector; start: Point; origin: Vector; moved: boolean; only: boolean }
+interface Drag { hit: Hit; item: Item; vector: Vector; start: Point; origin: Vector; moved: boolean; only: boolean; many: boolean }
 
 const overlay = document.createElementNS(NS, 'svg');
 overlay.classList.add('anchor-overlay');
@@ -23,6 +23,33 @@ const pool: SVGElement[] = [];
 let drag: Drag | null = null;
 let frame = 0;
 let chosen: { item: string; path: number; index: number } | null = null;
+let pickedItem = '';
+const picked = new Set<string>();
+const key = (path: number, index: number) => `${path}:${index}`;
+
+/** Selects an anchor of the target item; `add` toggles it in the current set (Shift-click), otherwise it becomes the only one. */
+function pick(item: string, path: number, index: number, add: boolean) {
+  if (pickedItem !== item || !add) { picked.clear(); pickedItem = item; }
+  const k = key(path, index);
+  if (add && picked.has(k)) picked.delete(k); else picked.add(k);
+  const last = [...picked].pop();
+  chosen = last ? { item, path: Number(last.split(':')[0]), index: Number(last.split(':')[1]) } : null;
+}
+
+function clearPicks() {
+  picked.clear();
+  chosen = null;
+}
+
+function pickedList(item: Item): { path: number; index: number }[] {
+  if (pickedItem !== item.id) return [];
+  return [...picked].map(k => { const [path, index] = k.split(':').map(Number); return { path, index }; });
+}
+
+const marquee = document.createElementNS(NS, 'rect');
+marquee.classList.add('anchor-marquee');
+overlay.append(marquee);
+let box: { start: Point; now: Point; add: boolean; item: Item } | null = null;
 
 function el(index: number): SVGElement {
   while (pool.length <= index) { const node = document.createElementNS(NS, 'rect'); node.classList.add('anchor-mark'); overlay.append(node); pool.push(node); }
@@ -91,7 +118,7 @@ function render() {
       }
       const node = el(used++);
       node.setAttribute('x', String(w.x - size / 2)); node.setAttribute('y', String(w.y - size / 2)); node.setAttribute('width', String(size)); node.setAttribute('height', String(size)); node.setAttribute('rx', '0');
-      node.dataset.hit = `anchor:${pi}:${i}`; node.setAttribute('class', `anchor-mark ${isCorner(a) ? 'corner' : 'smooth'}${chosen && chosen.item === item.id && chosen.path === pi && chosen.index === i ? ' chosen' : ''}`);
+      node.dataset.hit = `anchor:${pi}:${i}`; node.setAttribute('class', `anchor-mark ${isCorner(a) ? 'corner' : 'smooth'}${pickedItem === item.id && picked.has(key(pi, i)) ? ' chosen' : ''}`);
       const plan = plans[i];
       const bis = plan && isCorner(a) ? bisector(path.anchors, i, path.closed) : null;
       if (plan && bis) {
@@ -128,6 +155,12 @@ function parse(node: Element | null): Hit | null {
 
 const clone = (v: Vector): Vector => JSON.parse(JSON.stringify(v));
 
+function shift(a: Anchor, dx: number, dy: number) {
+  a.x += dx; a.y += dy;
+  if (a.in) { a.in.x += dx; a.in.y += dy; }
+  if (a.out) { a.out.x += dx; a.out.y += dy; }
+}
+
 function applyDrag(event: PointerEvent) {
   if (!drag) return;
   const m = mapper(drag.item, drag.origin);
@@ -138,9 +171,8 @@ function applyDrag(event: PointerEvent) {
   const { hit } = drag;
   const path = vector.paths[hit.path], a = path.anchors[hit.index];
   if (hit.kind === 'anchor') {
-    a.x += dx; a.y += dy;
-    if (a.in) { a.in.x += dx; a.in.y += dy; }
-    if (a.out) { a.out.x += dx; a.out.y += dy; }
+    const moving = drag.many ? pickedList(drag.item).map(t => vector.paths[t.path]?.anchors[t.index]).filter(Boolean) : [a];
+    for (const b of moving) shift(b, dx, dy);
   } else if (hit.kind === 'in' || hit.kind === 'out') {
     const h = a[hit.kind]!;
     h.x += dx; h.y += dy;
@@ -171,6 +203,14 @@ function applyDrag(event: PointerEvent) {
 stage.addEventListener('pointerdown', event => {
   const hit = parse((event.target as Element).closest('[data-hit]'));
   const item = target();
+  if (!hit && item && event.button === 0 && !pen && !(event.target as Element).closest('.board-item,button,input,.floating-controls,.navigator')) {
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    stage.setPointerCapture(event.pointerId);
+    const p = worldPoint(event);
+    box = { start: p, now: p, add: event.shiftKey, item };
+    return;
+  }
   if (!hit || !item || event.button !== 0) return;
   event.preventDefault();
   event.stopImmediatePropagation();
@@ -189,9 +229,13 @@ stage.addEventListener('pointerdown', event => {
     void execute({ type: 'update', ids: [item.id], patch: { data: withVector(item, copy) } }).catch(error);
     return;
   }
-  if (hit.kind === 'anchor') chosen = { item: item.id, path: hit.path, index: hit.index };
+  if (hit.kind === 'anchor') {
+    const already = pickedItem === item.id && picked.has(key(hit.path, hit.index));
+    if (event.shiftKey) { pick(item.id, hit.path, hit.index, true); refreshAnchors(); return; }
+    if (!already) pick(item.id, hit.path, hit.index, false);
+  }
   stage.setPointerCapture(event.pointerId);
-  drag = { hit, item, vector, origin: clone(vector), start: worldPoint(event), moved: false, only: event.shiftKey };
+  drag = { hit, item, vector, origin: clone(vector), start: worldPoint(event), moved: false, only: event.shiftKey, many: hit.kind === 'anchor' && picked.size > 1 };
 }, true);
 
 function commit(item: Item, vector: Vector) {
@@ -211,14 +255,19 @@ window.addEventListener('keydown', event => {
   const at = S.tool === 'direct' && !pen ? chosenAnchor() : null;
   if (!at || (event.target as HTMLElement).closest('input,textarea,select,[contenteditable="true"],.term-dock')) return;
   const copy = clone(at.vector);
-  const path = copy.paths[at.path];
+  const list = pickedList(at.item);
   if (event.key === 'Delete' || event.key === 'Backspace') {
     event.preventDefault();
     event.stopImmediatePropagation();
-    if (path.anchors.length <= 2 && copy.paths.length === 1) return;
-    if (path.anchors.length <= 2) copy.paths.splice(at.path, 1);
-    else copy.paths[at.path] = deleteAnchor(path, at.index);
-    chosen = null;
+    const byPath = new Map<number, number[]>();
+    for (const t of list) byPath.set(t.path, [...(byPath.get(t.path) || []), t.index]);
+    for (const p of [...byPath.keys()].sort((a, b) => b - a)) {
+      let path = copy.paths[p];
+      for (const i of byPath.get(p)!.sort((a, b) => b - a)) path = path.anchors.length > 2 ? deleteAnchor(path, i) : { ...path, anchors: path.anchors.filter((_, k) => k !== i) };
+      if (path.anchors.length < 2) copy.paths.splice(p, 1); else copy.paths[p] = path;
+    }
+    if (!copy.paths.length) return;
+    clearPicks();
     void commit(at.item, copy);
     return;
   }
@@ -228,10 +277,7 @@ window.addEventListener('keydown', event => {
   event.preventDefault();
   event.stopImmediatePropagation();
   const sx = at.vector.w / Math.max(1, at.item.width), sy = at.vector.h / Math.max(1, at.item.height);
-  const a = path.anchors[at.index], dx = d[0] * sx, dy = d[1] * sy;
-  a.x += dx; a.y += dy;
-  if (a.in) { a.in.x += dx; a.in.y += dy; }
-  if (a.out) { a.out.x += dx; a.out.y += dy; }
+  for (const t of list) shift(copy.paths[t.path].anchors[t.index], d[0] * sx, d[1] * sy);
   void commit(at.item, copy);
 }, true);
 
@@ -263,23 +309,87 @@ stage.addEventListener('dblclick', event => {
   const hit = best as { path: number; seg: number; t: number };
   const copy = clone(vector);
   copy.paths[hit.path] = addAnchor(copy.paths[hit.path], hit.seg, hit.t);
-  chosen = { item: item.id, path: hit.path, index: hit.seg + 1 };
+  pick(item.id, hit.path, hit.seg + 1, false);
   void commit(item, copy);
 }, true);
+
+/** Average: moves the selected anchors to their mean position; `horizontal` lines them up on one horizontal line (shared y), `vertical` on one vertical line (shared x). */
+function averageAnchors(axis: string = 'both'): boolean {
+  const at = chosenAnchor();
+  const list = at ? pickedList(at.item) : [];
+  if (!at || list.length < 2) return false;
+  const copy = clone(at.vector);
+  const points = list.map(t => copy.paths[t.path].anchors[t.index]);
+  const mx = points.reduce((s, a) => s + a.x, 0) / points.length, my = points.reduce((s, a) => s + a.y, 0) / points.length;
+  for (const a of points) shift(a, axis === 'horizontal' ? 0 : mx - a.x, axis === 'vertical' ? 0 : my - a.y);
+  void commit(at.item, copy);
+  return true;
+}
+
+/** Delete Segment: removes the segment between two selected neighbouring anchors; a closed path opens there, an open path splits in two. */
+function deleteSegment(): boolean {
+  const at = chosenAnchor();
+  if (!at) return false;
+  const list = pickedList(at.item);
+  for (const a of list) for (const b of list) {
+    if (a.path !== b.path) continue;
+    const path = at.vector.paths[a.path], n = path.anchors.length;
+    const s = b.index === a.index + 1 ? a.index : path.closed && a.index === n - 1 && b.index === 0 ? n - 1 : -1;
+    if (s < 0) continue;
+    const copy = clone(at.vector);
+    const anchors = copy.paths[a.path].anchors;
+    const pieces = path.closed
+      ? [{ closed: false, anchors: [...anchors.slice(s + 1), ...anchors.slice(0, s + 1)] }]
+      : [anchors.slice(0, s + 1), anchors.slice(s + 1)].filter(p => p.length >= 2).map(p => ({ closed: false, anchors: p }));
+    copy.paths.splice(a.path, 1, ...pieces);
+    if (!copy.paths.length) return false;
+    clearPicks();
+    void commit(at.item, copy);
+    return true;
+  }
+  return false;
+}
 
 export function cutAtChosen(): boolean {
   const at = chosenAnchor();
   if (!at) return false;
   const copy = clone(at.vector);
   copy.paths.splice(at.path, 1, ...cutAt(copy.paths[at.path], at.index));
-  chosen = null;
+  clearPicks();
   void commit(at.item, copy);
   return true;
 }
 
-stage.addEventListener('pointermove', event => { if (drag) { event.stopImmediatePropagation(); applyDrag(event); } }, true);
+function drawBox() {
+  if (!box) { marquee.setAttribute('width', '0'); marquee.setAttribute('height', '0'); return; }
+  marquee.setAttribute('x', String(Math.min(box.start.x, box.now.x))); marquee.setAttribute('y', String(Math.min(box.start.y, box.now.y)));
+  marquee.setAttribute('width', String(Math.abs(box.now.x - box.start.x))); marquee.setAttribute('height', String(Math.abs(box.now.y - box.start.y)));
+}
+
+/** Direct Selection marquee: anchors of the selected path inside the box are selected (Shift adds); a click without a drag deselects. */
+function finishBox() {
+  const done = box!;
+  box = null;
+  drawBox();
+  const x0 = Math.min(done.start.x, done.now.x), x1 = Math.max(done.start.x, done.now.x), y0 = Math.min(done.start.y, done.now.y), y1 = Math.max(done.start.y, done.now.y);
+  if ((x1 - x0) * S.camera.zoom < 3 && (y1 - y0) * S.camera.zoom < 3) { clearPicks(); setSelection([]); refreshAnchors(); return; }
+  const vector = asVector(done.item);
+  const m = mapper(done.item, vector);
+  if (!done.add) { picked.clear(); pickedItem = done.item.id; chosen = null; }
+  vector.paths.forEach((path, pi) => path.anchors.forEach((a, i) => {
+    const w = m.toWorld(a);
+    if (w.x >= x0 && w.x <= x1 && w.y >= y0 && w.y <= y1 && !picked.has(key(pi, i))) pick(done.item.id, pi, i, true);
+  }));
+  refreshAnchors();
+}
+
+stage.addEventListener('pointermove', event => {
+  if (box) { event.stopImmediatePropagation(); box.now = worldPoint(event); drawBox(); return; }
+  if (drag) { event.stopImmediatePropagation(); applyDrag(event); }
+}, true);
 
 stage.addEventListener('pointerup', event => {
+  if (box) { event.stopImmediatePropagation(); finishBox(); return; }
   if (!drag) { refreshAnchors(); return; }
   event.stopImmediatePropagation();
   const done = drag;
@@ -437,6 +547,9 @@ window.addEventListener('keydown', event => {
 }, true);
 
 export function registerDirectSelect(setTool: (tool: 'direct' | 'pen-path' | 'curvature') => void) {
+  const several = () => { const at = chosenAnchor(); return !!at && pickedList(at.item).length > 1; };
+  registry.add({ group: 'Path', id: 'average-anchors', label: 'Average...', icon: 'snap', agent: 'window-only', params: { axis: { type: 'string', enum: ['both', 'horizontal', 'vertical'], description: 'both moves the anchors to one point; horizontal lines them up on a horizontal line; vertical on a vertical line' } }, run: p => { if (!averageAnchors(String((p as { axis?: string } | undefined)?.axis || 'both'))) throw new Error('With the Direct Selection tool, select two or more anchors first (Shift-click or drag a box).'); }, enabled: several, description: 'Moves the selected anchors to their average position, or lines them up horizontally or vertically.' });
+  registry.add({ group: 'Path', id: 'delete-segment', label: 'Delete Segment', icon: 'delete', agent: 'window-only', run: () => { if (!deleteSegment()) throw new Error('With the Direct Selection tool, select the two anchors at the ends of a segment first.'); }, enabled: several, description: 'Removes the segment between two selected neighbouring anchors: a closed path opens there, an open path splits in two.' });
   registry.add({ group: 'Tools', id: 'tool-curvature', label: 'Curvature Tool', icon: 'curvature', keys: ['shift+~'], run: () => { if (pen) void finishPen(false); setTool('curvature'); }, agent: 'window-only', mutates: false, description: 'Draws a path as Illustrator\'s Curvature tool does: each click places a point and the curve bends smoothly through all of them; drag while placing to move the point, double-click or Alt-click a placed point to switch it between smooth and corner, click the first point to close, Enter or Esc to finish, Backspace removes the last point.' });
   registry.add({ group: 'Path', id: 'cut-path', label: 'Cut Path at Selected Anchor', icon: 'crop', keys: ['mod+shift+x'], agent: 'window-only', run: () => { if (!cutAtChosen()) throw new Error('With the Direct Selection tool, click the anchor to cut at first.'); }, enabled: () => !!chosenAnchor(), description: 'Scissors: opens a closed path at the selected anchor, or splits an open path in two there.' });
   registry.add({ group: 'Tools', id: 'tool-pen-path', label: 'Pen Tool', icon: 'bezier', keys: ['shift+p'], run: () => { if (pen) void finishPen(false); setTool('pen-path'); }, agent: 'window-only', mutates: false, description: 'Draws an anchor path as Illustrator\'s Pen does: click for a corner point, drag for a smooth point, click the first point to close the path, Enter or Esc to finish an open path, Backspace removes the last point.' });
