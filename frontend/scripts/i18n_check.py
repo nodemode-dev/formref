@@ -68,7 +68,7 @@ def keys() -> set[str]:
                 if count[0] > 4:
                     continue
             s = s.replace("\\'", "'").replace('\\"', '"')
-            if not re.match(r"[A-Z]", s.strip()) or re.search(r"[<>=;]|^[A-Z][a-z]+[A-Z]|\b(px|rgba?|var)\(|^[A-Z_]+$|https?://", s):
+            if not re.match(r"[A-Z]", s.strip()) or re.search(r"[<>=;]|^[A-Z][a-z]+[A-Z]|\b(px|rgba?|var)\(|^[A-Z_]+$|https?://|^M\{\d\}", s):
                 continue
             if " " in s.strip() or re.fullmatch(r"[A-Z][a-z]+", s.strip()):
                 add(s)
