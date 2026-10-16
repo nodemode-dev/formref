@@ -32,7 +32,6 @@
  "Paper is a4, letter, a3 or tabloid.": "Kertas adalah a4, letter, a3, atau tabloid.",
  "At 100 percent this board needs {0} pages; export it as one page or one page per item instead.": "Pada 100% papan ini butuh {0} halaman; ekspor sebagai satu halaman atau satu halaman per item saja.",
  "There is nothing on this board to put on a page.": "Tidak ada apa pun di papan ini untuk dimuat di halaman.",
- "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages or pdf-tiles.": "Format ekspor harus portable, json, png, svg, markdown, pdf, pdf-pages, atau pdf-tiles.",
  "PDF Pages to Images": "Halaman PDF ke Gambar",
  "PDF pages to images": "Halaman PDF ke gambar",
  "Pages": "Halaman",
@@ -1230,5 +1229,17 @@
  "formref · Reference studio": "formref · Studio referensi",
  "https://": "https://",
  "r": "r",
- "v0.6.1": "v0.6.1"
+ "v0.6.1": "v0.6.1",
+ "A .bee file that opens in BeeRef, with the original pictures": "File .bee yang terbuka di BeeRef, dengan gambar aslinya",
+ "BeeRef board": "Papan BeeRef",
+ "No pictures or text could be read from this BeeRef board.": "Tidak ada gambar atau teks yang dapat dibaca dari papan BeeRef ini.",
+ "Normalize Sizes Within Each Group": "Normalkan Ukuran di Setiap Grup",
+ "Opened the BeeRef board {0} as a new board.": "Papan BeeRef {0} dibuka sebagai papan baru.",
+ "Select grouped items first: each group needs at least two unlocked items.": "Pilih item yang dikelompokkan terlebih dahulu: setiap grup memerlukan setidaknya dua item yang tidak terkunci.",
+ "Sizes matched within {0} groups ({1} items).": "Ukuran disamakan di {0} grup ({1} item).",
+ "This BeeRef board has no items table.": "Papan BeeRef ini tidak memiliki tabel item.",
+ "This SQLite file is not a BeeRef board.": "File SQLite ini bukan papan BeeRef.",
+ "This file is not a readable BeeRef board.": "File ini bukan papan BeeRef yang dapat dibaca.",
+ "Pictures and text went to the BeeRef file; {0} drawn or other items were left out because BeeRef has no place for them.": "Gambar dan teks masuk ke file BeeRef; {0} gambar tangan atau item lain dihilangkan karena BeeRef tidak dapat menyimpannya.",
+ "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles or bee.": "Format ekspor harus portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, atau bee."
 }

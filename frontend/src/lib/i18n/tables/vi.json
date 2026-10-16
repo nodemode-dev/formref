@@ -32,7 +32,6 @@
  "Paper is a4, letter, a3 or tabloid.": "Giấy là a4, letter, a3 hoặc tabloid.",
  "At 100 percent this board needs {0} pages; export it as one page or one page per item instead.": "Ở 100% bảng này cần {0} trang; hãy xuất thành một trang hoặc mỗi mục một trang.",
  "There is nothing on this board to put on a page.": "Không có gì trên bảng này để đưa vào trang.",
- "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages or pdf-tiles.": "Định dạng xuất phải là portable, json, png, svg, markdown, pdf, pdf-pages hoặc pdf-tiles.",
  "PDF Pages to Images": "Trang PDF thành ảnh",
  "PDF pages to images": "Trang PDF thành ảnh",
  "Pages": "Trang",
@@ -1230,5 +1229,17 @@
  "formref · Reference studio": "formref · Studio tham chiếu",
  "https://": "https://",
  "r": "r",
- "v0.6.1": "v0.6.1"
+ "v0.6.1": "v0.6.1",
+ "A .bee file that opens in BeeRef, with the original pictures": "Tệp .bee mở được trong BeeRef, kèm ảnh gốc",
+ "BeeRef board": "Bảng BeeRef",
+ "No pictures or text could be read from this BeeRef board.": "Không đọc được ảnh hay văn bản nào từ bảng BeeRef này.",
+ "Normalize Sizes Within Each Group": "Chuẩn hóa kích thước trong từng nhóm",
+ "Opened the BeeRef board {0} as a new board.": "Đã mở bảng BeeRef {0} thành bảng mới.",
+ "Select grouped items first: each group needs at least two unlocked items.": "Hãy chọn các mục đã nhóm trước: mỗi nhóm cần ít nhất hai mục không bị khóa.",
+ "Sizes matched within {0} groups ({1} items).": "Đã đồng bộ kích thước trong {0} nhóm ({1} mục).",
+ "This BeeRef board has no items table.": "Bảng BeeRef này không có bảng mục.",
+ "This SQLite file is not a BeeRef board.": "Tệp SQLite này không phải là bảng BeeRef.",
+ "This file is not a readable BeeRef board.": "Tệp này không phải là bảng BeeRef đọc được.",
+ "Pictures and text went to the BeeRef file; {0} drawn or other items were left out because BeeRef has no place for them.": "Ảnh và văn bản đã vào tệp BeeRef; {0} hình vẽ hoặc mục khác bị bỏ qua vì BeeRef không chứa được chúng.",
+ "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles or bee.": "Định dạng xuất phải là portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles hoặc bee."
 }

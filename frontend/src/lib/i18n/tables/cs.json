@@ -32,7 +32,6 @@
  "Paper is a4, letter, a3 or tabloid.": "Papír je a4, letter, a3 nebo tabloid.",
  "At 100 percent this board needs {0} pages; export it as one page or one page per item instead.": "Na 100 % tato tabule potřebuje {0} stránek; exportujte ji raději na jednu stránku nebo stránku na položku.",
  "There is nothing on this board to put on a page.": "Na této tabuli není nic, co dát na stránku.",
- "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages or pdf-tiles.": "Formát exportu musí být portable, json, png, svg, markdown, pdf, pdf-pages nebo pdf-tiles.",
  "PDF Pages to Images": "Stránky PDF na obrázky",
  "PDF pages to images": "Stránky PDF na obrázky",
  "Pages": "Stránky",
@@ -1230,5 +1229,17 @@
  "formref · Reference studio": "formref · Studio referencí",
  "https://": "https://",
  "r": "r",
- "v0.6.1": "v0.6.1"
+ "v0.6.1": "v0.6.1",
+ "A .bee file that opens in BeeRef, with the original pictures": "Soubor .bee, který se otevře v BeeRef, s původními obrázky",
+ "BeeRef board": "Tabule BeeRef",
+ "No pictures or text could be read from this BeeRef board.": "Z této tabule BeeRef se nepodařilo načíst žádné obrázky ani text.",
+ "Normalize Sizes Within Each Group": "Normalizovat velikosti v každé skupině",
+ "Opened the BeeRef board {0} as a new board.": "Tabule BeeRef {0} byla otevřena jako nová tabule.",
+ "Select grouped items first: each group needs at least two unlocked items.": "Nejprve vyberte seskupené položky: každá skupina potřebuje alespoň dvě odemčené položky.",
+ "Sizes matched within {0} groups ({1} items).": "Velikosti sjednoceny ve skupinách: {0} (položek: {1}).",
+ "This BeeRef board has no items table.": "Tato tabule BeeRef nemá tabulku položek.",
+ "This SQLite file is not a BeeRef board.": "Tento soubor SQLite není tabule BeeRef.",
+ "This file is not a readable BeeRef board.": "Tento soubor není čitelná tabule BeeRef.",
+ "Pictures and text went to the BeeRef file; {0} drawn or other items were left out because BeeRef has no place for them.": "Obrázky a text byly uloženy do souboru BeeRef; {0} kreseb nebo jiných položek bylo vynecháno, protože je BeeRef neumí uložit.",
+ "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles or bee.": "Formát exportu musí být portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles nebo bee."
 }

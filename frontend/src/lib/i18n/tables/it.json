@@ -32,7 +32,6 @@
  "Paper is a4, letter, a3 or tabloid.": "La carta è a4, letter, a3 o tabloid.",
  "At 100 percent this board needs {0} pages; export it as one page or one page per item instead.": "Al 100% questa bacheca richiede {0} pagine; esportala invece su una pagina o una pagina per elemento.",
  "There is nothing on this board to put on a page.": "Non c’è nulla su questa bacheca da mettere in pagina.",
- "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages or pdf-tiles.": "Il formato di esportazione deve essere portable, json, png, svg, markdown, pdf, pdf-pages o pdf-tiles.",
  "PDF Pages to Images": "Pagine PDF in immagini",
  "PDF pages to images": "Pagine PDF in immagini",
  "Pages": "Pagine",
@@ -1230,5 +1229,17 @@
  "formref · Reference studio": "formref · Studio dei riferimenti",
  "https://": "https://",
  "r": "r",
- "v0.6.1": "v0.6.1"
+ "v0.6.1": "v0.6.1",
+ "A .bee file that opens in BeeRef, with the original pictures": "Un file .bee che si apre in BeeRef, con le immagini originali",
+ "BeeRef board": "Bacheca BeeRef",
+ "No pictures or text could be read from this BeeRef board.": "Impossibile leggere immagini o testo da questa bacheca BeeRef.",
+ "Normalize Sizes Within Each Group": "Normalizza dimensioni in ogni gruppo",
+ "Opened the BeeRef board {0} as a new board.": "La bacheca BeeRef {0} è stata aperta come nuova bacheca.",
+ "Select grouped items first: each group needs at least two unlocked items.": "Seleziona prima elementi raggruppati: ogni gruppo deve avere almeno due elementi sbloccati.",
+ "Sizes matched within {0} groups ({1} items).": "Dimensioni uniformate in {0} gruppi ({1} elementi).",
+ "This BeeRef board has no items table.": "Questa bacheca BeeRef non ha una tabella degli elementi.",
+ "This SQLite file is not a BeeRef board.": "Questo file SQLite non è una bacheca BeeRef.",
+ "This file is not a readable BeeRef board.": "Questo file non è una bacheca BeeRef leggibile.",
+ "Pictures and text went to the BeeRef file; {0} drawn or other items were left out because BeeRef has no place for them.": "Immagini e testo sono nel file BeeRef; {0} disegni o altri elementi sono stati esclusi perché BeeRef non può contenerli.",
+ "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles or bee.": "Il formato di esportazione deve essere portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles o bee."
 }

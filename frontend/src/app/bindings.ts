@@ -35,7 +35,7 @@ document.addEventListener('click', event => {
     closeOverlays();
     if (format === 'bee') {
       const left = S.state.board.items.filter(item => !['image', 'note', 'document', 'todo', 'link'].includes(item.kind)).length;
-      if (left) toast(`BeeRef holds pictures and text only, so ${left} drawn or other items were left out.`);
+      if (left) toast(`Pictures and text went to the BeeRef file; ${left} drawn or other items were left out because BeeRef has no place for them.`);
     }
   } else if (target.dataset.action) {
     run(target.dataset.action);

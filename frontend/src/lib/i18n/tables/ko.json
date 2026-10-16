@@ -32,7 +32,6 @@
  "Paper is a4, letter, a3 or tabloid.": "용지는 a4, letter, a3, tabloid 중 하나입니다.",
  "At 100 percent this board needs {0} pages; export it as one page or one page per item instead.": "100%로는 이 보드에 {0}페이지가 필요합니다. 한 페이지 또는 항목당 한 페이지로 내보내세요.",
  "There is nothing on this board to put on a page.": "이 보드에는 페이지에 넣을 항목이 없습니다.",
- "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages or pdf-tiles.": "내보내기 형식은 portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles 중 하나여야 합니다.",
  "PDF Pages to Images": "PDF 페이지를 이미지로",
  "PDF pages to images": "PDF 페이지를 이미지로",
  "Pages": "페이지",
@@ -1230,5 +1229,17 @@
  "formref · Reference studio": "formref · 레퍼런스 스튜디오",
  "https://": "https://",
  "r": "r",
- "v0.6.1": "v0.6.1"
+ "v0.6.1": "v0.6.1",
+ "A .bee file that opens in BeeRef, with the original pictures": "원본 그림이 포함된, BeeRef에서 열리는 .bee 파일",
+ "BeeRef board": "BeeRef 보드",
+ "No pictures or text could be read from this BeeRef board.": "이 BeeRef 보드에서 그림이나 텍스트를 읽을 수 없습니다.",
+ "Normalize Sizes Within Each Group": "그룹별 크기 정규화",
+ "Opened the BeeRef board {0} as a new board.": "BeeRef 보드 {0}을(를) 새 보드로 열었습니다.",
+ "Select grouped items first: each group needs at least two unlocked items.": "먼저 그룹화된 항목을 선택하세요. 각 그룹에는 잠기지 않은 항목이 두 개 이상 있어야 합니다.",
+ "Sizes matched within {0} groups ({1} items).": "그룹 {0}개에서 크기를 맞췄습니다(항목 {1}개).",
+ "This BeeRef board has no items table.": "이 BeeRef 보드에는 항목 테이블이 없습니다.",
+ "This SQLite file is not a BeeRef board.": "이 SQLite 파일은 BeeRef 보드가 아닙니다.",
+ "This file is not a readable BeeRef board.": "이 파일은 읽을 수 있는 BeeRef 보드가 아닙니다.",
+ "Pictures and text went to the BeeRef file; {0} drawn or other items were left out because BeeRef has no place for them.": "그림과 텍스트는 BeeRef 파일에 들어갔습니다. BeeRef가 담을 수 없어 그리기 등 항목 {0}개는 제외되었습니다.",
+ "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles or bee.": "내보내기 형식은 portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles, bee 중 하나여야 합니다."
 }

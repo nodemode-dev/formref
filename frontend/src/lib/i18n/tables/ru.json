@@ -32,7 +32,6 @@
  "Paper is a4, letter, a3 or tabloid.": "Бумага: a4, letter, a3 или tabloid.",
  "At 100 percent this board needs {0} pages; export it as one page or one page per item instead.": "В 100 % этой доске нужно страниц: {0}; экспортируйте ее одной страницей или по странице на элемент.",
  "There is nothing on this board to put on a page.": "На этой доске нечего поместить на страницу.",
- "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages or pdf-tiles.": "Формат экспорта: portable, json, png, svg, markdown, pdf, pdf-pages или pdf-tiles.",
  "PDF Pages to Images": "Страницы PDF в изображения",
  "PDF pages to images": "Страницы PDF в изображения",
  "Pages": "Страницы",
@@ -1230,5 +1229,17 @@
  "formref · Reference studio": "formref · Студия референсов",
  "https://": "https://",
  "r": "r",
- "v0.6.1": "v0.6.1"
+ "v0.6.1": "v0.6.1",
+ "A .bee file that opens in BeeRef, with the original pictures": "Файл .bee, который открывается в BeeRef, с исходными изображениями",
+ "BeeRef board": "Доска BeeRef",
+ "No pictures or text could be read from this BeeRef board.": "Не удалось прочитать изображения или текст с этой доски BeeRef.",
+ "Normalize Sizes Within Each Group": "Нормализовать размеры в каждой группе",
+ "Opened the BeeRef board {0} as a new board.": "Доска BeeRef {0} открыта как новая доска.",
+ "Select grouped items first: each group needs at least two unlocked items.": "Сначала выберите сгруппированные элементы: в каждой группе должно быть не меньше двух незаблокированных элементов.",
+ "Sizes matched within {0} groups ({1} items).": "Размеры выровнены в группах: {0} (элементов: {1}).",
+ "This BeeRef board has no items table.": "На этой доске BeeRef нет таблицы элементов.",
+ "This SQLite file is not a BeeRef board.": "Этот файл SQLite не является доской BeeRef.",
+ "This file is not a readable BeeRef board.": "Этот файл не является читаемой доской BeeRef.",
+ "Pictures and text went to the BeeRef file; {0} drawn or other items were left out because BeeRef has no place for them.": "Изображения и текст попали в файл BeeRef; рисунки и другие элементы ({0}) пропущены, потому что BeeRef не может их хранить.",
+ "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles or bee.": "Формат экспорта: portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles или bee."
 }

@@ -32,7 +32,6 @@
  "Paper is a4, letter, a3 or tabloid.": "กระดาษคือ a4, letter, a3 หรือ tabloid",
  "At 100 percent this board needs {0} pages; export it as one page or one page per item instead.": "ที่ 100% บอร์ดนี้ต้องใช้ {0} หน้า ให้ส่งออกเป็นหน้าเดียวหรือหนึ่งหน้าต่อรายการแทน",
  "There is nothing on this board to put on a page.": "ไม่มีอะไรบนบอร์ดนี้ให้ใส่ในหน้า",
- "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages or pdf-tiles.": "รูปแบบส่งออกต้องเป็น portable, json, png, svg, markdown, pdf, pdf-pages หรือ pdf-tiles",
  "PDF Pages to Images": "หน้า PDF เป็นรูปภาพ",
  "PDF pages to images": "หน้า PDF เป็นรูปภาพ",
  "Pages": "หน้า",
@@ -1230,5 +1229,17 @@
  "formref · Reference studio": "formref · สตูดิโออ้างอิง",
  "https://": "https://",
  "r": "r",
- "v0.6.1": "v0.6.1"
+ "v0.6.1": "v0.6.1",
+ "A .bee file that opens in BeeRef, with the original pictures": "ไฟล์ .bee ที่เปิดใน BeeRef ได้ พร้อมรูปภาพต้นฉบับ",
+ "BeeRef board": "บอร์ด BeeRef",
+ "No pictures or text could be read from this BeeRef board.": "อ่านรูปภาพหรือข้อความจากบอร์ด BeeRef นี้ไม่ได้",
+ "Normalize Sizes Within Each Group": "ปรับขนาดให้เท่ากันในแต่ละกลุ่ม",
+ "Opened the BeeRef board {0} as a new board.": "เปิดบอร์ด BeeRef {0} เป็นบอร์ดใหม่แล้ว",
+ "Select grouped items first: each group needs at least two unlocked items.": "เลือกรายการที่จัดกลุ่มก่อน: แต่ละกลุ่มต้องมีรายการที่ไม่ได้ล็อกอย่างน้อยสองรายการ",
+ "Sizes matched within {0} groups ({1} items).": "ปรับขนาดให้เท่ากันใน {0} กลุ่มแล้ว ({1} รายการ)",
+ "This BeeRef board has no items table.": "บอร์ด BeeRef นี้ไม่มีตารางรายการ",
+ "This SQLite file is not a BeeRef board.": "ไฟล์ SQLite นี้ไม่ใช่บอร์ด BeeRef",
+ "This file is not a readable BeeRef board.": "ไฟล์นี้ไม่ใช่บอร์ด BeeRef ที่อ่านได้",
+ "Pictures and text went to the BeeRef file; {0} drawn or other items were left out because BeeRef has no place for them.": "รูปภาพและข้อความอยู่ในไฟล์ BeeRef แล้ว ส่วนภาพวาดหรือรายการอื่น {0} รายการถูกละไว้เพราะ BeeRef เก็บไม่ได้",
+ "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles or bee.": "รูปแบบส่งออกต้องเป็น portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles หรือ bee"
 }

@@ -32,7 +32,6 @@
  "Paper is a4, letter, a3 or tabloid.": "Papiret er a4, letter, a3 eller tabloid.",
  "At 100 percent this board needs {0} pages; export it as one page or one page per item instead.": "I 100 % trenger tavlen {0} sider; eksporter den heller som én side eller én side per element.",
  "There is nothing on this board to put on a page.": "Det er ingenting på tavlen å sette på en side.",
- "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages or pdf-tiles.": "Eksportformatet må være portable, json, png, svg, markdown, pdf, pdf-pages eller pdf-tiles.",
  "PDF Pages to Images": "PDF-sider til bilder",
  "PDF pages to images": "PDF-sider til bilder",
  "Pages": "Sider",
@@ -1230,5 +1229,17 @@
  "formref · Reference studio": "formref · Referansestudio",
  "https://": "https://",
  "r": "r",
- "v0.6.1": "v0.6.1"
+ "v0.6.1": "v0.6.1",
+ "A .bee file that opens in BeeRef, with the original pictures": "En .bee-fil som åpnes i BeeRef, med originalbildene",
+ "BeeRef board": "BeeRef-tavle",
+ "No pictures or text could be read from this BeeRef board.": "Kunne ikke lese bilder eller tekst fra denne BeeRef-tavlen.",
+ "Normalize Sizes Within Each Group": "Normaliser størrelser i hver gruppe",
+ "Opened the BeeRef board {0} as a new board.": "BeeRef-tavlen {0} ble åpnet som en ny tavle.",
+ "Select grouped items first: each group needs at least two unlocked items.": "Velg grupperte elementer først: hver gruppe må ha minst to ulåste elementer.",
+ "Sizes matched within {0} groups ({1} items).": "Størrelser samkjørt i {0} grupper ({1} elementer).",
+ "This BeeRef board has no items table.": "Denne BeeRef-tavlen har ingen elementtabell.",
+ "This SQLite file is not a BeeRef board.": "Denne SQLite-filen er ikke en BeeRef-tavle.",
+ "This file is not a readable BeeRef board.": "Denne filen er ikke en lesbar BeeRef-tavle.",
+ "Pictures and text went to the BeeRef file; {0} drawn or other items were left out because BeeRef has no place for them.": "Bilder og tekst kom med i BeeRef-filen; {0} tegninger eller andre elementer ble utelatt fordi BeeRef ikke kan lagre dem.",
+ "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles or bee.": "Eksportformatet må være portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles eller bee."
 }

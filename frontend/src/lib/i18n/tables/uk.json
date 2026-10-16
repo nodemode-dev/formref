@@ -32,7 +32,6 @@
  "Paper is a4, letter, a3 or tabloid.": "Папір: a4, letter, a3 або tabloid.",
  "At 100 percent this board needs {0} pages; export it as one page or one page per item instead.": "У 100 % цій дошці потрібно сторінок: {0}; експортуйте її однією сторінкою або по сторінці на елемент.",
  "There is nothing on this board to put on a page.": "На цій дошці немає що розмістити на сторінці.",
- "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages or pdf-tiles.": "Формат експорту: portable, json, png, svg, markdown, pdf, pdf-pages або pdf-tiles.",
  "PDF Pages to Images": "Сторінки PDF у зображення",
  "PDF pages to images": "Сторінки PDF у зображення",
  "Pages": "Сторінки",
@@ -1230,5 +1229,17 @@
  "formref · Reference studio": "formref · Студія референсів",
  "https://": "https://",
  "r": "r",
- "v0.6.1": "v0.6.1"
+ "v0.6.1": "v0.6.1",
+ "A .bee file that opens in BeeRef, with the original pictures": "Файл .bee, який відкривається в BeeRef, з оригінальними зображеннями",
+ "BeeRef board": "Дошка BeeRef",
+ "No pictures or text could be read from this BeeRef board.": "Не вдалося прочитати зображення чи текст із цієї дошки BeeRef.",
+ "Normalize Sizes Within Each Group": "Нормалізувати розміри в кожній групі",
+ "Opened the BeeRef board {0} as a new board.": "Дошку BeeRef {0} відкрито як нову дошку.",
+ "Select grouped items first: each group needs at least two unlocked items.": "Спершу виберіть згруповані елементи: у кожній групі має бути щонайменше два незаблоковані елементи.",
+ "Sizes matched within {0} groups ({1} items).": "Розміри вирівняно в групах: {0} (елементів: {1}).",
+ "This BeeRef board has no items table.": "Ця дошка BeeRef не має таблиці елементів.",
+ "This SQLite file is not a BeeRef board.": "Цей файл SQLite не є дошкою BeeRef.",
+ "This file is not a readable BeeRef board.": "Цей файл не є читабельною дошкою BeeRef.",
+ "Pictures and text went to the BeeRef file; {0} drawn or other items were left out because BeeRef has no place for them.": "Зображення й текст потрапили до файлу BeeRef; малюнки та інші елементи ({0}) пропущено, бо BeeRef не може їх зберігати.",
+ "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles or bee.": "Формат експорту: portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles або bee."
 }

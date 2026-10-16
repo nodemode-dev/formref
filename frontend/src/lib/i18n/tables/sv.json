@@ -32,7 +32,6 @@
  "Paper is a4, letter, a3 or tabloid.": "Papperet är a4, letter, a3 eller tabloid.",
  "At 100 percent this board needs {0} pages; export it as one page or one page per item instead.": "I 100 % behöver tavlan {0} sidor; exportera den hellre som en sida eller en sida per objekt.",
  "There is nothing on this board to put on a page.": "Det finns inget på tavlan att lägga på en sida.",
- "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages or pdf-tiles.": "Exportformatet måste vara portable, json, png, svg, markdown, pdf, pdf-pages eller pdf-tiles.",
  "PDF Pages to Images": "PDF-sidor till bilder",
  "PDF pages to images": "PDF-sidor till bilder",
  "Pages": "Sidor",
@@ -1230,5 +1229,17 @@
  "formref · Reference studio": "formref · Referensstudio",
  "https://": "https://",
  "r": "r",
- "v0.6.1": "v0.6.1"
+ "v0.6.1": "v0.6.1",
+ "A .bee file that opens in BeeRef, with the original pictures": "En .bee-fil som öppnas i BeeRef, med originalbilderna",
+ "BeeRef board": "BeeRef-tavla",
+ "No pictures or text could be read from this BeeRef board.": "Det gick inte att läsa några bilder eller någon text från den här BeeRef-tavlan.",
+ "Normalize Sizes Within Each Group": "Normalisera storlekar i varje grupp",
+ "Opened the BeeRef board {0} as a new board.": "BeeRef-tavlan {0} öppnades som en ny tavla.",
+ "Select grouped items first: each group needs at least two unlocked items.": "Markera grupperade objekt först: varje grupp behöver minst två olåsta objekt.",
+ "Sizes matched within {0} groups ({1} items).": "Storlekar utjämnade i {0} grupper ({1} objekt).",
+ "This BeeRef board has no items table.": "Den här BeeRef-tavlan har ingen objekttabell.",
+ "This SQLite file is not a BeeRef board.": "Den här SQLite-filen är inte en BeeRef-tavla.",
+ "This file is not a readable BeeRef board.": "Den här filen är inte en läsbar BeeRef-tavla.",
+ "Pictures and text went to the BeeRef file; {0} drawn or other items were left out because BeeRef has no place for them.": "Bilder och text kom med i BeeRef-filen; {0} teckningar eller andra objekt utelämnades eftersom BeeRef inte kan lagra dem.",
+ "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles or bee.": "Exportformatet måste vara portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles eller bee."
 }

@@ -32,7 +32,6 @@
  "Paper is a4, letter, a3 or tabloid.": "Kağıt a4, letter, a3 veya tabloid olmalıdır.",
  "At 100 percent this board needs {0} pages; export it as one page or one page per item instead.": "%100'de bu pano {0} sayfa gerektirir; bunun yerine tek sayfa veya öğe başına bir sayfa olarak dışa aktarın.",
  "There is nothing on this board to put on a page.": "Bu panoda sayfaya konacak bir şey yok.",
- "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages or pdf-tiles.": "Dışa aktarma biçimi portable, json, png, svg, markdown, pdf, pdf-pages veya pdf-tiles olmalıdır.",
  "PDF Pages to Images": "PDF Sayfalarını Görsele Dönüştür",
  "PDF pages to images": "PDF sayfalarını görsele dönüştür",
  "Pages": "Sayfalar",
@@ -1230,5 +1229,17 @@
  "formref · Reference studio": "formref · Referans stüdyosu",
  "https://": "https://",
  "r": "r",
- "v0.6.1": "v0.6.1"
+ "v0.6.1": "v0.6.1",
+ "A .bee file that opens in BeeRef, with the original pictures": "BeeRef'te açılan, özgün resimleri içeren bir .bee dosyası",
+ "BeeRef board": "BeeRef panosu",
+ "No pictures or text could be read from this BeeRef board.": "Bu BeeRef panosundan resim veya metin okunamadı.",
+ "Normalize Sizes Within Each Group": "Her Grupta Boyutları Normalleştir",
+ "Opened the BeeRef board {0} as a new board.": "BeeRef panosu {0} yeni bir pano olarak açıldı.",
+ "Select grouped items first: each group needs at least two unlocked items.": "Önce gruplanmış öğeleri seçin: her grupta en az iki kilitsiz öğe olmalıdır.",
+ "Sizes matched within {0} groups ({1} items).": "{0} grupta boyutlar eşitlendi ({1} öğe).",
+ "This BeeRef board has no items table.": "Bu BeeRef panosunda öğe tablosu yok.",
+ "This SQLite file is not a BeeRef board.": "Bu SQLite dosyası bir BeeRef panosu değil.",
+ "This file is not a readable BeeRef board.": "Bu dosya okunabilir bir BeeRef panosu değil.",
+ "Pictures and text went to the BeeRef file; {0} drawn or other items were left out because BeeRef has no place for them.": "Resimler ve metin BeeRef dosyasına aktarıldı; BeeRef bunları tutamadığı için {0} çizim veya başka öğe dışarıda bırakıldı.",
+ "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles or bee.": "Dışa aktarma biçimi portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles veya bee olmalıdır."
 }

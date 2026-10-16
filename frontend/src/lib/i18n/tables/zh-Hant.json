@@ -32,7 +32,6 @@
  "Paper is a4, letter, a3 or tabloid.": "紙張為 a4、letter、a3 或 tabloid。",
  "At 100 percent this board needs {0} pages; export it as one page or one page per item instead.": "以 100% 此畫板需要 {0} 頁；請改為匯出成一頁或每個項目一頁。",
  "There is nothing on this board to put on a page.": "此畫板上沒有可放到頁面上的內容。",
- "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages or pdf-tiles.": "匯出格式必須是 portable、json、png、svg、markdown、pdf、pdf-pages 或 pdf-tiles。",
  "PDF Pages to Images": "PDF 頁面轉為影像",
  "PDF pages to images": "PDF 頁面轉為影像",
  "Pages": "頁面",
@@ -1230,5 +1229,17 @@
  "formref · Reference studio": "formref · 參考工作室",
  "https://": "https://",
  "r": "r",
- "v0.6.1": "v0.6.1"
+ "v0.6.1": "v0.6.1",
+ "A .bee file that opens in BeeRef, with the original pictures": "可在 BeeRef 中開啟的 .bee 檔案，包含原始圖片",
+ "BeeRef board": "BeeRef 白板",
+ "No pictures or text could be read from this BeeRef board.": "無法從此 BeeRef 白板讀取任何圖片或文字。",
+ "Normalize Sizes Within Each Group": "在每個群組內正規化大小",
+ "Opened the BeeRef board {0} as a new board.": "已將 BeeRef 白板 {0} 以新白板開啟。",
+ "Select grouped items first: each group needs at least two unlocked items.": "請先選取已群組的項目：每個群組至少需要兩個未鎖定的項目。",
+ "Sizes matched within {0} groups ({1} items).": "已在 {0} 個群組中統一大小（{1} 個項目）。",
+ "This BeeRef board has no items table.": "此 BeeRef 白板沒有項目表。",
+ "This SQLite file is not a BeeRef board.": "此 SQLite 檔案不是 BeeRef 白板。",
+ "This file is not a readable BeeRef board.": "此檔案不是可讀取的 BeeRef 白板。",
+ "Pictures and text went to the BeeRef file; {0} drawn or other items were left out because BeeRef has no place for them.": "圖片和文字已寫入 BeeRef 檔案；BeeRef 無法容納繪圖等其他項目，因此省略了 {0} 個。",
+ "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles or bee.": "匯出格式必須是 portable、json、png、svg、markdown、pdf、pdf-pages、pdf-tiles 或 bee。"
 }

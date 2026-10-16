@@ -133,9 +133,11 @@ def import_bee(filename: str, data: bytes):
             elif kind == "text" and isinstance(extra.get("text"), str):
                 text = extra["text"][:20000]
                 lines = text.splitlines() or [""]
-                w, h = max(120.0, min(1200.0, max(len(line) for line in lines) * 9.0 + 28)) * scale, (len(lines) * 22.0 + 28) * scale
+                heading, text = lines[0].strip()[:200], "\n".join(lines[1:]).strip("\n")
+                body = text.splitlines() or [""]
+                w, h = max(240.0, min(1200.0, max(len(heading) * 13.0, max(len(line) for line in body) * 8.0) + 48)) * scale, (150.0 + len(body) * 22.0) * scale
                 ox, oy = _rotate(w / 2, h / 2, rotation)
-                item = {"id": uuid.uuid4().hex, "kind": "note", "x": float(x) + ox - w / 2, "y": float(y) + oy - h / 2, "width": w, "height": h, "rotation": ((rotation + 180) % 360) - 180, "z": float(z or 0), "opacity": 1, "locked": False, "hidden": False, "group_id": None, "parent_id": None, "title": "", "text": text, "color": "#fde68a", "asset_id": None, "url": "", "data": {"source_format": "beeref"}}
+                item = {"id": uuid.uuid4().hex, "kind": "note", "x": float(x) + ox - w / 2, "y": float(y) + oy - h / 2, "width": w, "height": h, "rotation": ((rotation + 180) % 360) - 180, "z": float(z or 0), "opacity": 1, "locked": False, "hidden": False, "group_id": None, "parent_id": None, "title": heading, "text": text, "color": "#fde68a", "asset_id": None, "url": "", "data": {"source_format": "beeref"}}
                 items.append(item)
             else:
                 skipped += 1

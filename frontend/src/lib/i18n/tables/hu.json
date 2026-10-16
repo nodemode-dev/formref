@@ -32,7 +32,6 @@
  "Paper is a4, letter, a3 or tabloid.": "A papír a4, letter, a3 vagy tabloid.",
  "At 100 percent this board needs {0} pages; export it as one page or one page per item instead.": "100%-on ez a tábla {0} oldalt igényel; exportálja inkább egy oldalra vagy elemenként egy oldalra.",
  "There is nothing on this board to put on a page.": "Ezen a táblán nincs semmi, amit oldalra lehetne tenni.",
- "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages or pdf-tiles.": "Az exportformátum portable, json, png, svg, markdown, pdf, pdf-pages vagy pdf-tiles lehet.",
  "PDF Pages to Images": "PDF-oldalak képpé",
  "PDF pages to images": "PDF-oldalak képpé",
  "Pages": "Oldalak",
@@ -1230,5 +1229,17 @@
  "formref · Reference studio": "formref · Referenciastúdió",
  "https://": "https://",
  "r": "r",
- "v0.6.1": "v0.6.1"
+ "v0.6.1": "v0.6.1",
+ "A .bee file that opens in BeeRef, with the original pictures": "BeeRefben megnyíló .bee fájl, az eredeti képekkel",
+ "BeeRef board": "BeeRef-tábla",
+ "No pictures or text could be read from this BeeRef board.": "Ebből a BeeRef-táblából nem sikerült képet vagy szöveget beolvasni.",
+ "Normalize Sizes Within Each Group": "Méretek normalizálása csoportonként",
+ "Opened the BeeRef board {0} as a new board.": "A(z) {0} BeeRef-tábla új táblaként megnyílt.",
+ "Select grouped items first: each group needs at least two unlocked items.": "Először csoportosított elemeket jelöljön ki: minden csoportban legalább két feloldott elem kell.",
+ "Sizes matched within {0} groups ({1} items).": "Méretek egységesítve {0} csoportban ({1} elem).",
+ "This BeeRef board has no items table.": "Ennek a BeeRef-táblának nincs elemtáblája.",
+ "This SQLite file is not a BeeRef board.": "Ez az SQLite-fájl nem BeeRef-tábla.",
+ "This file is not a readable BeeRef board.": "Ez a fájl nem olvasható BeeRef-tábla.",
+ "Pictures and text went to the BeeRef file; {0} drawn or other items were left out because BeeRef has no place for them.": "A képek és a szöveg bekerültek a BeeRef-fájlba; {0} rajz vagy egyéb elem kimaradt, mert a BeeRef nem tudja tárolni őket.",
+ "Export format must be portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles or bee.": "Az exportformátum portable, json, png, svg, markdown, pdf, pdf-pages, pdf-tiles vagy bee lehet."
 }
