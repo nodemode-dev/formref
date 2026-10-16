@@ -1,6 +1,6 @@
-"""BeeRef .bee boards in and out (researched wishlist: move boards between reference tools). A .bee file is SQLite with application_id 2060242126 and user_version 2: an items table (type pixmap or text, x, y, z, scale, rotation, flip, data JSON) and an sqlar table holding each picture. Written from the published format, not from BeeRef's code.
+"""BeeRef .bee boards in and out (researched wishlist: move boards between reference tools). A .bee file is SQLite with application_id 2060242126 and user_version 2: an items table (type pixmap or text, x, y, z, scale, rotation, flip, data JSON) and an sqlar table holding each picture. Written independently; how BeeRef applies rotation and mirroring was confirmed by reading its item loading and flip routines and by loading these files with it outside the repository. No BeeRef code is copied.
 
-Geometry: a BeeRef item maps a local point p to the scene as pos + R(rotation) * scale * (flip * p.x, p.y), with local coordinates in the picture's pixels and rotation about the local origin. Crop is a rectangle in those pixels. A FormRef item is a box rotated about its centre that shows its crop of the picture, mirrored by flip_x; flip_y is a horizontal flip plus a half turn."""
+Geometry: a BeeRef item maps a local point p to the scene as pos + F(flip) * R(rotation) * scale * p, with local coordinates in the picture's pixels and rotation about the local origin; the horizontal mirror F applies after rotation, so a mirrored item stores the negated rotation. Crop is a rectangle in those pixels. A FormRef item is a box rotated about its centre that shows its crop of the picture, mirrored by flip_x; flip_y is a horizontal flip plus a half turn."""
 import io
 import json
 import math

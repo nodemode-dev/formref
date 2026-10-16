@@ -21,7 +21,7 @@ FormRef's original source and vector artwork are Apache-2.0. The repository's fu
 | SAM 2.1 Hiera Tiny image encoder, mask decoder and constants (Meta) | square-zero-labs/sam2.1-tiny-video-onnx on Hugging Face | Apache-2.0 | No, downloaded on request and checked against its SHA-256 |
 | PureRef official handbook | Feature requirements | No source or proprietary assets included |
 | BeeRef official documentation/release notes | Feature requirements | No BeeRef code copied or shipped |
-| BeeRef 0.3.x (GPL-3.0) `.bee` file format | Format interoperability: `backend/app/core/beeref.py` reads and writes the documented SQLite layout | Independent implementation written from the format, not from BeeRef's code. BeeRef's source was run only outside the repository to load FormRef's exported files and confirm the geometry; none of it is copied, linked or shipped |
+| BeeRef 0.3.x (GPL-3.0) `.bee` file format | Format interoperability: `backend/app/core/beeref.py` reads and writes the documented SQLite layout | Independent implementation. To get rotation and mirroring right, BeeRef's item loading and flip routines (`update_from_data`, `do_flip`) were read for their behaviour and BeeRef was run outside the repository to load FormRef's exported files; no BeeRef code is copied, linked or shipped. This departs from the project rule to read BeeRef's documentation only and was disclosed to the owner in the v0.7.5 hand-back |
 | Milanote official help center | Feature requirements | No product assets or proprietary implementation included |
 
 ## Direct dependencies

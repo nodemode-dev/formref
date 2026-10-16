@@ -132,4 +132,4 @@ Work on `main`; see [release conventions](.docs/wiki/Releases.md). Read [CLAUDE.
 
 ## Licensing
 
-Apache-2.0. See [LICENSE](LICENSE) & [NOTICE.md](NOTICE.md) for dependency and font notices. The user's iStack format & FormVis design conventions were studied under their supplied permissions. No BeeRef code is included; the `.bee` reader and writer are written from the file format.
+Apache-2.0. See [LICENSE](LICENSE) & [NOTICE.md](NOTICE.md) for dependency and font notices. The user's iStack format & FormVis design conventions were studied under their supplied permissions. No BeeRef code is included; the `.bee` reader and writer are an independent implementation (see NOTICE.md for how BeeRef was consulted).
