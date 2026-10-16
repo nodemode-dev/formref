@@ -35,6 +35,7 @@ import { registerColorFind } from './app/color-find';
 import { registerSimilarFind } from './app/similar-find';
 import { registerSavedSearch } from './app/saved-search';
 import { registerTagCloud } from './app/tag-cloud';
+import { registerTagSuggest } from './app/tag-suggest';
 
 bindLanguage();
 registerTerminal();
@@ -57,6 +58,7 @@ registerCompare();
 registerColorFind();
 registerSimilarFind();
 registerTagCloud();
+registerTagSuggest();
 registerSavedSearch();
 attachCatalogue();
 

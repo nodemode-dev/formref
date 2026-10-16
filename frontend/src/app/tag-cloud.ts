@@ -65,6 +65,11 @@ export function toggleTag(key: string, render = true): void {
   if (render) refilter();
 }
 
+/** The board's tags, most used first, spelled as first seen; for suggestions while typing tags. */
+export function boardTagNames(): string[] {
+  return entries.filter(e => e.kind === 'tag').map(e => e.name);
+}
+
 /** For saved searches: the chosen tags (as typed) and label ids. */
 export function tagFilter(): { tags: string[]; labels: string[] } {
   const tags: string[] = [], labels: string[] = [];

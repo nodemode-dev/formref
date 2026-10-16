@@ -285,6 +285,10 @@
 .tag-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 120px; }
 .tag-count { flex: none; font: 9px var(--font-mono); color: var(--text-muted); }
 .tag-chip.active .tag-count { color: inherit; }
+/* Tag suggestions float under the inspector's tags field in the overlay root, so the inspector never moves. */
+.tag-suggest { position: fixed; z-index: var(--z-dropdown); display: flex; flex-direction: column; padding: var(--space-1); background: var(--bg-tertiary); border: 1px solid var(--border-light); border-radius: var(--radius); box-shadow: var(--shadow-md); }
+.tag-suggest-option { padding: var(--space-1) var(--space-2); border-radius: var(--radius-sm); font-size: 11px; color: var(--text-secondary); cursor: pointer; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.tag-suggest-option:hover, .tag-suggest-option.active { background: var(--accent-soft); color: var(--text-primary); }
 /* Illustrator tools are off unless turned on in Preferences; the early script sets data-illustrator before first paint, so these never flash in. */
 :root:not([data-illustrator="on"]) [data-illustrator-only] { display: none !important; }
 /* Saved searches: a bookmark beside the item count; it takes the accent while the filters on screen are a saved search. */
