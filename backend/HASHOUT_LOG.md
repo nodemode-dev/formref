@@ -8,6 +8,7 @@
 
 ## Contents
 
+- [v0.23.0 · Ratings read from pictures](#v0230--ratings-read-from-pictures)
 - [v0.22.0 · Ratings in exported pictures](#v0220--ratings-in-exported-pictures)
 - [v0.21.0 · Picture details](#v0210--picture-details)
 - [v0.18.0 · Practice log](#v0180--practice-log)
@@ -32,6 +33,10 @@
 - [v0.2.0 · Canvas settings and snapping through MCP](#v020--canvas-settings-and-snapping-through-mcp)
 - [v0.1.0 · Local board service and SDK MCP](#v010--local-board-service-and-sdk-mcp)
 - [boot_backend.bat](#boot_backendbat)
+
+## v0.23.0 · Ratings read from pictures
+
+`keywords.embedded_rating` reads the first XMP packet with defusedxml, as the keyword reader does, and takes `xmp:Rating` from any `rdf:Description`, attribute first and then element. Without one it reads EXIF 0x4746 through Pillow's header-only `getexif`. `_stars` rounds and keeps 1 to 5 only, so -1 (rejected), 0 and junk give no rating. `store.import_asset` records `rating` in the asset info, and adds it to an asset first stored before ratings were read, as it does for keywords. The clipper, the CLI folder import, the MCP capture tool and the window's `placeAssets` give image items `data.rating`. Fixtures in $SC/rate: Lightroom-style attribute 3, rejected -1, "4.0", Windows field 4, and a FormRef export with 5 and a tag. Checked through the window upload (3, none, 4, 4, 5, tag kept; one undo removes all) and `./formref import`.
 
 ## v0.22.0 · Ratings in exported pictures
 

@@ -8,6 +8,7 @@
 - [Stacking scale](#stacking-scale)
 - [Verification](#verification)
 - [Scripts](#scripts)
+- [v0.23.0 picture shape filter](#v0230-picture-shape-filter)
 - [v0.22.0 star ratings](#v0220-star-ratings)
 - [v0.21.0 picture info](#v0210-picture-info)
 - [v0.20.0 practice log view](#v0200-practice-log-view)
@@ -46,6 +47,10 @@
 - [v0.4.8 desktop window controls and WebKit icons](#v048-desktop-window-controls-and-webkit-icons)
 - [v0.4.7 synced notes, map cards, inline edit commit](#v047-synced-notes-map-cards-inline-edit-commit)
 - [v0.4.6 GIF frames and document export](#v046-gif-frames-and-document-export)
+
+## v0.23.0 picture shape filter
+
+The kind select gains `image-portrait`, `image-landscape` and `image-square`. `matches` sends the kind through `kindMatches`, which reads these three through `shapeOf`: the item's box on the board, with width and height swapped near a quarter turn and a 10% band counted as square. Because the value is still just a kind string, saved searches (board and shared, engine `identifier` and service `IDENT` rules) keep it with no schema change, and the suggested name uses the option text. An optgroup heading was tried and dropped, because the page translator does not translate `label` attributes. Probe: $SC/ui/rate-import.cjs (German) compares the shown count for each shape with the count worked out from the board data.
 
 ## v0.22.0 star ratings
 

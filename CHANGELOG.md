@@ -1,5 +1,12 @@
 # FormRef changelog
 
+## v0.23.0 · 2026-10-16
+
+Ratings from picture files, and a picture shape filter.
+
+- A star rating stored in a picture file becomes its rating on the board when it is added from the window, the browser clipper, `./formref import` or an agent. FormRef reads the rating Lightroom, Bridge, darktable and digiKam write, and the one Windows writes. A Lightroom "rejected" mark is not a rating, so those pictures stay unrated. A picture exported with stars and added again keeps them.
+- The kind filter can show only portrait, landscape or square pictures, judged by how each picture sits on the board (a quarter turn counts). Saved searches keep this choice like any other kind.
+
 ## v0.22.0 · 2026-10-16
 
 Star ratings.
