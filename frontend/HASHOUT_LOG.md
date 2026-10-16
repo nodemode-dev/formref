@@ -8,6 +8,7 @@
 - [Stacking scale](#stacking-scale)
 - [Verification](#verification)
 - [Scripts](#scripts)
+- [v0.7.7 adjustments, measure, selection to board](#v077-adjustments-measure-selection-to-board)
 - [v0.7.6 study aids](#v076-study-aids)
 - [v0.7.5 Intl dates, keys.ts, command words](#v075-intl-dates-keysts-command-words)
 - [v0.7.4 card labels translated](#v074-card-labels-translated)
@@ -30,6 +31,14 @@
 - [v0.4.8 desktop window controls and WebKit icons](#v048-desktop-window-controls-and-webkit-icons)
 - [v0.4.7 synced notes, map cards, inline edit commit](#v047-synced-notes-map-cards-inline-edit-commit)
 - [v0.4.6 GIF frames and document export](#v046-gif-frames-and-document-export)
+
+## v0.7.7 adjustments, measure, selection to board
+
+`lib/image-geometry.ts` builds the picture filter in one place, `imageFilter()`: brightness, contrast and saturate (from `data.adjust`, percent, 100 omitted) then the value study or grayscale view. `app/adjust.ts` writes only the selected pictures' image `filter` while a slider moves (no engine call, no re-render) and sends one `batch` of updates on `change`; `adjust` is stored only when some value differs from 100. The inspector reads the first picture's values through `onInspector`, skipping the slider being dragged. Verified at 4x CPU: board pixels after 120/140/50 matched the PNG export and the CSS formula within one level (red 161,42,41 vs 161,41,41); one undo per slider release.
+
+`app/measure.ts` follows the lasso pattern (capturing listeners on the stage, an SVG overlay in the world layer). Sizes are divided by the zoom so lines and labels keep their screen size; a per-frame check repaints only when the zoom or flip changes, and labels are mirrored back in a flipped view. Verified: 300 px at 0.0 degrees, then 205 px at 43.0 degrees and 0.68x the first, Shift giving 45.0 degrees; the board revision did not change; Esc removed every label.
+
+`app/board-extract.ts` posts the selection to `/api/boards/{id}/extract`, applies the source state when moving, refreshes the board list and opens the new board in a new tab. Verified: moving a column through the palette made "Moved column" with the column and its child, left the other column, and Undo on the source brought both back with their connection.
 
 ## v0.7.6 study aids
 

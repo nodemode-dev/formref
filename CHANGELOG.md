@@ -1,5 +1,13 @@
 # FormRef changelog
 
+## v0.7.7 · 2026-10-16
+
+Adjusting pictures, measuring proportions, and splitting boards.
+
+- Brightness, Contrast and Saturation sliders in the inspector for pictures. The picture changes while you drag, and letting go is one undo step. The original is kept, and PNG, SVG, PDF and phone viewer exports show the same adjusted colours as the board. Reset Adjustments puts them back.
+- Measure (Shift+M, or right-click, Canvas): drag to measure a length and its angle; every later line also shows its ratio to the first, such as "0.68× first". Shift keeps 45 degree steps. Esc clears, and nothing is saved to the board.
+- Copy or Move Selection to New Board (right-click, Organize): the selection, the items inside its columns, and the connections between them go to a new board in a new tab. Moving takes them off this board through the Trash, so Undo here brings them back.
+
 ## v0.7.6 · 2026-10-16
 
 Study aids for drawing and painting from references.

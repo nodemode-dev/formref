@@ -8,6 +8,7 @@
 
 ## Contents
 
+- [v0.7.7 · Adjustments in exports, selection to a new board](#v077--adjustments-in-exports-selection-to-a-new-board)
 - [v0.7.6 · Extract Palette](#v076--extract-palette)
 - [v0.7.5 · agents sync](#v075--agents-sync)
 - [v0.7.4 · Phone viewer](#v074--phone-viewer)
@@ -22,6 +23,12 @@
 - [v0.2.0 · Canvas settings and snapping through MCP](#v020--canvas-settings-and-snapping-through-mcp)
 - [v0.1.0 · Local board service and SDK MCP](#v010--local-board-service-and-sdk-mcp)
 - [boot_backend.bat](#boot_backendbat)
+
+## v0.7.7 · Adjustments in exports, selection to a new board
+
+`apply_adjust()` in `core/exports.py` repeats the board's CSS arithmetic so exports match the screen: brightness multiplies, contrast scales about 127.5, saturation is the CSS `saturate()` matrix applied with `Image.convert("RGB", matrix)`, each step clamped, alpha kept. `image_source()` runs it after mask and crop and before flips and grayscale, so PNG, SVG, PDF and the phone viewer all carry it; the BeeRef export writes the original file and leaves adjustments behind, as BeeRef has no such setting.
+
+`core/extract.py` gathers the selection plus column children (repeatedly, for nesting), copies them and the connections whose both ends are in the set onto a new board shifted to start at 80,80, with the source's background and labels but no window layout, through `store.open_import`. Moving refuses locked items and then removes the set from the source in one `remove`, which goes to the board Trash. Checked: copying two columns kept the child's parent and the connection and left the source at three items; unknown ids and an empty list were refused with their messages.
 
 ## v0.7.6 · Extract Palette
 
