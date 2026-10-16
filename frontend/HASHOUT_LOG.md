@@ -8,6 +8,8 @@
 - [Stacking scale](#stacking-scale)
 - [Verification](#verification)
 - [Scripts](#scripts)
+- [v0.17.0 timed practice](#v0170-timed-practice)
+- [v0.16.0 searches for all boards](#v0160-searches-for-all-boards)
 - [v0.13.0 tag suggestions](#v0130-tag-suggestions)
 - [v0.12.0 tag editing](#v0120-tag-editing)
 - [v0.11.0 optional Illustrator tools, tag cloud](#v0110-optional-illustrator-tools-tag-cloud)
@@ -39,6 +41,16 @@
 - [v0.4.8 desktop window controls and WebKit icons](#v048-desktop-window-controls-and-webkit-icons)
 - [v0.4.7 synced notes, map cards, inline edit commit](#v047-synced-notes-map-cards-inline-edit-commit)
 - [v0.4.6 GIF frames and document export](#v046-gif-frames-and-document-export)
+
+## v0.17.0 timed practice
+
+`app/practice.ts` follows the Compare pattern: its view and setup dialog are built once in script and mounted on first use, so the board's DOM is untouched. The set is the selection when two or more pictures are selected, otherwise the pictures the filters leave lit (read from `.matched-out`, so every filter counts without the module knowing them), otherwise every visible picture in reading order. Each next picture is a new `Image` decoded off screen, painted with `paintImage` (crop and mask kept) and swapped for the old one with one `replaceWith`, so the frame never paints empty; the counter changes in the same task. The clock runs on `requestAnimationFrame` and writes text only when the shown second changes; the bar is a `scaleX` transform. Time stops while a picture loads, while paused and when the window is hidden (which pauses). Duration names come from `Intl.NumberFormat` units, so no table holds "30 seconds". Choices are kept in `localStorage` (`formref-practice`), wrapped in try. Mirror and grey are classes on the frame; the summary hides the clock and step buttons with `visibility`, so the bar keeps its size.
+
+Checked at 4x CPU with slow network in English, German and Russian ($SC/ui/practice.cjs): setup lists the board's 12 pictures and localized durations, a 30 second timeout moves to the next picture, pause holds the clock and bar, arrows step, mirror and grey stay across pictures, Esc gives the summary and Esc again closes, two selected pictures become the set, choices are remembered, the board revision is unchanged, and over about 2,600 sampled frames the frame never lacked a decoded picture after the first (4 swaps, each one node).
+
+## v0.16.0 searches for all boards
+
+`app/saved-search.ts` keeps a second list loaded from `/api/searches` at start. The menu adds This Board and All Boards section headings only when both lists have entries, so a board without searches for all boards shows the same menu as before. `fromShared` turns label names into this board's label ids ignoring case and reports the names it could not find; the toast for them uses `t()` because the names are joined in. The bookmark lights for either kind. Probe: $SC/ui/shared.cjs.
 
 ## v0.13.0 tag suggestions
 

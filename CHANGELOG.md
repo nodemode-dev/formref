@@ -1,5 +1,13 @@
 # FormRef changelog
 
+## v0.17.0 · 2026-10-16
+
+Timed Practice for drawing sessions.
+
+- View, Timed Practice (Alt+T) shows pictures one at a time full screen, each for 30 seconds, 1, 2, 5 or 10 minutes, or with no limit, as gesture and figure drawing sites do. It uses the selected pictures when two or more are selected, otherwise the pictures the filters show, otherwise every picture on the board, and can shuffle them, stop after 5 to 30 and start in grey.
+- Space pauses, the arrow keys step, H mirrors, G turns grey on or off and Esc ends with a summary of how many pictures and how long. A bar under the clock shows the time left. The session pauses when the window is hidden. Nothing on the board changes.
+- The choices are remembered for next time. Agents can start a session with `timed-practice` and its seconds, count, shuffle and grey settings.
+
 ## v0.16.0 · 2026-10-16
 
 Saved searches for every board.
