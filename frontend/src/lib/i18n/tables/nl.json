@@ -1497,5 +1497,8 @@
  "Label Connection…": "Verbinding labelen…",
  "Remove Connection": "Verbinding verwijderen",
  "Choose a connection, or select references that have connections.": "Kies een verbinding, of selecteer referenties met verbindingen.",
- "Connection selected. Press Delete to remove, double-click to label, right-click for line and arrow styles.": "Verbinding gekozen. Delete verwijdert, dubbelklik labelt, rechtsklik voor lijn- en pijlstijlen."
+ "Connection selected. Press Delete to remove, double-click to label, right-click for line and arrow styles.": "Verbinding gekozen. Delete verwijdert, dubbelklik labelt, rechtsklik voor lijn- en pijlstijlen.",
+ "Purple": "Paars",
+ "Custom Color…": "Eigen kleur…",
+ "Reverse Direction": "Richting omkeren"
 }

@@ -1497,5 +1497,8 @@
  "Label Connection…": "Gắn nhãn kết nối…",
  "Remove Connection": "Xóa kết nối",
  "Choose a connection, or select references that have connections.": "Chọn một kết nối, hoặc chọn các tham chiếu có kết nối.",
- "Connection selected. Press Delete to remove, double-click to label, right-click for line and arrow styles.": "Đã chọn kết nối. Nhấn Delete để xóa, nhấp đúp để gắn nhãn, nhấp phải để chọn kiểu đường và mũi tên."
+ "Connection selected. Press Delete to remove, double-click to label, right-click for line and arrow styles.": "Đã chọn kết nối. Nhấn Delete để xóa, nhấp đúp để gắn nhãn, nhấp phải để chọn kiểu đường và mũi tên.",
+ "Purple": "Tím",
+ "Custom Color…": "Màu tùy chỉnh…",
+ "Reverse Direction": "Đảo hướng"
 }

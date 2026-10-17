@@ -1497,5 +1497,8 @@
  "Label Connection…": "Popsat spojení…",
  "Remove Connection": "Odstranit spojení",
  "Choose a connection, or select references that have connections.": "Vyberte spojení nebo reference, které spojení mají.",
- "Connection selected. Press Delete to remove, double-click to label, right-click for line and arrow styles.": "Spojení vybráno. Delete je odstraní, dvojklik přidá popisek, pravé tlačítko nabídne styl čáry a šipek."
+ "Connection selected. Press Delete to remove, double-click to label, right-click for line and arrow styles.": "Spojení vybráno. Delete je odstraní, dvojklik přidá popisek, pravé tlačítko nabídne styl čáry a šipek.",
+ "Purple": "Fialová",
+ "Custom Color…": "Vlastní barva…",
+ "Reverse Direction": "Obrátit směr"
 }

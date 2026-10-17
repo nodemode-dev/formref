@@ -1497,5 +1497,8 @@
  "Label Connection…": "Merk forbindelse…",
  "Remove Connection": "Fjern forbindelse",
  "Choose a connection, or select references that have connections.": "Velg en forbindelse, eller merk referanser som har forbindelser.",
- "Connection selected. Press Delete to remove, double-click to label, right-click for line and arrow styles.": "Forbindelse valgt. Trykk Delete for å fjerne, dobbeltklikk for å merke, høyreklikk for linje- og pilstil."
+ "Connection selected. Press Delete to remove, double-click to label, right-click for line and arrow styles.": "Forbindelse valgt. Trykk Delete for å fjerne, dobbeltklikk for å merke, høyreklikk for linje- og pilstil.",
+ "Purple": "Lilla",
+ "Custom Color…": "Egendefinert farge…",
+ "Reverse Direction": "Snu retning"
 }

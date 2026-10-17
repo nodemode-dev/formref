@@ -1497,5 +1497,8 @@
  "Label Connection…": "接続にラベル…",
  "Remove Connection": "接続を削除",
  "Choose a connection, or select references that have connections.": "接続を選ぶか、接続のある参照を選択してください。",
- "Connection selected. Press Delete to remove, double-click to label, right-click for line and arrow styles.": "接続を選択しました。Delete で削除、ダブルクリックでラベル、右クリックで線と矢印のスタイル。"
+ "Connection selected. Press Delete to remove, double-click to label, right-click for line and arrow styles.": "接続を選択しました。Delete で削除、ダブルクリックでラベル、右クリックで線と矢印のスタイル。",
+ "Purple": "紫",
+ "Custom Color…": "カスタムカラー…",
+ "Reverse Direction": "向きを反転"
 }

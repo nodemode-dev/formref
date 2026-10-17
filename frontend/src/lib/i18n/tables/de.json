@@ -1497,5 +1497,8 @@
  "Label Connection…": "Verbindung beschriften…",
  "Remove Connection": "Verbindung entfernen",
  "Choose a connection, or select references that have connections.": "Wählen Sie eine Verbindung oder Referenzen mit Verbindungen aus.",
- "Connection selected. Press Delete to remove, double-click to label, right-click for line and arrow styles.": "Verbindung ausgewählt. Entf entfernt sie, Doppelklick beschriftet, Rechtsklick bietet Linien- und Pfeilstile."
+ "Connection selected. Press Delete to remove, double-click to label, right-click for line and arrow styles.": "Verbindung ausgewählt. Entf entfernt sie, Doppelklick beschriftet, Rechtsklick bietet Linien- und Pfeilstile.",
+ "Purple": "Lila",
+ "Custom Color…": "Eigene Farbe…",
+ "Reverse Direction": "Richtung umkehren"
 }

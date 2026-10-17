@@ -1497,5 +1497,8 @@
  "Label Connection…": "标注连接…",
  "Remove Connection": "移除连接",
  "Choose a connection, or select references that have connections.": "请选一条连接，或选择带有连接的参考。",
- "Connection selected. Press Delete to remove, double-click to label, right-click for line and arrow styles.": "已选中连接。按 Delete 删除，双击添加标注，右键可选线型和箭头。"
+ "Connection selected. Press Delete to remove, double-click to label, right-click for line and arrow styles.": "已选中连接。按 Delete 删除，双击添加标注，右键可选线型和箭头。",
+ "Purple": "紫色",
+ "Custom Color…": "自定义颜色…",
+ "Reverse Direction": "反转方向"
 }

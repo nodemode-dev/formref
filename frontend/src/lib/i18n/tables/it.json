@@ -1497,5 +1497,8 @@
  "Label Connection…": "Etichetta collegamento…",
  "Remove Connection": "Rimuovi collegamento",
  "Choose a connection, or select references that have connections.": "Scegli un collegamento o seleziona riferimenti che ne hanno.",
- "Connection selected. Press Delete to remove, double-click to label, right-click for line and arrow styles.": "Collegamento scelto. Canc lo rimuove, doppio clic per etichettarlo, clic destro per stili di linea e freccia."
+ "Connection selected. Press Delete to remove, double-click to label, right-click for line and arrow styles.": "Collegamento scelto. Canc lo rimuove, doppio clic per etichettarlo, clic destro per stili di linea e freccia.",
+ "Purple": "Viola",
+ "Custom Color…": "Colore personalizzato…",
+ "Reverse Direction": "Inverti direzione"
 }

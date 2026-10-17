@@ -1497,5 +1497,8 @@
  "Label Connection…": "Kapcsolat felirata…",
  "Remove Connection": "Kapcsolat eltávolítása",
  "Choose a connection, or select references that have connections.": "Válasszon egy kapcsolatot, vagy jelöljön ki kapcsolattal rendelkező referenciákat.",
- "Connection selected. Press Delete to remove, double-click to label, right-click for line and arrow styles.": "Kapcsolat kijelölve. Delete eltávolítja, dupla kattintás feliratozza, jobb kattintás vonal- és nyílstílust kínál."
+ "Connection selected. Press Delete to remove, double-click to label, right-click for line and arrow styles.": "Kapcsolat kijelölve. Delete eltávolítja, dupla kattintás feliratozza, jobb kattintás vonal- és nyílstílust kínál.",
+ "Purple": "Lila",
+ "Custom Color…": "Egyéni szín…",
+ "Reverse Direction": "Irány megfordítása"
 }

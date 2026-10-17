@@ -1497,5 +1497,8 @@
  "Label Connection…": "Nimeä yhteys…",
  "Remove Connection": "Poista yhteys",
  "Choose a connection, or select references that have connections.": "Valitse yhteys tai viitteitä, joilla on yhteyksiä.",
- "Connection selected. Press Delete to remove, double-click to label, right-click for line and arrow styles.": "Yhteys valittu. Delete poistaa, kaksoisnapsautus nimeää, oikea napsautus avaa viiva- ja nuolityylit."
+ "Connection selected. Press Delete to remove, double-click to label, right-click for line and arrow styles.": "Yhteys valittu. Delete poistaa, kaksoisnapsautus nimeää, oikea napsautus avaa viiva- ja nuolityylit.",
+ "Purple": "Violetti",
+ "Custom Color…": "Oma väri…",
+ "Reverse Direction": "Käännä suunta"
 }

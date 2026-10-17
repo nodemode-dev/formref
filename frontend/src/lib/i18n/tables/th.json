@@ -1497,5 +1497,8 @@
  "Label Connection…": "ใส่ป้ายการเชื่อมต่อ…",
  "Remove Connection": "ลบการเชื่อมต่อ",
  "Choose a connection, or select references that have connections.": "เลือกการเชื่อมต่อ หรือเลือกรายการอ้างอิงที่มีการเชื่อมต่อ",
- "Connection selected. Press Delete to remove, double-click to label, right-click for line and arrow styles.": "เลือกการเชื่อมต่อแล้ว กด Delete เพื่อลบ ดับเบิลคลิกเพื่อใส่ป้าย คลิกขวาเพื่อเลือกรูปแบบเส้นและลูกศร"
+ "Connection selected. Press Delete to remove, double-click to label, right-click for line and arrow styles.": "เลือกการเชื่อมต่อแล้ว กด Delete เพื่อลบ ดับเบิลคลิกเพื่อใส่ป้าย คลิกขวาเพื่อเลือกรูปแบบเส้นและลูกศร",
+ "Purple": "ม่วง",
+ "Custom Color…": "สีกำหนดเอง…",
+ "Reverse Direction": "กลับทิศทาง"
 }

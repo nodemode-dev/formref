@@ -1497,5 +1497,8 @@
  "Label Connection…": "Bağlantıyı etiketle…",
  "Remove Connection": "Bağlantıyı kaldır",
  "Choose a connection, or select references that have connections.": "Bir bağlantı seçin ya da bağlantısı olan referansları seçin.",
- "Connection selected. Press Delete to remove, double-click to label, right-click for line and arrow styles.": "Bağlantı seçildi. Silmek için Delete, etiketlemek için çift tıklayın, çizgi ve ok stilleri için sağ tıklayın."
+ "Connection selected. Press Delete to remove, double-click to label, right-click for line and arrow styles.": "Bağlantı seçildi. Silmek için Delete, etiketlemek için çift tıklayın, çizgi ve ok stilleri için sağ tıklayın.",
+ "Purple": "Mor",
+ "Custom Color…": "Özel renk…",
+ "Reverse Direction": "Yönü tersine çevir"
 }

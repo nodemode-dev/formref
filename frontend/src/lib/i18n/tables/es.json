@@ -1497,5 +1497,8 @@
  "Label Connection…": "Etiquetar conexión…",
  "Remove Connection": "Quitar conexión",
  "Choose a connection, or select references that have connections.": "Elige una conexión o selecciona referencias que tengan conexiones.",
- "Connection selected. Press Delete to remove, double-click to label, right-click for line and arrow styles.": "Conexión seleccionada. Pulsa Supr para quitarla, doble clic para etiquetarla, clic derecho para estilos de línea y flecha."
+ "Connection selected. Press Delete to remove, double-click to label, right-click for line and arrow styles.": "Conexión seleccionada. Pulsa Supr para quitarla, doble clic para etiquetarla, clic derecho para estilos de línea y flecha.",
+ "Purple": "Morado",
+ "Custom Color…": "Color personalizado…",
+ "Reverse Direction": "Invertir dirección"
 }

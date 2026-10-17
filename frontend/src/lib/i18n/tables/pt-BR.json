@@ -1497,5 +1497,8 @@
  "Label Connection…": "Rotular conexão…",
  "Remove Connection": "Remover conexão",
  "Choose a connection, or select references that have connections.": "Escolha uma conexão ou selecione referências que tenham conexões.",
- "Connection selected. Press Delete to remove, double-click to label, right-click for line and arrow styles.": "Conexão selecionada. Delete remove, clique duplo rotula, clique direito para estilos de linha e seta."
+ "Connection selected. Press Delete to remove, double-click to label, right-click for line and arrow styles.": "Conexão selecionada. Delete remove, clique duplo rotula, clique direito para estilos de linha e seta.",
+ "Purple": "Roxo",
+ "Custom Color…": "Cor personalizada…",
+ "Reverse Direction": "Inverter direção"
 }

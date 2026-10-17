@@ -1497,5 +1497,8 @@
  "Label Connection…": "Podpisz połączenie…",
  "Remove Connection": "Usuń połączenie",
  "Choose a connection, or select references that have connections.": "Wybierz połączenie albo zaznacz odniesienia, które mają połączenia.",
- "Connection selected. Press Delete to remove, double-click to label, right-click for line and arrow styles.": "Wybrano połączenie. Delete usuwa, dwuklik dodaje podpis, prawy przycisk otwiera style linii i strzałek."
+ "Connection selected. Press Delete to remove, double-click to label, right-click for line and arrow styles.": "Wybrano połączenie. Delete usuwa, dwuklik dodaje podpis, prawy przycisk otwiera style linii i strzałek.",
+ "Purple": "Fioletowy",
+ "Custom Color…": "Własny kolor…",
+ "Reverse Direction": "Odwróć kierunek"
 }

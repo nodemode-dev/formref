@@ -1497,5 +1497,8 @@
  "Label Connection…": "Beri label sambungan…",
  "Remove Connection": "Hapus sambungan",
  "Choose a connection, or select references that have connections.": "Pilih sambungan, atau pilih referensi yang memiliki sambungan.",
- "Connection selected. Press Delete to remove, double-click to label, right-click for line and arrow styles.": "Sambungan dipilih. Tekan Delete untuk menghapus, klik ganda untuk memberi label, klik kanan untuk gaya garis dan panah."
+ "Connection selected. Press Delete to remove, double-click to label, right-click for line and arrow styles.": "Sambungan dipilih. Tekan Delete untuk menghapus, klik ganda untuk memberi label, klik kanan untuk gaya garis dan panah.",
+ "Purple": "Ungu",
+ "Custom Color…": "Warna khusus…",
+ "Reverse Direction": "Balik arah"
 }

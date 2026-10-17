@@ -1497,5 +1497,8 @@
  "Label Connection…": "Märk koppling…",
  "Remove Connection": "Ta bort koppling",
  "Choose a connection, or select references that have connections.": "Välj en koppling, eller markera referenser som har kopplingar.",
- "Connection selected. Press Delete to remove, double-click to label, right-click for line and arrow styles.": "Koppling vald. Delete tar bort, dubbelklick märker, högerklick ger linje- och pilstilar."
+ "Connection selected. Press Delete to remove, double-click to label, right-click for line and arrow styles.": "Koppling vald. Delete tar bort, dubbelklick märker, högerklick ger linje- och pilstilar.",
+ "Purple": "Lila",
+ "Custom Color…": "Egen färg…",
+ "Reverse Direction": "Vänd riktning"
 }

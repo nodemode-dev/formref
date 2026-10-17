@@ -1497,5 +1497,8 @@
  "Label Connection…": "Подписать связь…",
  "Remove Connection": "Удалить связь",
  "Choose a connection, or select references that have connections.": "Выберите связь или выделите референсы, у которых есть связи.",
- "Connection selected. Press Delete to remove, double-click to label, right-click for line and arrow styles.": "Связь выбрана. Delete удаляет, двойной щелчок подписывает, правый щелчок открывает стили линии и стрелок."
+ "Connection selected. Press Delete to remove, double-click to label, right-click for line and arrow styles.": "Связь выбрана. Delete удаляет, двойной щелчок подписывает, правый щелчок открывает стили линии и стрелок.",
+ "Purple": "Фиолетовый",
+ "Custom Color…": "Свой цвет…",
+ "Reverse Direction": "Сменить направление"
 }
