@@ -1500,5 +1500,9 @@
  "Connection selected. Press Delete to remove, double-click to label, right-click for line and arrow styles.": "Forbindelse valgt. Trykk Delete for å fjerne, dobbeltklikk for å merke, høyreklikk for linje- og pilstil.",
  "Purple": "Lilla",
  "Custom Color…": "Egendefinert farge…",
- "Reverse Direction": "Snu retning"
+ "Reverse Direction": "Snu retning",
+ "Route": "Forløp",
+ "Curved": "Buet",
+ "Straight": "Rett",
+ "Elbow": "Vinklet"
 }

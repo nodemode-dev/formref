@@ -1500,5 +1500,9 @@
  "Connection selected. Press Delete to remove, double-click to label, right-click for line and arrow styles.": "Conexão selecionada. Delete remove, clique duplo rotula, clique direito para estilos de linha e seta.",
  "Purple": "Roxo",
  "Custom Color…": "Cor personalizada…",
- "Reverse Direction": "Inverter direção"
+ "Reverse Direction": "Inverter direção",
+ "Route": "Traçado",
+ "Curved": "Curva",
+ "Straight": "Reta",
+ "Elbow": "Em cotovelo"
 }

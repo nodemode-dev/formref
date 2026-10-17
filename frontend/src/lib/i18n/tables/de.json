@@ -1500,5 +1500,9 @@
  "Connection selected. Press Delete to remove, double-click to label, right-click for line and arrow styles.": "Verbindung ausgewählt. Entf entfernt sie, Doppelklick beschriftet, Rechtsklick bietet Linien- und Pfeilstile.",
  "Purple": "Lila",
  "Custom Color…": "Eigene Farbe…",
- "Reverse Direction": "Richtung umkehren"
+ "Reverse Direction": "Richtung umkehren",
+ "Route": "Verlauf",
+ "Curved": "Gebogen",
+ "Straight": "Gerade",
+ "Elbow": "Rechtwinklig"
 }

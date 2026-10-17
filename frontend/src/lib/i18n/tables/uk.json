@@ -1500,5 +1500,9 @@
  "Connection selected. Press Delete to remove, double-click to label, right-click for line and arrow styles.": "Зв'язок вибрано. Delete видаляє, подвійне клацання підписує, правий клік відкриває стилі лінії та стрілок.",
  "Purple": "Фіолетовий",
  "Custom Color…": "Власний колір…",
- "Reverse Direction": "Змінити напрямок"
+ "Reverse Direction": "Змінити напрямок",
+ "Route": "Форма лінії",
+ "Curved": "Вигнута",
+ "Straight": "Пряма",
+ "Elbow": "Ламана"
 }

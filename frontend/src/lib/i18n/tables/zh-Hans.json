@@ -1500,5 +1500,9 @@
  "Connection selected. Press Delete to remove, double-click to label, right-click for line and arrow styles.": "已选中连接。按 Delete 删除，双击添加标注，右键可选线型和箭头。",
  "Purple": "紫色",
  "Custom Color…": "自定义颜色…",
- "Reverse Direction": "反转方向"
+ "Reverse Direction": "反转方向",
+ "Route": "走线",
+ "Curved": "曲线",
+ "Straight": "直线",
+ "Elbow": "折线"
 }

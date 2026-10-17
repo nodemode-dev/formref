@@ -1500,5 +1500,9 @@
  "Connection selected. Press Delete to remove, double-click to label, right-click for line and arrow styles.": "Spojení vybráno. Delete je odstraní, dvojklik přidá popisek, pravé tlačítko nabídne styl čáry a šipek.",
  "Purple": "Fialová",
  "Custom Color…": "Vlastní barva…",
- "Reverse Direction": "Obrátit směr"
+ "Reverse Direction": "Obrátit směr",
+ "Route": "Trasa",
+ "Curved": "Zakřivená",
+ "Straight": "Rovná",
+ "Elbow": "Lomená"
 }

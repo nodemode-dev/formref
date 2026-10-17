@@ -1500,5 +1500,9 @@
  "Connection selected. Press Delete to remove, double-click to label, right-click for line and arrow styles.": "Wybrano połączenie. Delete usuwa, dwuklik dodaje podpis, prawy przycisk otwiera style linii i strzałek.",
  "Purple": "Fioletowy",
  "Custom Color…": "Własny kolor…",
- "Reverse Direction": "Odwróć kierunek"
+ "Reverse Direction": "Odwróć kierunek",
+ "Route": "Przebieg",
+ "Curved": "Zakrzywiona",
+ "Straight": "Prosta",
+ "Elbow": "Łamana"
 }

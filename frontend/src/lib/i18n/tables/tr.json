@@ -1500,5 +1500,9 @@
  "Connection selected. Press Delete to remove, double-click to label, right-click for line and arrow styles.": "Bağlantı seçildi. Silmek için Delete, etiketlemek için çift tıklayın, çizgi ve ok stilleri için sağ tıklayın.",
  "Purple": "Mor",
  "Custom Color…": "Özel renk…",
- "Reverse Direction": "Yönü tersine çevir"
+ "Reverse Direction": "Yönü tersine çevir",
+ "Route": "Güzergâh",
+ "Curved": "Eğri",
+ "Straight": "Düz",
+ "Elbow": "Dirsek"
 }

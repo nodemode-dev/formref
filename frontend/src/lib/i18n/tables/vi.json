@@ -1500,5 +1500,9 @@
  "Connection selected. Press Delete to remove, double-click to label, right-click for line and arrow styles.": "Đã chọn kết nối. Nhấn Delete để xóa, nhấp đúp để gắn nhãn, nhấp phải để chọn kiểu đường và mũi tên.",
  "Purple": "Tím",
  "Custom Color…": "Màu tùy chỉnh…",
- "Reverse Direction": "Đảo hướng"
+ "Reverse Direction": "Đảo hướng",
+ "Route": "Đường đi",
+ "Curved": "Cong",
+ "Straight": "Thẳng",
+ "Elbow": "Gấp khúc"
 }

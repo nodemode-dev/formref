@@ -1500,5 +1500,9 @@
  "Connection selected. Press Delete to remove, double-click to label, right-click for line and arrow styles.": "Liaison choisie. Suppr la retire, un double-clic l'étiquette, un clic droit propose les styles de trait et de flèche.",
  "Purple": "Violet",
  "Custom Color…": "Couleur personnalisée…",
- "Reverse Direction": "Inverser le sens"
+ "Reverse Direction": "Inverser le sens",
+ "Route": "Tracé",
+ "Curved": "Courbe",
+ "Straight": "Droit",
+ "Elbow": "En coude"
 }

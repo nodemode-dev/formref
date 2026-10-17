@@ -1500,5 +1500,9 @@
  "Connection selected. Press Delete to remove, double-click to label, right-click for line and arrow styles.": "Koppling vald. Delete tar bort, dubbelklick märker, högerklick ger linje- och pilstilar.",
  "Purple": "Lila",
  "Custom Color…": "Egen färg…",
- "Reverse Direction": "Vänd riktning"
+ "Reverse Direction": "Vänd riktning",
+ "Route": "Linjeföring",
+ "Curved": "Böjd",
+ "Straight": "Rak",
+ "Elbow": "Vinklad"
 }

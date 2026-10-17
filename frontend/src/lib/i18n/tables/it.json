@@ -1500,5 +1500,9 @@
  "Connection selected. Press Delete to remove, double-click to label, right-click for line and arrow styles.": "Collegamento scelto. Canc lo rimuove, doppio clic per etichettarlo, clic destro per stili di linea e freccia.",
  "Purple": "Viola",
  "Custom Color…": "Colore personalizzato…",
- "Reverse Direction": "Inverti direzione"
+ "Reverse Direction": "Inverti direzione",
+ "Route": "Percorso",
+ "Curved": "Curva",
+ "Straight": "Dritta",
+ "Elbow": "A gomito"
 }

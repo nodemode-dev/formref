@@ -1500,5 +1500,9 @@
  "Connection selected. Press Delete to remove, double-click to label, right-click for line and arrow styles.": "Sambungan dipilih. Tekan Delete untuk menghapus, klik ganda untuk memberi label, klik kanan untuk gaya garis dan panah.",
  "Purple": "Ungu",
  "Custom Color…": "Warna khusus…",
- "Reverse Direction": "Balik arah"
+ "Reverse Direction": "Balik arah",
+ "Route": "Jalur",
+ "Curved": "Melengkung",
+ "Straight": "Lurus",
+ "Elbow": "Siku"
 }

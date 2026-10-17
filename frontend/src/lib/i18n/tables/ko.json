@@ -1500,5 +1500,9 @@
  "Connection selected. Press Delete to remove, double-click to label, right-click for line and arrow styles.": "연결을 선택했습니다. Delete로 제거, 더블클릭으로 레이블, 오른쪽 클릭으로 선과 화살표 스타일.",
  "Purple": "보라",
  "Custom Color…": "사용자 지정 색…",
- "Reverse Direction": "방향 반전"
+ "Reverse Direction": "방향 반전",
+ "Route": "경로",
+ "Curved": "곡선",
+ "Straight": "직선",
+ "Elbow": "꺾은선"
 }

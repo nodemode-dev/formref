@@ -1500,5 +1500,9 @@
  "Connection selected. Press Delete to remove, double-click to label, right-click for line and arrow styles.": "接続を選択しました。Delete で削除、ダブルクリックでラベル、右クリックで線と矢印のスタイル。",
  "Purple": "紫",
  "Custom Color…": "カスタムカラー…",
- "Reverse Direction": "向きを反転"
+ "Reverse Direction": "向きを反転",
+ "Route": "経路",
+ "Curved": "曲線",
+ "Straight": "直線",
+ "Elbow": "カギ線"
 }

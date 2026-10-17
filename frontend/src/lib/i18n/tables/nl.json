@@ -1500,5 +1500,9 @@
  "Connection selected. Press Delete to remove, double-click to label, right-click for line and arrow styles.": "Verbinding gekozen. Delete verwijdert, dubbelklik labelt, rechtsklik voor lijn- en pijlstijlen.",
  "Purple": "Paars",
  "Custom Color…": "Eigen kleur…",
- "Reverse Direction": "Richting omkeren"
+ "Reverse Direction": "Richting omkeren",
+ "Route": "Verloop",
+ "Curved": "Gebogen",
+ "Straight": "Recht",
+ "Elbow": "Haaks"
 }
