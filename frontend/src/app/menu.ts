@@ -49,6 +49,7 @@ export function boardMenu(): MenuEntry[] {
     sep,
     item('select-all'),
     item('deselect'),
+    ...(isEnabled(BY_ID.get('connect-selected')!) || isEnabled(BY_ID.get('disconnect-selected')!) ? [sep, item('connect-selected'), item('disconnect-selected')] : []),
     sep,
     item('find-color'),
     item('find-swatch-color'),

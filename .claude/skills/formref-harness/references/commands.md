@@ -2,7 +2,7 @@
 
 Written by `./formref agents sync` from the command catalogue the FormRef window publishes; do not edit by hand. Run a command with the MCP tools `run_command` or `run_commands` (the window must be open). `window-only` commands are refused for outside agents; `risky` commands ask the person first.
 
-210 commands.
+212 commands.
 
 ## Canvas
 
@@ -170,7 +170,9 @@ Written by `./formref agents sync` from the command catalogue the FormRef window
 | Command | Label | Keys | Kind | What it does |
 | --- | --- | --- | --- | --- |
 | `align` | Align |  | changes the board | Aligns the selected items by the edge or centre chosen in the inspector. |
+| `connect-selected` | Connect Selected | `mod+shift+l` | changes the board | Connects the selected references and groups in reading order, top to bottom and left to right: two of them with one line, more as a chain. A group counts as one node when all of its items are selected. Pairs already connected are skipped. One undo step. |
 | `copy-to-board` | Copy Selection to New Board |  | changes the board | Copies the selected items, their column children and the connections between them onto a new board, opened in a new tab; this board is unchanged. Parameters: `title` (string): title of the new board; default "<board> selection". |
+| `disconnect-selected` | Remove Connections |  | changes the board | Removes every connection that touches the selected references or groups. One undo step. |
 | `distribute-x` | Space Horizontally |  | changes the board | Spaces the selected items evenly from left to right. |
 | `distribute-y` | Space Vertically |  | changes the board | Spaces the selected items evenly from top to bottom. |
 | `group` | Group Selected | `mod+g` | changes the board | Groups the selected items so they select and move together. |

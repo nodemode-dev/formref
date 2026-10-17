@@ -64,6 +64,8 @@ export const COMMAND_WORDS: Readonly<Record<string, string>> = {
   'sort-aspect': 'Arranges the selection, or every unlocked top-level item, in rows ordered by aspect ratio.',
   'sort-filename': 'Arranges the selection, or every unlocked top-level item, in rows ordered by file name.',
   'sort-similarity': 'Arranges the selection, or every unlocked top-level item, so that similar-looking pictures sit together.',
+  'connect-selected': 'Connects the selected references and groups in reading order, top to bottom and left to right: two of them with one line, more as a chain. A group counts as one node when all of its items are selected. Pairs already connected are skipped. One undo step.',
+  'disconnect-selected': 'Removes every connection that touches the selected references or groups. One undo step.',
   'name-group': 'Gives the selected group a title shown above a dashed frame around it (the frame also marks groups that have connections); an empty title removes it. The title goes when the group is ungrouped. One undo step.',
   'sort-rating': 'Arranges the selection, or every unlocked top-level item, in rows from most stars to fewest, with unrated items last in their current order.',
   'sort-color':'Arranges the selection, or every unlocked top-level item, in rainbow order of each picture\'s main color, with black, white and grey pictures after them from light to dark.',
