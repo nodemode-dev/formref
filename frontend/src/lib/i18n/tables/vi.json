@@ -1504,5 +1504,9 @@
  "Route": "Đường đi",
  "Curved": "Cong",
  "Straight": "Thẳng",
- "Elbow": "Gấp khúc"
+ "Elbow": "Gấp khúc",
+ "Collapse Group": "Thu gọn nhóm",
+ "Expand Group": "Mở rộng nhóm",
+ "Select a group first.": "Hãy chọn một nhóm trước.",
+ "Untitled group": "Nhóm chưa đặt tên"
 }

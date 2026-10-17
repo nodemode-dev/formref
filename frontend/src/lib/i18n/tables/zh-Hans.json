@@ -1504,5 +1504,9 @@
  "Route": "走线",
  "Curved": "曲线",
  "Straight": "直线",
- "Elbow": "折线"
+ "Elbow": "折线",
+ "Collapse Group": "折叠分组",
+ "Expand Group": "展开分组",
+ "Select a group first.": "请先选择一个分组。",
+ "Untitled group": "未命名分组"
 }

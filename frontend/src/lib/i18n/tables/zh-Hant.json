@@ -1504,5 +1504,9 @@
  "Route": "走線",
  "Curved": "曲線",
  "Straight": "直線",
- "Elbow": "折線"
+ "Elbow": "折線",
+ "Collapse Group": "摺疊群組",
+ "Expand Group": "展開群組",
+ "Select a group first.": "請先選取一個群組。",
+ "Untitled group": "未命名群組"
 }

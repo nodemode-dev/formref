@@ -1504,5 +1504,9 @@
  "Route": "เส้นทาง",
  "Curved": "โค้ง",
  "Straight": "ตรง",
- "Elbow": "หักมุม"
+ "Elbow": "หักมุม",
+ "Collapse Group": "ยุบกลุ่ม",
+ "Expand Group": "ขยายกลุ่ม",
+ "Select a group first.": "เลือกกลุ่มก่อน",
+ "Untitled group": "กลุ่มไม่มีชื่อ"
 }

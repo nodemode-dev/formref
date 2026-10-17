@@ -1504,5 +1504,9 @@
  "Route": "Güzergâh",
  "Curved": "Eğri",
  "Straight": "Düz",
- "Elbow": "Dirsek"
+ "Elbow": "Dirsek",
+ "Collapse Group": "Grubu daralt",
+ "Expand Group": "Grubu genişlet",
+ "Select a group first.": "Önce bir grup seçin.",
+ "Untitled group": "Adsız grup"
 }

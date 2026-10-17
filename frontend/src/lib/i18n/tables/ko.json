@@ -1504,5 +1504,9 @@
  "Route": "경로",
  "Curved": "곡선",
  "Straight": "직선",
- "Elbow": "꺾은선"
+ "Elbow": "꺾은선",
+ "Collapse Group": "그룹 접기",
+ "Expand Group": "그룹 펼치기",
+ "Select a group first.": "먼저 그룹을 선택하세요.",
+ "Untitled group": "제목 없는 그룹"
 }

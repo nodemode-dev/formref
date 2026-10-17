@@ -1504,5 +1504,9 @@
  "Route": "Forløp",
  "Curved": "Buet",
  "Straight": "Rett",
- "Elbow": "Vinklet"
+ "Elbow": "Vinklet",
+ "Collapse Group": "Slå sammen gruppe",
+ "Expand Group": "Utvid gruppe",
+ "Select a group first.": "Velg en gruppe først.",
+ "Untitled group": "Gruppe uten navn"
 }

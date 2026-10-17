@@ -1504,5 +1504,9 @@
  "Route": "Przebieg",
  "Curved": "Zakrzywiona",
  "Straight": "Prosta",
- "Elbow": "Łamana"
+ "Elbow": "Łamana",
+ "Collapse Group": "Zwiń grupę",
+ "Expand Group": "Rozwiń grupę",
+ "Select a group first.": "Najpierw zaznacz grupę.",
+ "Untitled group": "Grupa bez nazwy"
 }

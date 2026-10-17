@@ -1504,5 +1504,9 @@
  "Route": "Jalur",
  "Curved": "Melengkung",
  "Straight": "Lurus",
- "Elbow": "Siku"
+ "Elbow": "Siku",
+ "Collapse Group": "Ciutkan grup",
+ "Expand Group": "Bentangkan grup",
+ "Select a group first.": "Pilih grup terlebih dahulu.",
+ "Untitled group": "Grup tanpa judul"
 }

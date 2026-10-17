@@ -1504,5 +1504,9 @@
  "Route": "Reitti",
  "Curved": "Kaareva",
  "Straight": "Suora",
- "Elbow": "Kulmikas"
+ "Elbow": "Kulmikas",
+ "Collapse Group": "Kutista ryhmä",
+ "Expand Group": "Laajenna ryhmä",
+ "Select a group first.": "Valitse ensin ryhmä.",
+ "Untitled group": "Nimetön ryhmä"
 }

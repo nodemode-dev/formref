@@ -1504,5 +1504,9 @@
  "Route": "経路",
  "Curved": "曲線",
  "Straight": "直線",
- "Elbow": "カギ線"
+ "Elbow": "カギ線",
+ "Collapse Group": "グループを折りたたむ",
+ "Expand Group": "グループを展開",
+ "Select a group first.": "先にグループを選択してください。",
+ "Untitled group": "無題のグループ"
 }

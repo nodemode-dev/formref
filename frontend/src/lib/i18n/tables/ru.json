@@ -1504,5 +1504,9 @@
  "Route": "Форма линии",
  "Curved": "Изогнутая",
  "Straight": "Прямая",
- "Elbow": "Ломаная"
+ "Elbow": "Ломаная",
+ "Collapse Group": "Свернуть группу",
+ "Expand Group": "Развернуть группу",
+ "Select a group first.": "Сначала выделите группу.",
+ "Untitled group": "Группа без названия"
 }

@@ -1504,5 +1504,9 @@
  "Route": "Tracé",
  "Curved": "Courbe",
  "Straight": "Droit",
- "Elbow": "En coude"
+ "Elbow": "En coude",
+ "Collapse Group": "Replier le groupe",
+ "Expand Group": "Déplier le groupe",
+ "Select a group first.": "Sélectionnez d'abord un groupe.",
+ "Untitled group": "Groupe sans titre"
 }

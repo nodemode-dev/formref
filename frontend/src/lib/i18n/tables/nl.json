@@ -1504,5 +1504,9 @@
  "Route": "Verloop",
  "Curved": "Gebogen",
  "Straight": "Recht",
- "Elbow": "Haaks"
+ "Elbow": "Haaks",
+ "Collapse Group": "Groep inklappen",
+ "Expand Group": "Groep uitklappen",
+ "Select a group first.": "Selecteer eerst een groep.",
+ "Untitled group": "Naamloze groep"
 }

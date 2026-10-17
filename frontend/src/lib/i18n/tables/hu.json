@@ -1504,5 +1504,9 @@
  "Route": "Útvonal",
  "Curved": "Ívelt",
  "Straight": "Egyenes",
- "Elbow": "Derékszögű"
+ "Elbow": "Derékszögű",
+ "Collapse Group": "Csoport összecsukása",
+ "Expand Group": "Csoport kibontása",
+ "Select a group first.": "Először jelöljön ki egy csoportot.",
+ "Untitled group": "Névtelen csoport"
 }

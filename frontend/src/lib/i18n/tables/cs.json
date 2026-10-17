@@ -1504,5 +1504,9 @@
  "Route": "Trasa",
  "Curved": "Zakřivená",
  "Straight": "Rovná",
- "Elbow": "Lomená"
+ "Elbow": "Lomená",
+ "Collapse Group": "Sbalit skupinu",
+ "Expand Group": "Rozbalit skupinu",
+ "Select a group first.": "Nejprve vyberte skupinu.",
+ "Untitled group": "Skupina bez názvu"
 }

@@ -1504,5 +1504,9 @@
  "Route": "Percorso",
  "Curved": "Curva",
  "Straight": "Dritta",
- "Elbow": "A gomito"
+ "Elbow": "A gomito",
+ "Collapse Group": "Comprimi gruppo",
+ "Expand Group": "Espandi gruppo",
+ "Select a group first.": "Seleziona prima un gruppo.",
+ "Untitled group": "Gruppo senza titolo"
 }
