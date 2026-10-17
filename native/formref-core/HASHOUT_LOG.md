@@ -58,6 +58,8 @@ v0.25.0: a connection end may be `group:` plus a group id. The prefix was chosen
 - The connect arm checks each end exists, that the two ends share no item, and that every member is unlocked. The disconnect arm uses the members for its lock check.
 - `apply_inner` calls `prune_group_connections` just before its own `validate`, so connections to a group that the command just dissolved go in the same step instead of failing validation. Item ends are untouched; the remove arm still drops those.
 
+v0.26.0 added `BoardSettings.group_titles`, a `BTreeMap` so it saves in a stable order, skipped while empty so older boards stay byte-identical. The `name_group` command sets or removes a title. `prune_group_connections` also drops titles of groups that are gone, so no separate cleanup path is needed. A dedicated command was chosen over a settings patch because `merge_object` has no way to delete a map key.
+
 Probed through the API: group to group, item to group, an overlapping pair and a missing group are refused. Ungroup, removing a group's items and regrouping all its members elsewhere each prune, and undo restores; removing one member keeps the group and its connections.
 
 ## Ratings

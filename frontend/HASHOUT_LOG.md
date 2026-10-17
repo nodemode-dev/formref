@@ -54,6 +54,13 @@
 
 `ui/scene.ts` resolves ends through `endpoints(board)`: items by id, groups as a box over their visible members, built once per render. `anchors` keeps items at their centre and puts a group's end on the frame side facing the other end. `paintGroupFrames` keeps one dashed `rect.group-frame` per connected group in the connections SVG, prepended so it sits under the lines. It writes x, y, width and height only when they change, and removes a frame when its group has no connections left. The probe moved a group and found the same frame nodes, moved. In `gestures.ts` the connect tool takes a grouped item as `group:` plus its group id, unless Alt is held, and selects the whole group as the start. The tool tooltip says so; the status line keeps its short text. Probe: $SC/ui/groupconnect.cjs (English and German, 4x CPU, slow network). It creates its own board, and the release run deleted every "Group connect" board afterwards.
 
+v0.26.0:
+- `paintGroupFrames` also frames groups with a title. It keeps a frame rect and a title text per group and patches both in place: renaming the probe's group kept the same node. The title text carries `data-no-i18n`, as it is user text.
+- `EndBox.side` gives a column a side anchor at 0 px.
+- Name Group lives in `commands/organize.ts`. It is enabled when every selected item shares one group, its dialog opens with the current title, and it sends `name_group`.
+
+Probe: $SC/ui/grouptitle.cjs (English and German).
+
 ## v0.24.0 stars on the board
 
 `ItemView.paintRating` in `ui/scene.ts` makes the badge lazily, so an unrated item never gains a node. The first time an item is rated, five star icons are inserted before the label row. After that each paint only flips `hidden`, each star's `display` when it differs, and `data-stars`. The probe watched `#items` for removed board items while rating three pictures and clearing one, and saw none. The badge sits 10 px above the label pills' band, inside the bottom-right corner, with `pointer-events: none`. Sort by Rating is one more `sortBy` key in `commands/organize.ts` and the Organize menu. Probe: $SC/ui/stars.cjs (English and German) also exports the phone viewer to $SC/vstars and taps a star chip there; viewer.cjs on that file still passes. Restore board 9b49827f's ratings after it.

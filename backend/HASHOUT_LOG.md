@@ -52,6 +52,14 @@ Users:
 
 Probed through the API (duplicate, extract, template save and use, trash restore, SVG frame count, Markdown lines, PNG). Probe boards were deleted.
 
+v0.26.0:
+- `exports.group_frames` lists every visible group that is titled or connected, with its title. SVG, PNG and `bounds` use it, so a title above a frame at the board's top edge is not cut off.
+- `endpoints.box` gives a column `side: 0`, so `anchors` puts its line end on its side.
+- `remap_titles` carries titles to new group ids for board duplicate and templates; `fresh_ids` takes the template's settings for this. `kept_titles` keeps only the titles of groups that survive a selection-to-board.
+- MCP `arrange_items` gains a `name_group` action, which takes `group_id` and `title` and ignores `ids`.
+
+Checked through the API and with a probe board.
+
 ## v0.24.0 · Ratings in the SVG and phone viewer
 
 `svg_export` sets `data-rating` on a rated picture's group, next to `data-tags`. The viewer script reads it into `g._stars` and builds a chip per level present, highest first: "5", then "N+", each with its count. The chips work one at a time, and a tap on the chosen one clears it. One `apply()` now dims by tags and by stars together, replacing the tag handler's own loop. The star in each chip is inline SVG, not a text character. The MCP `arrange_items` description lists the rating sort key.

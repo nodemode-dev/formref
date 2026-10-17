@@ -1,5 +1,13 @@
 # FormRef changelog
 
+## v0.26.0 · 2026-10-17
+
+Named groups.
+
+- Organize, Name Group (also in the command palette) gives the selected group a title. A titled group shows a dashed frame with its title above it, whether or not it has connections, so a group reads as a named collection. Saving an empty title removes it, renaming keeps the frame in place, and each change is one undo step. Ungrouping removes the title with the group.
+- Lines to and from a column now meet the column's side, as they do for groups, instead of crossing its cards to the centre.
+- PNG and SVG exports draw titled frames and make room for the titles; Markdown names a titled group by its title. Duplicating a board, templates and moving a selection to a new board keep the titles with their groups. Agents name a group with the `name_group` arrangement.
+
 ## v0.25.0 · 2026-10-17
 
 Groups connect like nodes.
