@@ -2,6 +2,7 @@ import { api } from '../lib/api';
 import { newItem, uid } from '../lib/types';
 import { itemBounds } from '../lib/geometry';
 import { ContextMenu } from '../ui/context-menu';
+import { STACK_W, STACK_H } from '../ui/scene';
 import {
   $, S, applyState, colorPicker, descendants, execute, expanded, fit, matches, open, openEditor,
   scene, selected, selection, setSelection, setText, setTool, stage, topZ, upload, worldPoint, stagePoint, zoom, drawCamera,
@@ -252,8 +253,17 @@ function endGesture(event: PointerEvent, cancel = false) {
     const y1 = Math.min(g.start.y, g.current.y);
     const x2 = Math.max(g.start.x, g.current.x);
     const y2 = Math.max(g.start.y, g.current.y);
+    // A collapsed group's members are hidden under its stack card, so the marquee tests the card's box for them.
+    const collapsed = new Set(S.state.board.settings?.collapsed_groups || []);
+    const cards = new Map<string, { left: number; top: number; right: number; bottom: number }>();
+    for (const i of S.state.board.items) {
+      if (!i.group_id || !collapsed.has(i.group_id) || i.hidden) continue;
+      const card = cards.get(i.group_id);
+      const left = Math.min(card?.left ?? i.x, i.x), top = Math.min(card?.top ?? i.y, i.y);
+      cards.set(i.group_id, { left, top, right: left + STACK_W, bottom: top + STACK_H });
+    }
     const found = S.state.board.items.filter(i => {
-      const b = itemBounds(i);
+      const b = (i.group_id && cards.get(i.group_id)) || itemBounds(i);
       return !i.hidden && matches(i) && b.left < x2 && b.right > x1 && b.top < y2 && b.bottom > y1;
     });
     setSelection(g.shift ? [...selection, ...expanded(found)] : expanded(found));

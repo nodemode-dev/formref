@@ -335,7 +335,7 @@
 .stack-sheet { position: absolute; inset: 6px 14px 0 14px; border-radius: var(--radius); background: var(--bg-tertiary) center / cover no-repeat; box-shadow: 0 1px 4px rgb(0 0 0 / .35); }
 .stack-sheet.sheet-1 { transform: translate(-6px, -4px) rotate(-4deg); }
 .stack-sheet.sheet-2 { transform: translate(6px, -6px) rotate(4deg); }
-.stack-info { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2); min-height: 18px; }
+.stack-info { order: -1; display: flex; align-items: center; justify-content: space-between; gap: var(--space-2); min-height: 18px; }
 .stack-title { font-size: 13px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .stack-count { flex: none; font: 10px var(--font-mono); color: var(--text-muted); background: var(--bg-tertiary); border-radius: var(--radius-sm); padding: 2px var(--space-2); }
 /* Custom Color's colour input: never visible, it only anchors the browser's picker where the menu opened. */
