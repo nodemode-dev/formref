@@ -8,6 +8,7 @@
 
 ## Contents
 
+- [v0.32.0 · Stack cards in picture exports](#v0320--stack-cards-in-picture-exports)
 - [v0.31.0 · Collapsed groups follow their groups](#v0310--collapsed-groups-follow-their-groups)
 - [v0.30.0 · Connection routes in exports](#v0300--connection-routes-in-exports)
 - [v0.28.0 · Connection styles in exports](#v0280--connection-styles-in-exports)
@@ -38,6 +39,28 @@
 - [v0.2.0 · Canvas settings and snapping through MCP](#v020--canvas-settings-and-snapping-through-mcp)
 - [v0.1.0 · Local board service and SDK MCP](#v010--local-board-service-and-sdk-mcp)
 - [boot_backend.bat](#boot_backendbat)
+
+## v0.32.0 · Stack cards in picture exports
+
+`core/stacks.py`: `stacked(board)` returns a deep copy, or the board itself when nothing is collapsed. In the copy, each collapsed group's visible members are replaced by:
+- A card: a `column`, so `endpoints.box` gives it side anchors like the window. It sits at the members' top-left, 220 by 168, titled with the name and the count, at the members' top z.
+- Up to three of the group's topmost pictures. They are copies with new ids, fitted into the card's lower area with their aspect kept, turned 0, -4 and 4 degrees, and stacked just above the card.
+
+Connections are rewritten:
+- Ends that name the group or a member move to the card.
+- A connection whose ends both land on the card is dropped.
+
+The group's title and its `collapsed_groups` entry are cleared in the copy, so no frame is drawn.
+
+Reusing the existing renderers this way means PNG, SVG, the PDFs and the viewer need no stack code of their own. The choice is made in one place:
+- `export_board(..., stacks=False)` applies `stacked` only for png, svg, the PDF forms and viewer.
+- The route passes `stacks` only for those formats, so registered extension exporters keep their old call shape.
+
+Checked by exporting a titled four-item group, with three pictures, a line to a far note, an elbow from a member to a free note and a line inside the group:
+- With stacks, PNG and PDF (rendered with pdftoppm) show the card titled "Mood (4)" with fanned pictures and both outside lines meeting it. The SVG carries the card text and the 0, -4 and 4 rotations.
+- Without stacks, the output is unchanged.
+- Markdown still lists the group.
+- The saved board keeps `collapsed_groups`.
 
 ## v0.31.0 · Collapsed groups follow their groups
 

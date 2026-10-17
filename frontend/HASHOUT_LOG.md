@@ -8,6 +8,7 @@
 - [Stacking scale](#stacking-scale)
 - [Verification](#verification)
 - [Scripts](#scripts)
+- [v0.32.0 stack export option](#v0320-stack-export-option)
 - [v0.31.0 group stacks](#v0310-group-stacks)
 - [v0.30.0 connection routes](#v0300-connection-routes)
 - [v0.29.0 connection colours](#v0290-connection-colours)
@@ -54,6 +55,16 @@
 - [v0.4.8 desktop window controls and WebKit icons](#v048-desktop-window-controls-and-webkit-icons)
 - [v0.4.7 synced notes, map cards, inline edit commit](#v047-synced-notes-map-cards-inline-edit-commit)
 - [v0.4.6 GIF frames and document export](#v046-gif-frames-and-document-export)
+
+## v0.32.0 stack export option
+
+`index.html`: the export dialog's static row `#export-stacks` sits under PDF paper. It is always present, so opening the dialog changes no layout.
+
+`app/bindings.ts`:
+- The row's state is read once at start from `localStorage` `formref-export-stacks`, guarded, so it stays off without storage. It is written on change.
+- Every export link adds `&stacks=true` while the box is checked; the service ignores the flag for formats it does not apply to.
+
+Probe: `$SC/ui/stackexport.cjs` covers English, German and Japanese at 4x CPU on a slow network, with a downloads-enabled context. It checks the label in each language, that the box starts unchecked, that the PNG link carries `stacks=true`, that the choice survives a reload, and that unchecking drops the flag from the SVG link.
 
 ## v0.31.0 group stacks
 

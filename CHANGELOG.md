@@ -1,5 +1,13 @@
 # FormRef changelog
 
+## v0.32.0 · 2026-10-17
+
+Export what you see.
+
+- The export dialog has a new option, Collapsed groups as stacks. With it on, PNG, SVG, the three PDF forms and the phone viewer draw each collapsed group as one card, as in the window: its title with the number of items, and its top three pictures fanned inside. Connections to the group or its items meet the card.
+- The option is remembered in this browser. It is off by default, so exports show every item as before.
+- Markdown, Board JSON, the FormRef project, BeeRef and All pictures always include every item. Agents pass `stacks` to `export_board`.
+
 ## v0.31.0 · 2026-10-17
 
 Collapse a group into a stack.
