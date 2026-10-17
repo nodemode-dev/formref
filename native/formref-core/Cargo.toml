@@ -1,6 +1,6 @@
 [package]
 name = "formref-core"
-version = "0.32.1"
+version = "0.33.0"
 edition = "2021"
 rust-version = "1.82"
 authors = ["nodemode-ai <mackin@nodemode.ai>"]
