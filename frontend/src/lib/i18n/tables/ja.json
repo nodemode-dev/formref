@@ -1479,5 +1479,10 @@
  "Name Group": "グループに名前を付ける",
  "Name Group…": "グループに名前を付ける…",
  "Select a group to name it.": "名前を付けるグループを選択してください。",
- "The title shows above the dashed frame around the group. Leave it empty to remove it.": "タイトルはグループを囲む破線の枠の上に表示されます。空にすると削除されます。"
+ "The title shows above the dashed frame around the group. Leave it empty to remove it.": "タイトルはグループを囲む破線の枠の上に表示されます。空にすると削除されます。",
+ "Connect Selected": "選択項目を接続",
+ "Remove Connections": "接続を削除",
+ "Select two or more references or groups to connect.": "接続する 2 つ以上のリファレンスまたはグループを選択してください。",
+ "The selection has no connections.": "選択範囲に接続はありません。",
+ "These are already connected.": "これらはすでに接続されています。"
 }

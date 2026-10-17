@@ -1479,5 +1479,10 @@
  "Name Group": "Namnge grupp",
  "Name Group…": "Namnge grupp…",
  "Select a group to name it.": "Markera en grupp för att namnge den.",
- "The title shows above the dashed frame around the group. Leave it empty to remove it.": "Titeln visas ovanför den streckade ramen runt gruppen. Lämna den tom för att ta bort den."
+ "The title shows above the dashed frame around the group. Leave it empty to remove it.": "Titeln visas ovanför den streckade ramen runt gruppen. Lämna den tom för att ta bort den.",
+ "Connect Selected": "Koppla ihop markerade",
+ "Remove Connections": "Ta bort kopplingar",
+ "Select two or more references or groups to connect.": "Markera två eller fler referenser eller grupper att koppla ihop.",
+ "The selection has no connections.": "Markeringen har inga kopplingar.",
+ "These are already connected.": "De är redan sammankopplade."
 }

@@ -1479,5 +1479,10 @@
  "Name Group": "Nimeä ryhmä",
  "Name Group…": "Nimeä ryhmä…",
  "Select a group to name it.": "Valitse ryhmä, jonka haluat nimetä.",
- "The title shows above the dashed frame around the group. Leave it empty to remove it.": "Otsikko näkyy ryhmän katkoviivakehyksen yläpuolella. Jätä se tyhjäksi poistaaksesi sen."
+ "The title shows above the dashed frame around the group. Leave it empty to remove it.": "Otsikko näkyy ryhmän katkoviivakehyksen yläpuolella. Jätä se tyhjäksi poistaaksesi sen.",
+ "Connect Selected": "Yhdistä valitut",
+ "Remove Connections": "Poista yhteydet",
+ "Select two or more references or groups to connect.": "Valitse yhdistettäväksi kaksi tai useampi referenssi tai ryhmä.",
+ "The selection has no connections.": "Valinnalla ei ole yhteyksiä.",
+ "These are already connected.": "Nämä on jo yhdistetty."
 }

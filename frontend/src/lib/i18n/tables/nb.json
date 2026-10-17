@@ -1479,5 +1479,10 @@
  "Name Group": "Gi gruppen navn",
  "Name Group…": "Gi gruppen navn…",
  "Select a group to name it.": "Velg en gruppe for å gi den navn.",
- "The title shows above the dashed frame around the group. Leave it empty to remove it.": "Tittelen vises over den stiplede rammen rundt gruppen. La den stå tom for å fjerne den."
+ "The title shows above the dashed frame around the group. Leave it empty to remove it.": "Tittelen vises over den stiplede rammen rundt gruppen. La den stå tom for å fjerne den.",
+ "Connect Selected": "Koble sammen valgte",
+ "Remove Connections": "Fjern koblinger",
+ "Select two or more references or groups to connect.": "Velg to eller flere referanser eller grupper å koble sammen.",
+ "The selection has no connections.": "Utvalget har ingen koblinger.",
+ "These are already connected.": "Disse er allerede koblet sammen."
 }

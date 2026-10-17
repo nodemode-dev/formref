@@ -1479,5 +1479,10 @@
  "Name Group": "Đặt tên nhóm",
  "Name Group…": "Đặt tên nhóm…",
  "Select a group to name it.": "Chọn một nhóm để đặt tên.",
- "The title shows above the dashed frame around the group. Leave it empty to remove it.": "Tên hiện phía trên khung nét đứt quanh nhóm. Để trống để xóa tên."
+ "The title shows above the dashed frame around the group. Leave it empty to remove it.": "Tên hiện phía trên khung nét đứt quanh nhóm. Để trống để xóa tên.",
+ "Connect Selected": "Nối mục đã chọn",
+ "Remove Connections": "Xóa kết nối",
+ "Select two or more references or groups to connect.": "Chọn hai tham chiếu hoặc nhóm trở lên để nối.",
+ "The selection has no connections.": "Vùng chọn không có kết nối nào.",
+ "These are already connected.": "Các mục này đã được nối."
 }

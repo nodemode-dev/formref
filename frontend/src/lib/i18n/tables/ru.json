@@ -1479,5 +1479,10 @@
  "Name Group": "Назвать группу",
  "Name Group…": "Назвать группу…",
  "Select a group to name it.": "Выберите группу, чтобы назвать её.",
- "The title shows above the dashed frame around the group. Leave it empty to remove it.": "Название показывается над пунктирной рамкой вокруг группы. Оставьте его пустым, чтобы убрать."
+ "The title shows above the dashed frame around the group. Leave it empty to remove it.": "Название показывается над пунктирной рамкой вокруг группы. Оставьте его пустым, чтобы убрать.",
+ "Connect Selected": "Соединить выбранное",
+ "Remove Connections": "Удалить связи",
+ "Select two or more references or groups to connect.": "Выберите два или больше референса или группы для соединения.",
+ "The selection has no connections.": "У выделения нет связей.",
+ "These are already connected.": "Они уже соединены."
 }

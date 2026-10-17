@@ -1479,5 +1479,10 @@
  "Name Group": "그룹 이름 지정",
  "Name Group…": "그룹 이름 지정…",
  "Select a group to name it.": "이름을 지정할 그룹을 선택하세요.",
- "The title shows above the dashed frame around the group. Leave it empty to remove it.": "제목은 그룹을 둘러싼 점선 틀 위에 표시됩니다. 비워 두면 제거됩니다."
+ "The title shows above the dashed frame around the group. Leave it empty to remove it.": "제목은 그룹을 둘러싼 점선 틀 위에 표시됩니다. 비워 두면 제거됩니다.",
+ "Connect Selected": "선택 항목 연결",
+ "Remove Connections": "연결 제거",
+ "Select two or more references or groups to connect.": "연결할 레퍼런스나 그룹을 둘 이상 선택하세요.",
+ "The selection has no connections.": "선택 항목에 연결이 없습니다.",
+ "These are already connected.": "이미 연결되어 있습니다."
 }

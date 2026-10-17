@@ -1479,5 +1479,10 @@
  "Name Group": "Gruppe benennen",
  "Name Group…": "Gruppe benennen…",
  "Select a group to name it.": "Wählen Sie eine Gruppe aus, um sie zu benennen.",
- "The title shows above the dashed frame around the group. Leave it empty to remove it.": "Der Titel steht über dem gestrichelten Rahmen um die Gruppe. Lassen Sie ihn leer, um ihn zu entfernen."
+ "The title shows above the dashed frame around the group. Leave it empty to remove it.": "Der Titel steht über dem gestrichelten Rahmen um die Gruppe. Lassen Sie ihn leer, um ihn zu entfernen.",
+ "Connect Selected": "Auswahl verbinden",
+ "Remove Connections": "Verbindungen entfernen",
+ "Select two or more references or groups to connect.": "Wählen Sie zwei oder mehr Referenzen oder Gruppen zum Verbinden aus.",
+ "The selection has no connections.": "Die Auswahl hat keine Verbindungen.",
+ "These are already connected.": "Diese sind bereits verbunden."
 }

@@ -1479,5 +1479,10 @@
  "Name Group": "Pojmenovat skupinu",
  "Name Group…": "Pojmenovat skupinu…",
  "Select a group to name it.": "Vyberte skupinu, kterou chcete pojmenovat.",
- "The title shows above the dashed frame around the group. Leave it empty to remove it.": "Název se zobrazí nad přerušovaným rámečkem kolem skupiny. Ponechte ho prázdný, chcete-li ho odstranit."
+ "The title shows above the dashed frame around the group. Leave it empty to remove it.": "Název se zobrazí nad přerušovaným rámečkem kolem skupiny. Ponechte ho prázdný, chcete-li ho odstranit.",
+ "Connect Selected": "Spojit vybrané",
+ "Remove Connections": "Odebrat spojení",
+ "Select two or more references or groups to connect.": "Vyberte dvě nebo více referencí či skupin ke spojení.",
+ "The selection has no connections.": "Výběr nemá žádná spojení.",
+ "These are already connected.": "Tyto položky už jsou spojené."
 }

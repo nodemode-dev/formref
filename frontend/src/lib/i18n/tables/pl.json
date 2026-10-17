@@ -1479,5 +1479,10 @@
  "Name Group": "Nazwij grupę",
  "Name Group…": "Nazwij grupę…",
  "Select a group to name it.": "Zaznacz grupę, aby ją nazwać.",
- "The title shows above the dashed frame around the group. Leave it empty to remove it.": "Tytuł widać nad przerywaną ramką wokół grupy. Pozostaw go pusty, aby go usunąć."
+ "The title shows above the dashed frame around the group. Leave it empty to remove it.": "Tytuł widać nad przerywaną ramką wokół grupy. Pozostaw go pusty, aby go usunąć.",
+ "Connect Selected": "Połącz zaznaczone",
+ "Remove Connections": "Usuń połączenia",
+ "Select two or more references or groups to connect.": "Zaznacz co najmniej dwie referencje lub grupy do połączenia.",
+ "The selection has no connections.": "Zaznaczenie nie ma połączeń.",
+ "These are already connected.": "Są już połączone."
 }

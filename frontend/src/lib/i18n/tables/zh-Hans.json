@@ -1479,5 +1479,10 @@
  "Name Group": "命名分组",
  "Name Group…": "命名分组…",
  "Select a group to name it.": "请选择要命名的分组。",
- "The title shows above the dashed frame around the group. Leave it empty to remove it.": "标题显示在分组虚线框的上方。留空即可移除。"
+ "The title shows above the dashed frame around the group. Leave it empty to remove it.": "标题显示在分组虚线框的上方。留空即可移除。",
+ "Connect Selected": "连接所选项",
+ "Remove Connections": "移除连接",
+ "Select two or more references or groups to connect.": "请选择两个或更多参考或分组进行连接。",
+ "The selection has no connections.": "所选内容没有连接。",
+ "These are already connected.": "它们已经连接。"
 }

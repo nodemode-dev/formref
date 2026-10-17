@@ -1479,5 +1479,10 @@
  "Name Group": "Grubu Adlandır",
  "Name Group…": "Grubu Adlandır…",
  "Select a group to name it.": "Adlandırmak için bir grup seçin.",
- "The title shows above the dashed frame around the group. Leave it empty to remove it.": "Başlık, grubun çevresindeki kesikli çerçevenin üstünde görünür. Kaldırmak için boş bırakın."
+ "The title shows above the dashed frame around the group. Leave it empty to remove it.": "Başlık, grubun çevresindeki kesikli çerçevenin üstünde görünür. Kaldırmak için boş bırakın.",
+ "Connect Selected": "Seçilenleri Bağla",
+ "Remove Connections": "Bağlantıları Kaldır",
+ "Select two or more references or groups to connect.": "Bağlamak için iki veya daha fazla referans ya da grup seçin.",
+ "The selection has no connections.": "Seçimin bağlantısı yok.",
+ "These are already connected.": "Bunlar zaten bağlı."
 }
