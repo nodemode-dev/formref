@@ -1,5 +1,12 @@
 # FormRef changelog
 
+## v0.32.1 · 2026-10-17
+
+Stack card fixes.
+
+- Dragging a selection box over empty-looking canvas no longer selects a collapsed group whose hidden items lie there. A box that touches the stack card selects the whole group.
+- The stack card's title and count now sit at the top, as in picture exports.
+
 ## v0.32.0 · 2026-10-17
 
 Export what you see.

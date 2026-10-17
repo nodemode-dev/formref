@@ -58,6 +58,12 @@
 
 ## v0.32.0 stack export option
 
+v0.32.1 fixes two things:
+- `app/gestures.ts` marquee: members of a collapsed group are tested against their card's box (the visible members' top-left plus `STACK_W` by `STACK_H` from `ui/scene.ts`) instead of their own hidden bounds.
+- `.stack-info` has `order: -1`, so the title row sits above the pile like the exported card.
+
+`stack.cjs` now also checks two marquees. One drawn over a hidden member, off the card, selects nothing. One started off the card and covering part of it selects all four members and leaves the card in place.
+
 `index.html`: the export dialog's static row `#export-stacks` sits under PDF paper. It is always present, so opening the dialog changes no layout.
 
 `app/bindings.ts`:
