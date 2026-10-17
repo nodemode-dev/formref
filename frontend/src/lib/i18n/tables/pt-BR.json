@@ -1484,5 +1484,18 @@
  "Remove Connections": "Remover conexões",
  "Select two or more references or groups to connect.": "Selecione duas ou mais referências ou grupos para conectar.",
  "The selection has no connections.": "A seleção não tem conexões.",
- "These are already connected.": "Já estão conectados."
+ "These are already connected.": "Já estão conectados.",
+ "Solid Line": "Linha contínua",
+ "Dashed Line": "Linha tracejada",
+ "Dotted Line": "Linha pontilhada",
+ "No Arrowheads": "Sem pontas de seta",
+ "Arrow at End": "Seta no fim",
+ "Arrow at Start": "Seta no início",
+ "Arrows at Both Ends": "Setas nas duas pontas",
+ "Connection": "Conexão",
+ "Connection Style": "Estilo da conexão",
+ "Label Connection…": "Rotular conexão…",
+ "Remove Connection": "Remover conexão",
+ "Choose a connection, or select references that have connections.": "Escolha uma conexão ou selecione referências que tenham conexões.",
+ "Connection selected. Press Delete to remove, double-click to label, right-click for line and arrow styles.": "Conexão selecionada. Delete remove, clique duplo rotula, clique direito para estilos de linha e seta."
 }

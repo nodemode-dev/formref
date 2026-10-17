@@ -1484,5 +1484,18 @@
  "Remove Connections": "移除连接",
  "Select two or more references or groups to connect.": "请选择两个或更多参考或分组进行连接。",
  "The selection has no connections.": "所选内容没有连接。",
- "These are already connected.": "它们已经连接。"
+ "These are already connected.": "它们已经连接。",
+ "Solid Line": "实线",
+ "Dashed Line": "虚线",
+ "Dotted Line": "点线",
+ "No Arrowheads": "无箭头",
+ "Arrow at End": "终点箭头",
+ "Arrow at Start": "起点箭头",
+ "Arrows at Both Ends": "两端箭头",
+ "Connection": "连接",
+ "Connection Style": "连接样式",
+ "Label Connection…": "标注连接…",
+ "Remove Connection": "移除连接",
+ "Choose a connection, or select references that have connections.": "请选一条连接，或选择带有连接的参考。",
+ "Connection selected. Press Delete to remove, double-click to label, right-click for line and arrow styles.": "已选中连接。按 Delete 删除，双击添加标注，右键可选线型和箭头。"
 }

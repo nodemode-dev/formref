@@ -1484,5 +1484,18 @@
  "Remove Connections": "Kapcsolatok eltávolítása",
  "Select two or more references or groups to connect.": "Jelöljön ki legalább két referenciát vagy csoportot az összekötéshez.",
  "The selection has no connections.": "A kijelölésnek nincsenek kapcsolatai.",
- "These are already connected.": "Ezek már össze vannak kötve."
+ "These are already connected.": "Ezek már össze vannak kötve.",
+ "Solid Line": "Folytonos vonal",
+ "Dashed Line": "Szaggatott vonal",
+ "Dotted Line": "Pontozott vonal",
+ "No Arrowheads": "Nincs nyílhegy",
+ "Arrow at End": "Nyíl a végén",
+ "Arrow at Start": "Nyíl az elején",
+ "Arrows at Both Ends": "Nyíl mindkét végén",
+ "Connection": "Kapcsolat",
+ "Connection Style": "Kapcsolat stílusa",
+ "Label Connection…": "Kapcsolat felirata…",
+ "Remove Connection": "Kapcsolat eltávolítása",
+ "Choose a connection, or select references that have connections.": "Válasszon egy kapcsolatot, vagy jelöljön ki kapcsolattal rendelkező referenciákat.",
+ "Connection selected. Press Delete to remove, double-click to label, right-click for line and arrow styles.": "Kapcsolat kijelölve. Delete eltávolítja, dupla kattintás feliratozza, jobb kattintás vonal- és nyílstílust kínál."
 }

@@ -1484,5 +1484,18 @@
  "Remove Connections": "Удалить связи",
  "Select two or more references or groups to connect.": "Выберите два или больше референса или группы для соединения.",
  "The selection has no connections.": "У выделения нет связей.",
- "These are already connected.": "Они уже соединены."
+ "These are already connected.": "Они уже соединены.",
+ "Solid Line": "Сплошная линия",
+ "Dashed Line": "Штриховая линия",
+ "Dotted Line": "Пунктирная линия",
+ "No Arrowheads": "Без стрелок",
+ "Arrow at End": "Стрелка в конце",
+ "Arrow at Start": "Стрелка в начале",
+ "Arrows at Both Ends": "Стрелки на обоих концах",
+ "Connection": "Связь",
+ "Connection Style": "Стиль связи",
+ "Label Connection…": "Подписать связь…",
+ "Remove Connection": "Удалить связь",
+ "Choose a connection, or select references that have connections.": "Выберите связь или выделите референсы, у которых есть связи.",
+ "Connection selected. Press Delete to remove, double-click to label, right-click for line and arrow styles.": "Связь выбрана. Delete удаляет, двойной щелчок подписывает, правый щелчок открывает стили линии и стрелок."
 }

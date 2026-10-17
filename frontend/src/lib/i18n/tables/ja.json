@@ -1484,5 +1484,18 @@
  "Remove Connections": "接続を削除",
  "Select two or more references or groups to connect.": "接続する 2 つ以上のリファレンスまたはグループを選択してください。",
  "The selection has no connections.": "選択範囲に接続はありません。",
- "These are already connected.": "これらはすでに接続されています。"
+ "These are already connected.": "これらはすでに接続されています。",
+ "Solid Line": "実線",
+ "Dashed Line": "破線",
+ "Dotted Line": "点線",
+ "No Arrowheads": "矢印なし",
+ "Arrow at End": "終点に矢印",
+ "Arrow at Start": "始点に矢印",
+ "Arrows at Both Ends": "両端に矢印",
+ "Connection": "接続",
+ "Connection Style": "接続のスタイル",
+ "Label Connection…": "接続にラベル…",
+ "Remove Connection": "接続を削除",
+ "Choose a connection, or select references that have connections.": "接続を選ぶか、接続のある参照を選択してください。",
+ "Connection selected. Press Delete to remove, double-click to label, right-click for line and arrow styles.": "接続を選択しました。Delete で削除、ダブルクリックでラベル、右クリックで線と矢印のスタイル。"
 }

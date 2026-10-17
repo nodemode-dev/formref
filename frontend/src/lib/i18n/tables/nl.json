@@ -1484,5 +1484,18 @@
  "Remove Connections": "Verbindingen verwijderen",
  "Select two or more references or groups to connect.": "Selecteer twee of meer referenties of groepen om te verbinden.",
  "The selection has no connections.": "De selectie heeft geen verbindingen.",
- "These are already connected.": "Deze zijn al verbonden."
+ "These are already connected.": "Deze zijn al verbonden.",
+ "Solid Line": "Doorgetrokken lijn",
+ "Dashed Line": "Gestreepte lijn",
+ "Dotted Line": "Gestippelde lijn",
+ "No Arrowheads": "Geen pijlpunten",
+ "Arrow at End": "Pijl aan het eind",
+ "Arrow at Start": "Pijl aan het begin",
+ "Arrows at Both Ends": "Pijlen aan beide uiteinden",
+ "Connection": "Verbinding",
+ "Connection Style": "Verbindingsstijl",
+ "Label Connection…": "Verbinding labelen…",
+ "Remove Connection": "Verbinding verwijderen",
+ "Choose a connection, or select references that have connections.": "Kies een verbinding, of selecteer referenties met verbindingen.",
+ "Connection selected. Press Delete to remove, double-click to label, right-click for line and arrow styles.": "Verbinding gekozen. Delete verwijdert, dubbelklik labelt, rechtsklik voor lijn- en pijlstijlen."
 }

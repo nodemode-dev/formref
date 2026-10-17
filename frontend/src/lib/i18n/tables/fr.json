@@ -1484,5 +1484,18 @@
  "Remove Connections": "Supprimer les liens",
  "Select two or more references or groups to connect.": "Sélectionnez au moins deux références ou groupes à relier.",
  "The selection has no connections.": "La sélection n’a aucun lien.",
- "These are already connected.": "Ils sont déjà reliés."
+ "These are already connected.": "Ils sont déjà reliés.",
+ "Solid Line": "Trait plein",
+ "Dashed Line": "Trait tireté",
+ "Dotted Line": "Trait pointillé",
+ "No Arrowheads": "Sans pointe de flèche",
+ "Arrow at End": "Flèche à l'arrivée",
+ "Arrow at Start": "Flèche au départ",
+ "Arrows at Both Ends": "Flèches aux deux bouts",
+ "Connection": "Liaison",
+ "Connection Style": "Style de liaison",
+ "Label Connection…": "Étiqueter la liaison…",
+ "Remove Connection": "Supprimer la liaison",
+ "Choose a connection, or select references that have connections.": "Choisissez une liaison, ou sélectionnez des références qui en ont.",
+ "Connection selected. Press Delete to remove, double-click to label, right-click for line and arrow styles.": "Liaison choisie. Suppr la retire, un double-clic l'étiquette, un clic droit propose les styles de trait et de flèche."
 }

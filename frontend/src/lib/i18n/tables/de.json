@@ -1484,5 +1484,18 @@
  "Remove Connections": "Verbindungen entfernen",
  "Select two or more references or groups to connect.": "Wählen Sie zwei oder mehr Referenzen oder Gruppen zum Verbinden aus.",
  "The selection has no connections.": "Die Auswahl hat keine Verbindungen.",
- "These are already connected.": "Diese sind bereits verbunden."
+ "These are already connected.": "Diese sind bereits verbunden.",
+ "Solid Line": "Durchgezogene Linie",
+ "Dashed Line": "Gestrichelte Linie",
+ "Dotted Line": "Gepunktete Linie",
+ "No Arrowheads": "Keine Pfeilspitzen",
+ "Arrow at End": "Pfeil am Ende",
+ "Arrow at Start": "Pfeil am Anfang",
+ "Arrows at Both Ends": "Pfeile an beiden Enden",
+ "Connection": "Verbindung",
+ "Connection Style": "Verbindungsstil",
+ "Label Connection…": "Verbindung beschriften…",
+ "Remove Connection": "Verbindung entfernen",
+ "Choose a connection, or select references that have connections.": "Wählen Sie eine Verbindung oder Referenzen mit Verbindungen aus.",
+ "Connection selected. Press Delete to remove, double-click to label, right-click for line and arrow styles.": "Verbindung ausgewählt. Entf entfernt sie, Doppelklick beschriftet, Rechtsklick bietet Linien- und Pfeilstile."
 }

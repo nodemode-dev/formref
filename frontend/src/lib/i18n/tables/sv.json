@@ -1484,5 +1484,18 @@
  "Remove Connections": "Ta bort kopplingar",
  "Select two or more references or groups to connect.": "Markera två eller fler referenser eller grupper att koppla ihop.",
  "The selection has no connections.": "Markeringen har inga kopplingar.",
- "These are already connected.": "De är redan sammankopplade."
+ "These are already connected.": "De är redan sammankopplade.",
+ "Solid Line": "Heldragen linje",
+ "Dashed Line": "Streckad linje",
+ "Dotted Line": "Prickad linje",
+ "No Arrowheads": "Inga pilspetsar",
+ "Arrow at End": "Pil i slutet",
+ "Arrow at Start": "Pil i början",
+ "Arrows at Both Ends": "Pilar i båda ändar",
+ "Connection": "Koppling",
+ "Connection Style": "Kopplingsstil",
+ "Label Connection…": "Märk koppling…",
+ "Remove Connection": "Ta bort koppling",
+ "Choose a connection, or select references that have connections.": "Välj en koppling, eller markera referenser som har kopplingar.",
+ "Connection selected. Press Delete to remove, double-click to label, right-click for line and arrow styles.": "Koppling vald. Delete tar bort, dubbelklick märker, högerklick ger linje- och pilstilar."
 }

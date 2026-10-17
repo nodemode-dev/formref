@@ -1484,5 +1484,18 @@
  "Remove Connections": "Fjern koblinger",
  "Select two or more references or groups to connect.": "Velg to eller flere referanser eller grupper å koble sammen.",
  "The selection has no connections.": "Utvalget har ingen koblinger.",
- "These are already connected.": "Disse er allerede koblet sammen."
+ "These are already connected.": "Disse er allerede koblet sammen.",
+ "Solid Line": "Heltrukket linje",
+ "Dashed Line": "Stiplet linje",
+ "Dotted Line": "Prikket linje",
+ "No Arrowheads": "Ingen pilspisser",
+ "Arrow at End": "Pil i enden",
+ "Arrow at Start": "Pil i starten",
+ "Arrows at Both Ends": "Piler i begge ender",
+ "Connection": "Forbindelse",
+ "Connection Style": "Forbindelsesstil",
+ "Label Connection…": "Merk forbindelse…",
+ "Remove Connection": "Fjern forbindelse",
+ "Choose a connection, or select references that have connections.": "Velg en forbindelse, eller merk referanser som har forbindelser.",
+ "Connection selected. Press Delete to remove, double-click to label, right-click for line and arrow styles.": "Forbindelse valgt. Trykk Delete for å fjerne, dobbeltklikk for å merke, høyreklikk for linje- og pilstil."
 }

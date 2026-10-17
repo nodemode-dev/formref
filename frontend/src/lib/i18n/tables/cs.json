@@ -1484,5 +1484,18 @@
  "Remove Connections": "Odebrat spojení",
  "Select two or more references or groups to connect.": "Vyberte dvě nebo více referencí či skupin ke spojení.",
  "The selection has no connections.": "Výběr nemá žádná spojení.",
- "These are already connected.": "Tyto položky už jsou spojené."
+ "These are already connected.": "Tyto položky už jsou spojené.",
+ "Solid Line": "Plná čára",
+ "Dashed Line": "Čárkovaná čára",
+ "Dotted Line": "Tečkovaná čára",
+ "No Arrowheads": "Bez šipek",
+ "Arrow at End": "Šipka na konci",
+ "Arrow at Start": "Šipka na začátku",
+ "Arrows at Both Ends": "Šipky na obou koncích",
+ "Connection": "Spojení",
+ "Connection Style": "Styl spojení",
+ "Label Connection…": "Popsat spojení…",
+ "Remove Connection": "Odstranit spojení",
+ "Choose a connection, or select references that have connections.": "Vyberte spojení nebo reference, které spojení mají.",
+ "Connection selected. Press Delete to remove, double-click to label, right-click for line and arrow styles.": "Spojení vybráno. Delete je odstraní, dvojklik přidá popisek, pravé tlačítko nabídne styl čáry a šipek."
 }

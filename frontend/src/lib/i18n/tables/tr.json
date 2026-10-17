@@ -1484,5 +1484,18 @@
  "Remove Connections": "Bağlantıları Kaldır",
  "Select two or more references or groups to connect.": "Bağlamak için iki veya daha fazla referans ya da grup seçin.",
  "The selection has no connections.": "Seçimin bağlantısı yok.",
- "These are already connected.": "Bunlar zaten bağlı."
+ "These are already connected.": "Bunlar zaten bağlı.",
+ "Solid Line": "Düz çizgi",
+ "Dashed Line": "Kesikli çizgi",
+ "Dotted Line": "Noktalı çizgi",
+ "No Arrowheads": "Ok ucu yok",
+ "Arrow at End": "Sonda ok",
+ "Arrow at Start": "Başta ok",
+ "Arrows at Both Ends": "İki uçta ok",
+ "Connection": "Bağlantı",
+ "Connection Style": "Bağlantı stili",
+ "Label Connection…": "Bağlantıyı etiketle…",
+ "Remove Connection": "Bağlantıyı kaldır",
+ "Choose a connection, or select references that have connections.": "Bir bağlantı seçin ya da bağlantısı olan referansları seçin.",
+ "Connection selected. Press Delete to remove, double-click to label, right-click for line and arrow styles.": "Bağlantı seçildi. Silmek için Delete, etiketlemek için çift tıklayın, çizgi ve ok stilleri için sağ tıklayın."
 }

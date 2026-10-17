@@ -1484,5 +1484,18 @@
  "Remove Connections": "ลบการเชื่อมต่อ",
  "Select two or more references or groups to connect.": "เลือกเรฟเฟอเรนซ์หรือกลุ่มตั้งแต่สองรายการขึ้นไปเพื่อเชื่อม",
  "The selection has no connections.": "รายการที่เลือกไม่มีการเชื่อมต่อ",
- "These are already connected.": "รายการเหล่านี้เชื่อมกันอยู่แล้ว"
+ "These are already connected.": "รายการเหล่านี้เชื่อมกันอยู่แล้ว",
+ "Solid Line": "เส้นทึบ",
+ "Dashed Line": "เส้นประ",
+ "Dotted Line": "เส้นจุด",
+ "No Arrowheads": "ไม่มีหัวลูกศร",
+ "Arrow at End": "ลูกศรที่ปลายทาง",
+ "Arrow at Start": "ลูกศรที่จุดเริ่มต้น",
+ "Arrows at Both Ends": "ลูกศรทั้งสองด้าน",
+ "Connection": "การเชื่อมต่อ",
+ "Connection Style": "รูปแบบการเชื่อมต่อ",
+ "Label Connection…": "ใส่ป้ายการเชื่อมต่อ…",
+ "Remove Connection": "ลบการเชื่อมต่อ",
+ "Choose a connection, or select references that have connections.": "เลือกการเชื่อมต่อ หรือเลือกรายการอ้างอิงที่มีการเชื่อมต่อ",
+ "Connection selected. Press Delete to remove, double-click to label, right-click for line and arrow styles.": "เลือกการเชื่อมต่อแล้ว กด Delete เพื่อลบ ดับเบิลคลิกเพื่อใส่ป้าย คลิกขวาเพื่อเลือกรูปแบบเส้นและลูกศร"
 }

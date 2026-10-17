@@ -1484,5 +1484,18 @@
  "Remove Connections": "Poista yhteydet",
  "Select two or more references or groups to connect.": "Valitse yhdistettäväksi kaksi tai useampi referenssi tai ryhmä.",
  "The selection has no connections.": "Valinnalla ei ole yhteyksiä.",
- "These are already connected.": "Nämä on jo yhdistetty."
+ "These are already connected.": "Nämä on jo yhdistetty.",
+ "Solid Line": "Yhtenäinen viiva",
+ "Dashed Line": "Katkoviiva",
+ "Dotted Line": "Pisteviiva",
+ "No Arrowheads": "Ei nuolenkärkiä",
+ "Arrow at End": "Nuoli loppuun",
+ "Arrow at Start": "Nuoli alkuun",
+ "Arrows at Both Ends": "Nuolet molempiin päihin",
+ "Connection": "Yhteys",
+ "Connection Style": "Yhteyden tyyli",
+ "Label Connection…": "Nimeä yhteys…",
+ "Remove Connection": "Poista yhteys",
+ "Choose a connection, or select references that have connections.": "Valitse yhteys tai viitteitä, joilla on yhteyksiä.",
+ "Connection selected. Press Delete to remove, double-click to label, right-click for line and arrow styles.": "Yhteys valittu. Delete poistaa, kaksoisnapsautus nimeää, oikea napsautus avaa viiva- ja nuolityylit."
 }

@@ -1484,5 +1484,18 @@
  "Remove Connections": "Hapus Sambungan",
  "Select two or more references or groups to connect.": "Pilih dua atau lebih referensi atau grup untuk dihubungkan.",
  "The selection has no connections.": "Pilihan tidak punya sambungan.",
- "These are already connected.": "Ini sudah terhubung."
+ "These are already connected.": "Ini sudah terhubung.",
+ "Solid Line": "Garis utuh",
+ "Dashed Line": "Garis putus-putus",
+ "Dotted Line": "Garis titik-titik",
+ "No Arrowheads": "Tanpa kepala panah",
+ "Arrow at End": "Panah di akhir",
+ "Arrow at Start": "Panah di awal",
+ "Arrows at Both Ends": "Panah di kedua ujung",
+ "Connection": "Sambungan",
+ "Connection Style": "Gaya sambungan",
+ "Label Connection…": "Beri label sambungan…",
+ "Remove Connection": "Hapus sambungan",
+ "Choose a connection, or select references that have connections.": "Pilih sambungan, atau pilih referensi yang memiliki sambungan.",
+ "Connection selected. Press Delete to remove, double-click to label, right-click for line and arrow styles.": "Sambungan dipilih. Tekan Delete untuk menghapus, klik ganda untuk memberi label, klik kanan untuk gaya garis dan panah."
 }
