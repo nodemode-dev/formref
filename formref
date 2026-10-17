@@ -8,7 +8,7 @@ python_bin="${FORMREF_PYTHON:-$root/backend/venv/bin/python}"
 if [[ "${OS:-}" == "Windows_NT" ]]; then python_bin="${FORMREF_PYTHON:-$root/backend/venv/Scripts/python.exe}"; fi
 case "$action" in
   help|--help|-h)
-    printf '%s\n' 'Usage: ./formref [install|dev|core|build|backend|frontend|serve|mcp|claude|desktop|clipper [--new]|doctor|help]' '       ./formref open <board title or id> [--no-window]' '       ./formref import <folder> [--title NAME] [--recursive] [--no-window]' '       ./formref agents sync [--check]   (write the agent command reference from the open window'"'"'s catalogue)' '       ./formref i18n check [--strict] | i18n review <folder> [language ...]   (translation coverage, or one review sheet per language)' 'The whole app, start to finish: ./build_app (--web, --open, --clean)'
+    printf '%s\n' 'Usage: ./formref [install|dev|core|build|backend|frontend|serve|mcp|claude|desktop|clipper [--new]|doctor|help]' '       ./formref open <board title or id> [--no-window]' '       ./formref import <folder> [--title NAME] [--recursive] [--no-window]' '       ./formref agents sync [--check]   (write the agent command reference from the open window'"'"'s catalogue)' '       ./formref i18n check [--strict] | i18n review <folder> [language ...] | i18n apply <sheet.csv> [--dry-run]   (translation coverage, review sheets, reviewed wording back in)' 'The whole app, start to finish: ./build_app (--web, --open, --clean)'
     ;;
   doctor)
     printf '%s\n' 'FormRef local environment'
@@ -55,7 +55,11 @@ case "$action" in
         [[ -n "${3:-}" ]] || { printf '%s\n' 'Usage: ./formref i18n review <folder> [language ...]' >&2; exit 2; }
         out="$3"; [[ "$out" = /* ]] || out="$caller/$out"
         exec "$python_bin" "$root/frontend/scripts/i18n_review.py" "$out" "${@:4}" ;;
-      *) printf '%s\n' 'Usage: ./formref i18n check [--strict] | ./formref i18n review <folder> [language ...]' >&2; exit 2 ;;
+      apply)
+        [[ -n "${3:-}" ]] || { printf '%s\n' 'Usage: ./formref i18n apply <sheet.csv> [--lang CODE] [--dry-run]' >&2; exit 2; }
+        sheet="$3"; [[ "$sheet" = /* ]] || sheet="$caller/$sheet"
+        exec "$python_bin" "$root/frontend/scripts/i18n_apply.py" "$sheet" "${@:4}" ;;
+      *) printf '%s\n' 'Usage: ./formref i18n check [--strict] | ./formref i18n review <folder> [language ...] | ./formref i18n apply <sheet.csv> [--lang CODE] [--dry-run]' >&2; exit 2 ;;
     esac
     ;;
   claude)
