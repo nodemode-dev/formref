@@ -1,5 +1,13 @@
 # FormRef changelog
 
+## v0.33.0 · 2026-10-17
+
+Translation review pack.
+
+- `./formref i18n review <folder>` writes one spreadsheet (CSV) per language for a native speaker to check. Each holds every English string, its translation, where it appears in the app, and automatic hints: missing, placeholder trouble, still in English, much longer than the English (may not fit), a different final mark, and single words whose sense (noun or verb) needs checking. Empty Verdict and Better wording columns take the reviewer's answers. A summary lists the counts per language.
+- Name languages to limit the pack, for example `./formref i18n review review de ja`.
+- `./formref i18n check` runs the existing coverage check.
+
 ## v0.32.1 · 2026-10-17
 
 Stack card fixes.

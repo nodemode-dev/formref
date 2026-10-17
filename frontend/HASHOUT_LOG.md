@@ -499,6 +499,8 @@ Strict TypeScript 7.0.2 compilation and Vite 8.3.4 production bundling passed. A
 | `boot_frontend.bat` | Windows Vite boot |
 | `package.json` | Development, strict build, preview and Tauri commands |
 | `vite.config.ts` | Loopback-only host false, strict frontend port 5196 and API proxy to 8196 |
+| `scripts/i18n_check.py` | Translation coverage: missing, unused and placeholder errors per table (`./formref i18n check`) |
+| `scripts/i18n_review.py` | Review pack (v0.33.0): one BOM UTF-8 CSV per language plus SUMMARY.md, with where-used places and hint checks; imports `keys()` from `i18n_check.py`, so both see the same strings (`./formref i18n review`) |
 
 The shell script syntax was checked by the desktop setup owner. Windows scripts are not executed in this Linux environment.
 

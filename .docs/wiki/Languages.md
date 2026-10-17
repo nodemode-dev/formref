@@ -33,3 +33,13 @@ FormRef's window is available in 26 languages; English is the source text and th
 2. Run `python3 frontend/scripts/i18n_check.py`. It lists the English strings from `index.html`, the TypeScript and backend messages, and reports what each table is missing, unused keys and placeholder mismatches; `--strict` fails while anything is missing, and `--keys FILE` writes the English list. Command `description:` values are English for agents and are skipped; a `description:` inside an `inputDialog(` call on the same line is shown in a dialog and is counted (v0.10.0). Strings containing `;`, `<`, `>` or `=` and nested template literals are not found, so shown text avoids them.
 3. Add the translation to every full table (and to `es-MX` or `fr-CA` only when the wording differs). Use Adobe Illustrator's and the operating system's own terms in each language.
 4. Check German, Russian and Finnish for overflow in toolbars and the inspector.
+
+## Review by native speakers (v0.33.0)
+
+`./formref i18n review <folder> [language ...]` (or `python3 frontend/scripts/i18n_review.py`) writes one CSV per language plus `SUMMARY.md`. Each CSV has the columns English, Translation, Where, Checks, Verdict and Better wording.
+- Where gives up to two `file:line` places, so the reviewer can find the string on screen.
+- Checks are hints for the reviewer: missing, placeholders differ, same as English, much longer (may not fit), a different final mark (period, ellipsis, question mark or colon), and one word, which asks whether a word such as Group is a noun or a verb where it appears.
+- The files are UTF-8 with a byte order mark, so Excel, Numbers and Google Sheets show every script.
+- Hand the CSV for one language to a reviewer; their Better wording column goes back into that language's table.
+
+`./formref i18n check [--strict]` runs the coverage check above.
