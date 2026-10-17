@@ -20,6 +20,9 @@ import { replaceActiveWithNext } from './tabs';
 for (const node of document.querySelectorAll<HTMLElement>('[data-icon]')) node.prepend(icon(node.dataset.icon!));
 
 if (/^(en-(US|CA)|es-(MX|US)|fr-CA)$/i.test(navigator.language)) $<HTMLSelectElement>('export-paper').value = 'letter';
+// Collapsed groups as stacks (v0.32.0) is remembered per browser; storage can be missing, so both reads and writes are guarded.
+try { $<HTMLInputElement>('export-stacks').checked = localStorage.getItem('formref-export-stacks') === '1'; } catch { /* storage unavailable: stays off */ }
+$<HTMLInputElement>('export-stacks').addEventListener('change', event => { try { localStorage.setItem('formref-export-stacks', (event.target as HTMLInputElement).checked ? '1' : '0'); } catch { /* not remembered */ } });
 
 document.addEventListener('click', event => {
   const target = (event.target as Element).closest<HTMLElement>('[data-action],[data-tool],[data-export]');
@@ -33,7 +36,7 @@ document.addEventListener('click', event => {
     const link = document.createElement('a');
     const format = target.dataset.export;
     if (format === 'images' && !S.state.board.items.some(item => item.kind === 'image' && item.asset_id)) { toast('This board has no pictures to export.'); return; }
-    link.href = api.exportUrl(S.state.board.id, format) + (format.startsWith('pdf') ? `&paper=${encodeURIComponent($<HTMLSelectElement>('export-paper').value)}` : '');
+    link.href = api.exportUrl(S.state.board.id, format) + (format.startsWith('pdf') ? `&paper=${encodeURIComponent($<HTMLSelectElement>('export-paper').value)}` : '') + ($<HTMLInputElement>('export-stacks').checked ? '&stacks=true' : '');
     link.download = '';
     link.click();
     closeOverlays();

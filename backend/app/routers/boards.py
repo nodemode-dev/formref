@@ -308,14 +308,18 @@ async def relink_asset(board_id: str, item_id: str = Form(...), file: UploadFile
     return await asyncio.to_thread(store.mutate, board_id, {"type": "update", "ids": [item_id], "patch": {"asset_id": asset["id"], "data": item_data}})
 
 @router.get("/boards/{board_id}/export")
-def export(board_id: str, format: str = "portable", paper: str = "a4"):
+def export(board_id: str, format: str = "portable", paper: str = "a4", stacks: bool = False):
     state = store.get(board_id)
     handler = registry.exporters.get(format)
     if handler is None:
         raise ValueError("Export format is not registered.")
     if format.startswith("pdf") and paper not in {"a4", "letter", "a3", "tabloid"}:
         raise ValueError("Paper is a4, letter, a3 or tabloid.")
-    data, mime, headers = handler(state, paper=paper) if format.startswith("pdf") else handler(state)
+    options = {"paper": paper} if format.startswith("pdf") else {}
+    if stacks and format in {"png", "svg", "pdf", "pdf-pages", "pdf-tiles", "viewer"}:
+        # Only these built-in picture exporters take stacks; every other exporter is called as before.
+        options["stacks"] = True
+    data, mime, headers = handler(state, **options)
     return Response(content=data, media_type=mime, headers=headers)
 
 @router.get("/boards/{board_id}/events")

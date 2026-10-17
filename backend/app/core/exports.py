@@ -682,9 +682,13 @@ def markdown_export(board):
             lines.append("- " + endpoint_title(board["items"], connection["from"], titles) + {"start": " <- ", "both": " <-> "}.get(connection.get("arrow", ""), " -> ") + endpoint_title(board["items"], connection["to"], titles) + (": " + connection["label"] if connection.get("label") else ""))
     return "\n".join(lines).encode("utf-8")
 
-def export_board(state, format, paper="a4"):
+def export_board(state, format, paper="a4", stacks=False):
     board = state["board"]
     headers = {}
+    if stacks and format in {"png", "svg", "pdf", "pdf-pages", "pdf-tiles", "viewer"}:
+        # Picture exports may show collapsed groups as their stack cards (v0.32.0); data exports always keep every item.
+        from .stacks import stacked
+        board = stacked(board)
     if format == "bee":
         from .beeref import export_bee
         data, count = export_bee(board)
