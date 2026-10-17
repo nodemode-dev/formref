@@ -8,6 +8,7 @@
 - [Stacking scale](#stacking-scale)
 - [Verification](#verification)
 - [Scripts](#scripts)
+- [v0.29.0 connection colours](#v0290-connection-colours)
 - [v0.28.0 connection styles](#v0280-connection-styles)
 - [v0.27.0 connect selected](#v0270-connect-selected)
 - [v0.25.0 group connections](#v0250-group-connections)
@@ -51,6 +52,17 @@
 - [v0.4.8 desktop window controls and WebKit icons](#v048-desktop-window-controls-and-webkit-icons)
 - [v0.4.7 synced notes, map cards, inline edit commit](#v047-synced-notes-map-cards-inline-edit-commit)
 - [v0.4.6 GIF frames and document export](#v046-gif-frames-and-document-export)
+
+## v0.29.0 connection colours
+
+`app/connection-style.ts`:
+- `COLORS` holds seven presets, each a `connection-color-*` command. `checked` compares the colour case-insensitively across every target.
+- `connection-color-custom` reuses one hidden `input[type=color]` (`.connection-color-input`), created on first use and left mounted. It is placed at the last right-click point, which a capture `contextmenu` listener records, and opened with `showPicker`, falling back to `click`. The ids are captured when it opens, so a later selection change cannot redirect the picked colour.
+- `reverse-connection` sends `reverse: true`. It is enabled only when a target has exactly one arrowhead, because reversing a plain or two-headed line changes nothing visible.
+
+`ui/context-menu.ts`: `MenuEntry.swatch` draws a colour dot in the icon slot. A checked swatch gets a ring (`.ctx-swatch`) instead of the tick, so the current colour is still visible.
+
+Probe: `$SC/ui/linecolor.cjs` covers English, German and Japanese at 4x CPU on a slow network. It checks the swatches and the ring, Blue applied to the stroke, Reverse Direction disabled and then enabled, ends swapped with the head moved, one picker node with a picked value applied, and line node identity. It deletes its board.
 
 ## v0.28.0 connection styles
 

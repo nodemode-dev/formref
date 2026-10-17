@@ -1,5 +1,13 @@
 # FormRef changelog
 
+## v0.29.0 · 2026-10-17
+
+Colour and direction for connections.
+
+- The connection menu and the Connection Style submenu have a Color submenu: orange (what new connections get), red, yellow, green, blue, purple and grey, each shown as a dot with the current colour ringed, plus Custom Color for any colour from the system picker. Recolouring the selection's connections is one undo step.
+- Reverse Direction swaps a line's start and end, so a single arrowhead points the other way. It is offered while a line has an arrow at one end.
+- Agents pass `reverse` to `style_connections`.
+
 ## v0.28.0 · 2026-10-17
 
 Lines that say which way they read.
