@@ -1508,5 +1508,7 @@
  "Collapse Group": "Gruppe zuklappen",
  "Expand Group": "Gruppe aufklappen",
  "Select a group first.": "Wählen Sie zuerst eine Gruppe aus.",
- "Untitled group": "Unbenannte Gruppe"
+ "Untitled group": "Unbenannte Gruppe",
+ "Collapsed groups as stacks": "Zugeklappte Gruppen als Stapel",
+ "PNG, SVG, PDF and the phone viewer draw each collapsed group as its stack card instead of every item": "PNG, SVG, PDF und der Handy-Viewer zeigen jede zugeklappte Gruppe als ihre Stapelkarte statt jedes Elements"
 }

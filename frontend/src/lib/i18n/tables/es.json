@@ -1508,5 +1508,7 @@
  "Collapse Group": "Contraer grupo",
  "Expand Group": "Expandir grupo",
  "Select a group first.": "Selecciona primero un grupo.",
- "Untitled group": "Grupo sin título"
+ "Untitled group": "Grupo sin título",
+ "Collapsed groups as stacks": "Grupos contraídos como pilas",
+ "PNG, SVG, PDF and the phone viewer draw each collapsed group as its stack card instead of every item": "PNG, SVG, PDF y el visor para móvil dibujan cada grupo contraído como su tarjeta de pila en lugar de cada elemento"
 }

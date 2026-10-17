@@ -1508,5 +1508,7 @@
  "Collapse Group": "Groep inklappen",
  "Expand Group": "Groep uitklappen",
  "Select a group first.": "Selecteer eerst een groep.",
- "Untitled group": "Naamloze groep"
+ "Untitled group": "Naamloze groep",
+ "Collapsed groups as stacks": "Ingeklapte groepen als stapels",
+ "PNG, SVG, PDF and the phone viewer draw each collapsed group as its stack card instead of every item": "PNG, SVG, PDF en de telefoonweergave tekenen elke ingeklapte groep als stapelkaart in plaats van elk item"
 }

@@ -1508,5 +1508,7 @@
  "Collapse Group": "グループを折りたたむ",
  "Expand Group": "グループを展開",
  "Select a group first.": "先にグループを選択してください。",
- "Untitled group": "無題のグループ"
+ "Untitled group": "無題のグループ",
+ "Collapsed groups as stacks": "折りたたんだグループを束で表示",
+ "PNG, SVG, PDF and the phone viewer draw each collapsed group as its stack card instead of every item": "PNG・SVG・PDF・スマホ用ビューアで、折りたたんだグループを全項目ではなく束のカードとして描きます"
 }

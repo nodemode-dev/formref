@@ -1508,5 +1508,7 @@
  "Collapse Group": "Fäll ihop grupp",
  "Expand Group": "Fäll ut grupp",
  "Select a group first.": "Markera en grupp först.",
- "Untitled group": "Namnlös grupp"
+ "Untitled group": "Namnlös grupp",
+ "Collapsed groups as stacks": "Hopfällda grupper som högar",
+ "PNG, SVG, PDF and the phone viewer draw each collapsed group as its stack card instead of every item": "PNG, SVG, PDF och telefonvisaren ritar varje hopfälld grupp som dess högkort i stället för varje objekt"
 }

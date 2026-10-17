@@ -1508,5 +1508,7 @@
  "Collapse Group": "Grubu daralt",
  "Expand Group": "Grubu genişlet",
  "Select a group first.": "Önce bir grup seçin.",
- "Untitled group": "Adsız grup"
+ "Untitled group": "Adsız grup",
+ "Collapsed groups as stacks": "Daraltılmış gruplar yığın olarak",
+ "PNG, SVG, PDF and the phone viewer draw each collapsed group as its stack card instead of every item": "PNG, SVG, PDF ve telefon görüntüleyici her daraltılmış grubu tüm öğeler yerine yığın kartı olarak çizer"
 }

@@ -1508,5 +1508,7 @@
  "Collapse Group": "ยุบกลุ่ม",
  "Expand Group": "ขยายกลุ่ม",
  "Select a group first.": "เลือกกลุ่มก่อน",
- "Untitled group": "กลุ่มไม่มีชื่อ"
+ "Untitled group": "กลุ่มไม่มีชื่อ",
+ "Collapsed groups as stacks": "กลุ่มที่ยุบเป็นกอง",
+ "PNG, SVG, PDF and the phone viewer draw each collapsed group as its stack card instead of every item": "PNG, SVG, PDF และตัวดูบนโทรศัพท์จะวาดกลุ่มที่ยุบเป็นการ์ดกองแทนการแสดงทุกรายการ"
 }

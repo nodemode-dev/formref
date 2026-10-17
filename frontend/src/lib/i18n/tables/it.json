@@ -1508,5 +1508,7 @@
  "Collapse Group": "Comprimi gruppo",
  "Expand Group": "Espandi gruppo",
  "Select a group first.": "Seleziona prima un gruppo.",
- "Untitled group": "Gruppo senza titolo"
+ "Untitled group": "Gruppo senza titolo",
+ "Collapsed groups as stacks": "Gruppi compressi come pile",
+ "PNG, SVG, PDF and the phone viewer draw each collapsed group as its stack card instead of every item": "PNG, SVG, PDF e il visualizzatore per telefono disegnano ogni gruppo compresso come la sua scheda a pila invece di ogni elemento"
 }

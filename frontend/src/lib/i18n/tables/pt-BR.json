@@ -1508,5 +1508,7 @@
  "Collapse Group": "Recolher grupo",
  "Expand Group": "Expandir grupo",
  "Select a group first.": "Selecione um grupo primeiro.",
- "Untitled group": "Grupo sem título"
+ "Untitled group": "Grupo sem título",
+ "Collapsed groups as stacks": "Grupos recolhidos como pilhas",
+ "PNG, SVG, PDF and the phone viewer draw each collapsed group as its stack card instead of every item": "PNG, SVG, PDF e o visualizador para celular desenham cada grupo recolhido como seu cartão de pilha em vez de cada item"
 }

@@ -1508,5 +1508,7 @@
  "Collapse Group": "摺疊群組",
  "Expand Group": "展開群組",
  "Select a group first.": "請先選取一個群組。",
- "Untitled group": "未命名群組"
+ "Untitled group": "未命名群組",
+ "Collapsed groups as stacks": "摺疊的群組顯示為堆疊",
+ "PNG, SVG, PDF and the phone viewer draw each collapsed group as its stack card instead of every item": "PNG、SVG、PDF 和手機檢視器將每個摺疊的群組繪製為其堆疊卡片，而不是全部項目"
 }

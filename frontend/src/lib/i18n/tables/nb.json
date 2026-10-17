@@ -1508,5 +1508,7 @@
  "Collapse Group": "Slå sammen gruppe",
  "Expand Group": "Utvid gruppe",
  "Select a group first.": "Velg en gruppe først.",
- "Untitled group": "Gruppe uten navn"
+ "Untitled group": "Gruppe uten navn",
+ "Collapsed groups as stacks": "Sammenslåtte grupper som stabler",
+ "PNG, SVG, PDF and the phone viewer draw each collapsed group as its stack card instead of every item": "PNG, SVG, PDF og telefonviseren tegner hver sammenslåtte gruppe som stabelkortet sitt i stedet for hvert element"
 }

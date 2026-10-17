@@ -1508,5 +1508,7 @@
  "Collapse Group": "Csoport összecsukása",
  "Expand Group": "Csoport kibontása",
  "Select a group first.": "Először jelöljön ki egy csoportot.",
- "Untitled group": "Névtelen csoport"
+ "Untitled group": "Névtelen csoport",
+ "Collapsed groups as stacks": "Összecsukott csoportok kötegként",
+ "PNG, SVG, PDF and the phone viewer draw each collapsed group as its stack card instead of every item": "A PNG, SVG, PDF és a telefonos nézegető minden összecsukott csoportot a kötegkártyájaként rajzol meg az összes elem helyett"
 }

@@ -1508,5 +1508,7 @@
  "Collapse Group": "Thu gọn nhóm",
  "Expand Group": "Mở rộng nhóm",
  "Select a group first.": "Hãy chọn một nhóm trước.",
- "Untitled group": "Nhóm chưa đặt tên"
+ "Untitled group": "Nhóm chưa đặt tên",
+ "Collapsed groups as stacks": "Nhóm thu gọn dạng chồng",
+ "PNG, SVG, PDF and the phone viewer draw each collapsed group as its stack card instead of every item": "PNG, SVG, PDF và trình xem trên điện thoại vẽ mỗi nhóm thu gọn thành thẻ chồng thay vì mọi mục"
 }

@@ -1508,5 +1508,7 @@
  "Collapse Group": "그룹 접기",
  "Expand Group": "그룹 펼치기",
  "Select a group first.": "먼저 그룹을 선택하세요.",
- "Untitled group": "제목 없는 그룹"
+ "Untitled group": "제목 없는 그룹",
+ "Collapsed groups as stacks": "접은 그룹을 묶음으로",
+ "PNG, SVG, PDF and the phone viewer draw each collapsed group as its stack card instead of every item": "PNG, SVG, PDF와 휴대폰 뷰어에서 접은 그룹을 모든 항목 대신 묶음 카드로 그립니다"
 }

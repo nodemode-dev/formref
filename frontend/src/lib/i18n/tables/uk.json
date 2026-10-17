@@ -1508,5 +1508,7 @@
  "Collapse Group": "Згорнути групу",
  "Expand Group": "Розгорнути групу",
  "Select a group first.": "Спершу виділіть групу.",
- "Untitled group": "Група без назви"
+ "Untitled group": "Група без назви",
+ "Collapsed groups as stacks": "Згорнуті групи стосами",
+ "PNG, SVG, PDF and the phone viewer draw each collapsed group as its stack card instead of every item": "PNG, SVG, PDF і перегляд для телефона малюють кожну згорнуту групу карткою-стосом замість усіх елементів"
 }

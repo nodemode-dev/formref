@@ -1508,5 +1508,7 @@
  "Collapse Group": "Replier le groupe",
  "Expand Group": "Déplier le groupe",
  "Select a group first.": "Sélectionnez d'abord un groupe.",
- "Untitled group": "Groupe sans titre"
+ "Untitled group": "Groupe sans titre",
+ "Collapsed groups as stacks": "Groupes repliés en piles",
+ "PNG, SVG, PDF and the phone viewer draw each collapsed group as its stack card instead of every item": "PNG, SVG, PDF et la visionneuse mobile dessinent chaque groupe replié comme sa carte de pile au lieu de chaque élément"
 }

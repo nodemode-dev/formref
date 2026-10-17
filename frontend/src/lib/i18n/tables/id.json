@@ -1508,5 +1508,7 @@
  "Collapse Group": "Ciutkan grup",
  "Expand Group": "Bentangkan grup",
  "Select a group first.": "Pilih grup terlebih dahulu.",
- "Untitled group": "Grup tanpa judul"
+ "Untitled group": "Grup tanpa judul",
+ "Collapsed groups as stacks": "Grup yang diciutkan sebagai tumpukan",
+ "PNG, SVG, PDF and the phone viewer draw each collapsed group as its stack card instead of every item": "PNG, SVG, PDF, dan penampil ponsel menggambar setiap grup yang diciutkan sebagai kartu tumpukannya, bukan setiap item"
 }
