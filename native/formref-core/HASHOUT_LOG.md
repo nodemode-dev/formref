@@ -29,6 +29,7 @@ Focused v0.2.0 and v0.3.0 log. The complete baseline engine map, protocol limits
 - [Comments](#comments)
 - [Labels](#labels)
 - [Ratings](#ratings)
+- [Group connections](#group-connections)
 - [Tables](#tables)
 - [Synced notes](#synced-notes)
 - [Window layout](#window-layout)
@@ -48,6 +49,16 @@ v0.4.7: `duplicate` takes `synced: true` to give note and document copies a shar
 ## Tables
 
 v0.4.5: `table_data` validates table cards (1 to 26 typed columns, at most 500 rows, cell text up to 2000 characters). Cells stay raw text and formulas stay text in the engine; evaluation belongs to the frontend so the engine never interprets user formulas and undo restores exactly what was typed. An unknown column type was refused over MCP.
+
+## Group connections
+
+v0.25.0: a connection end may be `group:` plus a group id. The prefix was chosen over a new field so `Connection` keeps its shape and old clients still round-trip the board.
+- `group_endpoint` and `Board::endpoint_members` resolve an end, item id first.
+- `Board::validate` accepts an end that names an item or a present group.
+- The connect arm checks each end exists, that the two ends share no item, and that every member is unlocked. The disconnect arm uses the members for its lock check.
+- `apply_inner` calls `prune_group_connections` just before its own `validate`, so connections to a group that the command just dissolved go in the same step instead of failing validation. Item ends are untouched; the remove arm still drops those.
+
+Probed through the API: group to group, item to group, an overlapping pair and a missing group are refused. Ungroup, removing a group's items and regrouping all its members elsewhere each prune, and undo restores; removing one member keeps the group and its connections.
 
 ## Ratings
 

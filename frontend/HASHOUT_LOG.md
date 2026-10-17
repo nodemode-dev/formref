@@ -8,6 +8,7 @@
 - [Stacking scale](#stacking-scale)
 - [Verification](#verification)
 - [Scripts](#scripts)
+- [v0.25.0 group connections](#v0250-group-connections)
 - [v0.24.0 stars on the board](#v0240-stars-on-the-board)
 - [v0.23.0 picture shape filter](#v0230-picture-shape-filter)
 - [v0.22.0 star ratings](#v0220-star-ratings)
@@ -48,6 +49,10 @@
 - [v0.4.8 desktop window controls and WebKit icons](#v048-desktop-window-controls-and-webkit-icons)
 - [v0.4.7 synced notes, map cards, inline edit commit](#v047-synced-notes-map-cards-inline-edit-commit)
 - [v0.4.6 GIF frames and document export](#v046-gif-frames-and-document-export)
+
+## v0.25.0 group connections
+
+`ui/scene.ts` resolves ends through `endpoints(board)`: items by id, groups as a box over their visible members, built once per render. `anchors` keeps items at their centre and puts a group's end on the frame side facing the other end. `paintGroupFrames` keeps one dashed `rect.group-frame` per connected group in the connections SVG, prepended so it sits under the lines. It writes x, y, width and height only when they change, and removes a frame when its group has no connections left. The probe moved a group and found the same frame nodes, moved. In `gestures.ts` the connect tool takes a grouped item as `group:` plus its group id, unless Alt is held, and selects the whole group as the start. The tool tooltip says so; the status line keeps its short text. Probe: $SC/ui/groupconnect.cjs (English and German, 4x CPU, slow network). It creates its own board, and the release run deleted every "Group connect" board afterwards.
 
 ## v0.24.0 stars on the board
 

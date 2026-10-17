@@ -1,5 +1,14 @@
 # FormRef changelog
 
+## v0.25.0 · 2026-10-17
+
+Groups connect like nodes.
+
+- With the connect tool (Shift+C), clicking a grouped reference now connects its whole group, so groups link to each other and to single references like nodes in a diagram. Alt-click connects just that one reference instead.
+- A connected group gets a dashed frame around its items, and its lines meet the frame's side instead of crossing between the items. Moving the group moves its frame and lines.
+- Ungrouping a group, or removing all of its items, removes its connections in the same undo step; undo brings them back.
+- PNG and SVG exports draw the frames and lines as the board shows them, and Markdown names a group by its first items. Duplicating a board, saving and using templates, restoring from the trash and moving a selection to a new board keep group connections. Agents connect a group by giving `group:` and the group id as an end.
+
 ## v0.24.0 · 2026-10-16
 
 Stars where you look at pictures.

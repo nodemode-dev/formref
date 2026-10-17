@@ -8,6 +8,7 @@
 
 ## Contents
 
+- [v0.25.0 · Group connections](#v0250--group-connections)
 - [v0.24.0 · Ratings in the SVG and phone viewer](#v0240--ratings-in-the-svg-and-phone-viewer)
 - [v0.23.0 · Ratings read from pictures](#v0230--ratings-read-from-pictures)
 - [v0.22.0 · Ratings in exported pictures](#v0220--ratings-in-exported-pictures)
@@ -34,6 +35,22 @@
 - [v0.2.0 · Canvas settings and snapping through MCP](#v020--canvas-settings-and-snapping-through-mcp)
 - [v0.1.0 · Local board service and SDK MCP](#v010--local-board-service-and-sdk-mcp)
 - [boot_backend.bat](#boot_backendbat)
+
+## v0.25.0 · Group connections
+
+`core/endpoints.py` is the one place the service reads connection ends:
+- `group_of`, `present`, `remap`: what an end names, whether it exists, and its new id after a copy.
+- `box`: the visible members' bounding box, or hidden when all of them are.
+- `anchors`: a group's end sits on the frame side facing the other end, 12 px out, where the cubic's flat tangent leaves it.
+- `title`: "Group (first three titles)".
+
+Users:
+- PNG and SVG exports draw each connected group's frame once (SVG dashed like the window, PNG a rounded outline) before the lines; Markdown uses `title`.
+- Board duplicate and template `fresh_ids` remap group ends through the group id mapping they already made.
+- Trash restore and selection-to-board keep a connection when both ends are present among the kept items and their groups.
+- The MCP `connect_items` description explains the `group:` form.
+
+Probed through the API (duplicate, extract, template save and use, trash restore, SVG frame count, Markdown lines, PNG). Probe boards were deleted.
 
 ## v0.24.0 · Ratings in the SVG and phone viewer
 
