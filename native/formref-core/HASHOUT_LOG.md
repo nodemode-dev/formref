@@ -68,6 +68,8 @@ v0.28.0 added `Connection.line` (`CONNECTION_LINES`: empty, dashed, dotted) and 
 
 v0.29.0: `style_connections` also takes `reverse`, a boolean that swaps `from` and `to` in place after the other fields apply. A false reverse on its own counts as an empty patch and is refused, and so is a non-boolean value. Checked through the API: reversing together with a colour change, then undoing, gives back the original ends and colour.
 
+v0.30.0 added `Connection.route` (`CONNECTION_ROUTES`: empty, straight, elbow), with the same treatment as `line`: a typed field, skipped while empty, refused when unknown, and settable through `style_connections`. Checked through the API: zigzag is refused, elbow applies, and undo clears it.
+
 Probed through the API: group to group, item to group, an overlapping pair and a missing group are refused. Ungroup, removing a group's items and regrouping all its members elsewhere each prune, and undo restores; removing one member keeps the group and its connections.
 
 ## Ratings

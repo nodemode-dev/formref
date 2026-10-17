@@ -1,5 +1,13 @@
 # FormRef changelog
 
+## v0.30.0 · 2026-10-17
+
+Straight and elbow connections.
+
+- A Route submenu in the connection menu and in Connection Style draws a line as a curve (as before), straight, or as an elbow of right angles: level out of each end, then one vertical run at the middle. Elbows turn with rounded corners.
+- Arrowheads follow the route, so a straight line's head points along the line.
+- PNG and SVG exports draw all three routes, and a PNG's labels now sit exactly where the window shows them. Agents set `route` on `connect_items` and `style_connections`.
+
 ## v0.29.0 · 2026-10-17
 
 Colour and direction for connections.

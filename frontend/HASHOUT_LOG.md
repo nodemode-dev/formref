@@ -8,6 +8,7 @@
 - [Stacking scale](#stacking-scale)
 - [Verification](#verification)
 - [Scripts](#scripts)
+- [v0.30.0 connection routes](#v0300-connection-routes)
 - [v0.29.0 connection colours](#v0290-connection-colours)
 - [v0.28.0 connection styles](#v0280-connection-styles)
 - [v0.27.0 connect selected](#v0270-connect-selected)
@@ -52,6 +53,19 @@
 - [v0.4.8 desktop window controls and WebKit icons](#v048-desktop-window-controls-and-webkit-icons)
 - [v0.4.7 synced notes, map cards, inline edit commit](#v047-synced-notes-map-cards-inline-edit-commit)
 - [v0.4.6 GIF frames and document export](#v046-gif-frames-and-document-export)
+
+## v0.30.0 connection routes
+
+`ui/scene.ts`: `curve()` takes the route and builds one of three paths:
+- Curved (empty): the cubic with both controls at the middle x, as before.
+- Straight: `M ... L`.
+- Elbow: `M ... H middle V ... H`.
+
+Head tangents: a straight line uses the far end as the control point; curves and elbows keep the level control at the middle x, because both leave each end horizontally. The hit path gets the same `d`. `.connection` has `stroke-linejoin: round` for elbow corners.
+
+`app/connection-style.ts`: `ROUTES` gives three `connection-route-*` commands. A Route submenu sits before Color in both menus.
+
+Probe: `$SC/ui/route.cjs` covers English, German and Japanese at 4x CPU on a slow network. It checks the saved route and the path shape for each choice, the head after Arrow at End on an elbow, the hit path matching, and line node identity. `linecolor.cjs` now reads its menu indices one later.
 
 ## v0.29.0 connection colours
 

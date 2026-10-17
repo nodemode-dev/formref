@@ -8,6 +8,7 @@
 
 ## Contents
 
+- [v0.30.0 · Connection routes in exports](#v0300--connection-routes-in-exports)
 - [v0.28.0 · Connection styles in exports](#v0280--connection-styles-in-exports)
 - [v0.25.0 · Group connections](#v0250--group-connections)
 - [v0.24.0 · Ratings in the SVG and phone viewer](#v0240--ratings-in-the-svg-and-phone-viewer)
@@ -36,6 +37,15 @@
 - [v0.2.0 · Canvas settings and snapping through MCP](#v020--canvas-settings-and-snapping-through-mcp)
 - [v0.1.0 · Local board service and SDK MCP](#v010--local-board-service-and-sdk-mcp)
 - [boot_backend.bat](#boot_backendbat)
+
+## v0.30.0 · Connection routes in exports
+
+`core/endpoints.py`:
+- `heads(..., route)` aims a straight line's heads at the far end.
+- `path_data` writes the SVG `d` for each route.
+- `polyline` gives the raster points: corners for straight and elbow, and the sampled cubic otherwise, replacing the inline sampler in the PNG export.
+
+In the PNG export, solid lines join with `joint="curve"`, and labels sit at the anchors' middle instead of the pulled-back ends, matching the window. Checked by exporting an elbow with an end arrow, a dashed two-headed straight line and a curve with a start arrow, then reading the SVG paths and the PNG.
 
 ## v0.28.0 · Connection styles in exports
 
