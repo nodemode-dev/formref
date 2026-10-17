@@ -272,18 +272,21 @@ pub struct Connection {
     pub line: String,
     #[serde(skip_serializing_if = "String::is_empty")]
     pub arrow: String,
+    #[serde(skip_serializing_if = "String::is_empty")]
+    pub route: String,
     #[serde(flatten)]
     pub extra: Map<String, Value>,
 }
 
 pub const CONNECTION_LINES: [&str; 3] = ["", "dashed", "dotted"];
 pub const CONNECTION_ARROWS: [&str; 4] = ["", "end", "start", "both"];
+pub const CONNECTION_ROUTES: [&str; 3] = ["", "straight", "elbow"];
 
 impl Default for Connection {
     fn default() -> Self {
         Self { id: String::new(), from: String::new(), to: String::new(),
             label: String::new(), color: "#8c97ad".into(), line: String::new(),
-            arrow: String::new(), extra: Map::new() }
+            arrow: String::new(), route: String::new(), extra: Map::new() }
     }
 }
 
@@ -612,6 +615,7 @@ impl Board {
             text_limit(&connection.color, "connection.color", 256)?;
             if !CONNECTION_LINES.contains(&connection.line.as_str()) { return Err(EngineError::invalid("connection.line must be empty, dashed or dotted")); }
             if !CONNECTION_ARROWS.contains(&connection.arrow.as_str()) { return Err(EngineError::invalid("connection.arrow must be empty, end, start or both")); }
+            if !CONNECTION_ROUTES.contains(&connection.route.as_str()) { return Err(EngineError::invalid("connection.route must be empty, straight or elbow")); }
             validate_json(&Value::Object(connection.extra.clone()), 0, &mut nodes)?;
             if !connections.insert(&connection.id) { return Err(EngineError::invalid("duplicate connection identifier")); }
             if connection.from == connection.to { return Err(EngineError::invalid("a connection needs two different items")); }

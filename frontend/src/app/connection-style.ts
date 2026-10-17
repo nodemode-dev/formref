@@ -20,6 +20,13 @@ const ARROWS: Array<[Arrow, string, string]> = [
   ['start', 'start', 'Arrow at Start'],
   ['both', 'both', 'Arrows at Both Ends'],
 ];
+type Route = NonNullable<Connection['route']>;
+/** Routes (v0.30.0): the default curve, a straight line, or an elbow of right angles. */
+const ROUTES: Array<[Route, string, string]> = [
+  ['', 'curved', 'Curved'],
+  ['straight', 'straight', 'Straight'],
+  ['elbow', 'elbow', 'Elbow'],
+];
 /** Line colours (v0.29.0): orange is what new connections get. */
 const COLORS: Array<[string, string, string]> = [
   ['#f97316', 'orange', 'Orange'],
@@ -67,7 +74,7 @@ function targets(): Connection[] {
   return connections.filter(c => ends.has(c.from) || ends.has(c.to));
 }
 
-async function style(patch: { line?: Line; arrow?: Arrow; label?: string; color?: string; reverse?: boolean }): Promise<void> {
+async function style(patch: { line?: Line; arrow?: Arrow; route?: Route; label?: string; color?: string; reverse?: boolean }): Promise<void> {
   const ids = targets().map(c => c.id);
   if (!ids.length) throw new Error('Choose a connection, or select references that have connections.');
   await execute({ type: 'style_connections', ids, ...patch });
@@ -96,12 +103,13 @@ function entry(id: string, swatch?: string): MenuEntry {
 const sep: MenuEntry = { separator: true };
 const lineEntries = () => LINES.map(([, key]) => entry(`connection-line-${key}`));
 const arrowEntries = () => ARROWS.map(([, key]) => entry(`connection-arrow-${key}`));
+const routeMenu = (): MenuEntry => ({ label: 'Route', icon: 'connect', children: ROUTES.map(([, key]) => entry(`connection-route-${key}`)) });
 const colorMenu = (): MenuEntry => ({ label: 'Color', icon: 'palette', children: [...COLORS.map(([hex, key]) => entry(`connection-color-${key}`, hex)), sep, entry('connection-color-custom')] });
 
 /** The board menu's submenu, offered when the selection touches connections. */
 export function connectionStyleMenu(): MenuEntry[] {
   if (S.chosenConnection || !targets().length) return [];
-  return [{ label: 'Connection Style', icon: 'connect', children: [...lineEntries(), sep, ...arrowEntries(), sep, colorMenu(), entry('reverse-connection')] }];
+  return [{ label: 'Connection Style', icon: 'connect', children: [...lineEntries(), sep, ...arrowEntries(), sep, routeMenu(), colorMenu(), entry('reverse-connection')] }];
 }
 
 /** The menu for a right-clicked connection. */
@@ -110,6 +118,7 @@ export function connectionMenu(): MenuEntry[] {
   return [
     { section: 'Connection' },
     ...lineEntries(), sep, ...arrowEntries(), sep,
+    routeMenu(),
     colorMenu(),
     entry('reverse-connection'),
     sep,
@@ -127,6 +136,7 @@ export function registerConnectionStyle(): void {
   registry.add(
     ...LINES.map(([line, key, label]) => ({ group: 'Organize', id: `connection-line-${key}`, label, icon: 'connect' as const, enabled: any, checked: every(c => (c.line || '') === line), run: () => style({ line }) })),
     ...ARROWS.map(([arrow, key, label]) => ({ group: 'Organize', id: `connection-arrow-${key}`, label, icon: 'connect' as const, enabled: any, checked: every(c => (c.arrow || '') === arrow), run: () => style({ arrow }) })),
+    ...ROUTES.map(([route, key, label]) => ({ group: 'Organize', id: `connection-route-${key}`, label, icon: 'connect' as const, enabled: any, checked: every(c => (c.route || '') === route), run: () => style({ route }) })),
     ...COLORS.map(([color, key, label]) => ({ group: 'Organize', id: `connection-color-${key}`, label, icon: 'connect' as const, enabled: any, checked: every(c => sameColor(c.color, color)), run: () => style({ color }) })),
     { group: 'Organize', id: 'connection-color-custom', label: 'Custom Color…', icon: 'palette', agent: 'window-only', enabled: any, run: () => customColor() },
     { group: 'Organize', id: 'reverse-connection', label: 'Reverse Direction', icon: 'connect', enabled: () => targets().some(c => c.arrow === 'end' || c.arrow === 'start'), run: () => style({ reverse: true }) },

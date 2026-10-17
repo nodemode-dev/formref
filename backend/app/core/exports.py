@@ -15,7 +15,7 @@ from .media import original_image
 from .sampling import crop_bounds, color_values
 from .reference_text import parse_text, layout_text, markdown_source
 from .xmp_write import with_tags
-from .endpoints import DASHES, GROUP, anchors as endpoint_anchors, heads as endpoint_heads, box as endpoint_box, group_of, title as endpoint_title
+from .endpoints import DASHES, GROUP, anchors as endpoint_anchors, heads as endpoint_heads, path_data as endpoint_path, polyline as endpoint_polyline, box as endpoint_box, group_of, title as endpoint_title
 
 SVG_NS = "http://www.w3.org/2000/svg"
 ET.register_namespace("", SVG_NS)
@@ -259,7 +259,7 @@ def item_raster(item, scale):
 def stroke_curve(draw, curve, fill, width, dashes, scale):
     """A sampled curve drawn solid, or (v0.28.0) dashed or dotted with the window's pattern in board units: dashes is (on, off), and an on length of 0 means round dots."""
     if not dashes:
-        draw.line(curve, fill=fill, width=width)
+        draw.line(curve, fill=fill, width=width, joint="curve")
         return
     on, off = dashes[0] * scale, dashes[1] * scale
     period = on + off
@@ -317,24 +317,17 @@ def png_export(board):
         if not source or not target or source.get("hidden") or target.get("hidden"):
             continue
         arrow = connection.get("arrow", "")
+        route = connection.get("route", "")
         ax, ay, tx, ty = endpoint_anchors(source, target, arrow)
-        (sx, sy, ex, ey), triangles = endpoint_heads(ax, ay, tx, ty, arrow)
-        a = ((sx - left) * scale, (sy - top) * scale)
-        b = ((ex - left) * scale, (ey - top) * scale)
-        midpoint_x = ((ax + tx) / 2 - left) * scale
-        first_y, last_y = (ay - top) * scale, (ty - top) * scale
-        steps = max(8, min(4096, math.ceil((abs(b[0] - a[0]) + abs(b[1] - a[1])) / 2)))
-        curve = []
-        for index in range(steps + 1):
-            t = index / steps
-            inverse = 1 - t
-            curve.append((inverse ** 3 * a[0] + 3 * inverse ** 2 * t * midpoint_x + 3 * inverse * t ** 2 * midpoint_x + t ** 3 * b[0], inverse ** 3 * a[1] + 3 * inverse ** 2 * t * first_y + 3 * inverse * t ** 2 * last_y + t ** 3 * b[1]))
+        ends, triangles = endpoint_heads(ax, ay, tx, ty, arrow, route)
+        steps = min(4096, math.ceil((abs(ends[2] - ends[0]) + abs(ends[3] - ends[1])) * scale / 2))
+        curve = [((x - left) * scale, (y - top) * scale) for x, y in endpoint_polyline(ax, ay, tx, ty, ends, route, steps)]
         stroke = color(connection.get("color"), "#f97316")
         stroke_curve(draw, curve, stroke, max(1, round(2 * scale)), DASHES.get(connection.get("line", "")), scale)
         for triangle in triangles:
             draw.polygon([((x - left) * scale, (y - top) * scale) for x, y in triangle], fill=stroke)
         if connection.get("label"):
-            draw.text(((a[0] + b[0]) / 2, (a[1] + b[1]) / 2 - 8 * scale), connection["label"], font=font(11 * scale), fill="#a4a4a4", anchor="ls", stroke_width=max(1, round(5 * scale / 2)), stroke_fill=color(board.get("background"), "#1c1b1d"))
+            draw.text((((ax + tx) / 2 - left) * scale, ((ay + ty) / 2 - top) * scale - 8 * scale), connection["label"], font=font(11 * scale), fill="#a4a4a4", anchor="ls", stroke_width=max(1, round(5 * scale / 2)), stroke_fill=color(board.get("background"), "#1c1b1d"))
     for item in sorted(board["items"], key=lambda entry: entry["z"]):
         if item.get("hidden") or item.get("opacity", 1) <= 0:
             continue
@@ -401,10 +394,11 @@ def svg_export(board, picture=png_data_uri):
         if not source or not target or source.get("hidden") or target.get("hidden"):
             continue
         arrow = connection.get("arrow", "")
+        route = connection.get("route", "")
         ax, ay, bx, by = endpoint_anchors(source, target, arrow)
-        (sx, sy, ex, ey), triangles = endpoint_heads(ax, ay, bx, by, arrow)
+        ends, triangles = endpoint_heads(ax, ay, bx, by, arrow, route)
         stroke = color(connection.get("color"), "#f97316")
-        attributes = {"d": f"M{sx},{sy} C{(ax + bx) / 2},{ay} {(ax + bx) / 2},{by} {ex},{ey}", "fill": "none", "stroke": stroke, "stroke-width": 2}
+        attributes = {"d": endpoint_path(ax, ay, bx, by, ends, route), "fill": "none", "stroke": stroke, "stroke-width": 2}
         if connection.get("line") in DASHES:
             attributes.update({"stroke-dasharray": " ".join(map(str, DASHES[connection["line"]])), "stroke-linecap": "round" if connection["line"] == "dotted" else "butt"})
         svg_element(root, "path", attributes)

@@ -138,9 +138,10 @@ function anchors(from: EndBox, to: EndBox, arrow = ''): [number, number, number,
   const side = (box: EndBox, centre: number, other: number, head: boolean) => { const pad = box.group ? FRAME_PAD : box.side ?? (head ? ARROW_GAP : undefined); return pad === undefined ? centre : other >= centre ? box.x + box.width + pad : box.x - pad; };
   return [side(from, fx, tx, atStart), from.y + from.height / 2, side(to, tx, fx, atEnd), to.y + to.height / 2];
 }
-/** The curve between anchors, each pointed end pulled back to its head's base, plus the heads as one path along the curve's tangent there. */
-function curve(x1: number, y1: number, x2: number, y2: number, arrow = ''): { d: string; heads: string } {
+/** The line between anchors, each pointed end pulled back to its head's base, plus the heads as one path along the line there. A curve and an elbow (v0.30.0) both leave each end level towards the middle x; a straight line points at its far end. Same geometry as the service's endpoints.py. */
+function curve(x1: number, y1: number, x2: number, y2: number, arrow = '', route = ''): { d: string; heads: string } {
   const middle = (x1 + x2) / 2;
+  const straight = route === 'straight';
   const [atStart, atEnd] = pointed(arrow);
   let heads = '';
   const head = (tipX: number, tipY: number, controlX: number, controlY: number, farX: number, farY: number): [number, number] => {
@@ -151,9 +152,10 @@ function curve(x1: number, y1: number, x2: number, y2: number, arrow = ''): { d:
     heads += `M${tipX},${tipY}L${bx - dy * ARROW_HALF},${by + dx * ARROW_HALF}L${bx + dy * ARROW_HALF},${by - dx * ARROW_HALF}Z`;
     return [bx, by];
   };
-  const [sx, sy] = atStart ? head(x1, y1, middle, y1, x2, y2) : [x1, y1];
-  const [ex, ey] = atEnd ? head(x2, y2, middle, y2, x1, y1) : [x2, y2];
-  return { d: `M${sx},${sy} C${middle},${y1} ${middle},${y2} ${ex},${ey}`, heads };
+  const [sx, sy] = atStart ? (straight ? head(x1, y1, x2, y2, x2, y2) : head(x1, y1, middle, y1, x2, y2)) : [x1, y1];
+  const [ex, ey] = atEnd ? (straight ? head(x2, y2, x1, y1, x1, y1) : head(x2, y2, middle, y2, x1, y1)) : [x2, y2];
+  const d = straight ? `M${sx},${sy} L${ex},${ey}` : route === 'elbow' ? `M${sx},${sy} H${middle} V${ey} H${ex}` : `M${sx},${sy} C${middle},${y1} ${middle},${y2} ${ex},${ey}`;
+  return { d, heads };
 }
 function endpoints(board: Board): (endpoint: string) => EndBox | undefined {
   const items = new Map(board.items.map(item => [item.id, item]));
@@ -185,7 +187,7 @@ export class Scene {
     const connectionIds = new Set(board.connections.map(c => c.id)); for (const [id, line] of this.lines) if (!connectionIds.has(id)) { line.hit.remove(); line.path.remove(); line.head.remove(); line.label.remove(); this.lines.delete(id); }
     const ends = endpoints(board);
     this.paintGroupFrames(board, ends);
-    for (const connection of board.connections) { let line = this.lines.get(connection.id); if (!line) { const path = svg('path'); path.classList.add('connection'); path.dataset.connection = connection.id; const hit = svg('path'); hit.classList.add('connection-hit'); hit.dataset.connection = connection.id; const head = svg('path'); head.classList.add('connection-head'); const label = svg('text'); label.classList.add('connection-label'); line = { hit, path, head, label }; this.lines.set(connection.id, line); this.connections.append(hit, path, head, label); if (connection.id === this.chosenLine) path.classList.add('chosen'); } const from = ends(connection.from), to = ends(connection.to); if (!from || !to) continue; const [x1, y1, x2, y2] = anchors(from, to, connection.arrow); const shape = curve(x1, y1, x2, y2, connection.arrow); line.path.setAttribute('d', shape.d); line.path.setAttribute('stroke', connection.color || 'var(--accent-color)'); line.path.style.display = from.hidden || to.hidden ? 'none' : ''; const dash = connection.line || ''; if ((line.path.getAttribute('data-line') || '') !== dash) { if (dash) line.path.setAttribute('data-line', dash); else line.path.removeAttribute('data-line'); } if (line.head.getAttribute('d') !== shape.heads) line.head.setAttribute('d', shape.heads); line.head.setAttribute('fill', connection.color || 'var(--accent-color)'); line.head.style.display = line.path.style.display; line.hit.setAttribute('d', shape.d); line.hit.style.display = line.path.style.display; line.label.setAttribute('x', String((x1 + x2) / 2)); line.label.setAttribute('y', String((y1 + y2) / 2 - 8)); text(line.label, connection.label); }
+    for (const connection of board.connections) { let line = this.lines.get(connection.id); if (!line) { const path = svg('path'); path.classList.add('connection'); path.dataset.connection = connection.id; const hit = svg('path'); hit.classList.add('connection-hit'); hit.dataset.connection = connection.id; const head = svg('path'); head.classList.add('connection-head'); const label = svg('text'); label.classList.add('connection-label'); line = { hit, path, head, label }; this.lines.set(connection.id, line); this.connections.append(hit, path, head, label); if (connection.id === this.chosenLine) path.classList.add('chosen'); } const from = ends(connection.from), to = ends(connection.to); if (!from || !to) continue; const [x1, y1, x2, y2] = anchors(from, to, connection.arrow); const shape = curve(x1, y1, x2, y2, connection.arrow, connection.route); line.path.setAttribute('d', shape.d); line.path.setAttribute('stroke', connection.color || 'var(--accent-color)'); line.path.style.display = from.hidden || to.hidden ? 'none' : ''; const dash = connection.line || ''; if ((line.path.getAttribute('data-line') || '') !== dash) { if (dash) line.path.setAttribute('data-line', dash); else line.path.removeAttribute('data-line'); } if (line.head.getAttribute('d') !== shape.heads) line.head.setAttribute('d', shape.heads); line.head.setAttribute('fill', connection.color || 'var(--accent-color)'); line.head.style.display = line.path.style.display; line.hit.setAttribute('d', shape.d); line.hit.style.display = line.path.style.display; line.label.setAttribute('x', String((x1 + x2) / 2)); line.label.setAttribute('y', String((y1 + y2) / 2 - 8)); text(line.label, connection.label); }
   }
   /** Marks the one chosen connection (v0.28.0): only the old and new paths change class. */
   chooseLine(id: string | null) {

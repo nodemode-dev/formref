@@ -81,9 +81,10 @@ def anchors(source: dict, target: dict, arrow: str = "") -> tuple[float, float, 
     return side(source, sx, tx, at_start), source["y"] + source["height"] / 2, side(target, tx, sx, at_end), target["y"] + target["height"] / 2
 
 
-def heads(ax: float, ay: float, bx: float, by: float, arrow: str) -> tuple[tuple[float, float, float, float], list]:
-    """Arrowheads for the curve from (ax, ay) to (bx, by) whose controls sit at the middle x: the line's new ends (each pointed end pulled back to the head's base) and one triangle per head, aligned with the curve's tangent there."""
+def heads(ax: float, ay: float, bx: float, by: float, arrow: str, route: str = "") -> tuple[tuple[float, float, float, float], list]:
+    """Arrowheads for the line from (ax, ay) to (bx, by): the line's new ends (each pointed end pulled back to the head's base) and one triangle per head, aligned with the line there. A curve and an elbow (v0.30.0) both leave each end level, towards the middle x; a straight line points at its far end."""
     middle = (ax + bx) / 2
+    straight = route == "straight"
     at_start, at_end = pointed(arrow)
     triangles = []
 
@@ -96,9 +97,37 @@ def heads(ax: float, ay: float, bx: float, by: float, arrow: str) -> tuple[tuple
         base_x, base_y = tip_x - dx * ARROW_LENGTH, tip_y - dy * ARROW_LENGTH
         triangles.append([(tip_x, tip_y), (base_x - dy * ARROW_HALF, base_y + dx * ARROW_HALF), (base_x + dy * ARROW_HALF, base_y - dx * ARROW_HALF)])
         return base_x, base_y
-    start = head(ax, ay, middle, ay, bx, by) if at_start else (ax, ay)
-    end = head(bx, by, middle, by, ax, ay) if at_end else (bx, by)
+    start = (head(ax, ay, bx, by, bx, by) if straight else head(ax, ay, middle, ay, bx, by)) if at_start else (ax, ay)
+    end = (head(bx, by, ax, ay, ax, ay) if straight else head(bx, by, middle, by, ax, ay)) if at_end else (bx, by)
     return (start[0], start[1], end[0], end[1]), triangles
+
+
+def path_data(ax: float, ay: float, bx: float, by: float, ends: tuple, route: str = "") -> str:
+    """SVG path data for a connection, given the anchors (which fix the middle) and the drawn ends from heads()."""
+    sx, sy, ex, ey = ends
+    middle = (ax + bx) / 2
+    if route == "straight":
+        return f"M{sx},{sy} L{ex},{ey}"
+    if route == "elbow":
+        return f"M{sx},{sy} H{middle} V{ey} H{ex}"
+    return f"M{sx},{sy} C{middle},{ay} {middle},{by} {ex},{ey}"
+
+
+def polyline(ax: float, ay: float, bx: float, by: float, ends: tuple, route: str = "", steps: int = 0) -> list:
+    """The same line as points, for raster drawing: corners for straight and elbow, the curve sampled in steps otherwise (at least 8)."""
+    sx, sy, ex, ey = ends
+    middle = (ax + bx) / 2
+    if route == "straight":
+        return [(sx, sy), (ex, ey)]
+    if route == "elbow":
+        return [(sx, sy), (middle, sy), (middle, ey), (ex, ey)]
+    steps = max(8, steps)
+    points = []
+    for index in range(steps + 1):
+        t = index / steps
+        inverse = 1 - t
+        points.append((inverse ** 3 * sx + 3 * inverse ** 2 * t * middle + 3 * inverse * t ** 2 * middle + t ** 3 * ex, inverse ** 3 * sy + 3 * inverse ** 2 * t * ay + 3 * inverse * t ** 2 * by + t ** 3 * ey))
+    return points
 
 
 def title(items: list, endpoint: str, titles: dict | None = None) -> str:

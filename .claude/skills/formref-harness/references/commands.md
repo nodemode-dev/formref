@@ -2,7 +2,7 @@
 
 Written by `./formref agents sync` from the command catalogue the FormRef window publishes; do not edit by hand. Run a command with the MCP tools `run_command` or `run_commands` (the window must be open). `window-only` commands are refused for outside agents; `risky` commands ask the person first.
 
-229 commands.
+232 commands.
 
 ## Canvas
 
@@ -186,6 +186,9 @@ Written by `./formref agents sync` from the command catalogue the FormRef window
 | `connection-line-dashed` | Dashed Line |  | changes the board | Draws the chosen connection, or every connection touching the selection, as a dashed line. One undo step. |
 | `connection-line-dotted` | Dotted Line |  | changes the board | Draws the chosen connection, or every connection touching the selection, as a dotted line. One undo step. |
 | `connection-line-solid` | Solid Line |  | changes the board | Draws the chosen connection, or every connection touching the selection, as a solid line. One undo step. |
+| `connection-route-curved` | Curved |  | changes the board | Draws the chosen connection, or every connection touching the selection, as a smooth curve (the default). One undo step. |
+| `connection-route-elbow` | Elbow |  | changes the board | Draws the chosen connection, or every connection touching the selection, as an elbow: level out of each end, then one vertical run at the middle. One undo step. |
+| `connection-route-straight` | Straight |  | changes the board | Draws the chosen connection, or every connection touching the selection, as a straight line between its ends. One undo step. |
 | `copy-to-board` | Copy Selection to New Board |  | changes the board | Copies the selected items, their column children and the connections between them onto a new board, opened in a new tab; this board is unchanged. Parameters: `title` (string): title of the new board; default "<board> selection". |
 | `disconnect-selected` | Remove Connections |  | changes the board | Removes every connection that touches the selected references or groups. One undo step. |
 | `distribute-x` | Space Horizontally |  | changes the board | Spaces the selected items evenly from left to right. |

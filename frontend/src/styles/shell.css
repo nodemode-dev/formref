@@ -323,6 +323,7 @@
 .connection[data-line=dashed] { stroke-dasharray: 8 6; }
 .connection[data-line=dotted] { stroke-dasharray: 0 6; stroke-linecap: round; stroke-width: 2.5; }
 .connection.chosen { stroke-width: 4; }
+.connection { stroke-linejoin: round; }
 .connection-head { pointer-events: none; }
 /* A wide invisible twin of each line takes the clicks, so dashed and dotted lines are as easy to hit as solid ones. */
 #connections .connection { pointer-events: none; }

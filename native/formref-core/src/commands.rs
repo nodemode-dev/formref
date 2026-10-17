@@ -265,14 +265,14 @@ fn apply_inner(board: &mut Board, command: &Value, source: &mut IdSource, depth:
                     Some(_) => Err(EngineError::invalid(format!("{key} must be a string"))),
                 }
             };
-            let (label, color, line, arrow) = (text("label")?, text("color")?, text("line")?, text("arrow")?);
+            let (label, color, line, arrow, route) = (text("label")?, text("color")?, text("line")?, text("arrow")?, text("route")?);
             let reverse = match command.get("reverse") {
                 None | Some(Value::Null) => false,
                 Some(Value::Bool(value)) => *value,
                 Some(_) => return Err(EngineError::invalid("reverse must be true or false")),
             };
-            if label.is_none() && color.is_none() && line.is_none() && arrow.is_none() && !reverse {
-                return Err(EngineError::invalid("style_connections needs label, color, line, arrow or reverse"));
+            if label.is_none() && color.is_none() && line.is_none() && arrow.is_none() && route.is_none() && !reverse {
+                return Err(EngineError::invalid("style_connections needs label, color, line, arrow, route or reverse"));
             }
             let mut seen = HashSet::new();
             let mut indices = Vec::new();
@@ -289,6 +289,7 @@ fn apply_inner(board: &mut Board, command: &Value, source: &mut IdSource, depth:
                 if let Some(value) = &color { connection.color = value.clone(); }
                 if let Some(value) = &line { connection.line = value.clone(); }
                 if let Some(value) = &arrow { connection.arrow = value.clone(); }
+                if let Some(value) = &route { connection.route = value.clone(); }
                 // Reversing swaps the ends, so an arrow at the end now points the other way.
                 if reverse { std::mem::swap(&mut connection.from, &mut connection.to); }
             }
