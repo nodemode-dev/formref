@@ -2,7 +2,7 @@
 
 Written by `./formref agents sync` from the command catalogue the FormRef window publishes; do not edit by hand. Run a command with the MCP tools `run_command` or `run_commands` (the window must be open). `window-only` commands are refused for outside agents; `risky` commands ask the person first.
 
-232 commands.
+234 commands.
 
 ## Canvas
 
@@ -170,6 +170,7 @@ Written by `./formref agents sync` from the command catalogue the FormRef window
 | Command | Label | Keys | Kind | What it does |
 | --- | --- | --- | --- | --- |
 | `align` | Align |  | changes the board | Aligns the selected items by the edge or centre chosen in the inspector. |
+| `collapse-group` | Collapse Group | `alt+g` | changes the board | Shows the selected group as one compact stack card with its title, its item count and its top three pictures; connections to the group or its items meet the card. Click the card to select the group, drag it to move the group, double-click it to expand. Exports still show every item. One undo step. Parameters: `group_id` (string): the group id; the selected group when left out. |
 | `connect-selected` | Connect Selected | `mod+shift+l` | changes the board | Connects the selected references and groups in reading order, top to bottom and left to right: two of them with one line, more as a chain. A group counts as one node when all of its items are selected. Pairs already connected are skipped. One undo step. |
 | `connection-arrow-both` | Arrows at Both Ends |  | changes the board | Puts arrowheads at both ends of the chosen connection, or of every connection touching the selection. One undo step. |
 | `connection-arrow-end` | Arrow at End |  | changes the board | Puts an arrowhead at the end of the chosen connection, or of every connection touching the selection: the end is where the connection was drawn to. One undo step. |
@@ -193,6 +194,7 @@ Written by `./formref agents sync` from the command catalogue the FormRef window
 | `disconnect-selected` | Remove Connections |  | changes the board | Removes every connection that touches the selected references or groups. One undo step. |
 | `distribute-x` | Space Horizontally |  | changes the board | Spaces the selected items evenly from left to right. |
 | `distribute-y` | Space Vertically |  | changes the board | Spaces the selected items evenly from top to bottom. |
+| `expand-group` | Expand Group | `alt+shift+g` | changes the board | Shows the items of the selected collapsed group again in place. One undo step. Parameters: `group_id` (string): the group id; the selected group when left out. |
 | `group` | Group Selected | `mod+g` | changes the board | Groups the selected items so they select and move together. |
 | `hide-selected` | Hide Selected | `mod+3` | changes the board | Hides the selected items; they stay on the board and come back with Show All. |
 | `isolate-selected` | Isolate Selected |  | changes the board | Hides everything except the selection (and the items inside selected columns) so a big board can be worked on piece by piece; Show All restores the rest. |

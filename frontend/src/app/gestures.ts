@@ -309,6 +309,9 @@ stage.addEventListener('contextmenu', event => {
 stage.addEventListener('dblclick', event => {
   // Players and table cells handle their own double-clicks (full screen, cell editing).
   if ((event.target as HTMLElement).closest('video,audio,iframe,.card-table')) return;
+  // A collapsed group's stack card (v0.31.0) expands on double-click.
+  const stack = (event.target as HTMLElement).closest<HTMLElement>('.group-stack');
+  if (stack?.dataset.stack) { void execute({ type: 'collapse_group', group_id: stack.dataset.stack, collapsed: false }); return; }
   const element = (event.target as HTMLElement).closest<HTMLElement>('.board-item');
   const item = S.state?.board.items.find(i => i.id === element?.dataset.id);
   const connection = (event.target as Element).closest<SVGPathElement>('[data-connection]');

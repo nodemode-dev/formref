@@ -212,6 +212,15 @@ fn apply_inner(board: &mut Board, command: &Value, source: &mut IdSource, depth:
             let title = command.get("title").and_then(Value::as_str).unwrap_or("").trim().to_string();
             if title.is_empty() { board.settings.group_titles.remove(&group); } else { board.settings.group_titles.insert(group, title); }
         }
+        "collapse_group" => {
+            // Shows a group as one stack card (collapsed true) or as its items again; a view state, so locked members do not block it.
+            let group = field(command, "group_id")?.as_str().ok_or_else(|| EngineError::invalid("group_id must be a string"))?.to_string();
+            if board.endpoint_members(&format!("{}{group}", crate::model::GROUP_ENDPOINT)).is_empty() {
+                return Err(EngineError::new("item_not_found", format!("group {group} has no items on this board")));
+            }
+            let collapsed = field(command, "collapsed")?.as_bool().ok_or_else(|| EngineError::invalid("collapsed must be true or false"))?;
+            if collapsed { board.settings.collapsed_groups.insert(group); } else { board.settings.collapsed_groups.remove(&group); }
+        }
         "order" => order(board, command)?,
         "rotate" => image::rotate(board, command)?,
         "opacity" => image::opacity(board, command)?,

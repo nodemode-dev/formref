@@ -327,6 +327,17 @@
 .connection-head { pointer-events: none; }
 /* A wide invisible twin of each line takes the clicks, so dashed and dotted lines are as easy to hit as solid ones. */
 #connections .connection { pointer-events: none; }
+/* Collapsed groups: members are hidden and one stack card stands for them, sized by STACK_W and STACK_H in scene.ts. */
+.board-item.stacked { display: none; }
+.group-stacks { position: absolute; top: 0; left: 0; }
+.group-stack { width: 220px; height: 168px; background: var(--bg-node); border: 1px solid var(--border-color); cursor: default; display: flex; flex-direction: column; padding: var(--space-3); gap: var(--space-2); }
+.stack-pile { position: relative; flex: 1; min-height: 0; }
+.stack-sheet { position: absolute; inset: 6px 14px 0 14px; border-radius: var(--radius); background: var(--bg-tertiary) center / cover no-repeat; box-shadow: 0 1px 4px rgb(0 0 0 / .35); }
+.stack-sheet.sheet-1 { transform: translate(-6px, -4px) rotate(-4deg); }
+.stack-sheet.sheet-2 { transform: translate(6px, -6px) rotate(4deg); }
+.stack-info { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2); min-height: 18px; }
+.stack-title { font-size: 13px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.stack-count { flex: none; font: 10px var(--font-mono); color: var(--text-muted); background: var(--bg-tertiary); border-radius: var(--radius-sm); padding: 2px var(--space-2); }
 /* Custom Color's colour input: never visible, it only anchors the browser's picker where the menu opened. */
 .connection-color-input { position: fixed; width: 1px; height: 1px; padding: 0; border: 0; opacity: 0; pointer-events: none; }
 .connection-hit { fill: none; stroke: transparent; stroke-width: 14; pointer-events: stroke; cursor: pointer; }

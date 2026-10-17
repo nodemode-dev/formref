@@ -22,6 +22,14 @@ async function nameGroup(params?: Record<string, unknown>) {
   await execute({ type: 'name_group', group_id: group, title: title.trim().slice(0, 200) });
 }
 
+/** Collapsing (v0.31.0) shows the group as one stack card; expanding shows its items again. One undo step each. */
+const isCollapsed = (group: string | null) => !!group && (S.state?.board.settings?.collapsed_groups || []).includes(group);
+async function collapseGroup(collapsed: boolean, params?: Record<string, unknown>) {
+  const group = typeof params?.group_id === 'string' ? params.group_id : selectedGroup();
+  if (!group) throw new Error('Select a group first.');
+  await execute({ type: 'collapse_group', group_id: group, collapsed });
+}
+
 async function normalize() {
   const form = await inputDialog('Normalize selected references', { name: '300', normalize: true, label: 'Target size', description: 'Choose width, height or area. Each reference keeps its aspect ratio. Measurements use visible bounds after rotation.', submit: 'Apply' });
   if (!form) return;
@@ -44,6 +52,8 @@ export const ORGANIZE_COMMANDS: CommandDef[] = [
   { group: 'Organize', id: 'sort-color', label: 'Sort by Color', icon: 'palette', run: () => sortBy('color'), enabled: hasBoard },
   { group: 'Organize', id: 'sort-rating', label: 'Sort by Rating', icon: 'star', run: () => sortBy('rating'), enabled: hasBoard },
   { group: 'Organize', id: 'group', label: 'Group Selected', icon: 'group', keys: ['mod+g'], run: () => execute({ type: 'group', ids: editable() }), enabled: () => selection.size > 1 },
+  { group: 'Organize', id: 'collapse-group', label: 'Collapse Group', icon: 'group', keys: ['alt+g'], run: p => collapseGroup(true, p), enabled: () => { const g = selectedGroup(); return !!g && !isCollapsed(g); }, params: { group_id: { type: 'string', description: 'the group id; the selected group when left out' } } },
+  { group: 'Organize', id: 'expand-group', label: 'Expand Group', icon: 'group', keys: ['alt+shift+g'], run: p => collapseGroup(false, p), enabled: () => isCollapsed(selectedGroup()), params: { group_id: { type: 'string', description: 'the group id; the selected group when left out' } } },
   { group: 'Organize', id: 'name-group', label: 'Name Group…', icon: 'group', run: p => nameGroup(p), enabled: () => !!selectedGroup(), params: { group_id: { type: 'string', description: 'the group id; the selected group when left out' }, title: { type: 'string', description: 'the title; empty removes it; leave out to be asked' } } },
   { group: 'Organize', id: 'ungroup', label: 'Ungroup Selected', icon: 'ungroup', keys: ['mod+shift+g'], run: () => execute({ type: 'ungroup', ids: editable() }), enabled: () => selected().some(i => i.group_id) },
   { group: 'Organize', id: 'align', label: 'Align', icon: 'align-left', run: () => execute({ type: 'align', ids: editable(), mode: $<HTMLSelectElement>('align-mode').value }), enabled: () => selection.size > 1 },

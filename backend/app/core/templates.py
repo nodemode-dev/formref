@@ -7,7 +7,7 @@ import uuid
 
 from .config import settings
 from .store import store
-from .endpoints import remap, remap_titles
+from .endpoints import remap, remap_group_settings
 
 PAPER = "#f5e6a8"
 FRAME = "#8d8794"
@@ -128,8 +128,7 @@ def fresh_ids(items: list, connections: list, settings: dict | None = None):
         start, end = remap(link["from"], mapping, groups), remap(link["to"], mapping, groups)
         if start and end:
             links.append({**link, "id": uuid.uuid4().hex, "from": start, "to": end})
-    if isinstance(settings, dict) and isinstance(settings.get("group_titles"), dict):
-        settings["group_titles"] = remap_titles(settings["group_titles"], groups)
+    remap_group_settings(settings, groups)
     return items, links
 
 

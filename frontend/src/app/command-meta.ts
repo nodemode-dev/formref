@@ -87,6 +87,8 @@ export const COMMAND_WORDS: Readonly<Record<string, string>> = {
   'reverse-connection': 'Swaps the start and end of the chosen connection, or of every connection touching the selection, so an arrow at one end points the other way. Enabled when one of them has a single arrowhead. One undo step.',
   'label-connection':'Asks for a label for the chosen connection and shows it at the middle of the line; an empty label removes it.',
   'name-group': 'Gives the selected group a title shown above a dashed frame around it (the frame also marks groups that have connections); an empty title removes it. The title goes when the group is ungrouped. One undo step.',
+  'collapse-group': 'Shows the selected group as one compact stack card with its title, its item count and its top three pictures; connections to the group or its items meet the card. Click the card to select the group, drag it to move the group, double-click it to expand. Exports still show every item. One undo step.',
+  'expand-group': 'Shows the items of the selected collapsed group again in place. One undo step.',
   'sort-rating': 'Arranges the selection, or every unlocked top-level item, in rows from most stars to fewest, with unrated items last in their current order.',
   'sort-color':'Arranges the selection, or every unlocked top-level item, in rainbow order of each picture\'s main color, with black, white and grey pictures after them from light to dark.',
   'find-color': 'Dims everything on the board except pictures and swatches that contain the chosen color; the color chip beside the kind filter shows it, and choosing no color clears it.',

@@ -15,7 +15,7 @@ from PIL import Image
 from .config import settings
 from .engine import broker, EngineError
 from .keywords import embedded_keywords, embedded_rating
-from .endpoints import present as endpoint_present, remap as remap_endpoint, remap_titles
+from .endpoints import present as endpoint_present, remap as remap_endpoint, remap_group_settings
 
 ID_PATTERN = re.compile(r"^[A-Za-z0-9_-]{1,96}$")
 ASSET_PATTERN = re.compile(r"^[0-9a-f]{64}$")
@@ -204,8 +204,7 @@ class BoardStore:
                 connection["id"] = uuid.uuid4().hex
                 connection["from"] = remap_endpoint(connection["from"], mapping, groups)
                 connection["to"] = remap_endpoint(connection["to"], mapping, groups)
-            if isinstance(board.get("settings"), dict) and isinstance(board["settings"].get("group_titles"), dict):
-                board["settings"]["group_titles"] = remap_titles(board["settings"]["group_titles"], groups)
+            remap_group_settings(board.get("settings"), groups)
             return self.open_import(board, state.get("import_report"))
 
     def delete(self, board_id: str):

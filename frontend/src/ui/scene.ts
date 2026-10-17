@@ -157,9 +157,15 @@ function curve(x1: number, y1: number, x2: number, y2: number, arrow = '', route
   const d = straight ? `M${sx},${sy} L${ex},${ey}` : route === 'elbow' ? `M${sx},${sy} H${middle} V${ey} H${ex}` : `M${sx},${sy} C${middle},${y1} ${middle},${y2} ${ex},${ey}`;
   return { d, heads };
 }
+/** A collapsed group (v0.31.0) shows as one stack card of this size at its box's top-left corner. */
+export const STACK_W = 220, STACK_H = 168;
+const collapsedGroups = (board: Board) => new Set(board.settings?.collapsed_groups || []);
 function endpoints(board: Board): (endpoint: string) => EndBox | undefined {
   const items = new Map(board.items.map(item => [item.id, item]));
   const groups = new Map<string, EndBox>();
+  const collapsed = collapsedGroups(board);
+  // Lines to a collapsed group, or to any item inside it, meet the stack card's side.
+  const stack = (group: string): EndBox | undefined => { const box = groups.get(GROUP_ENDPOINT + group); return box && { x: box.x, y: box.y, width: STACK_W, height: STACK_H, hidden: box.hidden, side: 0 }; };
   for (const item of board.items) {
     if (!item.group_id) continue;
     const key = GROUP_ENDPOINT + item.group_id;
@@ -171,7 +177,8 @@ function endpoints(board: Board): (endpoint: string) => EndBox | undefined {
   }
   return endpoint => {
     const item = items.get(endpoint);
-    if (!item) return groups.get(endpoint);
+    if (item?.group_id && collapsed.has(item.group_id)) return stack(item.group_id);
+    if (!item) { const group = endpoint.startsWith(GROUP_ENDPOINT) ? endpoint.slice(GROUP_ENDPOINT.length) : ''; return group && collapsed.has(group) ? stack(group) : groups.get(endpoint); }
     return item.kind === 'column' ? { x: item.x, y: item.y, width: item.width, height: item.height, hidden: item.hidden, side: 0 } : item;
   };
 }
@@ -182,12 +189,71 @@ export class Scene {
   render(board: Board, selection: Set<string>, matches: (item: Item) => boolean) {
     LABELS.clear(); for (const label of board.settings?.labels || []) LABELS.set(label.id, label);
     const ids = new Set(board.items.map(item => item.id)); for (const [id, node] of this.nodes) if (!ids.has(id)) { node.root.remove(); this.nodes.delete(id); this.mini.get(id)?.remove(); this.mini.delete(id); }
-    for (const item of board.items) { let node = this.nodes.get(item.id); if (!node) { node = new ItemNode(item.id, this.hooks); this.nodes.set(item.id, node); this.container.append(node.root); } node.update(item, selection.has(item.id), matches(item)); }
+    const collapsed = collapsedGroups(board);
+    for (const item of board.items) { let node = this.nodes.get(item.id); if (!node) { node = new ItemNode(item.id, this.hooks); this.nodes.set(item.id, node); this.container.append(node.root); } node.update(item, selection.has(item.id), matches(item)); node.root.classList.toggle('stacked', !!item.group_id && collapsed.has(item.group_id)); }
+    this.paintStacks(board, selection);
     const ordered = board.items.map((item, index) => ({ item, index })).sort((a, b) => a.item.z - b.item.z || a.index - b.index); let next = this.container.firstElementChild; for (const { item } of ordered) { const root = this.nodes.get(item.id)!.root; if (next === root) next = next.nextElementSibling; else this.container.insertBefore(root, next); }
     const connectionIds = new Set(board.connections.map(c => c.id)); for (const [id, line] of this.lines) if (!connectionIds.has(id)) { line.hit.remove(); line.path.remove(); line.head.remove(); line.label.remove(); this.lines.delete(id); }
     const ends = endpoints(board);
     this.paintGroupFrames(board, ends);
     for (const connection of board.connections) { let line = this.lines.get(connection.id); if (!line) { const path = svg('path'); path.classList.add('connection'); path.dataset.connection = connection.id; const hit = svg('path'); hit.classList.add('connection-hit'); hit.dataset.connection = connection.id; const head = svg('path'); head.classList.add('connection-head'); const label = svg('text'); label.classList.add('connection-label'); line = { hit, path, head, label }; this.lines.set(connection.id, line); this.connections.append(hit, path, head, label); if (connection.id === this.chosenLine) path.classList.add('chosen'); } const from = ends(connection.from), to = ends(connection.to); if (!from || !to) continue; const [x1, y1, x2, y2] = anchors(from, to, connection.arrow); const shape = curve(x1, y1, x2, y2, connection.arrow, connection.route); line.path.setAttribute('d', shape.d); line.path.setAttribute('stroke', connection.color || 'var(--accent-color)'); line.path.style.display = from.hidden || to.hidden ? 'none' : ''; const dash = connection.line || ''; if ((line.path.getAttribute('data-line') || '') !== dash) { if (dash) line.path.setAttribute('data-line', dash); else line.path.removeAttribute('data-line'); } if (line.head.getAttribute('d') !== shape.heads) line.head.setAttribute('d', shape.heads); line.head.setAttribute('fill', connection.color || 'var(--accent-color)'); line.head.style.display = line.path.style.display; line.hit.setAttribute('d', shape.d); line.hit.style.display = line.path.style.display; line.label.setAttribute('x', String((x1 + x2) / 2)); line.label.setAttribute('y', String((y1 + y2) / 2 - 8)); text(line.label, connection.label); }
+  }
+  stacks = new Map<string, { root: HTMLElement; sheets: HTMLElement[]; title: HTMLElement; count: HTMLElement; members: string[] }>();
+  stackLayer: HTMLElement | null = null;
+  /** Collapsed groups (v0.31.0): one stack card per group, built once and patched in place, in a layer above the items. The card carries the board-item class and its first member's id, so pointer handling treats it as that member and selects or drags the whole group; its members are hidden with the stacked class. Up to three sheets show the topmost members: a picture's preview, otherwise the item's colour. */
+  paintStacks(board: Board, selection: Set<string>) {
+    const collapsed = collapsedGroups(board);
+    const titles = board.settings?.group_titles || {};
+    const members = new Map<string, Item[]>();
+    for (const item of board.items) if (item.group_id && collapsed.has(item.group_id)) { const list = members.get(item.group_id); if (list) list.push(item); else members.set(item.group_id, [item]); }
+    for (const [group, stack] of this.stacks) if (!members.has(group)) { stack.root.remove(); this.stacks.delete(group); }
+    if (!members.size) return;
+    if (!this.stackLayer) { this.stackLayer = document.createElement('div'); this.stackLayer.className = 'group-stacks'; this.container.after(this.stackLayer); }
+    for (const [group, list] of members) {
+      let stack = this.stacks.get(group);
+      if (!stack) {
+        const root = document.createElement('div'); root.className = 'board-item group-stack'; root.dataset.stack = group;
+        const pile = document.createElement('div'); pile.className = 'stack-pile';
+        const sheets = [0, 1, 2].map(index => { const sheet = document.createElement('div'); sheet.className = `stack-sheet sheet-${index}`; return sheet; });
+        pile.append(...[...sheets].reverse());
+        const info = document.createElement('div'); info.className = 'stack-info';
+        const title = document.createElement('span'); title.className = 'stack-title';
+        const count = document.createElement('span'); count.className = 'stack-count';
+        info.append(title, count); root.append(pile, info);
+        stack = { root, sheets, title, count, members: [] };
+        this.stacks.set(group, stack); this.stackLayer.append(root);
+      }
+      stack.members = list.map(item => item.id);
+      const visible = list.filter(item => !item.hidden);
+      const root = stack.root;
+      root.hidden = !visible.length;
+      if (root.dataset.id !== list[0].id) root.dataset.id = list[0].id;
+      const x = Math.min(...visible.map(item => item.x)), y = Math.min(...visible.map(item => item.y));
+      if (visible.length) { const left = `${x}px`, top = `${y}px`; if (root.style.left !== left) root.style.left = left; if (root.style.top !== top) root.style.top = top; }
+      root.classList.toggle('selected', list.every(item => selection.has(item.id)));
+      const top = [...visible].sort((a, b) => b.z - a.z).slice(0, 3);
+      stack.sheets.forEach((sheet, index) => {
+        const item = top[index];
+        const key = !item ? '' : item.kind === 'image' && item.asset_id ? `url("${api.assetUrl(item.asset_id)}/preview?edge=256")` : item.color || '';
+        if (sheet.dataset.key === key) return;
+        sheet.dataset.key = key; sheet.hidden = !item;
+        if (key.startsWith('url(')) { sheet.style.backgroundColor = ''; sheet.style.backgroundImage = key; } else { sheet.style.backgroundImage = ''; sheet.style.backgroundColor = key; }
+      });
+      const name = titles[group] || '';
+      // A user title is not translated; without one the card says so in the chosen language.
+      if (name) stack.title.setAttribute('data-no-i18n', ''); else stack.title.removeAttribute('data-no-i18n');
+      text(stack.title, name || t('Untitled group'));
+      text(stack.count, String(list.length));
+    }
+  }
+  /** Keeps a collapsed group's card on its members while they are dragged, from their live positions. */
+  private restack(id: string) {
+    for (const stack of this.stacks.values()) {
+      if (!stack.members.includes(id)) continue;
+      let x = Infinity, y = Infinity;
+      for (const member of stack.members) { const r = this.nodes.get(member)?.root; if (!r || r.hidden) continue; x = Math.min(x, parseFloat(r.style.left)); y = Math.min(y, parseFloat(r.style.top)); }
+      if (Number.isFinite(x)) { stack.root.style.left = `${x}px`; stack.root.style.top = `${y}px`; }
+    }
   }
   /** Marks the one chosen connection (v0.28.0): only the old and new paths change class. */
   chooseLine(id: string | null) {
@@ -202,6 +268,8 @@ export class Scene {
     const titles = board.settings?.group_titles || {};
     const used = new Set<string>(Object.keys(titles).map(group => GROUP_ENDPOINT + group));
     for (const connection of board.connections) for (const endpoint of [connection.from, connection.to]) if (endpoint.startsWith(GROUP_ENDPOINT) && !board.items.some(item => item.id === endpoint)) used.add(endpoint);
+    // A collapsed group's stack card carries its title, so it has no frame.
+    for (const group of collapsedGroups(board)) used.delete(GROUP_ENDPOINT + group);
     for (const [endpoint, frame] of this.frames) if (!used.has(endpoint)) { frame.rect.remove(); frame.title.remove(); this.frames.delete(endpoint); }
     for (const endpoint of used) {
       const box = ends(endpoint);
@@ -238,8 +306,8 @@ export class Scene {
     detailZoom = zoom;
     for (const node of this.nodes.values()) if (node.current?.kind === 'image' && Number.isFinite(node.edge) && (detailEdge(node.current) || Infinity) > node.edge) node.update(node.current, node.root.classList.contains('selected'), !node.root.classList.contains('matched-out'));
   }
-  selection(ids: Set<string>) { for (const [id, node] of this.nodes) node.root.classList.toggle('selected', ids.has(id)); }
-  preview(id: string, patch: Partial<Item>) { const r = this.nodes.get(id)?.root; if (!r) return; if (patch.x !== undefined) r.style.left = `${patch.x}px`; if (patch.y !== undefined) r.style.top = `${patch.y}px`; if (patch.width !== undefined) r.style.width = `${patch.width}px`; if (patch.height !== undefined) r.style.height = `${patch.height}px`; if (patch.rotation !== undefined) r.style.transform = `rotate(${patch.rotation}deg)`; }
+  selection(ids: Set<string>) { for (const [id, node] of this.nodes) node.root.classList.toggle('selected', ids.has(id)); for (const stack of this.stacks.values()) stack.root.classList.toggle('selected', stack.members.every(id => ids.has(id))); }
+  preview(id: string, patch: Partial<Item>) { const r = this.nodes.get(id)?.root; if (!r) return; if (patch.x !== undefined) r.style.left = `${patch.x}px`; if (patch.y !== undefined) r.style.top = `${patch.y}px`; if (patch.width !== undefined) r.style.width = `${patch.width}px`; if (patch.height !== undefined) r.style.height = `${patch.height}px`; if (patch.rotation !== undefined) r.style.transform = `rotate(${patch.rotation}deg)`; if (this.stacks.size && (patch.x !== undefined || patch.y !== undefined)) this.restack(id); }
   navigatorUpdate(board: Board, camera: Viewport, stage: HTMLElement) {
     const items = board.items.filter(i => !i.hidden); const minX = Math.min(0, ...items.map(i => i.x)), minY = Math.min(0, ...items.map(i => i.y)); const maxX = Math.max(1000, ...items.map(i => i.x + i.width)), maxY = Math.max(600, ...items.map(i => i.y + i.height)); const scale = Math.min(184 / (maxX - minX), 104 / (maxY - minY));
     const visibleIds = new Set(items.map(item => item.id)); for (const [id, rect] of this.mini) rect.style.display = visibleIds.has(id) ? '' : 'none';

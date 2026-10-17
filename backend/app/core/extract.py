@@ -2,7 +2,7 @@
 import copy
 
 from .store import MissingBoard, store
-from .endpoints import kept_titles, present
+from .endpoints import keep_group_settings, present
 
 
 def extract_board(board_id: str, ids: list, title: str = "", move: bool = False) -> dict:
@@ -37,8 +37,7 @@ def extract_board(board_id: str, ids: list, title: str = "", move: bool = False)
     settings = board.get("settings")
     if isinstance(settings, dict):
         settings.pop("window", None)
-        if isinstance(settings.get("group_titles"), dict):
-            settings["group_titles"] = kept_titles(settings["group_titles"], items)
+        keep_group_settings(settings, items)
     created = store.open_import(board, {"source_format": "formref-selection", "source_board": board_id, "moved": bool(move), "item_count": len(items)})
     result = {"board_id": created["board"]["id"], "state": created, "count": len(items)}
     if move:

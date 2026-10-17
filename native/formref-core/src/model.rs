@@ -49,6 +49,9 @@ pub struct BoardSettings {
     /// Titles shown on group frames, by group id (v0.26.0). Set with the name_group command; a title goes when its group does. Left out while empty.
     #[serde(skip_serializing_if = "std::collections::BTreeMap::is_empty")]
     pub group_titles: std::collections::BTreeMap<String, String>,
+    /// Groups shown as one compact stack card in the window (v0.31.0). Set with the collapse_group command; an id goes when its group does. Left out while empty.
+    #[serde(skip_serializing_if = "std::collections::BTreeSet::is_empty")]
+    pub collapsed_groups: std::collections::BTreeSet<String>,
 }
 
 pub const MAX_GROUP_TITLES: usize = 500;
@@ -112,7 +115,7 @@ pub struct Label {
 
 impl Default for BoardSettings {
     fn default() -> Self {
-        Self { grid_visible: true, grid_size: 24.0, snap_enabled: false, grayscale: false, labels: Vec::new(), window: None, searches: Vec::new(), group_titles: std::collections::BTreeMap::new() }
+        Self { grid_visible: true, grid_size: 24.0, snap_enabled: false, grayscale: false, labels: Vec::new(), window: None, searches: Vec::new(), group_titles: std::collections::BTreeMap::new(), collapsed_groups: std::collections::BTreeSet::new() }
     }
 }
 
@@ -128,6 +131,8 @@ impl BoardSettings {
             if title.trim().is_empty() { return Err(EngineError::invalid("a group title cannot be empty")); }
             text_limit(title, "group title", 200)?;
         }
+        if self.collapsed_groups.len() > MAX_GROUP_TITLES { return Err(EngineError::invalid("a board can keep at most 500 collapsed groups")); }
+        for group in &self.collapsed_groups { identifier(group, "collapsed_groups entry")?; }
         if self.labels.len() > MAX_LABELS { return Err(EngineError::invalid("a board can define at most 32 labels")); }
         let mut seen = std::collections::HashSet::new();
         for label in &self.labels {
@@ -209,6 +214,7 @@ impl Board {
         self.connections.retain(|connection| alive(&connection.from) && alive(&connection.to));
         // A group's title goes with the group too.
         self.settings.group_titles.retain(|group, _| groups.contains(group));
+        self.settings.collapsed_groups.retain(|group| groups.contains(group));
     }
 }
 

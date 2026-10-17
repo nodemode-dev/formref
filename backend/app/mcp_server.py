@@ -191,12 +191,12 @@ async def update_items(board_id: str, ids: list[str], patch: dict) -> dict:
 
 @mcp.tool(annotations=_write)
 async def arrange_items(board_id: str, ids: list[str], action: str, options: dict | None = None) -> dict:
-    """Arrange items using align, distribute, pack, sort, normalize, order, group, ungroup, name_group or duplicate. Options: align mode (left, right, top, bottom, center_x, center_y); distribute axis/gap; pack gap/columns; sort key (filename, aspect, similarity, color, rating), gap, descending; normalize mode/value; order mode (front, forward, backward, back); group group_id; name_group group_id and title (shown above a dashed frame around the group, empty removes it; ids are ignored); duplicate synced (true makes note and document copies whose title, text, colour and format stay in sync with the source). Similarity sort computes colour features from the original images; color sort puts pictures in hue order of their main colour, with black, white and grey pictures last from light to dark."""
-    if action not in {"align", "distribute", "pack", "sort", "normalize", "order", "group", "ungroup", "name_group", "duplicate"}:
+    """Arrange items using align, distribute, pack, sort, normalize, order, group, ungroup, name_group, collapse_group or duplicate. collapse_group takes group_id and collapsed (true shows the group as one stack card in the window, false shows its items again; ids are ignored; exports always show every item). Options: align mode (left, right, top, bottom, center_x, center_y); distribute axis/gap; pack gap/columns; sort key (filename, aspect, similarity, color, rating), gap, descending; normalize mode/value; order mode (front, forward, backward, back); group group_id; name_group group_id and title (shown above a dashed frame around the group, empty removes it; ids are ignored); duplicate synced (true makes note and document copies whose title, text, colour and format stay in sync with the source). Similarity sort computes colour features from the original images; color sort puts pictures in hue order of their main colour, with black, white and grey pictures last from light to dark."""
+    if action not in {"align", "distribute", "pack", "sort", "normalize", "order", "group", "ungroup", "name_group", "collapse_group", "duplicate"}:
         raise ValueError("Unsupported arrangement action.")
     value = dict(options or {})
     value.update(type=action)
-    if action != "name_group":
+    if action not in ("name_group", "collapse_group"):
         value["ids"] = ids
     return await command(board_id, value)
 

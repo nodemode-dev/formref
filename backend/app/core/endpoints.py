@@ -33,6 +33,27 @@ def kept_titles(titles: dict, items: list) -> dict:
     return {group: title for group, title in titles.items() if group in present}
 
 
+def remap_group_settings(settings, groups: dict) -> None:
+    """Moves every per-group setting (titles, v0.26.0; collapsed groups, v0.31.0) to the groups' new ids in place, dropping groups that did not come along."""
+    if not isinstance(settings, dict):
+        return
+    if isinstance(settings.get("group_titles"), dict):
+        settings["group_titles"] = remap_titles(settings["group_titles"], groups)
+    if isinstance(settings.get("collapsed_groups"), list):
+        settings["collapsed_groups"] = sorted(groups[group] for group in settings["collapsed_groups"] if group in groups)
+
+
+def keep_group_settings(settings, items: list) -> None:
+    """Keeps per-group settings only for the groups still present among items, in place."""
+    if not isinstance(settings, dict):
+        return
+    present = {item.get("group_id") for item in items if item.get("group_id")}
+    if isinstance(settings.get("group_titles"), dict):
+        settings["group_titles"] = kept_titles(settings["group_titles"], items)
+    if isinstance(settings.get("collapsed_groups"), list):
+        settings["collapsed_groups"] = [group for group in settings["collapsed_groups"] if group in present]
+
+
 def box(items: list, endpoint: str) -> dict | None:
     """x, y, width, height and hidden for an endpoint: the item itself, or the box around a group's visible members (hidden when all are hidden)."""
     for item in items:
