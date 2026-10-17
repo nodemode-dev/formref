@@ -84,6 +84,7 @@ export function boardMenu(): MenuEntry[] {
         sep,
         item('group'),
         item('ungroup'),
+        item('name-group'),
         sep,
         item('align'),
         item('distribute-x'),

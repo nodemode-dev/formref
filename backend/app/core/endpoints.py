@@ -20,11 +20,26 @@ def remap(endpoint: str, items: dict, groups: dict) -> str | None:
     return GROUP + groups[group] if group in groups else None
 
 
+def remap_titles(titles: dict, groups: dict) -> dict:
+    """Group titles (settings.group_titles, v0.26.0) under the groups' new ids; titles of groups that did not come along are dropped."""
+    return {groups[group]: title for group, title in titles.items() if group in groups}
+
+
+def kept_titles(titles: dict, items: list) -> dict:
+    """Group titles for the groups still present among items."""
+    present = {item.get("group_id") for item in items if item.get("group_id")}
+    return {group: title for group, title in titles.items() if group in present}
+
+
 def box(items: list, endpoint: str) -> dict | None:
     """x, y, width, height and hidden for an endpoint: the item itself, or the box around a group's visible members (hidden when all are hidden)."""
     for item in items:
         if item["id"] == endpoint:
-            return {"x": item["x"], "y": item["y"], "width": item["width"], "height": item["height"], "hidden": bool(item.get("hidden"))}
+            found = {"x": item["x"], "y": item["y"], "width": item["width"], "height": item["height"], "hidden": bool(item.get("hidden"))}
+            if item.get("kind") == "column":
+                # A column is a container too: its lines meet its side, not its centre among the cards (v0.26.0).
+                found["side"] = 0
+            return found
     group = group_of(endpoint)
     members = [item for item in items if group and item.get("group_id") == group]
     if not members:
@@ -41,22 +56,25 @@ FRAME_PAD = 12
 
 
 def anchors(source: dict, target: dict) -> tuple[float, float, float, float]:
-    """Line ends as the window draws them: an item's centre, a group's frame side facing the other end."""
+    """Line ends as the window draws them: an item's centre, a group's frame side or a column's side facing the other end."""
     sx, tx = source["x"] + source["width"] / 2, target["x"] + target["width"] / 2
 
     def side(end, centre, other):
-        if not end.get("group"):
+        pad = FRAME_PAD if end.get("group") else end.get("side")
+        if pad is None:
             return centre
-        return end["x"] + end["width"] + FRAME_PAD if other >= centre else end["x"] - FRAME_PAD
+        return end["x"] + end["width"] + pad if other >= centre else end["x"] - pad
     return side(source, sx, tx), source["y"] + source["height"] / 2, side(target, tx, sx), target["y"] + target["height"] / 2
 
 
-def title(items: list, endpoint: str) -> str:
-    """How Markdown names an endpoint: the item's title or kind, or a group by its first members."""
+def title(items: list, endpoint: str, titles: dict | None = None) -> str:
+    """How Markdown names an endpoint: the item's title or kind, or a group by its title or its first members."""
     for item in items:
         if item["id"] == endpoint:
             return item.get("title") or item["kind"]
     group = group_of(endpoint)
+    if group and (titles or {}).get(group):
+        return f"Group {titles[group]}"
     names = [(item.get("title") or item["kind"]) for item in items if group and item.get("group_id") == group]
     if not names:
         return "Item"

@@ -2,7 +2,7 @@
 
 Written by `./formref agents sync` from the command catalogue the FormRef window publishes; do not edit by hand. Run a command with the MCP tools `run_command` or `run_commands` (the window must be open). `window-only` commands are refused for outside agents; `risky` commands ask the person first.
 
-209 commands.
+210 commands.
 
 ## Canvas
 
@@ -178,6 +178,7 @@ Written by `./formref agents sync` from the command catalogue the FormRef window
 | `isolate-selected` | Isolate Selected |  | changes the board | Hides everything except the selection (and the items inside selected columns) so a big board can be worked on piece by piece; Show All restores the rest. |
 | `lock-drops` | Lock Against Drops |  | changes the board | Stops items dragged onto the selected columns from joining them; items already inside stay, and can still be dragged out. |
 | `move-to-board` | Move Selection to New Board |  | changes the board | Moves the selected items, their column children and the connections between them onto a new board, opened in a new tab; they leave this board through the Trash, and Undo here brings them back. Parameters: `title` (string): title of the new board; default "<board> selection". |
+| `name-group` | Name Group… |  | changes the board | Gives the selected group a title shown above a dashed frame around it (the frame also marks groups that have connections); an empty title removes it. The title goes when the group is ungrouped. One undo step. Parameters: `group_id` (string): the group id; the selected group when left out; `title` (string): the title; empty removes it; leave out to be asked. |
 | `normalize` | Normalize Sizes |  | changes the board | Asks for a target width, height or area and resizes the selected items to it, keeping each aspect ratio. |
 | `normalize-groups` | Normalize Sizes Within Each Group |  | changes the board | Gives the items of each group the same size (the group's median height, width or area) while every group keeps its own scale. Works on the groups in the selection, or every group when nothing is selected. Parameters: `mode` (string): which size to match; default height. |
 | `pack` | Pack | `mod+p` | changes the board | Packs the selection, or every unlocked top-level item when nothing is selected, into tight rows with the pack spacing. |

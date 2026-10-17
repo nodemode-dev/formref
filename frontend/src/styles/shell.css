@@ -88,6 +88,7 @@
 .item-comments { position: absolute; top: calc(var(--space-2) * -1); left: calc(var(--space-2) * -1); display: inline-flex; align-items: center; gap: 2px; height: 20px; padding: 0 var(--space-1); border-radius: var(--radius-sm); background: var(--accent-color); color: var(--text-on-accent); font: 600 10px var(--font-mono); pointer-events: none; }
 .item-comments svg { width: 12px; height: 12px; }
 /* A group that a connection reaches is framed so it reads as one node; the frame never takes the pointer. */
+.group-title { font: 600 13px var(--font-ui); fill: var(--text-secondary); paint-order: stroke; stroke: var(--canvas-bg); stroke-width: 4px; pointer-events: none; }
 .group-frame { fill: none; stroke: var(--text-muted); stroke-width: 1.5; stroke-dasharray: 6 5; rx: 12px; opacity: .7; pointer-events: none; }
 .item-rating { position: absolute; right: var(--space-2); bottom: calc(var(--space-2) + 10px); display: inline-flex; gap: 1px; padding: 2px 4px; border-radius: var(--radius-sm); background: color-mix(in srgb, var(--bg-primary) 72%, transparent); color: var(--accent-color); pointer-events: none; }
 .item-rating svg { width: 11px; height: 11px; fill: currentColor; }

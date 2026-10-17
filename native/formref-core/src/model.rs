@@ -46,7 +46,12 @@ pub struct BoardSettings {
     /// Named filters the board remembers: find text, kind, colour and a similar-picture sample. Left out of the saved board while empty, so older boards stay byte-identical.
     #[serde(skip_serializing_if = "Vec::is_empty")]
     pub searches: Vec<SavedSearch>,
+    /// Titles shown on group frames, by group id (v0.26.0). Set with the name_group command; a title goes when its group does. Left out while empty.
+    #[serde(skip_serializing_if = "std::collections::BTreeMap::is_empty")]
+    pub group_titles: std::collections::BTreeMap<String, String>,
 }
+
+pub const MAX_GROUP_TITLES: usize = 500;
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(deny_unknown_fields)]
@@ -107,7 +112,7 @@ pub struct Label {
 
 impl Default for BoardSettings {
     fn default() -> Self {
-        Self { grid_visible: true, grid_size: 24.0, snap_enabled: false, grayscale: false, labels: Vec::new(), window: None, searches: Vec::new() }
+        Self { grid_visible: true, grid_size: 24.0, snap_enabled: false, grayscale: false, labels: Vec::new(), window: None, searches: Vec::new(), group_titles: std::collections::BTreeMap::new() }
     }
 }
 
@@ -117,6 +122,12 @@ pub const MAX_ITEM_LABELS: usize = 12;
 impl BoardSettings {
     pub fn validate(&self) -> EngineResult<()> {
         finite(self.grid_size, "settings.grid_size", 4.0, 512.0)?;
+        if self.group_titles.len() > MAX_GROUP_TITLES { return Err(EngineError::invalid("a board can keep at most 500 group titles")); }
+        for (group, title) in &self.group_titles {
+            identifier(group, "group_titles key")?;
+            if title.trim().is_empty() { return Err(EngineError::invalid("a group title cannot be empty")); }
+            text_limit(title, "group title", 200)?;
+        }
         if self.labels.len() > MAX_LABELS { return Err(EngineError::invalid("a board can define at most 32 labels")); }
         let mut seen = std::collections::HashSet::new();
         for label in &self.labels {
@@ -196,6 +207,8 @@ impl Board {
         let ids: HashSet<String> = self.items.iter().map(|item| item.id.clone()).collect();
         let alive = |endpoint: &str| ids.contains(endpoint) || group_endpoint(endpoint).map_or(true, |group| groups.contains(group));
         self.connections.retain(|connection| alive(&connection.from) && alive(&connection.to));
+        // A group's title goes with the group too.
+        self.settings.group_titles.retain(|group, _| groups.contains(group));
     }
 }
 

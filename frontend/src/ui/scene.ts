@@ -125,13 +125,13 @@ const LABELS = new Map<string, Label>();
 
 /** A connection end may be one item or a whole group ("group:" and the group id); a group's box covers its visible members. */
 export const GROUP_ENDPOINT = 'group:';
-interface EndBox { x: number; y: number; width: number; height: number; hidden: boolean; group?: boolean }
+interface EndBox { x: number; y: number; width: number; height: number; hidden: boolean; group?: boolean; side?: number }
 
-/** Line ends: an item's centre, as before; a group's end sits on the side of its frame facing the other end, where the curve's flat tangent leaves it, so no stub crosses the gaps between grouped items. */
+/** Line ends: an item's centre, as before; a group's end sits on the side of its frame facing the other end, where the curve's flat tangent leaves it, so no stub crosses the gaps between grouped items. A column (v0.26.0) is a container too, so its end sits on its own side. */
 const FRAME_PAD = 12;
 function anchors(from: EndBox, to: EndBox): [number, number, number, number] {
   const fx = from.x + from.width / 2, tx = to.x + to.width / 2;
-  const side = (box: EndBox, centre: number, other: number) => (box.group ? (other >= centre ? box.x + box.width + FRAME_PAD : box.x - FRAME_PAD) : centre);
+  const side = (box: EndBox, centre: number, other: number) => { const pad = box.group ? FRAME_PAD : box.side; return pad === undefined ? centre : other >= centre ? box.x + box.width + pad : box.x - pad; };
   return [side(from, fx, tx), from.y + from.height / 2, side(to, tx, fx), to.y + to.height / 2];
 }
 function endpoints(board: Board): (endpoint: string) => EndBox | undefined {
@@ -146,7 +146,11 @@ function endpoints(board: Board): (endpoint: string) => EndBox | undefined {
     const right = Math.max(box.x + box.width, item.x + item.width), bottom = Math.max(box.y + box.height, item.y + item.height);
     box.x = Math.min(box.x, item.x); box.y = Math.min(box.y, item.y); box.width = right - box.x; box.height = bottom - box.y;
   }
-  return endpoint => items.get(endpoint) || groups.get(endpoint);
+  return endpoint => {
+    const item = items.get(endpoint);
+    if (!item) return groups.get(endpoint);
+    return item.kind === 'column' ? { x: item.x, y: item.y, width: item.width, height: item.height, hidden: item.hidden, side: 0 } : item;
+  };
 }
 
 export class Scene {
@@ -162,21 +166,31 @@ export class Scene {
     this.paintGroupFrames(board, ends);
     for (const connection of board.connections) { let line = this.lines.get(connection.id); if (!line) { const path = svg('path'); path.classList.add('connection'); path.dataset.connection = connection.id; const label = svg('text'); label.classList.add('connection-label'); line = { path, label }; this.lines.set(connection.id, line); this.connections.append(path, label); } const from = ends(connection.from), to = ends(connection.to); if (!from || !to) continue; const [x1, y1, x2, y2] = anchors(from, to); line.path.setAttribute('d', `M${x1},${y1} C${(x1 + x2) / 2},${y1} ${(x1 + x2) / 2},${y2} ${x2},${y2}`); line.path.setAttribute('stroke', connection.color || 'var(--accent-color)'); line.path.style.display = from.hidden || to.hidden ? 'none' : ''; line.label.setAttribute('x', String((x1 + x2) / 2)); line.label.setAttribute('y', String((y1 + y2) / 2 - 8)); text(line.label, connection.label); }
   }
-  frames = new Map<string, SVGRectElement>();
-  /** A dashed frame around every group that a connection reaches, so the group reads as one node; frames are patched in place and removed when the group has no connections left. */
+  frames = new Map<string, { rect: SVGRectElement; title: SVGTextElement }>();
+  /** A dashed frame around every group that a connection reaches or that has a title (v0.26.0), so the group reads as one node; the title sits above the frame's top-left corner. Frames are patched in place and removed when the group has neither. */
   paintGroupFrames(board: Board, ends: (endpoint: string) => EndBox | undefined) {
-    const used = new Set<string>();
+    const titles = board.settings?.group_titles || {};
+    const used = new Set<string>(Object.keys(titles).map(group => GROUP_ENDPOINT + group));
     for (const connection of board.connections) for (const endpoint of [connection.from, connection.to]) if (endpoint.startsWith(GROUP_ENDPOINT) && !board.items.some(item => item.id === endpoint)) used.add(endpoint);
-    for (const [endpoint, frame] of this.frames) if (!used.has(endpoint)) { frame.remove(); this.frames.delete(endpoint); }
+    for (const [endpoint, frame] of this.frames) if (!used.has(endpoint)) { frame.rect.remove(); frame.title.remove(); this.frames.delete(endpoint); }
     for (const endpoint of used) {
       const box = ends(endpoint);
       let frame = this.frames.get(endpoint);
-      if (!frame) { frame = svg('rect') as SVGRectElement; frame.classList.add('group-frame'); frame.dataset.group = endpoint.slice(GROUP_ENDPOINT.length); this.frames.set(endpoint, frame); this.connections.prepend(frame); }
-      if (!box) { frame.style.display = 'none'; continue; }
+      if (!frame) {
+        const rect = svg('rect') as SVGRectElement; rect.classList.add('group-frame'); rect.dataset.group = endpoint.slice(GROUP_ENDPOINT.length);
+        const title = svg('text') as SVGTextElement; title.classList.add('group-title'); title.setAttribute('data-no-i18n', '');
+        frame = { rect, title }; this.frames.set(endpoint, frame); this.connections.prepend(rect, title);
+      }
+      const display = !box || box.hidden ? 'none' : '';
+      if (frame.rect.style.display !== display) { frame.rect.style.display = display; frame.title.style.display = display; }
+      if (!box) continue;
       const pad = FRAME_PAD, values: [string, string][] = [['x', String(box.x - pad)], ['y', String(box.y - pad)], ['width', String(box.width + pad * 2)], ['height', String(box.height + pad * 2)]];
-      for (const [name, value] of values) if (frame.getAttribute(name) !== value) frame.setAttribute(name, value);
-      const display = box.hidden ? 'none' : '';
-      if (frame.style.display !== display) frame.style.display = display;
+      for (const [name, value] of values) if (frame.rect.getAttribute(name) !== value) frame.rect.setAttribute(name, value);
+      const name = titles[endpoint.slice(GROUP_ENDPOINT.length)] || '';
+      const tx = String(box.x - pad), ty = String(box.y - pad - 8);
+      if (frame.title.getAttribute('x') !== tx) frame.title.setAttribute('x', tx);
+      if (frame.title.getAttribute('y') !== ty) frame.title.setAttribute('y', ty);
+      text(frame.title, name);
     }
   }
   /** Called when the zoom changes: image references that now need more pixels load a larger preview (never a smaller one). */

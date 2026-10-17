@@ -15,7 +15,7 @@ from .media import original_image
 from .sampling import crop_bounds, color_values
 from .reference_text import parse_text, layout_text, markdown_source
 from .xmp_write import with_tags
-from .endpoints import anchors as endpoint_anchors, box as endpoint_box, group_of, title as endpoint_title
+from .endpoints import GROUP, anchors as endpoint_anchors, box as endpoint_box, group_of, title as endpoint_title
 
 SVG_NS = "http://www.w3.org/2000/svg"
 ET.register_namespace("", SVG_NS)
@@ -66,6 +66,9 @@ def bounds(board):
         cx, cy = x + width / 2, y + height / 2
         for dx, dy in ((-width / 2, -height / 2), (width / 2, -height / 2), (width / 2, height / 2), (-width / 2, height / 2)):
             corners.append((cx + dx * cosine - dy * sine, cy + dx * sine + dy * cosine))
+    for frame, name in group_frames(board):
+        # Group frames reach 12 px past their items, and a title sits above the frame.
+        corners.extend(((frame["x"] - 12, frame["y"] - (40 if name else 12)), (frame["x"] + frame["width"] + 12, frame["y"] + frame["height"] + 12)))
     left = min(point[0] for point in corners) - 32
     top = min(point[1] for point in corners) - 32
     right = max(point[0] for point in corners) + 32
@@ -253,21 +256,37 @@ def item_raster(item, scale):
         draw_text(draw, text or title, padding, padding, max(1, width - 2 * padding), selected_font, text_color, height - padding)
     return image
 
+def group_frames(board):
+    """(box, title) for every visible group that a connection reaches or that has a title, in a stable order."""
+    titles = (board.get("settings") or {}).get("group_titles") or {}
+    ends = [GROUP + group for group in titles]
+    for connection in board.get("connections", []):
+        ends.extend(end for end in (connection["from"], connection["to"]) if group_of(end))
+    out, seen = [], set()
+    for end in ends:
+        if end in seen:
+            continue
+        seen.add(end)
+        frame = endpoint_box(board["items"], end)
+        if frame and not frame.get("hidden"):
+            out.append((frame, titles.get(group_of(end), "")))
+    return out
+
+
 def png_export(board):
     left, top, world_width, world_height = bounds(board)
     scale = min(1.0, settings.max_export_edge / world_width, settings.max_export_edge / world_height, math.sqrt(settings.max_export_pixels / (world_width * world_height)))
     width, height = max(1, round(world_width * scale)), max(1, round(world_height * scale))
     canvas = Image.new("RGBA", (width, height), color(board.get("background"), "#1c1b1d"))
     draw = ImageDraw.Draw(canvas)
-    framed = set()
+    for frame, name in group_frames(board):
+        draw.rounded_rectangle(((frame["x"] - 12 - left) * scale, (frame["y"] - 12 - top) * scale, (frame["x"] + frame["width"] + 12 - left) * scale, (frame["y"] + frame["height"] + 12 - top) * scale), radius=max(1, round(12 * scale)), outline="#8c8a90", width=max(1, round(1.5 * scale)))
+        if name:
+            draw.text(((frame["x"] - 12 - left) * scale, (frame["y"] - 34 - top) * scale), name, fill="#a4a4a4", font=font(max(6, round(13 * scale)), True))
     for connection in board.get("connections", []):
         source, target = endpoint_box(board["items"], connection["from"]), endpoint_box(board["items"], connection["to"])
         if not source or not target or source.get("hidden") or target.get("hidden"):
             continue
-        for end, frame in ((connection["from"], source), (connection["to"], target)):
-            if group_of(end) and end not in framed:
-                framed.add(end)
-                draw.rounded_rectangle(((frame["x"] - 12 - left) * scale, (frame["y"] - 12 - top) * scale, (frame["x"] + frame["width"] + 12 - left) * scale, (frame["y"] + frame["height"] + 12 - top) * scale), radius=max(1, round(12 * scale)), outline="#8c8a90", width=max(1, round(1.5 * scale)))
         sx, sy, tx, ty = endpoint_anchors(source, target)
         a = ((sx - left) * scale, (sy - top) * scale)
         b = ((tx - left) * scale, (ty - top) * scale)
@@ -337,17 +356,15 @@ def svg_export(board, picture=png_data_uri):
     root = ET.Element("{" + SVG_NS + "}svg", {"width": str(width), "height": str(height), "viewBox": f"{left} {top} {width} {height}"})
     svg_element(root, "title", text=board["title"])
     svg_element(root, "rect", {"x": left, "y": top, "width": width, "height": height, "fill": color(board.get("background"), "#1c1b1d")})
-    framed = set()
+    # Connected or titled groups get the dashed frame the window draws, with the title above it, so they read as one node in the picture too.
+    for frame, name in group_frames(board):
+        svg_element(root, "rect", {"x": frame["x"] - 12, "y": frame["y"] - 12, "width": frame["width"] + 24, "height": frame["height"] + 24, "rx": 12, "fill": "none", "stroke": "#8c8a90", "stroke-width": 1.5, "stroke-dasharray": "6 5"})
+        if name:
+            svg_element(root, "text", {"x": frame["x"] - 12, "y": frame["y"] - 20, "fill": "#a4a4a4", "font-size": 13, "font-weight": 600, "font-family": "sans-serif"}, name)
     for connection in board.get("connections", []):
         source, target = endpoint_box(board["items"], connection["from"]), endpoint_box(board["items"], connection["to"])
         if not source or not target or source.get("hidden") or target.get("hidden"):
             continue
-        for end in (connection["from"], connection["to"]):
-            # A connected group gets the dashed frame the window draws, so it reads as one node in the picture too.
-            if group_of(end) and end not in framed:
-                framed.add(end)
-                frame = source if end == connection["from"] else target
-                svg_element(root, "rect", {"x": frame["x"] - 12, "y": frame["y"] - 12, "width": frame["width"] + 24, "height": frame["height"] + 24, "rx": 12, "fill": "none", "stroke": "#8c8a90", "stroke-width": 1.5, "stroke-dasharray": "6 5"})
         ax, ay, bx, by = endpoint_anchors(source, target)
         svg_element(root, "path", {"d": f"M{ax},{ay} C{(ax + bx) / 2},{ay} {(ax + bx) / 2},{by} {bx},{by}", "fill": "none", "stroke": color(connection.get("color"), "#f97316"), "stroke-width": 2})
         if connection.get("label"):
@@ -624,7 +641,8 @@ def markdown_export(board):
     if board.get("connections"):
         lines.extend(["## Connections", ""])
         for connection in board["connections"]:
-            lines.append("- " + endpoint_title(board["items"], connection["from"]) + " -> " + endpoint_title(board["items"], connection["to"]) + (": " + connection["label"] if connection.get("label") else ""))
+            titles = (board.get("settings") or {}).get("group_titles") or {}
+            lines.append("- " + endpoint_title(board["items"], connection["from"], titles) + " -> " + endpoint_title(board["items"], connection["to"], titles) + (": " + connection["label"] if connection.get("label") else ""))
     return "\n".join(lines).encode("utf-8")
 
 def export_board(state, format, paper="a4"):

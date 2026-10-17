@@ -7,7 +7,7 @@ import uuid
 
 from .config import settings
 from .store import store
-from .endpoints import remap
+from .endpoints import remap, remap_titles
 
 PAPER = "#f5e6a8"
 FRAME = "#8d8794"
@@ -113,8 +113,8 @@ def delete_template(template_id: str) -> dict:
     return {"deleted": template_id}
 
 
-def fresh_ids(items: list, connections: list):
-    """New ids for every item, group and connection, keeping parents, groups and links intact."""
+def fresh_ids(items: list, connections: list, settings: dict | None = None):
+    """New ids for every item, group and connection, keeping parents, groups and links intact; group titles in settings follow their groups."""
     items, connections = copy.deepcopy(items), copy.deepcopy(connections)
     mapping = {entry["id"]: uuid.uuid4().hex for entry in items}
     groups = {entry["group_id"]: uuid.uuid4().hex for entry in items if entry.get("group_id")}
@@ -128,6 +128,8 @@ def fresh_ids(items: list, connections: list):
         start, end = remap(link["from"], mapping, groups), remap(link["to"], mapping, groups)
         if start and end:
             links.append({**link, "id": uuid.uuid4().hex, "from": start, "to": end})
+    if isinstance(settings, dict) and isinstance(settings.get("group_titles"), dict):
+        settings["group_titles"] = remap_titles(settings["group_titles"], groups)
     return items, links
 
 
@@ -142,8 +144,8 @@ def use_template(template_id: str, title: str = "") -> dict:
             raise ValueError("That template does not exist.")
         record = json.loads(path.read_text(encoding="utf-8"))
         name = record["title"]
-        items, links = fresh_ids(record["board"]["items"], record["board"]["connections"])
-        background, board_settings = record["board"].get("background", "#1c1b1d"), record["board"].get("settings")
+        background, board_settings = record["board"].get("background", "#1c1b1d"), copy.deepcopy(record["board"].get("settings"))
+        items, links = fresh_ids(record["board"]["items"], record["board"]["connections"], board_settings)
     board = {"id": "", "title": (title.strip() or name)[:200], "version": 1, "revision": 0, "items": items, "connections": links,
              "viewport": {"x": 0, "y": 0, "zoom": 1}, "background": background}
     if board_settings:

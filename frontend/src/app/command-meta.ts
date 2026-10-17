@@ -64,6 +64,7 @@ export const COMMAND_WORDS: Readonly<Record<string, string>> = {
   'sort-aspect': 'Arranges the selection, or every unlocked top-level item, in rows ordered by aspect ratio.',
   'sort-filename': 'Arranges the selection, or every unlocked top-level item, in rows ordered by file name.',
   'sort-similarity': 'Arranges the selection, or every unlocked top-level item, so that similar-looking pictures sit together.',
+  'name-group': 'Gives the selected group a title shown above a dashed frame around it (the frame also marks groups that have connections); an empty title removes it. The title goes when the group is ungrouped. One undo step.',
   'sort-rating': 'Arranges the selection, or every unlocked top-level item, in rows from most stars to fewest, with unrated items last in their current order.',
   'sort-color':'Arranges the selection, or every unlocked top-level item, in rainbow order of each picture\'s main color, with black, white and grey pictures after them from light to dark.',
   'find-color': 'Dims everything on the board except pictures and swatches that contain the chosen color; the color chip beside the kind filter shows it, and choosing no color clears it.',

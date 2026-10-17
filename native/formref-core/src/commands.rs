@@ -203,6 +203,15 @@ fn apply_inner(board: &mut Board, command: &Value, source: &mut IdSource, depth:
             let indices = affected(command, board)?;
             for index in indices { board.items[index].group_id = None; }
         }
+        "name_group" => {
+            // A title on a group's frame; an empty title removes it. Locked members block it like any group edit.
+            let group = field(command, "group_id")?.as_str().ok_or_else(|| EngineError::invalid("group_id must be a string"))?.to_string();
+            let members = board.endpoint_members(&format!("{}{group}", crate::model::GROUP_ENDPOINT));
+            if members.is_empty() { return Err(EngineError::new("item_not_found", format!("group {group} has no items on this board"))); }
+            geometry::require_unlocked(board, &members)?;
+            let title = command.get("title").and_then(Value::as_str).unwrap_or("").trim().to_string();
+            if title.is_empty() { board.settings.group_titles.remove(&group); } else { board.settings.group_titles.insert(group, title); }
+        }
         "order" => order(board, command)?,
         "rotate" => image::rotate(board, command)?,
         "opacity" => image::opacity(board, command)?,
