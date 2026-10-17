@@ -4,6 +4,7 @@ import { primaryKey } from './keys';
 import { studyMenu } from './study';
 import { similarMenu } from './similar-find';
 import { savedSearchMenu } from './saved-search';
+import { connectionStyleMenu } from './connection-style';
 import { S, defaultSettings, selection } from './editor';
 
 function item(id: string, label?: string): MenuEntry {
@@ -49,7 +50,7 @@ export function boardMenu(): MenuEntry[] {
     sep,
     item('select-all'),
     item('deselect'),
-    ...(isEnabled(BY_ID.get('connect-selected')!) || isEnabled(BY_ID.get('disconnect-selected')!) ? [sep, item('connect-selected'), item('disconnect-selected')] : []),
+    ...(isEnabled(BY_ID.get('connect-selected')!) || isEnabled(BY_ID.get('disconnect-selected')!) ? [sep, item('connect-selected'), item('disconnect-selected'), ...connectionStyleMenu()] : []),
     sep,
     item('find-color'),
     item('find-swatch-color'),

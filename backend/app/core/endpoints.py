@@ -1,5 +1,7 @@
 """Connection endpoints: an item id, or a whole group written as "group:" and the group id (v0.25.0), so groups connect like single nodes. An item whose id is exactly the endpoint wins, as in the engine."""
 
+import math
+
 GROUP = "group:"
 
 
@@ -55,16 +57,48 @@ def box(items: list, endpoint: str) -> dict | None:
 FRAME_PAD = 12
 
 
-def anchors(source: dict, target: dict) -> tuple[float, float, float, float]:
-    """Line ends as the window draws them: an item's centre, a group's frame side or a column's side facing the other end."""
-    sx, tx = source["x"] + source["width"] / 2, target["x"] + target["width"] / 2
+ARROW_GAP, ARROW_LENGTH, ARROW_HALF = 4, 12, 5
+DASHES = {"dashed": (8, 6), "dotted": (0, 6)}
 
-    def side(end, centre, other):
+
+def pointed(arrow: str) -> tuple[bool, bool]:
+    """Whether the start and the end of a connection carry an arrowhead (arrow is "", end, start or both)."""
+    return arrow in ("start", "both"), arrow in ("end", "both")
+
+
+def anchors(source: dict, target: dict, arrow: str = "") -> tuple[float, float, float, float]:
+    """Line ends as the window draws them: an item's centre, a group's frame side or a column's side facing the other end. An item end that carries an arrowhead (v0.28.0) sits just outside the item's side instead, so the head is not hidden under it."""
+    sx, tx = source["x"] + source["width"] / 2, target["x"] + target["width"] / 2
+    at_start, at_end = pointed(arrow)
+
+    def side(end, centre, other, head):
         pad = FRAME_PAD if end.get("group") else end.get("side")
+        if pad is None and head:
+            pad = ARROW_GAP
         if pad is None:
             return centre
         return end["x"] + end["width"] + pad if other >= centre else end["x"] - pad
-    return side(source, sx, tx), source["y"] + source["height"] / 2, side(target, tx, sx), target["y"] + target["height"] / 2
+    return side(source, sx, tx, at_start), source["y"] + source["height"] / 2, side(target, tx, sx, at_end), target["y"] + target["height"] / 2
+
+
+def heads(ax: float, ay: float, bx: float, by: float, arrow: str) -> tuple[tuple[float, float, float, float], list]:
+    """Arrowheads for the curve from (ax, ay) to (bx, by) whose controls sit at the middle x: the line's new ends (each pointed end pulled back to the head's base) and one triangle per head, aligned with the curve's tangent there."""
+    middle = (ax + bx) / 2
+    at_start, at_end = pointed(arrow)
+    triangles = []
+
+    def head(tip_x, tip_y, control_x, control_y, far_x, far_y):
+        dx, dy = tip_x - control_x, tip_y - control_y
+        if abs(dx) + abs(dy) < 1e-6:
+            dx, dy = tip_x - far_x, tip_y - far_y
+        length = math.hypot(dx, dy) or 1.0
+        dx, dy = dx / length, dy / length
+        base_x, base_y = tip_x - dx * ARROW_LENGTH, tip_y - dy * ARROW_LENGTH
+        triangles.append([(tip_x, tip_y), (base_x - dy * ARROW_HALF, base_y + dx * ARROW_HALF), (base_x + dy * ARROW_HALF, base_y - dx * ARROW_HALF)])
+        return base_x, base_y
+    start = head(ax, ay, middle, ay, bx, by) if at_start else (ax, ay)
+    end = head(bx, by, middle, by, ax, ay) if at_end else (bx, by)
+    return (start[0], start[1], end[0], end[1]), triangles
 
 
 def title(items: list, endpoint: str, titles: dict | None = None) -> str:

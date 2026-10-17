@@ -255,6 +255,37 @@ fn apply_inner(board: &mut Board, command: &Value, source: &mut IdSource, depth:
             geometry::require_unlocked(board, &indices)?;
             board.connections.retain(|connection| !seen.contains(&connection.id));
         }
+        "style_connections" => {
+            let ids = ids(command)?;
+            if ids.is_empty() { return Err(EngineError::invalid("ids must contain at least one connection")); }
+            let text = |key: &str| -> EngineResult<Option<String>> {
+                match command.get(key) {
+                    None | Some(Value::Null) => Ok(None),
+                    Some(Value::String(value)) => Ok(Some(value.clone())),
+                    Some(_) => Err(EngineError::invalid(format!("{key} must be a string"))),
+                }
+            };
+            let (label, color, line, arrow) = (text("label")?, text("color")?, text("line")?, text("arrow")?);
+            if label.is_none() && color.is_none() && line.is_none() && arrow.is_none() {
+                return Err(EngineError::invalid("style_connections needs label, color, line or arrow"));
+            }
+            let mut seen = HashSet::new();
+            let mut indices = Vec::new();
+            for id in &ids {
+                if !seen.insert(id.clone()) { return Err(EngineError::invalid("duplicate connection identifier in ids")); }
+                let connection = board.connections.iter().find(|connection| &connection.id == id)
+                    .ok_or_else(|| EngineError::new("connection_not_found", format!("connection {id} does not exist")))?;
+                indices.extend(board.endpoint_members(&connection.from));
+                indices.extend(board.endpoint_members(&connection.to));
+            }
+            geometry::require_unlocked(board, &indices)?;
+            for connection in board.connections.iter_mut().filter(|connection| seen.contains(&connection.id)) {
+                if let Some(value) = &label { connection.label = value.clone(); }
+                if let Some(value) = &color { connection.color = value.clone(); }
+                if let Some(value) = &line { connection.line = value.clone(); }
+                if let Some(value) = &arrow { connection.arrow = value.clone(); }
+            }
+        }
         "settings" => {
             let patch = field(command, "patch")?.as_object().ok_or_else(|| EngineError::invalid("settings patch must be an object"))?;
             let mut value = serde_json::to_value(&board.settings).map_err(|e| EngineError::invalid(e.to_string()))?;

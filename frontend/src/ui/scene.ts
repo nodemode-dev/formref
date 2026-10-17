@@ -129,10 +129,31 @@ interface EndBox { x: number; y: number; width: number; height: number; hidden: 
 
 /** Line ends: an item's centre, as before; a group's end sits on the side of its frame facing the other end, where the curve's flat tangent leaves it, so no stub crosses the gaps between grouped items. A column (v0.26.0) is a container too, so its end sits on its own side. */
 const FRAME_PAD = 12;
-function anchors(from: EndBox, to: EndBox): [number, number, number, number] {
+/** Arrowheads (v0.28.0): an item end that carries one sits ARROW_GAP outside the item's side, because lines run under items; the head is ARROW_LENGTH long and twice ARROW_HALF wide. The service's exports use the same numbers. */
+const ARROW_GAP = 4, ARROW_LENGTH = 12, ARROW_HALF = 5;
+const pointed = (arrow = '') => [arrow === 'start' || arrow === 'both', arrow === 'end' || arrow === 'both'];
+function anchors(from: EndBox, to: EndBox, arrow = ''): [number, number, number, number] {
   const fx = from.x + from.width / 2, tx = to.x + to.width / 2;
-  const side = (box: EndBox, centre: number, other: number) => { const pad = box.group ? FRAME_PAD : box.side; return pad === undefined ? centre : other >= centre ? box.x + box.width + pad : box.x - pad; };
-  return [side(from, fx, tx), from.y + from.height / 2, side(to, tx, fx), to.y + to.height / 2];
+  const [atStart, atEnd] = pointed(arrow);
+  const side = (box: EndBox, centre: number, other: number, head: boolean) => { const pad = box.group ? FRAME_PAD : box.side ?? (head ? ARROW_GAP : undefined); return pad === undefined ? centre : other >= centre ? box.x + box.width + pad : box.x - pad; };
+  return [side(from, fx, tx, atStart), from.y + from.height / 2, side(to, tx, fx, atEnd), to.y + to.height / 2];
+}
+/** The curve between anchors, each pointed end pulled back to its head's base, plus the heads as one path along the curve's tangent there. */
+function curve(x1: number, y1: number, x2: number, y2: number, arrow = ''): { d: string; heads: string } {
+  const middle = (x1 + x2) / 2;
+  const [atStart, atEnd] = pointed(arrow);
+  let heads = '';
+  const head = (tipX: number, tipY: number, controlX: number, controlY: number, farX: number, farY: number): [number, number] => {
+    let dx = tipX - controlX, dy = tipY - controlY;
+    if (Math.abs(dx) + Math.abs(dy) < 1e-6) { dx = tipX - farX; dy = tipY - farY; }
+    const length = Math.hypot(dx, dy) || 1; dx /= length; dy /= length;
+    const bx = tipX - dx * ARROW_LENGTH, by = tipY - dy * ARROW_LENGTH;
+    heads += `M${tipX},${tipY}L${bx - dy * ARROW_HALF},${by + dx * ARROW_HALF}L${bx + dy * ARROW_HALF},${by - dx * ARROW_HALF}Z`;
+    return [bx, by];
+  };
+  const [sx, sy] = atStart ? head(x1, y1, middle, y1, x2, y2) : [x1, y1];
+  const [ex, ey] = atEnd ? head(x2, y2, middle, y2, x1, y1) : [x2, y2];
+  return { d: `M${sx},${sy} C${middle},${y1} ${middle},${y2} ${ex},${ey}`, heads };
 }
 function endpoints(board: Board): (endpoint: string) => EndBox | undefined {
   const items = new Map(board.items.map(item => [item.id, item]));
@@ -154,17 +175,24 @@ function endpoints(board: Board): (endpoint: string) => EndBox | undefined {
 }
 
 export class Scene {
-  nodes = new Map<string, ItemNode>(); lines = new Map<string, { path: SVGPathElement; label: SVGTextElement }>(); mini = new Map<string, SVGRectElement>(); miniView = svg('rect');
+  nodes = new Map<string, ItemNode>(); lines = new Map<string, { hit: SVGPathElement; path: SVGPathElement; head: SVGPathElement; label: SVGTextElement }>(); chosenLine: string | null = null; mini = new Map<string, SVGRectElement>(); miniView = svg('rect');
   constructor(readonly container: HTMLElement, readonly connections: SVGSVGElement, readonly navigator: SVGSVGElement, readonly hooks: SceneHooks) { this.miniView.classList.add('navigator-view'); navigator.append(this.miniView); }
   render(board: Board, selection: Set<string>, matches: (item: Item) => boolean) {
     LABELS.clear(); for (const label of board.settings?.labels || []) LABELS.set(label.id, label);
     const ids = new Set(board.items.map(item => item.id)); for (const [id, node] of this.nodes) if (!ids.has(id)) { node.root.remove(); this.nodes.delete(id); this.mini.get(id)?.remove(); this.mini.delete(id); }
     for (const item of board.items) { let node = this.nodes.get(item.id); if (!node) { node = new ItemNode(item.id, this.hooks); this.nodes.set(item.id, node); this.container.append(node.root); } node.update(item, selection.has(item.id), matches(item)); }
     const ordered = board.items.map((item, index) => ({ item, index })).sort((a, b) => a.item.z - b.item.z || a.index - b.index); let next = this.container.firstElementChild; for (const { item } of ordered) { const root = this.nodes.get(item.id)!.root; if (next === root) next = next.nextElementSibling; else this.container.insertBefore(root, next); }
-    const connectionIds = new Set(board.connections.map(c => c.id)); for (const [id, line] of this.lines) if (!connectionIds.has(id)) { line.path.remove(); line.label.remove(); this.lines.delete(id); }
+    const connectionIds = new Set(board.connections.map(c => c.id)); for (const [id, line] of this.lines) if (!connectionIds.has(id)) { line.hit.remove(); line.path.remove(); line.head.remove(); line.label.remove(); this.lines.delete(id); }
     const ends = endpoints(board);
     this.paintGroupFrames(board, ends);
-    for (const connection of board.connections) { let line = this.lines.get(connection.id); if (!line) { const path = svg('path'); path.classList.add('connection'); path.dataset.connection = connection.id; const label = svg('text'); label.classList.add('connection-label'); line = { path, label }; this.lines.set(connection.id, line); this.connections.append(path, label); } const from = ends(connection.from), to = ends(connection.to); if (!from || !to) continue; const [x1, y1, x2, y2] = anchors(from, to); line.path.setAttribute('d', `M${x1},${y1} C${(x1 + x2) / 2},${y1} ${(x1 + x2) / 2},${y2} ${x2},${y2}`); line.path.setAttribute('stroke', connection.color || 'var(--accent-color)'); line.path.style.display = from.hidden || to.hidden ? 'none' : ''; line.label.setAttribute('x', String((x1 + x2) / 2)); line.label.setAttribute('y', String((y1 + y2) / 2 - 8)); text(line.label, connection.label); }
+    for (const connection of board.connections) { let line = this.lines.get(connection.id); if (!line) { const path = svg('path'); path.classList.add('connection'); path.dataset.connection = connection.id; const hit = svg('path'); hit.classList.add('connection-hit'); hit.dataset.connection = connection.id; const head = svg('path'); head.classList.add('connection-head'); const label = svg('text'); label.classList.add('connection-label'); line = { hit, path, head, label }; this.lines.set(connection.id, line); this.connections.append(hit, path, head, label); if (connection.id === this.chosenLine) path.classList.add('chosen'); } const from = ends(connection.from), to = ends(connection.to); if (!from || !to) continue; const [x1, y1, x2, y2] = anchors(from, to, connection.arrow); const shape = curve(x1, y1, x2, y2, connection.arrow); line.path.setAttribute('d', shape.d); line.path.setAttribute('stroke', connection.color || 'var(--accent-color)'); line.path.style.display = from.hidden || to.hidden ? 'none' : ''; const dash = connection.line || ''; if ((line.path.getAttribute('data-line') || '') !== dash) { if (dash) line.path.setAttribute('data-line', dash); else line.path.removeAttribute('data-line'); } if (line.head.getAttribute('d') !== shape.heads) line.head.setAttribute('d', shape.heads); line.head.setAttribute('fill', connection.color || 'var(--accent-color)'); line.head.style.display = line.path.style.display; line.hit.setAttribute('d', shape.d); line.hit.style.display = line.path.style.display; line.label.setAttribute('x', String((x1 + x2) / 2)); line.label.setAttribute('y', String((y1 + y2) / 2 - 8)); text(line.label, connection.label); }
+  }
+  /** Marks the one chosen connection (v0.28.0): only the old and new paths change class. */
+  chooseLine(id: string | null) {
+    if (id === this.chosenLine) return;
+    if (this.chosenLine) this.lines.get(this.chosenLine)?.path.classList.remove('chosen');
+    this.chosenLine = id;
+    if (id) this.lines.get(id)?.path.classList.add('chosen');
   }
   frames = new Map<string, { rect: SVGRectElement; title: SVGTextElement }>();
   /** A dashed frame around every group that a connection reaches or that has a title (v0.26.0), so the group reads as one node; the title sits above the frame's top-left corner. Frames are patched in place and removed when the group has neither. */

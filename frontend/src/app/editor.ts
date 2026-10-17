@@ -204,6 +204,7 @@ export function setSelection(ids: string[]) {
   selection.clear();
   ids.forEach(id => selection.add(id));
   S.chosenConnection = null;
+  scene.chooseLine(null);
   scene.selection(selection);
   updateInspector();
   updateOutline();

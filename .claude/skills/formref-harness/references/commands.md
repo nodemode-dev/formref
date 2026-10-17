@@ -2,7 +2,7 @@
 
 Written by `./formref agents sync` from the command catalogue the FormRef window publishes; do not edit by hand. Run a command with the MCP tools `run_command` or `run_commands` (the window must be open). `window-only` commands are refused for outside agents; `risky` commands ask the person first.
 
-212 commands.
+220 commands.
 
 ## Canvas
 
@@ -171,6 +171,13 @@ Written by `./formref agents sync` from the command catalogue the FormRef window
 | --- | --- | --- | --- | --- |
 | `align` | Align |  | changes the board | Aligns the selected items by the edge or centre chosen in the inspector. |
 | `connect-selected` | Connect Selected | `mod+shift+l` | changes the board | Connects the selected references and groups in reading order, top to bottom and left to right: two of them with one line, more as a chain. A group counts as one node when all of its items are selected. Pairs already connected are skipped. One undo step. |
+| `connection-arrow-both` | Arrows at Both Ends |  | changes the board | Puts arrowheads at both ends of the chosen connection, or of every connection touching the selection. One undo step. |
+| `connection-arrow-end` | Arrow at End |  | changes the board | Puts an arrowhead at the end of the chosen connection, or of every connection touching the selection: the end is where the connection was drawn to. One undo step. |
+| `connection-arrow-none` | No Arrowheads |  | changes the board | Removes the arrowheads from the chosen connection, or from every connection touching the selection. One undo step. |
+| `connection-arrow-start` | Arrow at Start |  | changes the board | Puts an arrowhead at the start of the chosen connection, or of every connection touching the selection: the start is where the connection was drawn from. One undo step. |
+| `connection-line-dashed` | Dashed Line |  | changes the board | Draws the chosen connection, or every connection touching the selection, as a dashed line. One undo step. |
+| `connection-line-dotted` | Dotted Line |  | changes the board | Draws the chosen connection, or every connection touching the selection, as a dotted line. One undo step. |
+| `connection-line-solid` | Solid Line |  | changes the board | Draws the chosen connection, or every connection touching the selection, as a solid line. One undo step. |
 | `copy-to-board` | Copy Selection to New Board |  | changes the board | Copies the selected items, their column children and the connections between them onto a new board, opened in a new tab; this board is unchanged. Parameters: `title` (string): title of the new board; default "<board> selection". |
 | `disconnect-selected` | Remove Connections |  | changes the board | Removes every connection that touches the selected references or groups. One undo step. |
 | `distribute-x` | Space Horizontally |  | changes the board | Spaces the selected items evenly from left to right. |
@@ -178,6 +185,7 @@ Written by `./formref agents sync` from the command catalogue the FormRef window
 | `group` | Group Selected | `mod+g` | changes the board | Groups the selected items so they select and move together. |
 | `hide-selected` | Hide Selected | `mod+3` | changes the board | Hides the selected items; they stay on the board and come back with Show All. |
 | `isolate-selected` | Isolate Selected |  | changes the board | Hides everything except the selection (and the items inside selected columns) so a big board can be worked on piece by piece; Show All restores the rest. |
+| `label-connection` | Label Connection… |  | changes the board, window-only | Asks for a label for the chosen connection and shows it at the middle of the line; an empty label removes it. |
 | `lock-drops` | Lock Against Drops |  | changes the board | Stops items dragged onto the selected columns from joining them; items already inside stay, and can still be dragged out. |
 | `move-to-board` | Move Selection to New Board |  | changes the board | Moves the selected items, their column children and the connections between them onto a new board, opened in a new tab; they leave this board through the Trash, and Undo here brings them back. Parameters: `title` (string): title of the new board; default "<board> selection". |
 | `name-group` | Name Group… |  | changes the board | Gives the selected group a title shown above a dashed frame around it (the frame also marks groups that have connections); an empty title removes it. The title goes when the group is ungrouped. One undo step. Parameters: `group_id` (string): the group id; the selected group when left out; `title` (string): the title; empty removes it; leave out to be asked. |

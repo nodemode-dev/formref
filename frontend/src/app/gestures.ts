@@ -3,7 +3,7 @@ import { newItem, uid } from '../lib/types';
 import { itemBounds } from '../lib/geometry';
 import { ContextMenu } from '../ui/context-menu';
 import {
-  $, S, applyState, colorPicker, descendants, execute, expanded, fit, inputDialog, matches, open, openEditor,
+  $, S, applyState, colorPicker, descendants, execute, expanded, fit, matches, open, openEditor,
   scene, selected, selection, setSelection, setText, setTool, stage, topZ, upload, worldPoint, stagePoint, zoom, drawCamera,
   rememberCamera, toast, defaultSettings, error,
 } from './editor';
@@ -11,6 +11,7 @@ import type { Gesture } from './editor';
 import { isEnabled } from './commands';
 import { commandForKey } from './keys';
 import { boardMenu } from './menu';
+import { chooseConnection, connectionMenu, labelConnection } from './connection-style';
 import { captureUrl, droppedUrl, webUrl } from './capture';
 import { smartAdjust } from './smart-guides';
 import { pencilItem } from './pencil';
@@ -83,8 +84,8 @@ stage.addEventListener('pointerdown', event => {
   if (S.tool === 'sample') { event.preventDefault(); colorPicker.pick(item, p, element); return; }
   if (connection) {
     setSelection([]);
-    S.chosenConnection = connection.dataset.connection || null;
-    toast('Connection selected. Press Delete to remove; double-click to label.');
+    if (connection.dataset.connection) chooseConnection(connection.dataset.connection);
+    toast('Connection selected. Press Delete to remove, double-click to label, right-click for line and arrow styles.');
     return;
   }
   if (S.tool === 'connect' && item) {
@@ -292,6 +293,13 @@ stage.addEventListener('contextmenu', event => {
   event.preventDefault();
   if (!S.state) return;
   S.pointer = worldPoint(event);
+  const line = (event.target as Element).closest<SVGPathElement>('[data-connection]');
+  if (line?.dataset.connection) {
+    setSelection([]);
+    chooseConnection(line.dataset.connection);
+    menu.show(connectionMenu(), event.clientX, event.clientY);
+    return;
+  }
   const element = (event.target as HTMLElement).closest<HTMLElement>('.board-item');
   const item = S.state.board.items.find(i => i.id === element?.dataset.id);
   if (item && !selection.has(item.id)) setSelection(expanded([item]));
@@ -305,12 +313,7 @@ stage.addEventListener('dblclick', event => {
   const item = S.state?.board.items.find(i => i.id === element?.dataset.id);
   const connection = (event.target as Element).closest<SVGPathElement>('[data-connection]');
   if (connection && S.state) {
-    const record = S.state.board.connections.find(c => c.id === connection.dataset.connection);
-    if (record) {
-      void inputDialog('Label connection', { name: record.label, submit: 'Save' }).then(form => {
-        if (form) return execute({ type: 'batch', commands: [{ type: 'disconnect', ids: [record.id] }, { type: 'connect', connection: { ...record, label: form.name } }] });
-      });
-    }
+    if (connection.dataset.connection) labelConnection(connection.dataset.connection);
     return;
   }
   if (!item || S.tool === 'sample') return;

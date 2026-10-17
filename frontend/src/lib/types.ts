@@ -6,7 +6,7 @@ export interface Item {
   group_id: string | null; parent_id: string | null; title: string; text: string;
   color: string; asset_id: string | null; url: string; data: Record<string, unknown>;
 }
-export interface Connection { id: string; from: string; to: string; label: string; color: string }
+export interface Connection { id: string; from: string; to: string; label: string; color: string; line?: '' | 'dashed' | 'dotted'; arrow?: '' | 'end' | 'start' | 'both' }
 export interface Viewport { x: number; y: number; zoom: number }
 export interface Label { id: string; name: string; color: string }
 export interface WindowLayout { x: number; y: number; width: number; height: number; always_on_top: boolean; opacity: number }

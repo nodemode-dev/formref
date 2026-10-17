@@ -317,3 +317,11 @@
 .filter-row .similar-find [data-icon], .filter-row .similar-find svg { width: 14px; height: 14px; }
 .filter-row.has-similar .similar-find { background: var(--similar-thumb) center / cover no-repeat; box-shadow: 0 0 0 1px var(--bg-primary), 0 0 0 2px var(--accent-line); }
 .filter-row.has-similar .similar-find [data-icon] { visibility: hidden; }
+/* Connection styles: dashed and dotted lines, arrowheads drawn as their own filled path, and a heavier stroke on the chosen connection. */
+.connection[data-line=dashed] { stroke-dasharray: 8 6; }
+.connection[data-line=dotted] { stroke-dasharray: 0 6; stroke-linecap: round; stroke-width: 2.5; }
+.connection.chosen { stroke-width: 4; }
+.connection-head { pointer-events: none; }
+/* A wide invisible twin of each line takes the clicks, so dashed and dotted lines are as easy to hit as solid ones. */
+#connections .connection { pointer-events: none; }
+.connection-hit { fill: none; stroke: transparent; stroke-width: 14; pointer-events: stroke; cursor: pointer; }
