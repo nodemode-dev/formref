@@ -173,6 +173,32 @@ impl BoardSettings {
     }
 }
 
+/// A connection endpoint naming a whole group rather than one item: "group:" and the group id. An item whose id is exactly the endpoint still wins, so older boards read the same.
+pub const GROUP_ENDPOINT: &str = "group:";
+
+pub fn group_endpoint(endpoint: &str) -> Option<&str> {
+    endpoint.strip_prefix(GROUP_ENDPOINT).filter(|group| !group.is_empty())
+}
+
+impl Board {
+    /// The item indices an endpoint stands for: the item with that id, otherwise every member of the named group.
+    pub fn endpoint_members(&self, endpoint: &str) -> Vec<usize> {
+        if let Some(index) = self.items.iter().position(|item| item.id == endpoint) { return vec![index]; }
+        match group_endpoint(endpoint) {
+            Some(group) => self.items.iter().enumerate().filter(|(_, item)| item.group_id.as_deref() == Some(group)).map(|(index, _)| index).collect(),
+            None => Vec::new(),
+        }
+    }
+
+    /// Connections to a group go when the group does (ungrouped, regrouped or all its items removed).
+    pub fn prune_group_connections(&mut self) {
+        let groups: HashSet<String> = self.items.iter().filter_map(|item| item.group_id.clone()).collect();
+        let ids: HashSet<String> = self.items.iter().map(|item| item.id.clone()).collect();
+        let alive = |endpoint: &str| ids.contains(endpoint) || group_endpoint(endpoint).map_or(true, |group| groups.contains(group));
+        self.connections.retain(|connection| alive(&connection.from) && alive(&connection.to));
+    }
+}
+
 /// data.labels on an item: at most 12 ids, each defined in the board's settings.labels.
 pub fn item_labels(data: &Map<String, Value>, defined: &std::collections::HashSet<&str>) -> EngineResult<()> {
     let Some(value) = data.get("labels") else { return Ok(()) };
@@ -554,6 +580,8 @@ impl Board {
                 }
             }
         }
+        let groups: HashSet<&str> = self.items.iter().filter_map(|item| item.group_id.as_deref()).collect();
+        let exists = |endpoint: &str| ids.contains(endpoint) || group_endpoint(endpoint).is_some_and(|group| groups.contains(group));
         let mut connections = HashSet::new();
         for connection in &self.connections {
             identifier(&connection.id, "connection.id")?;
@@ -564,8 +592,8 @@ impl Board {
             validate_json(&Value::Object(connection.extra.clone()), 0, &mut nodes)?;
             if !connections.insert(&connection.id) { return Err(EngineError::invalid("duplicate connection identifier")); }
             if connection.from == connection.to { return Err(EngineError::invalid("a connection needs two different items")); }
-            if !ids.contains(connection.from.as_str()) || !ids.contains(connection.to.as_str()) {
-                return Err(EngineError::invalid("connection endpoint references a missing item"));
+            if !exists(&connection.from) || !exists(&connection.to) {
+                return Err(EngineError::invalid("connection endpoint references a missing item or group"));
             }
         }
         let size = serde_json::to_vec(self).map_err(|e| EngineError::invalid(e.to_string()))?.len();

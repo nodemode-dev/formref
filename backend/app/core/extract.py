@@ -2,6 +2,7 @@
 import copy
 
 from .store import MissingBoard, store
+from .endpoints import present
 
 
 def extract_board(board_id: str, ids: list, title: str = "", move: bool = False) -> dict:
@@ -29,7 +30,8 @@ def extract_board(board_id: str, ids: list, title: str = "", move: bool = False)
         item["y"] -= top - 80
         if item.get("parent_id") not in chosen:
             item["parent_id"] = None
-    connections = [copy.deepcopy(c) for c in source.get("connections", []) if c.get("from") in chosen and c.get("to") in chosen]
+    groups = {item["group_id"] for item in items if item.get("group_id")}
+    connections = [copy.deepcopy(c) for c in source.get("connections", []) if present(c.get("from"), chosen, groups) and present(c.get("to"), chosen, groups)]
     board = copy.deepcopy(source)
     board.update(title=(title.strip() or f"{source['title']} selection")[:200], items=items, connections=connections, viewport={"x": 0, "y": 0, "zoom": 1})
     settings = board.get("settings")

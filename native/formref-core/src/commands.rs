@@ -211,7 +211,16 @@ fn apply_inner(board: &mut Board, command: &Value, source: &mut IdSource, depth:
         "sort" => arrange::sort(board, command)?,
         "connect" => {
             let mut connection: Connection = decode(field(command, "connection")?.clone())?;
-            let indices = geometry::selected(board, &[connection.from.clone(), connection.to.clone()])?;
+            // Either end may be one item or a whole group ("group:" and its id), so groups connect like single nodes.
+            let mut indices = Vec::new();
+            for endpoint in [&connection.from, &connection.to] {
+                let members = board.endpoint_members(endpoint);
+                if members.is_empty() { return Err(EngineError::new("item_not_found", format!("{endpoint} is not an item or group on this board"))); }
+                indices.extend(members);
+            }
+            if connection.from == connection.to || board.endpoint_members(&connection.from).iter().any(|i| board.endpoint_members(&connection.to).contains(i)) {
+                return Err(EngineError::invalid("a connection needs two different items or groups that do not overlap"));
+            }
             geometry::require_unlocked(board, &indices)?;
             let mut occupied = all_identifiers(board);
             if connection.id.is_empty() {
@@ -233,7 +242,7 @@ fn apply_inner(board: &mut Board, command: &Value, source: &mut IdSource, depth:
                 endpoints.insert(connection.from.clone());
                 endpoints.insert(connection.to.clone());
             }
-            let indices = geometry::selected(board, &endpoints.into_iter().collect::<Vec<_>>())?;
+            let indices: Vec<usize> = endpoints.iter().flat_map(|endpoint| board.endpoint_members(endpoint)).collect();
             geometry::require_unlocked(board, &indices)?;
             board.connections.retain(|connection| !seen.contains(&connection.id));
         }
@@ -269,6 +278,7 @@ fn apply_inner(board: &mut Board, command: &Value, source: &mut IdSource, depth:
         }
         _ => return Err(EngineError::new("unknown_command", format!("unknown command type {kind}"))),
     }
+    board.prune_group_connections();
     board.validate()?;
     Ok(())
 }

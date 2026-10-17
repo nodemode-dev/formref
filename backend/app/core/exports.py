@@ -15,6 +15,7 @@ from .media import original_image
 from .sampling import crop_bounds, color_values
 from .reference_text import parse_text, layout_text, markdown_source
 from .xmp_write import with_tags
+from .endpoints import anchors as endpoint_anchors, box as endpoint_box, group_of, title as endpoint_title
 
 SVG_NS = "http://www.w3.org/2000/svg"
 ET.register_namespace("", SVG_NS)
@@ -258,13 +259,18 @@ def png_export(board):
     width, height = max(1, round(world_width * scale)), max(1, round(world_height * scale))
     canvas = Image.new("RGBA", (width, height), color(board.get("background"), "#1c1b1d"))
     draw = ImageDraw.Draw(canvas)
-    by_id = {item["id"]: item for item in board["items"]}
+    framed = set()
     for connection in board.get("connections", []):
-        source, target = by_id.get(connection["from"]), by_id.get(connection["to"])
+        source, target = endpoint_box(board["items"], connection["from"]), endpoint_box(board["items"], connection["to"])
         if not source or not target or source.get("hidden") or target.get("hidden"):
             continue
-        a = ((source["x"] + source["width"] / 2 - left) * scale, (source["y"] + source["height"] / 2 - top) * scale)
-        b = ((target["x"] + target["width"] / 2 - left) * scale, (target["y"] + target["height"] / 2 - top) * scale)
+        for end, frame in ((connection["from"], source), (connection["to"], target)):
+            if group_of(end) and end not in framed:
+                framed.add(end)
+                draw.rounded_rectangle(((frame["x"] - 12 - left) * scale, (frame["y"] - 12 - top) * scale, (frame["x"] + frame["width"] + 12 - left) * scale, (frame["y"] + frame["height"] + 12 - top) * scale), radius=max(1, round(12 * scale)), outline="#8c8a90", width=max(1, round(1.5 * scale)))
+        sx, sy, tx, ty = endpoint_anchors(source, target)
+        a = ((sx - left) * scale, (sy - top) * scale)
+        b = ((tx - left) * scale, (ty - top) * scale)
         midpoint_x = (a[0] + b[0]) / 2
         steps = max(8, min(4096, math.ceil((abs(b[0] - a[0]) + abs(b[1] - a[1])) / 2)))
         curve = []
@@ -331,13 +337,18 @@ def svg_export(board, picture=png_data_uri):
     root = ET.Element("{" + SVG_NS + "}svg", {"width": str(width), "height": str(height), "viewBox": f"{left} {top} {width} {height}"})
     svg_element(root, "title", text=board["title"])
     svg_element(root, "rect", {"x": left, "y": top, "width": width, "height": height, "fill": color(board.get("background"), "#1c1b1d")})
-    by_id = {item["id"]: item for item in board["items"]}
+    framed = set()
     for connection in board.get("connections", []):
-        source, target = by_id.get(connection["from"]), by_id.get(connection["to"])
+        source, target = endpoint_box(board["items"], connection["from"]), endpoint_box(board["items"], connection["to"])
         if not source or not target or source.get("hidden") or target.get("hidden"):
             continue
-        ax, ay = source["x"] + source["width"] / 2, source["y"] + source["height"] / 2
-        bx, by = target["x"] + target["width"] / 2, target["y"] + target["height"] / 2
+        for end in (connection["from"], connection["to"]):
+            # A connected group gets the dashed frame the window draws, so it reads as one node in the picture too.
+            if group_of(end) and end not in framed:
+                framed.add(end)
+                frame = source if end == connection["from"] else target
+                svg_element(root, "rect", {"x": frame["x"] - 12, "y": frame["y"] - 12, "width": frame["width"] + 24, "height": frame["height"] + 24, "rx": 12, "fill": "none", "stroke": "#8c8a90", "stroke-width": 1.5, "stroke-dasharray": "6 5"})
+        ax, ay, bx, by = endpoint_anchors(source, target)
         svg_element(root, "path", {"d": f"M{ax},{ay} C{(ax + bx) / 2},{ay} {(ax + bx) / 2},{by} {bx},{by}", "fill": "none", "stroke": color(connection.get("color"), "#f97316"), "stroke-width": 2})
         if connection.get("label"):
             svg_element(root, "text", {"x": (ax + bx) / 2, "y": (ay + by) / 2 - 8, "fill": "#a4a4a4", "font-size": 11, "font-family": "sans-serif", "stroke": color(board.get("background"), "#1c1b1d"), "stroke-width": 5, "paint-order": "stroke"}, connection["label"])
@@ -612,9 +623,8 @@ def markdown_export(board):
             lines.extend(["Tags: " + markdown_source(", ".join(tags), "plain"), ""])
     if board.get("connections"):
         lines.extend(["## Connections", ""])
-        titles = {item["id"]: item.get("title") or item["kind"] for item in board["items"]}
         for connection in board["connections"]:
-            lines.append("- " + titles.get(connection["from"], "Item") + " -> " + titles.get(connection["to"], "Item") + (": " + connection["label"] if connection.get("label") else ""))
+            lines.append("- " + endpoint_title(board["items"], connection["from"]) + " -> " + endpoint_title(board["items"], connection["to"]) + (": " + connection["label"] if connection.get("label") else ""))
     return "\n".join(lines).encode("utf-8")
 
 def export_board(state, format, paper="a4"):

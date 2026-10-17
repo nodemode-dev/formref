@@ -492,7 +492,7 @@ async def search_items(query: str, board_id: str = "", kind: str = "") -> list[d
 
 @mcp.tool(annotations=_write)
 async def connect_items(board_id: str, from_id: str, to_id: str, label: str = "", color: str = "#f97316") -> dict:
-    """Create an undoable connector between two existing item IDs."""
+    """Create an undoable connector between two existing item IDs. Either end may be a whole group instead: pass "group:" followed by the group_id that its items share, and the group connects like one node (the window frames it); the connector goes when the group is ungrouped or emptied."""
     return await command(board_id, {"type": "connect", "connection": {"id": uuid.uuid4().hex, "from": from_id, "to": to_id, "label": label, "color": color}})
 
 @mcp.resource("formref://boards")

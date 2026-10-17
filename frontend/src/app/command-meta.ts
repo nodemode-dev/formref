@@ -49,7 +49,7 @@ export const COMMAND_WORDS: Readonly<Record<string, string>> = {
   'tool-rect': 'Switches to the rectangle tool for annotation boxes.',
   'tool-circle': 'Switches to the ellipse tool for annotation circles.',
   'tool-line': 'Switches to the line tool for annotation lines and arrows.',
-  'tool-connect': 'Switches to the connect tool: click two items to draw a connection between them.',
+  'tool-connect': 'Switches to the connect tool: click two items to draw a connection between them. Clicking a grouped item connects its whole group (drawn with a dashed frame), so groups connect like single nodes; Alt-click connects just that item. Agents connect a group with the endpoint "group:" followed by the group id.',
   'toggle-grid': 'Shows or hides the background grid for this board.',
   'grayscale-canvas': 'Shows the whole board in grayscale to judge values; pictures and exports are unchanged.',
   background: 'Asks for a board background colour.',

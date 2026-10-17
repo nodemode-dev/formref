@@ -88,14 +88,17 @@ stage.addEventListener('pointerdown', event => {
     return;
   }
   if (S.tool === 'connect' && item) {
+    // A grouped item stands for its whole group, so groups connect like single nodes; Alt connects just the item.
+    const end = item.group_id && !event.altKey ? `group:${item.group_id}` : item.id;
+    const members = end === item.id ? [item.id] : S.state.board.items.filter(i => i.group_id === item.group_id).map(i => i.id);
     if (!S.connectionStart) {
-      S.connectionStart = item.id;
-      setSelection([item.id]);
-      setText('tool-status', 'Click the destination reference');
-    } else if (S.connectionStart !== item.id) {
+      S.connectionStart = end;
+      setSelection(members);
+      setText('tool-status', end === item.id ? 'Click the destination reference' : 'Click the destination reference or group');
+    } else if (S.connectionStart !== end) {
       const from = S.connectionStart;
       S.connectionStart = null;
-      void execute({ type: 'connect', connection: { id: uid(), from, to: item.id, color: '#f97316', label: '' } });
+      void execute({ type: 'connect', connection: { id: uid(), from, to: end, color: '#f97316', label: '' } });
       setText('tool-status', 'Click two references to connect them');
     }
     return;

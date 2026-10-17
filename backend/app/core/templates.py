@@ -7,6 +7,7 @@ import uuid
 
 from .config import settings
 from .store import store
+from .endpoints import remap
 
 PAPER = "#f5e6a8"
 FRAME = "#8d8794"
@@ -124,8 +125,9 @@ def fresh_ids(items: list, connections: list):
         entry.get("data", {}).pop("comments", None)
     links = []
     for link in connections:
-        if link["from"] in mapping and link["to"] in mapping:
-            links.append({**link, "id": uuid.uuid4().hex, "from": mapping[link["from"]], "to": mapping[link["to"]]})
+        start, end = remap(link["from"], mapping, groups), remap(link["to"], mapping, groups)
+        if start and end:
+            links.append({**link, "id": uuid.uuid4().hex, "from": start, "to": end})
     return items, links
 
 

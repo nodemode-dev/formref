@@ -15,6 +15,7 @@ from PIL import Image
 from .config import settings
 from .engine import broker, EngineError
 from .keywords import embedded_keywords, embedded_rating
+from .endpoints import present as endpoint_present, remap as remap_endpoint
 
 ID_PATTERN = re.compile(r"^[A-Za-z0-9_-]{1,96}$")
 ASSET_PATTERN = re.compile(r"^[0-9a-f]{64}$")
@@ -201,8 +202,8 @@ class BoardStore:
                     item["group_id"] = groups[item["group_id"]]
             for connection in board["connections"]:
                 connection["id"] = uuid.uuid4().hex
-                connection["from"] = mapping[connection["from"]]
-                connection["to"] = mapping[connection["to"]]
+                connection["from"] = remap_endpoint(connection["from"], mapping, groups)
+                connection["to"] = remap_endpoint(connection["to"], mapping, groups)
             return self.open_import(board, state.get("import_report"))
 
     def delete(self, board_id: str):
@@ -317,7 +318,8 @@ class BoardStore:
                 if item.get("parent_id") and item["parent_id"] not in ids:
                     item["parent_id"] = None
             links = {link["id"] for link in board.get("connections", [])}
-            commands = [{"type": "add", "items": items}] + [{"type": "connect", "connection": link} for link in entry["connections"] if link["id"] not in links and link["from"] in ids and link["to"] in ids]
+            groups = {item["group_id"] for item in board["items"] + items if item.get("group_id")}
+            commands = [{"type": "add", "items": items}] + [{"type": "connect", "connection": link} for link in entry["connections"] if link["id"] not in links and endpoint_present(link["from"], ids, groups) and endpoint_present(link["to"], ids, groups)]
             state = self.mutate(board_id, {"type": "batch", "commands": commands})
             self.save_trashed_items(board_id, [e for e in self.trashed_items(board_id) if e["id"] != entry_id])
             return state

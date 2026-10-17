@@ -122,6 +122,33 @@ class ItemNode {
   }
 }
 const LABELS = new Map<string, Label>();
+
+/** A connection end may be one item or a whole group ("group:" and the group id); a group's box covers its visible members. */
+export const GROUP_ENDPOINT = 'group:';
+interface EndBox { x: number; y: number; width: number; height: number; hidden: boolean; group?: boolean }
+
+/** Line ends: an item's centre, as before; a group's end sits on the side of its frame facing the other end, where the curve's flat tangent leaves it, so no stub crosses the gaps between grouped items. */
+const FRAME_PAD = 12;
+function anchors(from: EndBox, to: EndBox): [number, number, number, number] {
+  const fx = from.x + from.width / 2, tx = to.x + to.width / 2;
+  const side = (box: EndBox, centre: number, other: number) => (box.group ? (other >= centre ? box.x + box.width + FRAME_PAD : box.x - FRAME_PAD) : centre);
+  return [side(from, fx, tx), from.y + from.height / 2, side(to, tx, fx), to.y + to.height / 2];
+}
+function endpoints(board: Board): (endpoint: string) => EndBox | undefined {
+  const items = new Map(board.items.map(item => [item.id, item]));
+  const groups = new Map<string, EndBox>();
+  for (const item of board.items) {
+    if (!item.group_id) continue;
+    const key = GROUP_ENDPOINT + item.group_id;
+    const box = groups.get(key);
+    if (item.hidden) { if (!box) groups.set(key, { x: item.x, y: item.y, width: 0, height: 0, hidden: true, group: true }); continue; }
+    if (!box || box.hidden) { groups.set(key, { x: item.x, y: item.y, width: item.width, height: item.height, hidden: false, group: true }); continue; }
+    const right = Math.max(box.x + box.width, item.x + item.width), bottom = Math.max(box.y + box.height, item.y + item.height);
+    box.x = Math.min(box.x, item.x); box.y = Math.min(box.y, item.y); box.width = right - box.x; box.height = bottom - box.y;
+  }
+  return endpoint => items.get(endpoint) || groups.get(endpoint);
+}
+
 export class Scene {
   nodes = new Map<string, ItemNode>(); lines = new Map<string, { path: SVGPathElement; label: SVGTextElement }>(); mini = new Map<string, SVGRectElement>(); miniView = svg('rect');
   constructor(readonly container: HTMLElement, readonly connections: SVGSVGElement, readonly navigator: SVGSVGElement, readonly hooks: SceneHooks) { this.miniView.classList.add('navigator-view'); navigator.append(this.miniView); }
@@ -131,8 +158,26 @@ export class Scene {
     for (const item of board.items) { let node = this.nodes.get(item.id); if (!node) { node = new ItemNode(item.id, this.hooks); this.nodes.set(item.id, node); this.container.append(node.root); } node.update(item, selection.has(item.id), matches(item)); }
     const ordered = board.items.map((item, index) => ({ item, index })).sort((a, b) => a.item.z - b.item.z || a.index - b.index); let next = this.container.firstElementChild; for (const { item } of ordered) { const root = this.nodes.get(item.id)!.root; if (next === root) next = next.nextElementSibling; else this.container.insertBefore(root, next); }
     const connectionIds = new Set(board.connections.map(c => c.id)); for (const [id, line] of this.lines) if (!connectionIds.has(id)) { line.path.remove(); line.label.remove(); this.lines.delete(id); }
-    const items = new Map(board.items.map(i => [i.id, i]));
-    for (const connection of board.connections) { let line = this.lines.get(connection.id); if (!line) { const path = svg('path'); path.classList.add('connection'); path.dataset.connection = connection.id; const label = svg('text'); label.classList.add('connection-label'); line = { path, label }; this.lines.set(connection.id, line); this.connections.append(path, label); } const from = items.get(connection.from), to = items.get(connection.to); if (!from || !to) continue; const x1 = from.x + from.width / 2, y1 = from.y + from.height / 2, x2 = to.x + to.width / 2, y2 = to.y + to.height / 2; line.path.setAttribute('d', `M${x1},${y1} C${(x1 + x2) / 2},${y1} ${(x1 + x2) / 2},${y2} ${x2},${y2}`); line.path.setAttribute('stroke', connection.color || 'var(--accent-color)'); line.path.style.display = from.hidden || to.hidden ? 'none' : ''; line.label.setAttribute('x', String((x1 + x2) / 2)); line.label.setAttribute('y', String((y1 + y2) / 2 - 8)); text(line.label, connection.label); }
+    const ends = endpoints(board);
+    this.paintGroupFrames(board, ends);
+    for (const connection of board.connections) { let line = this.lines.get(connection.id); if (!line) { const path = svg('path'); path.classList.add('connection'); path.dataset.connection = connection.id; const label = svg('text'); label.classList.add('connection-label'); line = { path, label }; this.lines.set(connection.id, line); this.connections.append(path, label); } const from = ends(connection.from), to = ends(connection.to); if (!from || !to) continue; const [x1, y1, x2, y2] = anchors(from, to); line.path.setAttribute('d', `M${x1},${y1} C${(x1 + x2) / 2},${y1} ${(x1 + x2) / 2},${y2} ${x2},${y2}`); line.path.setAttribute('stroke', connection.color || 'var(--accent-color)'); line.path.style.display = from.hidden || to.hidden ? 'none' : ''; line.label.setAttribute('x', String((x1 + x2) / 2)); line.label.setAttribute('y', String((y1 + y2) / 2 - 8)); text(line.label, connection.label); }
+  }
+  frames = new Map<string, SVGRectElement>();
+  /** A dashed frame around every group that a connection reaches, so the group reads as one node; frames are patched in place and removed when the group has no connections left. */
+  paintGroupFrames(board: Board, ends: (endpoint: string) => EndBox | undefined) {
+    const used = new Set<string>();
+    for (const connection of board.connections) for (const endpoint of [connection.from, connection.to]) if (endpoint.startsWith(GROUP_ENDPOINT) && !board.items.some(item => item.id === endpoint)) used.add(endpoint);
+    for (const [endpoint, frame] of this.frames) if (!used.has(endpoint)) { frame.remove(); this.frames.delete(endpoint); }
+    for (const endpoint of used) {
+      const box = ends(endpoint);
+      let frame = this.frames.get(endpoint);
+      if (!frame) { frame = svg('rect') as SVGRectElement; frame.classList.add('group-frame'); frame.dataset.group = endpoint.slice(GROUP_ENDPOINT.length); this.frames.set(endpoint, frame); this.connections.prepend(frame); }
+      if (!box) { frame.style.display = 'none'; continue; }
+      const pad = FRAME_PAD, values: [string, string][] = [['x', String(box.x - pad)], ['y', String(box.y - pad)], ['width', String(box.width + pad * 2)], ['height', String(box.height + pad * 2)]];
+      for (const [name, value] of values) if (frame.getAttribute(name) !== value) frame.setAttribute(name, value);
+      const display = box.hidden ? 'none' : '';
+      if (frame.style.display !== display) frame.style.display = display;
+    }
   }
   /** Called when the zoom changes: image references that now need more pixels load a larger preview (never a smaller one). */
   detail(zoom: number, view?: { x: number; y: number; w: number; h: number }) {
