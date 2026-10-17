@@ -8,6 +8,7 @@
 
 ## Contents
 
+- [v0.31.0 · Collapsed groups follow their groups](#v0310--collapsed-groups-follow-their-groups)
 - [v0.30.0 · Connection routes in exports](#v0300--connection-routes-in-exports)
 - [v0.28.0 · Connection styles in exports](#v0280--connection-styles-in-exports)
 - [v0.25.0 · Group connections](#v0250--group-connections)
@@ -37,6 +38,14 @@
 - [v0.2.0 · Canvas settings and snapping through MCP](#v020--canvas-settings-and-snapping-through-mcp)
 - [v0.1.0 · Local board service and SDK MCP](#v010--local-board-service-and-sdk-mcp)
 - [boot_backend.bat](#boot_backendbat)
+
+## v0.31.0 · Collapsed groups follow their groups
+
+`core/endpoints.py` gained two helpers that handle every per-group setting together, so a future one is added in one place:
+- `remap_group_settings(settings, groups)` moves titles and `collapsed_groups` to new group ids. Board duplicate (`store.py`) and templates (`templates.py`) use it.
+- `keep_group_settings(settings, items)` keeps only the groups still present. Copy or move to a new board (`extract.py`) uses it.
+
+The old title-only calls at those three sites were replaced. Exports ignore `collapsed_groups` on purpose: a collapsed card is a window view, and an export should show the work. `mcp_server.arrange_items` accepts `collapse_group` with group_id and collapsed, without ids. Checked by duplicating a board with a collapsed group: the copy lists the copy's new group id.
 
 ## v0.30.0 · Connection routes in exports
 

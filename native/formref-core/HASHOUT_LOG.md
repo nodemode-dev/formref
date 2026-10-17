@@ -70,6 +70,11 @@ v0.29.0: `style_connections` also takes `reverse`, a boolean that swaps `from` a
 
 v0.30.0 added `Connection.route` (`CONNECTION_ROUTES`: empty, straight, elbow), with the same treatment as `line`: a typed field, skipped while empty, refused when unknown, and settable through `style_connections`. Checked through the API: zigzag is refused, elbow applies, and undo clears it.
 
+v0.31.0 added `BoardSettings.collapsed_groups`, a `BTreeSet` of group ids: sorted, unique, at most 500, and skipped while empty.
+- `collapse_group` takes group_id and a boolean collapsed. It needs a group with items, but no unlocked members, because collapsing is a view state and moves nothing.
+- `prune_group_connections` drops ids of groups that are gone, as it does for titles.
+- Checked through the API: an unknown group and a non-boolean are refused, and a locked member does not block it. Ungrouping removes the entry, undo restores it, and expanding clears it.
+
 Probed through the API: group to group, item to group, an overlapping pair and a missing group are refused. Ungroup, removing a group's items and regrouping all its members elsewhere each prune, and undo restores; removing one member keeps the group and its connections.
 
 ## Ratings

@@ -1,5 +1,14 @@
 # FormRef changelog
 
+## v0.31.0 · 2026-10-17
+
+Collapse a group into a stack.
+
+- Collapse Group (Alt+G, Organize in the right-click menu, or the command palette) turns the selected group into one compact card. The card shows the group's top three pictures fanned like a pile, its title (or "Untitled group") and how many items it holds.
+- Click the card to select the group and drag it to move the whole group; the card follows as you drag. Double-click it, or use Expand Group (Alt+Shift+G), to show the items again in place.
+- Connections to the group, or to any item inside it, meet the card while it is collapsed.
+- Collapsing is saved with the board and undoes like any change. It survives duplicating a board, templates, and copying or moving a selection to a new board. Exports still show every item. Agents collapse and expand with the `collapse_group` arrangement.
+
 ## v0.30.0 · 2026-10-17
 
 Straight and elbow connections.

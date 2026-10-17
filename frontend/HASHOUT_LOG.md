@@ -8,6 +8,7 @@
 - [Stacking scale](#stacking-scale)
 - [Verification](#verification)
 - [Scripts](#scripts)
+- [v0.31.0 group stacks](#v0310-group-stacks)
 - [v0.30.0 connection routes](#v0300-connection-routes)
 - [v0.29.0 connection colours](#v0290-connection-colours)
 - [v0.28.0 connection styles](#v0280-connection-styles)
@@ -53,6 +54,31 @@
 - [v0.4.8 desktop window controls and WebKit icons](#v048-desktop-window-controls-and-webkit-icons)
 - [v0.4.7 synced notes, map cards, inline edit commit](#v047-synced-notes-map-cards-inline-edit-commit)
 - [v0.4.6 GIF frames and document export](#v046-gif-frames-and-document-export)
+
+## v0.31.0 group stacks
+
+`ui/scene.ts`:
+- `render` toggles `stacked` (CSS `display: none`) on each member of a group listed in `settings.collapsed_groups`, then calls `paintStacks`.
+- `paintStacks` keeps one card per collapsed group in a `.group-stacks` layer inserted after `#items`. A card is built once and then patched in place:
+  - Position is the visible members' top-left.
+  - `selected` is set when every member is selected.
+  - Three sheets each carry a `data-key`, so a picture or colour is written only when it changes.
+  - The title is the user's (marked `data-no-i18n`) or `t('Untitled group')`. The plain `Group` key already means the verb in the tables.
+  - The count is a number, so it needs no translation.
+- The card is `.board-item` with `data-id` set to the first member. That way the existing pointer code selects the whole group through `expanded()` and drags all members.
+- `preview()` calls `restack()`, which moves the card to the members' live minimum while dragging.
+- `selection()` updates the cards too.
+- The `endpoints()` resolver returns the card box, with side anchors, for a collapsed group end and for any member end.
+- `paintGroupFrames` leaves collapsed groups out.
+
+`app/commands/organize.ts` has `collapse-group` (Alt+G) and `expand-group` (Alt+Shift+G), enabled by the selection's group and its state; both sit after Name Group in the Organize menu. `app/gestures.ts` expands on a double-click of `.group-stack`, before the item double-click handling, because the card stands for a member that may be a note.
+
+Probe: `$SC/ui/stack.cjs` covers English, German and Japanese at 4x CPU on a slow network, with three pictures and a note in a titled group connected to a far note. It checks:
+- Collapsing saves; the card shows the title and a count of 4; three picture sheets show; all members are hidden; no frame is drawn; both lines meet the card.
+- A drag moves every member by the same offset, with the card following mid-drag.
+- The Organize menu toggles correctly.
+- Double-click expands, the frame returns, and the member nodes are the same.
+- An untitled card shows the translated wording, and undo removes the card.
 
 ## v0.30.0 connection routes
 
