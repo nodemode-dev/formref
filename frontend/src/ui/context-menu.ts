@@ -4,7 +4,7 @@ import type { IconName } from './icons';
 export type MenuEntry =
   | { separator: true }
   | { section: string }
-  | { label: string; icon?: IconName; shortcut?: string; disabled?: boolean; checked?: boolean; danger?: boolean; action?: () => void; children?: MenuEntry[] };
+  | { label: string; icon?: IconName; swatch?: string; shortcut?: string; disabled?: boolean; checked?: boolean; danger?: boolean; action?: () => void; children?: MenuEntry[] };
 
 type ActionEntry = Extract<MenuEntry, { label: string }>;
 
@@ -74,7 +74,13 @@ export class ContextMenu {
     button.disabled = !!entry.disabled;
     const glyph = document.createElement('span');
     glyph.className = 'ctx-icon';
-    if (entry.checked) glyph.append(icon('todo'));
+    if (entry.swatch) {
+      // A colour entry shows its colour as a dot; the current colour gets a ring instead of the tick.
+      const dot = document.createElement('span');
+      dot.className = 'ctx-swatch';
+      dot.style.setProperty('--swatch', entry.swatch);
+      glyph.append(dot);
+    } else if (entry.checked) glyph.append(icon('todo'));
     else if (entry.icon) glyph.append(icon(entry.icon));
     const label = document.createElement('span');
     label.className = 'ctx-label';

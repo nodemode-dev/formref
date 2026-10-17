@@ -498,9 +498,11 @@ async def connect_items(board_id: str, from_id: str, to_id: str, label: str = ""
     return await command(board_id, {"type": "connect", "connection": {"id": uuid.uuid4().hex, "from": from_id, "to": to_id, "label": label, "color": color, "line": line, "arrow": arrow}})
 
 @mcp.tool(annotations=_write)
-async def style_connections(board_id: str, ids: list[str], label: str | None = None, color: str | None = None, line: str | None = None, arrow: str | None = None) -> dict:
-    """Change existing connectors in one undoable step; only the fields you pass change. line is "" (solid), "dashed" or "dotted"; arrow is "" (none), "end", "start" or "both"; an empty label removes the label. Connection ids are in get_board under connections."""
+async def style_connections(board_id: str, ids: list[str], label: str | None = None, color: str | None = None, line: str | None = None, arrow: str | None = None, reverse: bool = False) -> dict:
+    """Change existing connectors in one undoable step; only the fields you pass change. line is "" (solid), "dashed" or "dotted"; arrow is "" (none), "end", "start" or "both"; an empty label removes the label; reverse true swaps each connector's from and to, so an end arrow points the other way. Connection ids are in get_board under connections."""
     value: dict = {"type": "style_connections", "ids": ids}
+    if reverse:
+        value["reverse"] = True
     for key, given in (("label", label), ("color", color), ("line", line), ("arrow", arrow)):
         if given is not None:
             value[key] = given

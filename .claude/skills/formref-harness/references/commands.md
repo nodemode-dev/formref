@@ -2,7 +2,7 @@
 
 Written by `./formref agents sync` from the command catalogue the FormRef window publishes; do not edit by hand. Run a command with the MCP tools `run_command` or `run_commands` (the window must be open). `window-only` commands are refused for outside agents; `risky` commands ask the person first.
 
-220 commands.
+229 commands.
 
 ## Canvas
 
@@ -175,6 +175,14 @@ Written by `./formref agents sync` from the command catalogue the FormRef window
 | `connection-arrow-end` | Arrow at End |  | changes the board | Puts an arrowhead at the end of the chosen connection, or of every connection touching the selection: the end is where the connection was drawn to. One undo step. |
 | `connection-arrow-none` | No Arrowheads |  | changes the board | Removes the arrowheads from the chosen connection, or from every connection touching the selection. One undo step. |
 | `connection-arrow-start` | Arrow at Start |  | changes the board | Puts an arrowhead at the start of the chosen connection, or of every connection touching the selection: the start is where the connection was drawn from. One undo step. |
+| `connection-color-blue` | Blue |  | changes the board | Colours the chosen connection, or every connection touching the selection, blue. One undo step. |
+| `connection-color-custom` | Custom Color… |  | changes the board, window-only | Opens the colour picker for the chosen connection, or every connection touching the selection; the picked colour applies in one undo step. |
+| `connection-color-green` | Green |  | changes the board | Colours the chosen connection, or every connection touching the selection, green. One undo step. |
+| `connection-color-grey` | Grey |  | changes the board | Colours the chosen connection, or every connection touching the selection, grey. One undo step. |
+| `connection-color-orange` | Orange |  | changes the board | Colours the chosen connection, or every connection touching the selection, orange (the colour new connections get). One undo step. |
+| `connection-color-purple` | Purple |  | changes the board | Colours the chosen connection, or every connection touching the selection, purple. One undo step. |
+| `connection-color-red` | Red |  | changes the board | Colours the chosen connection, or every connection touching the selection, red. One undo step. |
+| `connection-color-yellow` | Yellow |  | changes the board | Colours the chosen connection, or every connection touching the selection, yellow. One undo step. |
 | `connection-line-dashed` | Dashed Line |  | changes the board | Draws the chosen connection, or every connection touching the selection, as a dashed line. One undo step. |
 | `connection-line-dotted` | Dotted Line |  | changes the board | Draws the chosen connection, or every connection touching the selection, as a dotted line. One undo step. |
 | `connection-line-solid` | Solid Line |  | changes the board | Draws the chosen connection, or every connection touching the selection, as a solid line. One undo step. |
@@ -192,6 +200,7 @@ Written by `./formref agents sync` from the command catalogue the FormRef window
 | `normalize` | Normalize Sizes |  | changes the board | Asks for a target width, height or area and resizes the selected items to it, keeping each aspect ratio. |
 | `normalize-groups` | Normalize Sizes Within Each Group |  | changes the board | Gives the items of each group the same size (the group's median height, width or area) while every group keeps its own scale. Works on the groups in the selection, or every group when nothing is selected. Parameters: `mode` (string): which size to match; default height. |
 | `pack` | Pack | `mod+p` | changes the board | Packs the selection, or every unlocked top-level item when nothing is selected, into tight rows with the pack spacing. |
+| `reverse-connection` | Reverse Direction |  | changes the board | Swaps the start and end of the chosen connection, or of every connection touching the selection, so an arrow at one end points the other way. Enabled when one of them has a single arrowhead. One undo step. |
 | `select-duplicates` | Select Duplicate Images |  | view | Selects the extra copies of every image that appears more than once on the board, the same file or a near-identical copy, leaving the first of each unselected, ready to delete. Parameters: `distance` (integer): how different two pictures may be, 0 identical to 16 loosely alike; default 4. |
 | `show-all` | Show All | `mod+alt+3` | changes the board | Shows every hidden item on the board and selects them. |
 | `snap` | Snap Selection to Grid |  | changes the board | Moves the selected items onto the board grid. |
