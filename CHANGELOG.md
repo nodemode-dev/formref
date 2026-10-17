@@ -1,5 +1,13 @@
 # FormRef changelog
 
+## v0.34.0 · 2026-10-17
+
+Reviewed wording back in.
+
+- `./formref i18n apply <sheet.csv>` takes a reviewer's returned sheet and puts every Better wording into that language's translations. The language comes from the file name, or `--lang`.
+- It refuses, and lists, rows whose English is no longer in the app or whose placeholders were changed; everything else still goes in. `--dry-run` shows the changes without writing them.
+- Sheets saved with semicolons by some spreadsheet apps are read as well.
+
 ## v0.33.0 · 2026-10-17
 
 Translation review pack.

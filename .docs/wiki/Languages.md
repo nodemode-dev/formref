@@ -42,4 +42,12 @@ FormRef's window is available in 26 languages; English is the source text and th
 - The files are UTF-8 with a byte order mark, so Excel, Numbers and Google Sheets show every script.
 - Hand the CSV for one language to a reviewer; their Better wording column goes back into that language's table.
 
+`./formref i18n apply <sheet.csv> [--lang CODE] [--dry-run]` (v0.34.0) brings a returned sheet back in.
+- The language is taken from the file name (`de.csv`) unless `--lang` names it.
+- Every row with Better wording filled in replaces that translation. Rows marked ok, or left empty, change nothing.
+- A row is refused and listed when its English is no longer in the interface, or when its placeholders differ from the English. The exit code is then 1, though the valid rows are still written.
+- `--dry-run` shows every change without writing anything.
+- Sheets saved with semicolons, as some spreadsheet locales do, are read too.
+- Run `./formref i18n check --strict` afterwards and commit the table as an i18n change.
+
 `./formref i18n check [--strict]` runs the coverage check above.

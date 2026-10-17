@@ -501,6 +501,7 @@ Strict TypeScript 7.0.2 compilation and Vite 8.3.4 production bundling passed. A
 | `vite.config.ts` | Loopback-only host false, strict frontend port 5196 and API proxy to 8196 |
 | `scripts/i18n_check.py` | Translation coverage: missing, unused and placeholder errors per table (`./formref i18n check`) |
 | `scripts/i18n_review.py` | Review pack (v0.33.0): one BOM UTF-8 CSV per language plus SUMMARY.md, with where-used places and hint checks; imports `keys()` from `i18n_check.py`, so both see the same strings (`./formref i18n review`) |
+| `scripts/i18n_apply.py` | Reviewed sheet back in (v0.34.0). `csv.Sniffer` handles comma, semicolon or tab. Better wording replaces the translation; stale English or changed placeholders are refused, with exit 1. `--dry-run` writes nothing. The table is written with `indent=1`, scripts kept as written and no trailing newline, like the other tables (`./formref i18n apply`) |
 
 The shell script syntax was checked by the desktop setup owner. Windows scripts are not executed in this Linux environment.
 
