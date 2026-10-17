@@ -412,7 +412,6 @@
  "Connect": "เชื่อมต่อ",
  "Connect References": "เชื่อมต่อรายการอ้างอิง",
  "Connect references": "เชื่อมต่อรายการอ้างอิง",
- "Connect two references · Shift+C": "เชื่อมต่อรายการอ้างอิงสองรายการ · Shift+C",
  "Connect {0} in Preferences, Cloud storage, first.": "เชื่อมต่อ {0} ในค่ากำหนด ที่เก็บข้อมูลบนคลาวด์ ก่อน",
  "Connected": "เชื่อมต่อแล้ว",
  "Connecting": "กำลังเชื่อมต่อ",
@@ -1474,5 +1473,7 @@
  "Portrait pictures": "รูปแนวตั้ง",
  "Landscape pictures": "รูปแนวนอน",
  "Square pictures": "รูปสี่เหลี่ยมจัตุรัส",
- "Sort by Rating": "เรียงตามคะแนน"
+ "Sort by Rating": "เรียงตามคะแนน",
+ "Click the destination reference or group": "คลิกเรฟเฟอเรนซ์หรือกลุ่มปลายทาง",
+ "Connect two references or groups · Shift+C · Alt-click for one item in a group": "เชื่อมเรฟเฟอเรนซ์หรือกลุ่มสองรายการ · Shift+C · Alt+คลิกเพื่อเลือกรายการเดียวในกลุ่ม"
 }

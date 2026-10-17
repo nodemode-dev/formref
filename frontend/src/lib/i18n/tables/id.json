@@ -412,7 +412,6 @@
  "Connect": "Hubungkan",
  "Connect References": "Hubungkan Referensi",
  "Connect references": "Hubungkan referensi",
- "Connect two references · Shift+C": "Hubungkan dua referensi · Shift+C",
  "Connect {0} in Preferences, Cloud storage, first.": "Hubungkan {0} di Preferensi, Penyimpanan cloud, terlebih dahulu.",
  "Connected": "Terhubung",
  "Connecting": "Menghubungkan",
@@ -1474,5 +1473,7 @@
  "Portrait pictures": "Gambar potret",
  "Landscape pictures": "Gambar lanskap",
  "Square pictures": "Gambar persegi",
- "Sort by Rating": "Urutkan menurut Rating"
+ "Sort by Rating": "Urutkan menurut Rating",
+ "Click the destination reference or group": "Klik referensi atau grup tujuan",
+ "Connect two references or groups · Shift+C · Alt-click for one item in a group": "Hubungkan dua referensi atau grup · Shift+C · Alt-klik untuk satu item dalam grup"
 }

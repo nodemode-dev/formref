@@ -412,7 +412,6 @@
  "Connect": "Forbind",
  "Connect References": "Forbind referencer",
  "Connect references": "Forbind referencer",
- "Connect two references · Shift+C": "Forbind to referencer · Shift+C",
  "Connect {0} in Preferences, Cloud storage, first.": "Forbind først {0} i Indstillinger, Cloud-lagring.",
  "Connected": "Forbundet",
  "Connecting": "Forbinder",
@@ -1474,5 +1473,7 @@
  "Portrait pictures": "Billeder på højkant",
  "Landscape pictures": "Billeder på tværs",
  "Square pictures": "Kvadratiske billeder",
- "Sort by Rating": "Sortér efter vurdering"
+ "Sort by Rating": "Sortér efter vurdering",
+ "Click the destination reference or group": "Klik på destinationsreferencen eller -gruppen",
+ "Connect two references or groups · Shift+C · Alt-click for one item in a group": "Forbind to referencer eller grupper · Shift+C · Alt-klik for ét element i en gruppe"
 }

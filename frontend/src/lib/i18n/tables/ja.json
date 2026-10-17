@@ -412,7 +412,6 @@
  "Connect": "接続",
  "Connect References": "リファレンスを接続",
  "Connect references": "リファレンスを接続",
- "Connect two references · Shift+C": "2 つのリファレンスを接続 · Shift+C",
  "Connect {0} in Preferences, Cloud storage, first.": "先に「環境設定」の「クラウドストレージ」で {0} に接続してください。",
  "Connected": "接続済み",
  "Connecting": "接続中",
@@ -1474,5 +1473,7 @@
  "Portrait pictures": "縦長の画像",
  "Landscape pictures": "横長の画像",
  "Square pictures": "正方形の画像",
- "Sort by Rating": "評価で並べ替え"
+ "Sort by Rating": "評価で並べ替え",
+ "Click the destination reference or group": "接続先のリファレンスまたはグループをクリック",
+ "Connect two references or groups · Shift+C · Alt-click for one item in a group": "2 つのリファレンスまたはグループを接続 · Shift+C · グループ内の 1 項目だけなら Alt+クリック"
 }

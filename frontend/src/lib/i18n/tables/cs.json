@@ -412,7 +412,6 @@
  "Connect": "Připojit",
  "Connect References": "Propojit reference",
  "Connect references": "Propojit reference",
- "Connect two references · Shift+C": "Propojit dvě reference · Shift+C",
  "Connect {0} in Preferences, Cloud storage, first.": "Nejprve připojte {0} v Předvolby, Cloudové úložiště.",
  "Connected": "Připojeno",
  "Connecting": "Připojování",
@@ -1474,5 +1473,7 @@
  "Portrait pictures": "Obrázky na výšku",
  "Landscape pictures": "Obrázky na šířku",
  "Square pictures": "Čtvercové obrázky",
- "Sort by Rating": "Seřadit podle hodnocení"
+ "Sort by Rating": "Seřadit podle hodnocení",
+ "Click the destination reference or group": "Klikněte na cílovou referenci nebo skupinu",
+ "Connect two references or groups · Shift+C · Alt-click for one item in a group": "Spojit dvě reference nebo skupiny · Shift+C · Alt+klik pro jednu položku ve skupině"
 }

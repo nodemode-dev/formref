@@ -412,7 +412,6 @@
  "Connect": "Yhdistä",
  "Connect References": "Yhdistä viitteet",
  "Connect references": "Yhdistä viitteet",
- "Connect two references · Shift+C": "Yhdistä kaksi viitettä · Shift+C",
  "Connect {0} in Preferences, Cloud storage, first.": "Yhdistä ensin {0} kohdassa Asetukset, Pilvitallennus.",
  "Connected": "Yhdistetty",
  "Connecting": "Yhdistetään",
@@ -1474,5 +1473,7 @@
  "Portrait pictures": "Pystykuvat",
  "Landscape pictures": "Vaakakuvat",
  "Square pictures": "Neliökuvat",
- "Sort by Rating": "Lajittele arvion mukaan"
+ "Sort by Rating": "Lajittele arvion mukaan",
+ "Click the destination reference or group": "Napsauta kohdereferenssiä tai -ryhmää",
+ "Connect two references or groups · Shift+C · Alt-click for one item in a group": "Yhdistä kaksi referenssiä tai ryhmää · Shift+C · Alt-napsautus yhdelle ryhmän kohteelle"
 }

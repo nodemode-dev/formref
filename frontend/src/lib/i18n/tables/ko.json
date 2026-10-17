@@ -412,7 +412,6 @@
  "Connect": "연결",
  "Connect References": "레퍼런스 연결",
  "Connect references": "레퍼런스 연결",
- "Connect two references · Shift+C": "레퍼런스 두 개 연결 · Shift+C",
  "Connect {0} in Preferences, Cloud storage, first.": "먼저 환경 설정의 클라우드 저장소에서 {0}에 연결하세요.",
  "Connected": "연결됨",
  "Connecting": "연결 중",
@@ -1474,5 +1473,7 @@
  "Portrait pictures": "세로 그림",
  "Landscape pictures": "가로 그림",
  "Square pictures": "정사각형 그림",
- "Sort by Rating": "별점순 정렬"
+ "Sort by Rating": "별점순 정렬",
+ "Click the destination reference or group": "대상 레퍼런스나 그룹을 클릭하세요",
+ "Connect two references or groups · Shift+C · Alt-click for one item in a group": "두 레퍼런스나 그룹 연결 · Shift+C · 그룹 안의 항목 하나만은 Alt+클릭"
 }

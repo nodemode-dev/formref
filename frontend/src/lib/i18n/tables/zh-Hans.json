@@ -412,7 +412,6 @@
  "Connect": "连接",
  "Connect References": "连接参考",
  "Connect references": "连接参考",
- "Connect two references · Shift+C": "连接两个参考 · Shift+C",
  "Connect {0} in Preferences, Cloud storage, first.": "请先在“偏好设置”的“云存储”中连接 {0}。",
  "Connected": "已连接",
  "Connecting": "正在连接",
@@ -1474,5 +1473,7 @@
  "Portrait pictures": "竖向图片",
  "Landscape pictures": "横向图片",
  "Square pictures": "方形图片",
- "Sort by Rating": "按评分排序"
+ "Sort by Rating": "按评分排序",
+ "Click the destination reference or group": "点击目标参考或分组",
+ "Connect two references or groups · Shift+C · Alt-click for one item in a group": "连接两个参考或分组 · Shift+C · 按住 Alt 点击只连接分组中的一项"
 }

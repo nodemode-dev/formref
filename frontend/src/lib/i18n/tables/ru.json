@@ -412,7 +412,6 @@
  "Connect": "Подключить",
  "Connect References": "Соединить референсы",
  "Connect references": "Соединить референсы",
- "Connect two references · Shift+C": "Соединить два референса · Shift+C",
  "Connect {0} in Preferences, Cloud storage, first.": "Сначала подключите {0} в разделе «Настройки», «Облачное хранилище».",
  "Connected": "Подключено",
  "Connecting": "Подключение",
@@ -1474,5 +1473,7 @@
  "Portrait pictures": "Вертикальные изображения",
  "Landscape pictures": "Горизонтальные изображения",
  "Square pictures": "Квадратные изображения",
- "Sort by Rating": "Сортировать по оценке"
+ "Sort by Rating": "Сортировать по оценке",
+ "Click the destination reference or group": "Щёлкните целевой референс или группу",
+ "Connect two references or groups · Shift+C · Alt-click for one item in a group": "Соединить два референса или группы · Shift+C · Alt-щелчок для одного элемента группы"
 }

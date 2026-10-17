@@ -412,7 +412,6 @@
  "Connect": "Csatlakozás",
  "Connect References": "Referenciák összekötése",
  "Connect references": "Referenciák összekötése",
- "Connect two references · Shift+C": "Két referencia összekötése · Shift+C",
  "Connect {0} in Preferences, Cloud storage, first.": "Előbb csatlakoztasd a(z) {0} szolgáltatást a Beállítások, Felhőtár részben.",
  "Connected": "Csatlakoztatva",
  "Connecting": "Csatlakozás…",
@@ -1474,5 +1473,7 @@
  "Portrait pictures": "Álló képek",
  "Landscape pictures": "Fekvő képek",
  "Square pictures": "Négyzetes képek",
- "Sort by Rating": "Rendezés értékelés szerint"
+ "Sort by Rating": "Rendezés értékelés szerint",
+ "Click the destination reference or group": "Kattintson a cél referenciára vagy csoportra",
+ "Connect two references or groups · Shift+C · Alt-click for one item in a group": "Két referencia vagy csoport összekötése · Shift+C · Alt-kattintás egy csoport egyetlen elemére"
 }

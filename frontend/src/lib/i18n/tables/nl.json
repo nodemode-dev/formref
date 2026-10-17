@@ -412,7 +412,6 @@
  "Connect": "Verbinden",
  "Connect References": "Referenties verbinden",
  "Connect references": "Referenties verbinden",
- "Connect two references · Shift+C": "Twee referenties verbinden · Shift+C",
  "Connect {0} in Preferences, Cloud storage, first.": "Verbind eerst {0} bij Voorkeuren, Cloudopslag.",
  "Connected": "Verbonden",
  "Connecting": "Verbinden",
@@ -1474,5 +1473,7 @@
  "Portrait pictures": "Staande afbeeldingen",
  "Landscape pictures": "Liggende afbeeldingen",
  "Square pictures": "Vierkante afbeeldingen",
- "Sort by Rating": "Sorteren op beoordeling"
+ "Sort by Rating": "Sorteren op beoordeling",
+ "Click the destination reference or group": "Klik op de doelreferentie of -groep",
+ "Connect two references or groups · Shift+C · Alt-click for one item in a group": "Twee referenties of groepen verbinden · Shift+C · Alt-klik voor één item in een groep"
 }

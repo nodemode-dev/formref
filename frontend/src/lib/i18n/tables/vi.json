@@ -412,7 +412,6 @@
  "Connect": "Kết nối",
  "Connect References": "Nối tham chiếu",
  "Connect references": "Nối tham chiếu",
- "Connect two references · Shift+C": "Nối hai tham chiếu · Shift+C",
  "Connect {0} in Preferences, Cloud storage, first.": "Hãy kết nối {0} trong Tùy chọn, Lưu trữ đám mây, trước.",
  "Connected": "Đã kết nối",
  "Connecting": "Đang kết nối",
@@ -1474,5 +1473,7 @@
  "Portrait pictures": "Ảnh dọc",
  "Landscape pictures": "Ảnh ngang",
  "Square pictures": "Ảnh vuông",
- "Sort by Rating": "Sắp xếp theo xếp hạng"
+ "Sort by Rating": "Sắp xếp theo xếp hạng",
+ "Click the destination reference or group": "Nhấn vào tham chiếu hoặc nhóm đích",
+ "Connect two references or groups · Shift+C · Alt-click for one item in a group": "Nối hai tham chiếu hoặc nhóm · Shift+C · Alt-nhấn để chọn một mục trong nhóm"
 }

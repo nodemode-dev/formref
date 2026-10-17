@@ -412,7 +412,6 @@
  "Connect": "Anslut",
  "Connect References": "Koppla ihop referenser",
  "Connect references": "Koppla ihop referenser",
- "Connect two references · Shift+C": "Koppla ihop två referenser · Shift+C",
  "Connect {0} in Preferences, Cloud storage, first.": "Anslut först {0} i Inställningar, Molnlagring.",
  "Connected": "Ansluten",
  "Connecting": "Ansluter",
@@ -1474,5 +1473,7 @@
  "Portrait pictures": "Stående bilder",
  "Landscape pictures": "Liggande bilder",
  "Square pictures": "Kvadratiska bilder",
- "Sort by Rating": "Sortera efter betyg"
+ "Sort by Rating": "Sortera efter betyg",
+ "Click the destination reference or group": "Klicka på målreferensen eller -gruppen",
+ "Connect two references or groups · Shift+C · Alt-click for one item in a group": "Koppla ihop två referenser eller grupper · Shift+C · Alt-klicka för ett objekt i en grupp"
 }

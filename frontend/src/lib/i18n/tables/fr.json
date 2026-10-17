@@ -412,7 +412,6 @@
  "Connect": "Connecter",
  "Connect References": "Relier les références",
  "Connect references": "Relier les références",
- "Connect two references · Shift+C": "Relier deux références · Shift+C",
  "Connect {0} in Preferences, Cloud storage, first.": "Connectez d'abord {0} dans Préférences, Stockage cloud.",
  "Connected": "Connecté",
  "Connecting": "Connexion en cours",
@@ -1474,5 +1473,7 @@
  "Portrait pictures": "Images en portrait",
  "Landscape pictures": "Images en paysage",
  "Square pictures": "Images carrées",
- "Sort by Rating": "Trier par note"
+ "Sort by Rating": "Trier par note",
+ "Click the destination reference or group": "Cliquez sur la référence ou le groupe de destination",
+ "Connect two references or groups · Shift+C · Alt-click for one item in a group": "Relier deux références ou groupes · Maj+C · Alt-clic pour un seul élément d’un groupe"
 }

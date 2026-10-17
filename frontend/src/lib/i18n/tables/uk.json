@@ -412,7 +412,6 @@
  "Connect": "Підключити",
  "Connect References": "З'єднати референси",
  "Connect references": "З'єднати референси",
- "Connect two references · Shift+C": "З'єднати два референси · Shift+C",
  "Connect {0} in Preferences, Cloud storage, first.": "Спершу підключіть {0} у розділі «Налаштування», «Хмарне сховище».",
  "Connected": "Підключено",
  "Connecting": "Підключення",
@@ -1474,5 +1473,7 @@
  "Portrait pictures": "Вертикальні зображення",
  "Landscape pictures": "Горизонтальні зображення",
  "Square pictures": "Квадратні зображення",
- "Sort by Rating": "Сортувати за оцінкою"
+ "Sort by Rating": "Сортувати за оцінкою",
+ "Click the destination reference or group": "Клацніть цільовий референс або групу",
+ "Connect two references or groups · Shift+C · Alt-click for one item in a group": "З’єднати два референси або групи · Shift+C · Alt-клацання для одного елемента групи"
 }

@@ -412,7 +412,6 @@
  "Connect": "Bağlan",
  "Connect References": "Referansları Bağla",
  "Connect references": "Referansları bağla",
- "Connect two references · Shift+C": "İki referansı bağla · Shift+C",
  "Connect {0} in Preferences, Cloud storage, first.": "Önce Tercihler, Bulut depolama bölümünde {0} hizmetine bağlanın.",
  "Connected": "Bağlandı",
  "Connecting": "Bağlanıyor",
@@ -1474,5 +1473,7 @@
  "Portrait pictures": "Dikey resimler",
  "Landscape pictures": "Yatay resimler",
  "Square pictures": "Kare resimler",
- "Sort by Rating": "Puana Göre Sırala"
+ "Sort by Rating": "Puana Göre Sırala",
+ "Click the destination reference or group": "Hedef referansa veya gruba tıklayın",
+ "Connect two references or groups · Shift+C · Alt-click for one item in a group": "İki referansı veya grubu bağla · Shift+C · Gruptaki tek öğe için Alt-tıklayın"
 }

@@ -412,7 +412,6 @@
  "Connect": "Koble til",
  "Connect References": "Koble referanser",
  "Connect references": "Koble referanser",
- "Connect two references · Shift+C": "Koble to referanser · Shift+C",
  "Connect {0} in Preferences, Cloud storage, first.": "Koble først til {0} i Innstillinger, Skylagring.",
  "Connected": "Tilkoblet",
  "Connecting": "Kobler til",
@@ -1474,5 +1473,7 @@
  "Portrait pictures": "Stående bilder",
  "Landscape pictures": "Liggende bilder",
  "Square pictures": "Kvadratiske bilder",
- "Sort by Rating": "Sorter etter vurdering"
+ "Sort by Rating": "Sorter etter vurdering",
+ "Click the destination reference or group": "Klikk på målreferansen eller -gruppen",
+ "Connect two references or groups · Shift+C · Alt-click for one item in a group": "Koble sammen to referanser eller grupper · Shift+C · Alt-klikk for ett element i en gruppe"
 }
