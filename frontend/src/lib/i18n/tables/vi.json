@@ -1475,5 +1475,9 @@
  "Square pictures": "Ảnh vuông",
  "Sort by Rating": "Sắp xếp theo xếp hạng",
  "Click the destination reference or group": "Nhấn vào tham chiếu hoặc nhóm đích",
- "Connect two references or groups · Shift+C · Alt-click for one item in a group": "Nối hai tham chiếu hoặc nhóm · Shift+C · Alt-nhấn để chọn một mục trong nhóm"
+ "Connect two references or groups · Shift+C · Alt-click for one item in a group": "Nối hai tham chiếu hoặc nhóm · Shift+C · Alt-nhấn để chọn một mục trong nhóm",
+ "Name Group": "Đặt tên nhóm",
+ "Name Group…": "Đặt tên nhóm…",
+ "Select a group to name it.": "Chọn một nhóm để đặt tên.",
+ "The title shows above the dashed frame around the group. Leave it empty to remove it.": "Tên hiện phía trên khung nét đứt quanh nhóm. Để trống để xóa tên."
 }

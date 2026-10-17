@@ -1475,5 +1475,9 @@
  "Square pictures": "Kvadratiske billeder",
  "Sort by Rating": "Sortér efter vurdering",
  "Click the destination reference or group": "Klik på destinationsreferencen eller -gruppen",
- "Connect two references or groups · Shift+C · Alt-click for one item in a group": "Forbind to referencer eller grupper · Shift+C · Alt-klik for ét element i en gruppe"
+ "Connect two references or groups · Shift+C · Alt-click for one item in a group": "Forbind to referencer eller grupper · Shift+C · Alt-klik for ét element i en gruppe",
+ "Name Group": "Navngiv gruppe",
+ "Name Group…": "Navngiv gruppe…",
+ "Select a group to name it.": "Vælg en gruppe for at navngive den.",
+ "The title shows above the dashed frame around the group. Leave it empty to remove it.": "Titlen vises over den stiplede ramme om gruppen. Lad den være tom for at fjerne den."
 }

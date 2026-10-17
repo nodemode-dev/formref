@@ -1475,5 +1475,9 @@
  "Square pictures": "Négyzetes képek",
  "Sort by Rating": "Rendezés értékelés szerint",
  "Click the destination reference or group": "Kattintson a cél referenciára vagy csoportra",
- "Connect two references or groups · Shift+C · Alt-click for one item in a group": "Két referencia vagy csoport összekötése · Shift+C · Alt-kattintás egy csoport egyetlen elemére"
+ "Connect two references or groups · Shift+C · Alt-click for one item in a group": "Két referencia vagy csoport összekötése · Shift+C · Alt-kattintás egy csoport egyetlen elemére",
+ "Name Group": "Csoport elnevezése",
+ "Name Group…": "Csoport elnevezése…",
+ "Select a group to name it.": "Jelöljön ki egy csoportot az elnevezéshez.",
+ "The title shows above the dashed frame around the group. Leave it empty to remove it.": "A cím a csoport szaggatott kerete fölött jelenik meg. Hagyja üresen az eltávolításhoz."
 }

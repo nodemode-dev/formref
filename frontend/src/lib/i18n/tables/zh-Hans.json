@@ -1475,5 +1475,9 @@
  "Square pictures": "方形图片",
  "Sort by Rating": "按评分排序",
  "Click the destination reference or group": "点击目标参考或分组",
- "Connect two references or groups · Shift+C · Alt-click for one item in a group": "连接两个参考或分组 · Shift+C · 按住 Alt 点击只连接分组中的一项"
+ "Connect two references or groups · Shift+C · Alt-click for one item in a group": "连接两个参考或分组 · Shift+C · 按住 Alt 点击只连接分组中的一项",
+ "Name Group": "命名分组",
+ "Name Group…": "命名分组…",
+ "Select a group to name it.": "请选择要命名的分组。",
+ "The title shows above the dashed frame around the group. Leave it empty to remove it.": "标题显示在分组虚线框的上方。留空即可移除。"
 }

@@ -1475,5 +1475,9 @@
  "Square pictures": "Kare resimler",
  "Sort by Rating": "Puana Göre Sırala",
  "Click the destination reference or group": "Hedef referansa veya gruba tıklayın",
- "Connect two references or groups · Shift+C · Alt-click for one item in a group": "İki referansı veya grubu bağla · Shift+C · Gruptaki tek öğe için Alt-tıklayın"
+ "Connect two references or groups · Shift+C · Alt-click for one item in a group": "İki referansı veya grubu bağla · Shift+C · Gruptaki tek öğe için Alt-tıklayın",
+ "Name Group": "Grubu Adlandır",
+ "Name Group…": "Grubu Adlandır…",
+ "Select a group to name it.": "Adlandırmak için bir grup seçin.",
+ "The title shows above the dashed frame around the group. Leave it empty to remove it.": "Başlık, grubun çevresindeki kesikli çerçevenin üstünde görünür. Kaldırmak için boş bırakın."
 }

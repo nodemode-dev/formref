@@ -1475,5 +1475,9 @@
  "Square pictures": "รูปสี่เหลี่ยมจัตุรัส",
  "Sort by Rating": "เรียงตามคะแนน",
  "Click the destination reference or group": "คลิกเรฟเฟอเรนซ์หรือกลุ่มปลายทาง",
- "Connect two references or groups · Shift+C · Alt-click for one item in a group": "เชื่อมเรฟเฟอเรนซ์หรือกลุ่มสองรายการ · Shift+C · Alt+คลิกเพื่อเลือกรายการเดียวในกลุ่ม"
+ "Connect two references or groups · Shift+C · Alt-click for one item in a group": "เชื่อมเรฟเฟอเรนซ์หรือกลุ่มสองรายการ · Shift+C · Alt+คลิกเพื่อเลือกรายการเดียวในกลุ่ม",
+ "Name Group": "ตั้งชื่อกลุ่ม",
+ "Name Group…": "ตั้งชื่อกลุ่ม…",
+ "Select a group to name it.": "เลือกกลุ่มที่จะตั้งชื่อ",
+ "The title shows above the dashed frame around the group. Leave it empty to remove it.": "ชื่อจะแสดงเหนือกรอบเส้นประรอบกลุ่ม เว้นว่างไว้เพื่อลบชื่อ"
 }

@@ -1475,5 +1475,9 @@
  "Square pictures": "方形圖片",
  "Sort by Rating": "依評分排序",
  "Click the destination reference or group": "按一下目標參考或群組",
- "Connect two references or groups · Shift+C · Alt-click for one item in a group": "連接兩個參考或群組 · Shift+C · 按住 Alt 按一下只連接群組中的一項"
+ "Connect two references or groups · Shift+C · Alt-click for one item in a group": "連接兩個參考或群組 · Shift+C · 按住 Alt 按一下只連接群組中的一項",
+ "Name Group": "命名群組",
+ "Name Group…": "命名群組…",
+ "Select a group to name it.": "請選擇要命名的群組。",
+ "The title shows above the dashed frame around the group. Leave it empty to remove it.": "標題顯示在群組虛線框的上方。留空即可移除。"
 }

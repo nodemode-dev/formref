@@ -1475,5 +1475,9 @@
  "Square pictures": "正方形の画像",
  "Sort by Rating": "評価で並べ替え",
  "Click the destination reference or group": "接続先のリファレンスまたはグループをクリック",
- "Connect two references or groups · Shift+C · Alt-click for one item in a group": "2 つのリファレンスまたはグループを接続 · Shift+C · グループ内の 1 項目だけなら Alt+クリック"
+ "Connect two references or groups · Shift+C · Alt-click for one item in a group": "2 つのリファレンスまたはグループを接続 · Shift+C · グループ内の 1 項目だけなら Alt+クリック",
+ "Name Group": "グループに名前を付ける",
+ "Name Group…": "グループに名前を付ける…",
+ "Select a group to name it.": "名前を付けるグループを選択してください。",
+ "The title shows above the dashed frame around the group. Leave it empty to remove it.": "タイトルはグループを囲む破線の枠の上に表示されます。空にすると削除されます。"
 }

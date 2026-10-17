@@ -1475,5 +1475,9 @@
  "Square pictures": "Obrazy kwadratowe",
  "Sort by Rating": "Sortuj według oceny",
  "Click the destination reference or group": "Kliknij docelową referencję lub grupę",
- "Connect two references or groups · Shift+C · Alt-click for one item in a group": "Połącz dwie referencje lub grupy · Shift+C · Alt+klik dla jednego elementu w grupie"
+ "Connect two references or groups · Shift+C · Alt-click for one item in a group": "Połącz dwie referencje lub grupy · Shift+C · Alt+klik dla jednego elementu w grupie",
+ "Name Group": "Nazwij grupę",
+ "Name Group…": "Nazwij grupę…",
+ "Select a group to name it.": "Zaznacz grupę, aby ją nazwać.",
+ "The title shows above the dashed frame around the group. Leave it empty to remove it.": "Tytuł widać nad przerywaną ramką wokół grupy. Pozostaw go pusty, aby go usunąć."
 }

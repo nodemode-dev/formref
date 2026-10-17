@@ -1475,5 +1475,9 @@
  "Square pictures": "Vierkante afbeeldingen",
  "Sort by Rating": "Sorteren op beoordeling",
  "Click the destination reference or group": "Klik op de doelreferentie of -groep",
- "Connect two references or groups · Shift+C · Alt-click for one item in a group": "Twee referenties of groepen verbinden · Shift+C · Alt-klik voor één item in een groep"
+ "Connect two references or groups · Shift+C · Alt-click for one item in a group": "Twee referenties of groepen verbinden · Shift+C · Alt-klik voor één item in een groep",
+ "Name Group": "Groep een naam geven",
+ "Name Group…": "Groep een naam geven…",
+ "Select a group to name it.": "Selecteer een groep om die een naam te geven.",
+ "The title shows above the dashed frame around the group. Leave it empty to remove it.": "De titel staat boven het gestippelde kader rond de groep. Laat hem leeg om hem te verwijderen."
 }

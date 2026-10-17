@@ -1475,5 +1475,9 @@
  "Square pictures": "Imágenes cuadradas",
  "Sort by Rating": "Ordenar por valoración",
  "Click the destination reference or group": "Haz clic en la referencia o el grupo de destino",
- "Connect two references or groups · Shift+C · Alt-click for one item in a group": "Conectar dos referencias o grupos · Shift+C · Alt+clic para un solo elemento de un grupo"
+ "Connect two references or groups · Shift+C · Alt-click for one item in a group": "Conectar dos referencias o grupos · Shift+C · Alt+clic para un solo elemento de un grupo",
+ "Name Group": "Nombrar grupo",
+ "Name Group…": "Nombrar grupo…",
+ "Select a group to name it.": "Selecciona un grupo para nombrarlo.",
+ "The title shows above the dashed frame around the group. Leave it empty to remove it.": "El título aparece sobre el marco discontinuo del grupo. Déjalo vacío para quitarlo."
 }
