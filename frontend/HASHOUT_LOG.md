@@ -8,6 +8,7 @@
 - [Stacking scale](#stacking-scale)
 - [Verification](#verification)
 - [Scripts](#scripts)
+- [v0.28.0 connection styles](#v0280-connection-styles)
 - [v0.27.0 connect selected](#v0270-connect-selected)
 - [v0.25.0 group connections](#v0250-group-connections)
 - [v0.24.0 stars on the board](#v0240-stars-on-the-board)
@@ -50,6 +51,27 @@
 - [v0.4.8 desktop window controls and WebKit icons](#v048-desktop-window-controls-and-webkit-icons)
 - [v0.4.7 synced notes, map cards, inline edit commit](#v047-synced-notes-map-cards-inline-edit-commit)
 - [v0.4.6 GIF frames and document export](#v046-gif-frames-and-document-export)
+
+## v0.28.0 connection styles
+
+`app/connection-style.ts` registers seven style commands (`connection-line-*`, `connection-arrow-*`) and `label-connection`:
+- Targets are the chosen connection, or else every connection touching a selected item or a group with a selected member.
+- Each command sends one `style_connections`; `checked` is true when every target already has that value.
+- Labelling also goes through `style_connections`, so the connection keeps its id and style; the old disconnect-plus-connect batch is gone.
+
+`ui/scene.ts` keeps four nodes per connection, created once and patched in place:
+- `connection-hit`, a transparent 14 px stroke that takes the clicks. The visible path has `pointer-events: none`, because Chromium does not hit-test dash gaps.
+- `connection`, whose `data-line` drives the dash pattern in CSS.
+- `connection-head`, one filled path holding both heads.
+- The label.
+
+`anchors()` puts an arrowed item end `ARROW_GAP` outside the item's side, because lines run under items. `curve()` pulls each pointed end back to its head's base along the tangent. The numbers match `backend/app/core/endpoints.py`.
+
+`scene.chooseLine()` swaps the `chosen` class on two paths only. `setSelection` clears it.
+
+The right-click handler opens `connectionMenu()` for a line, and the board menu adds the Connection Style submenu while the selection touches connections.
+
+Probe: `$SC/ui/arrows.cjs` covers English, German, Russian and Japanese at 4x CPU on a slow network. It checks the menu, the submenu, dashes, heads, the chosen mark, node identity and labelling, and deletes its board.
 
 ## v0.27.0 connect selected
 

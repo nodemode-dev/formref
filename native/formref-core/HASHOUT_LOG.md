@@ -60,6 +60,12 @@ v0.25.0: a connection end may be `group:` plus a group id. The prefix was chosen
 
 v0.26.0 added `BoardSettings.group_titles`, a `BTreeMap` so it saves in a stable order, skipped while empty so older boards stay byte-identical. The `name_group` command sets or removes a title. `prune_group_connections` also drops titles of groups that are gone, so no separate cleanup path is needed. A dedicated command was chosen over a settings patch because `merge_object` has no way to delete a map key.
 
+v0.28.0 added `Connection.line` (`CONNECTION_LINES`: empty, dashed, dotted) and `Connection.arrow` (`CONNECTION_ARROWS`: empty, end, start, both):
+- They are typed fields rather than `extra` keys so `validate` can refuse unknown values. Both are skipped while empty, so older boards stay byte-identical.
+- `style_connections` takes ids plus any of label, color, line and arrow, and needs at least one of them. A field that is absent or null stays as it is. A field that is not a string is refused.
+- It runs the same member lock check as disconnect and edits in place, so ids survive. Before this, relabelling was a disconnect and connect pair that kept the id only because the client reused it.
+- Probed through the API: bad values on connect and style, an empty patch, a missing id, a non-string and a locked end are all refused; undo restores the previous style.
+
 Probed through the API: group to group, item to group, an overlapping pair and a missing group are refused. Ungroup, removing a group's items and regrouping all its members elsewhere each prune, and undo restores; removing one member keeps the group and its connections.
 
 ## Ratings

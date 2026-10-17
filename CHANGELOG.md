@@ -1,5 +1,15 @@
 # FormRef changelog
 
+## v0.28.0 · 2026-10-17
+
+Lines that say which way they read.
+
+- Right-click a connection for its own menu: Solid, Dashed or Dotted Line; No Arrowheads, Arrow at End, Arrow at Start or Arrows at Both Ends; Label Connection; Remove Connection. The end is the reference or group the line was drawn to.
+- With references selected, the right-click menu's Connection Style submenu styles every connection touching them at once, in one undo step. Every style is also in the command palette.
+- An arrowhead at a reference stops just outside its edge instead of hiding under it. A chosen connection is drawn heavier, and dashed and dotted lines are as easy to click as solid ones.
+- Relabelling a connection keeps the connection itself, its id and its style.
+- PNG and SVG exports draw dashes, dots and arrowheads; Markdown writes `<-` and `<->` for lines pointing back or both ways. Agents set `line` and `arrow` on `connect_items` and restyle with the new `style_connections` tool.
+
 ## v0.27.0 · 2026-10-17
 
 Connect from the selection.

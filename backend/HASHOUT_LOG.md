@@ -8,6 +8,7 @@
 
 ## Contents
 
+- [v0.28.0 · Connection styles in exports](#v0280--connection-styles-in-exports)
 - [v0.25.0 · Group connections](#v0250--group-connections)
 - [v0.24.0 · Ratings in the SVG and phone viewer](#v0240--ratings-in-the-svg-and-phone-viewer)
 - [v0.23.0 · Ratings read from pictures](#v0230--ratings-read-from-pictures)
@@ -35,6 +36,22 @@
 - [v0.2.0 · Canvas settings and snapping through MCP](#v020--canvas-settings-and-snapping-through-mcp)
 - [v0.1.0 · Local board service and SDK MCP](#v010--local-board-service-and-sdk-mcp)
 - [boot_backend.bat](#boot_backendbat)
+
+## v0.28.0 · Connection styles in exports
+
+`core/endpoints.py` gained the arrowhead geometry the window uses:
+- `ARROW_GAP` 4, `ARROW_LENGTH` 12 and `ARROW_HALF` 5.
+- `pointed(arrow)` gives the start and end flags.
+- `anchors(source, target, arrow)` moves an arrowed item end just outside the item's side.
+- `heads()` returns the line's new ends and one triangle per head, along the curve's tangent there.
+- `DASHES` maps dashed to `(8, 6)` and dotted to `(0, 6)`.
+
+How each export uses them:
+- SVG writes `stroke-dasharray`, with round caps for dots, plus a filled path per head.
+- PNG walks the sampled curve with `stroke_curve`: dashes as line pieces and dots as circles at each period. The heads are polygons.
+- Markdown writes `<-` for start and `<->` for both; otherwise it keeps `->`.
+
+`mcp_server.py`: `connect_items` takes `line` and `arrow`, and `style_connections` sends only the fields given. Checked by exporting a dashed arrowed line and a dotted two-headed line to a group, then reading the SVG paths and the PNG.
 
 ## v0.25.0 · Group connections
 
