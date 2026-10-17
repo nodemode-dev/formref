@@ -8,6 +8,7 @@
 - [Stacking scale](#stacking-scale)
 - [Verification](#verification)
 - [Scripts](#scripts)
+- [v0.27.0 connect selected](#v0270-connect-selected)
 - [v0.25.0 group connections](#v0250-group-connections)
 - [v0.24.0 stars on the board](#v0240-stars-on-the-board)
 - [v0.23.0 picture shape filter](#v0230-picture-shape-filter)
@@ -49,6 +50,18 @@
 - [v0.4.8 desktop window controls and WebKit icons](#v048-desktop-window-controls-and-webkit-icons)
 - [v0.4.7 synced notes, map cards, inline edit commit](#v047-synced-notes-map-cards-inline-edit-commit)
 - [v0.4.6 GIF frames and document export](#v046-gif-frames-and-document-export)
+
+## v0.27.0 connect selected
+
+`app/connect-selection.ts` turns the selection into nodes:
+- A group counts as one node when more than one of its items exists and all of them are selected; it is keyed by `group:` and its id and placed at its box's top-left.
+- Every other item is its own node.
+
+The nodes are sorted in reading order: rows within 40 units count as one row, then left to right.
+- Connect Selected sends one `connect`, or one `batch` of them, for each neighbouring pair not already linked in either direction. When nothing is left to link it only toasts.
+- Remove Connections sends one `disconnect` with every connection touching a node or a selected item.
+
+The right-click menu shows both under Edit only while one of them is enabled, so the menu is unchanged otherwise. The agent words live in `command-meta.ts`. Probe: $SC/ui/connectsel.cjs (English and German, 4x CPU, slow network). It builds its own board and deletes it.
 
 ## v0.25.0 group connections
 

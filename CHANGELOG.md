@@ -1,5 +1,12 @@
 # FormRef changelog
 
+## v0.27.0 · 2026-10-17
+
+Connect from the selection.
+
+- Connect Selected (Ctrl/Cmd+Shift+L, the command palette, or the right-click menu while things are selected) joins the selected references and groups without switching to the connect tool. Two become one line; three or more become a chain in reading order, top to bottom and left to right. A group counts as one node when all of its items are selected. Pairs that are already connected are skipped, and the whole change is one undo step.
+- Remove Connections removes every connection that touches the selected references or groups.
+
 ## v0.26.0 · 2026-10-17
 
 Named groups.
