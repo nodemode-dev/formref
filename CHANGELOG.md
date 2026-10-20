@@ -1,5 +1,13 @@
 # FormRef changelog
 
+## v0.35.0 · 2026-10-20
+
+New app icon.
+
+- The orange F is replaced by a stack of three reference prints held by a strip of tape, drawn in the Form family style: the front print shows a sunset in the family colors on the dark tile.
+- The same design is used for the macOS, Windows and Linux app icons, the tray icon, the browser tab icon and the README.
+- On macOS the icon sits inside the standard margin so it lines up with other Dock icons.
+
 ## v0.34.0 · 2026-10-17
 
 Reviewed wording back in.
