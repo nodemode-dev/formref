@@ -125,3 +125,11 @@ Initial dimensions are 90 percent of the primary monitor in logical pixels, with
 - logged: v0.1.0 · 2026-10-10
 
 Cargo resolved and fetched dependencies, then compilation stopped in glib-sys because the host has no pkg-config executable. Installed npm CLI version 2.12.1 and tauri info read the configuration successfully; info reports missing webkit2gtk-4.1 and rsvg2. The desktop application did not compile or run here. macOS compilation, native mode behavior, startup/shutdown and window geometry need on-device verification. No signed installer, frozen backend, per-image overlay, click-through, global shortcut or collaborative hosting is implemented by this shell.
+
+### icons/ · the app icon as a taped stack of reference prints
+
+- refers-to: icons/icon.icns, icon.ico, icon.png (also the tray icon via main.rs build_tray); ../assets/formref-mark.svg, formref_icon.png, formref_icon_macos.png; ../frontend/public/favicon.svg; ../assets/icon_src/
+- kind: rationale
+- logged: v0.35.0 · 2026-10-20
+
+The orange F with a tilted frame was the last flat icon outside the redrawn Form family. The new mark is an image stack, the owner's direction: three prints with white borders fanned on the family tile (bloom, rim, drop shadow), centred in it and filling about 72 percent of its width, a grey blank at the back, a violet print in the middle, and a front print showing a sunset scene in the family paint (blue, violet, pink, amber) with layered mountains and a soft sun, held by a strip of translucent tape so it reads as a reference pinned to a board rather than a photo library. One design is used at every size and in the favicon and README mark. The macOS .icns uses the 824 px tile inside a 1024 canvas with a 100 px margin; .ico and icon.png stay full bleed, and icon.png also feeds the tray icon. assets/icon_src/ regenerates every file.
