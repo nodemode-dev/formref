@@ -6,6 +6,8 @@
   <meta name="color-scheme" content="dark light">
   <title>formref · Reference studio</title>
   <link rel="icon" href="/favicon.svg">
+  <link rel="preload" href="/formref-logo.png" as="image">
+  <style>html, body { background: #0a0a0a; } #app { visibility: hidden; } body.app-ready #app { visibility: visible; }</style>
   <script>
     try {
       var root = document.documentElement, store = window.localStorage;
@@ -36,7 +38,7 @@
     <div class="title-lead">
       <button class="icon-button" data-dock-toggle="left" data-icon="dock-left" aria-label="Toggle left panel" title="Collapse left panel"></button>
       <a class="brand" href="#" aria-label="FormRef">
-        <span class="brand-mark">f<span>r</span></span>
+        <img class="brand-mark" src="/formref-logo.png" width="28" height="28" alt="" draggable="false">
         <strong>formref</strong>
         <span class="product-label">REFERENCE STUDIO</span>
       </a>
@@ -110,7 +112,7 @@
         <div class="sidebar-bottom">
           <div class="local-indicator"><span class="status-dot"></span><span id="connection-state">Engine connecting</span></div>
           <button class="sidebar-row" data-action="help"><span data-icon="keyboard"></span><span>Keyboard shortcuts</span><span class="key">?</span></button>
-          <div class="sidebar-foot">FORM FAMILY<span>v0.35.0</span></div>
+          <div class="sidebar-foot">FORM FAMILY<span>v0.36.0</span></div>
         </div>
       </div>
     </aside>

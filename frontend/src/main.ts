@@ -41,6 +41,7 @@ import { registerSimilarFind } from './app/similar-find';
 import { registerSavedSearch } from './app/saved-search';
 import { registerTagCloud } from './app/tag-cloud';
 import { registerTagSuggest } from './app/tag-suggest';
+import { revealWhenReady } from './ui/reveal';
 
 bindLanguage();
 registerTerminal();
@@ -108,3 +109,4 @@ document.getElementById('consent-allow')!.addEventListener('click', () => {
 });
 drawCamera();
 void restore();
+revealWhenReady();
