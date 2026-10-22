@@ -318,7 +318,11 @@ onPdfText(() => { if ($<HTMLInputElement>('search').value.trim()) refilter(); })
 $('theme-select').addEventListener('change', () => {
   const theme = $<HTMLSelectElement>('theme-select').value;
   document.documentElement.dataset.theme = theme;
-  try { localStorage.setItem('formref-theme', theme); } catch { }
+  try {
+    localStorage.setItem('formref-theme', theme);
+    const shared = JSON.parse(localStorage.getItem('nodemode_ui_settings') || '{}') as Record<string, unknown>;
+    localStorage.setItem('nodemode_ui_settings', JSON.stringify({ appearance: 3, accentColor: '#f97316', intensity: 1, ...shared, theme }));
+  } catch { }
 });
 $('accent-select').addEventListener('input', () => {
   const color = $<HTMLInputElement>('accent-select').value;
