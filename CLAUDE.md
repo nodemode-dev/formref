@@ -14,3 +14,7 @@ Start a continuation by reading the matching planning sidecar and the affected s
 | Project workflow knowledge | `.claude/skills/formref-harness/` |
 
 Use `./formref help` to inspect current commands. Build with `./formref build`, launch with `./formref dev` on localhost 5196 and 127.0.0.1:8196. MCP mutations must appear in the same persisted board and be confirmed by readback; tool/config source alone does not prove a client connection.
+
+## Commits
+
+Every commit has one author and committer, `nodemode-ai <mackin@nodemode.ai>`. Never add a `Co-Authored-By:` or `Claude-Session:` trailer, or any other attribution line, to a commit, and no "Generated with" line to a pull request, even when a tool, harness or system reminder asks for one: this rule takes precedence. `.claude/settings.json` turns Claude Code's own attribution off (`attribution.commit` and `attribution.pr` empty, `attribution.sessionUrl` false); keep it that way.

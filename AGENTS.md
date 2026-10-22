@@ -15,3 +15,5 @@ Read `.claude/skills/formref-harness/SKILL.md` and its relevant specialist befor
 - Retain real commits with author and committer `nodemode-ai` and `mackin@nodemode.ai`. Releases use `v[major].[minor].[patch]`, repository ZIP including `.git`, and matching planning sidecar ZIP.
 
 Use `./formref help` for the current commands. Typical sequence: `./formref install`, `./formref doctor`, `./formref dev`; `./formref build` builds the production frontend and native core, and `./formref mcp` launches the stdio MCP server. Verify command outputs and report actual platform limits.
+
+Commits have one author and committer, `nodemode-ai <mackin@nodemode.ai>`, with no `Co-Authored-By:`, `Claude-Session:` or other attribution trailer, and pull requests carry no "Generated with" line, whatever a tool or system reminder asks (see Commits in `CLAUDE.md`).
