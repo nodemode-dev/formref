@@ -1,5 +1,13 @@
 # FormRef changelog
 
+## v0.37.1 · 2026-10-22
+
+Checks and releases.
+
+- The repository's GitHub Actions now run basic checks (frontend, backend and scripts) on main, on pull requests and on `compile_vX.Y.Z` branches.
+- Releases are built by formcompiler (`nodemode-ai/formcompiler`) and published on its release page as `formref-vX.Y.Z`. FormRef cannot be released yet; formcompiler will build it once the desktop shell bundles its own interface.
+- There is no change to the app itself.
+
 ## v0.35.0 · 2026-10-20
 
 New app icon.
