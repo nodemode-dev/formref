@@ -839,8 +839,10 @@ dependencies = [
 
 [[package]]
 name = "formref-desktop"
-version = "0.35.0"
+version = "0.36.0"
 dependencies = [
+ "objc2",
+ "objc2-app-kit",
  "serde",
  "tauri",
  "tauri-build",

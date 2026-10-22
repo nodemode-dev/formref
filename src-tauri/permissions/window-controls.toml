@@ -14,6 +14,11 @@ description = "Read and set the main window's position and size, for window layo
 commands.allow = ["window_layout", "window_place"]
 
 [[permission]]
+identifier = "formref-app-ready"
+description = "Tell the shell the page has painted, so the splash closes and the main window is shown."
+commands.allow = ["app_ready"]
+
+[[permission]]
 identifier = "formref-window-start-drag"
 description = "Move the main window from an explicit drag gesture."
 commands.allow = ["window_start_drag"]

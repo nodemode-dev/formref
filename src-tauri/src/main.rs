@@ -1,5 +1,7 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
+mod reveal;
+
 use std::sync::atomic::{AtomicBool, Ordering};
 
 use serde::Serialize;
@@ -228,7 +230,8 @@ fn window_start_drag(window: WebviewWindow) -> Result<(), String> {
 }
 
 fn main() {
-    let toggle = Shortcut::new(Some(Modifiers::CONTROL | Modifiers::ALT), Code::KeyK);
+    reveal::mark_launch();
+    let toggle =Shortcut::new(Some(Modifiers::CONTROL | Modifiers::ALT), Code::KeyK);
     #[cfg(target_os = "macos")]
     let toggle = Shortcut::new(Some(Modifiers::SUPER | Modifiers::ALT), Code::KeyK);
     // Summon: brings FormRef to the front from any app, or hides it when it already has focus.
@@ -256,9 +259,11 @@ fn main() {
             window_state,
             window_start_drag,
             window_layout,
-            window_place
+            window_place,
+            reveal::app_ready
         ])
         .setup(move |app| {
+            reveal::round_splash(app.handle());
             let window = app.get_webview_window("main").ok_or("Main window missing")?;
             if let Some(monitor) = window.primary_monitor()? {
                 let scale = monitor.scale_factor();
@@ -267,7 +272,7 @@ fn main() {
                 window.set_size(LogicalSize::new(width, height))?;
             }
             window.center()?;
-            window.show()?;
+            reveal::conceal(&window);
             // The escape hatch for click-through; if another app owns the keys the shell still runs.
             if let Err(error) = app.global_shortcut().register(toggle) {
                 eprintln!("FormRef: click-through shortcut unavailable: {error}");

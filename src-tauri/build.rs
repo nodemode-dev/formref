@@ -7,6 +7,7 @@ fn main() {
                 "window_start_drag",
                 "window_layout",
                 "window_place",
+                "app_ready",
             ]),
         ),
     )

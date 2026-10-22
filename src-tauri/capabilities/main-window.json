@@ -13,6 +13,7 @@
     "formref-window-state",
     "formref-window-start-drag",
     "formref-window-layout",
+    "formref-app-ready",
     "core:event:allow-listen",
     "core:event:allow-unlisten"
   ]

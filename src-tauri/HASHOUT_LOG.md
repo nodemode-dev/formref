@@ -133,3 +133,13 @@ Cargo resolved and fetched dependencies, then compilation stopped in glib-sys be
 - logged: v0.35.0 · 2026-10-20
 
 The orange F with a tilted frame was the last flat icon outside the redrawn Form family. The new mark is an image stack, the owner's direction: three prints with white borders fanned on the family tile (bloom, rim, drop shadow), centred in it and filling about 72 percent of its width, a grey blank at the back, a violet print in the middle, and a front print showing a sunset scene in the family paint (blue, violet, pink, amber) with layered mountains and a soft sun, held by a strip of translucent tape so it reads as a reference pinned to a board rather than a photo library. One design is used at every size and in the favicon and README mark. The macOS .icns uses the 824 px tile inside a 1024 canvas with a 100 px margin; .ico and icon.png stay full bleed, and icon.png also feeds the tray icon. assets/icon_src/ regenerates every file.
+
+v0.36.0: the owner's render assets/formref_icon_macos.png is now the master and every icon file is a resize of it (the macOS set as given, small sizes, .ico and the Clipper icons from its tile); assets/icon_src/README.txt records it and marks gen.py and render.mjs as not to be run.
+
+### src/reveal.rs · splash card and concealed reveal, as formvis
+
+- refers-to: src/reveal.rs; src/main.rs :: main, setup, generate_handler; tauri.conf.json :: splash window; build.rs; permissions/window-controls.toml :: formref-app-ready; capabilities/main-window.json; ../frontend/public/splash.html; ../frontend/src/ui/reveal.ts
+- kind: rationale
+- logged: v0.36.0 · 2026-10-22
+
+The Form family boot sequence from formvis 1.96.4: a 360 by 200 rounded splash (transparent, no shadow, built hidden, masked to a 16 px radius natively on macOS by round_splash, then shown) with the FormRef icon, Starting FormRef and a bar that fills over 2.6 s. The main window stays hidden (macOS: on screen at alpha 0, ignoring the mouse, so its web view keeps rendering) until the page calls app_ready after its first paint; it appears at max(2.6 s from launch, ready), the bar completes in 220 ms and the splash closes; a 20 s fallback shows it anyway. Constants equal formvis. Two deliberate differences: the main window keeps its transparent background (board transparency modes) instead of reveal::BACKGROUND, and there is no overlay title bar or traffic-light placement, because FormRef keeps the native frame and switches decorations at run time. The splash page loads from the same origin as the main page (frontendDist, the engine on 127.0.0.1:8196, or the Vite dev server).
