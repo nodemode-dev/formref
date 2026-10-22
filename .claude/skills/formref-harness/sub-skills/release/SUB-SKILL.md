@@ -15,7 +15,7 @@ Interim turns of a plan are patch versions; the finished plan takes the minor ve
 
 ## Commits
 
-Identity on every commit and tag: `git -c user.name=nodemode-ai -c user.email=mackin@nodemode.ai`. One commit per coherent change, subject `type(scope): summary (x.y.z)`, a body that says what changed, why, and what was run. The version bump is the last commit, followed by an annotated tag `vx.y.z`. Never amend or rebase commits the owner already has.
+Identity on every commit and tag: `git -c user.name=nodemode-ai -c user.email=mackin@nodemode.ai`. One commit per coherent change, subject `type(scope): summary (x.y.z)`, a body that says what changed, why, and what was run. The version bump is the last commit, after which the branch `compile_vx.y.z` is cut from it, for formcompiler (`nodemode-ai/formcompiler`) to build once the desktop shell bundles its own interface. Never amend or rebase commits the owner already has.
 
 ## Logs and notes
 

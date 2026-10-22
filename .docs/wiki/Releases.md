@@ -4,7 +4,9 @@ Use `./formref help` for current dispatcher commands, then install/doctor/build 
 
 Confirm portable import/export, restart persistence and the user workflows touched by the release. UI verification includes cold reload under CPU and network throttling; explicitly state when a platform or hardware check was not run. Keep implementation evidence separate from researched competitor capability.
 
-Versions use `v` followed by three dotted integers, such as `v0.1.0`. Frontend/backend/native version metadata, git tag and deliverable names agree. Commit with author and committer `nodemode-ai` and `mackin@nodemode.ai`, retaining the existing history.
+Versions use `v` followed by three dotted integers, such as `v0.1.0`. Frontend/backend/native version metadata, compile branch and deliverable names agree. Commit with author and committer `nodemode-ai` and `mackin@nodemode.ai`, retaining the existing history.
+
+**Releases.** FormRef builds nothing in this repository, and it cannot be released yet: its desktop shell still loads the interface from `http://127.0.0.1:8196`. formcompiler (`nodemode-ai/formcompiler`) will build it once the desktop shell bundles its own interface. From then on, after the version bump lands on main, push a branch `compile_vX.Y.Z` cut from that commit. CI runs on it, and formcompiler picks it up on its next 8-hourly watch run, or at once when its watch is run by hand. It builds macOS, Linux and Windows bundles and opens a draft release `formref-vX.Y.Z` on formcompiler's release page. Review the draft, then publish it there. CI in `.github/workflows/ci.yml` runs the checks only.
 
 | Deliverable | Required contents |
 | --- | --- |
