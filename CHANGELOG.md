@@ -1,5 +1,12 @@
 # FormRef changelog
 
+## v0.37.2 · 2026-10-23
+
+Names and notices.
+
+- The vector tools carry FormRef's own names and descriptions in every language: VECTOR TOOLS in the sidebar, "Vector tools on/off" toasts and catalogue entries that name no other product.
+- `README.md` and `NOTICE.md` gain a trademark notice for the products named only for formats and provenance; AGENTS.md and CLAUDE.md record the rule.
+
 ## v0.37.1 · 2026-10-22
 
 Checks and releases.
