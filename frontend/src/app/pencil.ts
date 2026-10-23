@@ -28,7 +28,7 @@ export function pencilItem(points: Point[]): Item | null {
 
 export function registerPencil(setTool: (tool: 'pencil') => void): void {
   registry.add(
-    { group: 'Tools', id: 'tool-pencil', label: 'Pencil Tool', icon: 'pen', keys: ['shift+n'], run: () => setTool('pencil'), agent: 'window-only', mutates: false, description: 'Draws freehand like Illustrator\'s Pencil: the trace becomes an editable smooth path with anchors and handles; end near the start to close it. Pencil Fidelity sets how closely it follows the hand.' },
+    { group: 'Tools', id: 'tool-pencil', label: 'Pencil Tool', icon: 'pen', keys: ['shift+n'], run: () => setTool('pencil'), agent: 'window-only', mutates: false, description: 'Draws freehand: the trace becomes an editable smooth path with anchors and handles; end near the start to close it. Pencil Fidelity sets how closely it follows the hand.' },
     {
       group: 'Tools', id: 'pencil-fidelity', label: 'Pencil Fidelity...', icon: 'pen', agent: 'window-only', mutates: false,
       params: { fidelity: { type: 'integer', min: 1, max: 5, description: '1 follows the hand closely with more anchors, 5 is smoothest with fewest' } },

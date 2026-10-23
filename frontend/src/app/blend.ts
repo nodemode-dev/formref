@@ -16,6 +16,6 @@ export function registerBlend(): void {
   registry.add({
     group: 'Inspector', id: 'blend-mode', label: 'Set Blending Mode', icon: 'layers', palette: false, run: p => setBlend(String((p as { mode?: unknown } | undefined)?.mode ?? 'normal')),
     enabled: () => selected().length > 0, params: { mode: { type: 'string', enum: ['normal', ...BLENDS], required: true, description: 'how the selected items mix with what is beneath them' } },
-    description: 'Sets the blending mode of the selected items (images, shapes, notes, any item), as in Illustrator\'s Transparency panel: Multiply darkens, Screen lightens, Overlay adds contrast, Difference compares two references.',
+    description: 'Sets the blending mode of the selected items (images, shapes, notes, any item): Multiply darkens, Screen lightens, Overlay adds contrast, Difference compares two references.',
   });
 }

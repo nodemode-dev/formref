@@ -54,7 +54,7 @@ export function catalogue(): CatalogueEntry[] {
   const optional = new Set(illustratorCommandIds());
   const entry = (command: CommandDef, live: boolean): CatalogueEntry => {
     const described = describe(command);
-    return { ...described, enabled: live && described.enabled, description: optional.has(command.id) ? `Illustrator tools (off by default; Preferences turns them on). ${described.description}` : described.description };
+    return { ...described, enabled: live && described.enabled, description: optional.has(command.id) ? `Vector tools (off by default; Preferences turns them on). ${described.description}` : described.description };
   };
   return [...registry.all().map(c => entry(c, true)), ...dormantCommands().map(c => entry(c, false))];
 }
@@ -76,7 +76,7 @@ function checkParams(command: CommandDef, params: Record<string, unknown>): stri
 
 export async function runCommand(id: string, params: Record<string, unknown> = {}): Promise<{ ok: boolean; error?: string; dialog?: string }> {
   const command = registry.get(id);
-  if (!command && dormantCommands().some(c => c.id === id)) return { ok: false, error: `${id} is one of the Illustrator tools, which are off. The person can turn them on in Preferences.` };
+  if (!command && dormantCommands().some(c => c.id === id)) return { ok: false, error: `${id} is one of the vector tools, which are off. The person can turn them on in Preferences.` };
   if (!command) return { ok: false, error: `No command ${id}. Use list_commands for the ids.` };
   const bad = checkParams(command, params);
   if (bad) return { ok: false, error: bad };

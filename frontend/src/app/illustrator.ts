@@ -37,7 +37,7 @@ function apply(next: boolean): void {
 export function setIllustrator(next: boolean): void {
   try { localStorage.setItem(STORE, next ? 'on' : 'off'); } catch { }
   apply(next);
-  toast(next ? 'Illustrator tools on: Pen, Curvature, Pencil, Direct Selection, Pathfinder and Smart Guides are in the toolbar, menus and palette.' : 'Illustrator tools off. Paths already on the board stay as they are.');
+  toast(next ? 'Vector tools on: Pen, Curvature, Pencil, Direct Selection, Pathfinder and Smart Guides are in the toolbar, menus and palette.' : 'Vector tools off. Paths already on the board stay as they are.');
 }
 
 /** Registers every Illustrator module once, keeps their commands, and removes them again unless the tools are on. */
