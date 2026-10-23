@@ -75,3 +75,7 @@ The editor uses system fonts and original inline SVG icons. Comparison HTMLs loa
 | JetBrains Mono | table headers, badges, source tags | [The JetBrains Mono Project Authors](https://github.com/JetBrains/JetBrainsMono) | [OFL-1.1](licenses/third-party/fonts/jetbrainsmono/OFL.txt) |
 
 OFL-1.1 applies to the font software, not to FormRef's own code or documents. The fonts are served by Google Fonts and are not bundled.
+
+## Trademarks
+
+PureRef, Milanote, BeeRef and Illustrator are trademarks of their respective owners (Illustrator of Adobe in the United States and/or other countries). FormRef is not affiliated with or endorsed by any of them. They are named only to identify file formats FormRef reads or writes and, in "Reference provenance" above, the public documentation that was studied; FormRef's tools, menus and preferences carry their own names (the optional drawing tools are "Vector tools").
