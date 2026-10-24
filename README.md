@@ -139,6 +139,6 @@ Work on `main`; see [release conventions](.docs/wiki/Releases.md). Read [CLAUDE.
 
 ## Licensing
 
-Apache-2.0. See [LICENSE](LICENSE) & [NOTICE.md](NOTICE.md) for dependency and font notices. The user's iStack format & FormVis design conventions were studied under their supplied permissions. No BeeRef code is included; the `.bee` reader and writer are an independent implementation (see NOTICE.md for how BeeRef was consulted).
+Apache-2.0. Copyright 2026 NodeAgentc, Inc. See [LICENSE](LICENSE) & [NOTICE.md](NOTICE.md) for dependency and font notices. The user's iStack format & FormVis design conventions were studied under their supplied permissions. No BeeRef code is included; the `.bee` reader and writer are an independent implementation (see NOTICE.md for how BeeRef was consulted).
 
 PureRef, Milanote, BeeRef and Illustrator are trademarks of their respective owners (Illustrator of Adobe in the United States and/or other countries). FormRef is not affiliated with or endorsed by any of them; they are named only for file compatibility and in the notices on how their public documentation was studied.
