@@ -1,5 +1,8 @@
 {
  "Language": "Sprog",
+ "ABOUT": "OM",
+ "by nodemode.ai": "by nodemode.ai",
+ "Apache License 2.0. Third-party notices are in NOTICE.md.": "Apache License 2.0. Meddelelser fra tredjeparter står i NOTICE.md.",
  "Crop on Canvas": "Beskær på tavlen",
  "Drag the edges or corners (Shift keeps the shape), drag inside to move, Enter or double-click to crop, Esc to cancel.": "Træk i kanter eller hjørner (Skift bevarer formen), træk indeni for at flytte, Enter eller dobbeltklik beskærer, Esc annullerer.",
  "Select one image to crop.": "Vælg ét billede at beskære.",
