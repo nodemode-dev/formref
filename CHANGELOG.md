@@ -1,5 +1,12 @@
 # FormRef changelog
 
+## v0.37.3 · 2026-10-24
+
+Holder and credit.
+
+- `LICENSE` and the README's Licensing section name the copyright holder NodeAgentc, Inc.
+- Studio preferences end with an ABOUT section: FormRef and its version, "by nodemode.ai", and the licence line, translated in every language but the name and credit.
+
 ## v0.37.2 · 2026-10-23
 
 Names and notices.
