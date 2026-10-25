@@ -40,16 +40,16 @@ if "%ACTION%"=="clipper" (
 )
 if "%ACTION%"=="serve" (
   cd backend
-  "%PYTHON_BIN%" -m uvicorn app.main:app --host 127.0.0.1 --port 8196
+  "%PYTHON_BIN%" -m uvicorn app.main:app --host 127.0.0.1 --port 8320
   exit /b !errorlevel!
 )
 if "%ACTION%"=="desktop" (
-  powershell -NoProfile -Command "try { Invoke-WebRequest -UseBasicParsing -Uri 'http://127.0.0.1:8196/api/health' -TimeoutSec 2 -ErrorAction Stop | Out-Null; exit 0 } catch { exit 1 }" >nul 2>nul
+  powershell -NoProfile -Command "try { Invoke-WebRequest -UseBasicParsing -Uri 'http://127.0.0.1:8320/api/health' -TimeoutSec 2 -ErrorAction Stop | Out-Null; exit 0 } catch { exit 1 }" >nul 2>nul
   if errorlevel 1 (
     start "FormRef API" cmd /k call "%~dp0backend\boot_backend.bat"
     echo Close the separate FormRef API window when you finish this desktop session.
   )
-  powershell -NoProfile -Command "for ($attempt = 0; $attempt -lt 30; $attempt++) { try { Invoke-WebRequest -UseBasicParsing -Uri 'http://127.0.0.1:8196/api/health' -TimeoutSec 1 -ErrorAction Stop | Out-Null; exit 0 } catch { Start-Sleep -Milliseconds 200 } }; exit 1" >nul 2>nul
+  powershell -NoProfile -Command "for ($attempt = 0; $attempt -lt 30; $attempt++) { try { Invoke-WebRequest -UseBasicParsing -Uri 'http://127.0.0.1:8320/api/health' -TimeoutSec 1 -ErrorAction Stop | Out-Null; exit 0 } catch { Start-Sleep -Milliseconds 200 } }; exit 1" >nul 2>nul
   if errorlevel 1 (
     echo FormRef API did not become ready. Check the API window before retrying. 1>&2
     exit /b 1

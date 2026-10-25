@@ -27,7 +27,7 @@ echo [formref] == building the window
 pushd frontend & call npm run build || (popd & exit /b 1) & popd
 
 if "%WEB_ONLY%"=="1" (
-  echo [formref] web build done: formref.bat serve, then open http://127.0.0.1:8196
+  echo [formref] web build done: formref.bat serve, then open http://127.0.0.1:8320
   exit /b 0
 )
 echo [formref] == building the desktop app

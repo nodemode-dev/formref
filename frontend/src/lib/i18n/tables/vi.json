@@ -1065,7 +1065,7 @@
  "Spacing gap": "Khoảng cách giãn",
  "Square Corners": "Góc vuông",
  "Standalone workspace. Open inside NodeMode to enable selection assignment.": "Không gian làm việc độc lập. Mở trong NodeMode để bật tính năng gán vùng chọn.",
- "Start FormRef backend on port 8196, then reload": "Khởi động backend FormRef trên cổng 8196, rồi tải lại",
+ "Start FormRef backend on port 8320, then reload": "Khởi động backend FormRef trên cổng 8320, rồi tải lại",
  "Start the Dropbox sign-in again.": "Hãy bắt đầu lại việc đăng nhập Dropbox.",
  "Start the local FormRef service to create a board.": "Hãy khởi động dịch vụ FormRef cục bộ để tạo bảng.",
  "Start with message": "Bắt đầu với tin nhắn",

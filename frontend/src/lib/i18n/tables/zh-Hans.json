@@ -1065,7 +1065,7 @@
  "Spacing gap": "间距",
  "Square Corners": "直角",
  "Standalone workspace. Open inside NodeMode to enable selection assignment.": "独立工作区。在 NodeMode 内打开以启用选区分配。",
- "Start FormRef backend on port 8196, then reload": "在端口 8196 上启动 FormRef 后端，然后重新加载",
+ "Start FormRef backend on port 8320, then reload": "在端口 8320 上启动 FormRef 后端，然后重新加载",
  "Start the Dropbox sign-in again.": "请重新开始 Dropbox 登录。",
  "Start the local FormRef service to create a board.": "请启动本地 FormRef 服务以创建画板。",
  "Start with message": "以此消息开始",

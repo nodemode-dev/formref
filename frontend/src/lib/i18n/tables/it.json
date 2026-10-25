@@ -1065,7 +1065,7 @@
  "Spacing gap": "Spaziatura",
  "Square Corners": "Angoli squadrati",
  "Standalone workspace. Open inside NodeMode to enable selection assignment.": "Area di lavoro autonoma. Aprila all'interno di NodeMode per abilitare l'assegnazione della selezione.",
- "Start FormRef backend on port 8196, then reload": "Avvia il backend di FormRef sulla porta 8196, poi ricarica",
+ "Start FormRef backend on port 8320, then reload": "Avvia il backend di FormRef sulla porta 8320, poi ricarica",
  "Start the Dropbox sign-in again.": "Riavvia l'accesso a Dropbox.",
  "Start the local FormRef service to create a board.": "Avvia il servizio locale di FormRef per creare una bacheca.",
  "Start with message": "Inizia con il messaggio",

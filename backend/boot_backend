@@ -6,4 +6,4 @@ if [[ ! -x "$python_bin" ]]; then
   printf '%s\n' 'Run ./formref_oc_install or set FORMREF_PYTHON to an installed Python environment.' >&2
   exit 1
 fi
-exec "$python_bin" -m uvicorn app.main:app --reload --host 127.0.0.1 --port 8196
+exec "$python_bin" -m uvicorn app.main:app --reload --host 127.0.0.1 --port 8320

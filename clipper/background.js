@@ -3,7 +3,7 @@
 // what stops ordinary web pages from writing to your board.
 const api = globalThis.browser ?? globalThis.chrome;
 
-export const DEFAULTS = { server: 'http://127.0.0.1:8196', token: '', board: '' };
+export const DEFAULTS = { server: 'http://127.0.0.1:8320', token: '', board: '' };
 
 const MENUS = [
   { id: 'formref-image', title: 'Save image to FormRef', contexts: ['image'] },

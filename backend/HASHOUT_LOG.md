@@ -41,6 +41,16 @@
 - [v0.1.0 · Local board service and SDK MCP](#v010--local-board-service-and-sdk-mcp)
 - [boot_backend.bat](#boot_backendbat)
 
+## v0.37.5 · Own dev ports 5320, 5321 and 8320
+
+- refers-to: `app/main.py` :: local_access, `boot_backend`, `app/mcp_server.py`
+
+The family agent-stack standard, section 9 (`AGENT_STACK_STANDARD.md` v0.2.0, owner decision D3, ledger FB-018, formai_dev sidecar). FormRef's dev defaults 5196 and 8196 were also formdesign's and formsculpt's. The dev window is now 5320, the preview 5321 (it shared the window's port) and the engine 8320. The guard needed no change: `local_access` admits any `localhost` or `127.0.0.1` origin whatever its port and has no list of window ports.
+
+Moved: `frontend/vite.config.ts`, the `preview` script, `boot_backend` and `.bat`, `formref` and `formref.bat` (serve, doctor, the desktop health probe), `build_app` and `.bat`, the default API address in `app/mcp_server.py`, `app/agent/service.py`, `app/agent/terminal.py`, `app/cli.py` and `backend/.env.example`, the fallback port in `app/routers/cloud.py`, the clipper's default address (`background.js`, `options.js`, `options.html`), `.mcp.json`, `.cursor/mcp.json`, `.codex/config.toml`, the CI probe, `src-tauri/tauri.conf.json` (`devUrl`, `frontendDist`, the dev CSP) and `src-tauri/capabilities/main-window.json`, the English message `Start FormRef backend on port 8320, then reload` and its key in the 23 translation tables, README, CLAUDE.md, AGENTS.md, the wiki and both skill copies. The desktop shell still loads a fixed URL, now `http://127.0.0.1:8320`; FB-019 (its release workflow) is separate and was not touched. Earlier entries, the CHANGELOG history and lock checksums keep the old numbers on purpose.
+
+Checked: `./formref backend` and `./formref frontend` with no environment variables bind 5320 and 8320 only. `/api/health` with `Origin: http://localhost:5320` 200, `http://localhost:5321` 200, no Origin 200, through the Vite proxy 200; `Host: evil.example`, `Origin: http://evil.example`, `Origin: null` and no Origin with `Sec-Fetch-Site: cross-site` 403. `./formref mcp` with no `FORMREF_API_URL` initializes and lists 47 tools. The dev window on `http://localhost:5320/` and the built window (service on 9145) under 4x CPU and network throttling, two shift runs and one throttle run each: layout shift 0, the only failed requests the 503s of `/api/boards` (the Rust engine is not built in this sandbox), and no 403 produced by the window. `./formref i18n check` reports 1515 keys, 21 missing and 11 unused in every table (the same in all 23, so the renamed key is found in each); the tables parse.
+
 ## v0.37.4 · Cross-site requests without an Origin are refused
 
 - refers-to: `app/main.py` :: local_access cross-site refusal

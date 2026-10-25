@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
-    "preview": "vite preview --host localhost --port 5196",
+    "preview": "vite preview --host localhost --port 5321",
     "tauri": "cd .. && tauri"
   },
   "dependencies": {

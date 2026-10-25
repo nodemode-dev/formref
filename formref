@@ -17,7 +17,7 @@ case "$action" in
     done
     if [[ -x "$python_bin" ]]; then printf '%s\n' 'Python environment: available'; else printf '%s\n' 'Python environment: missing, run ./formref install'; fi
     if [[ -x "$root/native/formref-core/target/release/formref-core" ]]; then printf '%s\n' 'Rust core: built'; else printf '%s\n' 'Rust core: missing, run ./formref core'; fi
-    if command -v curl >/dev/null 2>&1; then curl --connect-timeout 2 --max-time 3 --silent --show-error http://127.0.0.1:8196/api/health || true; fi
+    if command -v curl >/dev/null 2>&1; then curl --connect-timeout 2 --max-time 3 --silent --show-error http://127.0.0.1:8320/api/health || true; fi
     ;;
   install) exec "$root/formref_oc_install" ;;
   core) exec cargo build --release --manifest-path "$root/native/formref-core/Cargo.toml" ;;
@@ -38,7 +38,7 @@ case "$action" in
     ;;
   serve)
     cd backend
-    exec "$python_bin" -m uvicorn app.main:app --host 127.0.0.1 --port 8196
+    exec "$python_bin" -m uvicorn app.main:app --host 127.0.0.1 --port 8320
     ;;
   mcp)
     cd backend
@@ -78,7 +78,7 @@ case "$action" in
       exec npm run tauri -- build "${@:3}"
     fi
     api_pid=""
-    if ! curl --silent --fail --connect-timeout 1 --max-time 2 http://127.0.0.1:8196/api/health >/dev/null 2>&1; then
+    if ! curl --silent --fail --connect-timeout 1 --max-time 2 http://127.0.0.1:8320/api/health >/dev/null 2>&1; then
       "$root/backend/boot_backend" &
       api_pid=$!
     fi

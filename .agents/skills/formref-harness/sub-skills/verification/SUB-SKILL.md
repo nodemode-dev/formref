@@ -9,7 +9,7 @@ description: How FormRef work is proven. Load before handing back any UI, agent 
 
 ## Service
 
-Boot on a scratch data folder so real boards are never touched: `FORMREF_DATA_DIR=[scratch] backend/venv/bin/python -m uvicorn app.main:app --host 127.0.0.1 --port 8196` from `backend/`, after `npm run build` in `frontend/` (the service serves `frontend/dist`). Check `GET /api/health`. Drive REST with a small script; read results back with `GET /api/boards/[id]`.
+Boot on a scratch data folder so real boards are never touched: `FORMREF_DATA_DIR=[scratch] backend/venv/bin/python -m uvicorn app.main:app --host 127.0.0.1 --port 8320` from `backend/`, after `npm run build` in `frontend/` (the service serves `frontend/dist`). Check `GET /api/health`. Drive REST with a small script; read results back with `GET /api/boards/[id]`.
 
 ## Browser
 

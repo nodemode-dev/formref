@@ -67,11 +67,11 @@ formref.bat
 
 | Service | URL | Notes |
 |---|---|---|
-| Editor dev | http://localhost:5196 | Vite, loopback only |
-| Backend | http://127.0.0.1:8196 | API & built frontend |
-| API docs | http://127.0.0.1:8196/docs | Live API schema |
+| Editor dev | http://localhost:5320 | Vite, loopback only |
+| Backend | http://127.0.0.1:8320 | API & built frontend |
+| API docs | http://127.0.0.1:8320/docs | Live API schema |
 | MCP | stdio | `./formref mcp` |
-| MCP over HTTP | http://127.0.0.1:8196/mcp | Same tools; used by the dock's Claude Code and Chat |
+| MCP over HTTP | http://127.0.0.1:8320/mcp | Same tools; used by the dock's Claude Code and Chat |
 
 Build the whole app, start to finish (tools check, install, Rust core, window, desktop packages), from the repo root:
 
@@ -88,7 +88,7 @@ Build & serve the frontend from one local service:
 ./formref serve
 ```
 
-Then open http://127.0.0.1:8196.
+Then open http://127.0.0.1:8320.
 
 ## MCP
 

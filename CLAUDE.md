@@ -13,7 +13,7 @@ Start a continuation by reading the matching planning sidecar and the affected s
 | Developer/user documentation | `README.md`, `.docs/wiki/` |
 | Project workflow knowledge | `.claude/skills/formref-harness/` |
 
-Use `./formref help` to inspect current commands. Build with `./formref build`, launch with `./formref dev` on localhost 5196 and 127.0.0.1:8196. MCP mutations must appear in the same persisted board and be confirmed by readback; tool/config source alone does not prove a client connection.
+Use `./formref help` to inspect current commands. Build with `./formref build`, launch with `./formref dev` on localhost 5320 and 127.0.0.1:8320. MCP mutations must appear in the same persisted board and be confirmed by readback; tool/config source alone does not prove a client connection.
 
 ## Trademarks and copied material
 

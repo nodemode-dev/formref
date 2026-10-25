@@ -16,7 +16,7 @@ from mcp.server.fastmcp import FastMCP, Image
 from mcp.types import ToolAnnotations
 from .core.config import settings
 
-API_URL = os.environ.get("FORMREF_API_URL", "http://127.0.0.1:8196").rstrip("/")
+API_URL = os.environ.get("FORMREF_API_URL", "http://127.0.0.1:8320").rstrip("/")
 _api_parts = urlparse(API_URL)
 if _api_parts.scheme != "http" or _api_parts.hostname not in {"localhost", "127.0.0.1", "::1"} or _api_parts.username or _api_parts.password or _api_parts.path not in {"", "/"} or _api_parts.query or _api_parts.fragment:
     raise ValueError("FORMREF_API_URL must be a loopback HTTP service URL.")

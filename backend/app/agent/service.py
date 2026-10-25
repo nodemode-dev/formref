@@ -10,7 +10,7 @@ from ..core.config import ROOT, settings
 from ..core.store import store
 from . import runners
 
-API_URL = os.environ.get("FORMREF_API_URL", "http://127.0.0.1:8196").rstrip("/")
+API_URL = os.environ.get("FORMREF_API_URL", "http://127.0.0.1:8320").rstrip("/")
 DEFAULTS = {"runner": "claude", "ollama_url": "http://127.0.0.1:11434", "ollama_model": "", "outside_agents": False, "model": "", "confirm_changes": True, "claude_folder": "", "claude_bin": "", "claude_first_message": ""}
 MAX_STEPS = 12
 SNAPSHOT_KEYS = ("items", "connections", "settings", "title", "background")

@@ -14,7 +14,7 @@ else:
     from ptyprocess import PtyProcessUnicode as PtyProcess
 
 SCROLLBACK = 256 * 1024
-API_URL = "http://127.0.0.1:8196"
+API_URL = "http://127.0.0.1:8320"
 
 
 class Session:

@@ -8,7 +8,7 @@ import webbrowser
 from pathlib import Path
 from urllib import error, request
 
-API = os.environ.get("FORMREF_API", "http://127.0.0.1:8196")
+API = os.environ.get("FORMREF_API", "http://127.0.0.1:8320")
 WINDOW = os.environ.get("FORMREF_WINDOW", API)
 MEDIA = {".png", ".jpg", ".jpeg", ".webp", ".gif", ".bmp", ".avif", ".svg", ".mp4", ".webm", ".mov", ".m4v", ".mp3", ".wav", ".ogg", ".m4a"}
 

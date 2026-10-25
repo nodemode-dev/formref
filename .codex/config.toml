@@ -3,4 +3,4 @@ command = "./formref"
 args = ["mcp"]
 
 [mcp_servers.formref.env]
-FORMREF_API_URL = "http://127.0.0.1:8196"
+FORMREF_API_URL = "http://127.0.0.1:8320"

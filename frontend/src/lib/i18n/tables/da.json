@@ -1065,7 +1065,7 @@
  "Spacing gap": "Mellemrumsafstand",
  "Square Corners": "Firkantede hjørner",
  "Standalone workspace. Open inside NodeMode to enable selection assignment.": "Selvstændigt arbejdsområde. Åbn i NodeMode for at aktivere markeringstildeling.",
- "Start FormRef backend on port 8196, then reload": "Start FormRef-backend på port 8196, og genindlæs derefter",
+ "Start FormRef backend on port 8320, then reload": "Start FormRef-backend på port 8320, og genindlæs derefter",
  "Start the Dropbox sign-in again.": "Start Dropbox-login igen.",
  "Start the local FormRef service to create a board.": "Start den lokale FormRef-tjeneste for at oprette en tavle.",
  "Start with message": "Start med besked",

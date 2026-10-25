@@ -1065,7 +1065,7 @@
  "Spacing gap": "Mezera mezi položkami",
  "Square Corners": "Hranaté rohy",
  "Standalone workspace. Open inside NodeMode to enable selection assignment.": "Samostatný pracovní prostor. Otevřete v NodeMode, abyste povolili přiřazení výběru.",
- "Start FormRef backend on port 8196, then reload": "Spusťte backend FormRef na portu 8196 a poté znovu načtěte",
+ "Start FormRef backend on port 8320, then reload": "Spusťte backend FormRef na portu 8320 a poté znovu načtěte",
  "Start the Dropbox sign-in again.": "Zahajte přihlášení k Dropbox znovu.",
  "Start the local FormRef service to create a board.": "Spusťte místní službu FormRef, abyste mohli vytvořit tabuli.",
  "Start with message": "Začít zprávou",

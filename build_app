@@ -6,7 +6,7 @@ root="$PWD"
 usage() {
   cat <<'EOF'
 ./build_app            build FormRef from this folder, start to finish: tools check, install, Rust core, window, desktop app
-  --web                stop after the web build (./formref serve then runs it at http://127.0.0.1:8196)
+  --web                stop after the web build (./formref serve then runs it at http://127.0.0.1:8320)
   --open               start FormRef when the build is done
   --clean              rebuild the Rust core and the desktop shell from nothing
   --                   everything after this goes to tauri build (for example -- --bundles deb)
@@ -82,7 +82,7 @@ step "building the window"
 (cd frontend && npm run build)
 
 if [ "$web_only" = 1 ]; then
-  say "web build done: ./formref serve, then open http://127.0.0.1:8196"
+  say "web build done: ./formref serve, then open http://127.0.0.1:8320"
 else
   step "building the desktop app"
   (cd frontend && npm run tauri -- build ${tauri_args[@]+"${tauri_args[@]}"})

@@ -6,7 +6,7 @@
   "platforms": ["macOS", "windows", "linux"],
   "local": true,
   "remote": {
-    "urls": ["http://127.0.0.1:8196/*", "http://localhost:5196/*", "http://127.0.0.1:5196/*"]
+    "urls": ["http://127.0.0.1:8320/*", "http://localhost:5320/*", "http://127.0.0.1:5320/*"]
   },
   "permissions": [
     "formref-window-configure",

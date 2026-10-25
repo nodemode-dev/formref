@@ -8,7 +8,7 @@ From the extracted `formref/` root, run:
 ./formref dev
 ```
 
-Open the frontend at `http://localhost:5196`. The backend is `http://127.0.0.1:8196`; `/api/health` confirms it is responding. Both services bind loopback. Use `./formref help` for current commands and `./formref build` before production serving or packaging.
+Open the frontend at `http://localhost:5320`. The backend is `http://127.0.0.1:8320`; `/api/health` confirms it is responding. Both services bind loopback. Use `./formref help` for current commands and `./formref build` before production serving or packaging.
 
 The toolchain needs Node/npm, Python and Rust/Cargo. The repository dispatcher coordinates them; an installation failure should identify its specific missing dependency. Do not assume an installer for another Form app provides this project's engine or Python environment.
 

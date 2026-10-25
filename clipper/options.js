@@ -1,5 +1,5 @@
 const api = globalThis.browser ?? globalThis.chrome;
-const DEFAULTS = { server: 'http://127.0.0.1:8196', token: '', board: '' };
+const DEFAULTS = { server: 'http://127.0.0.1:8320', token: '', board: '' };
 const $ = id => document.getElementById(id);
 const ALL = { origins: ['<all_urls>'] };
 
@@ -21,7 +21,7 @@ async function fillBoards(selected) {
 
 async function connect() {
   const server = $('server').value.trim() || DEFAULTS.server;
-  if (!/^http:\/\/(127\.0\.0\.1|localhost)(:\d+)?\/?$/.test(server)) { status('Use the loopback address FormRef prints, such as http://127.0.0.1:8196.', 'bad'); return; }
+  if (!/^http:\/\/(127\.0\.0\.1|localhost)(:\d+)?\/?$/.test(server)) { status('Use the loopback address FormRef prints, such as http://127.0.0.1:8320.', 'bad'); return; }
   await api.storage.local.set({ server, token: $('token').value.trim() });
   status('Connecting...');
   try {

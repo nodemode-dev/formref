@@ -708,7 +708,7 @@ export async function start() {
   } catch (reason) {
     setText('connection-state', 'Service unavailable');
     setText('save-status', 'Disconnected');
-    setText('tool-status', 'Start FormRef backend on port 8196, then reload');
+    setText('tool-status', 'Start FormRef backend on port 8320, then reload');
     toast(`Could not connect to the local service: ${reason instanceof Error ? reason.message : String(reason)}`);
   }
 }

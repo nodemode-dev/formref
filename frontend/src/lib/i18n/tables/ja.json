@@ -1065,7 +1065,7 @@
  "Spacing gap": "間隔",
  "Square Corners": "コーナーを直角に",
  "Standalone workspace. Open inside NodeMode to enable selection assignment.": "スタンドアロンのワークスペースです。選択範囲の割り当てを有効にするには NodeMode 内で開いてください。",
- "Start FormRef backend on port 8196, then reload": "ポート 8196 で FormRef バックエンドを起動してから、再読み込みしてください",
+ "Start FormRef backend on port 8320, then reload": "ポート 8320 で FormRef バックエンドを起動してから、再読み込みしてください",
  "Start the Dropbox sign-in again.": "Dropbox のサインインをもう一度始めてください。",
  "Start the local FormRef service to create a board.": "ボードを作成するには、ローカルの FormRef サービスを起動してください。",
  "Start with message": "このメッセージで開始",

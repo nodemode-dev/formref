@@ -1065,7 +1065,7 @@
  "Spacing gap": "ระยะห่าง",
  "Square Corners": "มุมฉาก",
  "Standalone workspace. Open inside NodeMode to enable selection assignment.": "พื้นที่ทำงานแบบสแตนด์อโลน เปิดภายใน NodeMode เพื่อเปิดใช้การกำหนดสิ่งที่เลือก",
- "Start FormRef backend on port 8196, then reload": "เริ่มแบ็กเอนด์ FormRef ที่พอร์ต 8196 แล้วโหลดใหม่",
+ "Start FormRef backend on port 8320, then reload": "เริ่มแบ็กเอนด์ FormRef ที่พอร์ต 8320 แล้วโหลดใหม่",
  "Start the Dropbox sign-in again.": "เริ่มการลงชื่อเข้าใช้ Dropbox ใหม่อีกครั้ง",
  "Start the local FormRef service to create a board.": "เริ่มบริการ FormRef ในเครื่องเพื่อสร้างบอร์ด",
  "Start with message": "เริ่มด้วยข้อความ",
