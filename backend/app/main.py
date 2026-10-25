@@ -54,6 +54,8 @@ async def local_access(request: Request, call_next):
         if not local:
             return JSONResponse(status_code=403, content={"detail": "FormRef accepts local clients only."})
     origin = request.headers.get("origin")
+    if not origin and request.headers.get("sec-fetch-site", "").strip().lower() == "cross-site":
+        return JSONResponse(status_code=403, content={"detail": "Origin is not an allowed local application."})
     if origin:
         parsed = urlparse(origin)
         # The browser clipper calls from its extension origin; it may reach the clip routes, which check the pairing token, and nothing else.

@@ -8,6 +8,7 @@
 
 ## Contents
 
+- [v0.37.4 · Cross-site requests without an Origin are refused](#v0374--cross-site-requests-without-an-origin-are-refused)
 - [v0.32.0 · Stack cards in picture exports](#v0320--stack-cards-in-picture-exports)
 - [v0.31.0 · Collapsed groups follow their groups](#v0310--collapsed-groups-follow-their-groups)
 - [v0.30.0 · Connection routes in exports](#v0300--connection-routes-in-exports)
@@ -39,6 +40,18 @@
 - [v0.2.0 · Canvas settings and snapping through MCP](#v020--canvas-settings-and-snapping-through-mcp)
 - [v0.1.0 · Local board service and SDK MCP](#v010--local-board-service-and-sdk-mcp)
 - [boot_backend.bat](#boot_backendbat)
+
+## v0.37.4 · Cross-site requests without an Origin are refused
+
+- refers-to: `app/main.py` :: local_access cross-site refusal
+
+The family agent-stack standard, rule G4 (`AGENT_STACK_STANDARD.md` v0.2.0, owner decision D4, ledger FB-035, formai_dev sidecar). `local_access` checked the Host, the client address and, when one was sent, the Origin, but a request with no Origin passed once its Host was loopback. A web page could therefore make the service answer a GET by pointing an `<img>` or a link at `http://127.0.0.1:<port>/...`: browsers send no Origin on those, and any GET route with a side effect would run. Proven on formsculpt 1.18.6, where such a GET answered 200 and its side effect ran.
+
+Browsers label every request with `Sec-Fetch-Site`, and only a page on another site gets `cross-site`. So `local_access` now refuses a request with no Origin when that header says `cross-site` (trimmed, case-insensitive), with the same 403 and the body "Origin is not an allowed local application." A request that carries an Origin is still decided by the existing Origin rule alone, and `same-site` is kept on purpose: a dev window on `localhost:5196` loading straight from `localhost:8196` is same-site, and no outside page can be same-site with localhost. The CLI, `app/mcp_server.py` (its HTTP client sends neither header) and Claude Code's MCP client pass as before.
+
+The browser clipper is unchanged: its requests come from a `chrome-extension://` or `moz-extension://` origin, so they carry an Origin and are decided by the clipper rule on `/api/clip` and `/api/clip/boards`, then by the pairing token. The new rule never applies to them. The one thing it adds on those two routes is that a web page cannot reach them without an Origin.
+
+Checked against the running service (built window served from `frontend/dist`; the Rust engine is not built in this sandbox, so `/api/boards` answers 503 as before): no Origin with `cross-site` 403 (also padded `Cross-Site`); `same-site`, `same-origin`, `none`, no header at all, and `cross-site` with the allowed Origin `http://localhost:5196` 200; `Host: evil.example` and `Origin: http://evil.example` still 403. An extension Origin on `/api/clip/boards` answers 401 (the pairing token) with or without `Sec-Fetch-Site: cross-site`, so the clipper path is untouched. In Chromium, a page served from `http://127.0.0.2:9902` with an `<img>` and a clicked link pointing at `/api/health` got 403 for both, shown in the service log. The built window under 4x CPU and network throttling, two shift runs and one throttle run: layout shift 0, no 403 line produced by the window (the only failed requests are the 503s of `/api/boards`). `app/mcp_server.py` initializes and lists 47 tools; `POST /mcp` initialize with no Origin answers 200.
 
 ## v0.32.0 · Stack cards in picture exports
 
