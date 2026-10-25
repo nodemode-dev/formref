@@ -1,5 +1,11 @@
 # FormRef changelog
 
+## v0.37.5 · 2026-10-25
+
+Own ports.
+
+- FormRef's dev window, preview and engine now use 5320, 5321 and 8320, so they no longer collide with another form app on the same computer.
+
 ## v0.37.4 · 2026-10-25
 
 Cross-site requests.
