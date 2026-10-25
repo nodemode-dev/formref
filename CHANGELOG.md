@@ -1,5 +1,11 @@
 # FormRef changelog
 
+## v0.37.4 · 2026-10-25
+
+Cross-site requests.
+
+- A web page can no longer reach the service through an image or a link.
+
 ## v0.37.3 · 2026-10-24
 
 Holder and credit.
