@@ -52,6 +52,15 @@ Family ledger FB-044 (S1), found by the FAMILY_TEST_PLAN F1 layer. `local_access
 
 Checked: the F1 layer's 44 cases pass (they failed for another local port, for the own origin under the other loopback name, and for the two Tauri origins); the dev window through the Vite proxy sends Origin `http://localhost:5320`, a listed origin. The removed `LOCAL` set and `urlparse` import in `terminal.py` had no other use.
 
+### backend/tests · the family suite for formref
+- refers-to: `tests/conftest.py` (the family block), `test_f1_guard.py`, `test_f4_versions.py`, `test_f9_release_profiles.py` (templates), `test_f3_mcp.py`, `test_f5_boot.py`, `test_terminal_socket.py`, `test_boards_and_clipper.py`; `native/formref-core/tests/board_engine.rs`
+
+FAMILY_TEST_PLAN v0.3.0 P1: F1, F3, F5, the board engine, the board round trip, the clipper token and iStack import. Two changes to the template conftest, both specific to formref: the test client connects from `127.0.0.1` (formref also refuses non-loopback clients, and the test client's default address is `testclient`), and `FORMREF_ENGINE_PATH` survives the sandbox's clearing of `FORMREF_*` variables so a local run can point at an engine built outside the tree; CI builds it at the default path. F3 is formref's own: the HTTP endpoint calls the API at `FORMREF_API_URL` and would start an engine of its own if none answered there, so in-process it is checked for initialize, origin refusal, the tool list and an unknown method, and tool calls go through the stdio relay (`app.mcp_server`) against the booted engine: a read passes and a change is refused while outside agents are off.
+
+The template's websocket case connects with the test client's default Host `testserver`, which the loopback Host check refuses before the Origin is read, so it passes whatever the Origin check does. `test_terminal_socket.py` connects with Host `127.0.0.1:8320`: another origin (another local port, `null`, an extension) closes 4403, and the window's origins and no Origin get past the guard to the session lookup, which closes 4404 for the unknown id. On 0.37.6 the other-port cases fail.
+
+The Rust tests drive `session::Engine` directly: add, move, group, connect, remove (its connections go), lock, batch atomicity, undo and redo to exact states, a saved board reopening byte for byte, invalid boards refused on open, and the line protocol's ids. `test_boards_and_clipper.py` covers the service: a board after the engine restarts, undo and redo, a stale revision refused, a portable export importing as the same board, an iStack project (embedded and missing images, a group, a note, a line drawing, an unsupported record, and the import report), broken iStack files refused, and the clipper refusing a missing or wrong token, keeping its token routes from extension origins, and unpairing an old token on reset.
+
 ## v0.37.5 · Own dev ports 5320, 5321 and 8320
 
 - refers-to: `app/main.py` :: local_access, `boot_backend`, `app/mcp_server.py`
