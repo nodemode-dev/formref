@@ -8,6 +8,7 @@
 
 ## Contents
 
+- [v0.37.7 · Only the window's own origins reach the engine](#v0377--only-the-windows-own-origins-reach-the-engine)
 - [v0.37.4 · Cross-site requests without an Origin are refused](#v0374--cross-site-requests-without-an-origin-are-refused)
 - [v0.32.0 · Stack cards in picture exports](#v0320--stack-cards-in-picture-exports)
 - [v0.31.0 · Collapsed groups follow their groups](#v0310--collapsed-groups-follow-their-groups)
@@ -40,6 +41,16 @@
 - [v0.2.0 · Canvas settings and snapping through MCP](#v020--canvas-settings-and-snapping-through-mcp)
 - [v0.1.0 · Local board service and SDK MCP](#v010--local-board-service-and-sdk-mcp)
 - [boot_backend.bat](#boot_backendbat)
+
+## v0.37.7 · Only the window's own origins reach the engine
+
+- refers-to: `app/core/origins.py` (new) :: WINDOW_ORIGINS, allowed, loopback_host; `app/main.py` :: local_access; `app/routers/terminal.py` :: _local, attach
+
+Family ledger FB-044 (S1), found by the FAMILY_TEST_PLAN F1 layer. `local_access` admitted any `http` or `https` Origin whose host was `localhost`, `127.0.0.1` or `::1`, whatever its port, and the terminal websocket did the same, so a page served from any other port on this computer (another app's dev server, a local preview, a downloaded page opened through one) could open a terminal (`POST /api/terminal`, then `/api/terminal/{sid}/ws`), run commands in it, and edit every board. The family standard (G2) admits an Origin only when it is one of the window's own origins or the engine's own origin, the `http` Origin whose host and port equal the request's Host.
+
+`origins.allowed` is that rule in one place: the dev window and preview on localhost and 127.0.0.1 (5320, 5321), `tauri://localhost` and `http://tauri.localhost` (the desktop shell today loads the engine's own URL, FB-019), the engine's own origin, and the clipper's extension origin only on `/api/clip` and `/api/clip/boards`, which check the pairing token. `local_access` and the terminal websocket both call it; the websocket also keeps its loopback Host check through `loopback_host`, and a missing Origin is still a local client, as before. The comment that explained the clipper exception in `main.py` lives here now: the clipper calls from its extension origin, it may reach the clip routes, which check the pairing token, and nothing else.
+
+Checked: the F1 layer's 44 cases pass (they failed for another local port, for the own origin under the other loopback name, and for the two Tauri origins); the dev window through the Vite proxy sends Origin `http://localhost:5320`, a listed origin. The removed `LOCAL` set and `urlparse` import in `terminal.py` had no other use.
 
 ## v0.37.5 · Own dev ports 5320, 5321 and 8320
 

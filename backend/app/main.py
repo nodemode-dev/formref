@@ -6,6 +6,7 @@ from urllib.parse import urlparse
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse, FileResponse
 from starlette.middleware.cors import CORSMiddleware
+from .core import origins
 from .core.config import ROOT, VERSION, settings
 from .core.engine import broker, EngineError
 from .core.extensions import registry
@@ -56,12 +57,8 @@ async def local_access(request: Request, call_next):
     origin = request.headers.get("origin")
     if not origin and request.headers.get("sec-fetch-site", "").strip().lower() == "cross-site":
         return JSONResponse(status_code=403, content={"detail": "Origin is not an allowed local application."})
-    if origin:
-        parsed = urlparse(origin)
-        # The browser clipper calls from its extension origin; it may reach the clip routes, which check the pairing token, and nothing else.
-        clipper_call = parsed.scheme in {"chrome-extension", "moz-extension"} and request.url.path in {"/api/clip", "/api/clip/boards"}
-        if not clipper_call and (parsed.scheme not in {"http", "https"} or parsed.hostname not in {"localhost", "127.0.0.1", "::1"}):
-            return JSONResponse(status_code=403, content={"detail": "Origin is not an allowed local application."})
+    if origin and not origins.allowed(origin, request.headers.get("host", ""), request.url.path):
+        return JSONResponse(status_code=403, content={"detail": "Origin is not an allowed local application."})
     length = request.headers.get("content-length")
     if length:
         try:

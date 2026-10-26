@@ -1,23 +1,22 @@
 import asyncio
 import json
 import re
-from urllib.parse import urlparse
 
 from fastapi import APIRouter, HTTPException, Request, WebSocket, WebSocketDisconnect
 from fastapi.responses import FileResponse, StreamingResponse
 from pydantic import BaseModel, Field
 
 from ..agent import chat, claude_code, terminal
+from ..core import origins
 
 router = APIRouter(prefix="/api", tags=["terminal"])
-LOCAL = {"localhost", "127.0.0.1", "::1", "tauri.localhost"}
 EXIT = json.dumps({"type": "exit"})
 
 
-def _local(origin: str | None) -> bool:
-    if not origin:
-        return True
-    return (urlparse(origin).hostname or "") in LOCAL or origin.startswith("tauri://")
+def _local(origin: str | None, host: str) -> bool:
+    if not origins.loopback_host(host):
+        return False
+    return not origin or origins.allowed(origin, host)
 
 
 def _window_only(request: Request) -> None:
@@ -172,7 +171,7 @@ async def chat_events(request: Request):
 
 @router.websocket("/terminal/{sid}/ws")
 async def attach(ws: WebSocket, sid: str) -> None:
-    if not _local(ws.headers.get("origin")) or (urlparse("http://" + ws.headers.get("host", "")).hostname not in {"localhost", "127.0.0.1", "::1"}):
+    if not _local(ws.headers.get("origin"), ws.headers.get("host", "")):
         await ws.close(code=4403)
         return
     await ws.accept()
