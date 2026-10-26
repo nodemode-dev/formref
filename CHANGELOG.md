@@ -1,5 +1,12 @@
 # FormRef changelog
 
+## v0.37.7 · 2026-10-26
+
+Only FormRef's own window.
+
+- The service and its terminals answer only FormRef's own window, its desktop shell, agents on this computer and the paired clipper. A page served from another port on this computer could open a terminal and edit boards before.
+- A test suite checks the board engine, saving and opening boards, iStack import, the clipper's pairing and the service's guard; it runs on every change.
+
 ## v0.37.6 · 2026-10-26
 
 Symbols kept.

@@ -4,7 +4,7 @@ version = 4
 
 [[package]]
 name = "formref-core"
-version = "0.37.6"
+version = "0.37.7"
 dependencies = [
  "serde",
  "serde_json",
