@@ -33,6 +33,7 @@ FormRef's original source and vector artwork are Apache-2.0. The repository's fu
 | TypeScript | 7.0.2 | Apache-2.0 | Build-time compiler |
 | Vite | 8.3.4 | MIT | Build-time/dev server |
 | pytest | 9.1.1 | MIT | Test suite in `backend/tests` and CI only (`backend/requirements-test.txt`), never shipped |
+| Playwright (Python) | 1.63.0 | Apache-2.0 | Window smoke in `frontend/tests/window` and CI only, never installed in the app |
 | Tauri | 2.12.3 | MIT OR Apache-2.0 | Optional desktop development shell; the `tray-icon` and `image-png` features (v0.7.2) add image 0.25.10 (MIT OR Apache-2.0), moxcms and pxfm (BSD-3-Clause OR Apache-2.0) and byteorder-lite (Unlicense OR MIT). On Linux the tray uses the system's libayatana-appindicator, loaded at run time and not shipped |
 | tauri-build | 2.7.2 | MIT OR Apache-2.0 | Build-time desktop generation |
 | Tauri CLI | 2.12.1 | MIT OR Apache-2.0 | Build-time desktop CLI |
