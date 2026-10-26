@@ -40,7 +40,7 @@ One engine owns every mutation, so the canvas, REST, MCP and the agent share one
 - **One stacking scale.** Every `z-index` is a token from `frontend/src/styles/tokens.css`; overlays render into `#overlay-root`.
 - **Icons mean one thing.** Add a glyph to `frontend/src/ui/icons.ts` named after its action; `icon()` throws on unknown names.
 - **Surgical edits.** Edit existing files region by region; no codemods, patch files or bulk replacements. New modules are fine.
-- **No self-written tests.** Testing pressure goes to the planning sidecar's `TEST_PLAN.md` unless the owner asks for tests.
+- **Tests only as the family plan names them.** `backend/tests` and `native/formref-core/tests` hold the suite FAMILY_TEST_PLAN names and CI runs it; add no other test code. Other testing pressure goes to the planning sidecar's `TEST_PLAN.md`.
 - **References stay references.** BeeRef is GPL: read its docs, never its code. iStack is the owner's; its compiled bundle guides behaviour and format only.
 - **Planning docs live in the sidecar.** `DEV_PLAN.md`, `BUILD_NOTES.md`, the root `HASHOUT_LOG.md`, `PARITY.md` and the parity data never enter the repository.
 
