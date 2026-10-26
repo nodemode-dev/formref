@@ -1,5 +1,12 @@
 # FormRef changelog
 
+## v0.37.8 · 2026-10-26
+
+A steady start.
+
+- The start-up screen's logo no longer jumps when the rest of the screen appears.
+- A window smoke test loads the built window and the start-up screen under throttling and fails on any layout shift, console error, failed request or refused request; it runs on every change.
+
 ## v0.37.7 · 2026-10-26
 
 Only FormRef's own window.
