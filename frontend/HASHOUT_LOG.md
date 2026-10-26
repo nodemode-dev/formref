@@ -8,6 +8,7 @@
 - [Stacking scale](#stacking-scale)
 - [Verification](#verification)
 - [Scripts](#scripts)
+- [v0.37.8 · The splash logo holds its place](#v0378--the-splash-logo-holds-its-place)
 - [v0.32.0 stack export option](#v0320-stack-export-option)
 - [v0.31.0 group stacks](#v0310-group-stacks)
 - [v0.30.0 connection routes](#v0300-connection-routes)
@@ -55,6 +56,14 @@
 - [v0.4.8 desktop window controls and WebKit icons](#v048-desktop-window-controls-and-webkit-icons)
 - [v0.4.7 synced notes, map cards, inline edit commit](#v047-synced-notes-map-cards-inline-edit-commit)
 - [v0.4.6 GIF frames and document export](#v046-gif-frames-and-document-export)
+
+## v0.37.8 · The splash logo holds its place
+
+- refers-to: `public/splash.html` :: body, p
+
+Family ledger FB-131 (S3), found by the F7 window smoke (`tests/window/test_window.py`). The splash centred the logo together with the line and the bar under it, so a paint that landed after the logo but before the rest centred the logo alone and moved it when the rest arrived (layout shift 1.05e-4, IMG, about 1 load in 15; reproduced on demand with a server that sent the page up to the logo, waited 1 s and sent the rest). The body now starts at the top with a padding-top of `50vh - 64.5px` (half of the 127 px stack plus the 1 px border) and the line has a fixed 16 px height, so the logo's position no longer depends on later siblings and sits where it did.
+
+Verified: the same stalled load gave 1.05e-4 before and 0 after; the F7 smoke passes 15 loads in a row on both pages.
 
 ## v0.32.0 stack export option
 
