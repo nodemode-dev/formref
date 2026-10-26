@@ -1,5 +1,11 @@
 # FormRef changelog
 
+## v0.37.6 · 2026-10-26
+
+Symbols kept.
+
+- The desktop app and the board engine are built unstripped, since macOS builds fail on a stripped binary.
+
 ## v0.37.5 · 2026-10-25
 
 Own ports.

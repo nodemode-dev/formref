@@ -3,7 +3,7 @@ import os
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[3]
-VERSION = "0.37.5"
+VERSION = "0.37.6"
 
 @dataclass(frozen=True)
 class Settings:
