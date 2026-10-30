@@ -1,5 +1,14 @@
 # FormRef changelog
 
+## v0.38.0 · 2026-10-30
+
+An app of its own.
+
+- FormRef installs as a desktop app on macOS, Linux and Windows. The app carries its own engine, starts it when it opens and stops it when it quits, so nothing else has to run beside it.
+- If the engine cannot start, the start-up screen says why and where its log is.
+- build_app and build_app.bat make the installers on the computer they run on, and both pass extra arguments to the desktop build.
+- Scripts keep the line endings their system needs on every checkout.
+
 ## v0.37.8 · 2026-10-26
 
 A steady start.
