@@ -8,6 +8,7 @@
 
 ## Contents
 
+- [v0.38.0 · The engine frozen as the desktop app's sidecar](#v0380--the-engine-frozen-as-the-desktop-apps-sidecar)
 - [v0.37.7 · Only the window's own origins reach the engine](#v0377--only-the-windows-own-origins-reach-the-engine)
 - [v0.37.4 · Cross-site requests without an Origin are refused](#v0374--cross-site-requests-without-an-origin-are-refused)
 - [v0.32.0 · Stack cards in picture exports](#v0320--stack-cards-in-picture-exports)
@@ -41,6 +42,20 @@
 - [v0.2.0 · Canvas settings and snapping through MCP](#v020--canvas-settings-and-snapping-through-mcp)
 - [v0.1.0 · Local board service and SDK MCP](#v010--local-board-service-and-sdk-mcp)
 - [boot_backend.bat](#boot_backendbat)
+
+## v0.38.0 · The engine frozen as the desktop app's sidecar
+
+- refers-to: `formref_engine.py` (new) :: main, selfcheck, watch_shell; `freeze_engine`, `freeze_engine.bat` (new); `requirements_desktop.txt` (new); `app/core/config.py` :: ROOT; `app/agent/terminal.py` :: API_URL
+
+The desktop app no longer needs `./formref serve` running beside it: the service is frozen with PyInstaller into one file, `formref-engine`, which the Tauri shell starts and stops (see `src-tauri/HASHOUT_LOG.md`). `formref_engine.py` is its entry: it listens on 127.0.0.1 at `FORMREF_PORT` (8320 when unset, the port the dev service, the CLI and outside MCP clients already use), sets `FORMREF_API_URL` to that address when the shell has not, and exits by itself when the process named by `FORMREF_PARENT_PID` is gone, so a crashed shell leaves no engine holding the port. `--selfcheck` imports the service and its main libraries, prints them as JSON and fails when one is missing or when the window or the background model is not inside the file; the freeze scripts run it right after freezing, so a missing hidden import stops the build instead of the installed app.
+
+Frozen, `ROOT` is the PyInstaller extraction folder (`sys._MEIPASS`), where the freeze puts the built window at `frontend/dist` and the background model at `app/bundled_models`, so `main.frontend` and `models.BUNDLED` find them at the paths they use in a checkout. The Rust core is not packed into the file: it ships as its own sidecar (`formref-core`, signed with the app on macOS) and the shell passes its path in `FORMREF_ENGINE_PATH`. The terminal dock read the service address as a fixed 8320; it now reads `FORMREF_API_URL` like the agent service and the MCP server, so terminals and agents started from a packaged app on another port reach the right service.
+
+`freeze_engine` (macOS, Linux) and `freeze_engine.bat` (Windows) need the backend venv, the built window and the built Rust core; they install `requirements_desktop.txt` (PyInstaller 6.22.3, the family pin) into the venv, freeze, and copy the engine and the core into `src-tauri/binaries/` with the host triple from `rustc -vV` (or `FORMREF_TARGET`) as Tauri's `externalBin` expects. `--add-data` uses `:` on macOS and Linux and `;` on Windows. Collected beyond what PyInstaller finds by itself: every `app`, `uvicorn` (string-loaded protocols), `mcp` and `websockets` submodule, the data of `cairosvg` and `cairocffi`, `ptyprocess`, and on Windows all of `winpty` (its DLLs and agent executable).
+
+Frozen, `sys.executable` is the engine itself, so the embedded agent runners, which give their MCP clients `sys.executable -m app.mcp_server`, would start a second service. The entry answers those arguments (and `mcp`) with the stdio MCP relay instead, as `python -m app.mcp_server` does in a checkout. The relay's own fallback, starting a missing service with `-m uvicorn`, is not answered: inside the app the shell has already started it.
+
+Not built here: no freeze has run on any OS.
 
 ## v0.37.7 · Only the window's own origins reach the engine
 

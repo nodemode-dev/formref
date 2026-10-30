@@ -5,6 +5,8 @@ backend/.venv/
 backend/__pycache__/
 backend/app/__pycache__/
 backend/data/
+backend/build/
+backend/dist-engine/
 native/*/target/
 src-tauri/target/
 src-tauri/gen/

@@ -1,8 +1,9 @@
 from dataclasses import dataclass
 import os
+import sys
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[3]
+ROOT = Path(getattr(sys, "_MEIPASS", "")).resolve() if getattr(sys, "frozen", False) else Path(__file__).resolve().parents[3]
 VERSION = "0.37.8"
 
 @dataclass(frozen=True)

@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+set -euo pipefail
+cd "$(dirname "$0")"
+backend="$PWD"
+root="$(cd .. && pwd)"
+die() { printf '[formref] %s\n' "$*" >&2; exit 1; }
+python_bin="${FORMREF_PYTHON:-$backend/venv/bin/python}"
+[ -x "$python_bin" ] || die "the backend environment is missing: run ./formref install"
+command -v rustc >/dev/null 2>&1 || die "rustc is required to name the sidecar for this computer"
+triple="${FORMREF_TARGET:-$(rustc -vV | sed -n 's/^host: //p')}"
+[ -n "$triple" ] || die "rustc did not report a host target; set FORMREF_TARGET"
+[ -f "$root/frontend/dist/index.html" ] || die "the window is not built: run (cd frontend && npm run build) first"
+core="$root/native/formref-core/target/release/formref-core"
+[ -x "$core" ] || die "the Rust core is not built: run ./formref core first"
+
+"$python_bin" -m pip install --quiet -r requirements_desktop.txt
+rm -rf build/pyinstaller dist-engine
+"$python_bin" -m PyInstaller --noconfirm --clean --onefile --log-level WARN --name formref-engine \
+  --distpath dist-engine --workpath build/pyinstaller --specpath build/pyinstaller \
+  --paths "$backend" \
+  --add-data "$root/frontend/dist:frontend/dist" \
+  --add-data "$backend/app/bundled_models:app/bundled_models" \
+  --collect-submodules app --collect-submodules uvicorn --collect-submodules mcp --collect-submodules websockets \
+  --collect-data cairosvg --collect-data cairocffi \
+  --hidden-import ptyprocess \
+  "$backend/formref_engine.py"
+
+mkdir -p "$root/src-tauri/binaries"
+out="$root/src-tauri/binaries/formref-engine-$triple"
+cp dist-engine/formref-engine "$out"
+cp "$core" "$root/src-tauri/binaries/formref-core-$triple"
+chmod +x "$out" "$root/src-tauri/binaries/formref-core-$triple"
+"$out" --selfcheck
+printf '[formref] sidecars ready: %s and formref-core-%s\n' "$out" "$triple"
