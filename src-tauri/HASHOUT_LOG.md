@@ -28,6 +28,14 @@ The main window's remote capability URL moved from `http://127.0.0.1:8320/*` to 
 
 Dev (`./formref desktop`, a debug build) does not start a sidecar: `open_main` keeps the configured URL, which Tauri resolves against `devUrl`, and the launcher still starts the service on 8320 (Vite proxies `/api` there). Tauri's build checks every externalBin exists, so the launcher passes `--config src-tauri/tauri.dev.conf.json`, which empties `bundle.externalBin`.
 
+### ../build_app, ../build_app.bat, ../formref, ../formref.bat · the launchers that build and run the shell
+
+- refers-to: ../build_app :: desktop step; ../build_app.bat (rewritten); ../formref :: desktop; ../formref.bat :: desktop
+- kind: rationale
+- logged: v0.38.0 · 2026-10-30
+
+`build_app` runs `backend/freeze_engine` with the backend venv's Python between the window build and `tauri build`, so the sidecars exist when Tauri bundles; arguments after `--` still go to `tauri build` (formcompiler's `--config`). `build_app.bat` had taken no tauri arguments and chained steps with `&` inside parentheses; it now takes `--web`, `-h`, an optional `--`, and forwards every other argument to `tauri build`, falls back to `%FORMCOMPILER_CONFIG_ARG%` when given none (so a plain `call build_app.bat` from formcompiler still merges its config, and an explicit argument is never doubled), checks Python 3.12, creates the venv with that same Python (`py -3` in `oc_install.bat` could pick another), sets `FORMREF_PYTHON` to the venv only for the freeze, and stops with `exit /b 1` after each failed step, one step per line so no `%VAR%` is expanded inside a block that set it. `./formref desktop` and `formref.bat desktop` run `tauri dev --config` with `tauri.dev.conf.json` (an absolute path, so the CLI's working directory does not matter), and `./formref desktop build` is `./build_app --`, since a bare `tauri build` now needs the frozen sidecars.
+
 Not compiled here: the sandbox has no Tauri crates offline, so `cargo check` was not run; `rustfmt --check` parsed `main.rs`. `WebviewWindowBuilder::from_config` with `create: false` is the pattern formportal's shell compiles with. No installer was built or launched on any OS.
 
 ## v0.7.3 · Window layouts
