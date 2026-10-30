@@ -55,7 +55,7 @@ if "%ACTION%"=="desktop" (
     exit /b 1
   )
   cd frontend
-  call npm run tauri -- dev
+  call npm run tauri -- dev --config "%~dp0src-tauri\tauri.dev.conf.json"
   exit /b !errorlevel!
 )
 if "%ACTION%"=="dev" (

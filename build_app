@@ -5,9 +5,9 @@ root="$PWD"
 
 usage() {
   cat <<'EOF'
-./build_app            build FormRef from this folder, start to finish: tools check, install, Rust core, window, desktop app
+./build_app            build FormRef from this folder, start to finish: tools check, install, Rust core, window, engine sidecar, desktop app
   --web                stop after the web build (./formref serve then runs it at http://127.0.0.1:8320)
-  --open               start FormRef when the build is done
+  --open               start the web build (./formref serve) when the build is done
   --clean              rebuild the Rust core and the desktop shell from nothing
   --                   everything after this goes to tauri build (for example -- --bundles deb)
 Every step's output goes to build_app.log beside this file.
@@ -84,11 +84,12 @@ step "building the window"
 if [ "$web_only" = 1 ]; then
   say "web build done: ./formref serve, then open http://127.0.0.1:8320"
 else
+  step "freezing the engine"
+  FORMREF_PYTHON="$root/backend/venv/bin/python" "$root/backend/freeze_engine"
   step "building the desktop app"
   (cd frontend && npm run tauri -- build ${tauri_args[@]+"${tauri_args[@]}"})
   bundle="$root/src-tauri/target/release/bundle"
-  [ -d "$bundle" ] && say "desktop packages are in $bundle"
-  say "the desktop app opens its window from the local service; ./formref serve (or ./formref desktop) starts it"
+  [ -d "$bundle" ] && say "desktop packages are in $bundle; the app starts its own engine"
 fi
 
 if [ "$open_app" = 1 ]; then

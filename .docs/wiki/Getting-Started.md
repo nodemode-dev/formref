@@ -16,4 +16,4 @@ Drop or import images, create content from the board toolbar, then select items 
 
 For agent editing, keep the backend running and register the absolute repository command `formref mcp` as a stdio MCP server in the client. The repository skill teaches the workflows after the server is connected. [MCP](MCP.md) covers setup and recovery.
 
-This release's platform/build validation is reported in its planning sidecar and release notes. Source support and a working Linux browser build do not imply that native macOS or Windows installers were compiled.
+This release's platform/build validation is reported in its planning sidecar and release notes. Source support and a working Linux browser build do not imply that native macOS or Windows installers were compiled. `./build_app` (or `build_app.bat`) makes the installers on the computer it runs on; the installed app starts its own engine, so `./formref serve` is not needed beside it.

@@ -73,9 +73,7 @@ case "$action" in
     ;;
   desktop)
     if [[ "${2:-}" == build ]]; then
-      cargo build --release --manifest-path "$root/native/formref-core/Cargo.toml"
-      cd frontend
-      exec npm run tauri -- build "${@:3}"
+      exec "$root/build_app" -- "${@:3}"
     fi
     api_pid=""
     if ! curl --silent --fail --connect-timeout 1 --max-time 2 http://127.0.0.1:8320/api/health >/dev/null 2>&1; then
@@ -84,7 +82,7 @@ case "$action" in
     fi
     trap 'if [[ -n "$api_pid" ]]; then kill "$api_pid" 2>/dev/null || true; fi' EXIT INT TERM
     cd frontend
-    npm run tauri -- dev
+    npm run tauri -- dev --config "$root/src-tauri/tauri.dev.conf.json"
     ;;
   *) printf '%s\n' 'Usage: ./formref [install|dev|core|build|backend|frontend|serve|mcp|claude|desktop|clipper [--new]|open|import|agents sync|i18n]' >&2; exit 2 ;;
 esac

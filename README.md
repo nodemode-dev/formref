@@ -5,7 +5,7 @@
 
 FormRef is a local reference workspace in the Form family. Collect images & files, arrange them on a free canvas, add notes & tasks, connect ideas, organize boards, then export or control the same workspace through MCP.
 
-Rust document engine · vanilla TypeScript/Vite view · Python/FastAPI media & persistence · optional Tauri development shell.
+Rust document engine · vanilla TypeScript/Vite view · Python/FastAPI media & persistence · Tauri desktop app for macOS, Linux and Windows.
 
 ## Highlights
 
@@ -73,13 +73,13 @@ formref.bat
 | MCP | stdio | `./formref mcp` |
 | MCP over HTTP | http://127.0.0.1:8320/mcp | Same tools; used by the dock's Claude Code and Chat |
 
-Build the whole app, start to finish (tools check, install, Rust core, window, desktop packages), from the repo root:
+Build the whole app, start to finish (tools check, install, Rust core, window, engine sidecar, desktop packages), from the repo root:
 
 ```bash
-./build_app            # add --web to stop after the web build, --open to start it
+./build_app            # add --web to stop after the web build, --open to start it; arguments after -- go to tauri build
 ```
 
-On Windows run `build_app.bat`. Every step is logged to `build_app.log`.
+On Windows run `build_app.bat` (its arguments go to tauri build). Every step of `build_app` is logged to `build_app.log`. The desktop packages (dmg and app on macOS, AppImage, deb and rpm on Linux, msi and setup exe on Windows) land in `src-tauri/target/release/bundle/`. The installed app carries its own engine: the service is frozen with PyInstaller (`backend/freeze_engine`, `backend/freeze_engine.bat`) and shipped with the Rust core as sidecars, and the app starts it on 127.0.0.1:8320 (or a free port when 8320 is taken) and stops it on quit, so nothing else needs to run.
 
 Build & serve the frontend from one local service:
 
@@ -104,6 +104,8 @@ Set environment variables before launch; local environment files must remain unc
 | FORMREF_API_URL | MCP's loopback service URL |
 | FORMREF_PYTHON | Override launcher Python executable |
 | FORMREF_ENGINE_PATH | Override Rust engine executable |
+| FORMREF_PORT | Port of the packaged app's frozen engine (the desktop app sets it) |
+| FORMREF_TARGET | Target triple the freeze scripts name the sidecars for; default the `rustc` host |
 | FORMREF_MCP_IMPORT_DIR | Restrict MCP path imports to this directory; default `~/.formref/imports` |
 | FORMREF_CAPTURE_ALLOW_PRIVATE | Set to 1 only for testing: lets web capture fetch local and private-network addresses |
 | CLOUD_GOOGLE_* / CLOUD_DROPBOX_* | Point cloud storage at other addresses, for testing against a stand-in (see the Cloud storage wiki page) |
@@ -115,7 +117,7 @@ Set environment variables before launch; local environment files must remain unc
 | frontend/ | Editor, stable DOM, gestures & theme |
 | backend/app/ | HTTP, assets, imports/exports, persistence & MCP |
 | native/formref-core/ | UI-independent board semantics & history |
-| src-tauri/ | Optional native development shell |
+| src-tauri/ | Native desktop shell, sidecars and installers |
 | .claude/skills/formref-harness/ | Routed project development instructions |
 | .docs/wiki/ | Usage, engine contract, shell, agent & release guides |
 | clipper/ | Browser clipper extension (Chrome, Firefox) |
@@ -123,7 +125,7 @@ Set environment variables before launch; local environment files must remain unc
 
 ## Status
 
-FormRef covers the image-board core (free canvas, crop, flip, grayscale, always-on-top windows) and board cards, columns, tasks, tables, links, maps, synced notes and nested boards, behind iStack's menu, with an embedded agent. Background removal runs FormCut's models, with U2Net small built in; SAM 2.1 is implemented from FormCut's code but could not be downloaded on the build machine. Google Drive and Dropbox storage is opt-in; real-time collaboration and protected sharing remain gaps; the browser clipper loads unpacked (no store-signed build). The desktop shell (`./formref desktop`) adds always-on-top, always-on-bottom, frameless, fullscreen, window opacity and click-through windows, a tray icon and Ctrl+Alt+F to show or hide FormRef from any app, and a window layout saved with each board; it was compiled and run on Linux, while compiled, signed macOS/Windows installers are not included. Codex, Cursor & Ollama runners are implemented but were not available on the build machine, so only Claude Code has been run end to end.
+FormRef covers the image-board core (free canvas, crop, flip, grayscale, always-on-top windows) and board cards, columns, tasks, tables, links, maps, synced notes and nested boards, behind iStack's menu, with an embedded agent. Background removal runs FormCut's models, with U2Net small built in; SAM 2.1 is implemented from FormCut's code but could not be downloaded on the build machine. Google Drive and Dropbox storage is opt-in; real-time collaboration and protected sharing remain gaps; the browser clipper loads unpacked (no store-signed build). The desktop shell (`./formref desktop`) adds always-on-top, always-on-bottom, frameless, fullscreen, window opacity and click-through windows, a tray icon and Ctrl+Alt+F to show or hide FormRef from any app, and a window layout saved with each board; it was compiled and run on Linux. Since v0.38.0 the app packages its own engine and `build_app` makes installers for macOS, Linux and Windows, which the Form family's release builds sign (macOS Developer ID with notarization, Windows code signing); those packaged builds have not yet been run on every OS. Codex, Cursor & Ollama runners are implemented but were not available on the build machine, so only Claude Code has been run end to end.
 
 Planning, research and parity data live in the planning sidecar, outside this repository; the FormRef tab of the FormAI parity matrix is rendered from it each release. No self-authored test suite is included.
 

@@ -123,7 +123,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Shell syntax
         run: |
-          for f in formref formref_oc_install build_app backend/oc_install backend/boot_backend frontend/oc_install frontend/boot_frontend; do
+          for f in formref formref_oc_install build_app backend/freeze_engine backend/oc_install backend/boot_backend frontend/oc_install frontend/boot_frontend; do
             bash -n "$f"
           done
       - name: No em dash or emoji in tracked markdown
