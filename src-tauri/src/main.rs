@@ -2,14 +2,168 @@
 
 mod reveal;
 
+use std::fs::{self, File};
+use std::net::{SocketAddr, TcpListener, TcpStream};
+use std::path::PathBuf;
+use std::process::{Child, Command, Stdio};
 use std::sync::atomic::{AtomicBool, Ordering};
+use std::sync::Mutex;
+use std::time::{Duration, Instant};
 
 use serde::Serialize;
 use tauri::image::Image;
 use tauri::menu::{CheckMenuItem, Menu, MenuItem, PredefinedMenuItem};
 use tauri::tray::{MouseButton, MouseButtonState, TrayIconBuilder, TrayIconEvent};
-use tauri::{AppHandle, Emitter, LogicalSize, Manager, WebviewWindow};
+use tauri::{AppHandle, Emitter, LogicalSize, Manager, RunEvent, WebviewUrl, WebviewWindow, WebviewWindowBuilder};
 use tauri_plugin_global_shortcut::{Code, GlobalShortcutExt, Modifiers, Shortcut, ShortcutState};
+
+/// The port the dev service, the command line and outside MCP clients use; the app takes it when it is free.
+const ENGINE_PORT: u16 = 8320;
+/// A onefile engine unpacks itself before it starts, which is slow on a first run.
+const START_LIMIT: Duration = Duration::from_secs(120);
+
+/// The bundled engine (FastAPI service), started by a packaged app and stopped when it exits.
+struct Engine(Mutex<Option<Child>>);
+
+fn engine_port() -> Result<u16, String> {
+    let preferred = SocketAddr::from(([127, 0, 0, 1], ENGINE_PORT));
+    let taken = TcpStream::connect_timeout(&preferred, Duration::from_millis(200)).is_ok();
+    if !taken && TcpListener::bind(preferred).is_ok() {
+        return Ok(ENGINE_PORT);
+    }
+    let listener = TcpListener::bind(("127.0.0.1", 0)).map_err(|error| format!("no free loopback port: {error}"))?;
+    listener.local_addr().map(|address| address.port()).map_err(|error| error.to_string())
+}
+
+/// Tauri installs each externalBin beside the app's own executable, without the target triple.
+fn sidecar(name: &str) -> Result<PathBuf, String> {
+    let exe = std::env::current_exe().map_err(|error| error.to_string())?;
+    let dir = exe.parent().ok_or("the app's folder could not be found")?;
+    let path = dir.join(if cfg!(windows) { format!("{name}.exe") } else { name.to_string() });
+    if path.is_file() {
+        Ok(path)
+    } else {
+        Err(format!("{name} is missing from this install ({})", path.display()))
+    }
+}
+
+fn start_engine(app: &AppHandle, port: u16) -> Result<(Child, PathBuf), String> {
+    let logs = app.path().app_log_dir().map_err(|error| error.to_string())?;
+    fs::create_dir_all(&logs).map_err(|error| format!("{}: {error}", logs.display()))?;
+    let log_path = logs.join("engine.log");
+    let log = File::create(&log_path).map_err(|error| format!("{}: {error}", log_path.display()))?;
+    let err = log.try_clone().map_err(|error| error.to_string())?;
+    let mut command = Command::new(sidecar("formref-engine")?);
+    command
+        .env("FORMREF_PORT", port.to_string())
+        .env("FORMREF_API_URL", format!("http://127.0.0.1:{port}"))
+        .env("FORMREF_ENGINE_PATH", sidecar("formref-core")?)
+        .env("FORMREF_PARENT_PID", std::process::id().to_string())
+        .current_dir(&logs)
+        .stdin(Stdio::null())
+        .stdout(log)
+        .stderr(err);
+    #[cfg(windows)]
+    {
+        use std::os::windows::process::CommandExt;
+        command.creation_flags(0x0800_0000);
+    }
+    let child = command.spawn().map_err(|error| format!("the engine did not start: {error}"))?;
+    Ok((child, log_path))
+}
+
+fn wait_for(port: u16, child: &mut Child) -> Result<(), String> {
+    let address = SocketAddr::from(([127, 0, 0, 1], port));
+    let started = Instant::now();
+    while started.elapsed() < START_LIMIT {
+        if let Ok(Some(status)) = child.try_wait() {
+            return Err(format!("the engine stopped while starting ({status})"));
+        }
+        if TcpStream::connect_timeout(&address, Duration::from_millis(250)).is_ok() {
+            return Ok(());
+        }
+        std::thread::sleep(Duration::from_millis(150));
+    }
+    Err(format!("the engine did not answer within {} seconds", START_LIMIT.as_secs()))
+}
+
+fn stop_engine(app: &AppHandle) {
+    if let Some(state) = app.try_state::<Engine>() {
+        if let Ok(mut slot) = state.0.lock() {
+            if let Some(mut child) = slot.take() {
+                let _ = child.kill();
+                let _ = child.wait();
+            }
+        }
+    }
+}
+
+/// Builds the main window from its config entry (created by hand, `create: false`). A packaged app points it
+/// at the engine's own origin, which serves the window and the API together, so relative `/api` calls,
+/// event streams and terminal sockets work as they do from `./formref serve`. Dev keeps the configured URL,
+/// which Tauri resolves against `devUrl` (Vite, which proxies `/api` to 8320).
+fn open_main(app: &AppHandle, port: Option<u16>) -> Result<(), String> {
+    let mut config = app.config().app.windows.iter().find(|window| window.label == "main").cloned().ok_or("Main window missing")?;
+    if let Some(port) = port {
+        let url = tauri::Url::parse(&format!("http://127.0.0.1:{port}/")).map_err(|error| error.to_string())?;
+        config.url = WebviewUrl::External(url);
+    }
+    let window = WebviewWindowBuilder::from_config(app, &config).map_err(|error| error.to_string())?.build().map_err(|error| error.to_string())?;
+    if let Some(monitor) = window.primary_monitor().map_err(|error| error.to_string())? {
+        let scale = monitor.scale_factor();
+        let width = (f64::from(monitor.size().width) / scale * 0.9).max(960.0);
+        let height = (f64::from(monitor.size().height) / scale * 0.9).max(600.0);
+        window.set_size(LogicalSize::new(width, height)).map_err(|error| error.to_string())?;
+    }
+    window.center().map_err(|error| error.to_string())?;
+    reveal::conceal(&window);
+    Ok(())
+}
+
+fn js_string(text: &str) -> String {
+    let mut out = String::from("\"");
+    for c in text.chars() {
+        match c {
+            '"' => out.push_str("\\\""),
+            '\\' => out.push_str("\\\\"),
+            c if (c as u32) < 0x20 || c == '\u{2028}' || c == '\u{2029}' => out.push_str(&format!("\\u{:04x}", c as u32)),
+            c => out.push(c),
+        }
+    }
+    out.push('"');
+    out
+}
+
+/// The splash says why FormRef could not start, then the app quits (and stops the engine) after 15 s.
+fn fail(app: &AppHandle, message: &str) {
+    eprintln!("FormRef: {message}");
+    if let Some(splash) = app.get_webview_window("splash") {
+        let text = js_string(&format!("FormRef could not start: {message}"));
+        let _ = splash.eval(&format!(
+            "var p=document.querySelector('p');p.textContent={text};p.style.height='auto';p.style.padding='0 20px';p.style.textAlign='center';document.querySelector('.bar').style.visibility='hidden';"
+        ));
+    }
+    let handle = app.clone();
+    std::thread::spawn(move || {
+        std::thread::sleep(Duration::from_secs(15));
+        handle.exit(1);
+    });
+}
+
+fn boot(app: AppHandle) {
+    let result = engine_port().and_then(|port| {
+        let (mut child, log) = start_engine(&app, port)?;
+        let ready = wait_for(port, &mut child);
+        if let Ok(mut slot) = app.state::<Engine>().0.lock() {
+            *slot = Some(child);
+        }
+        ready.map_err(|error| format!("{error}. Its log is {}", log.display()))?;
+        Ok(port)
+    });
+    if let Err(error) = result.and_then(|port| open_main(&app, Some(port))) {
+        fail(&app, &error);
+    }
+}
 
 /// Click-through has no getter in Tauri, so the shell remembers it. While it is on, the window cannot be
 /// clicked at all, which is why a global shortcut (Ctrl or Cmd + Alt + K) can always turn it back off.
@@ -238,7 +392,8 @@ fn main() {
     let summon = Shortcut::new(Some(Modifiers::CONTROL | Modifiers::ALT), Code::KeyF);
     #[cfg(target_os = "macos")]
     let summon = Shortcut::new(Some(Modifiers::SUPER | Modifiers::ALT), Code::KeyF);
-    tauri::Builder::default()
+    let app = tauri::Builder::default()
+        .manage(Engine(Mutex::new(None)))
         .plugin(
             tauri_plugin_global_shortcut::Builder::new()
                 .with_handler(move |app, shortcut, event| {
@@ -264,15 +419,14 @@ fn main() {
         ])
         .setup(move |app| {
             reveal::round_splash(app.handle());
-            let window = app.get_webview_window("main").ok_or("Main window missing")?;
-            if let Some(monitor) = window.primary_monitor()? {
-                let scale = monitor.scale_factor();
-                let width = (f64::from(monitor.size().width) / scale * 0.9).max(960.0);
-                let height = (f64::from(monitor.size().height) / scale * 0.9).max(600.0);
-                window.set_size(LogicalSize::new(width, height))?;
+            // A packaged app starts its own engine and opens the window on it once it answers; a dev shell
+            // (./formref desktop) uses the service and Vite server the launcher started.
+            if cfg!(debug_assertions) {
+                open_main(app.handle(), None)?;
+            } else {
+                let handle = app.handle().clone();
+                std::thread::spawn(move || boot(handle));
             }
-            window.center()?;
-            reveal::conceal(&window);
             // The escape hatch for click-through; if another app owns the keys the shell still runs.
             if let Err(error) = app.global_shortcut().register(toggle) {
                 eprintln!("FormRef: click-through shortcut unavailable: {error}");
@@ -286,6 +440,11 @@ fn main() {
             }
             Ok(())
         })
-        .run(tauri::generate_context!())
+        .build(tauri::generate_context!())
         .expect("FormRef desktop shell could not start");
+    app.run(|handle, event| {
+        if let RunEvent::Exit = event {
+            stop_engine(handle);
+        }
+    });
 }

@@ -7,11 +7,28 @@ src-tauri/
   Cargo.toml                         Pinned native shell dependencies
   Cargo.lock                         Resolved native dependency graph
   build.rs                           Application command ACL generation
-  tauri.conf.json                    Loopback URLs and window security
+  tauri.conf.json                    Bundled window, sidecars, installers and window security
+  tauri.dev.conf.json                Dev merge: no sidecars for ./formref desktop
+  entitlements.plist                 macOS hardened runtime exceptions for the onefile engine
   capabilities/main-window.json      Main webview permission boundary
   permissions/window-controls.toml   Explicit native command grants
-  src/main.rs                        Native window modes and launch sizing
+  src/main.rs                        Engine sidecar, native window modes and launch sizing
+  binaries/                          Frozen sidecars per host triple (built, not tracked)
 ```
+
+## v0.38.0 · An installable app with its own engine
+
+- refers-to: tauri.conf.json :: build.frontendDist, app.windows[main].create, bundle; tauri.dev.conf.json (new); entitlements.plist (new); capabilities/main-window.json :: remote.urls; src/main.rs :: Engine, engine_port, sidecar, start_engine, wait_for, stop_engine, open_main, fail, boot, setup, run; Cargo.toml :: description
+
+Until now the shell loaded `http://127.0.0.1:8320` as its frontendDist and bundling was off, so `tauri build` made no installer and the window needed `./formref serve` running beside it. Now `frontendDist` is the built window (`../frontend/dist`, built by `beforeBuildCommand`), `devUrl` stays `http://localhost:5320`, and the bundle is on for every target with two sidecars: `binaries/formref-engine` (the FastAPI service frozen by `backend/freeze_engine`) and `binaries/formref-core` (the Rust board engine the service drives, shipped as its own executable so Tauri signs it with the app on macOS instead of it being unpacked unsigned from the onefile). Icons are the existing `icon.png` (512 px, RGBA), `icon.icns` and `icon.ico`; no other PNG sizes were generated, Tauri accepts this set. LICENSE, NOTICE.md and the third-party licence texts ship as resources. macOS: minimum 12.0 as the family sets it, hardened runtime, and `entitlements.plist` with `disable-library-validation` and `allow-unsigned-executable-memory`, which a PyInstaller onefile needs to load the libraries it unpacks. No Windows signing here: formcompiler adds it.
+
+Packaged start: the splash is built from the bundle as before. The main window is `create: false` in the config, so nothing loads the bundled index on its own (it calls `/api` relative to its origin and must come from the engine). `boot` runs off the main thread: `engine_port` takes 8320 when nothing answers there and it can be bound, otherwise a free loopback port; `start_engine` runs the sidecar with `FORMREF_PORT`, `FORMREF_API_URL`, `FORMREF_ENGINE_PATH` (the `formref-core` sidecar) and `FORMREF_PARENT_PID`, no console window on Windows, and its output in `engine.log` in the app's log folder; `wait_for` waits up to 120 s for the port to accept a connection (uvicorn binds only after the service's startup), failing early if the engine exits. Then `open_main` builds the main window from its config entry with the URL `http://127.0.0.1:<port>/`, the engine's own origin, which serves the window and the API together exactly as `./formref serve` does (the origin guard admits a page's own origin), sizes it to 90 percent of the primary monitor and hands it to `reveal::conceal`, so the reveal sequence is unchanged. If anything fails, `fail` writes the reason and the log path into the splash and the app quits after 15 s. `RunEvent::Exit` (window close, tray Quit) kills and reaps the engine; the engine also exits by itself when the shell's process is gone.
+
+The main window's remote capability URL moved from `http://127.0.0.1:8320/*` to `http://127.0.0.1:*/*`, because the engine falls back to another port when 8320 is in use; the main window only ever navigates to the engine, and the commands still refuse every window but `main`.
+
+Dev (`./formref desktop`, a debug build) does not start a sidecar: `open_main` keeps the configured URL, which Tauri resolves against `devUrl`, and the launcher still starts the service on 8320 (Vite proxies `/api` there). Tauri's build checks every externalBin exists, so the launcher passes `--config src-tauri/tauri.dev.conf.json`, which empties `bundle.externalBin`.
+
+Not compiled here: the sandbox has no Tauri crates offline, so `cargo check` was not run; `rustfmt --check` parsed `main.rs`. `WebviewWindowBuilder::from_config` with `create: false` is the pattern formportal's shell compiles with. No installer was built or launched on any OS.
 
 ## v0.7.3 · Window layouts
 

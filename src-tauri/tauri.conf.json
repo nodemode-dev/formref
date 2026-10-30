@@ -7,7 +7,7 @@
     "beforeDevCommand": { "cwd": "../frontend", "script": "npm run dev", "wait": false },
     "beforeBuildCommand": { "cwd": "../frontend", "script": "npm run build" },
     "devUrl": "http://localhost:5320",
-    "frontendDist": "http://127.0.0.1:8320"
+    "frontendDist": "../frontend/dist"
   },
   "app": {
     "withGlobalTauri": true,
@@ -28,6 +28,7 @@
       },
       {
         "label": "main",
+        "create": false,
         "title": "FormRef",
         "width": 1280,
         "height": 800,
@@ -50,5 +51,21 @@
       "devCsp": "default-src 'self'; script-src 'self' 'sha256-yBVVSQpNPuoZdx1EtiNlrAvz6wJCMF7+zoplR8Xa+Mg='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; font-src 'self'; connect-src 'self' ipc: http://ipc.localhost ws://localhost:5320 ws://127.0.0.1:5320; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'"
     }
   },
-  "bundle": { "active": false }
+  "bundle": {
+    "active": true,
+    "targets": "all",
+    "category": "GraphicsAndDesign",
+    "shortDescription": "Reference boards for images, ideas and creative work",
+    "longDescription": "FormRef is a local reference board: pictures, notes, documents, swatches, links and drawings on an endless canvas, with see-through and always-on-top window modes, iStack and .bee import, exports and an agent panel. Its engine runs inside the app on a loopback port and stops when the app quits.",
+    "copyright": "Copyright 2026 nodemode-ai.",
+    "externalBin": ["binaries/formref-engine", "binaries/formref-core"],
+    "resources": { "../LICENSE": "LICENSE", "../NOTICE.md": "NOTICE.md", "../licenses/": "licenses/" },
+    "icon": ["icons/icon.png", "icons/icon.icns", "icons/icon.ico"],
+    "macOS": {
+      "minimumSystemVersion": "12.0",
+      "hardenedRuntime": true,
+      "entitlements": "entitlements.plist"
+    },
+    "createUpdaterArtifacts": false
+  }
 }
