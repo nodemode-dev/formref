@@ -55,8 +55,11 @@ popd
 :window_ready
 
 echo [formref] == building the Rust core
+set "FR_RUSTFLAGS=%RUSTFLAGS%"
+set "RUSTFLAGS=%RUSTFLAGS% -C target-feature=+crt-static"
 cargo build --release --manifest-path native\formref-core\Cargo.toml
 if errorlevel 1 exit /b 1
+set "RUSTFLAGS=%FR_RUSTFLAGS%"
 echo [formref] == building the window
 pushd frontend
 call npm run build

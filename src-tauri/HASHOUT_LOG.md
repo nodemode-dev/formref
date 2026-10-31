@@ -16,6 +16,10 @@ src-tauri/
   binaries/                          Frozen sidecars per host triple (built, not tracked)
 ```
 
+## v0.38.1 · formref-core links the C runtime statically on Windows
+
+`../build_app.bat` builds `formref-core.exe`, the Rust core sidecar, with plain `cargo build`, and Rust's MSVC target links the Visual C++ runtime (`vcruntime140.dll`) dynamically by default, so on a Windows PC without the Visual C++ Redistributable the core would not start. The script now adds `-C target-feature=+crt-static` to `RUSTFLAGS` for that one build and restores the previous value right after it, so `tauri build` later in the same script keeps tauri-build's own static vcruntime linking and the two methods never meet in one link. Not run on Windows here; `dumpbin /dependents formref-core.exe` on a build should no longer list VCRUNTIME140.dll.
+
 ## v0.38.1 · The Linux packages pull in the media plugins
 
 `tauri.conf.json` `bundle.linux` now follows formdeck. Video items on the board (`frontend/src/app/video.ts`) play in WebKitGTK, which decodes with GStreamer, so the deb recommends `gstreamer1.0-plugins-base`, `gstreamer1.0-plugins-good` and `gstreamer1.0-libav`, the rpm recommends `gstreamer1-plugins-base` and `gstreamer1-plugins-good`, and the AppImage bundles the media framework (`appimage.bundleMediaFramework`); formcompiler installs the base and good sets on the Linux runner so the AppImage step finds them. apt and dnf install recommends by default; `dpkg -i` and `--no-install-recommends` skip them. On Ubuntu 24.04 `libwebkit2gtk-4.1-0` already depends on base and good but only suggests `gstreamer1.0-libav` (the H.264 and AAC decoders), so the deb recommends it. The AppImage carries base and good only, since libav would copy the runner's own FFmpeg into the app. Checked: the config parses and formcompiler's `registry.py check` passes; no Linux build was run here.
