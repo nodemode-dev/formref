@@ -2,6 +2,7 @@ import asyncio
 from contextlib import asynccontextmanager
 import ipaddress
 import logging
+import mimetypes
 from urllib.parse import urlparse
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse, FileResponse
@@ -22,6 +23,10 @@ from .routers.practice import router as practice_router
 from .agent.service import agents
 from .agent import terminal
 from .mcp_server import mcp as mcp_server
+
+mimetypes.add_type("text/javascript", ".js")
+mimetypes.add_type("text/javascript", ".mjs")
+mimetypes.add_type("text/css", ".css")
 
 mcp_server.settings.stateless_http = True
 mcp_server.settings.json_response = True

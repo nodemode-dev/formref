@@ -8,6 +8,7 @@
 
 ## Contents
 
+- [v0.38.1 · The window's scripts keep their types on Windows](#v0381--the-windows-scripts-keep-their-types-on-windows)
 - [v0.38.0 · The engine frozen as the desktop app's sidecar](#v0380--the-engine-frozen-as-the-desktop-apps-sidecar)
 - [v0.37.7 · Only the window's own origins reach the engine](#v0377--only-the-windows-own-origins-reach-the-engine)
 - [v0.37.4 · Cross-site requests without an Origin are refused](#v0374--cross-site-requests-without-an-origin-are-refused)
@@ -42,6 +43,10 @@
 - [v0.2.0 · Canvas settings and snapping through MCP](#v020--canvas-settings-and-snapping-through-mcp)
 - [v0.1.0 · Local board service and SDK MCP](#v010--local-board-service-and-sdk-mcp)
 - [boot_backend.bat](#boot_backendbat)
+
+## v0.38.1 · The window's scripts keep their types on Windows
+
+`app/main.py` pins `.js` and `.mjs` to `text/javascript` and `.css` to `text/css` with three `mimetypes.add_type` calls after the last import. Python's `mimetypes` takes file types from the Windows registry (`HKEY_CLASSES_ROOT\.js`, value `Content Type`) over its own table, and some installers and editors set `.js` to `text/plain`. On those PCs the `FileResponse` for `frontend/dist` sent the built window's scripts as `text/plain`, WebView2 refused every module script under strict MIME checking, and the desktop window stayed blank; macOS, Linux, dev mode (Vite serves the page) and Windows PCs with the default value never showed it. The calls sit after the last import, not above the imports: a module that re-reads the registry while importing cannot undo them, and no import follows a statement (E402). They look redundant off Windows; keep them. Repro on a Windows PC: `reg add "HKCU\Software\Classes\.js" /v "Content Type" /d "text/plain" /f`, then launch the rebuilt app; restore with `/d "text/javascript"`. Checked here: with the table poisoned to `text/plain` for js, mjs and css through `mimetypes.init(files=...)`, the three calls return `text/javascript`, `text/javascript` and `text/css`; `py_compile` passes. Not yet run on a Windows PC.
 
 ## v0.38.0 · The engine frozen as the desktop app's sidecar
 
