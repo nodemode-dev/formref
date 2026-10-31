@@ -61,6 +61,17 @@
     "externalBin": ["binaries/formref-engine", "binaries/formref-core"],
     "resources": { "../LICENSE": "LICENSE", "../NOTICE.md": "NOTICE.md", "../licenses/": "licenses/" },
     "icon": ["icons/icon.png", "icons/icon.icns", "icons/icon.ico"],
+    "linux": {
+      "deb": {
+        "recommends": ["gstreamer1.0-plugins-base", "gstreamer1.0-plugins-good", "gstreamer1.0-libav"]
+      },
+      "rpm": {
+        "recommends": ["gstreamer1-plugins-base", "gstreamer1-plugins-good"]
+      },
+      "appimage": {
+        "bundleMediaFramework": true
+      }
+    },
     "macOS": {
       "minimumSystemVersion": "12.0",
       "hardenedRuntime": true,
