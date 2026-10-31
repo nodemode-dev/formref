@@ -1,5 +1,13 @@
 # FormRef changelog
 
+## v0.38.1 · 2026-10-31
+
+Fixes for the Windows and Linux apps.
+
+- The Windows desktop app no longer opens to a blank window on PCs where an installer set the `.js` file type to `text/plain` in the registry: the engine now serves scripts and stylesheets with their real types.
+- The Windows build links formref-core's C runtime statically, so it starts on PCs without the Visual C++ Redistributable.
+- The Linux packages recommend the GStreamer plug-ins the window uses for audio and video, and the AppImage carries them.
+
 ## v0.38.0 · 2026-10-30
 
 An app of its own.
