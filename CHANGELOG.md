@@ -1,5 +1,12 @@
 # FormRef changelog
 
+## v0.38.2 · 2026-11-03
+
+A new app icon and a rewritten README.
+
+- FormRef uses the unified Form family icon on the desktop, in the browser tab and on the start-up screen.
+- The README is rewritten, and the repository lists its code owners.
+
 ## v0.38.1 · 2026-10-31
 
 Fixes for the Windows and Linux apps.
