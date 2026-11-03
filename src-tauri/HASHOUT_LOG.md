@@ -161,7 +161,7 @@ Cargo resolved and fetched dependencies, then compilation stopped in glib-sys be
 
 ### icons/ · the app icon as a taped stack of reference prints
 
-- refers-to: icons/icon.icns, icon.ico, icon.png (also the tray icon via main.rs build_tray); ../assets/formref-mark.svg, formref_icon.png, formref_icon_macos.png; ../frontend/public/favicon.svg; ../assets/icon_src/
+- refers-to: icons/icon.icns, icon.ico, icon.png (also the tray icon via main.rs build_tray); ../assets/formref-mark.svg, formref_icon.png, formref_icon_macos.png; ../frontend/public/favicon.png; ../assets/icon_src/
 - kind: rationale
 - logged: v0.35.0 · 2026-10-20
 
