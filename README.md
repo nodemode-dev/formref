@@ -1,146 +1,214 @@
-<p align="center"><img src="assets/formref-mark.svg" width="96" alt="FormRef"></p>
+<p align="center">
+  <img src="assets/app-icon/formref-256.png" width="128" height="128" alt="FormRef icon: two stacked photographs with a taped corner, the front one showing a sunset over mountains">
+</p>
+
 <h1 align="center">FormRef</h1>
-<p align="center"><b>Reference boards for images, ideas & creative work.</b></p>
-<p align="center"><img alt="version" src="https://img.shields.io/badge/version-v0.38.1-f97316"> <img alt="license" src="https://img.shields.io/badge/license-Apache--2.0-blue"> <img alt="stack" src="https://img.shields.io/badge/engine-Rust-orange"></p>
 
-FormRef is a local reference workspace in the Form family. Collect images & files, arrange them on a free canvas, add notes & tasks, connect ideas, organize boards, then export or control the same workspace through MCP.
+<p align="center">
+  <b>Reference boards; the moodboard and study table of the Form family.</b><br>
+  Images, notes, tasks and links on a free canvas, with study aids,<br>
+  an embedded agent and MCP. Local, no account, and yours.
+</p>
 
-Rust document engine · vanilla TypeScript/Vite view · Python/FastAPI media & persistence · Tauri desktop app for macOS, Linux and Windows.
+<p align="center">
+  <img alt="version 0.38.3" src="https://img.shields.io/badge/version-0.38.3-eef0f4?style=flat-square">
+  <img alt="Rust engine" src="https://img.shields.io/badge/Rust%20engine-b7410e?style=flat-square&logo=rust&logoColor=white">
+  <img alt="TypeScript and FastAPI" src="https://img.shields.io/badge/TypeScript%20%2B%20FastAPI-3178c6?style=flat-square&logo=typescript&logoColor=white">
+  <img alt="macOS, Windows, Linux" src="https://img.shields.io/badge/macOS%20%C2%B7%20Windows%20%C2%B7%20Linux-native-2f7bf5?style=flat-square">
+  <img alt="License: Apache-2.0" src="https://img.shields.io/badge/license-Apache--2.0-3a3a3a?style=flat-square">
+  <img alt="Status: in development" src="https://img.shields.io/badge/status-in%20development-d69e2e?style=flat-square">
+</p>
 
-## Highlights
+<p align="center">
+  <a href="https://formref.formai.studio/"><b>Download FormRef on formai.studio</b></a> ·
+  <a href="#run-it-from-source">Run it from source</a> ·
+  <a href="#the-form-family">All Form apps</a>
+</p>
 
-- **One engine:** Rust commands own geometry, locking, grouping, arrangement & undo/redo.
-- **Study aids:** Value Study (2 to 8 grey values, notan at 2), a self-inverting Drawing Grid, Extract Palette for a picture's main colours as swatches, brightness, contrast and saturation that exports keep, Measure (Shift+M) for lengths, angles and proportions, and Compare (Alt+C) for two pictures side by side, as an onion skin, with a swipe divider or as a difference. Timed Practice (Alt+T) shows the pictures one at a time for gesture and figure drawing, 30 seconds to 10 minutes each or as a warm-up, 30 minute or 1 hour class, shuffled, with pause, mirror, grey, optional breaks and a Practice Log of every session, for all boards or one.
-- **Splitting boards:** copy or move a selection to a new board, keeping column contents and connections.
-- **Connecting groups:** groups connect like single nodes. With the connect tool (Shift+C) a grouped reference stands for its whole group, which gets a dashed frame; Alt-click connects one reference inside a group. Name Group puts a title on the frame, Collapse Group (Alt+G) folds a group into one stack card (picture exports can show it that way too), and lines to columns meet the column's side. Connect Selected (Ctrl/Cmd+Shift+L) chains the selection in reading order without changing tools. Right-click a line for solid, dashed or dotted, arrowheads at either end, a curved, straight or elbow route, its colour and Reverse Direction.
-- **Reference media:** original assets, nondestructive crop on the board (C) and lasso crop, flip, per-image and canvas grayscale, opacity controls and ordered reference presentation.
-- **Canvas workflow:** persistent grid preferences, snapping with shared-engine undo, explicit pack and distribution spacing, and sizes normalized across a selection or within each group; drag items into columns, or lock a column against drops.
-- **Reference editing:** source-pixel RGBA/RGB/HSV/HEX capture, editable swatches, bounded formatted notes & focused documents with guarded draft saves.
-- **Local persistence:** named boards & managed media saved on disk.
-- **Interoperability:** iStack import, BeeRef `.bee` boards in and out, portable archives & PNG/SVG/Markdown/JSON export, every picture's original file in one ZIP, a read-only phone viewer page; full-resolution PDF export (whole board, one page per item, or printed at 100% across A4, Letter, A3 or Tabloid pages); PDF pages turned into image references.
-- **iStack's right-click menu:** File, Edit, Canvas, Organize, Images & Layer in iStack's order & shortcuts, plus Insert & Ask Agent. Press ? for every shortcut.
-- **Board tabs:** several boards open at once, restored where you left them.
-- **Trash:** deleted boards and removed items wait in the Trash until you empty it; restore puts them back.
-- **Your keys:** change any shortcut from the shortcut sheet (?).
-- **Synced notes & maps:** linked copies of a note that change together; Google Maps and OpenStreetMap links as map cards.
-- **GIF frames & document export:** pause, step, scrub and keep GIF frames; export any document as PDF, Word, Markdown or text.
-- **Video, audio & tables:** playable video and audio cards with In and Out points, frame stepping (, and .) and speed; YouTube, Vimeo, Spotify and SoundCloud players; table cards with typed columns and formulas.
-- **Viewing references:** flip the view horizontally (Shift+H) or vertically (Shift+V) to check a drawing; images load a preview sized to the zoom and only once they are near the view, so big boards open fast and stay light and zoomed-out screentone does not shimmer; items far off screen skip drawing, so boards with hundreds of references pan smoothly; Alt-drag an image out to copy its file into another app.
-- **Command line:** `./formref open <board>` and `./formref import <folder> [--title] [--recursive]` work with the running app; `./formref i18n review <folder>` writes a translation review sheet per language for native speakers, and `./formref i18n apply <sheet.csv>` brings their wording back in.
-- **Background removal:** FormCut's models (U2Net built in, Person, IS-Net, Auto and SAM 2.1 click to select) or a model-free plain-background cut; the original is kept and restored any time.
-- **Cloud storage (opt-in):** save boards to and open files from Google Drive or Dropbox with your own app credentials; off until you connect.
-- **Browser clipper:** a Chrome and Firefox extension in `clipper/` saves images, selected text, links and pages to your board, paired by a token from Preferences.
-- **Labels & web images:** coloured board labels on any item; drag, paste or fetch images and pages from the web.
-- **Comments & templates:** comment threads on any item, resolved or reopened; start boards from starters or your own templates.
-- **Find by colour:** pick a colour (or use a swatch) and the board dims everything except the pictures that contain it; Sort by Color lays pictures out in rainbow order.
-- **Find similar:** select a picture and the board shows only the pictures that look like it, including brighter, cropped, mirrored or greyscale copies, at three levels from near copies to loosely similar.
-- **Saved searches:** keep any mix of find text, kind, colour, similar picture and tags under a name on the board, or for every board, and bring it back from the bookmark beside the item count.
-- **Tag cloud:** the board's labels and tags with their counts under the find box; click one or several to narrow the board, right-click a tag to select, rename, merge or remove it across the board. The inspector suggests the board's tags as you type them, and the phone viewer, PDF, Markdown and SVG exports carry them. Picture Info (Shift+Alt+I) shows a picture's file details, camera data and source page. Pictures take 1 to 5 stars (keys 1 to 5, or read from the file), shown on the board, sorted by Sort by Rating and filtered beside the kind filter and in the phone viewer, and the kind filter also picks portrait, landscape or square pictures. Keywords saved in picture files (XMP, IPTC, Windows Tags) become tags when the picture is added, and the All pictures ZIP writes tags back into the files.
-- **Organize & draw:** pack, sort by name, aspect, colour similarity or main colour, rotate 90, rotate a selection together about its centre (Alt+R), lock stacking order, opacity, pixel art, brush, eraser, rectangle, circle & line.
-- **Vector tools (optional, off by default; Preferences, Vector drawing tools turns them on):** Pen (Shift+P), Curvature (Shift+~), Pencil (Shift+N) and Direct Selection (A) with anchors, handles and Live Corner widgets; select one or several anchors (box or Shift-click), nudge, delete and add them, Average, Delete Segment; Round Corners with Round, Inverted round and Chamfer; Pathfinder (Unite, Minus Front, Intersect, Exclude, Minus Back, Divide, Trim, Merge, Crop); Offset Path; Outline Stroke; the Pen continues open paths; caps, corners, miter limit, dashes and arrowheads; linear and radial gradients with up to 16 stops and stop opacity; polygon, star, arc, spiral, rectangular and polar grids; blending modes on every item; Convert to Path, Add Anchor Points, Simplify, Smooth, Reverse, Join, Cut Path; Smart Guides (Ctrl/Cmd+U).
-- **Organizing big boards:** search that also reads comments, table cells and the text inside PDFs (page by page) and ignores accents; Hide (Ctrl/Cmd+3), Show All (Ctrl/Cmd+Alt+3), Isolate Selected, Unlock All (Ctrl/Cmd+Alt+2); Select Duplicate Images (same file or near-identical copy).
-- **Languages:** the whole window in 26 languages, English by default, chosen in Preferences and switched in place; your own board text is never translated. See [Languages](.docs/wiki/Languages.md).
-- **Chat in the dock:** a Chat tab (Ctrl/Cmd+Alt+J) where Claude answers in formatted text through FormRef's tools, with tool calls, a memory and cost meter, and handoff to and from Claude Code.
-- **One command registry:** menus, palette, shortcuts and agents share it, as in formvis and formlit; `list_commands`, `describe_command` and `run_command` reach every command an agent may run.
-- **Embedded agent:** Agent panel (Ctrl+J) running Claude Code, Codex, Cursor or Ollama on your board, each tool call shown, a yes from you before it removes or bulk-moves items, Stop & Undo This Turn. Vision models can see the board as a picture.
-- **Terminal and Claude Code inside FormRef:** a terminal dock under the canvas (Ctrl/Cmd+J) runs real login shells; its Claude Code button (Ctrl/Cmd+Shift+J) starts your own Claude Code sign-in in a dock tab, already connected to FormRef's MCP tools, with no outside-agent prompt. The Ask line sends a request with the open board and selected items. Outside agents cannot open or type into the dock.
-- **Agent access:** official Python MCP SDK stdio server; outside agents edit only once you allow them. `./formref claude` starts Claude Code in your own terminal with the same tools.
-- **Form family UI:** Studio Dark tokens, orange accent, collapsible side panels, one icon per action & stable keyed item views.
+<br>
 
-## Quick Start
+<p align="center">
+  <img src="docs/images/formref-hero.webp" alt="A FormRef board of golden-hour photographs and brick, marble, plank and velvet textures, with coloured notes and orange arrows linking the ideas" width="100%">
+  <br>
+  <sub>A reference board: CC0 photo crops and textures on the free canvas, with notes and links between ideas.</sub>
+</p>
 
-Requirements: Node 20.19.x or 22.12+, Python 3.12+, Rust/Cargo 1.82+. A native desktop shell additionally needs Rust 1.90+ and the platform's [Tauri prerequisites](https://v2.tauri.app/start/prerequisites/). SVG-to-PNG export uses [CairoSVG's native Cairo/libffi prerequisites](https://cairosvg.org/documentation/); other formats can run without native Cairo.
+<p align="center">
+  <a href="#features">Features</a> ·
+  <a href="#everything-in-the-box">In the box</a> ·
+  <a href="#built-for-agents">Agents</a> ·
+  <a href="#under-the-hood">Under the hood</a> ·
+  <a href="#download">Download</a> ·
+  <a href="#run-it-from-source">Run from source</a> ·
+  <a href="#the-form-family">Form family</a>
+</p>
 
-macOS/Linux:
+<br>
 
-```bash
-./formref install
-./formref
+<table>
+  <tr>
+    <td width="25%" valign="top"><h3>Free canvas</h3>Pictures, notes, tasks, tables, links and maps sit anywhere on an endless board, with grouping, columns and nested boards.</td>
+    <td width="25%" valign="top"><h3>Study aids</h3>Value Study, a drawing grid, palette extraction, measuring, comparing and timed practice sessions for drawing from reference.</td>
+    <td width="25%" valign="top"><h3>Local-first</h3>Boards and original files are saved on your computer. The service listens on this machine only, and no account is needed.</td>
+    <td width="25%" valign="top"><h3>Agent-ready</h3>The same board engine is reachable from the window, an embedded agent panel and an MCP server on stdio or HTTP.</td>
+  </tr>
+</table>
+
+<br>
+
+## Features
+
+<table>
+  <tr>
+    <td width="50%" valign="top">
+      <img src="docs/images/formref-value-study.webp" alt="One photograph of a harbour reduced to three grey values by Value Study, beside the rest of the board" width="100%"><br><sub>Value Study reduces a photograph to 2 to 8 grey values.</sub>
+      <h3>See the values</h3>Notan at 2 values, up to 8 greys, and a self-inverting Drawing Grid. Brightness, contrast and saturation changes carry into exports.
+    </td>
+    <td width="50%" valign="top">
+      <img src="docs/images/formref-compare.webp" alt="Two photographs blended as an onion skin with the Side by Side, Onion Skin, Swipe and Difference modes along the top" width="100%"><br><sub>Compare two pictures as an onion skin, with a swipe divider or as a difference.</sub>
+      <h3>Compare pictures</h3>Select two pictures and press Alt+C. Side by side, onion skin, swipe or difference, with Swap to switch the two.
+    </td>
+  </tr>
+  <tr>
+    <td width="50%" valign="top">
+      <img src="docs/images/formref-palette.webp" alt="Six colour swatches with hex values placed in a row below a board, extracted from one sunset photograph" width="100%"><br><sub>Extract Palette adds the picture's main colours as swatches, most used first.</sub>
+      <h3>Pull a palette</h3>Swatches are real board items with hex and RGB values, so they can be edited, connected and exported with the board.
+    </td>
+    <td width="50%" valign="top">
+      <h3>Connect ideas</h3>Lines between items can be solid, dashed or dotted, with arrowheads, a label and a curved, straight or elbow route. Groups connect like single items.
+      <h3>Practice from reference</h3>Timed Practice (Alt+T) shows pictures one at a time for gesture and figure drawing, shuffled, with pause, mirror, grey and a log of every session.
+    </td>
+  </tr>
+</table>
+
+## Everything in the box
+
+<table>
+  <tr>
+    <td width="33%" valign="top"><h4>Item kinds</h4>Pictures · Notes · Documents · Tasks · Tables · Links · Maps · Columns · Video and audio · Swatches · Nested boards</td>
+    <td width="33%" valign="top"><h4>26 languages</h4>English · Spanish · Portuguese · French · German · Italian · Dutch · Nordic · Russian · Polish · Czech · Hungarian · Ukrainian · Turkish · Chinese · Japanese · Korean · Indonesian · Thai · Vietnamese</td>
+    <td width="33%" valign="top"><h4>Formats</h4>Opens: images, GIF, PDF pages, video, audio, BeeRef <code>.bee</code> boards · Saves: PNG, SVG, PDF, Markdown, JSON, portable archive, ZIP of originals</td>
+  </tr>
+</table>
+
+## Built for agents
+
+47 MCP tools drive the same Rust engine that the window uses; `./formref open` and `./formref import` work with the running app.
+
+```sh
+./formref import ./moodboard --title "Golden hour" --recursive   # a folder of pictures becomes a board
+./formref open "Golden hour"                                     # show a board in the window
+./formref mcp                                                    # MCP server on stdio for Claude Code, Codex and Cursor
 ```
 
-Windows:
+`.mcp.json`, `.codex/config.toml` and `.cursor/mcp.json` are already wired in this repo, and the server also answers on `http://127.0.0.1:8320/mcp`. Outside agents are refused until you allow them in the Agent panel. See [`AGENTS.md`](AGENTS.md).
 
-```bat
-formref_oc_install.bat
-formref.bat
-```
+## Under the hood
 
-| Service | URL | Notes |
-|---|---|---|
-| Editor dev | http://localhost:5320 | Vite, loopback only |
-| Backend | http://127.0.0.1:8320 | API & built frontend |
-| API docs | http://127.0.0.1:8320/docs | Live API schema |
-| MCP | stdio | `./formref mcp` |
-| MCP over HTTP | http://127.0.0.1:8320/mcp | Same tools; used by the dock's Claude Code and Chat |
+- **Rust engine:** `native/formref-core` owns geometry, locking, grouping, arrangement and undo and redo for every board.
+- **Python service:** FastAPI handles assets, imports and exports, persistence and the MCP server on 127.0.0.1:8320.
+- **Vanilla TypeScript:** a Vite view with stable keyed DOM, the Form family dark tokens and inline icons.
+- **Desktop shell:** Tauri 2 packages the app with its own frozen engine, so nothing else needs to run.
+- **Embedded agent:** a panel that runs Claude Code, Codex, Cursor or Ollama on your board and asks before it removes or bulk-moves items.
 
-Build the whole app, start to finish (tools check, install, Rust core, window, engine sidecar, desktop packages), from the repo root:
+## Download
 
-```bash
-./build_app            # add --web to stop after the web build, --open to start it; arguments after -- go to tauri build
-```
+**Get the app:** download FormRef from [formai.studio](https://formref.formai.studio/). That is the easiest way to install it.
 
-On Windows run `build_app.bat` (its arguments go to tauri build). Every step of `build_app` is logged to `build_app.log`. The desktop packages (dmg and app on macOS, AppImage, deb and rpm on Linux, msi and setup exe on Windows) land in `src-tauri/target/release/bundle/`. The installed app carries its own engine: the service is frozen with PyInstaller (`backend/freeze_engine`, `backend/freeze_engine.bat`) and shipped with the Rust core as sidecars, and the app starts it on 127.0.0.1:8320 (or a free port when 8320 is taken) and stops it on quit, so nothing else needs to run.
+**Releases:** [FormCompiler's releases](https://github.com/nodemode-dev/formcompiler/releases?q=formref-v&expanded=true) will list FormRef builds; none is there yet. **Keep it updated:** [FormPortal](https://github.com/nodemode-dev/formportal) installs, updates and rolls back every Form app from the same signed catalogue.
 
-Build & serve the frontend from one local service:
-
-```bash
-./formref build
-./formref serve
-```
-
-Then open http://127.0.0.1:8320.
-
-## MCP
-
-`.mcp.json`, `.cursor/mcp.json` & `.codex/config.toml` run the root launcher. Outside agents are refused until you allow them in the Agent panel; FormRef asks the first time one tries. Codex reads the project config only after you trust the folder in Codex. Start from the repository root. For clients using another working directory, replace the relative command w/ an absolute path to `formref`. On Windows, configure command `cmd` with arguments `/c`, `C:\path\to\formref\formref.bat`, `mcp`. The server uses the same local API as the editor. SDK line v1 is pinned intentionally for FastMCP compatibility; this is an actual protocol transport, w/ no cloud credentials required.
-
-## Configuration
-
-Set environment variables before launch; local environment files must remain uncommitted.
-
-| Variable | Purpose |
+| Platform | Builds |
 |---|---|
-| FORMREF_DATA_DIR | Override local board/asset storage |
-| FORMREF_API_URL | MCP's loopback service URL |
-| FORMREF_PYTHON | Override launcher Python executable |
-| FORMREF_ENGINE_PATH | Override Rust engine executable |
-| FORMREF_PORT | Port of the packaged app's frozen engine (the desktop app sets it) |
-| FORMREF_TARGET | Target triple the freeze scripts name the sidecars for; default the `rustc` host |
-| FORMREF_MCP_IMPORT_DIR | Restrict MCP path imports to this directory; default `~/.formref/imports` |
-| FORMREF_CAPTURE_ALLOW_PRIVATE | Set to 1 only for testing: lets web capture fetch local and private-network addresses |
-| CLOUD_GOOGLE_* / CLOUD_DROPBOX_* | Point cloud storage at other addresses, for testing against a stand-in (see the Cloud storage wiki page) |
+| macOS Apple silicon | Signed and notarized app and dmg |
+| Linux x64 | AppImage, deb and rpm |
+| Windows x64 | msi and setup exe |
 
-## Architecture
+All FormRef builds are compiled and released from [`nodemode-dev/formcompiler`](https://github.com/nodemode-dev/formcompiler/releases), not from this repo. This repo holds the source.
 
-| Path | Role |
+## Run it from source
+
+Prefer it in your browser, or want to contribute? Run the web UI straight from this repo.
+
+**Requires:** Node 20.19 or 22.12+, Python 3.12+ and Rust 1.82+. The desktop shell needs Rust 1.90+ and the [Tauri prerequisites](https://v2.tauri.app/start/prerequisites/).
+
+```sh
+git clone git@github.com:nodemode-dev/formref.git
+cd formref
+./formref install     # Rust core, backend venv and frontend packages
+./formref             # service on 127.0.0.1:8320, web UI at http://localhost:5320
+```
+
+`./formref desktop` opens the desktop window instead, and `./build_app` builds the installable app (add `--web` to stop after the web build).
+
+On Windows use `formref_oc_install.bat` then `formref.bat`. The editor is on http://localhost:5320, the service and its API docs (`/docs`) on 127.0.0.1:8320, both loopback only. `FORMREF_DATA_DIR` overrides the board and asset folder, and `FORMREF_PYTHON` and `FORMREF_ENGINE_PATH` override the Python and Rust executables.
+
+> [!IMPORTANT]
+> **Status:** in development. Real-time collaboration and protected sharing are not built, the browser clipper loads unpacked, and the packaged builds have not yet been run on every OS. Only Claude Code has been run end to end in the Agent panel.
+
+**Contributing:** branch from `main`, keep changes to source here, and leave packaging and releases to formcompiler. See [`CLAUDE.md`](CLAUDE.md), [`AGENTS.md`](AGENTS.md) and the [release conventions](.docs/wiki/Releases.md).
+
+## Repository
+
+`frontend/` is the editor view, `backend/app/` the service (HTTP, assets, persistence, MCP), `native/formref-core/` the Rust board engine, `src-tauri/` the desktop shell and installers, and `clipper/` the browser clipper for Chrome and Firefox.
+
+Docs: [`.docs/wiki`](.docs/wiki) · Agents: [`CLAUDE.md`](CLAUDE.md), [`AGENTS.md`](AGENTS.md)
+
+## The Form family
+
+FormRef is one of the **Form apps**: native creative tools that install, update and roll back through FormPortal and can all be driven by agents.
+
+| | App | What it's for | Download | Code |
+|:-:|---|---|---|---|
+| <img src=".github/assets/family/form.md.png" alt="" width="32" height="32"> | **form.md** | Documents, databases and realtime editing together | [formai.studio](https://formmd.formai.studio/) | [GitHub](https://github.com/nodemode-dev/form.md) |
+| <img src=".github/assets/family/format.png" alt="" width="32" height="32"> | **FormAT** | Chat and agent workspace on your key | [formai.studio](https://format.formai.studio/) | [GitHub](https://github.com/nodemode-dev/format) |
+| <img src=".github/assets/family/formCAD.png" alt="" width="32" height="32"> | **FormCAD** | Drafting, parametric parts and NURBS surfaces | | [GitHub](https://github.com/nodemode-dev/formCAD) |
+| <img src=".github/assets/family/formcel.png" alt="" width="32" height="32"> | **FormCel** | Spreadsheets agents can read and edit | [formai.studio](https://formcel.formai.studio/) | [GitHub](https://github.com/nodemode-dev/formcel) |
+| <img src=".github/assets/family/formcraft.png" alt="" width="32" height="32"> | **FormCraft** | Generate images, video, audio, 3D and worlds | | [GitHub](https://github.com/nodemode-dev/formcraft) |
+| <img src=".github/assets/family/formcut.png" alt="" width="32" height="32"> | **FormCut** | Multi-track video editing with no upload | [formai.studio](https://formcut.formai.studio/) | [GitHub](https://github.com/nodemode-dev/formcut) |
+| <img src=".github/assets/family/formDAM.png" alt="" width="32" height="32"> | **FormDAM** | Photo library and asset manager | [formai.studio](https://formdam.formai.studio/) | [GitHub](https://github.com/nodemode-dev/formDAM) |
+| <img src=".github/assets/family/formdeck.png" alt="" width="32" height="32"> | **FormDeck** | Presentations and pitch decks | [formai.studio](https://formdeck.formai.studio/) | [GitHub](https://github.com/nodemode-dev/formdeck) |
+| <img src=".github/assets/family/formdesign.png" alt="" width="32" height="32"> | **FormDesign** | Page layout for print and the web | [formai.studio](https://formdesign.formai.studio/) | [GitHub](https://github.com/nodemode-dev/formdesign) |
+| <img src=".github/assets/family/formencoder.png" alt="" width="32" height="32"> | **FormEncoder** | Media encoding queue with presets | [formai.studio](https://formencoder.formai.studio/) | [GitHub](https://github.com/nodemode-dev/formencoder) |
+| <img src=".github/assets/family/formfabric.png" alt="" width="32" height="32"> | **FormFabric** | Sewing patterns draped with cloth simulation | | [GitHub](https://github.com/nodemode-dev/formfabric) |
+| <img src=".github/assets/family/formlit.png" alt="" width="32" height="32"> | **FormLit** | Photo library and raw development | [formai.studio](https://formlit.formai.studio/) | [GitHub](https://github.com/nodemode-dev/formlit) |
+| <img src=".github/assets/family/formmorpheus.png" alt="" width="32" height="32"> | **FormMorpheus** | Frame-by-frame and performed animation | | [GitHub](https://github.com/nodemode-dev/formmorpheus) |
+| <img src=".github/assets/family/formNET.png" alt="" width="32" height="32"> | **FormNET** | See what your computer sends online | | [GitHub](https://github.com/nodemode-dev/formNET) |
+| <img src=".github/assets/family/formpath.png" alt="" width="32" height="32"> | **FormPath** | Vector illustration with artboards and type | [formai.studio](https://formpath.formai.studio/) | [GitHub](https://github.com/nodemode-dev/formpath) |
+| <img src=".github/assets/family/formpdf.png" alt="" width="32" height="32"> | **FormPDF** | Edit, redact, sign and fill PDFs | [formai.studio](https://formpdf.formai.studio/) | [GitHub](https://github.com/nodemode-dev/formpdf) |
+| <img src=".github/assets/family/formpromo.png" alt="" width="32" height="32"> | **FormPromo** | Promo films from your own media | [formai.studio](https://formpromo.formai.studio/) | [GitHub](https://github.com/nodemode-dev/formpromo) |
+| <img src=".github/assets/family/formref.png" alt="" width="32" height="32"> | **FormRef** | Reference boards for creative work | [formai.studio](https://formref.formai.studio/) | [GitHub](https://github.com/nodemode-dev/formref) |
+| <img src=".github/assets/family/formrig.png" alt="" width="32" height="32"> | **FormRig** | Rig, skin and retarget any mesh | | [GitHub](https://github.com/nodemode-dev/formrig) |
+| <img src=".github/assets/family/formsculpt.png" alt="" width="32" height="32"> | **FormSculpt** | 3D sculpting, remeshing and painting | [formai.studio](https://formsculpt.formai.studio/) | [GitHub](https://github.com/nodemode-dev/formsculpt) |
+| <img src=".github/assets/family/formsurface.png" alt="" width="32" height="32"> | **FormSurface** | Texture painting with PBR export | [formai.studio](https://formsurface.formai.studio/) | [GitHub](https://github.com/nodemode-dev/formsurface) |
+| <img src=".github/assets/family/formtools.png" alt="" width="32" height="32"> | **FormTools** | Viewers, batch tools and file utilities | | [GitHub](https://github.com/nodemode-dev/formtools) |
+| <img src=".github/assets/family/formtxt.png" alt="" width="32" height="32"> | **FormTxt** | Word processing with .docx round trips | [formai.studio](https://formtxt.formai.studio/) | [GitHub](https://github.com/nodemode-dev/formtxt) |
+| <img src=".github/assets/family/formvfx.png" alt="" width="32" height="32"> | **FormVFX** | Motion graphics and VFX compositing | [formai.studio](https://formvfx.formai.studio/) | [GitHub](https://github.com/nodemode-dev/formvfx) |
+| <img src=".github/assets/family/formvis.png" alt="" width="32" height="32"> | **FormVis** | Layered image editing with local AI | [formai.studio](https://formvis.formai.studio/) | [GitHub](https://github.com/nodemode-dev/formvis) |
+| <img src=".github/assets/family/formwav.png" alt="" width="32" height="32"> | **FormWav** | Multitrack audio editing and mixing | [formai.studio](https://formwav.formai.studio/) | [GitHub](https://github.com/nodemode-dev/formwav) |
+| <img src=".github/assets/family/formweb.png" alt="" width="32" height="32"> | **FormWeb** | Visual website building with a CMS | [formai.studio](https://formweb.formai.studio/) | [GitHub](https://github.com/nodemode-dev/formweb) |
+| <img src=".github/assets/family/formportal.png" alt="" width="32" height="32"> | **FormPortal** | Install, update and roll back Form apps | [formai.studio](https://formportal.formai.studio/) | [GitHub](https://github.com/nodemode-dev/formportal) |
+| <img src=".github/assets/family/formtray.png" alt="" width="32" height="32"> | **FormTray** | One dock icon for every app | [formai.studio](https://formtray.formai.studio/) | [GitHub](https://github.com/nodemode-dev/formtray) |
+| <img src=".github/assets/family/formMCP.png" alt="" width="32" height="32"> | **FormMCP** | One MCP connection to the family | [formai.studio](https://formmcp.formai.studio/) | [GitHub](https://github.com/nodemode-dev/formMCP) |
+| <img src=".github/assets/family/formskills.png" alt="" width="32" height="32"> | **FormSkills** | Every app's agent skills in one place | [formai.studio](https://formskill.formai.studio/) | [GitHub](https://github.com/nodemode-dev/formskills) |
+| <img src=".github/assets/family/formbench.png" alt="" width="32" height="32"> | **FormBench** | Parity, testing and rankings for the family | [formai.studio](https://formranker.formai.studio/) | [GitHub](https://github.com/nodemode-dev/formbench) |
+| <img src=".github/assets/family/formslot.png" alt="" width="32" height="32"> | **FormSlot** | Codebase memory for coding agents | | [GitHub](https://github.com/nodemode-dev/formslot) |
+| <img src=".github/assets/family/subform.png" alt="" width="32" height="32"> | **SubForm** | Workbench for parallel Claude Code agents | | [GitHub](https://github.com/nodemode-dev/subform) |
+| <img src=".github/assets/family/formcompiler.png" alt="" width="32" height="32"> | **FormCompiler** | Builds, signs and releases every app | [formai.studio](https://formcompiler.formai.studio/) | [GitHub](https://github.com/nodemode-dev/formcompiler) |
+| <img src=".github/assets/family/formpipe.png" alt="" width="32" height="32"> | **FormPipe** | Release pipeline and update feeds | | [GitHub](https://github.com/nodemode-dev/formpipe) |
+
+## Maintainers
+
+| Maintainer | Role |
 |---|---|
-| frontend/ | Editor, stable DOM, gestures & theme |
-| backend/app/ | HTTP, assets, imports/exports, persistence & MCP |
-| native/formref-core/ | UI-independent board semantics & history |
-| src-tauri/ | Native desktop shell, sidecars and installers |
-| .claude/skills/formref-harness/ | Routed project development instructions |
-| .docs/wiki/ | Usage, engine contract, shell, agent & release guides |
-| clipper/ | Browser clipper extension (Chrome, Firefox) |
-| licenses/ | Third-party licence texts |
+| [@nodemode-ai](https://github.com/nodemode-ai) | Owner |
+| [@gbarnai](https://github.com/gbarnai) | Co-owner |
 
-## Status
+Code owners are set in [`.github/CODEOWNERS`](.github/CODEOWNERS).
 
-FormRef covers the image-board core (free canvas, crop, flip, grayscale, always-on-top windows) and board cards, columns, tasks, tables, links, maps, synced notes and nested boards, behind iStack's menu, with an embedded agent. Background removal runs FormCut's models, with U2Net small built in; SAM 2.1 is implemented from FormCut's code but could not be downloaded on the build machine. Google Drive and Dropbox storage is opt-in; real-time collaboration and protected sharing remain gaps; the browser clipper loads unpacked (no store-signed build). The desktop shell (`./formref desktop`) adds always-on-top, always-on-bottom, frameless, fullscreen, window opacity and click-through windows, a tray icon and Ctrl+Alt+F to show or hide FormRef from any app, and a window layout saved with each board; it was compiled and run on Linux. Since v0.38.0 the app packages its own engine and `build_app` makes installers for macOS, Linux and Windows, which the Form family's release builds sign (macOS Developer ID with notarization, Windows code signing); those packaged builds have not yet been run on every OS. Codex, Cursor & Ollama runners are implemented but were not available on the build machine, so only Claude Code has been run end to end.
+## License
 
-Planning, research and parity data live in the planning sidecar, outside this repository; the FormRef tab of the FormAI parity matrix is rendered from it each release. No self-authored test suite is included.
+FormRef is licensed under the Apache License 2.0 ([`LICENSE`](LICENSE), SPDX `Apache-2.0`). Copyright 2026 NodeAgentc, Inc. Third-party notices: [`NOTICE.md`](NOTICE.md).
 
-## Development
+<sub>Screenshot content: CC0 photos and textures from Poly Haven, and original sample notes.</sub>
 
-Work on `main`; see [release conventions](.docs/wiki/Releases.md). Read [CLAUDE.md](CLAUDE.md) & the project harness before changes. The repository logo is documentation artwork; frontend runtime assets live in `frontend/public/`.
-
-## Contributors
-
-| Contributor | Role |
-|---|---|
-| nodemode-ai / mackin@nodemode.ai | Owner & commit identity |
-
-## Licensing
-
-Apache-2.0. Copyright 2026 NodeAgentc, Inc. See [LICENSE](LICENSE) & [NOTICE.md](NOTICE.md) for dependency and font notices. The user's iStack format & FormVis design conventions were studied under their supplied permissions. No BeeRef code is included; the `.bee` reader and writer are an independent implementation (see NOTICE.md for how BeeRef was consulted).
-
-PureRef, Milanote, BeeRef and Illustrator are trademarks of their respective owners (Illustrator of Adobe in the United States and/or other countries). FormRef is not affiliated with or endorsed by any of them; they are named only for file compatibility and in the notices on how their public documentation was studied.
+<sub>PureRef, Milanote, BeeRef and Illustrator are trademarks of their respective owners (Illustrator of Adobe in the United States and/or other countries). FormRef is not affiliated with or endorsed by any of them; they are named only for file compatibility and in the notices on how their public documentation was studied.</sub>
