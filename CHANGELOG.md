@@ -1,5 +1,12 @@
 # FormRef changelog
 
+## v0.38.3 · 2026-11-04
+
+README screenshots and a leaner repository.
+
+- The README shows a reference board with real photos, textures, notes and links, plus the value study, compare and palette tools.
+- An unused logo file is removed.
+
 ## v0.38.2 · 2026-11-03
 
 A new app icon and a rewritten README.
