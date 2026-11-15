@@ -32,22 +32,6 @@
     ]
   },
   {
-    "name": "cairocffi",
-    "version": "1.7.1",
-    "license": null,
-    "license_files": [
-      "python/cairocffi/LICENSE"
-    ]
-  },
-  {
-    "name": "CairoSVG",
-    "version": "2.9.1",
-    "license": "LGPL-3.0-or-later",
-    "license_files": [
-      "python/CairoSVG/LICENSE"
-    ]
-  },
-  {
     "name": "certifi",
     "version": "2026.7.22",
     "license": "MPL-2.0",
@@ -82,14 +66,6 @@
     ]
   },
   {
-    "name": "cssselect2",
-    "version": "0.10.1",
-    "license": null,
-    "license_files": [
-      "python/cssselect2/LICENSE"
-    ]
-  },
-  {
     "name": "defusedxml",
     "version": "0.7.1",
     "license": "PSFL",
@@ -103,6 +79,14 @@
     "license": "MIT",
     "license_files": [
       "python/fastapi/LICENSE"
+    ]
+  },
+  {
+    "name": "fonttools",
+    "version": "4.68.0",
+    "license": "MIT",
+    "license_files": [
+      "python/fonttools/LICENSE"
     ]
   },
   {
@@ -251,6 +235,16 @@
     ]
   },
   {
+    "name": "resvg_py",
+    "version": "0.5.0",
+    "license": "MIT",
+    "license_files": [
+      "python/resvg_py/LICENSE",
+      "python/resvg_py/resvg-LICENSE-MIT",
+      "python/resvg_py/tiny-skia-LICENSE"
+    ]
+  },
+  {
     "name": "rpds-py",
     "version": "2026.9.1",
     "license": "MIT",
@@ -276,14 +270,6 @@
     ]
   },
   {
-    "name": "tinycss2",
-    "version": "1.5.1",
-    "license": null,
-    "license_files": [
-      "python/tinycss2/LICENSE"
-    ]
-  },
-  {
     "name": "typing-inspection",
     "version": "0.4.4",
     "license": "MIT",
@@ -305,14 +291,6 @@
     "license": "BSD-3-Clause",
     "license_files": [
       "python/uvicorn/LICENSE.md"
-    ]
-  },
-  {
-    "name": "webencodings",
-    "version": "0.6.1",
-    "license": null,
-    "license_files": [
-      "python/webencodings/LICENSE"
     ]
   },
   {

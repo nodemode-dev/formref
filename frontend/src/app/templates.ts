@@ -73,7 +73,15 @@ export async function saveAsTemplate() {
   if (!S.state) return;
   const form = await inputDialog('Save this board as a template', { name: S.state.board.title, label: 'Template name', description: 'The template keeps every item, link and canvas setting. Comments are left out. Images stay linked to the same files.', submit: 'Save template' });
   if (!form) return;
+  const boardId = S.state.board.id;
+  const title = form.name || S.state.board.title;
+  const { templates } = await request<{ templates: Template[] }>('/templates');
+  const same = templates.find(t => !t.built_in && t.title.trim().toLowerCase() === title.trim().toLowerCase());
+  if (same) {
+    const sure = await inputDialog(`Replace the template ${same.title}?`, { confirm: true, description: 'A template with this name already exists. Saving replaces its items, links and canvas settings with this board\'s. This cannot be undone.', submit: 'Replace template' });
+    if (!sure) return;
+  }
   await S.queue;
-  await request('/templates', { method: 'POST', body: JSON.stringify({ board_id: S.state.board.id, title: form.name || S.state.board.title }) });
-  toast(`Saved ${form.name || S.state.board.title} as a template. Find it under New from Template.`);
+  await request('/templates', { method: 'POST', body: JSON.stringify({ board_id: boardId, title, ...(same ? { replace_id: same.id } : {}) }) });
+  toast(same ? `Replaced the template ${title}. Find it under New from Template.` : `Saved ${title} as a template. Find it under New from Template.`);
 }

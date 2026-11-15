@@ -1,5 +1,5 @@
 import { api } from '../lib/api';
-import { onLanguage } from '../lib/i18n';
+import { onLanguage, t } from '../lib/i18n';
 import { onPdfText } from './pdf-text';
 import { isColor } from '../lib/color';
 import { nativeInvoke } from '../lib/host';
@@ -16,6 +16,7 @@ import { RESERVED_KEYS, applyKeyOverrides, assignKey, comboOf, keyLabel, keyOver
 import type { CommandDef } from './commands';
 import { registry } from './registry';
 import { replaceActiveWithNext } from './tabs';
+import { textCommand } from './card-fit';
 
 for (const node of document.querySelectorAll<HTMLElement>('[data-icon]')) node.prepend(icon(node.dataset.icon!));
 
@@ -204,7 +205,7 @@ window.addEventListener('keydown', event => {
   const id = capturing;
   const taken = assignKey(id, combo);
   saveKeys();
-  stopCapture(taken ? `${keyLabel(combo)} moved here from ${taken.label}.` : `${BY_ID.get(id)!.label} is now ${keyLabel(combo)}.`);
+  stopCapture(taken ? t('{0} moved here from {1}.', { 0: keyLabel(combo), 1: t(taken.label) }) : t('{0} is now {1}.', { 0: t(BY_ID.get(id)!.label), 1: keyLabel(combo) }));
 }, true);
 
 $<HTMLDialogElement>('help-dialog').addEventListener('close', () => { if (capturing) stopCapture(); });
@@ -252,6 +253,7 @@ for (const input of document.querySelectorAll<HTMLInputElement | HTMLTextAreaEle
     if (input instanceof HTMLInputElement && input.type === 'checkbox') value = input.checked;
     else if (input instanceof HTMLInputElement && input.type === 'number') value = key === 'opacity' ? Number(input.value) / 100 : Number(input.value);
     if (typeof value === 'number' && !Number.isFinite(value)) { error('Enter a valid number'); return; }
+    if (key === 'text') { void execute(textCommand(editable(), String(value))); return; }
     void execute({ type: 'update', ids: editable(), patch: { [key]: value } });
   });
 }

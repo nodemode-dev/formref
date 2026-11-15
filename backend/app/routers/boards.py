@@ -155,7 +155,7 @@ def templates():
 
 @router.post("/templates", status_code=201)
 def save_as_template(body: dict):
-    return save_template(str(body.get("board_id", "")), str(body.get("title", "")), str(body.get("description", "")))
+    return save_template(str(body.get("board_id", "")), str(body.get("title", "")), str(body.get("description", "")), str(body.get("replace_id", "")))
 
 @router.post("/templates/{template_id}/use", status_code=201)
 def new_from_template(template_id: str, body: dict | None = None):

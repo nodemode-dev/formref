@@ -26,9 +26,10 @@ export class PrefsWindow {
   private wireRaf = 0;
   private spyRaf = 0;
   private spyMuted = 0;
+  private pinned = '';
   private reveal = true;
   private wireD = '';
-  private portY = Number.NaN;
+  private portAt = '';
   private scrollTop = 0;
   private spot = { x: 0, y: 0 };
   private offset = { x: 0, y: 0 };
@@ -205,6 +206,7 @@ export class PrefsWindow {
     if (sec.classList.contains('is-folded')) this.foldSection(name);
     const top = sec.getBoundingClientRect().top - this.pages.getBoundingClientRect().top + this.pages.scrollTop - 12;
     this.spyMuted = performance.now() + 700;
+    this.pinned = name;
     this.pages.scrollTo({ top, behavior });
   }
 
@@ -229,11 +231,14 @@ export class PrefsWindow {
       const names = Array.from(this.sections.keys());
       let best = '';
       let bestD = Infinity;
-      if (pages.scrollHeight > pages.clientHeight + 4 && pages.scrollTop + pages.clientHeight >= pages.scrollHeight - 2) best = names[names.length - 1] ?? '';
-      else for (const [n, sec] of this.sections) {
-        const top = sec.getBoundingClientRect().top;
-        const d = top <= edge ? edge - top : top - edge + 100000;
-        if (d < bestD) { bestD = d; best = n; }
+      if (pages.scrollHeight > pages.clientHeight + 4 && pages.scrollTop + pages.clientHeight >= pages.scrollHeight - 2) best = this.sections.has(this.pinned) ? this.pinned : names[names.length - 1] ?? '';
+      else {
+        this.pinned = '';
+        for (const [n, sec] of this.sections) {
+          const top = sec.getBoundingClientRect().top;
+          const d = top <= edge ? edge - top : top - edge + 100000;
+          if (d < bestD) { bestD = d; best = n; }
+        }
       }
       if (best) this.markSection(best);
     });
@@ -253,11 +258,24 @@ export class PrefsWindow {
     if (!F.width || !R.width) return;
     const N = this.nav.getBoundingClientRect();
     let T = tab.getBoundingClientRect();
-    if (this.reveal && (T.top < N.top || T.bottom > N.bottom)) {
+    const stacked = R.bottom <= F.top;
+    if (this.reveal && stacked && (T.left < N.left || T.right > N.right)) {
+      this.nav.scrollLeft += T.left < N.left ? T.left - N.left - 6 : T.right - N.right + 6;
+      T = tab.getBoundingClientRect();
+    } else if (this.reveal && !stacked && (T.top < N.top || T.bottom > N.bottom)) {
       this.nav.scrollTop += T.top < N.top ? T.top - N.top - 6 : T.bottom - N.bottom + 6;
       T = tab.getBoundingClientRect();
     }
     this.reveal = false;
+    if (stacked) {
+      const x = Math.round(Math.min(Math.max(T.left + T.width / 2, N.left + ARC), N.right - ARC) - F.left - this.frame.clientLeft);
+      const y = Math.round(T.bottom - F.top - this.frame.clientTop);
+      const down = `M${x} ${y} V -7`;
+      if (down !== this.wireD) { this.wireD = down; this.shade.setAttribute('d', down); this.line.setAttribute('d', down); }
+      const at = `${x},0`;
+      if (at !== this.portAt) { this.portAt = at; this.port.style.transform = `translate(${x}px, 0px)`; }
+      return;
+    }
     const H = this.head.getBoundingClientRect();
     const portY = Math.round(H.bottom - F.top);
     const sx = Math.round(T.right - F.left);
@@ -269,6 +287,7 @@ export class PrefsWindow {
     const dir = dy > 0 ? 1 : -1;
     const d = Math.abs(dy) < 2 * r ? `M${sx} ${ty} H ${trunk} V ${portY} H -7` : `M${sx} ${ty} H ${trunk - r} a ${r} ${r} 0 0 ${dir > 0 ? 1 : 0} ${r} ${dir * r} V ${portY - dir * r} a ${r} ${r} 0 0 ${dir > 0 ? 0 : 1} ${r} ${dir * r} H -7`;
     if (d !== this.wireD) { this.wireD = d; this.shade.setAttribute('d', d); this.line.setAttribute('d', d); }
-    if (portY !== this.portY) { this.portY = portY; this.port.style.transform = `translateY(${portY}px)`; }
+    const at = `0,${portY}`;
+    if (at !== this.portAt) { this.portAt = at; this.port.style.transform = `translateY(${portY}px)`; }
   }
 }

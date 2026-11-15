@@ -28,7 +28,7 @@ const EDIT_ITEMS: MenuItem[] = [
   'select-all', 'deselect', 'select-duplicates', '-',
   { label: 'Find references', items: ['find-color', 'find-swatch-color', 'find-similar', 'filter-rating', '-', 'clear-color-find', 'clear-similar-find', 'clear-tag-filter', 'clear-filters'] },
   { label: 'Saved Searches', items: ['saved-searches', 'save-search', 'save-shared-search'] }, '-',
-  'edit-labels', 'open-source', 'format-note', '-',
+  'edit-labels', 'open-source', 'format-note', 'fit-to-text', '-',
   { label: 'Tools', items: [
     'tool-select', 'tool-hand', 'tool-direct', '-',
     'draw', 'tool-pencil', 'tool-pen-path', 'tool-curvature', 'tool-eraser', '-',

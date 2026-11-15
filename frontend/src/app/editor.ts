@@ -76,6 +76,7 @@ export const sourceEditor = new SourceEditor({
   flush: () => S.queue,
   state: next => { if (S.state?.board.id === next.board.id) applyState(next); },
   notify: toast,
+  grow: item => scene.grownHeight(item),
 });
 export const colorPicker = new ColorPicker({ exit: () => setTool('select'), create: createSwatch });
 export const host = new HostLink(message => {
@@ -502,12 +503,14 @@ export async function history(direction: 'undo' | 'redo') {
 }
 
 export function fit(items = S.state?.board.items.filter(i => !i.hidden) || []) {
-  if (!items.length) {
-    S.camera = { x: 64, y: 64, zoom: 1 };
-    drawCamera();
-    rememberCamera();
-    return;
-  }
+  S.camera = fitCamera(items);
+  drawCamera();
+  rememberCamera();
+}
+
+/** The camera that shows the items whole in the stage, above the floating controls; without items, the origin at full size. */
+export function fitCamera(items: Item[]): Viewport {
+  if (!items.length) return { x: 64, y: 64, zoom: 1 };
   const bounds = items.map(itemBounds);
   const minX = Math.min(...bounds.map(b => b.left));
   const minY = Math.min(...bounds.map(b => b.top));
@@ -517,9 +520,7 @@ export function fit(items = S.state?.board.items.filter(i => !i.hidden) || []) {
   const below = bar && bar.offsetParent === stage && getComputedStyle(bar).visibility !== 'hidden' ? Math.max(60, stage.clientHeight - bar.offsetTop + 12) : 60;
   const room = stage.clientHeight - 60 - below;
   const zoom = Math.max(.05, Math.min(2, (stage.clientWidth - 96) / (maxX - minX), room / (maxY - minY)));
-  S.camera = { x: stage.clientWidth / 2 - (minX + maxX) / 2 * zoom, y: 60 + room / 2 - (minY + maxY) / 2 * zoom, zoom };
-  drawCamera();
-  rememberCamera();
+  return { x: stage.clientWidth / 2 - (minX + maxX) / 2 * zoom, y: 60 + room / 2 - (minY + maxY) / 2 * zoom, zoom };
 }
 
 export function zoom(factor: number, point = { x: stage.clientWidth / 2, y: stage.clientHeight / 2 }) {
@@ -568,7 +569,7 @@ export const inspectorHooks: { drawing: (item: Item) => void } = { drawing: () =
 
 export interface DialogOptions {
   name?: string; text?: string; url?: string; showText?: boolean; showUrl?: boolean;
-  normalize?: boolean; label?: string; description?: string; submit?: string;
+  normalize?: boolean; label?: string; description?: string; submit?: string; confirm?: boolean;
 }
 
 export function inputDialog(title: string, opts: DialogOptions = {}): Promise<{ name: string; text: string; url: string } | null> {
@@ -583,8 +584,9 @@ export function inputDialog(title: string, opts: DialogOptions = {}): Promise<{ 
   $('dialog-text-field').hidden = !opts.showText;
   $('dialog-url-field').hidden = !opts.showUrl;
   $('dialog-mode-field').hidden = !opts.normalize;
+  $('dialog-name-field').hidden = !!opts.confirm;
   $<HTMLDialogElement>('input-dialog').showModal();
-  $('dialog-name').focus();
+  if (opts.confirm) $('dialog-submit').focus(); else $('dialog-name').focus();
   return new Promise(resolve => { dialogResolve = resolve; });
 }
 

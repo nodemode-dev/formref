@@ -17,7 +17,7 @@ if not exist "%CORE%" (echo [formref] the Rust core is not built: run formref.ba
 if errorlevel 1 exit /b 1
 if exist build\pyinstaller rmdir /s /q build\pyinstaller
 if exist dist-engine rmdir /s /q dist-engine
-"%PYTHON_BIN%" -m PyInstaller --noconfirm --clean --onefile --log-level WARN --name formref-engine --distpath dist-engine --workpath build\pyinstaller --specpath build\pyinstaller --paths "%BACKEND%" --add-data "%ROOT%\frontend\dist;frontend\dist" --add-data "%BACKEND%\app\bundled_models;app\bundled_models" --collect-submodules app --collect-submodules uvicorn --collect-submodules mcp.server --collect-submodules mcp.shared --collect-submodules mcp.client --hidden-import mcp.types --exclude-module mcp.cli --collect-submodules websockets --collect-data cairosvg --collect-data cairocffi --collect-all winpty "%BACKEND%\formref_engine.py"
+"%PYTHON_BIN%" -m PyInstaller --noconfirm --clean --onefile --log-level WARN --name formref-engine --distpath dist-engine --workpath build\pyinstaller --specpath build\pyinstaller --paths "%BACKEND%" --add-data "%ROOT%\frontend\dist;frontend\dist" --add-data "%BACKEND%\app\bundled_models;app\bundled_models" --collect-submodules app --collect-submodules uvicorn --collect-submodules mcp.server --collect-submodules mcp.shared --collect-submodules mcp.client --hidden-import mcp.types --exclude-module mcp.cli --collect-submodules websockets --collect-submodules fontTools.ttLib.tables --hidden-import fontTools.subset --hidden-import pypdfium2 --hidden-import resvg_py --collect-all winpty "%BACKEND%\formref_engine.py"
 if errorlevel 1 exit /b 1
 
 if not exist "%ROOT%\src-tauri\binaries" mkdir "%ROOT%\src-tauri\binaries"

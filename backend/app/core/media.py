@@ -1,12 +1,23 @@
 import io
 import warnings
+import xml.etree.ElementTree as ET
 from PIL import Image
 from .config import settings
 from .store import store
 
 
-def deny_fetch(url, resource_type):
-    raise ValueError("SVG rasterization cannot fetch external resources.")
+def svg_png(data):
+    """A checked SVG (no external references, see store.check_svg) as PNG at its own size, drawn by resvg, which needs no system library."""
+    import resvg_py
+    width, height = store.check_svg(data)
+    try:
+        text = data.decode("utf-8-sig")
+    except UnicodeDecodeError:
+        text = ET.tostring(ET.fromstring(data), encoding="unicode")
+    try:
+        return bytes(resvg_py.svg_to_bytes(svg_string=text, width=width, height=height))
+    except Exception as exc:
+        raise ValueError("Registered image cannot be decoded.") from exc
 
 
 def original_image(asset_id):
@@ -14,12 +25,7 @@ def original_image(asset_id):
     if not info["mime"].startswith("image/"):
         raise ValueError("Referenced asset is not an image.")
     if info["mime"] == "image/svg+xml":
-        width, height = store.check_svg(data)
-        try:
-            from cairosvg.surface import PNGSurface
-        except (ImportError, OSError) as exc:
-            raise ValueError("SVG rasterization requires CairoSVG and a system libCairo installation. On macOS run brew install cairo; on Windows install a compatible libCairo runtime.") from exc
-        data = PNGSurface.convert(bytestring=data, unsafe=False, output_width=width, output_height=height, url_fetcher=deny_fetch)
+        data = svg_png(data)
     try:
         with warnings.catch_warnings():
             warnings.simplefilter("error", Image.DecompressionBombWarning)

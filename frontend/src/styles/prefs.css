@@ -68,3 +68,17 @@
 .prefs-group .inline-field { gap: var(--space-2); }
 .prefs-group .inline-field > .button { flex: none; width: calc(var(--space-7) * 4); }
 .prefs-group .inline-field input, .prefs-group .cloud-service input[type="text"], .prefs-group .cloud-service input[type="password"] { height: 30px; font-size: 12px; }
+@media (max-width: 760px) {
+  .prefs-dlg { --prefs-rail-h: 56px; width: calc(100dvw - var(--space-4)); height: min(780px, calc(100dvh - var(--prefs-rail-h) - var(--space-4) - var(--space-4))); margin: calc(var(--prefs-rail-h) + var(--space-4)) 0 0; }
+  .prefs-rail, .prefs-dlg.is-rail-collapsed .prefs-rail { top: auto; right: 0; bottom: calc(100% + var(--space-4)); left: 0; flex-direction: row; width: auto; height: var(--prefs-rail-h); max-height: none; padding: var(--space-1); }
+  .prefs-nav, .prefs-dlg.is-rail-collapsed .prefs-nav { flex-direction: row; align-items: center; padding: var(--space-1); overflow-x: auto; overflow-y: hidden; }
+  .prefs-railtab, .prefs-dlg.is-rail-collapsed .prefs-railtab { justify-content: center; width: 36px; height: 36px; padding: 0; }
+  .prefs-tablabel, .prefs-dlg.is-rail-collapsed .prefs-tablabel, .prefs-fold { display: none; }
+  .prefs-pages { padding: var(--space-2); }
+  .prefs-secbody { padding: 0 var(--space-2) var(--space-2); }
+  .prefs-group { padding: var(--space-3) var(--space-3) var(--space-3); }
+}
+@media (max-width: 520px) {
+  .prefs-group .field-row { grid-template-columns: minmax(0, 1fr); row-gap: var(--space-1); }
+  .prefs-group .button.full { height: auto; min-height: 30px; padding-block: 6px; white-space: normal; text-align: center; }
+}

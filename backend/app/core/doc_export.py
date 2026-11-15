@@ -1,7 +1,7 @@
 """Export one note or document card on its own: Markdown, plain text, Word (.docx) or PDF.
 
 Word and PDF are written here without extra dependencies: the .docx is a minimal WordprocessingML package and the
-PDF is drawn with cairo (already present for SVG export), laid out by the same Markdown subset as the board."""
+PDF is drawn with PDFium through core/pdf_draw.py, laid out by the same Markdown subset as the board."""
 import io
 import re
 import zipfile
@@ -85,22 +85,12 @@ def docx(item: dict) -> bytes:
 
 
 def pdf(item: dict) -> bytes:
-    import cairocffi as cairo
+    from .pdf_draw import Fonts, render
     width, height, margin, base = 595.0, 842.0, 64.0, 11.0
-    buffer = io.BytesIO()
-    surface = cairo.PDFSurface(buffer, width, height)
-    surface.set_metadata(cairo.PDF_METADATA_TITLE, item.get("title") or "Document")
-    surface.set_metadata(cairo.PDF_METADATA_CREATOR, "FormRef")
-    context = cairo.Context(surface)
-
-    def face(style):
-        context.select_font_face("sans-serif", cairo.FONT_SLANT_ITALIC if style.get("emphasis") else cairo.FONT_SLANT_NORMAL,
-                                 cairo.FONT_WEIGHT_BOLD if style.get("strong") else cairo.FONT_WEIGHT_NORMAL)
+    fonts = Fonts()
 
     def measure(text, size, style):
-        face(style)
-        context.set_font_size(size)
-        return context.text_extents(text)[4]
+        return fonts.measure(text, size, style.get("strong"), style.get("emphasis"))
 
     content = blocks(item)
     if item.get("title"):
@@ -108,25 +98,24 @@ def pdf(item: dict) -> bytes:
     lines = list(layout_text(content, base, width - 2 * margin, float("inf"), measure))
     usable = height - 2 * margin
     page_top = 0.0
+    sheets = [[]]
     for line in lines:
         if line["y"] - page_top + line["size"] * 1.45 > usable:
-            context.show_page()
+            sheets.append([])
             page_top = line["y"]
-        baseline = margin + (line["y"] - page_top) + line["size"]
-        for run in line["runs"]:
-            face(run)
-            context.set_font_size(line["size"])
-            context.set_source_rgb(*((0.02, 0.33, 0.76) if run.get("href") else (0.1, 0.1, 0.1)))
-            context.move_to(margin + run["x"], baseline)
-            if run.get("href"):
-                safe = run["href"].replace("'", "%27")
-                context.tag_begin(cairo.TAG_LINK, f"uri='{safe}'")
-                context.show_text(run["text"])
-                context.tag_end(cairo.TAG_LINK)
-            else:
-                context.show_text(run["text"])
-    surface.finish()
-    return buffer.getvalue()
+        sheets[-1].append((margin + (line["y"] - page_top) + line["size"], line))
+
+    def sheet(rows):
+        def draw(canvas):
+            for baseline, line in rows:
+                for run in line["runs"]:
+                    fill = (5, 84, 194, 255) if run.get("href") else (26, 26, 26, 255)
+                    canvas.text(margin + run["x"], baseline, run["text"], line["size"], run.get("strong"), run.get("emphasis"), fill, (1.0, 0.0, 0.0, -1.0, 0.0, height))
+                    if run.get("href"):
+                        canvas.link(margin + run["x"], baseline - line["size"], margin + run["x"] + run["width"], baseline + line["size"] * 0.3, run["href"], (1.0, 0.0, 0.0, -1.0, 0.0, height))
+        return width, height, draw
+
+    return render([sheet(rows) for rows in sheets], item.get("title") or "Document", fonts)
 
 
 def export_item(item: dict, fmt: str) -> tuple[bytes, str, str]:

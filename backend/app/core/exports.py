@@ -15,7 +15,7 @@ from .media import original_image
 from .sampling import crop_bounds, color_values
 from .reference_text import parse_text, layout_text, markdown_source
 from .xmp_write import with_tags
-from .endpoints import DASHES, GROUP, anchors as endpoint_anchors, heads as endpoint_heads, path_data as endpoint_path, polyline as endpoint_polyline, box as endpoint_box, group_of, title as endpoint_title
+from .endpoints import DASHES, GROUP, route as endpoint_route, heads as endpoint_heads, path_data as endpoint_path, polyline as endpoint_polyline, box as endpoint_box, group_of, title as endpoint_title
 
 SVG_NS = "http://www.w3.org/2000/svg"
 ET.register_namespace("", SVG_NS)
@@ -318,10 +318,10 @@ def png_export(board):
             continue
         arrow = connection.get("arrow", "")
         route = connection.get("route", "")
-        ax, ay, tx, ty = endpoint_anchors(source, target, arrow)
-        ends, triangles = endpoint_heads(ax, ay, tx, ty, arrow, route)
+        ax, ay, tx, ty, vertical = endpoint_route(source, target, arrow)
+        ends, triangles = endpoint_heads(ax, ay, tx, ty, arrow, route, vertical)
         steps = min(4096, math.ceil((abs(ends[2] - ends[0]) + abs(ends[3] - ends[1])) * scale / 2))
-        curve = [((x - left) * scale, (y - top) * scale) for x, y in endpoint_polyline(ax, ay, tx, ty, ends, route, steps)]
+        curve = [((x - left) * scale, (y - top) * scale) for x, y in endpoint_polyline(ax, ay, tx, ty, ends, route, steps, vertical)]
         stroke = color(connection.get("color"), "#f97316")
         stroke_curve(draw, curve, stroke, max(1, round(2 * scale)), DASHES.get(connection.get("line", "")), scale)
         for triangle in triangles:
@@ -395,10 +395,10 @@ def svg_export(board, picture=png_data_uri):
             continue
         arrow = connection.get("arrow", "")
         route = connection.get("route", "")
-        ax, ay, bx, by = endpoint_anchors(source, target, arrow)
-        ends, triangles = endpoint_heads(ax, ay, bx, by, arrow, route)
+        ax, ay, bx, by, vertical = endpoint_route(source, target, arrow)
+        ends, triangles = endpoint_heads(ax, ay, bx, by, arrow, route, vertical)
         stroke = color(connection.get("color"), "#f97316")
-        attributes = {"d": endpoint_path(ax, ay, bx, by, ends, route), "fill": "none", "stroke": stroke, "stroke-width": 2}
+        attributes = {"d": endpoint_path(ax, ay, bx, by, ends, route, vertical), "fill": "none", "stroke": stroke, "stroke-width": 2}
         if connection.get("line") in DASHES:
             attributes.update({"stroke-dasharray": " ".join(map(str, DASHES[connection["line"]])), "stroke-linecap": "round" if connection["line"] == "dotted" else "butt"})
         svg_element(root, "path", attributes)
@@ -500,43 +500,14 @@ def reading_order(items):
 
 def pdf_export(board, layout="board", paper="a4"):
     """PDF of the board at full resolution: the whole board on one page, one page per top-level item in reading order fitted to the paper, or the board at 100 percent tiled across paper pages for printing large."""
-    try:
-        import cairocffi as cairo
-        from cairosvg.parser import Tree
-        from cairosvg.surface import PDFSurface
-    except (ImportError, OSError) as exc:
-        raise ValueError("PDF export requires CairoSVG and a system libCairo installation. On macOS run brew install cairo; on Windows install a compatible libCairo runtime.") from exc
+    from .pdf_draw import render, svg_page
 
     page_w, page_h = PAPERS.get(paper, PAPERS["a4"])
     source = svg_export(board) if layout != "pages" else None
-    output = io.BytesIO()
-    shared = cairo.PDFSurface(output, page_w, page_h)
-    shared.set_metadata(cairo.PDF_METADATA_TITLE, board.get("title") or "Board")
-    shared.set_metadata(cairo.PDF_METADATA_CREATOR, "FormRef")
-
-    class Page(PDFSurface):
-        def _create_surface(self, width, height):
-            shared.set_size(width, height)
-            return shared, width, height
+    pages = []
 
     def page(view, width_pt, height_pt, svg=None, caption=""):
-        tree = Tree(bytestring=svg or source, unsafe=False)
-        tree["viewBox"] = " ".join(f"{value:.3f}" for value in view)
-        tree["width"], tree["height"] = f"{width_pt / PX_TO_PT:.3f}", f"{height_pt / PX_TO_PT:.3f}"
-        tree["preserveAspectRatio"] = "xMidYMid meet"
-        Page(tree, None, 96)
-        if caption:
-            # One page per item: the title and tags in the bottom margin, cut to the page width.
-            context = cairo.Context(shared)
-            context.select_font_face("sans-serif")
-            context.set_font_size(8)
-            context.set_source_rgb(0.42, 0.42, 0.45)
-            text = caption
-            while text and context.text_extents(text)[4] > width_pt - 72:
-                text = text[:-2] + "…"
-            context.move_to(36, height_pt - 16)
-            context.show_text(text)
-        shared.show_page()
+        pages.append(svg_page(svg or source, view, width_pt, height_pt, caption))
 
     left, top, width, height = bounds(board)
     count = 0
@@ -575,8 +546,7 @@ def pdf_export(board, layout="board", paper="a4"):
         count = 1
     if not count:
         raise ValueError("There is nothing on this board to put on a page.")
-    shared.finish()
-    return output.getvalue(), count
+    return render(pages, board.get("title") or "Board"), count
 
 
 def portable_export(state):

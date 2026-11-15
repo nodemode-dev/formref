@@ -2,7 +2,7 @@
 
 Written by `./formref agents sync` from the command catalogue the FormRef window publishes; do not edit by hand. Run a command with the MCP tools `run_command` or `run_commands` (the window must be open). `window-only` commands are refused for outside agents; `risky` commands ask the person first.
 
-238 commands.
+239 commands.
 
 ## Canvas
 
@@ -204,6 +204,7 @@ Written by `./formref agents sync` from the command catalogue the FormRef window
 | `distribute-x` | Space Horizontally |  | changes the board | Spaces the selected items evenly from left to right. |
 | `distribute-y` | Space Vertically |  | changes the board | Spaces the selected items evenly from top to bottom. |
 | `expand-group` | Expand Group | `alt+shift+g` | changes the board | Shows the items of the selected collapsed group again in place. One undo step. Parameters: `group_id` (string): the group id; the selected group when left out. |
+| `fit-to-text` | Fit Card to Text |  | changes the board | Sets the height of each selected note, task, document or link card to fit all of its text at its width, growing or shrinking it; the top edge stays put and no other item moves. Locked and hidden cards are left as they are. |
 | `group` | Group Selected | `mod+g` | changes the board | Groups the selected items so they select and move together. |
 | `hide-selected` | Hide Selected | `mod+3` | changes the board | Hides the selected items; they stay on the board and come back with Show All. |
 | `isolate-selected` | Isolate Selected |  | changes the board | Hides everything except the selection (and the items inside selected columns) so a big board can be worked on piece by piece; Show All restores the rest. |

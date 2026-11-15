@@ -72,7 +72,7 @@ class Agents:
     async def available(self) -> list[dict]:
         rows = []
         for key, spec in runners.CLI.items():
-            path = runners.find(key)
+            path = await asyncio.to_thread(runners.find, key)
             rows.append({"id": key, "label": spec["label"], "available": bool(path), "path": path or "", "note": "" if path else spec["install"]})
         url = self.settings()["ollama_url"]
         models = []
