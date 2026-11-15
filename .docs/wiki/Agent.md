@@ -7,8 +7,8 @@ FormRef has an Agent panel in the right dock (Ctrl+J, or Ask Agent in the right-
 | Runner | Needs | How FormRef runs it |
 | --- | --- | --- |
 | Claude Code | `claude` on PATH, signed in | `claude -p` with stream-json output, FormRef's MCP server passed inline and every other tool turned off |
-| Codex | `codex` on PATH, signed in, this folder trusted in Codex | `codex exec --json`, reading `.codex/config.toml` |
-| Cursor | `agent` or `cursor-agent` on PATH, signed in | `agent -p` with stream-json output and MCP approval, reading `.cursor/mcp.json` |
+| Codex | `codex` on PATH or in its usual install places (npm's global folder, `~/.local/bin`, Homebrew, the app bundle on a Mac), signed in, this folder trusted in Codex | `codex exec --json`, reading `.codex/config.toml` |
+| Cursor | `agent` or `cursor-agent` on PATH or in its usual install places, signed in | `agent -p` with stream-json output and MCP approval, reading `.cursor/mcp.json` |
 | Ollama | `ollama serve` on a loopback address and a pulled model with tool support | In-process: FormRef lists its MCP tools, sends them to Ollama's OpenAI-compatible chat endpoint and calls the tools Ollama picks |
 
 The runner list shows which are installed and why one is not. Settings (runner, model, Ollama address and model) are saved in the data folder. The Ollama address must be loopback.

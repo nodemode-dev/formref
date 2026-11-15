@@ -1,5 +1,23 @@
 # FormRef changelog
 
+## v0.39.2 · 2026-11-15
+
+PDF export that needs nothing installed, a calmer board, and the fixable items from the last release's open list.
+
+- PDF export (board, pages, tiles and a single note or document) and SVG pictures work on every computer without Cairo or any other library installed. PDFs embed the fonts they use, links stay clickable and connection labels are readable.
+- A connection meets the side of each card that faces the other card, so cards above and below each other are joined top to bottom.
+- A note, task, document or link card grows while you type, when you change its text in the Inspector and when you save it in the editor, in one undo step. Fit Card to Text sizes chosen cards to their text. Other cards never move, so a card that grows can lie over the card below it.
+- The tag cloud is one row that is always there, with a +N chip for tags that do not fit, and the board tabs have a fixed width and slide over when one closes, so nothing in the sidebar or the tab row jumps any more.
+- The colour demo appears complete the first time you open it: its pictures come with the app and are ready in the first frame.
+- Preferences is usable at 390 px wide, with the categories along the top.
+- The engine's self-check also checks the PDF font and SVG libraries, so a desktop build that lacks them fails its build-time check instead of failing on a person's first export.
+- Card text in Chinese, Japanese, Korean, Thai and other scripts the default font lacks wraps by the font that actually draws it, so nothing overlaps or runs past the card in PNG, SVG and PDF exports, and the PNG no longer shows boxes for those characters.
+- Every package and library the app bundles now has its licence text and an inventory entry in `licenses/third-party/`, including PDFium and the libraries inside numpy, onnxruntime and pywinpty.
+- 59 messages that were English in every language are translated in all 25 languages besides English, and the card controls' labels for screen readers follow a language switch.
+- Codex and Cursor are found in their usual install places, not only on the PATH. Saving a template under a name you already use asks before it replaces that template.
+- The NASA pictures in the demo boards carry NASA's own wording: not subject to copyright in the United States. A board you already made from a demo keeps the text it was made with.
+- The one-file engine removes the stale folders earlier runs left in the temporary folder when it starts (written for Windows, checked on Linux).
+
 ## v0.39.1 · 2026-11-15
 
 Community files, and the credit and licence of every demo picture checked at its source.
