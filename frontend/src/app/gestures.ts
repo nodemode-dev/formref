@@ -9,7 +9,7 @@ import {
   rememberCamera, toast, defaultSettings, error,
 } from './editor';
 import type { Gesture } from './editor';
-import { isEnabled } from './commands';
+import { isEnabled, needsBoard } from './commands';
 import { commandForKey } from './keys';
 import { boardMenu } from './menu';
 import { chooseConnection, connectionMenu, labelConnection } from './connection-style';
@@ -371,7 +371,7 @@ stage.addEventListener('drop', event => {
 });
 
 document.addEventListener('paste', event => {
-  if (document.querySelector('dialog[open]')) return;
+  if (S.home || document.querySelector('dialog[open]')) return;
   if ((event.target as HTMLElement).closest('input,textarea,[contenteditable="true"]')) return;
   const files = Array.from(event.clipboardData?.items || []).filter(entry => entry.kind === 'file').map(entry => entry.getAsFile()).filter((file): file is File => !!file);
   if (files.length) {
@@ -392,7 +392,7 @@ document.addEventListener('keydown', event => {
   const editing = !!target.closest('input,textarea,select,[contenteditable="true"]');
   const modal = !!document.querySelector('dialog[open]');
   const modifier = event.ctrlKey || event.metaKey;
-  if (event.code === 'Space' && !editing && !modal) {
+  if (event.code === 'Space' && !editing && !modal && !S.home) {
     event.preventDefault();
     S.space = true;
     stage.classList.add('pan');
@@ -400,6 +400,7 @@ document.addEventListener('keydown', event => {
   }
   const command = commandForKey(event);
   if (!command) return;
+  if (needsBoard(command)) { if (modifier) event.preventDefault(); return; }
   const global = modifier && ['save', 'commands', 'export', 'terminal', 'claude-code', 'chat', 'agent'].includes(command.id);
   if ((editing || modal) && !global) return;
   if (command.id === 'paste') return;

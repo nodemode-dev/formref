@@ -1,7 +1,7 @@
 import { MenuBar, type MenuDef, type MenuItem } from '../ui/menu';
 import { MENUS_IN_WINDOW_KEY, NativeMenus, isMacDesktop, menusInWindow, wantsNativeMenus, type NativeCommands } from '../ui/native-menu';
 import { isEnabled, lockLabel, run } from './commands';
-import { host, onState, toast } from './editor';
+import { boardClosed, host, onState, toast } from './editor';
 import { commandForKey, onKeysChanged, primaryKey } from './keys';
 import { registry } from './registry';
 
@@ -136,6 +136,7 @@ export function bindMenus(): void {
   const native = new NativeMenus(commands, () => MENUS, 'preferences');
   void native.build().catch(() => undefined);
   onState(() => native.refresh());
+  boardClosed.push(() => native.refresh());
   registry.onChange(() => native.refresh());
   onKeysChanged(() => { void native.build().catch(() => undefined); });
 }

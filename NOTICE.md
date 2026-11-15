@@ -63,6 +63,14 @@ CairoSVG is installed as an ordinary replaceable Python package in the server en
 
 The editor uses system fonts and original inline SVG icons. Comparison HTMLs load the four fonts used by the supplied FormVis comparison from Google Fonts. Their original SIL Open Font License 1.1 texts are retained in `licenses/third-party/fonts/`. Font binaries are not included in the source archive. No BeeRef code, GPL or AGPL implementation is included. The optional native shell's dependency lock is included for reproducibility; it still needs platform prerequisites before it can compile.
 
+## Demo board media
+
+| Files | Source | License | Shipped |
+|---|---|---|---|
+| The pictures inside the three demo boards (`frontend/public/demos/colour/`, `value/` and `poster/`: each a `board.formref` and a `cover.webp` that is one of the board's own pictures): 39 NASA pictures, among them one Hubble image from NASA and ESA | The same WebP bytes as the copies in formdeck (`frontend/public/demos/nasa/`) and form.md (`demo/assets/media/`, `demos/views/assets/media/`), same owner; per-file titles, credit lines and source pages in `frontend/public/demos/CREDITS.md` | Public domain (NASA content; the Hubble image as stated on its Wikimedia Commons page) | Yes, with the window build and the desktop engine, read by Home > Demos and Help > Demos |
+
+The boards' other content (notes, tables, swatches, shapes) is original and Apache-2.0 like the rest of FormRef. No NASA insignia or logotype is shown.
+
 ## License texts and lockfiles
 
 `licenses/third-party/` retains installed dependency license texts and a package metadata inventory. Frontend and Rust lockfiles identify exact transitive versions. Native core notices live under `native/licenses/`.
