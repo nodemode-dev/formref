@@ -140,7 +140,7 @@ On Windows use `formref_oc_install.bat` then `formref.bat`. The editor is on htt
 > [!IMPORTANT]
 > **Status:** in development. Real-time collaboration and protected sharing are not built, the browser clipper loads unpacked, and the packaged builds have not yet been run on every OS. Only Claude Code has been run end to end in the Agent panel.
 
-**Contributing:** branch from `main`, keep changes to source here, and leave packaging and releases to formcompiler. See [`CLAUDE.md`](CLAUDE.md), [`AGENTS.md`](AGENTS.md) and the [release conventions](.docs/wiki/Releases.md).
+**Contributing:** branch from `main`, keep changes to source here, and leave packaging and releases to formcompiler. See [`CONTRIBUTING.md`](CONTRIBUTING.md), [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md), [`CLAUDE.md`](CLAUDE.md), [`AGENTS.md`](AGENTS.md) and the [release conventions](.docs/wiki/Releases.md). Report security issues privately as [`SECURITY.md`](SECURITY.md) describes.
 
 ## Repository
 
