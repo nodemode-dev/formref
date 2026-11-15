@@ -30,6 +30,7 @@ const paths = {
   'chevron-left': '<path d="M15 5l-7 7 7 7"/>',
   'chevron-right': '<path d="M9 5l7 7-7 7"/>',
   'chevron-down': '<path d="M5 9l7 7 7-7"/>',
+  'collapse-tabs': '<path d="M11 6l-6 6 6 6M19 6l-6 6 6 6"/>',
   play: '<path d="M7 4.5v15l12-7.5z"/>',
   pause: '<path d="M8 5v14M16 5v14"/>',
   close: '<path d="M6 6l12 12M18 6L6 18"/>',

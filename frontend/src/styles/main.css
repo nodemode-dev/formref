@@ -7,9 +7,6 @@
 .board-title{width:calc(var(--space-3)*15);flex:0 1 calc(var(--space-3)*15);min-width:0;text-align:left}
 .save-state{width:calc(var(--space-8)*3.5);min-width:calc(var(--space-8)*3.5);flex:0 0 calc(var(--space-8)*3.5);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 #outline-count{width:var(--space-10);min-width:var(--space-10);text-align:left;font-variant-numeric:tabular-nums}
-.canvas-preferences{display:flex;flex-direction:column;gap:var(--space-3);padding:var(--space-4) 0;border-top:1px solid var(--border-color);border-bottom:1px solid var(--border-color)}
-.canvas-preferences .field-row input{width:calc(var(--space-10)*2);height:30px;font:11px var(--font-mono)}
-#preferences-dialog .modal-body{max-height:calc(100dvh - 120px);overflow:auto}
 .reference-prev svg{transform:rotate(180deg)}
 .reference-play{width:calc(var(--space-8)*2);flex:0 0 calc(var(--space-8)*2);padding:0 var(--space-2)}
 .reference-dialog{inset:0;margin:0;width:100dvw;max-width:none;height:100dvh;max-height:none;border:0;border-radius:0;background:var(--canvas-bg);backdrop-filter:none}

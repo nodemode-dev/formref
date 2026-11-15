@@ -4,7 +4,9 @@ import { $, S, error, referenceView, setInput } from '../editor';
 import type { CommandDef } from '../registry';
 import { clipToken } from './file';
 import { hasBoard, hasImages } from './when';
+import { PrefsWindow } from '../../ui/prefs-window';
 
+const prefsWindow = new PrefsWindow($<HTMLDialogElement>('preferences-dialog'));
 let paletteOpener: () => void = () => undefined;
 let dockToggler: (side: 'left' | 'right') => void = () => undefined;
 let panelShower: (panel: string) => void = () => undefined;
@@ -30,5 +32,5 @@ export const VIEW_COMMANDS: CommandDef[] = [
   { group: 'View', id: 'agent', label: 'Open Agent', icon: 'agent', run: () => showRightPanel('agent') },
   { group: 'View', id: 'commands', label: 'Commands', icon: 'commands', keys: ['mod+k'], run: () => openPalette(), palette: false },
   { group: 'View', id: 'help', label: 'Keyboard Shortcuts', icon: 'keyboard', keys: ['?', 'shift+/'], run: () => $<HTMLDialogElement>('help-dialog').showModal() },
-  { group: 'View', id: 'preferences', label: 'Preferences', icon: 'settings', keys: ['mod+,'], run: () => { setInput('theme-select', document.documentElement.dataset.theme || 'studio'); $<HTMLDialogElement>('preferences-dialog').showModal(); void clipToken().catch(error); void refreshCloudPreferences(); } },
+  { group: 'View', id: 'preferences', label: 'Preferences', icon: 'settings', keys: ['mod+,'], run: () => { setInput('theme-select', document.documentElement.dataset.theme || 'studio'); prefsWindow.show(); void clipToken().catch(error); void refreshCloudPreferences(); } },
 ];
