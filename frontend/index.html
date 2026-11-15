@@ -23,6 +23,7 @@
       if (lang && /^[a-zA-Z-]{2,7}$/.test(lang)) root.dataset.lang = lang;
       var dockH = store.getItem('formref-term-dock-h');
       if (/^\d+px$/.test(dockH || '')) root.style.setProperty('--term-dock-h', dockH);
+      if ('__TAURI_INTERNALS__' in window && /Mac/.test(navigator.platform) && store.getItem('formref.menusInWindow') !== '1') root.classList.add('has-native-menus');
     } catch (_) {}
   </script>
   <link rel="stylesheet" href="/src/styles/tokens.css">
@@ -43,6 +44,7 @@
         <span class="product-label">REFERENCE STUDIO</span>
       </a>
     </div>
+    <nav class="menubar" aria-label="Main menu"></nav>
     <div class="title-context">
       <div id="board-tabs" class="board-tabs" role="tablist" aria-label="Open boards"></div>
       <button class="icon-button small" data-action="new-tab" data-icon="plus" title="New tab" aria-label="New tab"></button>

@@ -26,8 +26,8 @@ function settingsToggle(key: 'grid_visible' | 'grayscale') {
 }
 
 export const CANVAS_COMMANDS: CommandDef[] = [
-  { group: 'Canvas', id: 'toggle-grid', label: 'Toggle Grid', icon: 'grid', keys: ['g'], run: () => settingsToggle('grid_visible'), enabled: hasBoard },
-  { group: 'Canvas', id: 'grayscale-canvas', label: 'Grayscale Canvas', icon: 'grayscale', run: () => settingsToggle('grayscale'), enabled: hasBoard },
+  { group: 'Canvas', id: 'toggle-grid', label: 'Toggle Grid', icon: 'grid', keys: ['g'], run: () => settingsToggle('grid_visible'), enabled: hasBoard, checked: () => (S.state?.board.settings || defaultSettings).grid_visible },
+  { group: 'Canvas', id: 'grayscale-canvas', label: 'Grayscale Canvas', icon: 'grayscale', run: () => settingsToggle('grayscale'), enabled: hasBoard, checked: () => (S.state?.board.settings || defaultSettings).grayscale },
   { group: 'Canvas', id: 'background', label: 'Background Color', icon: 'palette', run: pickBackground, enabled: hasBoard },
   { group: 'Canvas', id: 'fit', label: 'Fit View', icon: 'fit', keys: ['f'], run: () => fit(selection.size ? selected() : undefined) },
   { group: 'Canvas', id: 'fit-all', label: 'Fit Canvas to Content', icon: 'focus-mode', run: () => fit(S.state?.board.items || []) },
