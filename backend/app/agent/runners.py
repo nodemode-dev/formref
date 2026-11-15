@@ -22,6 +22,9 @@ def find(runner: str):
         path = shutil.which(name)
         if path:
             return path
+    if runner == "claude":
+        from . import claude_code
+        return claude_code.info().get("path")
     return None
 
 

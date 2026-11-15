@@ -196,16 +196,16 @@ export function savedSearchEntries(): MenuEntry[] {
   const list = searches();
   const now = current();
   const run = (fn: () => Promise<unknown>) => () => void fn().catch(reason => toast((reason as Error).message));
-  const everywhere: MenuEntry[] = shared.length ? [{ section: 'All Boards' }, ...shared.map(search => ({ label: search.name, icon: 'bookmark' as const, checked: isCurrent(fromShared(search).search), action: run(() => applyShared(search)) }))] : [];
+  const everywhere: MenuEntry[] = shared.length ? [{ section: 'All Boards' }, ...shared.map(search => ({ label: search.name, own: true, icon: 'bookmark' as const, checked: isCurrent(fromShared(search).search), action: run(() => applyShared(search)) }))] : [];
   const deletable: MenuEntry[] = [
-    ...list.map(search => ({ label: search.name, danger: true, action: run(() => deleteSearch(search)) })),
+    ...list.map(search => ({ label: search.name, own: true, danger: true, action: run(() => deleteSearch(search)) })),
     ...(list.length && shared.length ? [{ separator: true } as const] : []),
-    ...shared.map(search => ({ label: search.name, icon: 'bookmark' as const, danger: true, action: run(() => deleteShared(search)) })),
+    ...shared.map(search => ({ label: search.name, own: true, icon: 'bookmark' as const, danger: true, action: run(() => deleteShared(search)) })),
   ];
   return [
     ...(list.length || shared.length ? [] : [{ label: 'No saved searches yet', disabled: true }]),
     ...(list.length && shared.length ? [{ section: 'This Board' }] : []),
-    ...list.map(search => ({ label: search.name, icon: 'bookmark' as const, checked: isCurrent(search), action: run(() => applySearch(search)) })),
+    ...list.map(search => ({ label: search.name, own: true, icon: 'bookmark' as const, checked: isCurrent(search), action: run(() => applySearch(search)) })),
     ...everywhere,
     { separator: true },
     { label: 'Save Current Search…', icon: 'plus', disabled: !now, action: run(() => saveSearch()) },

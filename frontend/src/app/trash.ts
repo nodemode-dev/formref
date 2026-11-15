@@ -20,6 +20,7 @@ function row(kind: string, title: string, detail: string, actions: [string, stri
   const text = document.createElement('div');
   text.className = 'trash-text';
   const name = document.createElement('strong');
+  name.dataset.noI18n = '';
   name.textContent = title;
   const small = document.createElement('small');
   small.textContent = detail;

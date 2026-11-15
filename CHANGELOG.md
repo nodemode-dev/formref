@@ -1,5 +1,22 @@
 # FormRef changelog
 
+## v0.39.0 · 2026-11-15
+
+A Home page with demo boards, a menubar, a new Preferences window, and a full bug pass before release.
+
+- FormRef opens on Home when no board is open: your recent boards, templates, three demo boards and a starter board. It no longer creates an empty board by itself, and closing the last tab returns to Home.
+- Three demo boards show the tools at work: a colour board sorted by colour, a value study with a compare pair and a practice set, and a poster project with ratings, a table and labelled connections. Each opens as a new board of your own.
+- A menubar holds every command: File, Edit, View, Insert, Images, Organize, Window and Help, in the window on Windows and Linux and in the menu bar on a Mac.
+- Preferences is one window with a category rail and foldable cards, the same size in every language.
+- The right-click menu fits the window and scrolls, so its last rows can always be reached.
+- Your own words are never translated: board titles, tags, comments, saved searches and template names stay as you typed them in every language.
+- Theme names, the built-in templates and the item counts are translated in all 26 languages.
+- Fit View keeps the board clear of the zoom bar, Compare follows Grayscale Canvas, dark notes stay readable in light themes, and a Markdown note without a title shows its text.
+- A demo or a large board opens with quiet tiles that fill in, instead of a placeholder icon in every tile.
+- In the desktop app on a Mac, exports and Save Board now arrive in the Downloads folder and links open in your browser. Quitting the app no longer leaves the engine's temporary files behind on macOS and Linux.
+- Agents: a command sent to the window is no longer lost after a window closes, and a command that opens a dialog answers at once instead of timing out.
+- The window stays usable when it is narrow: the top bar no longer overlaps itself and the canvas keeps the full width.
+
 ## v0.38.3 · 2026-11-04
 
 README screenshots and a leaner repository.

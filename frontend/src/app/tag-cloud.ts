@@ -96,6 +96,7 @@ function chip(entry: Entry): HTMLButtonElement {
     button = document.createElement('button');
     button.type = 'button';
     button.className = 'tag-chip';
+    button.dataset.noI18n = '';
     button.dataset.key = entry.key;
     const dot = document.createElement('span');
     dot.className = 'tag-dot';

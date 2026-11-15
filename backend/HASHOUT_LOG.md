@@ -8,6 +8,7 @@
 
 ## Contents
 
+- [v0.39.0 · A closed window's poll takes no job, and four smaller fixes](#v0390--a-closed-windows-poll-takes-no-job-and-four-smaller-fixes)
 - [v0.38.1 · The window's scripts keep their types on Windows](#v0381--the-windows-scripts-keep-their-types-on-windows)
 - [v0.38.0 · The engine frozen as the desktop app's sidecar](#v0380--the-engine-frozen-as-the-desktop-apps-sidecar)
 - [v0.37.7 · Only the window's own origins reach the engine](#v0377--only-the-windows-own-origins-reach-the-engine)
@@ -43,6 +44,20 @@
 - [v0.2.0 · Canvas settings and snapping through MCP](#v020--canvas-settings-and-snapping-through-mcp)
 - [v0.1.0 · Local board service and SDK MCP](#v010--local-board-service-and-sdk-mcp)
 - [boot_backend.bat](#boot_backendbat)
+
+## v0.39.0 · A closed window's poll takes no job, and four smaller fixes
+
+- refers-to: `app/routers/commands.py` :: next_job, PollWatch, GONE; `app/main.py` :: add_middleware(PollWatch); `app/agent/runners.py` :: find; `app/core/exports.py` :: pdf_export; `formref_engine.py` :: watch_shell; `../build_app`
+
+Window bridge. A command sent to the window (`POST /api/commands/{id}/run`) returned 504 when a window had closed or reloaded in the last 25 s: the closed window's long poll `GET /api/commands/next` was still waiting on the job queue, took the job, and answered nobody. `request.is_disconnected()` cannot see this here: under the `@app.middleware("http")` guard Starlette's wrapped receive never reports the disconnect (measured in a small app: False for 4 s after the client left). `PollWatch` is a pure ASGI layer outside that guard, for this one path only: it reads `receive()` until `http.disconnect` and sets an event in the scope. `next_job` waits for a job or that event; a job taken by a poll that has gone is put back on the queue. A poll that has gone no longer refreshes the "window is open" time. Reproduced with one abandoned poll, one live poll and one run: before, the live poll got nothing; after, it gets the job.
+
+Agent panel. `runners.find("claude")` looked on `PATH` only, and an app started from the Finder has a minimal `PATH`, so the panel said Claude Code was not installed while the terminal dock, which also looks in the usual install folders and asks a login shell, found it. `find` falls back to `claude_code.info()` (imported inside the function: `claude_code` imports the service). Codex and Cursor are still found by `PATH` only.
+
+PDF export. `import cairocffi` raises `OSError` when the system has no Cairo library (the macOS and Windows installers carry none), and the `OSError` handler answered "Local storage operation failed". `pdf_export` raises the same kind of `ValueError` that SVG pictures already do, naming Cairo. The three PDF formats still need a system Cairo there.
+
+Frozen engine. When the desktop shell dies without stopping the engine, `watch_shell` exits the server; the onefile launcher was then left to clean up or not. It now removes its own unpacked `_MEI` folder first (the shell's part is in the desktop log). `../build_app` runs `--selfcheck` on the engine inside the finished macOS app, after the bundler has signed it, and stops the build when it fails: the check after freezing runs before signing and cannot show a signature that refuses the engine's libraries.
+
+Verified: `pytest tests` 78 passed; the bridge reproduction above; a dialog command through the bridge answers in 0.29 s (the window's part is in the frontend log). Not verified: nothing was frozen here (PyInstaller is not installed), so the `_MEI` removal and the in-app self-check were not run.
 
 ## v0.38.1 · The window's scripts keep their types on Windows
 

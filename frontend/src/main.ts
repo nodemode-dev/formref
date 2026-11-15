@@ -41,6 +41,8 @@ import { registerSimilarFind } from './app/similar-find';
 import { registerSavedSearch } from './app/saved-search';
 import { registerTagCloud } from './app/tag-cloud';
 import { registerTagSuggest } from './app/tag-suggest';
+import { registerHome } from './app/home';
+import { bindMenus } from './app/menus';
 import { revealWhenReady } from './ui/reveal';
 
 bindLanguage();
@@ -71,6 +73,8 @@ registerSimilarFind();
 registerTagCloud();
 registerTagSuggest();
 registerSavedSearch();
+registerHome();
+bindMenus();
 attachCatalogue();
 
 const agent = new AgentPanel({
@@ -108,5 +112,4 @@ document.getElementById('consent-allow')!.addEventListener('click', () => {
   });
 });
 drawCamera();
-void restore();
-revealWhenReady();
+revealWhenReady(restore());

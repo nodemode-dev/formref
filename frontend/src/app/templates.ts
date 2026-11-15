@@ -3,7 +3,7 @@ import type { State } from '../lib/types';
 import { icon } from '../ui/icons';
 import { $, S, error, inputDialog, open, refreshBoards, toast } from './editor';
 
-interface Template { id: string; title: string; description: string; built_in: boolean; item_count?: number }
+export interface Template { id: string; title: string; description: string; built_in: boolean; item_count?: number }
 
 const dialog = $<HTMLDialogElement>('template-dialog');
 const builtIn = $('template-built-in');
@@ -15,6 +15,7 @@ function row(template: Template): HTMLElement {
   const text = document.createElement('div');
   text.className = 'trash-text';
   const name = document.createElement('strong');
+  if (!template.built_in) name.dataset.noI18n = '';
   name.textContent = template.title;
   const small = document.createElement('small');
   small.textContent = template.built_in ? template.description : `${template.item_count ?? 0} items · saved from a board`;
@@ -54,7 +55,7 @@ async function render() {
   saved.replaceChildren(...mine);
 }
 
-async function useTemplate(template: Template) {
+export async function useTemplate(template: Template) {
   dialog.close();
   const form = await inputDialog(`New board from ${template.title}`, { name: template.title, submit: 'Create' });
   if (!form) return;

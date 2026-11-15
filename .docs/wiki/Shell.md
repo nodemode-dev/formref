@@ -1,10 +1,22 @@
 # Shell
 
-The FormRef window follows the Form family layout: a top bar with board tabs, a left dock (boards, layers, tools), the canvas, and a right dock (inspector, agent). Both docks collapse to a narrow rail with the chevron on their edge or with Ctrl+[ and Ctrl+], and stay collapsed after a reload.
+The FormRef window follows the Form family layout: a top bar with the menubar and board tabs, a left dock (boards, layers, tools), the canvas, and a right dock (inspector, agent). Both docks collapse to a narrow rail with the chevron on their edge or with Ctrl+[ and Ctrl+], and stay collapsed after a reload.
 
 ## One command table
 
-Every action lives once in `frontend/src/app/commands.ts` with its label, icon and keys. The right-click menu, the command palette (Ctrl+K), keyboard handling and the shortcut sheet (?) all read that table, so a key shown in the menu is the key that works. Icons come from `frontend/src/ui/icons.ts`; asking for an unknown icon name fails the build rather than drawing a blank.
+Every action lives once in `frontend/src/app/commands.ts` with its label, icon and keys. The menubar, the right-click menu, the command palette (Ctrl+K), keyboard handling and the shortcut sheet (?) all read that table, so a key shown in the menu is the key that works. Icons come from `frontend/src/ui/icons.ts`; asking for an unknown icon name fails the build rather than drawing a blank.
+
+## Menubar
+
+File, Edit, View, Insert, Images, Organize, Window and Help sit in the top bar on Windows and Linux and in the macOS menu bar on a Mac (View, Menus in Window moves them into the window there). The tree is a list of command ids in `frontend/src/app/menus.ts`; labels, keys and enabled states come from the command table. F10 opens the first menu, Alt with a menu's first letter opens that menu unless the combination is a shortcut, and a menu taller than the window scrolls. In a narrow window the menubar scrolls sideways.
+
+## Home
+
+With no board open the window shows Home below the top bar: Start (recent boards, the demo boards, templates), Your boards and Templates, with New board, Open board file and Add references. Home is also File, Home (Ctrl+Alt+H) and the mark in the top bar; Escape or Back to Board returns to the open board. A demo or the starter board opens as a new board and nothing else is changed. FormRef never creates a board by itself, and closing the last tab shows Home.
+
+## Preferences
+
+Preferences (Ctrl+,) is one window: a rail of categories on the left (General, Canvas, Vector tools, Window, Browser clipper, Cloud storage, Board, About) and foldable cards on the right. The rail collapses, the window drags by its head, and both are remembered. Grid, snap and grayscale are settings of the open board.
 
 ## Right-click menu
 

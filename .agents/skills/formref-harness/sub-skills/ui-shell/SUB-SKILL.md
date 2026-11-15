@@ -16,7 +16,10 @@ Vanilla TypeScript and Vite, no framework, no icon library. `frontend/src/main.t
 | `app/menu.ts` | the right-click menu built from the table in iStack's order |
 | `app/gestures.ts` | pointer, wheel, eraser, drop, paste, context menu, keyboard from the table |
 | `app/bindings.ts` | inspector and preferences inputs, file inputs, palette, generated shortcut sheet, note fonts |
-| `app/tabs.ts` | board tabs, session save and restore |
+| `app/tabs.ts` | board tabs, session save and restore; the last tab closes to Home |
+| `app/menus.ts`, `ui/menu.ts`, `ui/native-menu.ts` | the menubar: a tree of command ids, drawn in the window or built in the macOS menu bar |
+| `app/home.ts`, `app/demos.ts` | Home, shown when no board is open, and the three demo boards under `public/demos/` |
+| `ui/prefs-window.ts` | the Preferences window: rail, foldable cards, wire; a category is a `section.prefs-sec` in `index.html` |
 | `app/trash.ts` | the Trash dialog: put removed items back, restore deleted boards, empty |
 | `app/comments.ts` | the inspector comment thread, keyed rows patched in place, via `onInspector` |
 | `app/templates.ts` | New from Template and Save as Template |

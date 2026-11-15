@@ -55,6 +55,8 @@ export const S = {
   /** Mirror the view (not the board) to check a drawing with fresh eyes, as artists flip a canvas. */
   flipX: false,
   flipY: false,
+  /** Set by the Home page while it covers the workspace: board commands, keys and paste rest until it leaves. */
+  home: false,
 };
 
 export const selection = new Set<string>();
@@ -332,6 +334,7 @@ export function updateInspector() {
       $('prop-parent').append(option);
     }
     const label = column.title || 'Untitled column';
+    option.toggleAttribute('data-no-i18n', !!column.title);
     if (option.textContent !== label) option.textContent = label;
   }
   setInput('prop-parent', first.parent_id || '');
@@ -344,6 +347,20 @@ export function onState(listener: (state: State) => void) { stateListeners.push(
 
 /** Modules that act when a different board comes up (the desktop window layout, for one). */
 export const boardOpened: Array<(state: State) => void> = [];
+
+/** Modules that act when no board is open any more (the Home page comes up). */
+export const boardClosed: Array<() => unknown> = [];
+
+export async function leaveBoard() {
+  window.clearTimeout(S.viewportTimer);
+  S.events?.close();
+  S.events = null;
+  S.state = null;
+  selection.clear();
+  document.title = 'formref';
+  document.querySelectorAll<HTMLButtonElement>('[data-action="undo"],[data-action="redo"]').forEach(b => { b.disabled = true; });
+  await Promise.all(boardClosed.map(hook => hook()));
+}
 
 export function applyState(next: State, switchBoard = false) {
   if (S.state && S.state.board.id === next.board.id && next.board.revision < S.state.board.revision) return;
@@ -496,8 +513,11 @@ export function fit(items = S.state?.board.items.filter(i => !i.hidden) || []) {
   const minY = Math.min(...bounds.map(b => b.top));
   const maxX = Math.max(...bounds.map(b => b.right));
   const maxY = Math.max(...bounds.map(b => b.bottom));
-  const zoom = Math.max(.05, Math.min(2, (stage.clientWidth - 96) / (maxX - minX), (stage.clientHeight - 120) / (maxY - minY)));
-  S.camera = { x: stage.clientWidth / 2 - (minX + maxX) / 2 * zoom, y: stage.clientHeight / 2 - (minY + maxY) / 2 * zoom, zoom };
+  const bar = document.querySelector<HTMLElement>('.floating-controls');
+  const below = bar && bar.offsetParent === stage && getComputedStyle(bar).visibility !== 'hidden' ? Math.max(60, stage.clientHeight - bar.offsetTop + 12) : 60;
+  const room = stage.clientHeight - 60 - below;
+  const zoom = Math.max(.05, Math.min(2, (stage.clientWidth - 96) / (maxX - minX), room / (maxY - minY)));
+  S.camera = { x: stage.clientWidth / 2 - (minX + maxX) / 2 * zoom, y: 60 + room / 2 - (minY + maxY) / 2 * zoom, zoom };
   drawCamera();
   rememberCamera();
 }
@@ -701,10 +721,7 @@ export async function start() {
     try { id = localStorage.getItem('formref-last-board'); } catch { }
     if (!id || !boards.some(b => b.id === id)) id = boards[0]?.id || null;
     if (id) await open(id);
-    else {
-      const next = await api.create('Reference studio');
-      await open(next.board.id, next);
-    }
+    else await leaveBoard();
   } catch (reason) {
     setText('connection-state', 'Service unavailable');
     setText('save-status', 'Disconnected');

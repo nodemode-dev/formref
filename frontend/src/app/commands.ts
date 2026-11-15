@@ -1,4 +1,4 @@
-import { error, selected, toast } from './editor';
+import { S, error, selected, toast } from './editor';
 import { registry, type CommandDef } from './registry';
 import { CLIP_COMMANDS, FILE_COMMANDS } from './commands/file';
 import { EDIT_COMMANDS } from './commands/edit';
@@ -21,9 +21,21 @@ export const COMMANDS: CommandDef[] = [
 registry.add(...COMMANDS);
 export const BY_ID = registry.byId;
 
+const WITHOUT_BOARD = new Set([
+  'home', 'new-board', 'new-tab', 'new-from-template', 'open-file', 'open-file-tab', 'open-from-cloud', 'trash', 'sample', 'copy-clip-token',
+  'reset-clip-token', 'commands', 'help', 'preferences', 'close-dialog', 'close-overlays', 'menus-in-window', 'practice-log',
+  'download-cutout-model', 'import-cutout-model',
+]);
+
+/** While Home covers the workspace (always so when no board is open), only the commands that need no board answer. */
+export function needsBoard(command: CommandDef): boolean {
+  return S.home && !WITHOUT_BOARD.has(command.id) && !command.id.startsWith('demo-');
+}
+
 /** A command whose check fails counts as disabled, so one faulty check can never stop a menu or the palette opening. */
 export function isEnabled(command: CommandDef): boolean {
   try {
+    if (needsBoard(command)) return false;
     return command.enabled ? command.enabled() : true;
   } catch (reason) {
     console.warn(`Enabled check for ${command.id} failed`, reason);

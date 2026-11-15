@@ -12,17 +12,17 @@ async function asset(svg: string, name: string) {
 export async function sampleCommand(): Promise<Command> {
   const assets = await Promise.all(illustrations.map((source, i) => asset(source, `formref-study-0${i + 1}.png`)));
   const items: Item[] = [
-    newItem('note', 0, 0, { width: 306, height: 172, title: 'Quiet structures', text: 'An exploration of light, rhythm\nand the spaces in between.', color: '#e6d7bf', z: 2, data: { tags: ['architecture', 'moodboard'] } }),
-    newItem('image', 0, 196, { width: 306, height: 364, title: '01 / Light & void', asset_id: assets[0].id, z: 3, data: { tags: ['warmth', 'light'] } }),
+    newItem('note', 0, 0, { width: 306, height: 208, title: 'Quiet structures', text: 'An exploration of light, rhythm\nand the spaces in between.', color: '#e6d7bf', z: 2, data: { tags: ['architecture', 'moodboard'] } }),
+    newItem('image', 0, 232, { width: 306, height: 364, title: '01 / Light & void', asset_id: assets[0].id, z: 3, data: { tags: ['warmth', 'light'] } }),
     newItem('image', 330, 0, { width: 444, height: 278, title: '02 / Rhythm & repetition', asset_id: assets[1].id, z: 4, data: { tags: ['rhythm', 'architecture'] } }),
     newItem('image', 330, 302, { width: 444, height: 296, title: '03 / A conversation in geometry', asset_id: assets[2].id, z: 5, data: { tags: ['geometry', 'cool'] } }),
-    newItem('note', 798, 0, { width: 258, height: 224, title: 'The direction', text: 'Simple forms.\nExpressive shadows.\nWarm, honest materials.\n\nLet the light do the talking.', color: '#d5dfd1', z: 6, data: { tags: ['direction'] } }),
-    newItem('todo', 798, 248, { width: 258, height: 152, title: 'Explore the palette', text: 'Collect three material references\nand find the common thread.', z: 7, data: { checked: false } }),
-    newItem('link', 798, 424, { width: 258, height: 174, title: 'Light as a material', text: 'Save an article, portfolio or\nsource alongside your imagery.', url: 'https://www.archdaily.com/', z: 8 }),
-    newItem('shape', 0, 584, { width: 66, height: 14, color: '#bda181', z: 9, data: { shape: 'rect', fill: '#bda181' } }),
-    newItem('shape', 78, 584, { width: 66, height: 14, color: '#8f9d91', z: 10, data: { shape: 'rect', fill: '#8f9d91' } }),
-    newItem('shape', 156, 584, { width: 66, height: 14, color: '#64747d', z: 11, data: { shape: 'rect', fill: '#64747d' } }),
-    newItem('shape', 234, 584, { width: 72, height: 14, color: '#dcd2bd', z: 12, data: { shape: 'rect', fill: '#dcd2bd' } })
+    newItem('note', 798, 0, { width: 258, height: 276, title: 'The direction', text: 'Simple forms.\nExpressive shadows.\nWarm, honest materials.\n\nLet the light do the talking.', color: '#d5dfd1', z: 6, data: { tags: ['direction'] } }),
+    newItem('todo', 798, 300, { width: 258, height: 160, title: 'Explore the palette', text: 'Collect three material references\nand find the common thread.', z: 7, data: { checked: false } }),
+    newItem('link', 798, 484, { width: 258, height: 204, title: 'Light as a material', text: 'Save an article, portfolio or\nsource alongside your imagery.', url: 'https://www.archdaily.com/', z: 8 }),
+    newItem('shape', 0, 620, { width: 66, height: 14, color: '#bda181', z: 9, data: { shape: 'rect', fill: '#bda181' } }),
+    newItem('shape', 78, 620, { width: 66, height: 14, color: '#8f9d91', z: 10, data: { shape: 'rect', fill: '#8f9d91' } }),
+    newItem('shape', 156, 620, { width: 66, height: 14, color: '#64747d', z: 11, data: { shape: 'rect', fill: '#64747d' } }),
+    newItem('shape', 234, 620, { width: 72, height: 14, color: '#dcd2bd', z: 12, data: { shape: 'rect', fill: '#dcd2bd' } })
   ];
   return { type: 'batch', commands: [{ type: 'rename', title: 'Quiet structures' }, { type: 'add', items }, { type: 'connect', connection: { id: uid(), from: items[4].id, to: items[5].id, label: 'Next step', color: '#77766f' } }] };
 }

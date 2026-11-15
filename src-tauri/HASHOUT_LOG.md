@@ -16,6 +16,24 @@ src-tauri/
   binaries/                          Frozen sidecars per host triple (built, not tracked)
 ```
 
+## v0.39.0 · Downloads, outside links, a clean engine stop and the menu permission
+
+- refers-to: src/main.rs :: open_main, open_outside, stop_engine; capabilities/main-window.json :: permissions; tauri.conf.json :: app.security.csp (unchanged)
+
+Downloads. The page saves every export, Save Board, Save Image and attachment with a link that carries the `download` attribute. On macOS the web view cancels such a navigation unless the shell set a download handler (wry 0.57 `wkwebview/navigation.rs`: `shouldPerformDownload` with no handler answers Cancel), and Tauri sets one only when the window was built with `on_download`. So in the packaged macOS app those commands did nothing. `open_main` now sets a handler on macOS and Linux that lets every download start; the web view then writes the file to the Downloads folder under a name that does not overwrite, and the shell emits `formref://download` with the result so the page can say where the file went. Windows keeps WebView2's own download handling.
+
+Outside links. `window.open` and `target="_blank"` (link cards, Markdown links, a picture's source link, cloud sign-in) ask the web view for a new window, and with no handler it opens none, so the links did nothing. `on_new_window` denies the window and hands http and https addresses to the system (`open`, `xdg-open`, `rundll32 url.dll,FileProtocolHandler`), with no new dependency.
+
+Engine stop. The onefile engine is a launcher with the server as its child. `child.kill()` reached only the launcher: the server lived on until it noticed the shell was gone, and the folder the launcher unpacked stayed in the temp folder after every quit (formvis met the same and measured 5.3 GB of such folders). `stop_engine` asks first with `kill -TERM` on Unix, which the launcher passes on and then cleans up, waits up to 1.5 s, and only then forces. On Windows the forced stop remains, and the unpacked folder is left in `%TEMP%`.
+
+Menu permission. The macOS menu bar is built by the page through `window.__TAURI__.menu`, so the capability gained `core:default`, which holds the core menu permissions. No Rust command was added.
+
+The CSP hash. `app.security.csp` allows one inline script by hash. That hash is the head script of `index.html` at 0.1.0, when the shell loaded the page from the bundle. Since 0.38.0 the main window is `WebviewUrl::External` at the engine's `http://127.0.0.1` origin, which sends no CSP header, so this CSP governs only the bundled splash, whose inline script Tauri hashes itself at build time. The stale hash is inert and the page's new inline scripts need none; it was left in place.
+
+Signed without notarization. `bundle.macOS` keeps `hardenedRuntime` and `entitlements.plist` (library validation off, unsigned executable memory allowed). Tauri's bundler passes the entitlements file to every sign target and signs each `externalBin` in `Contents/MacOS` as an executable with the hardened runtime (read in the bundler's `macos/sign.rs` and `app.rs`), so the onefile engine may load the libraries PyInstaller signed ad hoc. What no build setting changes: Gatekeeper refuses the first open of a downloaded app that is not notarized until the person chooses Open Anyway.
+
+Verified: `cargo check` for Linux and for `aarch64-apple-darwin` passes. Not verified: the shell was never built or run here, on any system; every behaviour above is read from the sources.
+
 ## v0.38.1 · formref-core links the C runtime statically on Windows
 
 `../build_app.bat` builds `formref-core.exe`, the Rust core sidecar, with plain `cargo build`, and Rust's MSVC target links the Visual C++ runtime (`vcruntime140.dll`) dynamically by default, so on a Windows PC without the Visual C++ Redistributable the core would not start. The script now adds `-C target-feature=+crt-static` to `RUSTFLAGS` for that one build and restores the previous value right after it, so `tauri build` later in the same script keeps tauri-build's own static vcruntime linking and the two methods never meet in one link. Not run on Windows here; `dumpbin /dependents formref-core.exe` on a build should no longer list VCRUNTIME140.dll.

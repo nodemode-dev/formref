@@ -46,6 +46,7 @@ function row(comment: Comment): HTMLElement {
     const remove = button('Delete comment', 'delete', () => send(`/${comment.id}`, 'DELETE'));
     head.append(author, time, resolve, remove);
     const body = document.createElement('p');
+    body.className = 'comment-text';
     node.append(head, body);
     rows.set(comment.id, node);
   }

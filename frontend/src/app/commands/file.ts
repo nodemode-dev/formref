@@ -74,8 +74,7 @@ async function renameBoard() {
 }
 
 async function sampleBoard() {
-  if (!S.state) return;
-  if (S.state.board.items.length) {
+  if (!S.state || S.home || S.state.board.items.length) {
     const next = await api.create('Quiet structures');
     await open(next.board.id, next);
   }

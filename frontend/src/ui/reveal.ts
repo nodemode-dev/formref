@@ -14,7 +14,8 @@ export function revealApp(): void {
   }));
 }
 
-export function revealWhenReady(): void {
+/** `first` is the launch decision (a board, or Home): the window shows once it is made, so neither flashes before the other. */
+export function revealWhenReady(first?: Promise<unknown>): void {
   const fonts = document.fonts?.ready ?? Promise.resolve();
-  void Promise.race([fonts, new Promise(done => setTimeout(done, 2500))]).then(revealApp, revealApp);
+  void Promise.race([Promise.all([fonts, first]), new Promise(done => setTimeout(done, 2500))]).then(revealApp, revealApp);
 }

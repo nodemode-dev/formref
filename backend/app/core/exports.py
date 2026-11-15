@@ -500,9 +500,12 @@ def reading_order(items):
 
 def pdf_export(board, layout="board", paper="a4"):
     """PDF of the board at full resolution: the whole board on one page, one page per top-level item in reading order fitted to the paper, or the board at 100 percent tiled across paper pages for printing large."""
-    import cairocffi as cairo
-    from cairosvg.parser import Tree
-    from cairosvg.surface import PDFSurface
+    try:
+        import cairocffi as cairo
+        from cairosvg.parser import Tree
+        from cairosvg.surface import PDFSurface
+    except (ImportError, OSError) as exc:
+        raise ValueError("PDF export requires CairoSVG and a system libCairo installation. On macOS run brew install cairo; on Windows install a compatible libCairo runtime.") from exc
 
     page_w, page_h = PAPERS.get(paper, PAPERS["a4"])
     source = svg_export(board) if layout != "pages" else None

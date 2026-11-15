@@ -11,7 +11,7 @@
 </p>
 
 <p align="center">
-  <img alt="version 0.38.3" src="https://img.shields.io/badge/version-0.38.3-eef0f4?style=flat-square">
+  <img alt="version 0.39.0" src="https://img.shields.io/badge/version-v0.39.0-eef0f4?style=flat-square">
   <img alt="Rust engine" src="https://img.shields.io/badge/Rust%20engine-b7410e?style=flat-square&logo=rust&logoColor=white">
   <img alt="TypeScript and FastAPI" src="https://img.shields.io/badge/TypeScript%20%2B%20FastAPI-3178c6?style=flat-square&logo=typescript&logoColor=white">
   <img alt="macOS, Windows, Linux" src="https://img.shields.io/badge/macOS%20%C2%B7%20Windows%20%C2%B7%20Linux-native-2f7bf5?style=flat-square">
@@ -75,6 +75,7 @@
     <td width="50%" valign="top">
       <h3>Connect ideas</h3>Lines between items can be solid, dashed or dotted, with arrowheads, a label and a curved, straight or elbow route. Groups connect like single items.
       <h3>Practice from reference</h3>Timed Practice (Alt+T) shows pictures one at a time for gesture and figure drawing, shuffled, with pause, mirror, grey and a log of every session.
+      <h3>Start from Home</h3>Home lists your boards and templates and opens three demo boards and a starter board as new boards of your own. A menubar (the macOS menu bar on a Mac) holds every command, and Preferences is one window with a category rail.
     </td>
   </tr>
 </table>

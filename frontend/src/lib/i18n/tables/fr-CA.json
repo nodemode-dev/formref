@@ -16,6 +16,8 @@
  "Project uploads are limited to 64 MiB compressed size.": "Les téléversements de projet sont limités à 64 Mio compressés.",
  "Save Board to Cloud…": "Enregistrer le tableau dans l'infonuagique…",
  "Save board to cloud": "Enregistrer le tableau dans l'infonuagique",
+ "The menus go to the menu bar from the next start.": "Les menus iront dans la barre des menus à compter du prochain démarrage.",
+ "The menus stay in the window from the next start.": "Les menus resteront dans la fenêtre à compter du prochain démarrage.",
  "The uploaded file is empty.": "Le fichier téléversé est vide.",
  "Uploaded image is invalid or unsupported.": "L'image téléversée est invalide ou non prise en charge.",
  "Uploads are limited to 64 MiB.": "Les téléversements sont limités à 64 Mio."

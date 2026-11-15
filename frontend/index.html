@@ -23,6 +23,7 @@
       if (lang && /^[a-zA-Z-]{2,7}$/.test(lang)) root.dataset.lang = lang;
       var dockH = store.getItem('formref-term-dock-h');
       if (/^\d+px$/.test(dockH || '')) root.style.setProperty('--term-dock-h', dockH);
+      if ('__TAURI_INTERNALS__' in window && /Mac/.test(navigator.platform) && store.getItem('formref.menusInWindow') !== '1') root.classList.add('has-native-menus');
     } catch (_) {}
   </script>
   <link rel="stylesheet" href="/src/styles/tokens.css">
@@ -31,18 +32,21 @@
   <link rel="stylesheet" href="/src/styles/dock.css">
   <link rel="stylesheet" href="/src/styles/vector.css">
   <link rel="stylesheet" href="/src/styles/board.css">
+  <link rel="stylesheet" href="/src/styles/home.css">
+  <link rel="stylesheet" href="/src/styles/prefs.css">
 </head>
 <body>
 <div id="app" class="app">
   <header class="titlebar">
     <div class="title-lead">
       <button class="icon-button" data-dock-toggle="left" data-icon="dock-left" aria-label="Toggle left panel" title="Collapse left panel"></button>
-      <a class="brand" href="#" aria-label="FormRef">
+      <a class="brand" href="#" aria-label="FormRef" title="Home" data-action="home">
         <img class="brand-mark" src="/formref-logo.png" width="28" height="28" alt="" draggable="false">
         <strong>formref</strong>
         <span class="product-label">REFERENCE STUDIO</span>
       </a>
     </div>
+    <nav class="menubar" aria-label="Main menu"></nav>
     <div class="title-context">
       <div id="board-tabs" class="board-tabs" role="tablist" aria-label="Open boards"></div>
       <button class="icon-button small" data-action="new-tab" data-icon="plus" title="New tab" aria-label="New tab"></button>
@@ -112,7 +116,7 @@
         <div class="sidebar-bottom">
           <div class="local-indicator"><span class="status-dot"></span><span id="connection-state">Engine connecting</span></div>
           <button class="sidebar-row" data-action="help"><span data-icon="keyboard"></span><span>Keyboard shortcuts</span><span class="key">?</span></button>
-          <div class="sidebar-foot">FORM FAMILY<span>v0.38.3</span></div>
+          <div class="sidebar-foot">FORM FAMILY<span>v0.39.0</span></div>
         </div>
       </div>
     </aside>
@@ -544,13 +548,20 @@
     </div>
   </dialog>
 
-  <dialog id="preferences-dialog" class="modal">
-    <div class="modal-head">
-      <strong>Studio preferences</strong>
-      <button class="icon-button" data-action="close-overlays" data-icon="close" aria-label="Close preferences"></button>
+  <dialog id="preferences-dialog" class="prefs-scrim" aria-labelledby="prefs-title">
+   <div class="prefs-dlg">
+    <div class="prefs-head">
+      <span class="prefs-headicon" data-icon="settings"></span>
+      <strong id="prefs-title" class="prefs-title">Studio preferences</strong>
+      <button class="icon-button prefs-close" type="button" data-action="close-overlays" data-icon="close" aria-label="Close preferences"></button>
     </div>
-    <div class="modal-body">
-      <label class="field"><span>Appearance</span>
+    <div class="prefs-body"><div class="prefs-pages">
+     <section class="prefs-sec" role="tabpanel" data-section="General">
+      <button class="prefs-sechead" type="button" aria-expanded="true"><span class="prefs-secicon" data-icon="settings"></span><span class="prefs-seclabel">General</span><span class="prefs-chev" data-icon="chevron-down"></span></button>
+      <div class="prefs-secbody">
+      <section class="prefs-group">
+      <h3 class="prefs-label">Appearance</h3>
+      <label class="field-row"><span>Appearance</span>
         <select id="theme-select">
           <option value="studio">Studio Dark</option>
           <option value="light">Studio Light</option>
@@ -582,26 +593,48 @@
           <option value="soft-dark">Soft Dark</option>
         </select>
       </label>
-      <label class="field"><span>Language</span><select id="language-select" aria-label="Language" data-no-i18n></select></label>
       <label class="field-row"><span>Accent</span><input id="accent-select" type="color" value="#f97316"></label>
-      <section class="canvas-preferences">
-        <div class="section-label">CANVAS</div>
+      </section>
+      <section class="prefs-group">
+      <h3 class="prefs-label">Language</h3>
+      <label class="field-row"><span>Language</span><select id="language-select" aria-label="Language" data-no-i18n></select></label>
+      </section>
+      </div>
+     </section>
+     <section class="prefs-sec" role="tabpanel" data-section="Canvas">
+      <button class="prefs-sechead" type="button" aria-expanded="true"><span class="prefs-secicon" data-icon="grid"></span><span class="prefs-seclabel">Canvas</span><span class="prefs-chev" data-icon="chevron-down"></span></button>
+      <div class="prefs-secbody">
+      <section class="prefs-group">
+        <h3 class="prefs-label">CANVAS</h3>
         <label class="check-row"><input id="grid-visible" type="checkbox" checked>Show grid</label>
         <label class="field-row"><span>Grid size (pixels)</span><input id="grid-size" type="number" min="4" max="512" step="any" value="24"></label>
         <label class="check-row"><input id="snap-enabled" type="checkbox">Snap while dragging</label>
         <label class="check-row"><input id="canvas-grayscale" type="checkbox">Canvas grayscale</label>
         <p class="field-description">Snapping works with the grid hidden. Grayscale preserves the source images.</p>
+      </section>
+      <section class="prefs-group">
+        <h3 class="prefs-label">Slideshow</h3>
         <label class="field-row"><span>Slideshow speed (seconds per image)</span><input id="presentation-interval" type="number" min="1" max="60" step="1" value="10"></label>
         <label class="field-row"><span>Slideshow transition</span><select id="presentation-transition"><option value="fade">Fade</option><option value="none">None</option></select></label>
       </section>
-      <section class="illustrator-preferences">
-        <div class="section-label">VECTOR TOOLS</div>
+      </div>
+     </section>
+     <section class="prefs-sec" role="tabpanel" data-section="Vector tools">
+      <button class="prefs-sechead" type="button" aria-expanded="true"><span class="prefs-secicon" data-icon="bezier"></span><span class="prefs-seclabel">Vector tools</span><span class="prefs-chev" data-icon="chevron-down"></span></button>
+      <div class="prefs-secbody">
+      <section class="prefs-group">
+        <h3 class="prefs-label">VECTOR TOOLS</h3>
         <label class="check-row"><input id="illustrator-tools" type="checkbox">Vector drawing tools</label>
         <p class="field-description">Off by default. Adds the Pen, Curvature, Pencil and Direct Selection tools, path editing and corners, Pathfinder, polygons, stars and other shapes, stroke and gradient options, and Smart Guides. Paths already on a board stay visible either way.</p>
       </section>
-      <p class="field-description">Browser workspace: canvas, files, local persistence and MCP automation are available. Native window controls appear only in the desktop shell.</p>
-      <section id="native-controls" hidden>
-        <div class="section-label">DESKTOP WINDOW</div>
+      </div>
+     </section>
+     <section class="prefs-sec" role="tabpanel" data-section="Window">
+      <button class="prefs-sechead" type="button" aria-expanded="true"><span class="prefs-secicon" data-icon="dock-left"></span><span class="prefs-seclabel">Window</span><span class="prefs-chev" data-icon="chevron-down"></span></button>
+      <div class="prefs-secbody">
+      <p class="field-description prefs-note">Browser workspace: canvas, files, local persistence and MCP automation are available. Native window controls appear only in the desktop shell.</p>
+      <section id="native-controls" class="prefs-group" hidden>
+        <h3 class="prefs-label">DESKTOP WINDOW</h3>
         <label class="check-row"><input id="native-top" type="checkbox">Always on top</label>
         <label class="check-row"><input id="native-bottom" type="checkbox">Always on bottom (behind other windows)</label>
         <label class="check-row"><input id="native-fullscreen" type="checkbox">Fullscreen</label>
@@ -610,14 +643,24 @@
         <label class="check-row"><input id="native-click-through" type="checkbox">Click-through (Ctrl+Alt+K turns it off)</label>
         <p class="field-description">Ctrl+Alt+F (Cmd+Option+F on a Mac) brings FormRef to the front from any app, or hides it when it is in front. The tray icon does the same on click, and its menu holds Always on Top, Click-through and Quit.</p>
       </section>
-      <section class="clipper-preferences">
-        <div class="section-label">BROWSER CLIPPER</div>
+      </div>
+     </section>
+     <section class="prefs-sec" role="tabpanel" data-section="Browser clipper">
+      <button class="prefs-sechead" type="button" aria-expanded="true"><span class="prefs-secicon" data-icon="paperclip"></span><span class="prefs-seclabel">Browser clipper</span><span class="prefs-chev" data-icon="chevron-down"></span></button>
+      <div class="prefs-secbody">
+      <section class="prefs-group clipper-preferences">
+        <h3 class="prefs-label">BROWSER CLIPPER</h3>
         <p class="field-description">Load the <code>clipper</code> folder in Chrome (Extensions, Developer mode, Load unpacked) or Firefox (about:debugging, Load Temporary Add-on), then paste this token into its options. Web pages cannot save to FormRef without it.</p>
         <div class="inline-field"><input id="clip-token" type="password" readonly aria-label="Clipper pairing token" value="" placeholder="Open to show"><button class="button compact" data-action="copy-clip-token"><span data-icon="paste"></span>Copy</button></div>
         <button class="button compact full" data-action="reset-clip-token"><span data-icon="relink"></span>New token (unpairs the clipper)</button>
       </section>
-      <section class="cloud-preferences">
-        <div class="section-label">CLOUD STORAGE (OPT-IN)</div>
+      </div>
+     </section>
+     <section class="prefs-sec" role="tabpanel" data-section="Cloud storage">
+      <button class="prefs-sechead" type="button" aria-expanded="true"><span class="prefs-secicon" data-icon="sync"></span><span class="prefs-seclabel">Cloud storage</span><span class="prefs-chev" data-icon="chevron-down"></span></button>
+      <div class="prefs-secbody">
+      <section class="prefs-group">
+        <h3 class="prefs-label">CLOUD STORAGE (OPT-IN)</h3>
         <p class="field-description">Off until you connect. Uses your own app credentials; FormRef has no account or server in between, and tokens stay in the local service. Agents cannot move files to or from the cloud.</p>
         <div class="cloud-service" data-cloud="google">
           <div class="field-row"><strong>Google Drive</strong><span class="cloud-badge" data-cloud-state>Not set up</span></div>
@@ -635,17 +678,37 @@
           <span class="field-description" data-cloud-say aria-live="polite"></span>
         </div>
       </section>
-      <div class="section-label">NODEMODE HOST</div>
-      <p id="host-status" class="muted">Standalone workspace. Open inside NodeMode to enable selection assignment.</p>
-      <button id="host-assign" class="button full" data-action="assign" disabled><span data-icon="send"></span>Assign selected images to NodeMode</button>
-      <div class="section-label">BOARD MANAGEMENT</div>
+      </div>
+     </section>
+     <section class="prefs-sec" role="tabpanel" data-section="Board">
+      <button class="prefs-sechead" type="button" aria-expanded="true"><span class="prefs-secicon" data-icon="board"></span><span class="prefs-seclabel">Board</span><span class="prefs-chev" data-icon="chevron-down"></span></button>
+      <div class="prefs-secbody">
+      <section class="prefs-group">
+      <h3 class="prefs-label">BOARD MANAGEMENT</h3>
       <button class="button full" data-action="duplicate-board"><span data-icon="duplicate"></span>Duplicate current board</button>
       <button class="button full danger" data-action="delete-board"><span data-icon="trash"></span>Delete current board</button>
-      <div class="section-label">ABOUT</div>
-      <p class="field-description" data-no-i18n translate="no">FormRef <span>v0.38.3</span></p>
+      </section>
+      <section class="prefs-group">
+      <h3 class="prefs-label">NODEMODE HOST</h3>
+      <p id="host-status" class="muted">Standalone workspace. Open inside NodeMode to enable selection assignment.</p>
+      <button id="host-assign" class="button full" data-action="assign" disabled><span data-icon="send"></span>Assign selected images to NodeMode</button>
+      </section>
+      </div>
+     </section>
+     <section class="prefs-sec" role="tabpanel" data-section="About">
+      <button class="prefs-sechead" type="button" aria-expanded="true"><span class="prefs-secicon" data-icon="help"></span><span class="prefs-seclabel">About</span><span class="prefs-chev" data-icon="chevron-down"></span></button>
+      <div class="prefs-secbody">
+      <section class="prefs-group">
+      <h3 class="prefs-label">ABOUT</h3>
+      <p class="field-description" data-no-i18n translate="no">FormRef <span>v0.39.0</span></p>
       <p class="field-description" data-no-i18n translate="no">by nodemode.ai</p>
       <p class="field-description">Apache License 2.0. Third-party notices are in NOTICE.md.</p>
-    </div>
+      </section>
+      </div>
+     </section>
+    </div></div>
+    <div class="prefs-foot"><button class="button primary" type="button" data-action="close-overlays">Done</button></div>
+   </div>
   </dialog>
 
   <dialog id="cloud-dialog" class="modal cloud-modal" aria-labelledby="cloud-title">

@@ -1,5 +1,5 @@
 import { icon } from '../ui/icons';
-import { $, S, error, onState, open, start } from './editor';
+import { $, S, error, leaveBoard, onState, open, start } from './editor';
 
 const strip = $('board-tabs');
 const nodes = new Map<string, HTMLDivElement>();
@@ -48,18 +48,27 @@ function place() {
     const tab = nodes.get(id)!;
     if (strip.children[index] !== tab) strip.insertBefore(tab, strip.children[index] || null);
   });
-  strip.classList.toggle('single', order.length < 2);
+  for (const listener of tabListeners) listener();
 }
 
+const tabListeners: (() => void)[] = [];
+/** The open boards in tab order, for the Home page's way back. */
+export function openTabs(): { id: string; title: string }[] {
+  return order.filter(id => nodes.has(id)).map(id => ({ id, title: nodes.get(id)!.firstElementChild!.textContent || '' }));
+}
+export function onTabs(listener: () => void) { tabListeners.push(listener); }
+
 export function close(id: string) {
-  if (order.length < 2) return;
   const index = order.indexOf(id);
   if (index < 0) return;
   order.splice(index, 1);
   nodes.get(id)?.remove();
   nodes.delete(id);
   place();
-  if (S.state?.board.id === id) void open(order[Math.max(0, index - 1)]).catch(error);
+  if (S.state?.board.id === id) {
+    if (order.length) void open(order[Math.max(0, index - 1)]).catch(error);
+    else void leaveBoard();
+  }
   persist();
 }
 

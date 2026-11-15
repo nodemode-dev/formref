@@ -57,5 +57,6 @@
  "Runs {0} on this computer with FormRef's tools attached.": "Ejecuta {0} en esta computadora con las herramientas de FormRef conectadas.",
  "Set up {0} first: enter your app's credentials and press Save.": "Configura primero {0}: ingresa las credenciales de tu aplicación y presiona Guardar.",
  "That address points inside your computer or network, so FormRef will not fetch it.": "Esa dirección apunta al interior de tu computadora o red, así que FormRef no la obtendrá.",
+ "The menus stay in the window from the next start.": "Los menús se quedarán en la ventana a partir del próximo inicio.",
  "Wait for Claude to finish, or press Stop, before moving the conversation.": "Espera a que Claude termine, o presiona Detener, antes de mover la conversación."
 }
