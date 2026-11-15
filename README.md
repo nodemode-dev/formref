@@ -75,6 +75,7 @@
     <td width="50%" valign="top">
       <h3>Connect ideas</h3>Lines between items can be solid, dashed or dotted, with arrowheads, a label and a curved, straight or elbow route. Groups connect like single items.
       <h3>Practice from reference</h3>Timed Practice (Alt+T) shows pictures one at a time for gesture and figure drawing, shuffled, with pause, mirror, grey and a log of every session.
+      <h3>Start from Home</h3>Home lists your boards and templates and opens three demo boards and a starter board as new boards of your own. A menubar (the macOS menu bar on a Mac) holds every command, and Preferences is one window with a category rail.
     </td>
   </tr>
 </table>

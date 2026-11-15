@@ -8,6 +8,11 @@
 - [Stacking scale](#stacking-scale)
 - [Verification](#verification)
 - [Scripts](#scripts)
+- [v0.39.0 · The review pass: twenty-one bugs](#v0390--the-review-pass-twenty-one-bugs)
+- [v0.39.0 · Preferences is a window with a rail](#v0390--preferences-is-a-window-with-a-rail)
+- [v0.39.0 · Home, the no-board state and three demo boards](#v0390--home-the-no-board-state-and-three-demo-boards)
+- [v0.39.0 · A menubar from the command registry](#v0390--a-menubar-from-the-command-registry)
+- [v0.39.0 · The splash page matches formvis](#v0390--the-splash-page-matches-formvis)
 - [v0.37.8 · The splash logo holds its place](#v0378--the-splash-logo-holds-its-place)
 - [v0.32.0 stack export option](#v0320-stack-export-option)
 - [v0.31.0 group stacks](#v0310-group-stacks)
@@ -56,6 +61,68 @@
 - [v0.4.8 desktop window controls and WebKit icons](#v048-desktop-window-controls-and-webkit-icons)
 - [v0.4.7 synced notes, map cards, inline edit commit](#v047-synced-notes-map-cards-inline-edit-commit)
 - [v0.4.6 GIF frames and document export](#v046-gif-frames-and-document-export)
+
+## v0.39.0 · The review pass: twenty-one bugs
+
+- refers-to: `src/ui/context-menu.ts` :: layer, keys, MenuEntry.own; `src/lib/i18n.ts` :: SKIP, doAttrs; `src/app/editor.ts` :: fit, updateInspector; `src/app/catalogue.ts` :: runCommand; `src/app/compare.ts` :: open; `src/ui/scene.ts` :: image load, card title; `src/app/home.ts` :: templateCard; `src/app/bindings.ts` :: formref://download; `src/app/tag-cloud.ts`, `comments.ts`, `saved-search.ts`, `trash.ts`, `templates.ts`; `src/styles/shell.css`, `tokens.css`; `src/lib/i18n/tables/*.json`
+
+A full review before the public release. Each fix is one cause and one edit.
+
+- Right-click menu: it was 903 px tall with `overflow: visible`, so its last rows were cut at 900 px and unreachable at 720 px. It is capped to the window and scrolls as the menubar's menus do; arrow keys focus without `preventScroll`, and scrolling a layer closes its submenu because the submenu is placed from the row's rectangle.
+- A person's own text went through the page translator wherever it equalled a table key ("Quiet structures" read "Stille Strukturen" in German). The skip list named `#inspector-title`, an id that no longer exists; the heading is `#detail-title`. The list now names `#detail-title` and `#canvas-label`, and the other places are stopped at their source: the item's `aria-label`, tag chip tooltips, comment text (the `comment-text` class the list already named was never set), column names in the parent select, saved-search names in menus (`own: true` on a menu entry), names in the Trash dialog and saved template names. Found by a board whose every user string is a table key, scanned in German.
+- Title bar: under about 650 px the lead column collapsed (`min-width: 0` in an `auto` track) and the dock toggle and mark sat on the menubar. The lead keeps its width, the menubar track is `minmax(0, auto)` and scrolls sideways, tabs keep 148 px, and the two dock toggles hide at 650 px, where their docks are already hidden. With native menus the product label had `overflow-wrap: anywhere` in a squeezed flex item and broke inside a word; it wraps at the space.
+- Under 650 px the sidebar is `display: none`, so the editor auto-placed into the sidebar's 0 px column and the canvas was 170 px wide. The editor is pinned to column 2.
+- Window bridge: `runCommand` awaited the command's promise, and a command that opens the input dialog resolves only when the dialog closes, so MCP `run_command` for Add Note and the like hung for 60 s, got 504 and blocked every later job. It answers as soon as a dialog that was not open before appears; later errors go to the toast.
+- Fit View centred in the whole canvas and the bottom row sat under the floating zoom bar. It fits and centres in the area above the bar when the bar is visible.
+- Compare follows Grayscale Canvas, as the reference view already did; the overlay sits outside the filtered canvas.
+- A Markdown note with no title kept the 62 px title box and its body had 5 px. The title is hidden when it is empty on formatted cards. No demo board has such a card.
+- First open of a board with many pictures showed a placeholder icon in every tile until its preview arrived. The fallback's content is hidden while a first load is pending and shown only when the load fails. Tile space was already reserved; no new loader.
+- Dark notes used the theme's text colour as ink, which is dark in light themes. A fixed token `--note-ink-light` (the default theme's value, so the default look is unchanged) is the ink of a dark note.
+- Language tables: 21 theme names, the four built-in template names and descriptions (backend strings shown through the page translator; Home no longer marks built-in names as the person's own), and four strings that start with a placeholder (`{0} REFERENCES`, `{0} selected`, `{0} REFERENCES SELECTED`, `{0} items · saved from a board`) are in all 23 full tables. `scripts/i18n_check.py` cannot see backend template strings or strings that start with a placeholder, so these 12 count as unused there (unused 11 became 23) and about 13 more placeholder-first strings remain English.
+- Desktop: the page shows a toast when the shell reports a finished download (see the desktop log).
+- `.board-tabs.single` was dead since the last tab can close; removed.
+
+Left as they are, with the reason: the outline moving when a tagged board opens and tabs moving when one is added are one-frame content swaps, and removing them needs a reserved strip or fixed tabs; connection anchors and label placement are mirrored in the service's exports and the demo boards depend on them; cards do not grow with their text; Preferences is not laid out for 390 px.
+
+Verified: driven at 1440 by 900, 1000 by 700 (German, light theme) and 390 by 800 with CPU throttled 4x, every feature once, with no console error, page error or failed request beyond the aborted event stream on a board switch; `tsc`, the build, the window smoke and `i18n_check.py --strict` (missing 0 in every table) pass. A data folder made by the 0.38.3 build opened with its three boards, three tabs and active tab.
+
+## v0.39.0 · Preferences is a window with a rail
+
+- refers-to: `src/ui/prefs-window.ts` (new) :: PrefsWindow, show; `src/styles/prefs.css` (new); `index.html` :: preferences-dialog, section.prefs-sec
+
+Preferences was one 440 px column with 1728 px of content. It is now the family's window as formvis builds it: a floating rail of categories, foldable cards, a wire from the active tab to its card, drag by the head. The `<dialog>` element stays and is the scrim, so focus containment, Escape and the top layer come from the browser and every existing input id keeps working (the modules that bind them query the elements at import time). A category is a `section.prefs-sec[data-section]` in `index.html`; the rail is built from the sections, so adding one needs no script change. `show(section)` opens on a card.
+
+Every language keeps the same geometry: notes reserve `--prefs-lines` lines, rows are 38 px, heads and group titles have fixed line boxes, and the Copy, Finish and Done buttons have minimum widths taken from the longest translations. Storage: `formref.prefsRailCollapsed`, `formref.prefsSpot`.
+
+Verified: opened by the button, the menu and the key in English, German and Polish at 1440 by 900 and 1000 by 700; row heights and control positions equal in all 26 languages; no layout shift inside the dialog on a language switch. Not laid out for 390 px (the content column is about 60 px wide there).
+
+## v0.39.0 · Home, the no-board state and three demo boards
+
+- refers-to: `src/app/home.ts` (new) :: registerHome, showHome; `src/app/demos.ts` (new) :: DEMOS, openDemo; `src/styles/home.css` (new); `public/demos/<id>/board.formref`, `cover.webp`, `public/demos/CREDITS.md` (new); `src/app/editor.ts` :: start, leaveBoard, boardClosed, S.home; `src/app/tabs.ts` :: close, openTabs; `src/ui/reveal.ts`; `src/ui/sample.ts`; `src/main.ts`
+
+The app used to create an empty board named "Reference studio" in every fresh data folder and could not close its last tab. It no longer creates a board by itself: with no board open it shows Home, and the last tab closes to Home. `leaveBoard()` clears the state and runs the `boardClosed` hooks; commands, keys, paste and autosave rest while `S.home` is set or no board is open (most commands already carried `hasBoard`).
+
+Home follows formdeck's structure (a side panel with Start, Your boards and Templates, a main column of sections) and sits below the title bar, so the menubar, the tabs and the window controls stay reachable from it. Board and saved template names are marked as the person's own text. Zero layout shift on launch comes from deciding Home or board before the reveal: `revealWhenReady` waits for `restore()`, so the first visible frame is either Home filled in or the board drawn.
+
+The three demos ship as `.formref` files with a cover picture under `public/demos/`. Opening one imports the file as a new board and runs Fit View, because the saved viewport was made in a 1440 by 900 window; nothing of the person's is changed, and opening a demo twice makes two boards. The pictures are NASA material already credited in the family (see `CREDITS.md`). The sample "Quiet structures" is the starter template; its cards were made taller so none clips its text.
+
+Verified: fresh data folder at three sizes in English and German with 0 layout shifts, 0 console errors and 0 boards created; under the window test's network limits the reveal shows Home filled or the board drawn; each demo re-imported equal to its export.
+
+## v0.39.0 · A menubar from the command registry
+
+- refers-to: `src/app/menus.ts` (new) :: MENUS, FILE_ITEMS, HELP_ITEMS, bindMenus; `src/ui/menu.ts` (new) :: PopupMenu, MenuBar, trimMenu; `src/ui/native-menu.ts` (new) :: NativeMenus, accelerator; `index.html` :: nav.menubar, head script; `src/styles/shell.css`
+
+A menubar built as formvis builds its own, in the window on Windows and Linux and in the macOS menu bar. The tree is a list of command ids; labels, keys, enabled and checked states come from the registry, so nothing is declared twice, and an id with no command is trimmed (the vector tool submenus appear and vanish with their commands). 215 of the 234 commands appear exactly once; the rest are parameter-driven or in-dialog controls.
+
+Decisions: a root menu is capped to the space under the bar and scrolls; Alt and a letter yields to a registered shortcut; while a menu is open every key stops at the menubar. The native menu reaches the Tauri menu API through `window.__TAURI__.menu`, with no Rust command and no new dependency. A key with neither Cmd nor Alt gets no accelerator, so typing is never taken by the menu bar, and a 400 ms guard drops the second of a pair when the page and the menu bar both receive one shortcut. `has-native-menus` is set by the head script before first paint and removed if the first build fails. The title bar hides controls at five widths so the tab strip keeps at least 96 px from 960 px up in the widest language.
+
+Verified in the browser at CPU 4x in English, German and Ukrainian. The native menu was exercised only against a stand-in for the Tauri API: no Mac here.
+
+## v0.39.0 · The splash page matches formvis
+
+- refers-to: `public/splash.html` :: img
+
+The splash differed from formvis's by an extra `user-select` rule and a `draggable` attribute. It is formvis's page line for line with FormRef's icon and name. The window smoke still measures zero layout shift on it.
 
 ## v0.37.8 · The splash logo holds its place
 
