@@ -108,7 +108,7 @@ def sweep_stale_unpacks() -> None:
 
 def selfcheck() -> int:
     info = {"python": sys.version.split()[0]}
-    for name in ("fastapi", "uvicorn", "multipart", "httpx", "mcp", "PIL", "numpy", "defusedxml", "websockets", "pypdfium2"):
+    for name in ("fastapi", "uvicorn", "multipart", "httpx", "mcp", "PIL", "numpy", "defusedxml", "websockets", "pypdfium2", "fontTools.subset", "resvg_py"):
         try:
             module = __import__(name)
             info[name.lower()] = getattr(module, "__version__", "ok")
