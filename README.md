@@ -11,7 +11,7 @@
 </p>
 
 <p align="center">
-  <img alt="version 0.39.0" src="https://img.shields.io/badge/version-v0.39.0-eef0f4?style=flat-square">
+  <img alt="version 0.39.1" src="https://img.shields.io/badge/version-v0.39.1-eef0f4?style=flat-square">
   <img alt="Rust engine" src="https://img.shields.io/badge/Rust%20engine-b7410e?style=flat-square&logo=rust&logoColor=white">
   <img alt="TypeScript and FastAPI" src="https://img.shields.io/badge/TypeScript%20%2B%20FastAPI-3178c6?style=flat-square&logo=typescript&logoColor=white">
   <img alt="macOS, Windows, Linux" src="https://img.shields.io/badge/macOS%20%C2%B7%20Windows%20%C2%B7%20Linux-native-2f7bf5?style=flat-square">
@@ -140,7 +140,7 @@ On Windows use `formref_oc_install.bat` then `formref.bat`. The editor is on htt
 > [!IMPORTANT]
 > **Status:** in development. Real-time collaboration and protected sharing are not built, the browser clipper loads unpacked, and the packaged builds have not yet been run on every OS. Only Claude Code has been run end to end in the Agent panel.
 
-**Contributing:** branch from `main`, keep changes to source here, and leave packaging and releases to formcompiler. See [`CLAUDE.md`](CLAUDE.md), [`AGENTS.md`](AGENTS.md) and the [release conventions](.docs/wiki/Releases.md).
+**Contributing:** branch from `main`, keep changes to source here, and leave packaging and releases to formcompiler. See [`CONTRIBUTING.md`](CONTRIBUTING.md), [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md), [`CLAUDE.md`](CLAUDE.md), [`AGENTS.md`](AGENTS.md) and the [release conventions](.docs/wiki/Releases.md). Report security issues privately as [`SECURITY.md`](SECURITY.md) describes.
 
 ## Repository
 
