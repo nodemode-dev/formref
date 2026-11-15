@@ -34,6 +34,11 @@ def watch_shell(shell: int) -> None:
     while True:
         time.sleep(2)
         if not alive(shell):
+            unpacked = getattr(sys, "_MEIPASS", "")
+            if os.path.basename(unpacked).startswith("_MEI"):
+                import shutil
+
+                shutil.rmtree(unpacked, ignore_errors=True)
             os._exit(0)
 
 

@@ -17,6 +17,7 @@ WAITING: dict[str, asyncio.Future] = {}
 STATE = {"polled": 0.0}
 POLL_SECONDS = 25
 RUN_SECONDS = 60
+GONE = "formref.poll_gone"
 
 
 def _window_only(request: Request) -> None:
@@ -63,13 +64,47 @@ def list_commands(group: str = "", text: str = ""):
 async def next_job(request: Request):
     _window_only(request)
     STATE["polled"] = time.time()
-    try:
-        job = await asyncio.wait_for(JOBS.get(), POLL_SECONDS)
-    except asyncio.TimeoutError:
-        STATE["polled"] = time.time()
+    gone = request.scope.get(GONE) or asyncio.Event()
+    take = asyncio.ensure_future(JOBS.get())
+    left = asyncio.ensure_future(gone.wait())
+    await asyncio.wait({take, left}, timeout=POLL_SECONDS, return_when=asyncio.FIRST_COMPLETED)
+    left.cancel()
+    if not take.done() and take.cancel():
+        if not gone.is_set():
+            STATE["polled"] = time.time()
+        return Response(status_code=204)
+    job = take.result()
+    if gone.is_set():
+        JOBS.put_nowait(job)
         return Response(status_code=204)
     STATE["polled"] = time.time()
     return job
+
+
+class PollWatch:
+    """Marks a long poll whose window has gone, so a closed window's pending poll never takes a job."""
+
+    def __init__(self, app):
+        self.app = app
+
+    async def __call__(self, scope, receive, send):
+        if scope["type"] != "http" or scope.get("path") != "/api/commands/next":
+            await self.app(scope, receive, send)
+            return
+        gone = scope[GONE] = asyncio.Event()
+
+        async def watch():
+            while True:
+                message = await receive()
+                if message["type"] == "http.disconnect":
+                    gone.set()
+                    return
+
+        watcher = asyncio.ensure_future(watch())
+        try:
+            await self.app(scope, receive, send)
+        finally:
+            watcher.cancel()
 
 
 @router.post("/result/{rid}")

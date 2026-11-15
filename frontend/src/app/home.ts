@@ -244,7 +244,7 @@ function boardUpdate(node: HTMLElement, board: Summary): void {
 function templateCard(template: HomeTemplate): HTMLElement {
   const name = el('span', 'home-card-name');
   const meta = el('span', 'home-card-meta');
-  if (template !== STARTER) { own(name); own(meta); }
+  if (!template.built_in) { own(name); own(meta); }
   return card('template', template.id, blank(template === STARTER ? 'board' : 'template'), name, meta);
 }
 

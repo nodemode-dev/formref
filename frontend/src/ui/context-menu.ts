@@ -4,7 +4,7 @@ import type { IconName } from './icons';
 export type MenuEntry =
   | { separator: true }
   | { section: string }
-  | { label: string; icon?: IconName; swatch?: string; shortcut?: string; disabled?: boolean; checked?: boolean; danger?: boolean; action?: () => void; children?: MenuEntry[] };
+  | { label: string; own?: boolean; icon?: IconName; swatch?: string; shortcut?: string; disabled?: boolean; checked?: boolean; danger?: boolean; action?: () => void; children?: MenuEntry[] };
 
 type ActionEntry = Extract<MenuEntry, { label: string }>;
 
@@ -47,6 +47,7 @@ export class ContextMenu {
     layer.style.visibility = 'hidden';
     for (const entry of entries) layer.append(this.row(entry, depth));
     layer.addEventListener('keydown', event => this.keys(event, layer, depth));
+    layer.addEventListener('scroll', () => this.trim(depth + 1), { passive: true });
     this.root.append(layer);
     this.layers.push(layer);
     return layer;
@@ -84,6 +85,7 @@ export class ContextMenu {
     else if (entry.icon) glyph.append(icon(entry.icon));
     const label = document.createElement('span');
     label.className = 'ctx-label';
+    if (entry.own) label.dataset.noI18n = '';
     label.textContent = entry.label;
     const hint = document.createElement('span');
     hint.className = 'ctx-hint';
@@ -145,7 +147,7 @@ export class ContextMenu {
     if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
       event.preventDefault();
       const step = event.key === 'ArrowDown' ? 1 : -1;
-      items[(index + step + items.length) % items.length]?.focus({ preventScroll: true });
+      items[(index + step + items.length) % items.length]?.focus();
     } else if (event.key === 'ArrowRight') {
       const current = items[index];
       if (current?.getAttribute('aria-haspopup')) {

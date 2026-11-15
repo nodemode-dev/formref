@@ -17,7 +17,7 @@ from .routers.agent import router as agent_router
 from .routers.clip import router as clip_router
 from .routers.cloud import router as cloud_router
 from .routers.terminal import router as terminal_router
-from .routers.commands import router as commands_router
+from .routers.commands import PollWatch, router as commands_router
 from .routers.searches import router as searches_router
 from .routers.practice import router as practice_router
 from .agent.service import agents
@@ -83,6 +83,8 @@ async def local_access(request: Request, call_next):
     response = await call_next(request)
     response.headers["X-Content-Type-Options"] = "nosniff"
     return response
+
+app.add_middleware(PollWatch)
 
 @app.exception_handler(MissingBoard)
 async def missing_board(request, exc):

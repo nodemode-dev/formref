@@ -118,7 +118,7 @@ export async function startLanguage(): Promise<void> {
   if (isLang(saved) && saved !== 'en') await setLanguage(saved);
 }
 
-const SKIP = 'script,style,textarea,code,pre,[contenteditable="true"],[data-no-i18n],.xterm,.board-item .item-content,.outline,.board-list,.chat-msg,.term-dock-tab-title,.card-text,.card-title,#board-title,.board-tab-label,#inspector-title,.label-chip,.comment-text';
+const SKIP = 'script,style,textarea,code,pre,[contenteditable="true"],[data-no-i18n],.xterm,.board-item .item-content,.outline,.board-list,.chat-msg,.term-dock-tab-title,.card-text,.card-title,#board-title,.board-tab-label,#detail-title,#canvas-label,.label-chip,.comment-text';
 const ATTRS = ['title', 'aria-label', 'placeholder', 'alt'];
 const textEnglish = new WeakMap<Text, { en: string; shown: string }>();
 const attrEnglish = new WeakMap<Element, Map<string, { en: string; shown: string }>>();
@@ -140,7 +140,7 @@ function doText(node: Text): void {
 }
 
 function doAttrs(el: Element): void {
-  if (el.closest('[data-no-i18n],.board-item .item-content')) return;
+  if (el.closest('[data-no-i18n],.board-item .item-content') || el.matches('.board-item')) return;
   for (const name of ATTRS) {
     const value = el.getAttribute(name);
     if (value === null || !value.trim()) continue;

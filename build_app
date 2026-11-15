@@ -90,6 +90,13 @@ else
   (cd frontend && npm run tauri -- build ${tauri_args[@]+"${tauri_args[@]}"})
   bundle="$root/src-tauri/target/release/bundle"
   [ -d "$bundle" ] && say "desktop packages are in $bundle; the app starts its own engine"
+  if [ "$os" = macos ]; then
+    while IFS= read -r app; do
+      step "checking the engine inside $app"
+      FORMREF_DATA_DIR="$(mktemp -d)" "$app/Contents/MacOS/formref-engine" --selfcheck </dev/null \
+        || die "the engine inside the app failed its self-check under the app's signature; run $app/Contents/MacOS/formref-engine --selfcheck to see why"
+    done < <(find "$root/src-tauri/target" -maxdepth 5 -type d -name FormRef.app -path '*/bundle/macos/*' 2>/dev/null)
+  fi
 fi
 
 if [ "$open_app" = 1 ]; then

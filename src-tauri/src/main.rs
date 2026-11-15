@@ -91,10 +91,50 @@ fn stop_engine(app: &AppHandle) {
     if let Some(state) = app.try_state::<Engine>() {
         if let Ok(mut slot) = state.0.lock() {
             if let Some(mut child) = slot.take() {
+                // The onefile engine is a launcher with the server as its child: asked to stop, it stops the server
+                // and removes the folder it unpacked; a forced kill reaches only the launcher and leaves both behind.
+                #[cfg(unix)]
+                {
+                    let pid = child.id().to_string();
+                    let asked = Command::new("kill")
+                        .args(["-TERM", pid.as_str()])
+                        .stdout(Stdio::null())
+                        .stderr(Stdio::null())
+                        .status()
+                        .is_ok_and(|status| status.success());
+                    if asked {
+                        for _ in 0..30 {
+                            std::thread::sleep(Duration::from_millis(50));
+                            if matches!(child.try_wait(), Ok(Some(_))) {
+                                return;
+                            }
+                        }
+                    }
+                }
                 let _ = child.kill();
                 let _ = child.wait();
             }
         }
+    }
+}
+
+/// A link the page opens in a new window (a link card, a Markdown link, a cloud sign-in) goes to the system
+/// browser: the web view opens no window of its own, so without this the link did nothing.
+fn open_outside(url: &str) {
+    #[cfg(target_os = "macos")]
+    let mut command = Command::new("open");
+    #[cfg(windows)]
+    let mut command = {
+        let mut command = Command::new("rundll32");
+        command.arg("url.dll,FileProtocolHandler");
+        command
+    };
+    #[cfg(all(unix, not(target_os = "macos")))]
+    let mut command = Command::new("xdg-open");
+    if let Ok(mut child) = command.arg(url).stdin(Stdio::null()).stdout(Stdio::null()).stderr(Stdio::null()).spawn() {
+        std::thread::spawn(move || {
+            let _ = child.wait();
+        });
     }
 }
 
@@ -108,7 +148,23 @@ fn open_main(app: &AppHandle, port: Option<u16>) -> Result<(), String> {
         let url = tauri::Url::parse(&format!("http://127.0.0.1:{port}/")).map_err(|error| error.to_string())?;
         config.url = WebviewUrl::External(url);
     }
-    let window = WebviewWindowBuilder::from_config(app, &config).map_err(|error| error.to_string())?.build().map_err(|error| error.to_string())?;
+    let builder = WebviewWindowBuilder::from_config(app, &config).map_err(|error| error.to_string())?;
+    // The macOS web view cancels every download unless a handler is set, so exports and Save Board did nothing
+    // there. With one, the file goes to the Downloads folder and the page is told when it has arrived.
+    #[cfg(not(windows))]
+    let builder = builder.on_download(|webview, event| {
+        if let tauri::webview::DownloadEvent::Finished { success, .. } = event {
+            let _ = webview.emit("formref://download", success);
+        }
+        true
+    });
+    let builder = builder.on_new_window(|url, _features| {
+        if matches!(url.scheme(), "http" | "https") {
+            open_outside(url.as_str());
+        }
+        tauri::webview::NewWindowResponse::Deny
+    });
+    let window = builder.build().map_err(|error| error.to_string())?;
     if let Some(monitor) = window.primary_monitor().map_err(|error| error.to_string())? {
         let scale = monitor.scale_factor();
         let width = (f64::from(monitor.size().width) / scale * 0.9).max(960.0);

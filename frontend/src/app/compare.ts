@@ -1,7 +1,7 @@
 import type { Item } from '../lib/types';
 import { api } from '../lib/api';
 import { paintImage } from '../lib/image-geometry';
-import { $, selected, toast } from './editor';
+import { $, S, selected, toast } from './editor';
 import { registry } from './registry';
 
 /** Compare (reference-board gap: checking a drawing against its reference): two selected pictures full screen, side by side, overlaid with an opacity slider (onion skin), with a swipe divider, or as a difference blend where matching areas go black. A view only; nothing on the board changes. */
@@ -107,6 +107,7 @@ function open(params?: Record<string, unknown>): void {
   if (pictures.length !== 2) throw new Error('Select exactly two pictures to compare.');
   if (!mounted) { $('overlay-root').append(root); mounted = true; }
   load(panes[0], pictures[0]); load(panes[1], pictures[1]);
+  stage.style.filter = S.state?.board.settings?.grayscale ? 'grayscale(1)' : '';
   root.hidden = false;
   const asked = MODES.find(([m]) => m === params?.mode)?.[0];
   setMode(asked || mode);

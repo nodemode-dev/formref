@@ -1,4 +1,5 @@
 import { isEnabled } from './commands';
+import { error } from './editor';
 import { COMMAND_WORDS } from './command-meta';
 import { registry, type CommandDef, type CommandParam } from './registry';
 import { dormantCommands, illustratorCommandIds } from './illustrator';
@@ -81,11 +82,19 @@ export async function runCommand(id: string, params: Record<string, unknown> = {
   const bad = checkParams(command, params);
   if (bad) return { ok: false, error: bad };
   if (!isEnabled(command)) return { ok: false, error: `${command.label} is not available right now (for example nothing suitable is selected).` };
+  const before = document.querySelector('dialog[open]');
+  let timer = 0;
   try {
-    await Promise.resolve(command.run(params));
+    const done = Promise.resolve(command.run(params));
+    const asks = new Promise<boolean>(resolve => {
+      timer = window.setInterval(() => { const now = document.querySelector('dialog[open]'); if (now && now !== before) resolve(true); }, 150);
+    });
+    if (await Promise.race([done.then(() => false), asks])) done.catch(error);
   } catch (reason) {
+    window.clearInterval(timer);
     return { ok: false, error: reason instanceof Error ? reason.message : String(reason) };
   }
+  window.clearInterval(timer);
   const dialog = document.querySelector<HTMLDialogElement>('dialog[open]');
   return dialog ? { ok: true, dialog: `${command.label} opened a dialog in the window; the person needs to finish it.` } : { ok: true };
 }

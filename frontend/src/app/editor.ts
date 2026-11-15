@@ -334,6 +334,7 @@ export function updateInspector() {
       $('prop-parent').append(option);
     }
     const label = column.title || 'Untitled column';
+    option.toggleAttribute('data-no-i18n', !!column.title);
     if (option.textContent !== label) option.textContent = label;
   }
   setInput('prop-parent', first.parent_id || '');
@@ -512,8 +513,11 @@ export function fit(items = S.state?.board.items.filter(i => !i.hidden) || []) {
   const minY = Math.min(...bounds.map(b => b.top));
   const maxX = Math.max(...bounds.map(b => b.right));
   const maxY = Math.max(...bounds.map(b => b.bottom));
-  const zoom = Math.max(.05, Math.min(2, (stage.clientWidth - 96) / (maxX - minX), (stage.clientHeight - 120) / (maxY - minY)));
-  S.camera = { x: stage.clientWidth / 2 - (minX + maxX) / 2 * zoom, y: stage.clientHeight / 2 - (minY + maxY) / 2 * zoom, zoom };
+  const bar = document.querySelector<HTMLElement>('.floating-controls');
+  const below = bar && bar.offsetParent === stage && getComputedStyle(bar).visibility !== 'hidden' ? Math.max(60, stage.clientHeight - bar.offsetTop + 12) : 60;
+  const room = stage.clientHeight - 60 - below;
+  const zoom = Math.max(.05, Math.min(2, (stage.clientWidth - 96) / (maxX - minX), room / (maxY - minY)));
+  S.camera = { x: stage.clientWidth / 2 - (minX + maxX) / 2 * zoom, y: 60 + room / 2 - (minY + maxY) / 2 * zoom, zoom };
   drawCamera();
   rememberCamera();
 }

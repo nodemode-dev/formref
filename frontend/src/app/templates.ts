@@ -15,6 +15,7 @@ function row(template: Template): HTMLElement {
   const text = document.createElement('div');
   text.className = 'trash-text';
   const name = document.createElement('strong');
+  if (!template.built_in) name.dataset.noI18n = '';
   name.textContent = template.title;
   const small = document.createElement('small');
   small.textContent = template.built_in ? template.description : `${template.item_count ?? 0} items · saved from a board`;

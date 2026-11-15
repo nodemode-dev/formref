@@ -391,6 +391,7 @@ if (native) {
   });
   // The tray menu changes window modes from outside the page too.
   void events?.listen('formref://window-state', event => showNative(event.payload as unknown as NativeWindow));
+  void events?.listen('formref://download', event => toast(event.payload ? 'Saved to the Downloads folder.' : 'The file could not be saved to the Downloads folder.'));
 }
 
 setInput('accent-select', getComputedStyle(document.documentElement).getPropertyValue('--accent-color').trim());
