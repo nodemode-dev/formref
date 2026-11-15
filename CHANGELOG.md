@@ -1,5 +1,15 @@
 # FormRef changelog
 
+## v0.39.1 · 2026-11-15
+
+Community files, and the credit and licence of every demo picture checked at its source.
+
+- The repository has a code of conduct, a contributing guide and a security policy, and the README links them.
+- Every picture in the three demo boards now carries the credit and terms its own source states. 38 are NASA pictures, not subject to copyright in the United States. The Hubble Ultra Deep Field is published by ESA/Hubble under Creative Commons Attribution 4.0 and is credited "NASA, ESA, and S. Beckwith (STScI) and the HUDF Team"; it was listed before as public domain.
+- On the colour demo board, the Hubble Ultra Deep Field cards show that full credit and link to the ESA/Hubble page. A board you already made from a demo keeps the text it was made with.
+- The three pictures of the "Quiet structures" starter board are listed as own work under Apache-2.0.
+- The release guide names the right formcompiler repository.
+
 ## v0.39.0 · 2026-11-15
 
 A Home page with demo boards, a menubar, a new Preferences window, and a full bug pass before release.

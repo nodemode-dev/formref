@@ -8,6 +8,7 @@
 - [Stacking scale](#stacking-scale)
 - [Verification](#verification)
 - [Scripts](#scripts)
+- [v0.39.1 · The credits shown in the demo boards match the records](#v0391--the-credits-shown-in-the-demo-boards-match-the-records)
 - [v0.39.0 · The review pass: twenty-one bugs](#v0390--the-review-pass-twenty-one-bugs)
 - [v0.39.0 · Preferences is a window with a rail](#v0390--preferences-is-a-window-with-a-rail)
 - [v0.39.0 · Home, the no-board state and three demo boards](#v0390--home-the-no-board-state-and-three-demo-boards)
@@ -61,6 +62,20 @@
 - [v0.4.8 desktop window controls and WebKit icons](#v048-desktop-window-controls-and-webkit-icons)
 - [v0.4.7 synced notes, map cards, inline edit commit](#v047-synced-notes-map-cards-inline-edit-commit)
 - [v0.4.6 GIF frames and document export](#v046-gif-frames-and-document-export)
+
+## v0.39.1 · The credits shown in the demo boards match the records
+
+- refers-to: `public/demos/CREDITS.md`; `public/demos/colour/board.formref` (the Hubble Ultra Deep Field cards); `../NOTICE.md`; `src/ui/sample.ts` (read only)
+
+Why. The 0.39.0 entry "Home, the no-board state and three demo boards" says the pictures are NASA material already credited in the family. Reading each picture's own source page again on 15 November 2026 showed that is true of 38 of the 39 and not of the Hubble Ultra Deep Field. ESA/Hubble publishes it (release heic0406a, the same March 2004 release the Wikimedia Commons copy names as its source) under Creative Commons Attribution 4.0 International and requires the full credit line "NASA, ESA, and S. Beckwith (STScI) and the HUDF Team". The family had recorded it as public domain because its Commons page says so; Commons is a copy, not the publisher, so the publisher's terms win. The evidence table is `/home/claude/work/scratch/turn3-pictures/EVIDENCE.md`.
+
+Records. `NOTICE.md` and `public/demos/CREDITS.md` now give every picture its credit as its own page states it and a licence column. Three rows changed apart from the Hubble one: the Pale Blue Dot credit is "NASA/JPL-Caltech" with the science.nasa.gov page (the photojournal catalogue address redirects there), and the Apollo 11 bootprint and Saturn V rows are credited with their centre, "NASA (JSC)" and "NASA (MSFC)". The 27 NASA Image and Video Library items have no credit line in their records, only the centre, so they are credited "NASA (centre)" rather than a made-up photographer. The Hubble file is the Commons copy resized to 1400 by 1400 and its tone differs slightly from the ESA/Hubble JPEG; the record says so rather than naming the ESA file as the source of the bytes. The starter sample "Quiet structures" was not listed at all: its three pictures are SVG drawings in `src/ui/sample.ts` turned into PNG when the sample is created, own work, Apache-2.0, now a row in `NOTICE.md` and a section of `CREDITS.md`.
+
+Cards. The credit a person sees is the Text and URL of each picture's card on the board, so the records alone left the Hubble cards (the picture and its detail crop on the colour board) saying "NASA and the European Space Agency", "Public domain (NASA content)" and a Commons link. The `fix(demos)` commit of this release gives those cards the full credit and the ESA/Hubble link. A demo is imported as a new board, so a board a person made from a demo in 0.39.0 keeps the old text; nothing rewrites a person's board, and the docs say so.
+
+No code changed: no source file, string or table is touched, so the language tables and the window build are as in 0.39.0.
+
+Verified: the changed rows of `NOTICE.md` and `CREDITS.md` read against the evidence table; the Markdown text rule over the tracked files; the Hubble cards read out of `colour/board.formref` as they stood before the `fix(demos)` commit (Text "Credit: NASA and the European Space Agency ... Public domain (NASA content)", URL the Commons page). Not verified: the corrected cards, which are that commit's work.
 
 ## v0.39.0 · The review pass: twenty-one bugs
 
