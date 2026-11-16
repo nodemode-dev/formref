@@ -21,7 +21,7 @@ rm -rf build/pyinstaller dist-engine
   --add-data "$root/frontend/dist:frontend/dist" \
   --add-data "$backend/app/bundled_models:app/bundled_models" \
   --collect-submodules app --collect-submodules uvicorn --collect-submodules mcp.server --collect-submodules mcp.shared --collect-submodules mcp.client --hidden-import mcp.types --exclude-module mcp.cli --collect-submodules websockets \
-  --collect-data cairosvg --collect-data cairocffi \
+  --collect-submodules fontTools.ttLib.tables --hidden-import fontTools.subset --hidden-import pypdfium2 --hidden-import resvg_py \
   --hidden-import ptyprocess \
   "$backend/formref_engine.py"
 

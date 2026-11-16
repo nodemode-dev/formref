@@ -90,12 +90,14 @@ def list_templates() -> list[dict]:
     return out + sorted(saved, key=lambda t: t["saved_at"], reverse=True)
 
 
-def save_template(board_id: str, title: str, description: str = "") -> dict:
+def save_template(board_id: str, title: str, description: str = "", replace_id: str = "") -> dict:
     title = title.strip()
     if not title or len(title) > 120:
         raise ValueError("A template needs a name of at most 120 characters.")
     board = store.get(board_id)["board"]
-    template_id = "saved-" + uuid.uuid4().hex[:16]
+    if replace_id and (replace_id in BUILT_IN or not saved_path(replace_id).is_file()):
+        raise ValueError("That template does not exist.")
+    template_id = replace_id or "saved-" + uuid.uuid4().hex[:16]
     record = {"id": template_id, "title": title, "description": description.strip()[:400], "saved_at": time.time(),
               "board": {"items": board["items"], "connections": board.get("connections", []), "background": board.get("background", "#1c1b1d"), "settings": board.get("settings")}}
     folder().mkdir(parents=True, exist_ok=True)

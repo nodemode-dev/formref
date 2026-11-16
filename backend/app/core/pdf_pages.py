@@ -4,11 +4,13 @@ import json
 import uuid
 
 from .config import settings
+from .pdf_draw import serialized
 from .store import MissingBoard, store
 
 MAX_PAGES = 200
 
 
+@serialized
 def page_items(board_id: str, item_id: str, first: int = 1, last: int = 0, dpi: int = 150) -> dict:
     try:
         import pypdfium2 as pdfium
@@ -72,6 +74,7 @@ MAX_TEXT_PAGES = 2000
 MAX_TEXT_CHARS = 2_000_000
 
 
+@serialized
 def pdf_text(asset_id: str) -> list[str]:
     """The text of each page of a PDF asset, for board search; cached beside the asset as JSON. Scanned pages without a text layer give empty strings."""
     cache = store.assets_dir / "text" / f"{asset_id}.json"

@@ -4,7 +4,9 @@ python-multipart
 httpx
 mcp<2
 Pillow
-CairoSVG
+resvg-py
+pypdfium2
+fonttools
 defusedxml
 onnxruntime
 numpy

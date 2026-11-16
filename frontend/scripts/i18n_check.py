@@ -83,6 +83,10 @@ def keys() -> set[str]:
             s = re.sub(r"\{[^}]*\}", "{0}", m.group(1))
             if re.match(r"[A-Z]", s):
                 add(s)
+    # Strings the extractor cannot see (they start with a placeholder or a camel-case word, or hold a semicolon), listed by hand.
+    extra = ROOT / "frontend" / "scripts" / "i18n_extra.json"
+    if extra.is_file():
+        found.update(json.loads(extra.read_text(encoding="utf-8")))
     return found
 
 

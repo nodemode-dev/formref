@@ -13,6 +13,7 @@ const active = new Set<string>();
 const chips = new Map<string, HTMLButtonElement>();
 let more: HTMLButtonElement | null = null;
 let entries: Entry[] = [];
+let overflow: Entry[] = [];
 
 const fold = (text: string) => text.trim().toLowerCase();
 const tagsOf = (item: Item) => Array.isArray(item.data.tags) ? (item.data.tags as unknown[]).filter((t): t is string => typeof t === 'string' && !!t.trim()) : [];
@@ -121,29 +122,46 @@ function chip(entry: Entry): HTMLButtonElement {
   return button;
 }
 
-/** Updates the strip in place: chips are reused by key, only changed text is written, and nodes move only when the order changed. Chosen chips always show, even past the first fourteen. */
+/** Updates the strip in place: chips are reused by key, only changed text is written, and nodes move only when the order changed. The strip is one row of fixed height that is always there, so the outline under it never moves; chips that do not fit wait behind the +N chip. */
 function draw(): void {
   const cloud = $('tag-cloud');
-  const shown = entries.filter((e, i) => i < SHOWN || active.has(e.key));
-  const rest = entries.length - shown.length;
-  const want: HTMLElement[] = shown.map(chip);
-  if (rest > 0) {
+  const candidates = entries.slice(0, SHOWN);
+  const want: HTMLElement[] = candidates.map(chip);
+  if (entries.length) {
     if (!more) {
       more = document.createElement('button');
       more.type = 'button';
       more.className = 'tag-chip tag-more';
+      more.title = 'More tags';
       more.addEventListener('click', () => { const box = more!.getBoundingClientRect(); menu.show(restMenu(), box.left, box.bottom + 4); });
     }
-    const label = `+${rest}`;
-    if (more.textContent !== label) more.textContent = label;
-    more.title = 'More tags';
     want.push(more);
   }
   const current = [...cloud.children];
   if (current.length !== want.length || current.some((node, i) => node !== want[i])) cloud.replaceChildren(...want);
   for (const [key, button] of chips) if (!entries.some(e => e.key === key)) { chips.delete(key); button.remove(); }
-  const empty = entries.length === 0;
-  if (cloud.hidden !== empty) cloud.hidden = empty;
+  fitRow(candidates.map(e => chips.get(e.key)!));
+}
+
+/** Chips past the end of the row are hidden and counted on the +N chip, which itself must fit on the row. Runs in one task with no paint between the reads and writes. */
+function fitRow(buttons: HTMLButtonElement[]): void {
+  overflow = [];
+  if (!more || !buttons.length) return;
+  for (const button of buttons) if (button.hidden) button.hidden = false;
+  more.hidden = true;
+  const top = buttons[0].offsetTop;
+  let fit = buttons.findIndex(button => button.offsetTop > top);
+  if (fit < 0) fit = buttons.length;
+  for (let i = fit; i < buttons.length; i++) buttons[i].hidden = true;
+  while (fit < entries.length) {
+    const label = `+${entries.length - fit}`;
+    if (more.textContent !== label) more.textContent = label;
+    more.hidden = false;
+    if (fit === 0 || more.offsetTop <= top) break;
+    buttons[--fit].hidden = true;
+  }
+  overflow = entries.slice(fit);
+  more.classList.toggle('active', overflow.some(e => active.has(e.key)));
 }
 
 /** Changes one tag on every unlocked item that carries it, as one undoable batch; items ending with the same tag list share one update, so a board of any size stays within the engine's batch limit. Locked items keep their tags and are counted. */
@@ -225,7 +243,7 @@ function chipMenu(key: string): MenuEntry[] {
 }
 
 function restMenu(): MenuEntry[] {
-  return entries.slice(SHOWN).filter(e => !active.has(e.key)).map(e => ({ label: `${e.name} (${e.count})`, checked: active.has(e.key), action: () => toggleTag(e.key) }));
+  return overflow.map(e => ({ label: `${e.name} (${e.count})`, checked: active.has(e.key), action: () => toggleTag(e.key) }));
 }
 
 function update(board: Board): void {
@@ -242,6 +260,7 @@ export function registerTagCloud(): void {
   matchFilters.push(item => { for (const key of active) if (!carries(item, key)) return false; return true; });
   onState(state => update(state.board));
   boardOpened.push(() => { active.clear(); markRow(); });
+  new ResizeObserver(() => draw()).observe($('tag-cloud'));
   $('color-find-clear').addEventListener('click', () => { if (active.size) setTagFilter([], []); });
   registry.add(
     { group: 'Edit', id: 'filter-by-tag', label: 'Filter by Tag', icon: 'label', mutates: false, agent: 'window-only', palette: false, enabled: () => entries.length > 0, run: p => { const tag = typeof p?.tag === 'string' ? p.tag : ''; const label = typeof p?.label === 'string' ? (S.state?.board.settings?.labels || []).find(l => l.id === p.label || fold(l.name) === fold(String(p.label))) : undefined; const key = label ? `label:${label.id}` : `tag:${fold(tag)}`; if (!entries.some(e => e.key === key)) throw new Error('No item on this board carries that tag or label.'); toggleTag(key); }, params: { tag: { type: 'string', description: 'a tag to add to or remove from the filter' }, label: { type: 'string', description: 'or a label name or id' } } },

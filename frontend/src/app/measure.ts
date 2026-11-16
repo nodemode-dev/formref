@@ -1,4 +1,5 @@
 import type { Point } from '../lib/types';
+import { t } from '../lib/i18n';
 import { S, stage, toast, world, worldPoint } from './editor';
 import { registry } from './registry';
 
@@ -22,7 +23,7 @@ const angle = (s: Segment) => { let deg = Math.atan2(-(s.b.y - s.a.y), s.b.x - s
 function text(s: Segment): string {
   const parts = [`${Math.round(length(s))} px`, `${angle(s).toFixed(1)}°`];
   const first = segments[0];
-  if (first && first !== s && length(first) > 0) parts.push(`${(length(s) / length(first)).toFixed(2)}× first`);
+  if (first && first !== s && length(first) > 0) parts.push(t('{0}× first', { 0: (length(s) / length(first)).toFixed(2) }));
   return parts.join(' · ');
 }
 

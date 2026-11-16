@@ -1,4 +1,5 @@
 import { api } from '../lib/api';
+import { t } from '../lib/i18n';
 import { imageCoordinates } from '../lib/image-geometry';
 import type { Item } from '../lib/types';
 import { $, S, onInspector, selected, setText, stage, toast, worldPoint } from './editor';
@@ -38,7 +39,9 @@ function paint() {
   else if (!listing.runtime) status = 'The service has no ONNX Runtime; run ./formref install again.';
   else if (!need) {
     const names = (NEEDS[choice] || []).map(model).filter(Boolean) as ModelInfo[];
-    status = `Ready · ${names.map(entry => `${entry.name}${entry.bundled ? ' (built in)' : ''}`).join(' and ')} · ${listing.processor?.replace('ExecutionProvider', '') || 'CPU'}`;
+    const label = (entry: ModelInfo) => entry.bundled ? t('{0} (built in)', { 0: t(entry.name) }) : t(entry.name);
+    const list = names.length > 1 ? t('{0} and {1}', { 0: label(names[0]), 1: label(names[1]) }) : names.length ? label(names[0]) : '';
+    status = t('Ready · {0} · {1}', { 0: list, 1: listing.processor?.replace('ExecutionProvider', '') || 'CPU' });
   } else if (busy) status = `Downloading ${need.name}: ${Math.round((need.download!.fraction || 0) * 100)}%`;
   else if (need.download?.state === 'error') status = need.download.error || 'The download failed.';
   else status = `${need.name} is not downloaded yet · ${need.size} · ${need.license}`;

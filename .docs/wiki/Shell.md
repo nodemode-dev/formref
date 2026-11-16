@@ -16,7 +16,7 @@ With no board open the window shows Home below the top bar: Start (recent boards
 
 ## Preferences
 
-Preferences (Ctrl+,) is one window: a rail of categories on the left (General, Canvas, Vector tools, Window, Browser clipper, Cloud storage, Board, About) and foldable cards on the right. The rail collapses, the window drags by its head, and both are remembered. Grid, snap and grayscale are settings of the open board.
+Preferences (Ctrl+,) is one window: a rail of categories on the left (General, Canvas, Vector tools, Window, Browser clipper, Cloud storage, Board, About) and foldable cards on the right. The rail collapses, the window drags by its head, and both are remembered. Below 760 px wide the rail becomes a row of icons along the top of the window. Grid, snap and grayscale are settings of the open board.
 
 ## Right-click menu
 
@@ -24,7 +24,7 @@ Right-click the canvas or a selection for iStack's menu in iStack's order: File,
 
 ## Board tabs
 
-Several boards stay open as tabs. Ctrl+N opens a new tab, Alt+W closes the active one (browsers reserve Ctrl+T and Ctrl+W). The open tabs and the active tab are saved through `/api/session` and restored on the next launch.
+Several boards stay open as tabs. Ctrl+N opens a new tab at the end of the row, Alt+W closes the active one (browsers reserve Ctrl+T and Ctrl+W). Every tab has the same width; the row scrolls to keep the active tab in view, and the tabs after a closed one slide over. The open tabs and the active tab are saved through `/api/session` and restored on the next launch.
 
 ## Keys
 
@@ -56,7 +56,7 @@ Select one item and the inspector shows its comment thread. Write in the box and
 
 ## Templates
 
-New from template (left panel or the palette) starts a board from a starter (moodboard, character sheet, storyboard, project plan) or from one of your own. Save as Template keeps the current board's items, links and canvas settings, without comments; images stay linked to the same files. Your templates can be deleted from the same dialog.
+New from template (left panel or the palette) starts a board from a starter (moodboard, character sheet, storyboard, project plan) or from one of your own. Save as Template keeps the current board's items, links and canvas settings, without comments; images stay linked to the same files. Saving under the name of a template of your own asks before it replaces that template. Your templates can be deleted from the same dialog.
 
 ## Trash
 

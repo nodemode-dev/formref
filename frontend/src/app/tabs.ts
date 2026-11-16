@@ -58,13 +58,23 @@ export function openTabs(): { id: string; title: string }[] {
 }
 export function onTabs(listener: () => void) { tabListeners.push(listener); }
 
+/** Takes a tab out; the tabs after it keep their place on screen through a transform and then slide over, so none of them jumps. */
+function drop(id: string) {
+  const before = new Map([...nodes].map(([key, tab]) => [key, tab.getBoundingClientRect().left]));
+  nodes.get(id)?.remove();
+  nodes.delete(id);
+  place();
+  for (const [key, tab] of nodes) {
+    const dx = (before.get(key) ?? 0) - tab.getBoundingClientRect().left;
+    if (Math.abs(dx) > .5) tab.animate([{ transform: `translateX(${dx}px)` }, { transform: 'none' }], { duration: 160, easing: 'ease-out' });
+  }
+}
+
 export function close(id: string) {
   const index = order.indexOf(id);
   if (index < 0) return;
   order.splice(index, 1);
-  nodes.get(id)?.remove();
-  nodes.delete(id);
-  place();
+  drop(id);
   if (S.state?.board.id === id) {
     if (order.length) void open(order[Math.max(0, index - 1)]).catch(error);
     else void leaveBoard();
@@ -76,9 +86,7 @@ export function forget(id: string) {
   const index = order.indexOf(id);
   if (index < 0) return;
   order.splice(index, 1);
-  nodes.get(id)?.remove();
-  nodes.delete(id);
-  place();
+  drop(id);
   persist();
 }
 
@@ -96,7 +104,7 @@ onState(state => {
       nodes.get(old)?.remove();
       nodes.delete(old);
     } else {
-      order.splice(active >= 0 ? active + 1 : order.length, 0, id);
+      order.push(id);
     }
     replaceNext = false;
     persist();
@@ -115,6 +123,9 @@ onState(state => {
   }
   const label = nodes.get(id)!.firstElementChild!;
   if (label.textContent !== state.board.title) label.textContent = state.board.title;
+  const tab = nodes.get(id)!.getBoundingClientRect(), view = strip.getBoundingClientRect();
+  if (tab.left < view.left) strip.scrollLeft -= view.left - tab.left;
+  else if (tab.right > view.right) strip.scrollLeft += tab.right - view.right;
 });
 
 export async function restore() {

@@ -18,7 +18,8 @@ description: FormRef's storage, assets, import and export. Load for saving or re
 | `store.py` trash methods, `/api/trash` routes in `routers/boards.py` | deleted boards and groups of removed items, restore and purge |
 | `backend/app/core/capture.py` | web capture with per-hop address checks and the connection pinned to the checked address (`pinned`); never loosen `checked_url`, `resolve` or the pinning without the owner |
 | `store.media_signature`, the `/api/assets` route | video and audio only by matching leading bytes; inline playback with byte ranges |
-| `backend/app/core/doc_export.py` | one note or document as Markdown, text, a hand-built .docx or a cairo PDF; no new dependencies |
+| `backend/app/core/doc_export.py` | one note or document as Markdown, text, a hand-built .docx or a PDF drawn by `pdf_draw.py` |
+| `backend/app/core/pdf_draw.py` | PDF drawing for every PDF export: PDFium (pypdfium2) pages, system fonts subset by fontTools, the SVG export painted page by page; no system library, no Cairo; one lock for all PDFium calls |
 | `backend/app/core/cutout.py` | model-free background removal: edge colours, border-connected fill, soft ramp; refuses busy or blending backgrounds; keeps the original in `data.cutout` and the portable export carries it; Pillow only |
 | `backend/app/core/models.py`, `segment.py`, `bundled_models/` | FormCut's background models: registry, sources and SHA-256 pins (add a pin with any new file), downloads in a thread with progress, import of a pinned file, U2Net, IS-Net, Auto and SAM 2.1 inference with Pillow and numpy, never OpenCV; U2Net small is bundled |
 | `backend/app/core/cloud.py`, `routers/cloud.py` | opt-in Google Drive and Dropbox from FormCut: PKCE, tokens 0600 in the service, never in a response; every route refuses `X-FormRef-Client`; no MCP tools for cloud |

@@ -1,5 +1,6 @@
 import { api } from '../lib/api';
-import { S, fit, open, toast } from './editor';
+import type { State } from '../lib/types';
+import { S, fit, fitCamera, open, scene, stage, toast } from './editor';
 import { registry } from './registry';
 
 export interface Demo { id: string; title: string; line: string; picture: string; file: string }
@@ -14,8 +15,20 @@ export const DEMOS: Demo[] = [
 ];
 
 let opening = false;
+/** Longest the first frame waits for pictures; on a very slow connection the rest then arrive as usual. */
+const PRELOAD_WAIT = 15000;
 
-/** Imports the demo's board file as a new board, opens it and fits the view; no existing board is touched. */
+/** The service imports a demo it ships with from its own copy; a service without the built window's files answers 404, and the window then sends the file itself. */
+async function importDemo(found: Demo): Promise<State> {
+  const shipped = await fetch(`/api/demos/${found.id}/open`, { method: 'POST' });
+  if (shipped.ok) return await shipped.json() as State;
+  if (shipped.status !== 404) throw new Error(String(shipped.status));
+  const response = await fetch(found.file);
+  if (!response.ok) throw new Error(String(response.status));
+  return api.import(new File([await response.blob()], `${found.id}.formref`));
+}
+
+/** Imports the demo's board file as a new board, opens it and fits the view; no existing board is touched. The board opens already fitted, with the pictures on screen decoded beforehand, so its first frame is complete. */
 export async function openDemo(id: string): Promise<void> {
   const found = DEMOS.find(entry => entry.id === id);
   if (!found) return;
@@ -23,9 +36,9 @@ export async function openDemo(id: string): Promise<void> {
   opening = true;
   toast('Opening the demo…');
   try {
-    const response = await fetch(found.file);
-    if (!response.ok) throw new Error(String(response.status));
-    const result = await api.import(new File([await response.blob()], `${found.id}.formref`));
+    const result = await importDemo(found);
+    result.board.viewport = fitCamera(result.board.items.filter(item => !item.hidden));
+    await scene.preload(result.board, result.board.viewport, stage.clientWidth, stage.clientHeight, PRELOAD_WAIT);
     await open(result.board.id, result);
     if (S.state?.board.id === result.board.id) fit();
   } catch {

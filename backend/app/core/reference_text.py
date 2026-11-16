@@ -1,4 +1,5 @@
 import re
+import unicodedata
 from urllib.parse import urlsplit
 
 INLINE = re.compile(r"\[([^\[\]\n]+)\]\(([^)\s]+)\)|\*\*([^*\n]+)\*\*|__([^_\n]+)__|\*([^*\n]+)\*|_([^_\n]+)_")
@@ -59,6 +60,42 @@ def parse_text(source, text_format="plain"):
         yield block
 
 
+NO_LINE_START = set("、。，．：；！？）］｝〕〉》」』】ー")
+NO_LINE_END = set("เแโใไ（［｛〔〈《「『【")
+CJK_BREAK = re.compile("[　-ヿ㐀-鿿豈-﫿＀-￯]")
+
+
+def keep_together(token, count):
+    """Where a too-long word is cut after `count` characters, move the cut back so a combining mark, a closing CJK mark or a Thai leading vowel is not left on the wrong side of the line break."""
+    while 1 < count < len(token) and (unicodedata.category(token[count])[0] == "M" or token[count] in NO_LINE_START or token[count - 1] in NO_LINE_END):
+        count -= 1
+    return count
+
+
+def fit_count(token, max_width, measure):
+    """How many leading characters of the word fit `max_width` (0 when not even one does)."""
+    low, high = 0, len(token)
+    while low < high:
+        middle = (low + high + 1) // 2
+        if measure(token[:middle]) <= max_width:
+            low = middle
+        else:
+            high = middle - 1
+    return low
+
+
+def split_to_width(token, max_width, measure):
+    """The word cut into pieces that each fit `max_width` (a piece is at least one character)."""
+    chunks = []
+    while token:
+        count = len(token)
+        if measure(token) > max_width:
+            count = keep_together(token, max(1, fit_count(token, max_width, measure)))
+        chunks.append(token[:count])
+        token = token[count:]
+    return chunks
+
+
 def layout_text(blocks, base_size, max_width, max_height, measure):
     y = 0.0
     for block in blocks:
@@ -75,6 +112,14 @@ def layout_text(blocks, base_size, max_width, max_height, measure):
             for token in re.findall(r"\s+|\S+", styled["text"]):
                 while token:
                     token_width = measure(token, size, styled)
+                    if current and width + token_width > max_width and CJK_BREAK.search(token):
+                        count = keep_together(token, fit_count(token, max_width - width, lambda part: measure(part, size, styled)))
+                        if count:
+                            part_width = measure(token[:count], size, styled)
+                            current.append({**styled, "text": token[:count], "x": width, "width": part_width})
+                            width += part_width
+                            token = token[count:]
+                            continue
                     if current and width + token_width > max_width:
                         yield {"y": y, "size": size, "runs": current}
                         y += line_height
@@ -92,7 +137,7 @@ def layout_text(blocks, base_size, max_width, max_height, measure):
                                 low = middle
                             else:
                                 high = middle - 1
-                        count = low
+                        count = keep_together(token, low)
                     part = token[:count]
                     part_width = measure(part, size, styled)
                     current.append({**styled, "text": part, "x": width, "width": part_width})

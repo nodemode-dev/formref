@@ -34,6 +34,8 @@ A model other than Object downloads when you press Download; each file is checke
 
 Align, distribute, pack and normalize operate on engine-selected IDs. Locked content is protected from mutating layout commands; unlock intentionally before rearranging it. A group transform operates about shared bounds, and a completed user operation should produce one undo step.
 
+A connection is drawn, never stored, between the sides of the two ends that face each other: left and right when one end lies beside the other, top and bottom when it lies above or below, the shorter line when both are possible, and the older centre or side rule when the ends overlap. Exports draw the same line. Note, task, document and link cards keep the height saved in the board and nothing resizes when a board opens. A card grows downward, never shrinks, when you type more than it shows (inline, in the Inspector's Text field or in the editor), in the same undo step as the text. Fit Card to Text (Edit menu, right-click menu or palette) sets each selected text card to the height of its text, growing or shrinking it; locked and hidden cards are skipped. No other card moves, so a card that grows can lie over the card below it.
+
 The current manual and toolbar are authoritative for offered controls; keyboard shortcuts reserved by a browser may behave differently from a native desktop shell. Rendering/gesture checks and any unfinished controls are recorded in the release's verification notes.
 
 ## Illustrator tools are optional

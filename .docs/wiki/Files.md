@@ -8,6 +8,7 @@ FormRef persists local boards and registered original assets through FastAPI. Th
 | JSON | Inspect or exchange the board model | Geometry alone is not an asset-complete portable board |
 | PNG | Raster board image | Check rendered content and exporter size bounds |
 | SVG | Vector board composition | Review font/media portability and renderer-specific support |
+| PDF | The board on one page, one page per item, or tiled at 100 percent for printing; one note or document on its own | Drawn by the service with no library to install; text is set in the computer's fonts and embedded as subsets, so glyph coverage depends on the fonts installed. SVG pictures are rasterized by a built-in renderer (no external references are fetched) |
 | Markdown | Editable board text and references | Does not reproduce the canvas layout |
 
 Import maps a portable package into a new board. Inspect image count, transforms and asset availability after importing, then reopen it after restart to verify durability. Archive extraction must validate paths and limits before writing files.

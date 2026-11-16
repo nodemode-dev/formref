@@ -142,6 +142,7 @@ export function boardMenu(): MenuEntry[] {
     sep,
     { ...item('lock', lockLabel()), icon: lockLabel().startsWith('Unlock') ? 'unlock' : 'lock' },
     ...(isEnabled(BY_ID.get('lock-drops')!) ? [item('lock-drops')] : []),
+    ...(isEnabled(BY_ID.get('fit-to-text')!) ? [item('fit-to-text')] : []),
     item('note'),
     {
       label: 'Insert', icon: 'plus', children: [

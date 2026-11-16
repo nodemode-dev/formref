@@ -1,6 +1,6 @@
 import { MarkdownStream } from './chat-markdown';
 import { icon } from './icons';
-import { formatLocale } from '../lib/i18n';
+import { formatLocale, t } from '../lib/i18n';
 
 interface Part { kind: 'text' | 'tool'; text?: string; id?: string; name?: string; input?: string; status?: string; items?: string[]; images?: string[] }
 interface Meta { seconds?: number; turns?: number | null; costUsd?: number | null; inputTokens?: number; outputTokens?: number }
@@ -247,7 +247,7 @@ export class ChatPane {
     this.reply?.append(chip);
     const ids = (p.items ?? []).filter(this.hooks.exists);
     if (ids.length) {
-      const strip = node('button', 'chat-items button compact quiet', `Select ${ids.length === 1 ? 'this item' : `these ${ids.length} items`}`);
+      const strip = node('button', 'chat-items button compact quiet', ids.length === 1 ? t('Select this item') : t('Select these {0} items', { 0: ids.length }));
       strip.dataset.ids = ids.join(',');
       this.reply?.append(strip);
     }

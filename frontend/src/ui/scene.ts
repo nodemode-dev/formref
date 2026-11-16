@@ -1,6 +1,6 @@
 import type { Board, Item, Label, Point, Viewport } from '../lib/types';
 import { api } from '../lib/api';
-import { t } from '../lib/i18n';
+import { language, t } from '../lib/i18n';
 import { icon } from './icons';
 import { MarkdownView } from '../lib/markdown';
 import { paintImage, paintStudyGrid } from '../lib/image-geometry';
@@ -29,6 +29,9 @@ function detailEdge(item: Item): number {
   const need = Math.max(item.width / (crop?.width || 1), item.height / (crop?.height || 1)) * detailZoom * (window.devicePixelRatio || 1);
   return EDGES.find(edge => edge >= need) || 0;
 }
+const sourceOf = (asset: string, edge: number) => Number.isFinite(edge) ? `${api.assetUrl(asset)}/preview?edge=${edge}` : api.assetUrl(asset);
+/** Pictures decoded ahead of the last preloaded board's first frame, by source; a node with one of these sources shows it at once. Kept until the next preload. */
+const decoded = new Map<string, HTMLImageElement>();
 export const BLENDS: readonly string[] = ['darken', 'multiply', 'color-burn', 'lighten', 'screen', 'color-dodge', 'overlay', 'soft-light', 'hard-light', 'difference', 'exclusion', 'hue', 'saturation', 'color', 'luminosity'];
 export const NOTE_FONTS: Record<string, string> = {
   Inter: "'Inter', system-ui, sans-serif", 'JetBrains Mono': "'JetBrains Mono', ui-monospace, monospace", Helvetica: "Helvetica, 'Helvetica Neue', Arial, sans-serif",
@@ -44,22 +47,25 @@ function text(node: Node, value: string) { if (node.textContent !== value) node.
 export interface SceneHooks { edit(id: string, patch: Partial<Item>): void; item(id: string): Item | undefined; openEditor(id: string): void }
 class ItemNode {
   root = el('div', 'board-item'); content = el('div', 'item-content'); imageBox = el('div', 'item-content image-content'); image = el('img', 'reference-image'); fallback = el('div', 'item-fallback'); fallbackText = el('span'); imageCaption = el('div', 'image-caption'); card = el('div', 'item-content card-content'); eyebrow = el('div', 'card-eyebrow'); eyebrowIcon = el('span'); eyebrowText = el('span'); title = el('div', 'card-title'); body = el('div', 'card-text'); url = el('div', 'card-url'); footer = el('div', 'card-footer'); footerText = el('span'); footerArrow = icon('arrow-right'); checkbox = el('input', 'todo-checkbox'); shapeBox = el('div', 'item-content shape-content'); drawing = svg('svg'); rect = svg('rect'); ellipse = svg('ellipse'); line = svg('line'); path = svg('path'); vpath = svg('path'); arrows = svg('svg'); arrowFill = svg('path'); arrowLine = svg('path'); defs = svg('defs'); linear = svg('linearGradient') as SVGLinearGradientElement; radial = svg('radialGradient') as SVGRadialGradientElement; lock = el('span', 'item-lock'); commentBadge = el('span', 'item-comments'); commentCount = el('span'); labelRow = el('div', 'item-labels'); source = ''; loadToken = 0; edge = 0; deferred = false; culled = false; studyGrid = el('div', 'study-grid');
-  formattedBody = el('div', 'card-text formatted-card'); markdown = new MarkdownView(this.formattedBody, 48); swatchPreview = el('div', 'swatch-preview'); swatchPaint = el('div', 'swatch-paint'); mediaBox = el('div', 'card-media'); tableBox = el('div', 'card-table'); table!: TableView; sourceWidth = 0; sourceHeight = 0; current: Item | null = null;
+  formattedBody = el('div', 'card-text formatted-card'); markdown = new MarkdownView(this.formattedBody, 48); swatchPreview = el('div', 'swatch-preview'); swatchPaint = el('div', 'swatch-paint'); mediaBox = el('div', 'card-media'); tableBox = el('div', 'card-table'); table!: TableView; sourceWidth = 0; sourceHeight = 0; current: Item | null = null; spoken: [HTMLElement, string][] = []; spokenIn = language();
   constructor(id: string, hooks: SceneHooks) {
     this.root.dataset.id = id; this.root.setAttribute('role', 'group'); this.image.alt = ''; this.image.decoding = 'async'; this.image.draggable = false;
     this.fallback.append(icon('image'), this.fallbackText); this.imageBox.append(this.image, this.studyGrid, this.fallback, this.imageCaption); this.studyGrid.hidden = true;
-    this.eyebrow.append(this.eyebrowIcon, this.eyebrowText); this.footer.append(this.footerText, this.footerArrow); this.checkbox.type = 'checkbox'; this.checkbox.setAttribute('aria-label', 'Complete task');
+    this.eyebrow.append(this.eyebrowIcon, this.eyebrowText); this.footer.append(this.footerText, this.footerArrow); this.checkbox.type = 'checkbox'; this.checkbox.setAttribute('aria-label', t('Complete task'));
     this.swatchPreview.append(this.swatchPaint); this.card.append(this.eyebrow, this.title, this.swatchPreview, this.body, this.formattedBody, this.mediaBox, this.tableBox, this.url, this.footer, this.checkbox); this.mediaBox.hidden = true; this.tableBox.hidden = true; this.table = new TableView(this.tableBox, (patch) => hooks.edit(id, patch), () => hooks.item(id));
     this.drawing.append(this.rect, this.ellipse, this.line, this.path, this.vpath); this.vpath.setAttribute('vector-effect', 'non-scaling-stroke'); this.arrows.classList.add('arrowheads'); this.arrows.append(this.arrowFill, this.arrowLine); this.arrowLine.setAttribute('fill', 'none'); for (const g of [this.linear, this.radial]) { g.append(svg('stop'), svg('stop')); g.querySelectorAll('stop')[1].setAttribute('offset', '1'); this.defs.append(g); } this.drawing.prepend(this.defs); this.arrowLine.setAttribute('stroke-linecap', 'round'); this.arrowLine.setAttribute('stroke-linejoin', 'round'); this.shapeBox.append(this.drawing, this.arrows); this.content.append(this.imageBox, this.card, this.shapeBox); this.lock.append(icon('lock')); this.commentBadge.append(icon('comment'), this.commentCount); this.commentBadge.hidden = true; this.labelRow.hidden = true;
-    const resize = el('span', 'resize-handle'); resize.dataset.handle = 'resize'; resize.setAttribute('aria-label', 'Resize reference');
-    const rotate = el('span', 'rotate-handle'); rotate.dataset.handle = 'rotate'; rotate.setAttribute('aria-label', 'Rotate reference');
-    this.root.append(this.content, this.lock, this.commentBadge, this.labelRow, resize, rotate);
+    const resize = el('span', 'resize-handle'); resize.dataset.handle = 'resize'; resize.setAttribute('aria-label', t('Resize reference'));
+    const rotate = el('span', 'rotate-handle'); rotate.dataset.handle = 'rotate'; rotate.setAttribute('aria-label', t('Rotate reference'));
+    this.root.append(this.content, this.lock, this.commentBadge, this.labelRow, resize, rotate); this.spoken = [[this.checkbox, 'Complete task'], [resize, 'Resize reference'], [rotate, 'Rotate reference']];
     this.body.addEventListener('dblclick', event => { const item = hooks.item(id); if (!item) return; if (item.kind === 'document' || (item.kind === 'note' && item.data.text_format === 'markdown')) { event.stopPropagation(); hooks.openEditor(id); return; } if (item.locked || !['note', 'todo'].includes(item.kind)) return; event.stopPropagation(); this.body.contentEditable = 'true'; this.body.focus(); });
-    this.body.addEventListener('blur', () => { if (this.body.contentEditable !== 'true') return; this.body.contentEditable = 'false'; const item = hooks.item(id); if (item && item.text !== this.body.textContent) hooks.edit(id, { text: this.body.textContent || '' }); });
-    this.body.addEventListener('keydown', event => { if (event.key === 'Escape') { const item = hooks.item(id); this.body.contentEditable = 'false'; text(this.body, item?.text || ''); this.body.blur(); } if (!((event.ctrlKey || event.metaKey) && ['s', 'k'].includes(event.key.toLowerCase()))) event.stopPropagation(); });
+    // While typing, the card grows downward as soon as the text would clip; the new height is saved with the text, as one change.
+    this.body.addEventListener('input', () => { const over = this.body.scrollHeight - this.body.clientHeight; if (over > 0 && this.body.contentEditable === 'true') this.root.style.height = `${this.root.offsetHeight + over}px`; });
+    this.body.addEventListener('blur', () => { if (this.body.contentEditable !== 'true') return; this.body.contentEditable = 'false'; const item = hooks.item(id); if (!item) return; const height = parseFloat(this.root.style.height); if (item.text !== this.body.textContent) hooks.edit(id, { text: this.body.textContent || '', ...(height > item.height ? { height } : {}) }); else this.root.style.height = `${item.height}px`; });
+    this.body.addEventListener('keydown', event => { if (event.key === 'Escape') { const item = hooks.item(id); this.body.contentEditable = 'false'; if (item) this.root.style.height = `${item.height}px`; text(this.body, item?.text || ''); this.body.blur(); } if (!((event.ctrlKey || event.metaKey) && ['s', 'k'].includes(event.key.toLowerCase()))) event.stopPropagation(); });
     this.checkbox.addEventListener('change', () => { const item = hooks.item(id); if (item) hooks.edit(id, { data: { ...item.data, checked: this.checkbox.checked } }); });
   }
   update(item: Item, selected: boolean, matching: boolean) {
+    if (this.spokenIn !== language()) { this.spokenIn = language(); for (const [node, english] of this.spoken) node.setAttribute('aria-label', t(english)); }
     this.current = item; const r = this.root; r.dataset.kind = item.kind; r.classList.toggle('selected', selected); r.classList.toggle('locked', item.locked); r.classList.toggle('matched-out', !matching); r.classList.toggle('cutout', item.kind === 'image' && !!item.data.cutout); r.hidden = item.hidden; r.style.left = `${item.x}px`; r.style.top = `${item.y}px`; r.style.width = `${item.width}px`; r.style.height = `${item.height}px`; r.style.transform = `rotate(${item.rotation}deg)`; r.style.opacity = String(item.opacity); const blend = typeof item.data.blend === 'string' && BLENDS.includes(item.data.blend) ? item.data.blend : ''; if (r.style.mixBlendMode !== blend) r.style.mixBlendMode = blend; r.setAttribute('aria-label', item.title || `${item.kind} reference`); const open = Array.isArray(item.data.comments) ? (item.data.comments as { resolved?: boolean }[]).filter(c => !c.resolved).length : 0; this.commentBadge.hidden = !open; if (this.commentCount.textContent !== String(open)) this.commentCount.textContent = String(open); this.paintLabels(item); this.paintRating(item); this.paintMedia(item); this.tableBox.hidden = item.kind !== 'table'; this.card.classList.toggle('table-content', item.kind === 'table'); if (item.kind === 'table') this.table.update(item);
     this.imageBox.hidden = item.kind !== 'image'; this.card.hidden = ['image', 'shape', 'stroke'].includes(item.kind); this.shapeBox.hidden = !['shape', 'stroke'].includes(item.kind);
     this.deferred = item.kind === 'image' && !this.source && !!item.asset_id && !inView(item);
@@ -67,7 +73,9 @@ class ItemNode {
     const far = !inView(item); if (this.culled !== far) { this.culled = far; r.classList.toggle('culled', far); }
     else if (item.kind === 'image') {
       this.edge = Math.max(this.edge, detailEdge(item) || Infinity);
-      const source = item.asset_id ? (Number.isFinite(this.edge) ? `${api.assetUrl(item.asset_id)}/preview?edge=${this.edge}` : api.assetUrl(item.asset_id)) : '';
+      const source = item.asset_id ? sourceOf(item.asset_id, this.edge) : '';
+      const ready = source !== this.source ? decoded.get(source) : undefined;
+      if (ready) { this.source = source; ++this.loadToken; this.sourceWidth = ready.naturalWidth; this.sourceHeight = ready.naturalHeight; this.image.decoding = 'sync'; this.image.src = source; this.image.hidden = false; this.fallback.hidden = true; this.fallback.classList.remove('pending'); }
       if (source !== this.source) { this.source = source; const token = ++this.loadToken; if (source) { this.fallback.classList.toggle('pending', !this.image.getAttribute('src')); const pending = new Image(); pending.src = source; pending.decode().then(() => { if (token === this.loadToken) { this.sourceWidth = pending.naturalWidth; this.sourceHeight = pending.naturalHeight; if (this.current) paintImage(this.image, this.current, this.sourceWidth, this.sourceHeight); this.image.src = source; this.image.hidden = false; this.fallback.hidden = true; } }).catch(() => { if (token === this.loadToken && !this.image.getAttribute('src')) { this.fallback.hidden = false; this.fallback.classList.remove('pending'); text(this.fallbackText, 'Image unavailable. Use Replace / relink.'); } }); } else { this.image.hidden = true; this.fallback.hidden = false; this.fallback.classList.remove('pending'); } }
       if (!source) text(this.fallbackText, item.data.unresolved ? 'Source missing. Use Replace / relink.' : 'No image source');
       paintImage(this.image, item, this.sourceWidth, this.sourceHeight); paintStudyGrid(this.studyGrid, item); text(this.imageCaption, item.title);
@@ -125,6 +133,8 @@ const LABELS = new Map<string, Label>();
 
 /** A connection end may be one item or a whole group ("group:" and the group id); a group's box covers its visible members. */
 export const GROUP_ENDPOINT = 'group:';
+/** Cards whose text can outgrow them; they grow to fit text a person writes, and Fit Card to Text sizes them exactly. */
+export const TEXT_CARDS: readonly string[] = ['note', 'todo', 'document', 'link'];
 interface EndBox { x: number; y: number; width: number; height: number; hidden: boolean; group?: boolean; side?: number }
 
 /** Line ends: an item's centre, as before; a group's end sits on the side of its frame facing the other end, where the curve's flat tangent leaves it, so no stub crosses the gaps between grouped items. A column (v0.26.0) is a container too, so its end sits on its own side. */
@@ -132,14 +142,29 @@ const FRAME_PAD = 12;
 /** Arrowheads (v0.28.0): an item end that carries one sits ARROW_GAP outside the item's side, because lines run under items; the head is ARROW_LENGTH long and twice ARROW_HALF wide. The service's exports use the same numbers. */
 const ARROW_GAP = 4, ARROW_LENGTH = 12, ARROW_HALF = 5;
 const pointed = (arrow = '') => [arrow === 'start' || arrow === 'both', arrow === 'end' || arrow === 'both'];
-function anchors(from: EndBox, to: EndBox, arrow = ''): [number, number, number, number] {
-  const fx = from.x + from.width / 2, tx = to.x + to.width / 2;
+/** Ends that clear each other along an axis meet the sides that face each other there (left and right, or top and bottom), each end padded off its box; with room on both axes the shorter line wins, ties going to left and right. Ends that overlap on both axes keep the older rule: an item's centre, or the left or right side towards the other end. The last value is true when the line runs top to bottom. */
+function anchors(from: EndBox, to: EndBox, arrow = ''): [number, number, number, number, boolean] {
   const [atStart, atEnd] = pointed(arrow);
-  const side = (box: EndBox, centre: number, other: number, head: boolean) => { const pad = box.group ? FRAME_PAD : box.side ?? (head ? ARROW_GAP : undefined); return pad === undefined ? centre : other >= centre ? box.x + box.width + pad : box.x - pad; };
-  return [side(from, fx, tx, atStart), from.y + from.height / 2, side(to, tx, fx, atEnd), to.y + to.height / 2];
+  const pad = (box: EndBox, head: boolean) => box.group ? FRAME_PAD : box.side ?? (head ? ARROW_GAP : undefined);
+  const fp = pad(from, atStart), tp = pad(to, atEnd);
+  const fx = from.x + from.width / 2, fy = from.y + from.height / 2, tx = to.x + to.width / 2, ty = to.y + to.height / 2;
+  const across = (vertical: boolean): [number, number, number, number, boolean] | undefined => {
+    const [fa, fs, ta, ts] = vertical ? [from.y, from.height, to.y, to.height] : [from.x, from.width, to.x, to.width];
+    const forward = ta - fa - fs - (fp ?? 0) - (tp ?? 0) > 0, back = fa - ta - ts - (fp ?? 0) - (tp ?? 0) > 0;
+    if (!forward && !back) return undefined;
+    const a = forward ? fa + fs + (fp ?? 0) : fa - (fp ?? 0), b = forward ? ta - (tp ?? 0) : ta + ts + (tp ?? 0);
+    return vertical ? [fx, a, tx, b, true] : [a, fy, b, ty, false];
+  };
+  const level = across(false), upright = across(true);
+  if (level && upright) return Math.hypot(upright[2] - upright[0], upright[3] - upright[1]) < Math.hypot(level[2] - level[0], level[3] - level[1]) ? upright : level;
+  if (level || upright) return (level || upright)!;
+  const side = (box: EndBox, centre: number, other: number, gap: number | undefined) => gap === undefined ? centre : other >= centre ? box.x + box.width + gap : box.x - gap;
+  return [side(from, fx, tx, fp), fy, side(to, tx, fx, tp), ty, false];
 }
-/** The line between anchors, each pointed end pulled back to its head's base, plus the heads as one path along the line there. A curve and an elbow (v0.30.0) both leave each end level towards the middle x; a straight line points at its far end. Same geometry as the service's endpoints.py. */
-function curve(x1: number, y1: number, x2: number, y2: number, arrow = '', route = ''): { d: string; heads: string } {
+const swapAxes = (d: string) => d.replace(/(-?[\d.]+(?:e[-+]?\d+)?),(-?[\d.]+(?:e[-+]?\d+)?)/g, '$2,$1').replace(/[HV]/g, c => c === 'H' ? 'V' : 'H');
+/** The line between anchors, each pointed end pulled back to its head's base, plus the heads as one path along the line there. A curve and an elbow (v0.30.0) both leave each end square to its side, towards the middle between the ends; a straight line points at its far end. Same geometry as the service's endpoints.py. */
+function curve(x1: number, y1: number, x2: number, y2: number, arrow = '', route = '', vertical = false): { d: string; heads: string } {
+  if (vertical) { const turned = curve(y1, x1, y2, x2, arrow, route); return { d: swapAxes(turned.d), heads: swapAxes(turned.heads) }; }
   const middle = (x1 + x2) / 2;
   const straight = route === 'straight';
   const [atStart, atEnd] = pointed(arrow);
@@ -194,9 +219,23 @@ export class Scene {
     this.paintStacks(board, selection);
     const ordered = board.items.map((item, index) => ({ item, index })).sort((a, b) => a.item.z - b.item.z || a.index - b.index); let next = this.container.firstElementChild; for (const { item } of ordered) { const root = this.nodes.get(item.id)!.root; if (next === root) next = next.nextElementSibling; else this.container.insertBefore(root, next); }
     const connectionIds = new Set(board.connections.map(c => c.id)); for (const [id, line] of this.lines) if (!connectionIds.has(id)) { line.hit.remove(); line.path.remove(); line.head.remove(); line.label.remove(); this.lines.delete(id); }
+    this.board = board; this.live.clear();
+    this.paintLines(board);
+  }
+  board: Board | null = null; live = new Map<string, Partial<Item>>(); liveFrame = 0;
+  /** While items are dragged or resized, their lines and group frames follow the live boxes, once per frame. */
+  private followLive() {
+    if (this.liveFrame) return;
+    this.liveFrame = requestAnimationFrame(() => {
+      this.liveFrame = 0;
+      const board = this.board; if (!board || !this.live.size) return;
+      this.paintLines({ ...board, items: board.items.map(item => { const patch = this.live.get(item.id); return patch ? { ...item, ...patch } : item; }) });
+    });
+  }
+  paintLines(board: Board) {
     const ends = endpoints(board);
     this.paintGroupFrames(board, ends);
-    for (const connection of board.connections) { let line = this.lines.get(connection.id); if (!line) { const path = svg('path'); path.classList.add('connection'); path.dataset.connection = connection.id; const hit = svg('path'); hit.classList.add('connection-hit'); hit.dataset.connection = connection.id; const head = svg('path'); head.classList.add('connection-head'); const label = svg('text'); label.classList.add('connection-label'); line = { hit, path, head, label }; this.lines.set(connection.id, line); this.connections.append(hit, path, head, label); if (connection.id === this.chosenLine) path.classList.add('chosen'); } const from = ends(connection.from), to = ends(connection.to); if (!from || !to) continue; const [x1, y1, x2, y2] = anchors(from, to, connection.arrow); const shape = curve(x1, y1, x2, y2, connection.arrow, connection.route); line.path.setAttribute('d', shape.d); line.path.setAttribute('stroke', connection.color || 'var(--accent-color)'); line.path.style.display = from.hidden || to.hidden ? 'none' : ''; const dash = connection.line || ''; if ((line.path.getAttribute('data-line') || '') !== dash) { if (dash) line.path.setAttribute('data-line', dash); else line.path.removeAttribute('data-line'); } if (line.head.getAttribute('d') !== shape.heads) line.head.setAttribute('d', shape.heads); line.head.setAttribute('fill', connection.color || 'var(--accent-color)'); line.head.style.display = line.path.style.display; line.hit.setAttribute('d', shape.d); line.hit.style.display = line.path.style.display; line.label.setAttribute('x', String((x1 + x2) / 2)); line.label.setAttribute('y', String((y1 + y2) / 2 - 8)); text(line.label, connection.label); }
+    for (const connection of board.connections) { let line = this.lines.get(connection.id); if (!line) { const path = svg('path'); path.classList.add('connection'); path.dataset.connection = connection.id; const hit = svg('path'); hit.classList.add('connection-hit'); hit.dataset.connection = connection.id; const head = svg('path'); head.classList.add('connection-head'); const label = svg('text'); label.classList.add('connection-label'); line = { hit, path, head, label }; this.lines.set(connection.id, line); this.connections.append(hit, path, head, label); if (connection.id === this.chosenLine) path.classList.add('chosen'); } const from = ends(connection.from), to = ends(connection.to); if (!from || !to) continue; const [x1, y1, x2, y2, vertical] = anchors(from, to, connection.arrow); const shape = curve(x1, y1, x2, y2, connection.arrow, connection.route, vertical); line.path.setAttribute('d', shape.d); line.path.setAttribute('stroke', connection.color || 'var(--accent-color)'); line.path.style.display = from.hidden || to.hidden ? 'none' : ''; const dash = connection.line || ''; if ((line.path.getAttribute('data-line') || '') !== dash) { if (dash) line.path.setAttribute('data-line', dash); else line.path.removeAttribute('data-line'); } if (line.head.getAttribute('d') !== shape.heads) line.head.setAttribute('d', shape.heads); line.head.setAttribute('fill', connection.color || 'var(--accent-color)'); line.head.style.display = line.path.style.display; line.hit.setAttribute('d', shape.d); line.hit.style.display = line.path.style.display; line.label.setAttribute('x', String((x1 + x2) / 2)); line.label.setAttribute('y', String((y1 + y2) / 2 - 8)); text(line.label, connection.label); }
   }
   stacks = new Map<string, { root: HTMLElement; sheets: HTMLElement[]; title: HTMLElement; count: HTMLElement; members: string[] }>();
   stackLayer: HTMLElement | null = null;
@@ -307,7 +346,42 @@ export class Scene {
     for (const node of this.nodes.values()) if (node.current?.kind === 'image' && Number.isFinite(node.edge) && (detailEdge(node.current) || Infinity) > node.edge) node.update(node.current, node.root.classList.contains('selected'), !node.root.classList.contains('matched-out'));
   }
   selection(ids: Set<string>) { for (const [id, node] of this.nodes) node.root.classList.toggle('selected', ids.has(id)); for (const stack of this.stacks.values()) stack.root.classList.toggle('selected', stack.members.every(id => ids.has(id))); }
-  preview(id: string, patch: Partial<Item>) { const r = this.nodes.get(id)?.root; if (!r) return; if (patch.x !== undefined) r.style.left = `${patch.x}px`; if (patch.y !== undefined) r.style.top = `${patch.y}px`; if (patch.width !== undefined) r.style.width = `${patch.width}px`; if (patch.height !== undefined) r.style.height = `${patch.height}px`; if (patch.rotation !== undefined) r.style.transform = `rotate(${patch.rotation}deg)`; if (this.stacks.size && (patch.x !== undefined || patch.y !== undefined)) this.restack(id); }
+  preview(id: string, patch: Partial<Item>) { const r = this.nodes.get(id)?.root; if (!r) return; if (patch.x !== undefined) r.style.left = `${patch.x}px`; if (patch.y !== undefined) r.style.top = `${patch.y}px`; if (patch.width !== undefined) r.style.width = `${patch.width}px`; if (patch.height !== undefined) r.style.height = `${patch.height}px`; if (patch.rotation !== undefined) r.style.transform = `rotate(${patch.rotation}deg)`; if (this.stacks.size && (patch.x !== undefined || patch.y !== undefined)) this.restack(id); if (patch.x !== undefined || patch.y !== undefined || patch.width !== undefined || patch.height !== undefined) { this.live.set(id, { ...this.live.get(id), ...patch }); this.followLive(); } }
+  /** Before a board is first drawn with this camera: the view and level of detail are set as the camera will set them, and the pictures that will be on screen are fetched and decoded, so the board's first frame shows them all. Resolves after at most `wait` ms; pictures still loading then arrive as usual. */
+  async preload(board: Board, camera: Viewport, width: number, height: number, wait: number): Promise<void> {
+    decoded.clear();
+    viewRect = { x: -camera.x / camera.zoom, y: -camera.y / camera.zoom, w: width / camera.zoom, h: height / camera.zoom };
+    detailZoom = camera.zoom;
+    const view = viewRect, hidden = collapsedGroups(board);
+    const shown = board.items.filter(item => item.kind === 'image' && item.asset_id && !item.hidden && !(item.group_id && hidden.has(item.group_id)) && item.x + item.width > view.x && item.x < view.x + view.w && item.y + item.height > view.y && item.y < view.y + view.h);
+    const sources = [...new Set(shown.map(item => sourceOf(item.asset_id!, detailEdge(item) || Infinity)))].filter(source => !decoded.has(source));
+    let timer = 0, waiting = true;
+    await Promise.race([
+      Promise.allSettled(sources.map(source => { const image = new Image(); image.src = source; return image.decode().then(() => { if (waiting) decoded.set(source, image); }); })),
+      new Promise(resolve => { timer = window.setTimeout(resolve, wait); }),
+    ]);
+    waiting = false;
+    window.clearTimeout(timer);
+  }
+  /** The height a text card needs to show all of its text at its width. A throwaway copy of the card is laid out out of sight and measured in the same task, so nothing on screen changes. */
+  textHeight(item: Item): number {
+    const node = new ItemNode(item.id, this.hooks);
+    node.update(item, false, true);
+    const r = node.root; r.classList.remove('culled'); r.style.visibility = 'hidden'; r.setAttribute('aria-hidden', 'true');
+    this.container.append(r);
+    const body = node.body.hidden ? node.formattedBody : node.body;
+    const filled = body.offsetHeight;
+    body.style.flex = 'none'; body.style.height = 'auto'; body.style.overflow = 'visible';
+    const need = body.offsetHeight;
+    r.remove();
+    return item.height + need - filled;
+  }
+  /** A text card grows (never shrinks) to fit text a person has just written; undefined when it already fits or is not a text card. */
+  grownHeight(item: Item): number | undefined {
+    if (!TEXT_CARDS.includes(item.kind)) return undefined;
+    const need = Math.ceil(this.textHeight(item));
+    return need > item.height ? need : undefined;
+  }
   navigatorUpdate(board: Board, camera: Viewport, stage: HTMLElement) {
     const items = board.items.filter(i => !i.hidden); const minX = Math.min(0, ...items.map(i => i.x)), minY = Math.min(0, ...items.map(i => i.y)); const maxX = Math.max(1000, ...items.map(i => i.x + i.width)), maxY = Math.max(600, ...items.map(i => i.y + i.height)); const scale = Math.min(184 / (maxX - minX), 104 / (maxY - minY));
     const visibleIds = new Set(items.map(item => item.id)); for (const [id, rect] of this.mini) rect.style.display = visibleIds.has(id) ? '' : 'none';

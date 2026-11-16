@@ -43,14 +43,16 @@ FormRef's original source and vector artwork are Apache-2.0. The repository's fu
 | httpx | 0.28.1 | BSD-3-Clause | Local MCP/API client |
 | mcp | 1.30.0 | MIT | Official v1 SDK, actual stdio transport |
 | Pillow | 12.3.0 | MIT-CMU and bundled library notices | Local media processing |
-| CairoSVG | 2.9.1 | LGPL-3.0-or-later | Separate server-side Python dependency for SVG rasterization |
+| resvg-py | 0.5.0 | MIT; bundled resvg and usvg 0.48.1 Apache-2.0 OR MIT, tiny-skia 0.12.0 BSD-3-Clause, other compiled Rust crates MIT, Apache-2.0, BSD-2-Clause, Zlib or Unlicense OR MIT (listed in the wheel's CycloneDX SBOM) | Server-side rasterization of SVG pictures for exports and colour sampling; no system library |
 | defusedxml | 0.7.1 | PSF-2.0 | Safe XML parsing |
-| onnxruntime | 1.31.0 | MIT | Background model inference |
-| numpy | 2.5.4 | BSD-3-Clause | Background model tensors |
+| onnxruntime | 1.31.0 | MIT; its wheel's `ThirdPartyNotices.txt` lists the bundled libraries (retained with the licence texts); depends on flatbuffers 25.12.19 (Apache-2.0), protobuf 7.36.2 (BSD-3-Clause) and packaging 26.3 (Apache-2.0 OR BSD-2-Clause) | Background model inference |
+| numpy | 2.5.4 | BSD-3-Clause AND 0BSD AND MIT AND Zlib AND CC0-1.0; the Linux wheel also bundles OpenBLAS (BSD-3-Clause), LAPACK (BSD-3-Clause-Open-MPI), libgfortran (GPL-3.0-or-later with the GCC runtime library exception) and libquadmath (LGPL-2.1-or-later), all texts in its `LICENSE.txt` | Background model tensors |
 | websockets | 15.0.1 | BSD-3-Clause | Uvicorn WebSocket support for the terminal dock |
-| pypdfium2 | 5.14.0 | Apache-2.0 or BSD-3-Clause; bundled PDFium BSD-3-Clause | Server-side rendering of PDF pages into image references |
+| pypdfium2 | 5.14.0 | Apache-2.0 or BSD-3-Clause; bundled PDFium BSD-3-Clause | Server-side rendering of PDF pages into image references, and drawing the PDF exports (board and single document) |
+| fontTools | 4.68.0 | MIT | Subsets the system fonts embedded in PDF exports; its wheel ships no font files |
 | ptyprocess | 0.7.0 | ISC | Terminal dock pseudo-terminals on macOS and Linux |
-| pywinpty | 3.0.5 | MIT | Terminal dock pseudo-terminals on Windows (ConPTY) |
+| pywinpty | 3.0.5 | MIT; the Windows wheel also bundles winpty (MIT) and the Windows Terminal ConPTY, `conpty.dll` and `OpenConsole.exe` (MIT) | Terminal dock pseudo-terminals on Windows (ConPTY) |
+| PyInstaller | 6.22.3 | GPL-2.0-or-later with the Bootloader exception (its bootloader is embedded in the frozen engine; the exception allows distributing it with any program) | Build-time only: freezes the desktop engine (`backend/requirements_desktop.txt`) |
 | @xterm/xterm | 6.0.0 | MIT | Terminal dock rendering in the window |
 | @xterm/addon-fit | 0.11.0 | MIT | Terminal dock sizing |
 | polygon-clipping | 0.15.7 | MIT | Pathfinder shape modes |
@@ -59,9 +61,9 @@ FormRef's original source and vector artwork are Apache-2.0. The repository's fu
 
 The terminal dock and the Claude Code tab (`backend/app/agent/terminal.py`, `backend/app/agent/claude_code.py`, `backend/app/routers/terminal.py`, `frontend/src/ui/terminal-dock.ts`) are adapted from formlit 0.45.3, Apache-2.0, by nodemode-ai, the same owner as FormRef. So are the dock's Chat (`backend/app/agent/chat.py`, `frontend/src/ui/chat-pane.ts`) and `frontend/src/ui/chat-markdown.ts`, which is formlit's Markdown streamer unchanged. The interface translator follows formvis 1.72.8's design (same owner); the 25 translation tables were written for FormRef.
 
-CairoSVG is installed as an ordinary replaceable Python package in the server environment, unmodified. It is not statically linked into the Rust core or a proprietary desktop bundle. Its license and source URL are retained in the notices. Pillow's wheel license also contains codec/native-library notices. Native shell compilation and distribution are not claimed by this source release; platform runtime libraries are not bundled.
+resvg-py, pypdfium2 and fontTools are installed as ordinary Python packages in the server environment, unmodified, and the desktop engine carries them unmodified; none needs a library installed on the person's computer. Pillow's wheel license also contains codec/native-library notices. Native shell compilation and distribution are not claimed by this source release; platform runtime libraries are not bundled.
 
-The editor uses system fonts and original inline SVG icons. Comparison HTMLs load the four fonts used by the supplied FormVis comparison from Google Fonts. Their original SIL Open Font License 1.1 texts are retained in `licenses/third-party/fonts/`. Font binaries are not included in the source archive. No BeeRef code, GPL or AGPL implementation is included. The optional native shell's dependency lock is included for reproducibility; it still needs platform prerequisites before it can compile.
+The editor uses system fonts and original inline SVG icons. PDF exports embed a subset of the fonts already on the person's computer (the same faces the PNG export draws with), written into the exported file only; FormRef ships no font for them. Comparison HTMLs load the four fonts used by the supplied FormVis comparison from Google Fonts. Their original SIL Open Font License 1.1 texts are retained in `licenses/third-party/fonts/`. Font binaries are not included in the source archive. No BeeRef code, GPL or AGPL implementation is included. The optional native shell's dependency lock is included for reproducibility; it still needs platform prerequisites before it can compile.
 
 ## Demo board media
 

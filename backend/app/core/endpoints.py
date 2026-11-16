@@ -87,23 +87,48 @@ def pointed(arrow: str) -> tuple[bool, bool]:
     return arrow in ("start", "both"), arrow in ("end", "both")
 
 
-def anchors(source: dict, target: dict, arrow: str = "") -> tuple[float, float, float, float]:
-    """Line ends as the window draws them: an item's centre, a group's frame side or a column's side facing the other end. An item end that carries an arrowhead (v0.28.0) sits just outside the item's side instead, so the head is not hidden under it."""
-    sx, tx = source["x"] + source["width"] / 2, target["x"] + target["width"] / 2
+def route(source: dict, target: dict, arrow: str = "") -> tuple[float, float, float, float, bool]:
+    """Line ends as the window draws them, and whether the line runs top to bottom. Ends that clear each other along an axis meet the sides facing each other there (left and right, or top and bottom), each end padded off its box: a group's frame, a column's side, the gap before an arrowhead (v0.28.0), or nothing for a plain item. With room on both axes the shorter line wins, ties going to left and right. Ends that overlap on both axes keep the older rule: an item's centre, or the left or right side towards the other end."""
     at_start, at_end = pointed(arrow)
 
-    def side(end, centre, other, head):
-        pad = FRAME_PAD if end.get("group") else end.get("side")
-        if pad is None and head:
-            pad = ARROW_GAP
-        if pad is None:
+    def pad(end, head):
+        value = FRAME_PAD if end.get("group") else end.get("side")
+        return ARROW_GAP if value is None and head else value
+    sp, tp = pad(source, at_start), pad(target, at_end)
+    sx, sy = source["x"] + source["width"] / 2, source["y"] + source["height"] / 2
+    tx, ty = target["x"] + target["width"] / 2, target["y"] + target["height"] / 2
+
+    def across(vertical):
+        sa, ss, ta, ts = (source["y"], source["height"], target["y"], target["height"]) if vertical else (source["x"], source["width"], target["x"], target["width"])
+        forward, back = ta - sa - ss - (sp or 0) - (tp or 0) > 0, sa - ta - ts - (sp or 0) - (tp or 0) > 0
+        if not forward and not back:
+            return None
+        a = sa + ss + (sp or 0) if forward else sa - (sp or 0)
+        b = ta - (tp or 0) if forward else ta + ts + (tp or 0)
+        return (sx, a, tx, b, True) if vertical else (a, sy, b, ty, False)
+    level, upright = across(False), across(True)
+    if level and upright:
+        return upright if math.hypot(upright[2] - upright[0], upright[3] - upright[1]) < math.hypot(level[2] - level[0], level[3] - level[1]) else level
+    if level or upright:
+        return level or upright
+
+    def side(end, centre, other, gap):
+        if gap is None:
             return centre
-        return end["x"] + end["width"] + pad if other >= centre else end["x"] - pad
-    return side(source, sx, tx, at_start), source["y"] + source["height"] / 2, side(target, tx, sx, at_end), target["y"] + target["height"] / 2
+        return end["x"] + end["width"] + gap if other >= centre else end["x"] - gap
+    return side(source, sx, tx, sp), sy, side(target, tx, sx, tp), ty, False
 
 
-def heads(ax: float, ay: float, bx: float, by: float, arrow: str, route: str = "") -> tuple[tuple[float, float, float, float], list]:
-    """Arrowheads for the line from (ax, ay) to (bx, by): the line's new ends (each pointed end pulled back to the head's base) and one triangle per head, aligned with the line there. A curve and an elbow (v0.30.0) both leave each end level, towards the middle x; a straight line points at its far end."""
+def anchors(source: dict, target: dict, arrow: str = "") -> tuple[float, float, float, float]:
+    """The line ends of route() without the direction."""
+    return route(source, target, arrow)[:4]
+
+
+def heads(ax: float, ay: float, bx: float, by: float, arrow: str, route: str = "", vertical: bool = False) -> tuple[tuple[float, float, float, float], list]:
+    """Arrowheads for the line from (ax, ay) to (bx, by): the line's new ends (each pointed end pulled back to the head's base) and one triangle per head, aligned with the line there. A curve and an elbow (v0.30.0) both leave each end square to its side, towards the middle between the ends (the middle x, or the middle y when vertical); a straight line points at its far end."""
+    if vertical:
+        (sy, sx, ey, ex), turned = heads(ay, ax, by, bx, arrow, route)
+        return (sx, sy, ex, ey), [[(y, x) for x, y in triangle] for triangle in turned]
     middle = (ax + bx) / 2
     straight = route == "straight"
     at_start, at_end = pointed(arrow)
@@ -123,19 +148,26 @@ def heads(ax: float, ay: float, bx: float, by: float, arrow: str, route: str = "
     return (start[0], start[1], end[0], end[1]), triangles
 
 
-def path_data(ax: float, ay: float, bx: float, by: float, ends: tuple, route: str = "") -> str:
+def path_data(ax: float, ay: float, bx: float, by: float, ends: tuple, route: str = "", vertical: bool = False) -> str:
     """SVG path data for a connection, given the anchors (which fix the middle) and the drawn ends from heads()."""
     sx, sy, ex, ey = ends
-    middle = (ax + bx) / 2
     if route == "straight":
         return f"M{sx},{sy} L{ex},{ey}"
+    if vertical:
+        middle = (ay + by) / 2
+        if route == "elbow":
+            return f"M{sx},{sy} V{middle} H{ex} V{ey}"
+        return f"M{sx},{sy} C{ax},{middle} {bx},{middle} {ex},{ey}"
+    middle = (ax + bx) / 2
     if route == "elbow":
         return f"M{sx},{sy} H{middle} V{ey} H{ex}"
     return f"M{sx},{sy} C{middle},{ay} {middle},{by} {ex},{ey}"
 
 
-def polyline(ax: float, ay: float, bx: float, by: float, ends: tuple, route: str = "", steps: int = 0) -> list:
+def polyline(ax: float, ay: float, bx: float, by: float, ends: tuple, route: str = "", steps: int = 0, vertical: bool = False) -> list:
     """The same line as points, for raster drawing: corners for straight and elbow, the curve sampled in steps otherwise (at least 8)."""
+    if vertical and route != "straight":
+        return [(x, y) for y, x in polyline(ay, ax, by, bx, (ends[1], ends[0], ends[3], ends[2]), route, steps)]
     sx, sy, ex, ey = ends
     middle = (ax + bx) / 2
     if route == "straight":
