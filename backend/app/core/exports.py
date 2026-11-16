@@ -13,7 +13,7 @@ from .config import settings
 from .store import store
 from .media import original_image
 from .sampling import crop_bounds, color_values
-from .reference_text import parse_text, layout_text, markdown_source
+from .reference_text import parse_text, layout_text, markdown_source, split_to_width
 from .xmp_write import with_tags
 from .endpoints import DASHES, GROUP, route as endpoint_route, heads as endpoint_heads, path_data as endpoint_path, polyline as endpoint_polyline, box as endpoint_box, group_of, title as endpoint_title
 
@@ -144,38 +144,91 @@ def font(size, strong=False, emphasis=False):
             return ImageFont.truetype(path, max(8, round(size)))
     return ImageFont.load_default(size=max(8, round(size)))
 
+@lru_cache(maxsize=64)
+def fallback_font(path, size):
+    try:
+        return ImageFont.truetype(io.BytesIO(path) if isinstance(path, bytes) else path, max(8, round(size)))
+    except OSError:
+        return font(size)
+
+@lru_cache(maxsize=1)
+def splitter():
+    from .pdf_draw import Fonts
+    return Fonts()
+
+@lru_cache(maxsize=8192)
+def face_runs(text, strong=False, emphasis=False):
+    """The text as (font file, piece) pairs, split the way the PDF export splits it: a character the main face has no glyph for goes to the first fallback face that has one. The file is None for the main face."""
+    try:
+        main = getattr(font(16, strong, emphasis), "path", None)
+        main = main.getvalue() if hasattr(main, "getvalue") else main
+        return tuple((None if entry.source == main else entry.source, piece) for entry, piece in splitter().pieces(text, strong, emphasis))
+    except Exception:
+        return ((None, text),) if text else ()
+
+def run_font(path, size, strong=False, emphasis=False):
+    return font(size, strong, emphasis) if path is None else fallback_font(path, size)
+
+def text_width(draw, text, size, strong=False, emphasis=False):
+    """Width of the text as drawn: every piece measured with the face that draws it."""
+    return sum(draw.textlength(piece, font=run_font(path, size, strong, emphasis)) for path, piece in face_runs(text, bool(strong), bool(emphasis)))
+
+def draw_run(draw, position, text, size, strong, emphasis, fill, anchor="ls", **options):
+    """Draws text from position, each piece in the face that has its glyphs; anchor is "ls" (position on the baseline) or "la" (on the top)."""
+    runs = face_runs(text, bool(strong), bool(emphasis))
+    if len(runs) == 1 and runs[0][0] is None:
+        draw.text(position, text, font=font(size, strong, emphasis), fill=fill, anchor=anchor, **options)
+        return
+    x, y = position
+    if anchor == "la":
+        y += font(size, strong, emphasis).getmetrics()[0]
+    for path, piece in runs:
+        selected_font = run_font(path, size, strong, emphasis)
+        draw.text((x, y), piece, font=selected_font, fill=fill, anchor="ls", **options)
+        x += draw.textlength(piece, font=selected_font)
+
+def wrapped_lines(draw, paragraph, size, max_width):
+    """The lines of one paragraph wrapped at spaces; a word of a script the main face lacks that is wider than the line is broken between characters, since those scripts are written without spaces."""
+    line = ""
+    for word in paragraph.split(" "):
+        chunks = [word]
+        if word and any(path for path, _ in face_runs(word)) and text_width(draw, word, size) > max_width:
+            chunks = split_to_width(word, max_width, lambda part: text_width(draw, part, size))
+        if len(chunks) > 1:
+            if line:
+                yield line
+            yield from chunks[:-1]
+            line = chunks[-1]
+            continue
+        candidate = line + (" " if line else "") + word
+        if text_width(draw, candidate, size) <= max_width or not line:
+            line = candidate
+        else:
+            yield line
+            line = word
+    yield line
+
 def draw_text(draw, text, x, y, max_width, selected_font, fill, max_height):
+    size = getattr(selected_font, "size", 16)
     line_height = selected_font.getbbox("Ag")[3] + 5
     for paragraph in str(text).splitlines() or [""]:
-        words = paragraph.split(" ")
-        line = ""
-        for word in words:
-            candidate = line + (" " if line else "") + word
-            if draw.textlength(candidate, font=selected_font) <= max_width or not line:
-                line = candidate
-            else:
-                draw.text((x, y), line, fill=fill, font=selected_font)
-                y += line_height
-                if y + line_height > max_height:
-                    return
-                line = word
-        draw.text((x, y), line, fill=fill, font=selected_font)
-        y += line_height
-        if y + line_height > max_height:
-            return
+        for line in wrapped_lines(draw, paragraph, size, max_width):
+            draw_run(draw, (x, y), line, size, False, False, fill, "la")
+            y += line_height
+            if y + line_height > max_height:
+                return
 
 def formatted_layout(item, width, height, size):
     measurement = ImageDraw.Draw(Image.new("RGBA", (1, 1)))
     def measure(text, selected_size, run):
-        return measurement.textlength(text, font=font(selected_size, run["strong"], run["emphasis"]))
+        return text_width(measurement, text, selected_size, run["strong"], run["emphasis"])
     return layout_text(parse_text(item.get("text", ""), item.get("data", {}).get("text_format", "plain")), size, max(1, width), max(0, height), measure)
 
 def draw_formatted(draw, item, x, y, width, height, size, fill):
     for line in formatted_layout(item, width, height, size):
         for run in line["runs"]:
-            selected_font = font(line["size"], run["strong"], run["emphasis"])
             position = (x + run["x"], y + line["y"] + line["size"])
-            draw.text(position, run["text"], font=selected_font, fill=fill, anchor="ls")
+            draw_run(draw, position, run["text"], line["size"], run["strong"], run["emphasis"], fill)
             if run.get("href"):
                 draw.line((position[0], position[1] + 2, position[0] + run["width"], position[1] + 2), fill=fill, width=1)
 
@@ -311,7 +364,7 @@ def png_export(board):
     for frame, name in group_frames(board):
         draw.rounded_rectangle(((frame["x"] - 12 - left) * scale, (frame["y"] - 12 - top) * scale, (frame["x"] + frame["width"] + 12 - left) * scale, (frame["y"] + frame["height"] + 12 - top) * scale), radius=max(1, round(12 * scale)), outline="#8c8a90", width=max(1, round(1.5 * scale)))
         if name:
-            draw.text(((frame["x"] - 12 - left) * scale, (frame["y"] - 34 - top) * scale), name, fill="#a4a4a4", font=font(max(6, round(13 * scale)), True))
+            draw_run(draw, ((frame["x"] - 12 - left) * scale, (frame["y"] - 34 - top) * scale), name, max(6, round(13 * scale)), True, False, "#a4a4a4", "la")
     for connection in board.get("connections", []):
         source, target = endpoint_box(board["items"], connection["from"]), endpoint_box(board["items"], connection["to"])
         if not source or not target or source.get("hidden") or target.get("hidden"):
@@ -327,7 +380,7 @@ def png_export(board):
         for triangle in triangles:
             draw.polygon([((x - left) * scale, (y - top) * scale) for x, y in triangle], fill=stroke)
         if connection.get("label"):
-            draw.text((((ax + tx) / 2 - left) * scale, ((ay + ty) / 2 - top) * scale - 8 * scale), connection["label"], font=font(11 * scale), fill="#a4a4a4", anchor="ls", stroke_width=max(1, round(5 * scale / 2)), stroke_fill=color(board.get("background"), "#1c1b1d"))
+            draw_run(draw, (((ax + tx) / 2 - left) * scale, ((ay + ty) / 2 - top) * scale - 8 * scale), connection["label"], 11 * scale, False, False, "#a4a4a4", stroke_width=max(1, round(5 * scale / 2)), stroke_fill=color(board.get("background"), "#1c1b1d"))
     for item in sorted(board["items"], key=lambda entry: entry["z"]):
         if item.get("hidden") or item.get("opacity", 1) <= 0:
             continue
@@ -464,8 +517,12 @@ def svg_export(board, picture=png_data_uri):
             text = svg_element(group, "text", {"x": 14, "y": 14 + size, "fill": ink(item), "font-size": size, "font-family": "sans-serif"})
             max_chars = max(1, round((width - 28) / (size * 0.58)))
             lines = []
+            measurement = ImageDraw.Draw(Image.new("RGBA", (1, 1)))
             for line in title.splitlines():
-                lines.extend(textwrap.wrap(line, max_chars) or [""])
+                if any(path for path, _ in face_runs(line)):
+                    lines.extend(wrapped_lines(measurement, line, size, width - 28))
+                else:
+                    lines.extend(textwrap.wrap(line, max_chars) or [""])
             for index, line in enumerate(lines[:max(1, int((height - 28) / (size * 1.4)))]):
                 svg_element(text, "tspan", {"x": 14, "dy": 0 if index == 0 else size * 1.4}, line)
     return ET.tostring(root, encoding="utf-8", xml_declaration=True)
