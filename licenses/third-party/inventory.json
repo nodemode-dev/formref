@@ -82,6 +82,14 @@
     ]
   },
   {
+    "name": "flatbuffers",
+    "version": "25.12.19",
+    "license": "Apache-2.0",
+    "license_files": [
+      "python/flatbuffers/LICENSE"
+    ]
+  },
+  {
     "name": "fonttools",
     "version": "4.68.0",
     "license": "MIT",
@@ -154,6 +162,39 @@
     ]
   },
   {
+    "name": "numpy",
+    "version": "2.5.4",
+    "license": "BSD-3-Clause AND 0BSD AND MIT AND Zlib AND CC0-1.0; wheel also bundles OpenBLAS (BSD-3-Clause), LAPACK (BSD-3-Clause-Open-MPI), libgfortran (GPL-3.0-or-later WITH GCC-exception-3.1) and libquadmath (LGPL-2.1-or-later)",
+    "license_files": [
+      "python/numpy/LICENSE.txt",
+      "python/numpy/numpy/_core/include/numpy/libdivide/LICENSE.txt",
+      "python/numpy/numpy/_core/src/common/pythoncapi-compat/COPYING",
+      "python/numpy/numpy/_core/src/highway/LICENSE",
+      "python/numpy/numpy/_core/src/multiarray/dragon4_LICENSE.txt",
+      "python/numpy/numpy/_core/src/npysort/x86-simd-sort/LICENSE.md",
+      "python/numpy/numpy/_core/src/umath/svml/LICENSE",
+      "python/numpy/numpy/fft/pocketfft/LICENSE.md",
+      "python/numpy/numpy/linalg/lapack_lite/LICENSE.txt",
+      "python/numpy/numpy/ma/LICENSE",
+      "python/numpy/numpy/random/LICENSE.md",
+      "python/numpy/numpy/random/src/distributions/LICENSE.md",
+      "python/numpy/numpy/random/src/mt19937/LICENSE.md",
+      "python/numpy/numpy/random/src/pcg64/LICENSE.md",
+      "python/numpy/numpy/random/src/philox/LICENSE.md",
+      "python/numpy/numpy/random/src/sfc64/LICENSE.md",
+      "python/numpy/numpy/random/src/splitmix64/LICENSE.md"
+    ]
+  },
+  {
+    "name": "onnxruntime",
+    "version": "1.31.0",
+    "license": "MIT",
+    "license_files": [
+      "python/onnxruntime/LICENSE",
+      "python/onnxruntime/ThirdPartyNotices.txt"
+    ]
+  },
+  {
     "name": "opentelemetry-api",
     "version": "1.45.1",
     "license": "Apache-2.0",
@@ -162,11 +203,37 @@
     ]
   },
   {
+    "name": "packaging",
+    "version": "26.3",
+    "license": "Apache-2.0 OR BSD-2-Clause",
+    "license_files": [
+      "python/packaging/LICENSE",
+      "python/packaging/LICENSE.APACHE",
+      "python/packaging/LICENSE.BSD"
+    ]
+  },
+  {
     "name": "pillow",
     "version": "12.3.0",
     "license": "MIT-CMU",
     "license_files": [
       "python/pillow/LICENSE"
+    ]
+  },
+  {
+    "name": "protobuf",
+    "version": "7.36.2",
+    "license": "BSD-3-Clause",
+    "license_files": [
+      "python/protobuf/LICENSE"
+    ]
+  },
+  {
+    "name": "ptyprocess",
+    "version": "0.7.0",
+    "license": "ISC",
+    "license_files": [
+      "python/ptyprocess/LICENSE"
     ]
   },
   {
@@ -202,12 +269,45 @@
     ]
   },
   {
+    "name": "pyinstaller",
+    "version": "6.22.3",
+    "license": "GPL-2.0-or-later with the Bootloader exception (bootloader embedded in the frozen engine); runtime hooks Apache-2.0",
+    "license_files": [
+      "python/pyinstaller/COPYING.txt"
+    ]
+  },
+  {
     "name": "PyJWT",
     "version": "2.15.1",
     "license": "MIT",
     "license_files": [
       "python/PyJWT/AUTHORS.rst",
       "python/PyJWT/LICENSE"
+    ]
+  },
+  {
+    "name": "pypdfium2",
+    "version": "5.14.0",
+    "license": "Apache-2.0 OR BSD-3-Clause; bundled PDFium BSD-3-Clause and its build-time libraries (abseil, AGG, fast_float, FreeType, ICU, Little CMS, libjpeg-turbo, OpenJPEG, libpng, LLVM libc, simdutf, zlib); documentation and data CC-BY-4.0",
+    "license_files": [
+      "python/pypdfium2/Apache-2.0.txt",
+      "python/pypdfium2/BSD-3-Clause.txt",
+      "python/pypdfium2/CC-BY-4.0.txt",
+      "python/pypdfium2/BUILD_LICENSES/abseil.txt",
+      "python/pypdfium2/BUILD_LICENSES/agg23.txt",
+      "python/pypdfium2/BUILD_LICENSES/fast_float.txt",
+      "python/pypdfium2/BUILD_LICENSES/freetype.txt",
+      "python/pypdfium2/BUILD_LICENSES/icu.txt",
+      "python/pypdfium2/BUILD_LICENSES/lcms.txt",
+      "python/pypdfium2/BUILD_LICENSES/libjpeg_turbo.ijg",
+      "python/pypdfium2/BUILD_LICENSES/libjpeg_turbo.md",
+      "python/pypdfium2/BUILD_LICENSES/libopenjpeg.txt",
+      "python/pypdfium2/BUILD_LICENSES/libpng.txt",
+      "python/pypdfium2/BUILD_LICENSES/llvm-libc.txt",
+      "python/pypdfium2/BUILD_LICENSES/pdfium-binaries.txt",
+      "python/pypdfium2/BUILD_LICENSES/pdfium.txt",
+      "python/pypdfium2/BUILD_LICENSES/simdutf.txt",
+      "python/pypdfium2/BUILD_LICENSES/zlib.txt"
     ]
   },
   {
@@ -224,6 +324,31 @@
     "license": "Apache-2.0",
     "license_files": [
       "python/python-multipart/LICENSE.txt"
+    ]
+  },
+  {
+    "name": "pywin32",
+    "version": "312",
+    "license": "PSF with BSD-style notices per component (Windows only, installed as a dependency of mcp; the version is the newest wheel that satisfies mcp's pywin32>=310 on the day it was fetched)",
+    "license_files": [
+      "python/pywin32/adodbapi/license.txt",
+      "python/pywin32/com/License.txt",
+      "python/pywin32/com/win32comext/mapi/src/MAPIStubLibrary/LICENSE",
+      "python/pywin32/isapi/README.txt",
+      "python/pywin32/pythonwin/License.txt",
+      "python/pywin32/pythonwin/Scintilla/License.txt",
+      "python/pywin32/pythonwin/pywin/idle/LICENSE.txt",
+      "python/pywin32/win32/License.txt"
+    ]
+  },
+  {
+    "name": "pywinpty",
+    "version": "3.0.5",
+    "license": "MIT; Windows wheel also bundles winpty (MIT) and the Windows Terminal ConPTY (conpty.dll, OpenConsole.exe, MIT)",
+    "license_files": [
+      "python/pywinpty/LICENSE.txt",
+      "python/pywinpty/winpty-LICENSE",
+      "python/pywinpty/terminal-LICENSE"
     ]
   },
   {
@@ -294,6 +419,14 @@
     ]
   },
   {
+    "name": "websockets",
+    "version": "15.0.1",
+    "license": "BSD-3-Clause",
+    "license_files": [
+      "python/websockets/LICENSE"
+    ]
+  },
+  {
     "name": "@oxc-project/types",
     "version": "0.153.0",
     "license": "MIT",
@@ -343,6 +476,22 @@
     "license_files": [
       "node/@typescript_typescript-linux-x64/NOTICE.txt",
       "node/@typescript_typescript-linux-x64/LICENSE"
+    ]
+  },
+  {
+    "name": "@xterm/addon-fit",
+    "version": "0.11.0",
+    "license": "MIT",
+    "license_files": [
+      "node/@xterm_addon-fit/LICENSE"
+    ]
+  },
+  {
+    "name": "@xterm/xterm",
+    "version": "6.0.0",
+    "license": "MIT",
+    "license_files": [
+      "node/@xterm_xterm/LICENSE"
     ]
   },
   {
@@ -410,11 +559,27 @@
     ]
   },
   {
+    "name": "polygon-clipping",
+    "version": "0.15.7",
+    "license": "MIT",
+    "license_files": [
+      "node/polygon-clipping/LICENSE.md"
+    ]
+  },
+  {
     "name": "postcss",
     "version": "8.5.29",
     "license": "MIT",
     "license_files": [
       "node/postcss/LICENSE"
+    ]
+  },
+  {
+    "name": "robust-predicates",
+    "version": "3.0.3",
+    "license": "Unlicense",
+    "license_files": [
+      "node/robust-predicates/LICENSE"
     ]
   },
   {
@@ -431,6 +596,14 @@
     "license": "BSD-3-Clause",
     "license_files": [
       "node/source-map-js/LICENSE"
+    ]
+  },
+  {
+    "name": "splaytree",
+    "version": "3.2.3",
+    "license": "MIT",
+    "license_files": [
+      "node/splaytree/LICENSE"
     ]
   },
   {

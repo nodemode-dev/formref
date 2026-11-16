@@ -45,13 +45,14 @@ FormRef's original source and vector artwork are Apache-2.0. The repository's fu
 | Pillow | 12.3.0 | MIT-CMU and bundled library notices | Local media processing |
 | resvg-py | 0.5.0 | MIT; bundled resvg and usvg 0.48.1 Apache-2.0 OR MIT, tiny-skia 0.12.0 BSD-3-Clause, other compiled Rust crates MIT, Apache-2.0, BSD-2-Clause, Zlib or Unlicense OR MIT (listed in the wheel's CycloneDX SBOM) | Server-side rasterization of SVG pictures for exports and colour sampling; no system library |
 | defusedxml | 0.7.1 | PSF-2.0 | Safe XML parsing |
-| onnxruntime | 1.31.0 | MIT | Background model inference |
-| numpy | 2.5.4 | BSD-3-Clause | Background model tensors |
+| onnxruntime | 1.31.0 | MIT; its wheel's `ThirdPartyNotices.txt` lists the bundled libraries (retained with the licence texts); depends on flatbuffers 25.12.19 (Apache-2.0), protobuf 7.36.2 (BSD-3-Clause) and packaging 26.3 (Apache-2.0 OR BSD-2-Clause) | Background model inference |
+| numpy | 2.5.4 | BSD-3-Clause AND 0BSD AND MIT AND Zlib AND CC0-1.0; the Linux wheel also bundles OpenBLAS (BSD-3-Clause), LAPACK (BSD-3-Clause-Open-MPI), libgfortran (GPL-3.0-or-later with the GCC runtime library exception) and libquadmath (LGPL-2.1-or-later), all texts in its `LICENSE.txt` | Background model tensors |
 | websockets | 15.0.1 | BSD-3-Clause | Uvicorn WebSocket support for the terminal dock |
 | pypdfium2 | 5.14.0 | Apache-2.0 or BSD-3-Clause; bundled PDFium BSD-3-Clause | Server-side rendering of PDF pages into image references, and drawing the PDF exports (board and single document) |
 | fontTools | 4.68.0 | MIT | Subsets the system fonts embedded in PDF exports; its wheel ships no font files |
 | ptyprocess | 0.7.0 | ISC | Terminal dock pseudo-terminals on macOS and Linux |
-| pywinpty | 3.0.5 | MIT | Terminal dock pseudo-terminals on Windows (ConPTY) |
+| pywinpty | 3.0.5 | MIT; the Windows wheel also bundles winpty (MIT) and the Windows Terminal ConPTY, `conpty.dll` and `OpenConsole.exe` (MIT) | Terminal dock pseudo-terminals on Windows (ConPTY) |
+| PyInstaller | 6.22.3 | GPL-2.0-or-later with the Bootloader exception (its bootloader is embedded in the frozen engine; the exception allows distributing it with any program) | Build-time only: freezes the desktop engine (`backend/requirements_desktop.txt`) |
 | @xterm/xterm | 6.0.0 | MIT | Terminal dock rendering in the window |
 | @xterm/addon-fit | 0.11.0 | MIT | Terminal dock sizing |
 | polygon-clipping | 0.15.7 | MIT | Pathfinder shape modes |
