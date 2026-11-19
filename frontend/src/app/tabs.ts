@@ -1,4 +1,5 @@
 import { icon } from '../ui/icons';
+import { keyHeaders } from '../lib/window-key';
 import { $, S, error, leaveBoard, onState, open, start } from './editor';
 
 const strip = $('board-tabs');
@@ -13,7 +14,7 @@ function persist() {
     const active = S.state?.board.id || '';
     void fetch('/api/session', {
       method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', ...keyHeaders() },
       body: JSON.stringify({ open: order, active: order.includes(active) ? active : '' }),
     }).catch(() => undefined);
   }, 300);

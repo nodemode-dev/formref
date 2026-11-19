@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Request
 from fastapi.responses import JSONResponse
 
-from ..core import clipper
+from ..core import clipper, window_key
 
 router = APIRouter(prefix="/api/clip")
 
@@ -14,12 +14,14 @@ def refused():
 
 # Token routes serve FormRef's own page only: the middleware refuses extension origins on them.
 @router.get("/token")
-def get_token():
+def get_token(request: Request):
+    window_key.require(request)
     return {"token": clipper.token()}
 
 
 @router.post("/token/reset")
-def reset_token():
+def reset_token(request: Request):
+    window_key.require(request)
     return {"token": clipper.token(reset=True)}
 
 

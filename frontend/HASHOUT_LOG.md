@@ -8,6 +8,13 @@
 - [Stacking scale](#stacking-scale)
 - [Verification](#verification)
 - [Scripts](#scripts)
+- [Unreleased · The page holds the window key](#unreleased--the-page-holds-the-window-key)
+- [Unreleased · A reload tries the kept key first](#unreleased--a-reload-tries-the-kept-key-first)
+- [Unreleased · A reset agent choice is told once](#unreleased--a-reset-agent-choice-is-told-once)
+- [Unreleased · Ctrl+J is the terminal dock](#unreleased--ctrlj-is-the-terminal-dock)
+- [Unreleased · AMOLED Black](#unreleased--amoled-black)
+- [Unreleased · Two engine messages in every table](#unreleased--two-engine-messages-in-every-table)
+- [Unreleased · The terminal panel is the family's shared dock, module 2.1.0](#unreleased--the-terminal-panel-is-the-familys-shared-dock-module-210)
 - [v0.39.2 · Connections, text cards, the tag cloud, tabs, Preferences at 390 px, the demo's first open and 59 untranslated strings](#v0392--connections-text-cards-the-tag-cloud-tabs-preferences-at-390-px-the-demos-first-open-and-59-untranslated-strings)
 - [v0.39.1 · The credits shown in the demo boards match the records](#v0391--the-credits-shown-in-the-demo-boards-match-the-records)
 - [v0.39.0 · The review pass: twenty-one bugs](#v0390--the-review-pass-twenty-one-bugs)
@@ -63,6 +70,81 @@
 - [v0.4.8 desktop window controls and WebKit icons](#v048-desktop-window-controls-and-webkit-icons)
 - [v0.4.7 synced notes, map cards, inline edit commit](#v047-synced-notes-map-cards-inline-edit-commit)
 - [v0.4.6 GIF frames and document export](#v046-gif-frames-and-document-export)
+
+## Unreleased · The page holds the window key
+
+- refers-to: `src/lib/window-key.ts` (new) :: keyHeaders, windowKey, streamTicket; `src/lib/api.ts` :: request; `src/ui/terminal-dock.ts` :: call, connect; `src/ui/chat-pane.ts` :: call, connect, open; `src/ui/panels/agent.ts`; `src/app/catalogue.ts`; `src/app/practice.ts`; `src/app/bindings.ts`; `src/app/demos.ts`; `src/app/saved-search.ts`; `src/app/tabs.ts`
+
+The module takes the key once at boot with a top-level await, so every module that imports it evaluates after the key is known and no request can leave without it: the packaged shell's global `__FORMREF_WINDOW_KEY` first (read once, then deleted), then the development bootstrap `POST /api/window/key`, remembered in `sessionStorage` so a reload of the same tab keeps working. `request` in `lib/api.ts` and every raw `fetch` that writes, or reads the Claude Code state or the command long poll, adds `keyHeaders()`. The terminal socket sends the key as its first message. The Chat event stream asks for a one-time ticket and reopens with a new one if the stream closes. Plain reads (boards, assets, previews, settings, practice log, session, saved searches) and the board revision stream send nothing extra. No element is created, moved or re-rendered by this: in the packaged app there is no extra request at all, in development one small POST before the first module runs.
+
+## Unreleased · A reload tries the kept key first
+
+- refers-to: `src/lib/window-key.ts` :: loadWindowKey
+
+In development every reload used to ask `POST /api/window/key` again, which the engine refuses (409) and logs as a second claim that never happened. `loadWindowKey` now takes the packaged global first, then the key kept in `sessionStorage`, proving it with one `POST /api/window/ticket` (a ticket nobody uses), and asks the bootstrap route only when the kept key is refused (an engine that was restarted). The top-level `await loadWindowKey()` moved to the end of the module: `streamTicket` calls `keyHeaders`, a `const` declared further down, so with the await above it the check threw before it sent anything, was swallowed, and the bootstrap was asked every time. Seen in headless Chrome against a fresh engine: load, one bootstrap (200); two reloads, no bootstrap and one ticket each (200); every write after each reload 200 or 201; after an engine restart the kept key got 403 on the ticket and the bootstrap answered 200 once.
+
+## Unreleased · A reset agent choice is told once
+
+- refers-to: `src/ui/panels/agent.ts` :: load, setStatus
+
+When the engine reports `seal_broken` in the agent settings (the stored choice for outside agents or the Claude program was changed outside the app and has been put back to Ask), `load` writes one sentence into `#agent-status`: "The saved agent permission was changed outside FormRef, so it is back to Ask." That line already holds two lines of height (`.agent-status` has a `min-height`), so nothing moves, and it is set through `setStatus`, which writes only when the text differs. A later turn replaces it with the turn's own status, as that line always does. The string is in every complete language table.
+
+## Unreleased · Ctrl+J is the terminal dock
+
+- refers-to: `src/ui/panels/agent.ts` :: the waiting-for-an-answer notice; `src/lib/i18n/tables/*.json` (23 tables); `.docs/wiki/Agent.md`; `.docs/wiki/Shell.md`
+
+Ctrl+J (Cmd+J on macOS) shows and hides the terminal dock, as in the other Form apps; `src/app/terminal.ts` binds it and the binding is unchanged. The Agent panel has no key of its own (the title-bar button and Ask Agent open it). Two wiki pages and the notice shown when an agent waits for an answer while the panel is out of sight said Ctrl+J opened the Agent panel. The notice now ends at "Agent panel." and each table holds the same sentence without the key: the English text is the table key, so the key and the value were edited together in each of the 23 tables, one entry at a time. es-MX and fr-CA do not carry the string and fall back to es and fr.
+
+## Unreleased · AMOLED Black
+
+- refers-to: `src/styles/tokens.css` :: `:root[data-theme="amoled"]`, `:root[data-oled]`; `src/styles/prefs.css` :: `.prefs-group`; `index.html` :: the head script, the first style, `#theme-select`; `src/app/bindings.ts` :: the `theme-select` handler; `src/lib/i18n/tables/*.json` (23 tables)
+
+FormRef's themes are `:root[data-theme]` token blocks, not a profile table, so the family theme is one more block: `amoled` sets the window, panels, nodes and canvas to `#000000`, inputs and menus (`--bg-tertiary`) to `#141414`, borders to `#262626` and `#3a3a3a`, text to `#ededed`, `#a6a6a6` and `#858585`, and leaves the accent alone. `--grid-color` is `#777777`: the board draws its dots at 32% of that colour, which is `#262626` on black, a dot 38 levels above the board where Studio Dark's dot is 21 above its `#1c1b1d`, so the grid reads as it does elsewhere without lighting a large area. The hover tint goes from 5% to 10% white through `:root[data-oled]`; FormRef has no `--border-soft` token, so that half of the family rule has nothing to set.
+
+The flag is `data-oled` beside `data-theme`, never the theme id, so another OLED block only needs the flag. The head script sets it from the saved theme before first paint and the first style paints `html` and `body` black for it, because the stylesheets arrive after the page under a slow network and the default `#0a0a0a` would show. The picker handler sets and removes it only when it changes. Measured on the start screen, an open board, the Agent panel, the terminal dock and Preferences (every element over 6,000 square pixels with a fill or an image): the board, side panels, title bar, toolbar, status bar, Agent panel and dock are already `#000000`; the one large surface that was not is `.prefs-group` (a mix of 55% `--bg-tertiary` into `--bg-secondary`, which came out `#0b0b0b`), so under `data-oled` it takes `--bg-secondary` and an inset 1px `--border-color` ring in place of its shadow, which keeps its size. The Browser clipper section is a `.prefs-group`. Left as they are because they are content or accent: images and notes on the board, the accent tint of the selected board row and of the start screen banner, the active Preferences tab. The theme name is in the 23 complete tables, one entry each after High Contrast; es-MX and fr-CA fall back.
+
+## Unreleased · Two engine messages in every table
+
+- refers-to: `src/lib/i18n/tables/*.json` (23 complete tables) :: "Another window already holds this engine's window key; use that window, or restart FormRef.", "Not Found"; `scripts/i18n_check.py`
+
+`i18n_check.py` had reported the same two keys missing in every complete table, before and through this program: the 409 text of `POST /api/window/key` (`backend/app/routers/window.py`, read by the checker because it sits in a `detail=` string) and the 404 `Not Found` of the same route when the engine hands the key over on its output instead. Only the development page calls that route and `src/lib/window-key.ts` reads no `detail` from it, so a person is unlikely to see either text today; the tables are meant to be complete for backend text the page could show, and the check now passes under `--strict`. Both are in the 23 complete tables now, each in its alphabetical place among its neighbours ("Another window" after "An outside agent wants to edit", "Not Found" before "Not now"), one entry per file; es-MX and fr-CA are partial and fall back. Wording follows each table's own words for window ("Fenster", "ウィンドウ", "창"), engine and restart, and its register for commands (the same one as the Claude Code install message). `i18n_check.py --strict` now exits 0 and reports missing 0 in every table. A native read of hu, th, vi, fi, tr, uk, ru, ja, ko and zh-Hant is advised.
+
+## Unreleased · The terminal panel is the family's shared dock, module 2.1.0
+
+- refers-to: `src/dock/` (15 files, byte for byte from FormVis `8bbdf61b`, never edited here); `src/dock-adapter.ts`; `src/styles/dock-tokens.css`; `src/styles/dock-layout.css`; `src/styles/chat.css` (was `styles/dock.css`); `src/app/terminal.ts`; `src/app/editor.ts` :: `consent`; `src/main.ts`; `index.html` :: the head script, the stylesheet links; `src/lib/i18n.ts` :: `SKIP`; `scripts/i18n_check.py`; `src/ui/chat-pane.ts`; `src/app/direct-select.ts`
+
+What changed for a person. The panel can sit at the right of the canvas as well as under it (only in a window 1100 px wide or more), it remembers whether it was open, Codex and Cursor have tabs when they are installed, there is a short guide the first time, and a terminal follows a theme change at once. The question about an outside agent is the family's dialog: it names the program and what it asked, and it opens above any FormRef dialog with focus.
+
+What did not change. Ctrl+J (Cmd+J on macOS) shows and hides the panel, Ctrl+Shift+J opens Claude Code and Ctrl+Alt+J opens Chat, all three still commands in the registry, so the menus, the macOS menu bar and a person's own bindings work as before. `comboOf` reads Ctrl or Cmd as `mod` on every platform, so from the canvas Ctrl+J and Cmd+J both toggle on macOS and elsewhere, as they did. From inside a terminal or the ask line only the platform's own modifier leaves the dock (Cmd on macOS, Ctrl elsewhere), so on macOS Ctrl+J typed into a shell is still the shell's line feed: the old `isDockToggle` rule, now `passKey`. The adapter gives `isDockChord: () => false`: the module never toggles by itself, the app's key handler does, which is why a rebound key and the macOS menu bar cannot toggle twice. `passKey` lets through the keys bound to `terminal` and `claude-code` and nothing else; Ctrl+Alt+J from inside a terminal stays with the terminal, as before.
+
+Chat stays FormRef's own pane (`ui/chat-pane.ts`: Markdown replies, the pictures Claude looked at, "Select these items", the usage meter, "From Claude Code..."), given to the module as `chat: { pane, ask: 'line' }`. The module's ask line is the one input on Chat and the Claude Code line on every other tab; board and selection go with each ask, and the note under the person's bubble is kept.
+
+The outside-agent question is wired to what the engine does today, which is to refuse first: `offers` is Deny and "Always allow all outside agents", never "Allow once", and two notes say so ("FormRef refused this request.", "If you allow outside agents, the agent has to ask again."). Deny sends nothing and keeps the window quiet for 60 seconds, as "Not now" did. Always is the same `POST /api/agent/settings` the old dialog sent. Escape closes the question without answering. One question per agent name at a time. The hold-and-ask design in the engine report was not built here: nothing in the engine waits, so the dialog does not pretend to.
+
+Storage: `formref.dock` (no other FormRef key uses that name) holds open, side, height, width and tab. The old `formref-term-dock-h` (a CSS length such as `312px`) is read once by the adapter's own legacy reader and by the head script, then removed.
+
+Removed, because nothing uses it: `src/ui/terminal-dock.ts` (355 lines, `git show db10d5e:frontend/src/ui/terminal-dock.ts`), the terminal rules of `styles/dock.css` (its first 28 lines, `.term-dock*` and `.term-host`), and from `index.html` the `<section id="term-dock" class="term-dock" aria-label="Terminal" hidden>`, the `<dialog id="consent-dialog">` ("An outside agent wants to edit", "Not now", "Allow outside agents") and the two head-script lines that set `--term-dock-h`. From `main.ts`:
+
+```ts
+let consentDismissedAt = 0;
+consent.ask = () => {
+  const dialog = document.getElementById('consent-dialog') as HTMLDialogElement;
+  if (dialog.open || document.querySelector('dialog[open]') || Date.now() - consentDismissedAt < 60000) return;
+  dialog.showModal();
+};
+```
+
+and the two click handlers of that dialog. From `terminal-dock.ts`, the rule the adapter's `passKey` now carries:
+
+```ts
+export function isDockToggle(e: KeyboardEvent): boolean {
+  return (isMac ? e.metaKey : e.ctrlKey) && !e.altKey && e.code === 'KeyJ';
+}
+```
+
+Words. FormRef translates the page after the fact, so `t` returns English. The sentences the old dock already had in the 23 tables are reused where the adapter gives the old wording (the three tooltips with their keys, both ask placeholders, the Chat lead). The module's other sentences and the two notes show in English for now; no table was half filled. `i18n_check.py` skips `src/dock/` and `src/dock-adapter.ts` and still exits 0 under `--strict`; 15 more table entries count as unused.
+
+Seen in headless Chrome at 1440 by 900 against an engine from source with stand-in programs: the three captures before and after (closed 0 differing pixels in the dock and canvas; shell 1,893 and Chat 2,164 inside the dock box, all of them the module's own icons, four new buttons and tab details), every dock action, the question over the Help dialog, and under 4x CPU with a slow network and no cache one stage box in every frame of a cold load with the dock remembered at the bottom and at the right.
 
 ## v0.39.2 · Connections, text cards, the tag cloud, tabs, Preferences at 390 px, the demo's first open and 59 untranslated strings
 

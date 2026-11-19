@@ -14,7 +14,7 @@ MEDIA = {".png", ".jpg", ".jpeg", ".webp", ".gif", ".bmp", ".avif", ".svg", ".mp
 
 
 def call(method: str, path: str, body: bytes | None = None, headers: dict | None = None):
-    req = request.Request(API + path, data=body, method=method, headers=headers or {})
+    req = request.Request(API + path, data=body, method=method, headers={"X-FormRef-Client": "outside", **(headers or {})})
     try:
         with request.urlopen(req, timeout=120) as response:
             return json.loads(response.read() or b"null")
@@ -107,6 +107,12 @@ def import_folder(args: list[str]) -> None:
 
 
 REFERENCE = Path(__file__).resolve().parents[2] / ".claude" / "skills" / "formref-harness" / "references" / "commands.md"
+SKILLS = REFERENCE.parents[2]
+MIRROR = REFERENCE.parents[4] / ".agents" / "skills"
+
+
+def mirror_differences() -> list[Path]:
+    return [file for file in sorted(SKILLS.rglob("*")) if file.is_file() and (not (MIRROR / file.relative_to(SKILLS)).is_file() or (MIRROR / file.relative_to(SKILLS)).read_bytes() != file.read_bytes())]
 
 
 def command_reference(catalogue: dict) -> str:
@@ -138,20 +144,44 @@ def command_reference(catalogue: dict) -> str:
 def agents_sync(args: list[str]) -> None:
     if not args or args[0] != "sync":
         raise SystemExit("Usage: ./formref agents sync [--check]")
+    from . import agent_manifest
     from .core.config import settings
+    checking = "--check" in args
+    wrong = agent_manifest.dock_problems()
+    if wrong:
+        raise SystemExit("formref: " + "; ".join(wrong))
+    manifest_text = agent_manifest.text()
+    manifest_held = agent_manifest.PATH.read_text(encoding="utf-8") if agent_manifest.PATH.is_file() else ""
+    manifest_name = agent_manifest.PATH.relative_to(agent_manifest.ROOT)
+    if checking and manifest_held != manifest_text:
+        raise SystemExit(f"formref: {manifest_name} is out of date; run ./formref agents sync.")
+    if not checking:
+        agent_manifest.PATH.parent.mkdir(parents=True, exist_ok=True)
+        agent_manifest.PATH.write_text(manifest_text, encoding="utf-8")
+        print(f"{'Updated' if manifest_held != manifest_text else 'Unchanged'}: {manifest_name}.")
     source = settings.data_dir / "commands-catalogue.json"
-    if not source.is_file():
-        raise SystemExit(f"formref: no command catalogue yet at {source}. Open FormRef once (./formref dev) so the window can publish it, then run this again.")
-    text = command_reference(json.loads(source.read_text(encoding="utf-8")))
+    text = command_reference(json.loads(source.read_text(encoding="utf-8"))) if source.is_file() else None
+    if text is None:
+        print(f"formref: no command catalogue yet at {source}, so the command reference was not {'checked' if checking else 'written'}. Open FormRef once (./formref dev) so the window can publish it, then run this again.", file=sys.stderr)
     current = REFERENCE.read_text(encoding="utf-8") if REFERENCE.is_file() else ""
-    if "--check" in args:
-        if current != text:
+    if checking:
+        if text is not None and current != text:
             raise SystemExit(f"formref: {REFERENCE.relative_to(REFERENCE.parents[4])} is out of date; run ./formref agents sync.")
-        print("Command reference is up to date.")
+        stale = mirror_differences()
+        if stale:
+            raise SystemExit(f"formref: {len(stale)} files in .agents/skills differ from .claude/skills; run ./formref agents sync.")
+        print("Agent manifest, command reference and .agents/skills are up to date." if text is not None else "Agent manifest and .agents/skills are up to date.")
         return
-    REFERENCE.parent.mkdir(parents=True, exist_ok=True)
-    REFERENCE.write_text(text, encoding="utf-8")
-    print(f"{'Updated' if current != text else 'Unchanged'}: {REFERENCE.relative_to(REFERENCE.parents[4])} ({text.count(chr(10) + '| `')} commands).")
+    if text is not None:
+        REFERENCE.parent.mkdir(parents=True, exist_ok=True)
+        REFERENCE.write_text(text, encoding="utf-8")
+        print(f"{'Updated' if current != text else 'Unchanged'}: {REFERENCE.relative_to(REFERENCE.parents[4])} ({text.count(chr(10) + '| `')} commands).")
+    stale = mirror_differences()
+    for file in stale:
+        target = MIRROR / file.relative_to(SKILLS)
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_bytes(file.read_bytes())
+    print(f"Mirrored {len(stale)} files from .claude/skills to .agents/skills.")
 
 
 if __name__ == "__main__":

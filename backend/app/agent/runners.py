@@ -110,9 +110,9 @@ def mcp_server(token: str, api_url: str) -> dict:
             "env": {"FORMREF_API_URL": api_url, "FORMREF_AGENT_TOKEN": token, "PYTHONPATH": str(ROOT / "backend")}}
 
 
-def argv(runner: str, binary: str, prompt: str, token: str, api_url: str, model: str = "") -> list[str]:
+def argv(runner: str, binary: str, prompt: str, token: str, api_url: str, model: str = "", mcp_file: str = "") -> list[str]:
     if runner == "claude":
-        config = json.dumps({"mcpServers": {"formref": mcp_server(token, api_url)}})
+        config = mcp_file or json.dumps({"mcpServers": {"formref": mcp_server(token, api_url)}})
         args = [binary, "-p", prompt, "--output-format", "stream-json", "--verbose", "--mcp-config", config,
                 "--strict-mcp-config", "--tools", "", "--allowedTools", "mcp__formref", "--append-system-prompt", SYSTEM]
         return args + (["--model", model] if model else [])

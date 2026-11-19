@@ -1,0 +1,14 @@
+:root { --ft-dock-size: 280px; --ft-dock-wsize: 420px; --ft-dock-h: 0px; --ft-dock-w: 0px; }
+:root[data-ft-dock="open"]:not([data-ft-dock-side="right"]) { --ft-dock-h: min(var(--ft-dock-size), 75vh); }
+:root[data-ft-dock="open"][data-ft-dock-side="right"] { --ft-dock-w: min(var(--ft-dock-wsize), 40vw); }
+.editor { grid-template-rows: var(--toolbar-h) minmax(0, 1fr) var(--ft-dock-h) var(--status-h); grid-template-columns: minmax(0, 1fr) var(--ft-dock-w); }
+.editor > * { grid-column: 1 / -1; }
+.editor > .toolbar { grid-row: 1; }
+.editor > .stage { grid-row: 2; }
+.editor > .ft-dock { grid-row: 3; z-index: var(--z-chrome); }
+.editor > .statusbar { grid-row: 4; }
+:root[data-ft-dock-side="right"] .editor > .stage { grid-column: 1; }
+:root[data-ft-dock-side="right"] .editor > .ft-dock { grid-row: 2; grid-column: 2; }
+.app.presenting { --ft-dock-h: 0px; --ft-dock-w: 0px; }
+.app.presenting .ft-dock { display: none; }
+.ft-dock-ask input { font-size: 11px; }

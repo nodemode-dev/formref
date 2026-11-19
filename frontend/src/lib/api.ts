@@ -1,7 +1,8 @@
 import type { Asset, Command, State, Summary } from './types';
+import { keyHeaders } from './window-key';
 const base = (import.meta as unknown as { env: Record<string, string> }).env.VITE_API_BASE || '';
 export async function request<T>(path: string, init: RequestInit = {}): Promise<T> {
-  const response = await fetch(`${base}/api${path}`, { ...init, headers: init.body instanceof FormData ? init.headers : { 'Content-Type': 'application/json', ...init.headers } });
+  const response = await fetch(`${base}/api${path}`, { ...init, headers: init.body instanceof FormData ? { ...init.headers, ...keyHeaders() } : { 'Content-Type': 'application/json', ...init.headers, ...keyHeaders() } });
   if (!response.ok) {
     const body = await response.json().catch(() => ({}));
     throw new Error(typeof body.detail === 'string' ? body.detail : `Request failed (${response.status})`);

@@ -11,7 +11,7 @@
 </p>
 
 <p align="center">
-  <img alt="version 0.39.2" src="https://img.shields.io/badge/version-v0.39.2-eef0f4?style=flat-square">
+  <img alt="version 0.41.0" src="https://img.shields.io/badge/version-v0.41.0-eef0f4?style=flat-square">
   <img alt="Rust engine" src="https://img.shields.io/badge/Rust%20engine-b7410e?style=flat-square&logo=rust&logoColor=white">
   <img alt="TypeScript and FastAPI" src="https://img.shields.io/badge/TypeScript%20%2B%20FastAPI-3178c6?style=flat-square&logo=typescript&logoColor=white">
   <img alt="macOS, Windows, Linux" src="https://img.shields.io/badge/macOS%20%C2%B7%20Windows%20%C2%B7%20Linux-native-2f7bf5?style=flat-square">
@@ -100,7 +100,7 @@
 ./formref mcp                                                    # MCP server on stdio for Claude Code, Codex and Cursor
 ```
 
-`.mcp.json`, `.codex/config.toml` and `.cursor/mcp.json` are already wired in this repo, and the server also answers on `http://127.0.0.1:8320/mcp`. Outside agents are refused until you allow them in the Agent panel. See [`AGENTS.md`](AGENTS.md).
+`.mcp.json`, `.codex/config.toml` and `.cursor/mcp.json` are already wired in this repo, and the server also answers on `http://127.0.0.1:8320/mcp`. Outside agents are refused until you allow them in the Agent panel, and the commands above count as one: with the choice at its default, `./formref import` and `./formref open` stop with `outside_agents_off`, so allow outside agents in FormRef first (the window asks the first time one is refused). Only the FormRef window can change that choice. See [`AGENTS.md`](AGENTS.md).
 
 ## Under the hood
 

@@ -50,6 +50,7 @@ FormRef's original source and vector artwork are Apache-2.0. The repository's fu
 | websockets | 15.0.1 | BSD-3-Clause | Uvicorn WebSocket support for the terminal dock |
 | pypdfium2 | 5.14.0 | Apache-2.0 or BSD-3-Clause; bundled PDFium BSD-3-Clause | Server-side rendering of PDF pages into image references, and drawing the PDF exports (board and single document) |
 | fontTools | 4.68.0 | MIT | Subsets the system fonts embedded in PDF exports; its wheel ships no font files |
+| keyring | 25.7.0 | MIT | Keeps the key that protects the stored agent access choice in the operating system's keychain; without a keychain FormRef runs and reports the protection as unavailable |
 | ptyprocess | 0.7.0 | ISC | Terminal dock pseudo-terminals on macOS and Linux |
 | pywinpty | 3.0.5 | MIT; the Windows wheel also bundles winpty (MIT) and the Windows Terminal ConPTY, `conpty.dll` and `OpenConsole.exe` (MIT) | Terminal dock pseudo-terminals on Windows (ConPTY) |
 | PyInstaller | 6.22.3 | GPL-2.0-or-later with the Bootloader exception (its bootloader is embedded in the frozen engine; the exception allows distributing it with any program) | Build-time only: freezes the desktop engine (`backend/requirements_desktop.txt`) |
@@ -59,7 +60,7 @@ FormRef's original source and vector artwork are Apache-2.0. The repository's fu
 | splaytree | 3.2.3 | MIT | polygon-clipping dependency |
 | robust-predicates | 3.0.3 | Unlicense | polygon-clipping dependency |
 
-The terminal dock and the Claude Code tab (`backend/app/agent/terminal.py`, `backend/app/agent/claude_code.py`, `backend/app/routers/terminal.py`, `frontend/src/ui/terminal-dock.ts`) are adapted from formlit 0.45.3, Apache-2.0, by nodemode-ai, the same owner as FormRef. So are the dock's Chat (`backend/app/agent/chat.py`, `frontend/src/ui/chat-pane.ts`) and `frontend/src/ui/chat-markdown.ts`, which is formlit's Markdown streamer unchanged. The interface translator follows formvis 1.72.8's design (same owner); the 25 translation tables were written for FormRef.
+The terminal dock and the Claude Code tab (`backend/app/agent/terminal.py`, `backend/app/agent/claude_code.py`, `backend/app/routers/terminal.py`) are adapted from formlit 0.45.3, Apache-2.0, by nodemode-ai, the same owner as FormRef. The dock in the window (`frontend/src/dock/`) is the Form family's shared dock module 2.1.0, copied unchanged from formvis, Apache-2.0, by the same owner. So are the dock's Chat (`backend/app/agent/chat.py`, `frontend/src/ui/chat-pane.ts`) and `frontend/src/ui/chat-markdown.ts`, which is formlit's Markdown streamer unchanged. The interface translator follows formvis 1.72.8's design (same owner); the 25 translation tables were written for FormRef.
 
 resvg-py, pypdfium2 and fontTools are installed as ordinary Python packages in the server environment, unmodified, and the desktop engine carries them unmodified; none needs a library installed on the person's computer. Pillow's wheel license also contains codec/native-library notices. Native shell compilation and distribution are not claimed by this source release; platform runtime libraries are not bundled.
 

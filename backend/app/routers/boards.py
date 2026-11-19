@@ -332,7 +332,7 @@ async def events(board_id: str, request: Request):
         while not await request.is_disconnected():
             if agents.refusals != refusals:
                 refusals = agents.refusals
-                yield "event: consent\ndata: " + json.dumps({"refusals": refusals}) + "\n\n"
+                yield "event: consent\ndata: " + json.dumps({"refusals": refusals, **agents.refusal}) + "\n\n"
             try:
                 record = await asyncio.to_thread(store.stored_record, board_id)
             except MissingBoard:

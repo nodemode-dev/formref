@@ -7,6 +7,7 @@ from fastapi import APIRouter, HTTPException, Request, Response
 from pydantic import BaseModel, Field
 
 from ..agent.service import agents
+from ..core import window_key
 from ..core.config import settings
 from ..core.store import store
 
@@ -23,6 +24,7 @@ GONE = "formref.poll_gone"
 def _window_only(request: Request) -> None:
     if request.headers.get("x-formref-client"):
         raise HTTPException(status_code=403, detail="Only the FormRef window may call this.")
+    window_key.require(request)
 
 
 class Mirror(BaseModel):

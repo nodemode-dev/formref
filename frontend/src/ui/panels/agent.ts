@@ -1,7 +1,8 @@
 import { icon } from '../icons';
+import { keyHeaders } from '../../lib/window-key';
 
 interface Runner { id: string; label: string; available: boolean; path: string; note: string; models?: string[] }
-interface AgentSettings { runner: string; ollama_url: string; ollama_model: string; outside_agents: boolean; model: string; confirm_changes: boolean; claude_folder: string; claude_bin: string; claude_first_message: string }
+interface AgentSettings { runner: string; ollama_url: string; ollama_model: string; outside_agents: boolean; model: string; confirm_changes: boolean; claude_folder: string; claude_bin: string; claude_first_message: string; seal_broken?: boolean }
 type AgentEvent =
   | { type: 'confirm'; id: string; summary: string; seconds: number }
   | { type: 'confirm_closed'; id: string; allowed: boolean; reason: string }
@@ -67,7 +68,7 @@ export class AgentPanel {
 
   private async claudeState() {
     try {
-      const response = await fetch('/api/claudecode');
+      const response = await fetch('/api/claudecode', { headers: keyHeaders() });
       if (!response.ok) return;
       const data = await response.json() as { installed: boolean; path: string | null; version: string | null; folder: string; binNote: string };
       this.claudeStatus.textContent = data.installed
@@ -101,6 +102,7 @@ export class AgentPanel {
       this.modelSelect.value = data.settings.ollama_model;
       this.outside.checked = data.settings.outside_agents;
       this.confirmChanges.checked = data.settings.confirm_changes;
+      if (data.settings.seal_broken) this.setStatus('The saved agent permission was changed outside FormRef, so it is back to Ask.');
       for (const [key, field] of Object.entries(this.claudeFields)) field.value = data.settings[key as keyof typeof this.claudeFields] ?? '';
       void this.claudeState();
       this.showRunner();
@@ -125,7 +127,7 @@ export class AgentPanel {
   }
 
   private async save(patch: Partial<AgentSettings>) {
-    const response = await fetch('/api/agent/settings', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(patch) });
+    const response = await fetch('/api/agent/settings', { method: 'POST', headers: { 'Content-Type': 'application/json', ...keyHeaders() }, body: JSON.stringify(patch) });
     if (!response.ok) this.hooks.notify('Agent settings were not saved.');
     else this.settings = await response.json() as AgentSettings;
   }
@@ -217,7 +219,7 @@ export class AgentPanel {
     this.log.append(card);
     this.log.scrollTop = this.log.scrollHeight;
     this.asks.set(event.id, card);
-    if (!this.log.offsetParent) this.hooks.notify('An agent is waiting for your answer in the Agent panel (Ctrl+J).');
+    if (!this.log.offsetParent) this.hooks.notify('An agent is waiting for your answer in the Agent panel.');
     actions.querySelector<HTMLButtonElement>('.primary')?.focus({ preventScroll: true });
   }
 
@@ -231,7 +233,7 @@ export class AgentPanel {
   }
 
   private async reply(id: string, allow: boolean, wholeTurn: boolean) {
-    const response = await fetch(`/api/agent/confirm/${id}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ allow, whole_turn: wholeTurn }) });
+    const response = await fetch(`/api/agent/confirm/${id}`, { method: 'POST', headers: { 'Content-Type': 'application/json', ...keyHeaders() }, body: JSON.stringify({ allow, whole_turn: wholeTurn }) });
     const data = response.ok ? await response.json() as { answered: boolean } : { answered: false };
     this.closeAsk(id, allow, data.answered ? (allow ? (wholeTurn ? 'allowed for this turn' : 'allowed') : 'declined') : 'expired');
   }
@@ -267,7 +269,7 @@ export class AgentPanel {
     this.busy = true;
     this.updateButtons();
     try {
-      const response = await fetch('/api/agent/turns', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ board_id: boardId, message: text, runner: this.runnerSelect.value }) });
+      const response = await fetch('/api/agent/turns', { method: 'POST', headers: { 'Content-Type': 'application/json', ...keyHeaders() }, body: JSON.stringify({ board_id: boardId, message: text, runner: this.runnerSelect.value }) });
       if (!response.ok || !response.body) throw new Error(`The agent service answered ${response.status}.`);
       const reader = response.body.getReader();
       const decoder = new TextDecoder();
@@ -296,13 +298,13 @@ export class AgentPanel {
 
   private async halt() {
     if (!this.turnId) return;
-    await fetch(`/api/agent/turns/${this.turnId}/stop`, { method: 'POST' });
+    await fetch(`/api/agent/turns/${this.turnId}/stop`, { method: 'POST', headers: keyHeaders() });
     this.setStatus('Stopping…');
   }
 
   private async undoTurn() {
     if (!this.lastTurn) return;
-    const response = await fetch(`/api/agent/turns/${this.lastTurn}/undo`, { method: 'POST' });
+    const response = await fetch(`/api/agent/turns/${this.lastTurn}/undo`, { method: 'POST', headers: keyHeaders() });
     const data = response.ok ? await response.json() as { restored: boolean } : { restored: false };
     this.setStatus(data.restored ? 'The board is back to how it was before that turn.' : 'Undo could not reach the earlier board; use Undo to step back further.');
     this.lastTurn = null;
@@ -312,10 +314,5 @@ export class AgentPanel {
 
   refresh() {
     this.updateButtons();
-  }
-
-  async allowOutside() {
-    await this.save({ outside_agents: true });
-    this.outside.checked = true;
   }
 }

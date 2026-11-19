@@ -1,13 +1,14 @@
 import asyncio
 import json
 import re
+from typing import Literal
 
 from fastapi import APIRouter, HTTPException, Request, WebSocket, WebSocketDisconnect
-from fastapi.responses import FileResponse, StreamingResponse
+from fastapi.responses import FileResponse, JSONResponse, StreamingResponse
 from pydantic import BaseModel, Field
 
-from ..agent import chat, claude_code, terminal
-from ..core import origins
+from ..agent import chat, claude_code, programs, terminal
+from ..core import origins, window_key
 
 router = APIRouter(prefix="/api", tags=["terminal"])
 EXIT = json.dumps({"type": "exit"})
@@ -19,9 +20,11 @@ def _local(origin: str | None, host: str) -> bool:
     return not origin or origins.allowed(origin, host)
 
 
-def _window_only(request: Request) -> None:
+def _window_only(request: Request, keyed: bool = True) -> None:
     if request.headers.get("x-formref-client"):
         raise HTTPException(status_code=403, detail="Terminals and Claude Code are only available in the FormRef window.")
+    if keyed:
+        window_key.require(request)
 
 
 class Open(BaseModel):
@@ -83,6 +86,27 @@ def claude_open(body: ClaudeOpen, request: Request):
     return claude_code.open_tab(body.prompt or None, body.cols, body.rows, body.fresh, body.resume or None)
 
 
+class AgentOpen(BaseModel):
+    kind: Literal["codex", "cursor"]
+    cols: int = Field(default=100, ge=10, le=1000)
+    rows: int = Field(default=30, ge=4, le=500)
+
+
+@router.get("/agent/status")
+def agent_status(request: Request, fresh: bool = False):
+    _window_only(request)
+    return programs.status(fresh)
+
+
+@router.post("/terminal/agent")
+def agent_open(body: AgentOpen, request: Request):
+    _window_only(request)
+    try:
+        return programs.open_tab(body.kind, body.cols, body.rows)
+    except LookupError as e:
+        return JSONResponse(status_code=404, content={"detail": str(e), "code": "not_installed"})
+
+
 class ChatSend(BaseModel):
     text: str = Field(min_length=1, max_length=20000)
     context: str = Field(default="", max_length=20000)
@@ -139,7 +163,7 @@ def chat_adopt(body: ChatAdopt, request: Request):
 
 @router.get("/chat/image/{name}")
 def chat_image(name: str, request: Request):
-    _window_only(request)
+    _window_only(request, keyed=False)
     if not re.fullmatch(r"[0-9a-f]{32}\.(jpg|png|webp)", name):
         raise HTTPException(status_code=404, detail="No such image.")
     path = chat.images_dir() / name
@@ -149,8 +173,10 @@ def chat_image(name: str, request: Request):
 
 
 @router.get("/chat/events")
-async def chat_events(request: Request):
-    _window_only(request)
+async def chat_events(request: Request, ticket: str = ""):
+    _window_only(request, keyed=False)
+    if not window_key.spend(ticket):
+        raise HTTPException(status_code=403, detail=window_key.REFUSED)
     q: asyncio.Queue = asyncio.Queue()
     chat.SUBSCRIBERS.add(q)
 
@@ -176,6 +202,13 @@ async def attach(ws: WebSocket, sid: str) -> None:
         return
     await ws.accept()
     try:
+        first = json.loads(await asyncio.wait_for(ws.receive_text(), 10))
+    except (asyncio.TimeoutError, ValueError, WebSocketDisconnect):
+        first = None
+    if not isinstance(first, dict) or first.get("type") != "key" or not window_key.valid(first.get("key")):
+        await ws.close(code=4403)
+        return
+    try:
         session = terminal.get(sid)
     except KeyError:
         await ws.close(code=4404)
@@ -183,15 +216,27 @@ async def attach(ws: WebSocket, sid: str) -> None:
     q: asyncio.Queue = asyncio.Queue()
     session.subscribers.add(q)
 
+    typed = first.get("frames") == "typed"
+
+    async def notice(name: str) -> None:
+        if typed:
+            await ws.send_bytes(json.dumps({"type": name, "id": session.id, "kind": session.kind, "alive": session.alive}).encode("utf-8"))
+        elif name == "exit":
+            await ws.send_text(EXIT)
+
     async def outbound() -> None:
+        await notice("hello")
         backlog = session.scrollback()
         if backlog:
             await ws.send_text(backlog)
         if not session.alive:
-            await ws.send_text(EXIT)
+            await notice("exit")
         while True:
             text = await q.get()
-            await ws.send_text(EXIT if text is None else text)
+            if text is None:
+                await notice("exit")
+            else:
+                await ws.send_text(text)
 
     sender = asyncio.create_task(outbound())
     try:

@@ -1,6 +1,7 @@
 import type { Board, SavedSearch, SharedSearch } from '../lib/types';
 import type { MenuEntry } from '../ui/context-menu';
 import { t } from '../lib/i18n';
+import { keyHeaders } from '../lib/window-key';
 import { $, S, execute, inputDialog, onState, toast } from './editor';
 import { menu } from './gestures';
 import { registry } from './registry';
@@ -28,7 +29,7 @@ async function loadShared(): Promise<void> {
 }
 
 async function storeShared(list: SharedSearch[]): Promise<void> {
-  const response = await fetch('/api/searches', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ searches: list }) });
+  const response = await fetch('/api/searches', { method: 'PUT', headers: { 'Content-Type': 'application/json', ...keyHeaders() }, body: JSON.stringify({ searches: list }) });
   const body = await response.json().catch(() => ({}));
   if (!response.ok) throw new Error(typeof body.detail === 'string' ? body.detail : 'The searches for all boards could not be saved.');
   shared = body.searches || [];

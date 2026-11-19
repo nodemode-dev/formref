@@ -1,5 +1,40 @@
 # FormRef changelog
 
+## v0.41.0 · 2026-11-19
+
+The terminal panel is the one every Form app shares: it can sit at the right of the canvas, remembers how you left it, has tabs for Codex and Cursor, and asks you by name when another program wants to change a board.
+
+- The terminal panel under the canvas is now the panel every Form app shares. A button in its bar moves it to the right of the canvas and back to the bottom, in a window wide enough for both, and you drag its edge to size it.
+- The panel remembers whether it was open, which side it was on and its size, and comes back that way the next time FormRef starts. The height you had set before is carried over.
+- Codex and Cursor have tabs of their own beside Claude Code. Each tab gets its own access to the board, which ends when the tab closes. More agents in the panel's bar says whether each program is installed and shows the line that installs it.
+- An open terminal changes colour with the theme. Before, it kept the colours it started with.
+- The first time you open the panel, a short guide shows you round it. Show me around in the More agents menu opens the guide again.
+- When another program on this computer tries to change a board while Allow outside agents is off, FormRef refuses it and asks you in the middle of the window, above any dialog that is open. The question names the program, by the name it gives for itself, and says what it asked to do. Your answers are Deny and Always allow all outside agents; after you allow, the program has to ask again. After Deny, FormRef does not ask again for a minute, as with Not now before.
+- Ctrl+J (Cmd+J on a Mac) still shows and hides the panel, Ctrl+Shift+J still opens Claude Code and Ctrl+Alt+J still opens Chat. The menus and your own key bindings work as before.
+- Chat is FormRef's own, as before: Markdown replies, pictures, selecting the items a reply names, the usage meter and From Claude Code. The panel has one line to type in. On the Chat tab it asks Chat, and on every other tab it asks Claude Code.
+- For people who work on FormRef: the MCP entry FormRef writes for its own Claude Code, Chat, Codex and Cursor tabs is named `formref_tab`, so it cannot be mistaken for the `formref` entry an outside agent uses. `./formref agents sync` and its `--check` stop, naming the file, when a file of the shared panel differs from the list that comes with it, and `agents/manifest.json` says that the panel can sit at the bottom or the right and lists the Codex and Cursor tabs.
+- The notice file names the shared panel and where it comes from, and the Agent wiki page describes the question and its two answers.
+
+## v0.40.0 · 2026-11-19
+
+Only the FormRef window can change your boards and settings, your choice for outside agents stays what you chose, and a true-black theme.
+
+- Only the FormRef window can change things. Changes from outside the app's window are refused, and so are starting a terminal, Claude Code or Chat and changing the agent settings from outside it. Agents that connect through MCP still follow your choice under Allow outside agents, as before.
+- `./formref open` and `./formref import` now count as outside agents, so they work only while Allow outside agents is on. Otherwise they stop and say that outside agents are off.
+- Your choice for outside agents and the Claude program you chose are sealed with a key kept in the system keychain. If the saved choice is changed outside FormRef, it goes back to off, FormRef asks again, and the Agent panel says so once. After this update, turn Allow outside agents on again if you had it on. On a computer without a keychain the choice works as before, without the seal.
+- The agent settings, Confirm changes among them, can be changed only in the window. An agent cannot change them.
+- Each Claude Code tab and each Chat run gets its own access to the board, which ends when the tab closes or the run ends.
+- While a Claude Code or Ollama turn runs in the Agent panel, other agents are no longer let in without your choice.
+- The Ollama address must be on this computer: `localhost` or a loopback address. Any other address is refused.
+- New theme, AMOLED Black: a true-black window for OLED screens, with panels told apart by their outlines. It is in Preferences with the other themes.
+- Ctrl+J (Cmd+J on a Mac) shows and hides the terminal panel, as before. The Agent and Shell wiki pages and the notice shown when an agent waits for your answer no longer say that it opens the Agent panel.
+- The terminal panel itself is unchanged in this release. Underneath, the engine is prepared for the Form family's shared dock: when it refuses an outside agent's change it tells the window which program asked and what it asked to do, one call reports whether Claude Code, Codex and Cursor are installed and how to install each, Codex and Cursor can run in terminal tabs of their own with access that ends when the tab closes, and a program that has finished is told apart from what it printed. None of this is shown in the window yet.
+- Two engine messages that had no translation, the refusal of a second window and "Not Found", are translated in every language, and so are the new notice in the Agent panel and the name of the new theme.
+- For people who work on FormRef: `./formref agents sync` also copies the skills from `.claude/skills` to `.agents/skills` and writes `agents/manifest.json`, which says what FormRef offers agents: its 47 MCP tools, which of them only read, which can wait for your Allow, its skill and its terminal panel. `--check` fails while either is out of date, and neither needs the window to have been opened.
+- In development, a reloaded page keeps its right to make changes instead of being refused.
+- The wiki gives the right count of 47 MCP tools, and the Agent, MCP and security pages and the README say how outside agents are asked and that only the window can change the choice.
+- One new bundled package, keyring (MIT), with its licence text and inventory entry.
+
 ## v0.39.2 · 2026-11-15
 
 PDF export that needs nothing installed, a calmer board, and the fixable items from the last release's open list.

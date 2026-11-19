@@ -1,3 +1,4 @@
+import { keyHeaders } from '../lib/window-key';
 import { isEnabled } from './commands';
 import { error } from './editor';
 import { COMMAND_WORDS } from './command-meta';
@@ -103,19 +104,19 @@ let mirrorTimer = 0;
 function mirror() {
   window.clearTimeout(mirrorTimer);
   mirrorTimer = window.setTimeout(() => {
-    void fetch('/api/commands/catalogue', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ commands: catalogue() }) }).catch(() => undefined);
+    void fetch('/api/commands/catalogue', { method: 'POST', headers: { 'Content-Type': 'application/json', ...keyHeaders() }, body: JSON.stringify({ commands: catalogue() }) }).catch(() => undefined);
   }, 600);
 }
 
 async function bridge() {
   for (;;) {
     try {
-      const response = await fetch('/api/commands/next', { cache: 'no-store' });
+      const response = await fetch('/api/commands/next', { cache: 'no-store', headers: keyHeaders() });
       if (response.status === 204) continue;
       if (!response.ok) { await new Promise(r => setTimeout(r, 3000)); continue; }
       const job = await response.json() as { rid: string; id: string; params: Record<string, unknown> };
       const result = await runCommand(job.id, job.params || {});
-      await fetch(`/api/commands/result/${encodeURIComponent(job.rid)}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(result) });
+      await fetch(`/api/commands/result/${encodeURIComponent(job.rid)}`, { method: 'POST', headers: { 'Content-Type': 'application/json', ...keyHeaders() }, body: JSON.stringify(result) });
     } catch {
       await new Promise(r => setTimeout(r, 3000));
     }

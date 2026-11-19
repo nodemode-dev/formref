@@ -1,6 +1,7 @@
 import { MarkdownStream } from './chat-markdown';
 import { icon } from './icons';
 import { formatLocale, t } from '../lib/i18n';
+import { keyHeaders, streamTicket } from '../lib/window-key';
 
 interface Part { kind: 'text' | 'tool'; text?: string; id?: string; name?: string; input?: string; status?: string; items?: string[]; images?: string[] }
 interface Meta { seconds?: number; turns?: number | null; costUsd?: number | null; inputTokens?: number; outputTokens?: number }
@@ -23,7 +24,7 @@ function tokens(n: number): string {
 }
 
 async function call<T>(method: string, path: string, body?: unknown): Promise<T> {
-  const response = await fetch(path, { method, headers: body === undefined ? undefined : { 'Content-Type': 'application/json' }, body: body === undefined ? undefined : JSON.stringify(body) });
+  const response = await fetch(path, { method, headers: body === undefined ? keyHeaders() : { 'Content-Type': 'application/json', ...keyHeaders() }, body: body === undefined ? undefined : JSON.stringify(body) });
   const data = await response.json().catch(() => ({}));
   if (!response.ok) throw new Error(typeof data.detail === 'string' ? data.detail : `Request failed (${response.status}).`);
   return data as T;
@@ -51,10 +52,11 @@ export class ChatPane {
   private busy = false;
   private loaded = false;
   private source: EventSource | null = null;
+  private opening = false;
 
   constructor(private readonly hooks: ChatHooks) {
     const bar = node('div', 'chat-bar');
-    const spacer = node('span', 'term-dock-spacer');
+    const spacer = node('span', 'chat-spacer');
     const adopt = node('button', 'button compact quiet', 'From Claude Code...');
     adopt.title = 'Bring a conversation you had in a Claude Code tab into this chat';
     const handoff = node('button', 'button compact quiet', 'Open in Claude Code');
@@ -86,9 +88,22 @@ export class ChatPane {
   }
 
   private connect(): void {
-    if (this.source) return;
-    this.source = new EventSource('/api/chat/events');
-    this.source.addEventListener('message', msg => {
+    if (this.source || this.opening) return;
+    this.opening = true;
+    void this.open();
+  }
+
+  private async open(): Promise<void> {
+    const ticket = await streamTicket().catch(() => '');
+    const source = new EventSource(`/api/chat/events?ticket=${encodeURIComponent(ticket)}`);
+    this.source = source;
+    this.opening = false;
+    source.addEventListener('error', () => {
+      if (source.readyState !== EventSource.CLOSED || this.source !== source) return;
+      this.source = null;
+      window.setTimeout(() => this.connect(), 1500);
+    });
+    source.addEventListener('message', msg => {
       try { this.event(JSON.parse(msg.data) as Event); } catch { }
     });
   }

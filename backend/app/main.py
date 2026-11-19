@@ -8,6 +8,7 @@ from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse, FileResponse
 from starlette.middleware.cors import CORSMiddleware
 from .core import origins
+from .core.window_key import WindowKeyGuard
 from .core.config import ROOT, VERSION, settings
 from .core.engine import broker, EngineError
 from .core.extensions import registry
@@ -17,6 +18,7 @@ from .routers.agent import router as agent_router
 from .routers.clip import router as clip_router
 from .routers.cloud import router as cloud_router
 from .routers.terminal import router as terminal_router
+from .routers.window import router as window_router
 from .routers.commands import PollWatch, router as commands_router
 from .routers.searches import router as searches_router
 from .routers.practice import router as practice_router
@@ -75,7 +77,7 @@ async def local_access(request: Request, call_next):
     client = request.headers.get("x-formref-client")
     if client and request.method not in {"GET", "HEAD", "OPTIONS"} and not request.url.path.startswith("/api/agent"):
         if not agents.allows(client):
-            agents.refusals += 1
+            agents.refuse(request.headers.get("x-formref-agent"), request.method, request.url.path)
             return JSONResponse(status_code=403, content={"detail": "Outside agents are off. Turn them on in FormRef under Agent settings, or start the turn from FormRef's agent panel.", "code": "outside_agents_off"})
         body = await request.body() if request.url.path.endswith("/commands") else b""
         summary = agents.review(request.method, request.url.path, body)
@@ -86,6 +88,7 @@ async def local_access(request: Request, call_next):
     return response
 
 app.add_middleware(PollWatch)
+app.add_middleware(WindowKeyGuard)
 
 @app.exception_handler(MissingBoard)
 async def missing_board(request, exc):
@@ -122,6 +125,7 @@ app.include_router(agent_router)
 app.include_router(clip_router)
 app.include_router(cloud_router)
 app.include_router(terminal_router)
+app.include_router(window_router)
 app.include_router(commands_router)
 app.include_router(searches_router)
 app.include_router(practice_router)

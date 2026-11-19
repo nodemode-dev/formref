@@ -1,12 +1,12 @@
-import type { TerminalDock } from '../ui/terminal-dock';
-import { S, drawCamera, error, selection, setSelection, toast } from './editor';
+import { Dock } from '../dock/dock';
+import { formrefDock, outsideAgents } from '../dock-adapter';
+import { showPanel } from '../ui/dock';
+import { S, consent, drawCamera, error, selection, setSelection, toast } from './editor';
+import { commandForKey } from './keys';
 import { registry } from './registry';
 
-let dock: Promise<TerminalDock> | null = null;
-
-function root(): HTMLElement {
-  return document.getElementById('term-dock')!;
-}
+let dock: Dock | null = null;
+let bare = false;
 
 function context(): string {
   const board = S.state?.board;
@@ -17,57 +17,54 @@ function context(): string {
   return `${where}; selection: item ${ids.length === 1 ? 'id' : 'ids'} ${ids.slice(0, 200).join(', ')}${ids.length > 200 ? ` and ${ids.length - 200} more` : ''}`;
 }
 
-function get(): Promise<TerminalDock> {
-  dock ??= import('../ui/terminal-dock').then(m => new m.TerminalDock(root(), {
-    context, fail: toast, onHide: () => setDock(false),
+export function mountDock(): Dock {
+  if (dock) return dock;
+  const made = new Dock(formrefDock({
+    context: () => (bare ? '' : context()), fail: toast,
     note: () => { const n = selection.size; return n ? `with ${n} selected ${n === 1 ? 'item' : 'items'}` : ''; },
+    claude: (prompt, resume) => { void made.claude(prompt, resume); },
     select: ids => { if (ids.length) setSelection(ids); },
     exists: id => !!S.state?.board.items.some(item => item.id === id),
-  }));
-  return dock;
+    openSettings: () => { showPanel('agent'); document.getElementById('agent-outside')?.focus(); },
+    passes: event => ['terminal', 'claude-code'].includes(commandForKey(event)?.id ?? ''),  }));
+  let wasOpen = made.isOpen();
+  made.onChange = () => {
+    const open = made.isOpen();
+    drawCamera();
+    if (wasOpen && !open) document.querySelector<HTMLElement>('.stage')?.focus();
+    wasOpen = open;
+  };
+  made.onResize = () => drawCamera();
+  consent.ask = data => outsideAgents.refused(data);
+  outsideAgents.onAllowed(() => {
+    const box = document.getElementById('agent-outside');
+    if (box instanceof HTMLInputElement) box.checked = true;
+    toast('Outside agents may now edit boards. Turn this off in the Agent panel.');
+  });
+  made.mount(document.querySelector<HTMLElement>('.editor')!, document.querySelector('.editor > .statusbar'));
+  dock = made;
+  return made;
 }
 
 export function dockOpen(): boolean {
-  return !root().hidden;
-}
-
-export function setDock(open: boolean): void {
-  if (dockOpen() === open) return;
-  root().hidden = !open;
-  drawCamera();
-  if (!open) document.querySelector<HTMLElement>('.stage')?.focus();
-}
-
-async function show(): Promise<TerminalDock> {
-  const d = await get();
-  if (!dockOpen()) {
-    setDock(true);
-    await d.ensure();
-  }
-  return d;
+  return dock ? dock.isOpen() : document.documentElement.getAttribute('data-ft-dock') === 'open';
 }
 
 export async function toggleTerminal(): Promise<void> {
-  if (dockOpen()) setDock(false);
-  else await show();
+  mountDock().toggle();
 }
 
 export async function newTerminal(): Promise<void> {
-  const wasOpen = dockOpen();
-  const d = await show();
-  if (wasOpen) await d.open();
+  await mountDock().newTerminal();
 }
 
 export async function openClaudeCode(prompt?: string): Promise<void> {
-  const d = await get();
-  setDock(true);
-  await d.claude(prompt);
+  bare = !!prompt;
+  try { await mountDock().claude(prompt); } finally { bare = false; }
 }
 
 export async function openChat(): Promise<void> {
-  const d = await get();
-  setDock(true);
-  await d.showChat();
+  await mountDock().show('chat');
 }
 
 export function registerTerminal(): void {

@@ -34,6 +34,7 @@ class Session:
         self.gen = 0
         self.cols = 100
         self.rows = 30
+        self.on_close: list = []
 
     def describe(self) -> dict:
         return {"id": self.id, "title": self.title, "cwd": self.cwd, "alive": self.alive, "kind": self.kind}
@@ -67,7 +68,7 @@ def login_shell() -> list[str]:
 
 
 def base_env() -> dict:
-    env = dict(os.environ)
+    env = {k: v for k, v in os.environ.items() if k != "FORMREF_WINDOW_KEY_STDOUT"}
     env["TERM"] = "xterm-256color"
     env["COLORTERM"] = "truecolor"
     env["FORMREF_TERMINAL"] = "1"
@@ -165,6 +166,8 @@ def close(sid: str) -> None:
         session.proc.terminate(force=True)
     except Exception:
         pass
+    for done in session.on_close:
+        done()
 
 
 def get(sid: str) -> Session:

@@ -1,6 +1,6 @@
 # Agent
 
-FormRef has an Agent panel in the right dock (Ctrl+J, or Ask Agent in the right-click menu). Type a request about the open board and an agent edits it through FormRef's own MCP tools while you watch.
+FormRef has an Agent panel in the right dock (the Agent button in the title bar, or Ask Agent in the right-click menu). Type a request about the open board and an agent edits it through FormRef's own MCP tools while you watch.
 
 ## Runners
 
@@ -27,7 +27,9 @@ Models that read images can call `get_board_image` to see the whole board as a p
 
 ## Outside agents
 
-An MCP client started outside FormRef (for example Claude Code in a terminal using `.mcp.json`) is refused with 403 until you allow outside agents in the panel. The first refusal opens a prompt in FormRef asking whether to allow them. Turns started from the panel carry their own token and are always allowed.
+An MCP client started outside FormRef (for example Claude Code in a terminal using `.mcp.json`) cannot change anything until you allow outside agents. Until then its changes are refused with 403 and the code `outside_agents_off`, and the refusal opens a question in the FormRef window that names the program and what it asked to do: choose Always allow all outside agents to let it work (the program then has to ask again), or Deny to keep it out; after Deny the window stays quiet for a minute. The same choice is the "Allow outside agents" box in the panel, and it starts off. FormRef's own command line counts as an outside agent too: `./formref import` and `./formref open` stop with the same refusal until you have allowed outside agents, so allow them first (or answer the prompt) and then run the command. Turns started from the panel carry their own token and are always allowed.
+
+Only the FormRef window can change that choice and the other agent settings. A program on your computer that calls the engine directly to change them, or to change anything beyond what an outside agent is allowed to do, is refused with "Only the FormRef window can do this", because those requests need a key that only the window holds. The saved choice is also sealed with a key kept in the system keychain where there is one. If someone edits the saved agent file outside FormRef, FormRef puts the choice back to Ask (outside agents off, so the prompt appears again) and the panel says so once.
 
 ## Source
 

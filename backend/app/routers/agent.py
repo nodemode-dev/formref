@@ -6,6 +6,7 @@ from fastapi.responses import StreamingResponse
 from pydantic import BaseModel, Field
 
 from ..agent.service import agents
+from ..core import window_key
 from ..core.config import settings
 from ..core.store import store
 
@@ -30,13 +31,14 @@ async def runner_list():
 
 @router.get("/agent/settings")
 def agent_settings():
-    return agents.settings()
+    return {**agents.settings(), "second_window_claim": window_key.STATE["secondClaim"]}
 
 
 @router.post("/agent/settings")
 def save_agent_settings(patch: dict, request: Request):
-    if request.headers.get("x-formref-client") and any(key.startswith("claude_") or key == "outside_agents" for key in patch):
+    if request.headers.get("x-formref-client"):
         raise HTTPException(status_code=403, detail="Only the person in the FormRef window can change these settings.")
+    window_key.require(request)
     return agents.save(patch)
 
 

@@ -8,6 +8,12 @@
 
 ## Contents
 
+- [Unreleased · The window key, and the agent access fixes](#unreleased--the-window-key-and-the-agent-access-fixes)
+- [Unreleased · agents sync copies the skills to .agents/skills](#unreleased--agents-sync-copies-the-skills-to-agentsskills)
+- [Unreleased · agents/manifest.json says what the app offers agents](#unreleased--agentsmanifestjson-says-what-the-app-offers-agents)
+- [Unreleased · A refusal tells the window who asked and what for](#unreleased--a-refusal-tells-the-window-who-asked-and-what-for)
+- [Unreleased · Agent status in one call, Codex and Cursor tabs, typed socket notices](#unreleased--agent-status-in-one-call-codex-and-cursor-tabs-typed-socket-notices)
+- [Unreleased · The app's own tabs use an entry named formref_tab, and agents sync checks the shared dock folder](#unreleased--the-apps-own-tabs-use-an-entry-named-formref_tab-and-agents-sync-checks-the-shared-dock-folder)
 - [v0.39.2 · PDF export and SVG pictures without a system library, and six smaller fixes](#v0392--pdf-export-and-svg-pictures-without-a-system-library-and-six-smaller-fixes)
 - [v0.39.0 · A closed window's poll takes no job, and four smaller fixes](#v0390--a-closed-windows-poll-takes-no-job-and-four-smaller-fixes)
 - [v0.38.1 · The window's scripts keep their types on Windows](#v0381--the-windows-scripts-keep-their-types-on-windows)
@@ -45,6 +51,96 @@
 - [v0.2.0 · Canvas settings and snapping through MCP](#v020--canvas-settings-and-snapping-through-mcp)
 - [v0.1.0 · Local board service and SDK MCP](#v010--local-board-service-and-sdk-mcp)
 - [boot_backend.bat](#boot_backendbat)
+
+## Unreleased · The window key, and the agent access fixes
+
+- refers-to: `app/core/window_key.py` (new) :: WindowKeyGuard, OPEN, BRIDGE, claim, ticket, spend; `app/core/seal.py` (new) :: effective, sign; `app/routers/window.py` (new); `app/main.py` :: app.add_middleware; `app/routers/terminal.py` :: _window_only, chat_events, attach; `app/routers/agent.py` :: save_agent_settings; `app/routers/commands.py` :: _window_only; `app/routers/cloud.py` :: from_agent; `app/routers/clip.py` :: get_token, reset_token; `app/agent/service.py` :: loopback_url, Agents.settings, save, allows, tokenless_turn, token_file, revoke, _cli; `app/agent/claude_code.py` :: issue, revoke, argv; `app/agent/chat.py` :: _run; `app/agent/runners.py` :: argv; `app/agent/terminal.py` :: Session.on_close, base_env; `app/cli.py` :: call; `formref_engine.py` :: main; `freeze_engine`; `requirements.txt`, `requirements_macos.txt`
+
+The window key. The engine makes a random key at start and keeps it in memory. Every request that is not a GET, HEAD or OPTIONS needs it in `X-FormRef-Window-Key`, in one place (`WindowKeyGuard`, outermost), unless its path is on the open list: `/mcp` (outside agents), `/api/window/key` (the development bootstrap) and `/api/clip` (the browser extension, which keeps its own token and Origin checks). The stdio relay and the command line cannot hold the key; they reach the engine's REST routes with `X-FormRef-Client`, and the guard lets exactly the routes the MCP tools use (`BRIDGE`) through for such a caller, where the existing consent check still decides. Every other write from a caller that names itself an outside agent is refused. Reads that return a secret or a session (the clipper token, the terminal list, Claude Code and Chat state, the command long poll, cloud listings) need the key too. The terminal socket needs the key as its first message, and the Chat event stream a one-time ticket (`POST /api/window/ticket`, 30 seconds, spent once), because a browser cannot set headers on those.
+
+How the window gets it. The desktop shell starts the engine with `FORMREF_WINDOW_KEY_STDOUT=1`; the engine then prints `formref-window-key: <key>` on its standard output before it serves, flushed, and the shell reads that pipe and sets one page global on the engine's own origin. Without the variable the engine prints nothing and `POST /api/window/key` answers once; a second try answers 409 and is reported as `second_window_claim` in the agent settings. With the variable the route does not exist. The development mode is weaker by nature: any local program that asks first gets the key.
+
+The command line. `./formref open` and `./formref import` now send `X-FormRef-Client: outside`, so they follow the stored choice (outside agents off by default) and cannot change it. They need `PUT /api/session` besides the MCP routes, so that route is on the bridge list.
+
+In-app agent tokens. Each Claude Code tab and each Chat run gets its own token, written to a mode 0600 file in `AgentTokens` under the data folder that the child reads as its `--mcp-config`; the token is never on a command line, not in a plain terminal's environment, and dies when the tab closes (or the run ends). A panel turn hands Claude Code its MCP configuration the same way. `FORMREF_WINDOW_KEY_STDOUT` is removed from the environment of terminals and agent children.
+
+The stored choice is sealed. `agent.json` gains a `seal`: an HMAC-SHA256 over `outside_agents` and `claude_bin` with a random key kept in the operating system's keychain (`keyring`, service FormRef, account settings-seal). A seal that is missing or wrong while either field is loosened makes the engine act as if outside agents were off and the program path unset, and report `seal_broken`; the window's next write of those fields seals them again. With no keychain the engine runs, the stored values stand and `seal` reads `unavailable`. `keyring` is imported lazily inside a try block so a packaging miss cannot stop the engine. The first launch after this update treats an existing "outside agents on" as off until the person turns it on again.
+
+The agent access fixes. The Ollama address check compared the start of the text, so `http://127.0.0.1.something.example` passed; it now parses the address and accepts only `http`, no user name, and `localhost` or a loopback IP address, both when it is saved and when it is read (a hand-edited file falls back to the default). Agent settings, including Confirm changes, change only with the window key. An outside caller was accepted for as long as any panel command-line turn ran; the allowance now applies only while a Codex or Cursor turn runs (their stdio relay does not receive the per-turn token, which could not be checked here), and the confirm card for that caller goes to that turn.
+
+Not changed: `/api/clip/boards` and the clipper's pairing token, the Host, Origin and consent checks, the sockets' Origin rule.
+
+## Unreleased · agents sync copies the skills to .agents/skills
+
+- refers-to: `app/cli.py` :: mirror_differences, agents_sync
+
+`.agents/skills` had fallen behind `.claude/skills` (two files differed and `references/commands.md` was missing) because `agents sync` only wrote the command reference and nothing copied the skills across. After writing the reference, `agents sync` now copies every file under `.claude/skills` whose bytes differ from the same path under `.agents/skills`, and `--check` fails when any does. Files that exist only under `.agents/skills` (`agents/openai.yaml`) are left alone and nothing is deleted. Checked on a data folder holding the catalogue a headless window published: `--check` failed with 3 files, `sync` copied 3, `--check` passed.
+
+## Unreleased · agents/manifest.json says what the app offers agents
+
+- refers-to: `app/agent_manifest.py` (new) :: manifest, approval_gated, mcp_section, skills_section, DOCK; `app/cli.py` :: agents_sync; `agents/manifest.json` (new, written by the sync); `tests/test_agent_manifest.py` (new)
+
+The family spec reads one file per app, `agents/manifest.json`, so counts of tools and skills are no longer typed into documents. `agents sync` writes it and `agents sync --check` fails, naming `agents/manifest.json`, when the committed file is not what the sync would write. App name `formref` (the file name in formcompiler `apps/`). Every field is read, none typed, except the dock.
+
+`mcp.tools` and `mcp.read_only` come from `mcp.list_tools()` on the server object, the call the server answers `tools/list` with, so the order and the read-only hint are what a client gets (47 tools, 13 read-only). Compared with a running engine's `POST /mcp` `tools/list`: same 47 names in the same order, same 13 read-only. `mcp.transports` is `stdio` when `mcp_server.py` runs the stdio transport and `http` when `main.py` mounts `streamable_http_app()`.
+
+`mcp.approval_gated`. FormRef's gate does not ask per tool. It asks per request: the middleware in `main.py` calls `agents.review`, which asks about a `remove` command, about any of the commands in `MOVES` (transform, pack, sort, distribute, align, snap, normalize) when they touch 10 or more items, and about deleting a whole board; and `routers/commands.py` asks before a window command marked risky runs. Only while a panel turn is running and `confirm_changes` is on; otherwise the call is let through (a tokenless outside client) or refused (a risky window command). So the field names the tools that can reach the gate, not tools that always wait: the manifest module reads `mcp_server.py` as source and lists a tool when it sends a command through `command()` whose type is `remove` or a key of `MOVES`, or when it posts to `/api/commands/.../run`. Result: `arrange_items`, `snap_items`, `transform_items`, `remove_items`, `run_command`, `run_commands`. `remove_background` also contains the word remove but posts to its own route and is not listed. The one literal that is not read from the gate's data is `remove`, because `_risky` tests it inline; a test calls `_risky` with every gated type and with types that are not gated, so the two cannot drift apart unseen. No route deletes a board through an MCP tool, so the board-deletion ask reaches no tool.
+
+`skills` are the folders of `.claude/skills` that hold a `SKILL.md`, with the sub-skills being the folders under `sub-skills/` that hold a `SUB-SKILL.md` (one skill, `formref-harness`, 8 sub-skills). `extensions` is null: nothing in the app hosts form.ext extensions (searched the frontend, backend and shell for form.ext and host API names; none).
+
+`dock` is the one declared value (`DOCK` in `agent_manifest.py`), because it lives in the page. Today's truth: the terminal dock in `frontend/src/ui/terminal-dock.ts` and `frontend/src/styles/dock.css` sits in the bottom grid row only (`.term-dock { grid-row: 3 }`, a resize handle on its top edge, no left, right or floating placement), and its tabs are the Chat tab (`this.chatTab`, title "Chat"), terminal tabs (kind shell, titled "Terminal N") and Claude Code tabs (kind claude), written as `chat`, `terminal`, `claude`. The Agent panel on the right of the window (`data-panel-tab="agent"` beside the Inspector) is a side panel, not the dock, and is not counted. Change `DOCK` when the dock changes.
+
+The sync's three parts are now independent. The manifest and the `.agents/skills` mirror need no window; only the command reference needs the catalogue the open window publishes. Without the catalogue the sync says so on stderr and skips only the reference (before, it stopped with an error and did nothing), and `--check` still checks the manifest and the mirror, so it can run where no window has ever been opened.
+
+Documents compared: README line 95 and the MCP and Engine-Contract wiki pages say 47 tools, which is what the manifest holds; nothing else in the repository states a read-only, gated or skill count. Verified: formadaptor's `scripts/manifest.py check` accepts the file; `--check` exits 0; in a copy of the repository outside the tree, changing `list_boards` from read-only to write made `--check` exit 1 and name `agents/manifest.json`.
+
+## Unreleased · A refusal tells the window who asked and what for
+
+- refers-to: `app/agent/service.py` :: ASKED, ANSWERS, asked, Agents.refusal, Agents.refuse; `app/main.py` :: local_access; `app/routers/boards.py` :: events; `app/mcp_server.py` :: client_name, api; `tests/test_dock_engine.py` (new)
+- kind: rationale
+- logged: after v0.39.2, unreleased · 2026-11-19
+
+The family is moving to one shared dock with one dialog for outside agents. That dialog names the agent and says what it asked. FormRef's `consent` event carried only `{"refusals": n}`. It now also carries `id` (new for each refusal), `agent`, `what`, `answers`, `always`, `expires` and `held`. The present window reads none of them (it listens for the event and ignores its data), so nothing it shows changes.
+
+What each field says today, truthfully. FormRef refuses the call first and tells the window afterward, so `held` is false and `expires` is null: nothing is waiting, and the agent has to try again after the person allows outside agents. `answers` is `["deny", "always"]`: "deny" needs no call (the request was already refused) and "always" is the existing `POST /api/agent/settings {"outside_agents": true}`. There is no "once", because there is no held call to let through. `always` is `"all"`: the stored choice covers every outside agent, FormRef has nothing finer.
+
+`agent` is the name the client announced: the MCP `clientInfo.name` over stdio, the first word of `User-Agent` over HTTP (the HTTP endpoint is stateless, so a tool call has no `initialize` to read), sent by `mcp_server.api` to the engine in a new `X-FormRef-Agent` header beside the existing `X-FormRef-Client`. The engine keeps printable characters and at most 64 of them. It is a label for the dialog only: nothing is allowed or refused by it. It is an empty string when no name was announced; the dialog owns the fallback wording, so it can be translated. `what` completes "It asked to ...": one of twelve phrases chosen from the method and path in `ASKED` (create a board, change a board, add a picture or a file, and so on), or "make a change".
+
+`Agents.refuse` replaces the bare `agents.refusals += 1` in `main.py`; the counter rises as before.
+
+Not changed, on purpose: the gate still refuses first. Holding the call while the window asks (and with it "Allow once", an expiry, a withdrawal event and a Blocked choice) changes what the present window does, so it waits for the dock port; the design is in the engine-prep report.
+
+Verified on a running engine (port 33401, fresh data folder): an outside `tools/call create_board` through `/mcp` was refused as before and the event carried all eight fields with the caller's `User-Agent` word as `agent`; a stdio client that announced "Stdio Probe" was named so; a direct call with no name gave an empty `agent`; a 200 character name arrived as 64. The test was written after.
+
+## Unreleased · Agent status in one call, Codex and Cursor tabs, typed socket notices
+
+- refers-to: `app/agent/programs.py` (new) :: INSTALL, status, workdir, open_tab; `app/routers/terminal.py` :: AgentOpen, agent_status, agent_open, attach (typed, notice); `tests/test_agent_programs.py` (new); `tests/test_terminal_frames.py` (new)
+- kind: rationale
+- logged: after v0.39.2, unreleased · 2026-11-19
+
+Three additions the shared dock needs, none of which the present window calls, so nothing it does changes.
+
+`GET /api/agent/status` (window key required, refused for a caller that names itself an agent). One answer for the three programs: `{claude, codex, cursor}`, each `{installed, path, version, signedIn, install}`. `install` is always a command line a person can paste, never a sentence. `signedIn` is true, false or null (the engine cannot tell): for Claude Code it is true when `ANTHROPIC_API_KEY` or `CLAUDE_CODE_OAUTH_TOKEN` is set, else what `claude auth status` reports as `loggedIn`, which runs no model call; for Codex and Cursor it is null. The answer is kept for 60 seconds; `?fresh=1` looks again. Unlike `GET /api/claudecode` it does not create the work folder, and the engine never calls it by itself. `GET /api/claudecode` and `GET /api/agent/runners` are untouched because the Agent panel reads them.
+
+`POST /api/terminal/agent {kind: "codex" | "cursor", cols, rows}` (a write, so the window key guard covers it). It starts the found program in a terminal tab of that kind, titled Codex or Cursor. The tab gets its own token: in the child's environment as `FORMREF_AGENT_TOKEN` with `FORMREF_MCP_URL` beside it, in the engine's token set until the tab closes, never on a command line and never in a plain shell tab. A missing program answers 404 with `code: "not_installed"`; any other kind 422. Restart keeps the tab and its token; close revokes it.
+
+Why a token: FormRef's panel turns reach the engine without one for Codex and Cursor (the static `.codex/config.toml` and `.cursor/mcp.json` in the app's folder), and are admitted only while such a turn runs. A dock tab is not a turn, so without its own token every change from it would be refused as an outside agent and the window would ask about the app's own tab. The panel-turn path is not touched.
+
+How the program presents the token. The tab starts in a folder the engine owns, `AgentTabs` in the data folder (mode 0700), never in a folder the person chose, because the engine writes two files there, both mode 0600 and both holding a placeholder in place of the token: `.codex/config.toml` with `url` and `env_http_headers = { "x-formref-inapp" = "FORMREF_AGENT_TOKEN" }` (Codex reads the header value from the named variable; it reads a project file only in a folder the person has trusted, which it asks about at first start), and `.cursor/mcp.json` with `url` and the header `${env:FORMREF_AGENT_TOKEN}`. The same two files serve every tab, since the secret is only in each child's environment. Neither real program is on this machine: the key names are from each program's documentation, and the stand-in run shows only that the token and the files are where they should be.
+
+Typed notices on the terminal socket. The first message may now carry `"frames": "typed"` beside the key. Then terminal output stays in text frames and every notice is a binary frame holding JSON: `{"type": "hello", "id", "kind", "alive"}` first on every attach, and `{"type": "exit", ...}` when the program ends (or at once after the replay when it already has). Without the field the socket behaves as before: no hello, and the exit notice is the text frame `{"type": "exit"}` the present page compares against. The typed form exists because a text frame of output could be the same characters as the notice.
+
+Verified on running engines (33401 with stand-in `claude`, `codex` and `cursor-agent` on PATH, 33402 and 33403 without): status with and without the programs, and without the key (403); each tab kind started, the token was in the child's `/proc` environment and absent from `ps -eo args`, a change sent with it under Ask was let through, still after Restart, and refused as an outside agent after Close; a plain shell had no token; both socket forms on a live shell, after `exit`, and on attach to an ended one. The write-route walk: 60 write operations before, 61 after, the new one refused without the key. Tests were written after.
+
+## Unreleased · The app's own tabs use an entry named formref_tab, and agents sync checks the shared dock folder
+
+- refers-to: `app/agent/claude_code.py` :: `issue`, `argv`, `NOTE`; `app/agent/chat.py` :: `_argv`; `app/agent/programs.py` :: the two files in `AgentTabs`; `app/agent_manifest.py` :: `DOCK`, `dock_problems`; `app/cli.py` :: `agents_sync`; `tests/test_dock_manifest.py`; `tests/test_agent_guards.py`
+
+The MCP entry the engine writes for its own Claude Code tab, its Chat and its Codex and Cursor tabs was named `formref`, the same name a person gives the entry of an outside agent (`.mcp.json`, `.codex/config.toml`, `.cursor/mcp.json` in the app's folder). It is `formref_tab` now, with `--allowedTools mcp__formref_tab` to match, so the two cannot be mistaken in a program's own list of servers. Panel turns (`service.py`, `runners.py`) keep `formref`: they are not tabs.
+
+`./formref agents sync` and `--check` now stop, naming the file, when a file in `frontend/src/dock` does not match that folder's `MANIFEST.json` or is not listed in it. FormRef never writes that manifest: the folder arrives whole from FormVis. `agents/manifest.json` says the dock can sit at the bottom or the right and lists the Codex and Cursor tabs.
+
+Run on an engine from source (33421, stand-in programs): a Claude Code tab's token and a Codex tab's token each ran `create_board` through `/mcp` under Ask while the tab was open; after the tab closed the same token was refused with the text an unknown outside agent gets, and the window was asked. No route was added: the write-route walk still finds 61.
 
 ## v0.39.2 · PDF export and SVG pictures without a system library, and six smaller fixes
 

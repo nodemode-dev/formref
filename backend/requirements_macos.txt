@@ -11,4 +11,5 @@ defusedxml
 onnxruntime
 numpy
 websockets
+keyring
 ptyprocess

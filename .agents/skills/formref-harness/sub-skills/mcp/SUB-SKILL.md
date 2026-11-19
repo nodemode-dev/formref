@@ -13,7 +13,7 @@ The repository ships `.mcp.json` (Claude Code), `.cursor/mcp.json` and `.codex/c
 
 ## Tools
 
-`list_boards`, `create_board`, `get_board`, `add_items`, `update_items`, `arrange_items` (align, distribute, pack, sort, normalize, order, group, ungroup, duplicate), `adjust_items` (rotate, opacity, image flags, crop), `configure_canvas`, `snap_items`, `transform_items`, `remove_items`, `connect_items`, `undo`, `redo`, `import_asset`, `export_board`, `search_items`, `sample_image`, `create_swatch`, `create_document`, `set_formatted_text`, plus the `formref://boards` and `formref://board/[id]` resources and the `organize_references` prompt. Read the live list from discovery rather than this page when they differ.
+`list_boards`, `create_board`, `get_board`, `add_items`, `update_items`, `arrange_items` (align, distribute, pack, sort, normalize, order, group, ungroup, duplicate), `adjust_items` (rotate, opacity, image flags, crop), `configure_canvas`, `snap_items`, `transform_items`, `remove_items`, `connect_items`, `style_connections`, `undo`, `redo`, `import_asset`, `export_board`, `search_items`, `sample_image`, `create_swatch`, `create_document`, `set_formatted_text`, plus the `formref://boards` and `formref://board/[id]` resources and the `organize_references` prompt. Read the live list from discovery rather than this page when they differ.
 
 ## Operating a board
 
