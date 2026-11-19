@@ -2,7 +2,7 @@ import { icon } from '../icons';
 import { keyHeaders } from '../../lib/window-key';
 
 interface Runner { id: string; label: string; available: boolean; path: string; note: string; models?: string[] }
-interface AgentSettings { runner: string; ollama_url: string; ollama_model: string; outside_agents: boolean; model: string; confirm_changes: boolean; claude_folder: string; claude_bin: string; claude_first_message: string }
+interface AgentSettings { runner: string; ollama_url: string; ollama_model: string; outside_agents: boolean; model: string; confirm_changes: boolean; claude_folder: string; claude_bin: string; claude_first_message: string; seal_broken?: boolean }
 type AgentEvent =
   | { type: 'confirm'; id: string; summary: string; seconds: number }
   | { type: 'confirm_closed'; id: string; allowed: boolean; reason: string }
@@ -102,6 +102,7 @@ export class AgentPanel {
       this.modelSelect.value = data.settings.ollama_model;
       this.outside.checked = data.settings.outside_agents;
       this.confirmChanges.checked = data.settings.confirm_changes;
+      if (data.settings.seal_broken) this.setStatus('The saved agent permission was changed outside FormRef, so it is back to Ask.');
       for (const [key, field] of Object.entries(this.claudeFields)) field.value = data.settings[key as keyof typeof this.claudeFields] ?? '';
       void this.claudeState();
       this.showRunner();
