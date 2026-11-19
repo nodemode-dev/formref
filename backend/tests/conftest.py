@@ -65,6 +65,11 @@ def inapp_token():
     return None
 
 
+def window_headers():
+    key = importlib.import_module("app.core.window_key")
+    return {key.HEADER: key.KEY}
+
+
 _SANDBOX = Path(tempfile.mkdtemp(prefix=f"{APP_ID}-tests-"))
 for _name in ("data", "home"):
     (_SANDBOX / _name).mkdir()
@@ -95,8 +100,15 @@ def app():
 def client(app):
     from fastapi.testclient import TestClient
 
-    with TestClient(app, base_url=own_origin(), client=("127.0.0.1", 50000)) as c:
+    with TestClient(app, base_url=own_origin(), client=("127.0.0.1", 50000), headers=window_headers()) as c:
         yield c
+
+
+@pytest.fixture(scope="session")
+def bare(client, app):
+    from fastapi.testclient import TestClient
+
+    return TestClient(app, base_url=own_origin(), client=("127.0.0.1", 50000))
 
 
 @pytest.fixture(scope="session")

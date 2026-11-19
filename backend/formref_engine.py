@@ -143,8 +143,11 @@ def main() -> int:
     sweep_stale_unpacks()
     import uvicorn
 
+    from app.core import window_key
     from app.main import app
 
+    if window_key.stdout_mode():
+        print(window_key.LINE + window_key.KEY, flush=True)
     uvicorn.run(app, host="127.0.0.1", port=port, log_level="info")
     return 0
 

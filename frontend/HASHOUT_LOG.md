@@ -8,6 +8,7 @@
 - [Stacking scale](#stacking-scale)
 - [Verification](#verification)
 - [Scripts](#scripts)
+- [Unreleased · The page holds the window key](#unreleased--the-page-holds-the-window-key)
 - [v0.39.2 · Connections, text cards, the tag cloud, tabs, Preferences at 390 px, the demo's first open and 59 untranslated strings](#v0392--connections-text-cards-the-tag-cloud-tabs-preferences-at-390-px-the-demos-first-open-and-59-untranslated-strings)
 - [v0.39.1 · The credits shown in the demo boards match the records](#v0391--the-credits-shown-in-the-demo-boards-match-the-records)
 - [v0.39.0 · The review pass: twenty-one bugs](#v0390--the-review-pass-twenty-one-bugs)
@@ -63,6 +64,12 @@
 - [v0.4.8 desktop window controls and WebKit icons](#v048-desktop-window-controls-and-webkit-icons)
 - [v0.4.7 synced notes, map cards, inline edit commit](#v047-synced-notes-map-cards-inline-edit-commit)
 - [v0.4.6 GIF frames and document export](#v046-gif-frames-and-document-export)
+
+## Unreleased · The page holds the window key
+
+- refers-to: `src/lib/window-key.ts` (new) :: keyHeaders, windowKey, streamTicket; `src/lib/api.ts` :: request; `src/ui/terminal-dock.ts` :: call, connect; `src/ui/chat-pane.ts` :: call, connect, open; `src/ui/panels/agent.ts`; `src/app/catalogue.ts`; `src/app/practice.ts`; `src/app/bindings.ts`; `src/app/demos.ts`; `src/app/saved-search.ts`; `src/app/tabs.ts`
+
+The module takes the key once at boot with a top-level await, so every module that imports it evaluates after the key is known and no request can leave without it: the packaged shell's global `__FORMREF_WINDOW_KEY` first (read once, then deleted), then the development bootstrap `POST /api/window/key`, remembered in `sessionStorage` so a reload of the same tab keeps working. `request` in `lib/api.ts` and every raw `fetch` that writes, or reads the Claude Code state or the command long poll, adds `keyHeaders()`. The terminal socket sends the key as its first message. The Chat event stream asks for a one-time ticket and reopens with a new one if the stream closes. Plain reads (boards, assets, previews, settings, practice log, session, saved searches) and the board revision stream send nothing extra. No element is created, moved or re-rendered by this: in the packaged app there is no extra request at all, in development one small POST before the first module runs.
 
 ## v0.39.2 · Connections, text cards, the tag cloud, tabs, Preferences at 390 px, the demo's first open and 59 untranslated strings
 

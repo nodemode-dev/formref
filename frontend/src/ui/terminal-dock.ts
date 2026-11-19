@@ -3,6 +3,7 @@ import { Terminal } from '@xterm/xterm';
 import '@xterm/xterm/css/xterm.css';
 import { icon, type IconName } from './icons';
 import { ChatPane } from './chat-pane';
+import { keyHeaders, windowKey } from '../lib/window-key';
 
 export interface TermInfo { id: string; title: string; kind?: string; alive?: boolean }
 
@@ -29,7 +30,7 @@ export function isDockToggle(e: KeyboardEvent): boolean {
 }
 
 async function call<T>(method: string, path: string, body?: unknown): Promise<T> {
-  const response = await fetch(path, { method, headers: body === undefined ? undefined : { 'Content-Type': 'application/json' }, body: body === undefined ? undefined : JSON.stringify(body) });
+  const response = await fetch(path, { method, headers: body === undefined ? keyHeaders() : { 'Content-Type': 'application/json', ...keyHeaders() }, body: body === undefined ? undefined : JSON.stringify(body) });
   const data = await response.json().catch(() => ({}));
   if (!response.ok) throw new Error(typeof data.detail === 'string' ? data.detail : `Request failed (${response.status}).`);
   return data as T;
@@ -284,7 +285,7 @@ export class TerminalDock {
     const proto = location.protocol === 'https:' ? 'wss:' : 'ws:';
     const socket = new WebSocket(`${proto}//${location.host}/api/terminal/${encodeURIComponent(t.id)}/ws`);
     t.socket = socket;
-    socket.addEventListener('open', () => this.sendSize(t));
+    socket.addEventListener('open', () => { socket.send(JSON.stringify({ type: 'key', key: windowKey() })); this.sendSize(t); });
     socket.addEventListener('message', msg => {
       const data = String(msg.data);
       if (data === EXIT) {

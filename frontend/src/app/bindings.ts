@@ -1,4 +1,5 @@
 import { api } from '../lib/api';
+import { keyHeaders } from '../lib/window-key';
 import { onLanguage, t } from '../lib/i18n';
 import { onPdfText } from './pdf-text';
 import { isColor } from '../lib/color';
@@ -190,7 +191,7 @@ function stopCapture(note = 'Click a shortcut to change it, then press the new k
 }
 
 function saveKeys() {
-  void fetch('/api/preferences', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ keys: keyOverrides() }) })
+  void fetch('/api/preferences', { method: 'PUT', headers: { 'Content-Type': 'application/json', ...keyHeaders() }, body: JSON.stringify({ keys: keyOverrides() }) })
     .then(response => { if (!response.ok) toast('Shortcuts were not saved.'); });
 }
 

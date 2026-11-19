@@ -50,6 +50,7 @@ FormRef's original source and vector artwork are Apache-2.0. The repository's fu
 | websockets | 15.0.1 | BSD-3-Clause | Uvicorn WebSocket support for the terminal dock |
 | pypdfium2 | 5.14.0 | Apache-2.0 or BSD-3-Clause; bundled PDFium BSD-3-Clause | Server-side rendering of PDF pages into image references, and drawing the PDF exports (board and single document) |
 | fontTools | 4.68.0 | MIT | Subsets the system fonts embedded in PDF exports; its wheel ships no font files |
+| keyring | 25.7.0 | MIT | Keeps the key that protects the stored agent access choice in the operating system's keychain; without a keychain FormRef runs and reports the protection as unavailable |
 | ptyprocess | 0.7.0 | ISC | Terminal dock pseudo-terminals on macOS and Linux |
 | pywinpty | 3.0.5 | MIT; the Windows wheel also bundles winpty (MIT) and the Windows Terminal ConPTY, `conpty.dll` and `OpenConsole.exe` (MIT) | Terminal dock pseudo-terminals on Windows (ConPTY) |
 | PyInstaller | 6.22.3 | GPL-2.0-or-later with the Bootloader exception (its bootloader is embedded in the frozen engine; the exception allows distributing it with any program) | Build-time only: freezes the desktop engine (`backend/requirements_desktop.txt`) |

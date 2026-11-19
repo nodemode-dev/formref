@@ -14,7 +14,7 @@ MEDIA = {".png", ".jpg", ".jpeg", ".webp", ".gif", ".bmp", ".avif", ".svg", ".mp
 
 
 def call(method: str, path: str, body: bytes | None = None, headers: dict | None = None):
-    req = request.Request(API + path, data=body, method=method, headers=headers or {})
+    req = request.Request(API + path, data=body, method=method, headers={"X-FormRef-Client": "outside", **(headers or {})})
     try:
         with request.urlopen(req, timeout=120) as response:
             return json.loads(response.read() or b"null")

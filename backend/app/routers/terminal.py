@@ -7,7 +7,7 @@ from fastapi.responses import FileResponse, StreamingResponse
 from pydantic import BaseModel, Field
 
 from ..agent import chat, claude_code, terminal
-from ..core import origins
+from ..core import origins, window_key
 
 router = APIRouter(prefix="/api", tags=["terminal"])
 EXIT = json.dumps({"type": "exit"})
@@ -19,9 +19,11 @@ def _local(origin: str | None, host: str) -> bool:
     return not origin or origins.allowed(origin, host)
 
 
-def _window_only(request: Request) -> None:
+def _window_only(request: Request, keyed: bool = True) -> None:
     if request.headers.get("x-formref-client"):
         raise HTTPException(status_code=403, detail="Terminals and Claude Code are only available in the FormRef window.")
+    if keyed:
+        window_key.require(request)
 
 
 class Open(BaseModel):
@@ -139,7 +141,7 @@ def chat_adopt(body: ChatAdopt, request: Request):
 
 @router.get("/chat/image/{name}")
 def chat_image(name: str, request: Request):
-    _window_only(request)
+    _window_only(request, keyed=False)
     if not re.fullmatch(r"[0-9a-f]{32}\.(jpg|png|webp)", name):
         raise HTTPException(status_code=404, detail="No such image.")
     path = chat.images_dir() / name
@@ -149,8 +151,10 @@ def chat_image(name: str, request: Request):
 
 
 @router.get("/chat/events")
-async def chat_events(request: Request):
-    _window_only(request)
+async def chat_events(request: Request, ticket: str = ""):
+    _window_only(request, keyed=False)
+    if not window_key.spend(ticket):
+        raise HTTPException(status_code=403, detail=window_key.REFUSED)
     q: asyncio.Queue = asyncio.Queue()
     chat.SUBSCRIBERS.add(q)
 
@@ -175,6 +179,13 @@ async def attach(ws: WebSocket, sid: str) -> None:
         await ws.close(code=4403)
         return
     await ws.accept()
+    try:
+        first = json.loads(await asyncio.wait_for(ws.receive_text(), 10))
+    except (asyncio.TimeoutError, ValueError, WebSocketDisconnect):
+        first = None
+    if not isinstance(first, dict) or first.get("type") != "key" or not window_key.valid(first.get("key")):
+        await ws.close(code=4403)
+        return
     try:
         session = terminal.get(sid)
     except KeyError:

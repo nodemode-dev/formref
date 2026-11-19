@@ -1,5 +1,6 @@
 import type { Item } from '../lib/types';
 import { api } from '../lib/api';
+import { keyHeaders } from '../lib/window-key';
 import { formatLocale, locale, t } from '../lib/i18n';
 import { paintImage } from '../lib/image-geometry';
 import { icon } from '../ui/icons';
@@ -303,7 +304,7 @@ logScope.addEventListener('change', scopeLog);
 // Clearing takes two clicks on the same button instead of a browser confirm.
 clearLog.addEventListener('click', async () => {
   if (!clearArmed) { clearArmed = true; clearLog.textContent = 'Click Again to Clear'; clearLog.classList.add('danger'); return; }
-  const response = await fetch('/api/practice', { method: 'DELETE' }).catch(() => null);
+  const response = await fetch('/api/practice', { method: 'DELETE', headers: keyHeaders() }).catch(() => null);
   if (!response?.ok) { toast('The practice log could not be cleared.'); return; }
   logEntries = [];
   clearArmed = false;
@@ -319,7 +320,7 @@ function logSession(): void {
   if (logged || !seen.size) return;
   logged = true;
   const board = S.state?.board;
-  void fetch('/api/practice', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ board_id: board?.id || '', board_title: (board?.title || '').slice(0, 200), pictures: seen.size, seconds_each: plan ? 0 : seconds, drawing_seconds: Math.round(spent / 1000), ...(plan ? { plan } : {}) }) }).catch(() => undefined);
+  void fetch('/api/practice', { method: 'POST', headers: { 'Content-Type': 'application/json', ...keyHeaders() }, body: JSON.stringify({ board_id: board?.id || '', board_title: (board?.title || '').slice(0, 200), pictures: seen.size, seconds_each: plan ? 0 : seconds, drawing_seconds: Math.round(spent / 1000), ...(plan ? { plan } : {}) }) }).catch(() => undefined);
 }
 
 async function history(): Promise<string> {

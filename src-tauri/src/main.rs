@@ -3,11 +3,12 @@
 mod reveal;
 
 use std::fs::{self, File};
+use std::io::{BufRead, BufReader, Write};
 use std::net::{SocketAddr, TcpListener, TcpStream};
 use std::path::PathBuf;
-use std::process::{Child, Command, Stdio};
+use std::process::{Child, ChildStdout, Command, Stdio};
 use std::sync::atomic::{AtomicBool, Ordering};
-use std::sync::Mutex;
+use std::sync::{mpsc, Mutex};
 use std::time::{Duration, Instant};
 
 use serde::Serialize;
@@ -47,7 +48,36 @@ fn sidecar(name: &str) -> Result<PathBuf, String> {
     }
 }
 
-fn start_engine(app: &AppHandle, port: u16) -> Result<(Child, PathBuf), String> {
+/// The engine prints this line, then its key, on its standard output before it starts serving; only this shell reads that pipe.
+const KEY_LINE: &str = "formref-window-key: ";
+
+/// Reads the engine's standard output for as long as it runs, so the pipe never fills: the key line goes to the
+/// channel and never to the log, every other line goes to the log.
+fn relay_engine_output(stdout: ChildStdout, mut log: File, keys: mpsc::Sender<String>) {
+    let mut reader = BufReader::new(stdout);
+    let mut raw = Vec::new();
+    let mut handed = false;
+    loop {
+        raw.clear();
+        match reader.read_until(b'\n', &mut raw) {
+            Ok(0) | Err(_) => break,
+            Ok(_) => {}
+        }
+        let text = String::from_utf8_lossy(&raw);
+        let line = text.trim_end();
+        if !handed {
+            if let Some(key) = line.strip_prefix(KEY_LINE) {
+                if key.len() >= 32 && key.chars().all(|c| c.is_ascii_alphanumeric() || c == '-' || c == '_') {
+                    handed = keys.send(key.to_string()).is_ok();
+                    continue;
+                }
+            }
+        }
+        let _ = writeln!(log, "{line}");
+    }
+}
+
+fn start_engine(app: &AppHandle, port: u16) -> Result<(Child, PathBuf, mpsc::Receiver<String>), String> {
     let logs = app.path().app_log_dir().map_err(|error| error.to_string())?;
     fs::create_dir_all(&logs).map_err(|error| format!("{}: {error}", logs.display()))?;
     let log_path = logs.join("engine.log");
@@ -59,17 +89,21 @@ fn start_engine(app: &AppHandle, port: u16) -> Result<(Child, PathBuf), String> 
         .env("FORMREF_API_URL", format!("http://127.0.0.1:{port}"))
         .env("FORMREF_ENGINE_PATH", sidecar("formref-core")?)
         .env("FORMREF_PARENT_PID", std::process::id().to_string())
+        .env("FORMREF_WINDOW_KEY_STDOUT", "1")
         .current_dir(&logs)
         .stdin(Stdio::null())
-        .stdout(log)
+        .stdout(Stdio::piped())
         .stderr(err);
     #[cfg(windows)]
     {
         use std::os::windows::process::CommandExt;
         command.creation_flags(0x0800_0000);
     }
-    let child = command.spawn().map_err(|error| format!("the engine did not start: {error}"))?;
-    Ok((child, log_path))
+    let mut child = command.spawn().map_err(|error| format!("the engine did not start: {error}"))?;
+    let stdout = child.stdout.take().ok_or("the engine's output could not be read")?;
+    let (sender, keys) = mpsc::channel();
+    std::thread::spawn(move || relay_engine_output(stdout, log, sender));
+    Ok((child, log_path, keys))
 }
 
 fn wait_for(port: u16, child: &mut Child) -> Result<(), String> {
@@ -142,13 +176,22 @@ fn open_outside(url: &str) {
 /// at the engine's own origin, which serves the window and the API together, so relative `/api` calls,
 /// event streams and terminal sockets work as they do from `./formref serve`. Dev keeps the configured URL,
 /// which Tauri resolves against `devUrl` (Vite, which proxies `/api` to 8320).
-fn open_main(app: &AppHandle, port: Option<u16>) -> Result<(), String> {
+fn open_main(app: &AppHandle, port: Option<u16>, key: Option<String>) -> Result<(), String> {
     let mut config = app.config().app.windows.iter().find(|window| window.label == "main").cloned().ok_or("Main window missing")?;
     if let Some(port) = port {
         let url = tauri::Url::parse(&format!("http://127.0.0.1:{port}/")).map_err(|error| error.to_string())?;
         config.url = WebviewUrl::External(url);
     }
     let builder = WebviewWindowBuilder::from_config(app, &config).map_err(|error| error.to_string())?;
+    // The engine's window key reaches the page only on the engine's own origin, as one global the page reads once and deletes.
+    let builder = match (port, key) {
+        (Some(port), Some(key)) => builder.initialization_script(format!(
+            "if (window.location.origin === {}) {{ window.__FORMREF_WINDOW_KEY = {}; }}",
+            js_string(&format!("http://127.0.0.1:{port}")),
+            js_string(&key)
+        )),
+        _ => builder,
+    };
     // The macOS web view cancels every download unless a handler is set, so exports and Save Board did nothing
     // there. With one, the file goes to the Downloads folder and the page is told when it has arrived.
     #[cfg(not(windows))]
@@ -208,15 +251,16 @@ fn fail(app: &AppHandle, message: &str) {
 
 fn boot(app: AppHandle) {
     let result = engine_port().and_then(|port| {
-        let (mut child, log) = start_engine(&app, port)?;
+        let (mut child, log, keys) = start_engine(&app, port)?;
         let ready = wait_for(port, &mut child);
         if let Ok(mut slot) = app.state::<Engine>().0.lock() {
             *slot = Some(child);
         }
         ready.map_err(|error| format!("{error}. Its log is {}", log.display()))?;
-        Ok(port)
+        let key = keys.recv_timeout(Duration::from_secs(10)).map_err(|_| format!("the engine did not hand over its window key. Its log is {}", log.display()))?;
+        Ok((port, key))
     });
-    if let Err(error) = result.and_then(|port| open_main(&app, Some(port))) {
+    if let Err(error) = result.and_then(|(port, key)| open_main(&app, Some(port), Some(key))) {
         fail(&app, &error);
     }
 }
@@ -478,7 +522,7 @@ fn main() {
             // A packaged app starts its own engine and opens the window on it once it answers; a dev shell
             // (./formref desktop) uses the service and Vite server the launcher started.
             if cfg!(debug_assertions) {
-                open_main(app.handle(), None)?;
+                open_main(app.handle(), None, None)?;
             } else {
                 let handle = app.handle().clone();
                 std::thread::spawn(move || boot(handle));

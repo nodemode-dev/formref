@@ -1,4 +1,5 @@
 import { api } from '../lib/api';
+import { keyHeaders } from '../lib/window-key';
 import type { State } from '../lib/types';
 import { S, fit, fitCamera, open, scene, stage, toast } from './editor';
 import { registry } from './registry';
@@ -20,7 +21,7 @@ const PRELOAD_WAIT = 15000;
 
 /** The service imports a demo it ships with from its own copy; a service without the built window's files answers 404, and the window then sends the file itself. */
 async function importDemo(found: Demo): Promise<State> {
-  const shipped = await fetch(`/api/demos/${found.id}/open`, { method: 'POST' });
+  const shipped = await fetch(`/api/demos/${found.id}/open`, { method: 'POST', headers: keyHeaders() });
   if (shipped.ok) return await shipped.json() as State;
   if (shipped.status !== 404) throw new Error(String(shipped.status));
   const response = await fetch(found.file);

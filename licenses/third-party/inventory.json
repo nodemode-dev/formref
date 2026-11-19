@@ -154,6 +154,14 @@
     ]
   },
   {
+    "name": "keyring",
+    "version": "25.7.0",
+    "license": "MIT",
+    "license_files": [
+      "python/keyring/LICENSE"
+    ]
+  },
+  {
     "name": "mcp",
     "version": "1.30.0",
     "license": "MIT",

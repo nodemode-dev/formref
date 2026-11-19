@@ -1,11 +1,15 @@
 import asyncio
+import ipaddress
 import json
 import os
 import secrets
 import uuid
+from pathlib import Path
+from urllib.parse import urlsplit
 
 import httpx
 
+from ..core import seal
 from ..core.config import ROOT, settings
 from ..core.store import store
 from . import runners
@@ -17,6 +21,26 @@ SNAPSHOT_KEYS = ("items", "connections", "settings", "title", "background")
 BULK = 10
 CONFIRM_SECONDS = 300
 MOVES = {"transform": "Move or resize", "pack": "Pack", "sort": "Sort and lay out", "distribute": "Distribute", "align": "Align", "snap": "Snap", "normalize": "Resize"}
+TOKENLESS = ("codex", "cursor")
+TOKEN_FOLDER = "AgentTokens"
+
+
+def loopback_url(value) -> bool:
+    if not isinstance(value, str) or value != value.strip() or "\\" in value or any(ord(c) < 33 for c in value):
+        return False
+    try:
+        parts = urlsplit(value)
+        parts.port
+    except ValueError:
+        return False
+    if parts.scheme != "http" or parts.username is not None or parts.password is not None or not parts.hostname:
+        return False
+    if parts.hostname == "localhost":
+        return True
+    try:
+        return ipaddress.ip_address(parts.hostname).is_loopback
+    except ValueError:
+        return False
 
 
 class Agents:
@@ -27,6 +51,7 @@ class Agents:
         self.stopped: set[str] = set()
         self.cli_turns = 0
         self.cli_active: list[str] = []
+        self.token_files: dict[str, Path] = {}
         self.refusals = 0
         self.token_turn: dict[str, str] = {}
         self.queues: dict[str, asyncio.Queue] = {}
@@ -37,15 +62,45 @@ class Agents:
     def path(self):
         return settings.data_dir / "agent.json"
 
-    def settings(self) -> dict:
+    def stored(self) -> dict:
         try:
             saved = json.loads(self.path.read_text(encoding="utf-8"))
         except (OSError, ValueError):
             saved = {}
-        return {**DEFAULTS, **{k: v for k, v in saved.items() if k in DEFAULTS}}
+        return saved if isinstance(saved, dict) else {}
+
+    def settings(self) -> dict:
+        found = seal.effective(self.stored())
+        out = {**DEFAULTS, **{k: v for k, v in found.items() if k in DEFAULTS}, "seal": found["seal"], "seal_broken": found["seal_broken"]}
+        if not loopback_url(out["ollama_url"]):
+            out["ollama_url"] = DEFAULTS["ollama_url"]
+        return out
+
+    def token_file(self, token: str, body: dict) -> str:
+        folder = settings.data_dir / TOKEN_FOLDER
+        folder.mkdir(mode=0o700, parents=True, exist_ok=True)
+        path = folder / f"mcp-{secrets.token_hex(8)}.json"
+        fd = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
+        with os.fdopen(fd, "w", encoding="utf-8") as handle:
+            handle.write(json.dumps(body))
+        self.token_files[token] = path
+        return str(path)
+
+    def revoke(self, token: str) -> None:
+        self.tokens.discard(token)
+        path = self.token_files.pop(token, None)
+        if path is not None:
+            try:
+                path.unlink()
+            except OSError:
+                pass
 
     def save(self, patch: dict) -> dict:
-        current = self.settings()
+        stored = self.stored()
+        sealing = any(key in patch for key in seal.SEALED)
+        current = {**DEFAULTS, **{k: v for k, v in stored.items() if k in DEFAULTS}}
+        if sealing:
+            current.update({k: v for k, v in self.settings().items() if k in seal.SEALED})
         for key, value in patch.items():
             if key not in DEFAULTS:
                 raise ValueError(f"Unknown agent setting {key}.")
@@ -55,19 +110,26 @@ class Agents:
                 raise ValueError("runner must be claude, codex, cursor or ollama.")
             if key in ("ollama_url", "ollama_model", "model", "claude_folder", "claude_bin", "claude_first_message") and not isinstance(value, str):
                 raise ValueError(f"{key} must be text.")
-            if key == "ollama_url" and not value.startswith(("http://127.0.0.1", "http://localhost", "http://[::1]")):
+            if key == "ollama_url" and not loopback_url(value):
                 raise ValueError("ollama_url must be a loopback address.")
             current[key] = value
+        if sealing:
+            current = seal.sign(current)
+        elif seal.FIELD in stored:
+            current[seal.FIELD] = stored[seal.FIELD]
         settings.data_dir.mkdir(parents=True, exist_ok=True)
         store.atomic_write(self.path, json.dumps(current, indent=1).encode())
-        return current
+        return self.settings()
 
     def allows(self, client: str) -> bool:
         if client in self.tokens:
             return True
-        if client == "outside" and self.cli_turns > 0:
+        if client == "outside" and self.tokenless_turn() is not None:
             return True
         return bool(self.settings()["outside_agents"])
+
+    def tokenless_turn(self) -> str | None:
+        return next((t for t in reversed(self.cli_active) if self.turns.get(t, {}).get("runner") in TOKENLESS), None)
 
     async def available(self) -> list[dict]:
         rows = []
@@ -145,7 +207,7 @@ class Agents:
 
     async def confirm(self, client: str, summary: str) -> bool:
         """Hold a risky write from a panel turn until the person answers in the Agent panel."""
-        turn_id = self.token_turn.get(client) or (self.cli_active[-1] if client == "outside" and self.cli_active else None)
+        turn_id = self.token_turn.get(client) or (self.tokenless_turn() if client == "outside" else None)
         queue = self.queues.get(turn_id or "")
         if queue is None or turn_id in self.approved or not self.settings()["confirm_changes"]:
             return True
@@ -218,11 +280,12 @@ class Agents:
         binary = runners.find(runner)
         if not binary:
             raise ValueError(f"{runners.CLI[runner]['label']} is not installed on this computer. {runners.CLI[runner]['install']}")
-        env = {**os.environ, "FORMREF_API_URL": API_URL, "FORMREF_AGENT_TOKEN": token}
+        env = {k: v for k, v in os.environ.items() if k != "FORMREF_WINDOW_KEY_STDOUT"} | {"FORMREF_API_URL": API_URL, "FORMREF_AGENT_TOKEN": token}
+        mcp_file = self.token_file(token, {"mcpServers": {"formref": runners.mcp_server(token, API_URL)}}) if runner == "claude" else ""
         self.cli_turns += 1
         self.cli_active.append(turn_id)
         try:
-            process = await asyncio.create_subprocess_exec(*runners.argv(runner, binary, prompt, token, API_URL, config["model"]),
+            process = await asyncio.create_subprocess_exec(*runners.argv(runner, binary, prompt, token, API_URL, config["model"], mcp_file),
                                                            cwd=str(ROOT), env=env, stdin=asyncio.subprocess.DEVNULL,
                                                            stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE, limit=8 * 1024 * 1024)
             self.processes[turn_id] = process
@@ -236,6 +299,7 @@ class Agents:
         finally:
             self.cli_turns -= 1
             self.cli_active.remove(turn_id)
+            self.revoke(token)
 
     async def _ollama(self, turn_id, prompt, token, config):
         from .. import mcp_server

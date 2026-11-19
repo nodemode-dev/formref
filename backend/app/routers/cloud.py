@@ -5,7 +5,7 @@ import uuid
 from fastapi import APIRouter, Request
 from fastapi.responses import HTMLResponse, JSONResponse
 
-from ..core import cloud
+from ..core import cloud, window_key
 from ..core.builtins import registry
 from ..core.clipper import free_spot
 from ..core.store import store
@@ -18,6 +18,7 @@ def from_agent(request: Request):
     # Cloud transfers move boards off this computer, so only the person in FormRef makes them, never an agent.
     if request.headers.get("x-formref-client"):
         return JSONResponse(status_code=403, content={"detail": "Cloud transfers are made by the person in FormRef, not by agents.", "code": "cloud_person_only"})
+    window_key.require(request)
     return None
 
 

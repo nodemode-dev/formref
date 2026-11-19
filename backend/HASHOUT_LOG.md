@@ -8,6 +8,7 @@
 
 ## Contents
 
+- [Unreleased · The window key, and the agent access fixes](#unreleased--the-window-key-and-the-agent-access-fixes)
 - [v0.39.2 · PDF export and SVG pictures without a system library, and six smaller fixes](#v0392--pdf-export-and-svg-pictures-without-a-system-library-and-six-smaller-fixes)
 - [v0.39.0 · A closed window's poll takes no job, and four smaller fixes](#v0390--a-closed-windows-poll-takes-no-job-and-four-smaller-fixes)
 - [v0.38.1 · The window's scripts keep their types on Windows](#v0381--the-windows-scripts-keep-their-types-on-windows)
@@ -45,6 +46,24 @@
 - [v0.2.0 · Canvas settings and snapping through MCP](#v020--canvas-settings-and-snapping-through-mcp)
 - [v0.1.0 · Local board service and SDK MCP](#v010--local-board-service-and-sdk-mcp)
 - [boot_backend.bat](#boot_backendbat)
+
+## Unreleased · The window key, and the agent access fixes
+
+- refers-to: `app/core/window_key.py` (new) :: WindowKeyGuard, OPEN, BRIDGE, claim, ticket, spend; `app/core/seal.py` (new) :: effective, sign; `app/routers/window.py` (new); `app/main.py` :: app.add_middleware; `app/routers/terminal.py` :: _window_only, chat_events, attach; `app/routers/agent.py` :: save_agent_settings; `app/routers/commands.py` :: _window_only; `app/routers/cloud.py` :: from_agent; `app/routers/clip.py` :: get_token, reset_token; `app/agent/service.py` :: loopback_url, Agents.settings, save, allows, tokenless_turn, token_file, revoke, _cli; `app/agent/claude_code.py` :: issue, revoke, argv; `app/agent/chat.py` :: _run; `app/agent/runners.py` :: argv; `app/agent/terminal.py` :: Session.on_close, base_env; `app/cli.py` :: call; `formref_engine.py` :: main; `freeze_engine`; `requirements.txt`, `requirements_macos.txt`
+
+The window key. The engine makes a random key at start and keeps it in memory. Every request that is not a GET, HEAD or OPTIONS needs it in `X-FormRef-Window-Key`, in one place (`WindowKeyGuard`, outermost), unless its path is on the open list: `/mcp` (outside agents), `/api/window/key` (the development bootstrap) and `/api/clip` (the browser extension, which keeps its own token and Origin checks). The stdio relay and the command line cannot hold the key; they reach the engine's REST routes with `X-FormRef-Client`, and the guard lets exactly the routes the MCP tools use (`BRIDGE`) through for such a caller, where the existing consent check still decides. Every other write from a caller that names itself an outside agent is refused. Reads that return a secret or a session (the clipper token, the terminal list, Claude Code and Chat state, the command long poll, cloud listings) need the key too. The terminal socket needs the key as its first message, and the Chat event stream a one-time ticket (`POST /api/window/ticket`, 30 seconds, spent once), because a browser cannot set headers on those.
+
+How the window gets it. The desktop shell starts the engine with `FORMREF_WINDOW_KEY_STDOUT=1`; the engine then prints `formref-window-key: <key>` on its standard output before it serves, flushed, and the shell reads that pipe and sets one page global on the engine's own origin. Without the variable the engine prints nothing and `POST /api/window/key` answers once; a second try answers 409 and is reported as `second_window_claim` in the agent settings. With the variable the route does not exist. The development mode is weaker by nature: any local program that asks first gets the key.
+
+The command line. `./formref open` and `./formref import` now send `X-FormRef-Client: outside`, so they follow the stored choice (outside agents off by default) and cannot change it. They need `PUT /api/session` besides the MCP routes, so that route is on the bridge list.
+
+In-app agent tokens. Each Claude Code tab and each Chat run gets its own token, written to a mode 0600 file in `AgentTokens` under the data folder that the child reads as its `--mcp-config`; the token is never on a command line, not in a plain terminal's environment, and dies when the tab closes (or the run ends). A panel turn hands Claude Code its MCP configuration the same way. `FORMREF_WINDOW_KEY_STDOUT` is removed from the environment of terminals and agent children.
+
+The stored choice is sealed. `agent.json` gains a `seal`: an HMAC-SHA256 over `outside_agents` and `claude_bin` with a random key kept in the operating system's keychain (`keyring`, service FormRef, account settings-seal). A seal that is missing or wrong while either field is loosened makes the engine act as if outside agents were off and the program path unset, and report `seal_broken`; the window's next write of those fields seals them again. With no keychain the engine runs, the stored values stand and `seal` reads `unavailable`. `keyring` is imported lazily inside a try block so a packaging miss cannot stop the engine. The first launch after this update treats an existing "outside agents on" as off until the person turns it on again.
+
+The agent access fixes. The Ollama address check compared the start of the text, so `http://127.0.0.1.something.example` passed; it now parses the address and accepts only `http`, no user name, and `localhost` or a loopback IP address, both when it is saved and when it is read (a hand-edited file falls back to the default). Agent settings, including Confirm changes, change only with the window key. An outside caller was accepted for as long as any panel command-line turn ran; the allowance now applies only while a Codex or Cursor turn runs (their stdio relay does not receive the per-turn token, which could not be checked here), and the confirm card for that caller goes to that turn.
+
+Not changed: `/api/clip/boards` and the clipper's pairing token, the Host, Origin and consent checks, the sockets' Origin rule.
 
 ## v0.39.2 · PDF export and SVG pictures without a system library, and six smaller fixes
 

@@ -1,4 +1,3 @@
-import json
 import os
 import secrets
 import shlex
@@ -19,8 +18,6 @@ NOTE = ("You are Claude Code running in the terminal dock inside FormRef, the re
         "Work on boards with the formref MCP server's tools: start with list_boards or get_board to learn ids, "
         "and use get_board_image to look at the board before and after a change. They act on the board open in the window, "
         "the person sees every change happen, and each change is one undo step. Respect locked items.")
-INAPP_TOKEN = secrets.token_urlsafe(24)
-agents.tokens.add(INAPP_TOKEN)
 _cache: dict = {"at": 0.0, "value": None}
 
 
@@ -77,8 +74,15 @@ def info(fresh: bool = False) -> dict:
     return _cache["value"]
 
 
-def mcp_config() -> str:
-    return json.dumps({"mcpServers": {"formref": {"type": "http", "url": terminal.API_URL + "/mcp", "headers": {"x-formref-inapp": INAPP_TOKEN}}}})
+def issue() -> tuple[str, str]:
+    token = secrets.token_urlsafe(32)
+    path = agents.token_file(token, {"mcpServers": {"formref": {"type": "http", "url": terminal.API_URL + "/mcp", "headers": {"x-formref-inapp": token}}}})
+    agents.tokens.add(token)
+    return token, path
+
+
+def revoke(token: str) -> None:
+    agents.revoke(token)
 
 
 def workdir() -> Path:
@@ -91,8 +95,8 @@ def workdir() -> Path:
     return folder
 
 
-def argv(path: str, prompt: str | None, resume: str | None = None) -> list[str]:
-    cmd = [path, "--mcp-config", mcp_config(), "--allowedTools", "mcp__formref", "--append-system-prompt", NOTE]
+def argv(path: str, prompt: str | None, resume: str | None, mcp_file: str) -> list[str]:
+    cmd = [path, "--mcp-config", mcp_file, "--allowedTools", "mcp__formref", "--append-system-prompt", NOTE]
     if resume:
         cmd += ["--resume", resume]
     if prompt:
@@ -120,5 +124,11 @@ def open_tab(prompt: str | None = None, cols: int | None = None, rows: int | Non
         raise ValueError(INSTALL)
     prompt = prompt or _pref("claude_first_message") or None
     title = "Claude Code (resumed)" if resume else "Claude Code"
-    session = terminal.open_session(str(workdir()), cols or 100, rows or 30, title, argv(found["path"], prompt, resume), child_env(), "claude")
+    token, mcp_file = issue()
+    try:
+        session = terminal.open_session(str(workdir()), cols or 100, rows or 30, title, argv(found["path"], prompt, resume, mcp_file), child_env(), "claude")
+    except BaseException:
+        revoke(token)
+        raise
+    session.on_close.append(lambda: revoke(token))
     return session.describe()

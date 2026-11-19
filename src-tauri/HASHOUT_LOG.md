@@ -16,6 +16,12 @@ src-tauri/
   binaries/                          Frozen sidecars per host triple (built, not tracked)
 ```
 
+## Unreleased · The engine hands the window its key
+
+- refers-to: src/main.rs :: relay_engine_output, start_engine, boot, open_main
+
+The shell starts the engine with `FORMREF_WINDOW_KEY_STDOUT=1` and a piped standard output instead of the log file. `relay_engine_output` runs on its own thread for as long as the engine runs: it reads bytes up to each newline, so odd bytes cannot stop it and the pipe never fills, sends the one `formref-window-key: ` line to a channel (never to the log) and writes every other line to `engine.log`. `boot` waits for the engine's port as before, then waits at most 10 seconds for the key on the channel and shows the splash message if it never comes. `open_main` adds one `initialization_script` that sets `window.__FORMREF_WINDOW_KEY` only when `location.origin` is the engine's own `http://127.0.0.1:<port>`; the dev shell passes no key and the page asks the development bootstrap instead. The method is `WebviewWindowBuilder::initialization_script(self, impl Into<String>) -> Self` in tauri 2.12.3 (the pinned version, read from its source). This could not be compiled here.
+
 ## v0.39.0 · Downloads, outside links, a clean engine stop and the menu permission
 
 - refers-to: src/main.rs :: open_main, open_outside, stop_engine; capabilities/main-window.json :: permissions; tauri.conf.json :: app.security.csp (unchanged)
