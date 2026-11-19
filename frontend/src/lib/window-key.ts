@@ -16,6 +16,9 @@ async function loadWindowKey(): Promise<void> {
   const given = holder.__FORMREF_WINDOW_KEY;
   delete holder.__FORMREF_WINDOW_KEY;
   if (typeof given === 'string' && given) { key = given; return; }
+  key = remembered();
+  if (key && await streamTicket().catch(() => '')) return;
+  key = '';
   try {
     const res = await fetch('/api/window/key', { method: 'POST' });
     const body = res.ok ? await res.json() as { key?: unknown } : {};
@@ -23,8 +26,6 @@ async function loadWindowKey(): Promise<void> {
   } catch { key = ''; }
   key = remembered();
 }
-
-await loadWindowKey();
 
 export const windowKey = (): string => key;
 
@@ -36,3 +37,5 @@ export async function streamTicket(): Promise<string> {
   const body = await res.json() as { ticket?: unknown };
   return typeof body.ticket === 'string' ? body.ticket : '';
 }
+
+await loadWindowKey();

@@ -9,6 +9,8 @@
 - [Verification](#verification)
 - [Scripts](#scripts)
 - [Unreleased · The page holds the window key](#unreleased--the-page-holds-the-window-key)
+- [Unreleased · A reload tries the kept key first](#unreleased--a-reload-tries-the-kept-key-first)
+- [Unreleased · A reset agent choice is told once](#unreleased--a-reset-agent-choice-is-told-once)
 - [Unreleased · Ctrl+J is the terminal dock](#unreleased--ctrlj-is-the-terminal-dock)
 - [v0.39.2 · Connections, text cards, the tag cloud, tabs, Preferences at 390 px, the demo's first open and 59 untranslated strings](#v0392--connections-text-cards-the-tag-cloud-tabs-preferences-at-390-px-the-demos-first-open-and-59-untranslated-strings)
 - [v0.39.1 · The credits shown in the demo boards match the records](#v0391--the-credits-shown-in-the-demo-boards-match-the-records)
@@ -71,6 +73,18 @@
 - refers-to: `src/lib/window-key.ts` (new) :: keyHeaders, windowKey, streamTicket; `src/lib/api.ts` :: request; `src/ui/terminal-dock.ts` :: call, connect; `src/ui/chat-pane.ts` :: call, connect, open; `src/ui/panels/agent.ts`; `src/app/catalogue.ts`; `src/app/practice.ts`; `src/app/bindings.ts`; `src/app/demos.ts`; `src/app/saved-search.ts`; `src/app/tabs.ts`
 
 The module takes the key once at boot with a top-level await, so every module that imports it evaluates after the key is known and no request can leave without it: the packaged shell's global `__FORMREF_WINDOW_KEY` first (read once, then deleted), then the development bootstrap `POST /api/window/key`, remembered in `sessionStorage` so a reload of the same tab keeps working. `request` in `lib/api.ts` and every raw `fetch` that writes, or reads the Claude Code state or the command long poll, adds `keyHeaders()`. The terminal socket sends the key as its first message. The Chat event stream asks for a one-time ticket and reopens with a new one if the stream closes. Plain reads (boards, assets, previews, settings, practice log, session, saved searches) and the board revision stream send nothing extra. No element is created, moved or re-rendered by this: in the packaged app there is no extra request at all, in development one small POST before the first module runs.
+
+## Unreleased · A reload tries the kept key first
+
+- refers-to: `src/lib/window-key.ts` :: loadWindowKey
+
+In development every reload used to ask `POST /api/window/key` again, which the engine refuses (409) and logs as a second claim that never happened. `loadWindowKey` now takes the packaged global first, then the key kept in `sessionStorage`, proving it with one `POST /api/window/ticket` (a ticket nobody uses), and asks the bootstrap route only when the kept key is refused (an engine that was restarted). The top-level `await loadWindowKey()` moved to the end of the module: `streamTicket` calls `keyHeaders`, a `const` declared further down, so with the await above it the check threw before it sent anything, was swallowed, and the bootstrap was asked every time. Seen in headless Chrome against a fresh engine: load, one bootstrap (200); two reloads, no bootstrap and one ticket each (200); every write after each reload 200 or 201; after an engine restart the kept key got 403 on the ticket and the bootstrap answered 200 once.
+
+## Unreleased · A reset agent choice is told once
+
+- refers-to: `src/ui/panels/agent.ts` :: load, setStatus
+
+When the engine reports `seal_broken` in the agent settings (the stored choice for outside agents or the Claude program was changed outside the app and has been put back to Ask), `load` writes one sentence into `#agent-status`: "The saved agent permission was changed outside FormRef, so it is back to Ask." That line already holds two lines of height (`.agent-status` has a `min-height`), so nothing moves, and it is set through `setStatus`, which writes only when the text differs. A later turn replaces it with the turn's own status, as that line always does. The string is in every complete language table.
 
 ## Unreleased · Ctrl+J is the terminal dock
 
