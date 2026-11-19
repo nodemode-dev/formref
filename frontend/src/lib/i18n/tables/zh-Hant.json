@@ -312,7 +312,7 @@
  "Always on top": "永遠置頂",
  "Amount": "數量",
  "An AI agent connected to FormRef from outside the app (such as Claude Code, Codex or Cursor) just tried to change a board and was refused. If you allow outside agents, each change it makes is one undoable step, and you can turn this off again in the Agent panel.": "有 AI 智慧代理從應用程式外部（如 Claude Code、Codex 或 Cursor）連線到 FormRef，並嘗試變更看板，但遭到拒絕。若你允許外部智慧代理，它所做的每項變更都是可復原的一個步驟，你也可以隨時在智慧代理面板中再次關閉此選項。",
- "An agent is waiting for your answer in the Agent panel (Ctrl+J).": "有智慧代理正在智慧代理面板中等待你的回答（Ctrl+J）。",
+ "An agent is waiting for your answer in the Agent panel.": "有智慧代理正在智慧代理面板中等待你的回答。",
  "An exploration of light, rhythm\\nand the spaces in between.": "對光、節奏\\n與其間空間的探索。",
  "An item can carry at most 12 labels.": "每個項目最多可有 12 個標籤。",
  "An outside agent wants to edit": "外部智慧代理想要編輯",

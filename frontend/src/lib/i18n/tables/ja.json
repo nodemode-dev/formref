@@ -312,7 +312,7 @@
  "Always on top": "常に手前に表示",
  "Amount": "量",
  "An AI agent connected to FormRef from outside the app (such as Claude Code, Codex or Cursor) just tried to change a board and was refused. If you allow outside agents, each change it makes is one undoable step, and you can turn this off again in the Agent panel.": "アプリの外部から FormRef に接続した AI エージェント（Claude Code、Codex、Cursor など）がボードの変更を試みましたが、拒否されました。外部エージェントを許可すると、その変更はそれぞれ 1 ステップとして取り消せます。この設定はエージェントパネルでいつでもオフに戻せます。",
- "An agent is waiting for your answer in the Agent panel (Ctrl+J).": "エージェントパネルでエージェントが回答を待っています（Ctrl+J）。",
+ "An agent is waiting for your answer in the Agent panel.": "エージェントパネルでエージェントが回答を待っています。",
  "An exploration of light, rhythm\\nand the spaces in between.": "光とリズム、\\nそしてその間にある空間の探求。",
  "An item can carry at most 12 labels.": "1 つのアイテムに付けられるラベルは最大 12 個です。",
  "An outside agent wants to edit": "外部エージェントが編集しようとしています",

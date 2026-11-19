@@ -312,7 +312,7 @@
  "Always on top": "Toujours au premier plan",
  "Amount": "Quantité",
  "An AI agent connected to FormRef from outside the app (such as Claude Code, Codex or Cursor) just tried to change a board and was refused. If you allow outside agents, each change it makes is one undoable step, and you can turn this off again in the Agent panel.": "Un agent IA connecté à FormRef depuis l'extérieur de l'application (comme Claude Code, Codex ou Cursor) vient d'essayer de modifier un tableau et a été refusé. Si vous autorisez les agents externes, chacune de ses modifications constitue une étape annulable, et vous pouvez le désactiver à tout moment dans le panneau Agent.",
- "An agent is waiting for your answer in the Agent panel (Ctrl+J).": "Un agent attend votre réponse dans le panneau Agent (Ctrl+J).",
+ "An agent is waiting for your answer in the Agent panel.": "Un agent attend votre réponse dans le panneau Agent.",
  "An exploration of light, rhythm\\nand the spaces in between.": "Une exploration de la lumière, du rythme\\net des espaces intermédiaires.",
  "An item can carry at most 12 labels.": "Un élément peut porter au plus 12 étiquettes.",
  "An outside agent wants to edit": "Un agent externe veut modifier",

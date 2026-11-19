@@ -1,6 +1,6 @@
 # Agent
 
-FormRef has an Agent panel in the right dock (Ctrl+J, or Ask Agent in the right-click menu). Type a request about the open board and an agent edits it through FormRef's own MCP tools while you watch.
+FormRef has an Agent panel in the right dock (the Agent button in the title bar, or Ask Agent in the right-click menu). Type a request about the open board and an agent edits it through FormRef's own MCP tools while you watch.
 
 ## Runners
 

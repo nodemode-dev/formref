@@ -218,7 +218,7 @@ export class AgentPanel {
     this.log.append(card);
     this.log.scrollTop = this.log.scrollHeight;
     this.asks.set(event.id, card);
-    if (!this.log.offsetParent) this.hooks.notify('An agent is waiting for your answer in the Agent panel (Ctrl+J).');
+    if (!this.log.offsetParent) this.hooks.notify('An agent is waiting for your answer in the Agent panel.');
     actions.querySelector<HTMLButtonElement>('.primary')?.focus({ preventScroll: true });
   }
 

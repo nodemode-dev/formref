@@ -312,7 +312,7 @@
  "Always on top": "Mindig felül",
  "Amount": "Mennyiség",
  "An AI agent connected to FormRef from outside the app (such as Claude Code, Codex or Cursor) just tried to change a board and was refused. If you allow outside agents, each change it makes is one undoable step, and you can turn this off again in the Agent panel.": "Egy, az alkalmazáson kívülről a FormRefhez csatlakozott MI-ügynök (például Claude Code, Codex vagy Cursor) éppen módosítani próbált egy táblát, de elutasítottuk. Ha engedélyezed a külső ügynököket, minden módosítása egy visszavonható lépés lesz, és az Ügynök panelen újra kikapcsolhatod.",
- "An agent is waiting for your answer in the Agent panel (Ctrl+J).": "Egy ügynök a válaszodra vár az Ügynök panelen (Ctrl+J).",
+ "An agent is waiting for your answer in the Agent panel.": "Egy ügynök a válaszodra vár az Ügynök panelen.",
  "An exploration of light, rhythm\\nand the spaces in between.": "A fény, a ritmus és\\na köztes terek kutatása.",
  "An item can carry at most 12 labels.": "Egy elemhez legfeljebb 12 címke tartozhat.",
  "An outside agent wants to edit": "Egy külső ügynök szerkeszteni szeretné:",

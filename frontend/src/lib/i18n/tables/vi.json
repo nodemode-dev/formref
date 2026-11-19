@@ -312,7 +312,7 @@
  "Always on top": "Luôn ở trên cùng",
  "Amount": "Số lượng",
  "An AI agent connected to FormRef from outside the app (such as Claude Code, Codex or Cursor) just tried to change a board and was refused. If you allow outside agents, each change it makes is one undoable step, and you can turn this off again in the Agent panel.": "Một tác tử AI kết nối với FormRef từ bên ngoài ứng dụng (như Claude Code, Codex hoặc Cursor) vừa cố thay đổi một bảng và đã bị từ chối. Nếu bạn cho phép tác tử bên ngoài, mỗi thay đổi của nó là một bước có thể hoàn tác, và bạn có thể tắt lại trong bảng Tác tử.",
- "An agent is waiting for your answer in the Agent panel (Ctrl+J).": "Một tác tử đang chờ câu trả lời của bạn trong bảng Tác tử (Ctrl+J).",
+ "An agent is waiting for your answer in the Agent panel.": "Một tác tử đang chờ câu trả lời của bạn trong bảng Tác tử.",
  "An exploration of light, rhythm\\nand the spaces in between.": "Một khám phá về ánh sáng, nhịp điệu\\nvà những khoảng lặng ở giữa.",
  "An item can carry at most 12 labels.": "Một mục chỉ có thể mang tối đa 12 nhãn.",
  "An outside agent wants to edit": "Một tác tử bên ngoài muốn chỉnh sửa",

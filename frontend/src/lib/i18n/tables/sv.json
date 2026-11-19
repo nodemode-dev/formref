@@ -312,7 +312,7 @@
  "Always on top": "Alltid överst",
  "Amount": "Mängd",
  "An AI agent connected to FormRef from outside the app (such as Claude Code, Codex or Cursor) just tried to change a board and was refused. If you allow outside agents, each change it makes is one undoable step, and you can turn this off again in the Agent panel.": "En AI-agent som anslutit till FormRef utifrån appen (till exempel Claude Code, Codex eller Cursor) försökte just ändra en tavla och nekades. Om du tillåter externa agenter är varje ändring den gör ett ångringsbart steg, och du kan stänga av det igen i agentpanelen.",
- "An agent is waiting for your answer in the Agent panel (Ctrl+J).": "En agent väntar på ditt svar i agentpanelen (Ctrl+J).",
+ "An agent is waiting for your answer in the Agent panel.": "En agent väntar på ditt svar i agentpanelen.",
  "An exploration of light, rhythm\\nand the spaces in between.": "En utforskning av ljus, rytm\\noch utrymmena emellan.",
  "An item can carry at most 12 labels.": "Ett objekt kan ha högst 12 etiketter.",
  "An outside agent wants to edit": "En extern agent vill redigera",

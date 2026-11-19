@@ -312,7 +312,7 @@
  "Always on top": "Aina päällimmäisenä",
  "Amount": "Määrä",
  "An AI agent connected to FormRef from outside the app (such as Claude Code, Codex or Cursor) just tried to change a board and was refused. If you allow outside agents, each change it makes is one undoable step, and you can turn this off again in the Agent panel.": "Sovelluksen ulkopuolelta FormRefiin yhdistetty tekoälyagentti (esim. Claude Code, Codex tai Cursor) yritti juuri muuttaa taulua ja se estettiin. Jos sallit ulkoiset agentit, jokainen sen tekemä muutos on yksi kumottava vaihe, ja voit poistaa sallimisen agenttipaneelista.",
- "An agent is waiting for your answer in the Agent panel (Ctrl+J).": "Agentti odottaa vastaustasi agenttipaneelissa (Ctrl+J).",
+ "An agent is waiting for your answer in the Agent panel.": "Agentti odottaa vastaustasi agenttipaneelissa.",
  "An exploration of light, rhythm\\nand the spaces in between.": "Tutkimusmatka valoon, rytmiin\\nja välissä oleviin tiloihin.",
  "An item can carry at most 12 labels.": "Kohteella voi olla enintään 12 tunnistetta.",
  "An outside agent wants to edit": "Ulkoinen agentti haluaa muokata",

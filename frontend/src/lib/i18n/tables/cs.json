@@ -312,7 +312,7 @@
  "Always on top": "Vždy nahoře",
  "Amount": "Množství",
  "An AI agent connected to FormRef from outside the app (such as Claude Code, Codex or Cursor) just tried to change a board and was refused. If you allow outside agents, each change it makes is one undoable step, and you can turn this off again in the Agent panel.": "Agent umělé inteligence připojený k FormRef zvenčí (například Claude Code, Codex nebo Cursor) se právě pokusil změnit tabuli a byl odmítnut. Pokud externí agenty povolíte, každá jeho změna bude jeden krok, který lze vrátit zpět, a v panelu agenta to můžete znovu vypnout.",
- "An agent is waiting for your answer in the Agent panel (Ctrl+J).": "Agent čeká na vaši odpověď v panelu agenta (Ctrl+J).",
+ "An agent is waiting for your answer in the Agent panel.": "Agent čeká na vaši odpověď v panelu agenta.",
  "An exploration of light, rhythm\\nand the spaces in between.": "Zkoumání světla, rytmu\\\\na prostoru mezi nimi.",
  "An item can carry at most 12 labels.": "Položka může mít nejvýše 12 štítků.",
  "An outside agent wants to edit": "Externí agent chce upravit",

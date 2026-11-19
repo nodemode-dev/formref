@@ -312,7 +312,7 @@
  "Always on top": "항상 위에",
  "Amount": "양",
  "An AI agent connected to FormRef from outside the app (such as Claude Code, Codex or Cursor) just tried to change a board and was refused. If you allow outside agents, each change it makes is one undoable step, and you can turn this off again in the Agent panel.": "앱 외부에서 FormRef에 연결한 AI 에이전트(Claude Code, Codex, Cursor 등)가 보드를 변경하려 했지만 거부되었습니다. 외부 에이전트를 허용하면 에이전트가 수행하는 각 변경은 실행 취소 가능한 한 단계가 되며, 에이전트 패널에서 언제든 다시 끌 수 있습니다.",
- "An agent is waiting for your answer in the Agent panel (Ctrl+J).": "에이전트 패널에서 에이전트가 답변을 기다리고 있습니다(Ctrl+J).",
+ "An agent is waiting for your answer in the Agent panel.": "에이전트 패널에서 에이전트가 답변을 기다리고 있습니다.",
  "An exploration of light, rhythm\\nand the spaces in between.": "빛과 리듬,\\n그리고 그 사이 공간의 탐구.",
  "An item can carry at most 12 labels.": "항목 하나에는 레이블을 최대 12개까지 지정할 수 있습니다.",
  "An outside agent wants to edit": "외부 에이전트가 편집하려고 합니다",

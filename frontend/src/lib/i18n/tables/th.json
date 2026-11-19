@@ -312,7 +312,7 @@
  "Always on top": "อยู่บนสุดเสมอ",
  "Amount": "จำนวน",
  "An AI agent connected to FormRef from outside the app (such as Claude Code, Codex or Cursor) just tried to change a board and was refused. If you allow outside agents, each change it makes is one undoable step, and you can turn this off again in the Agent panel.": "เอเจนต์ AI ที่เชื่อมต่อกับ FormRef จากภายนอกแอป (เช่น Claude Code, Codex หรือ Cursor) พยายามเปลี่ยนแปลงบอร์ดและถูกปฏิเสธ หากคุณอนุญาตเอเจนต์ภายนอก การเปลี่ยนแปลงแต่ละครั้งจะเป็นหนึ่งขั้นตอนที่เลิกทำได้ และคุณปิดตัวเลือกนี้ได้อีกในแผงเอเจนต์",
- "An agent is waiting for your answer in the Agent panel (Ctrl+J).": "เอเจนต์กำลังรอคำตอบของคุณในแผงเอเจนต์ (Ctrl+J)",
+ "An agent is waiting for your answer in the Agent panel.": "เอเจนต์กำลังรอคำตอบของคุณในแผงเอเจนต์",
  "An exploration of light, rhythm\\nand the spaces in between.": "การสำรวจแสง จังหวะ\\nและช่องว่างระหว่างกัน",
  "An item can carry at most 12 labels.": "หนึ่งรายการมีป้ายกำกับได้สูงสุด 12 ป้าย",
  "An outside agent wants to edit": "เอเจนต์ภายนอกต้องการแก้ไข",

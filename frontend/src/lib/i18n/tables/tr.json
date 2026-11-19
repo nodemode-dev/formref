@@ -312,7 +312,7 @@
  "Always on top": "Her zaman üstte",
  "Amount": "Miktar",
  "An AI agent connected to FormRef from outside the app (such as Claude Code, Codex or Cursor) just tried to change a board and was refused. If you allow outside agents, each change it makes is one undoable step, and you can turn this off again in the Agent panel.": "FormRef'e uygulama dışından bağlanan bir yapay zeka ajanı (Claude Code, Codex veya Cursor gibi) az önce bir panoyu değiştirmeye çalıştı ve reddedildi. Dış ajanlara izin verirseniz yaptığı her değişiklik geri alınabilir tek bir adım olur ve bunu Ajan panelinden yeniden kapatabilirsiniz.",
- "An agent is waiting for your answer in the Agent panel (Ctrl+J).": "Bir ajan Ajan panelinde yanıtınızı bekliyor (Ctrl+J).",
+ "An agent is waiting for your answer in the Agent panel.": "Bir ajan Ajan panelinde yanıtınızı bekliyor.",
  "An exploration of light, rhythm\\nand the spaces in between.": "Işığın, ritmin ve aradaki\\nboşlukların bir keşfi.",
  "An item can carry at most 12 labels.": "Bir öğe en fazla 12 etiket taşıyabilir.",
  "An outside agent wants to edit": "Bir dış ajan şunu düzenlemek istiyor:",

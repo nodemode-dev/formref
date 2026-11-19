@@ -38,7 +38,7 @@ Several boards stay open as tabs. Ctrl+N opens a new tab at the end of the row, 
 | Organize | Ctrl+P pack, Ctrl+G group, Ctrl+Shift+G ungroup |
 | Images | C crop, R rotate 90, L lock |
 | Layer | Shift+Up front, Shift+Down back |
-| View | P present, Shift+S slideshow, Ctrl+J agent, Ctrl+K commands, ? shortcut sheet, Ctrl+, preferences |
+| View | P present, Shift+S slideshow, Ctrl+J show or hide the terminal dock, Ctrl+K commands, ? shortcut sheet, Ctrl+, preferences |
 
 These are the defaults. Press ? for the current list: click any shortcut there and press new keys to change it. If another command already used those keys, they move to the one you are changing and the sheet says so. Keys the browser keeps (Ctrl+T, Ctrl+W, Ctrl+Q, Ctrl+R, Ctrl+L, F5 and others) and Space (pan) cannot be taken. Changes are saved in the data folder and come back on the next launch; Reset All returns every key to its default.
 
