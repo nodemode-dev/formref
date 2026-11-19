@@ -16,7 +16,7 @@ src-tauri/
   binaries/                          Frozen sidecars per host triple (built, not tracked)
 ```
 
-## Unreleased · The engine hands the window its key
+## v0.40.0 · The engine hands the window its key
 
 - refers-to: src/main.rs :: relay_engine_output, start_engine, boot, open_main
 

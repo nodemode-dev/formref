@@ -1,5 +1,25 @@
 # FormRef changelog
 
+## v0.40.0 · 2026-11-19
+
+Only the FormRef window can change your boards and settings, your choice for outside agents stays what you chose, and a true-black theme.
+
+- Only the FormRef window can change things. Changes from outside the app's window are refused, and so are starting a terminal, Claude Code or Chat and changing the agent settings from outside it. Agents that connect through MCP still follow your choice under Allow outside agents, as before.
+- `./formref open` and `./formref import` now count as outside agents, so they work only while Allow outside agents is on. Otherwise they stop and say that outside agents are off.
+- Your choice for outside agents and the Claude program you chose are sealed with a key kept in the system keychain. If the saved choice is changed outside FormRef, it goes back to off, FormRef asks again, and the Agent panel says so once. After this update, turn Allow outside agents on again if you had it on. On a computer without a keychain the choice works as before, without the seal.
+- The agent settings, Confirm changes among them, can be changed only in the window. An agent cannot change them.
+- Each Claude Code tab and each Chat run gets its own access to the board, which ends when the tab closes or the run ends.
+- While a Claude Code or Ollama turn runs in the Agent panel, other agents are no longer let in without your choice.
+- The Ollama address must be on this computer: `localhost` or a loopback address. Any other address is refused.
+- New theme, AMOLED Black: a true-black window for OLED screens, with panels told apart by their outlines. It is in Preferences with the other themes.
+- Ctrl+J (Cmd+J on a Mac) shows and hides the terminal panel, as before. The Agent and Shell wiki pages and the notice shown when an agent waits for your answer no longer say that it opens the Agent panel.
+- The terminal panel itself is unchanged in this release. Underneath, the engine is prepared for the Form family's shared dock: when it refuses an outside agent's change it tells the window which program asked and what it asked to do, one call reports whether Claude Code, Codex and Cursor are installed and how to install each, Codex and Cursor can run in terminal tabs of their own with access that ends when the tab closes, and a program that has finished is told apart from what it printed. None of this is shown in the window yet.
+- Two engine messages that had no translation, the refusal of a second window and "Not Found", are translated in every language, and so are the new notice in the Agent panel and the name of the new theme.
+- For people who work on FormRef: `./formref agents sync` also copies the skills from `.claude/skills` to `.agents/skills` and writes `agents/manifest.json`, which says what FormRef offers agents: its 47 MCP tools, which of them only read, which can wait for your Allow, its skill and its terminal panel. `--check` fails while either is out of date, and neither needs the window to have been opened.
+- In development, a reloaded page keeps its right to make changes instead of being refused.
+- The wiki gives the right count of 47 MCP tools, and the Agent, MCP and security pages and the README say how outside agents are asked and that only the window can change the choice.
+- One new bundled package, keyring (MIT), with its licence text and inventory entry.
+
 ## v0.39.2 · 2026-11-15
 
 PDF export that needs nothing installed, a calmer board, and the fixable items from the last release's open list.
