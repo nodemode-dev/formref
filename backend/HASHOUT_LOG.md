@@ -12,6 +12,7 @@
 - [Unreleased · agents sync copies the skills to .agents/skills](#unreleased--agents-sync-copies-the-skills-to-agentsskills)
 - [Unreleased · agents/manifest.json says what the app offers agents](#unreleased--agentsmanifestjson-says-what-the-app-offers-agents)
 - [Unreleased · A refusal tells the window who asked and what for](#unreleased--a-refusal-tells-the-window-who-asked-and-what-for)
+- [Unreleased · Agent status in one call, Codex and Cursor tabs, typed socket notices](#unreleased--agent-status-in-one-call-codex-and-cursor-tabs-typed-socket-notices)
 - [v0.39.2 · PDF export and SVG pictures without a system library, and six smaller fixes](#v0392--pdf-export-and-svg-pictures-without-a-system-library-and-six-smaller-fixes)
 - [v0.39.0 · A closed window's poll takes no job, and four smaller fixes](#v0390--a-closed-windows-poll-takes-no-job-and-four-smaller-fixes)
 - [v0.38.1 · The window's scripts keep their types on Windows](#v0381--the-windows-scripts-keep-their-types-on-windows)
@@ -109,6 +110,26 @@ What each field says today, truthfully. FormRef refuses the call first and tells
 Not changed, on purpose: the gate still refuses first. Holding the call while the window asks (and with it "Allow once", an expiry, a withdrawal event and a Blocked choice) changes what the present window does, so it waits for the dock port; the design is in the engine-prep report.
 
 Verified on a running engine (port 33401, fresh data folder): an outside `tools/call create_board` through `/mcp` was refused as before and the event carried all eight fields with the caller's `User-Agent` word as `agent`; a stdio client that announced "Stdio Probe" was named so; a direct call with no name gave an empty `agent`; a 200 character name arrived as 64. The test was written after.
+
+## Unreleased · Agent status in one call, Codex and Cursor tabs, typed socket notices
+
+- refers-to: `app/agent/programs.py` (new) :: INSTALL, status, workdir, open_tab; `app/routers/terminal.py` :: AgentOpen, agent_status, agent_open, attach (typed, notice); `tests/test_agent_programs.py` (new); `tests/test_terminal_frames.py` (new)
+- kind: rationale
+- logged: after v0.39.2, unreleased · 2026-11-19
+
+Three additions the shared dock needs, none of which the present window calls, so nothing it does changes.
+
+`GET /api/agent/status` (window key required, refused for a caller that names itself an agent). One answer for the three programs: `{claude, codex, cursor}`, each `{installed, path, version, signedIn, install}`. `install` is always a command line a person can paste, never a sentence. `signedIn` is true, false or null (the engine cannot tell): for Claude Code it is true when `ANTHROPIC_API_KEY` or `CLAUDE_CODE_OAUTH_TOKEN` is set, else what `claude auth status` reports as `loggedIn`, which runs no model call; for Codex and Cursor it is null. The answer is kept for 60 seconds; `?fresh=1` looks again. Unlike `GET /api/claudecode` it does not create the work folder, and the engine never calls it by itself. `GET /api/claudecode` and `GET /api/agent/runners` are untouched because the Agent panel reads them.
+
+`POST /api/terminal/agent {kind: "codex" | "cursor", cols, rows}` (a write, so the window key guard covers it). It starts the found program in a terminal tab of that kind, titled Codex or Cursor. The tab gets its own token: in the child's environment as `FORMREF_AGENT_TOKEN` with `FORMREF_MCP_URL` beside it, in the engine's token set until the tab closes, never on a command line and never in a plain shell tab. A missing program answers 404 with `code: "not_installed"`; any other kind 422. Restart keeps the tab and its token; close revokes it.
+
+Why a token: FormRef's panel turns reach the engine without one for Codex and Cursor (the static `.codex/config.toml` and `.cursor/mcp.json` in the app's folder), and are admitted only while such a turn runs. A dock tab is not a turn, so without its own token every change from it would be refused as an outside agent and the window would ask about the app's own tab. The panel-turn path is not touched.
+
+How the program presents the token. The tab starts in a folder the engine owns, `AgentTabs` in the data folder (mode 0700), never in a folder the person chose, because the engine writes two files there, both mode 0600 and both holding a placeholder in place of the token: `.codex/config.toml` with `url` and `env_http_headers = { "x-formref-inapp" = "FORMREF_AGENT_TOKEN" }` (Codex reads the header value from the named variable; it reads a project file only in a folder the person has trusted, which it asks about at first start), and `.cursor/mcp.json` with `url` and the header `${env:FORMREF_AGENT_TOKEN}`. The same two files serve every tab, since the secret is only in each child's environment. Neither real program is on this machine: the key names are from each program's documentation, and the stand-in run shows only that the token and the files are where they should be.
+
+Typed notices on the terminal socket. The first message may now carry `"frames": "typed"` beside the key. Then terminal output stays in text frames and every notice is a binary frame holding JSON: `{"type": "hello", "id", "kind", "alive"}` first on every attach, and `{"type": "exit", ...}` when the program ends (or at once after the replay when it already has). Without the field the socket behaves as before: no hello, and the exit notice is the text frame `{"type": "exit"}` the present page compares against. The typed form exists because a text frame of output could be the same characters as the notice.
+
+Verified on running engines (33401 with stand-in `claude`, `codex` and `cursor-agent` on PATH, 33402 and 33403 without): status with and without the programs, and without the key (403); each tab kind started, the token was in the child's `/proc` environment and absent from `ps -eo args`, a change sent with it under Ask was let through, still after Restart, and refused as an outside agent after Close; a plain shell had no token; both socket forms on a live shell, after `exit`, and on attach to an ended one. The write-route walk: 60 write operations before, 61 after, the new one refused without the key. Tests were written after.
 
 ## v0.39.2 · PDF export and SVG pictures without a system library, and six smaller fixes
 

@@ -1,12 +1,13 @@
 import asyncio
 import json
 import re
+from typing import Literal
 
 from fastapi import APIRouter, HTTPException, Request, WebSocket, WebSocketDisconnect
-from fastapi.responses import FileResponse, StreamingResponse
+from fastapi.responses import FileResponse, JSONResponse, StreamingResponse
 from pydantic import BaseModel, Field
 
-from ..agent import chat, claude_code, terminal
+from ..agent import chat, claude_code, programs, terminal
 from ..core import origins, window_key
 
 router = APIRouter(prefix="/api", tags=["terminal"])
@@ -83,6 +84,27 @@ def claude_status(request: Request):
 def claude_open(body: ClaudeOpen, request: Request):
     _window_only(request)
     return claude_code.open_tab(body.prompt or None, body.cols, body.rows, body.fresh, body.resume or None)
+
+
+class AgentOpen(BaseModel):
+    kind: Literal["codex", "cursor"]
+    cols: int = Field(default=100, ge=10, le=1000)
+    rows: int = Field(default=30, ge=4, le=500)
+
+
+@router.get("/agent/status")
+def agent_status(request: Request, fresh: bool = False):
+    _window_only(request)
+    return programs.status(fresh)
+
+
+@router.post("/terminal/agent")
+def agent_open(body: AgentOpen, request: Request):
+    _window_only(request)
+    try:
+        return programs.open_tab(body.kind, body.cols, body.rows)
+    except LookupError as e:
+        return JSONResponse(status_code=404, content={"detail": str(e), "code": "not_installed"})
 
 
 class ChatSend(BaseModel):
@@ -194,15 +216,27 @@ async def attach(ws: WebSocket, sid: str) -> None:
     q: asyncio.Queue = asyncio.Queue()
     session.subscribers.add(q)
 
+    typed = first.get("frames") == "typed"
+
+    async def notice(name: str) -> None:
+        if typed:
+            await ws.send_bytes(json.dumps({"type": name, "id": session.id, "kind": session.kind, "alive": session.alive}).encode("utf-8"))
+        elif name == "exit":
+            await ws.send_text(EXIT)
+
     async def outbound() -> None:
+        await notice("hello")
         backlog = session.scrollback()
         if backlog:
             await ws.send_text(backlog)
         if not session.alive:
-            await ws.send_text(EXIT)
+            await notice("exit")
         while True:
             text = await q.get()
-            await ws.send_text(EXIT if text is None else text)
+            if text is None:
+                await notice("exit")
+            else:
+                await ws.send_text(text)
 
     sender = asyncio.create_task(outbound())
     try:
