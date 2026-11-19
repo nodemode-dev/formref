@@ -253,7 +253,7 @@ export function chosenAnchor(): { item: Item; vector: Vector; path: number; inde
 
 window.addEventListener('keydown', event => {
   const at = S.tool === 'direct' && !pen ? chosenAnchor() : null;
-  if (!at || (event.target as HTMLElement).closest('input,textarea,select,[contenteditable="true"],.term-dock')) return;
+  if (!at || (event.target as HTMLElement).closest('input,textarea,select,[contenteditable="true"],.ft-dock')) return;
   const copy = clone(at.vector);
   const list = pickedList(at.item);
   if (event.key === 'Delete' || event.key === 'Backspace') {

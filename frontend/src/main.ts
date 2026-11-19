@@ -9,9 +9,9 @@ import './app/cutout';
 import './app/cloud';
 import { bindDocks, showPanel, toggleDock } from './ui/dock';
 import { AgentPanel } from './ui/panels/agent';
-import { S, consent, drawCamera, onState, selection, toast } from './app/editor';
+import { S, drawCamera, onState, selection, toast } from './app/editor';
 import { restore } from './app/tabs';
-import { registerTerminal } from './app/terminal';
+import { mountDock, registerTerminal } from './app/terminal';
 import { attachCatalogue } from './app/catalogue';
 import { registerIllustrator } from './app/illustrator';
 import { bindLanguage } from './app/language';
@@ -97,21 +97,6 @@ document.querySelectorAll<HTMLElement>('[data-panel-tab="agent"],[data-rail-pane
 if (document.documentElement.dataset.rightPanel === 'agent') void agent.load();
 onState(() => agent.refresh());
 
-let consentDismissedAt = 0;
-consent.ask = () => {
-  const dialog = document.getElementById('consent-dialog') as HTMLDialogElement;
-  if (dialog.open || document.querySelector('dialog[open]') || Date.now() - consentDismissedAt < 60000) return;
-  dialog.showModal();
-};
-document.getElementById('consent-deny')!.addEventListener('click', () => {
-  consentDismissedAt = Date.now();
-  (document.getElementById('consent-dialog') as HTMLDialogElement).close();
-});
-document.getElementById('consent-allow')!.addEventListener('click', () => {
-  void agent.allowOutside().then(() => {
-    (document.getElementById('consent-dialog') as HTMLDialogElement).close();
-    toast('Outside agents may now edit boards. Turn this off in the Agent panel.');
-  });
-});
+mountDock();
 drawCamera();
 revealWhenReady(restore());

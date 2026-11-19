@@ -22,15 +22,27 @@
       if (panel === 'agent' || panel === 'inspector') root.dataset.rightPanel = panel;
       var lang = store.getItem('formref-lang');
       if (lang && /^[a-zA-Z-]{2,7}$/.test(lang)) root.dataset.lang = lang;
-      var dockH = store.getItem('formref-term-dock-h');
-      if (/^\d+px$/.test(dockH || '')) root.style.setProperty('--term-dock-h', dockH);
+      var dk = null, dockH = store.getItem('formref-term-dock-h');
+      try { dk = JSON.parse(store.getItem('formref.dock') || 'null'); } catch (_) {}
+      if (!dk || typeof dk !== 'object') dk = /^\d+px$/.test(dockH || '') ? { h: parseInt(dockH, 10) } : {};
+      var dkH = Math.round(Math.max(140, Math.min(window.innerHeight * 0.75, typeof dk.h === 'number' ? dk.h : 280)));
+      var dkW = Math.round(Math.max(320, Math.min(window.innerWidth * 0.4, typeof dk.w === 'number' ? dk.w : 420)));
+      root.setAttribute('data-ft-dock', dk.open === true ? 'open' : 'closed');
+      root.setAttribute('data-ft-dock-side', dk.side === 'right' && window.innerWidth >= 1100 ? 'right' : 'bottom');
+      root.setAttribute('data-ft-dock-h', String(dkH));
+      root.setAttribute('data-ft-dock-w', String(dkW));
+      root.style.setProperty('--ft-dock-size', dkH + 'px');
+      root.style.setProperty('--ft-dock-wsize', dkW + 'px');
       if ('__TAURI_INTERNALS__' in window && /Mac/.test(navigator.platform) && store.getItem('formref.menusInWindow') !== '1') root.classList.add('has-native-menus');
     } catch (_) {}
   </script>
   <link rel="stylesheet" href="/src/styles/tokens.css">
   <link rel="stylesheet" href="/src/styles/main.css">
   <link rel="stylesheet" href="/src/styles/shell.css">
-  <link rel="stylesheet" href="/src/styles/dock.css">
+  <link rel="stylesheet" href="/src/dock/dock.css">
+  <link rel="stylesheet" href="/src/styles/dock-tokens.css">
+  <link rel="stylesheet" href="/src/styles/dock-layout.css">
+  <link rel="stylesheet" href="/src/styles/chat.css">
   <link rel="stylesheet" href="/src/styles/vector.css">
   <link rel="stylesheet" href="/src/styles/board.css">
   <link rel="stylesheet" href="/src/styles/home.css">
@@ -205,8 +217,6 @@
           <svg id="navigator-map" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 120"></svg>
         </div>
       </section>
-
-      <section id="term-dock" class="term-dock" aria-label="Terminal" hidden></section>
 
       <footer class="statusbar">
         <span id="tool-status">Select and move references</span>
@@ -796,20 +806,6 @@
         <button id="document-save" class="button primary">Save</button>
       </div>
     </footer>
-  </dialog>
-
-  <dialog id="consent-dialog" class="modal">
-    <div class="modal-head">
-      <strong>An outside agent wants to edit</strong>
-      <button class="icon-button" data-action="close-overlays" data-icon="close" aria-label="Close"></button>
-    </div>
-    <div class="modal-body">
-      <p class="muted">An AI agent connected to FormRef from outside the app (such as Claude Code, Codex or Cursor) just tried to change a board and was refused. If you allow outside agents, each change it makes is one undoable step, and you can turn this off again in the Agent panel.</p>
-    </div>
-    <div class="modal-footer">
-      <button id="consent-deny" class="button" type="button">Not now</button>
-      <button id="consent-allow" class="button primary" type="button"><span data-icon="agent"></span>Allow outside agents</button>
-    </div>
   </dialog>
 
   <dialog id="help-dialog" class="modal help-modal">

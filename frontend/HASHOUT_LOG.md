@@ -14,6 +14,7 @@
 - [Unreleased · Ctrl+J is the terminal dock](#unreleased--ctrlj-is-the-terminal-dock)
 - [Unreleased · AMOLED Black](#unreleased--amoled-black)
 - [Unreleased · Two engine messages in every table](#unreleased--two-engine-messages-in-every-table)
+- [Unreleased · The terminal panel is the family's shared dock, module 2.1.0](#unreleased--the-terminal-panel-is-the-familys-shared-dock-module-210)
 - [v0.39.2 · Connections, text cards, the tag cloud, tabs, Preferences at 390 px, the demo's first open and 59 untranslated strings](#v0392--connections-text-cards-the-tag-cloud-tabs-preferences-at-390-px-the-demos-first-open-and-59-untranslated-strings)
 - [v0.39.1 · The credits shown in the demo boards match the records](#v0391--the-credits-shown-in-the-demo-boards-match-the-records)
 - [v0.39.0 · The review pass: twenty-one bugs](#v0390--the-review-pass-twenty-one-bugs)
@@ -107,6 +108,43 @@ The flag is `data-oled` beside `data-theme`, never the theme id, so another OLED
 - refers-to: `src/lib/i18n/tables/*.json` (23 complete tables) :: "Another window already holds this engine's window key; use that window, or restart FormRef.", "Not Found"; `scripts/i18n_check.py`
 
 `i18n_check.py` had reported the same two keys missing in every complete table, before and through this program: the 409 text of `POST /api/window/key` (`backend/app/routers/window.py`, read by the checker because it sits in a `detail=` string) and the 404 `Not Found` of the same route when the engine hands the key over on its output instead. Only the development page calls that route and `src/lib/window-key.ts` reads no `detail` from it, so a person is unlikely to see either text today; the tables are meant to be complete for backend text the page could show, and the check now passes under `--strict`. Both are in the 23 complete tables now, each in its alphabetical place among its neighbours ("Another window" after "An outside agent wants to edit", "Not Found" before "Not now"), one entry per file; es-MX and fr-CA are partial and fall back. Wording follows each table's own words for window ("Fenster", "ウィンドウ", "창"), engine and restart, and its register for commands (the same one as the Claude Code install message). `i18n_check.py --strict` now exits 0 and reports missing 0 in every table. A native read of hu, th, vi, fi, tr, uk, ru, ja, ko and zh-Hant is advised.
+
+## Unreleased · The terminal panel is the family's shared dock, module 2.1.0
+
+- refers-to: `src/dock/` (15 files, byte for byte from FormVis `8bbdf61b`, never edited here); `src/dock-adapter.ts`; `src/styles/dock-tokens.css`; `src/styles/dock-layout.css`; `src/styles/chat.css` (was `styles/dock.css`); `src/app/terminal.ts`; `src/app/editor.ts` :: `consent`; `src/main.ts`; `index.html` :: the head script, the stylesheet links; `src/lib/i18n.ts` :: `SKIP`; `scripts/i18n_check.py`; `src/ui/chat-pane.ts`; `src/app/direct-select.ts`
+
+What changed for a person. The panel can sit at the right of the canvas as well as under it (only in a window 1100 px wide or more), it remembers whether it was open, Codex and Cursor have tabs when they are installed, there is a short guide the first time, and a terminal follows a theme change at once. The question about an outside agent is the family's dialog: it names the program and what it asked, and it opens above any FormRef dialog with focus.
+
+What did not change. Ctrl+J (Cmd+J on macOS) shows and hides the panel, Ctrl+Shift+J opens Claude Code and Ctrl+Alt+J opens Chat, all three still commands in the registry, so the menus, the macOS menu bar and a person's own bindings work as before. `comboOf` reads Ctrl or Cmd as `mod` on every platform, so from the canvas Ctrl+J and Cmd+J both toggle on macOS and elsewhere, as they did. From inside a terminal or the ask line only the platform's own modifier leaves the dock (Cmd on macOS, Ctrl elsewhere), so on macOS Ctrl+J typed into a shell is still the shell's line feed: the old `isDockToggle` rule, now `passKey`. The adapter gives `isDockChord: () => false`: the module never toggles by itself, the app's key handler does, which is why a rebound key and the macOS menu bar cannot toggle twice. `passKey` lets through the keys bound to `terminal` and `claude-code` and nothing else; Ctrl+Alt+J from inside a terminal stays with the terminal, as before.
+
+Chat stays FormRef's own pane (`ui/chat-pane.ts`: Markdown replies, the pictures Claude looked at, "Select these items", the usage meter, "From Claude Code..."), given to the module as `chat: { pane, ask: 'line' }`. The module's ask line is the one input on Chat and the Claude Code line on every other tab; board and selection go with each ask, and the note under the person's bubble is kept.
+
+The outside-agent question is wired to what the engine does today, which is to refuse first: `offers` is Deny and "Always allow all outside agents", never "Allow once", and two notes say so ("FormRef refused this request.", "If you allow outside agents, the agent has to ask again."). Deny sends nothing and keeps the window quiet for 60 seconds, as "Not now" did. Always is the same `POST /api/agent/settings` the old dialog sent. Escape closes the question without answering. One question per agent name at a time. The hold-and-ask design in the engine report was not built here: nothing in the engine waits, so the dialog does not pretend to.
+
+Storage: `formref.dock` (no other FormRef key uses that name) holds open, side, height, width and tab. The old `formref-term-dock-h` (a CSS length such as `312px`) is read once by the adapter's own legacy reader and by the head script, then removed.
+
+Removed, because nothing uses it: `src/ui/terminal-dock.ts` (355 lines, `git show db10d5e:frontend/src/ui/terminal-dock.ts`), the terminal rules of `styles/dock.css` (its first 28 lines, `.term-dock*` and `.term-host`), and from `index.html` the `<section id="term-dock" class="term-dock" aria-label="Terminal" hidden>`, the `<dialog id="consent-dialog">` ("An outside agent wants to edit", "Not now", "Allow outside agents") and the two head-script lines that set `--term-dock-h`. From `main.ts`:
+
+```ts
+let consentDismissedAt = 0;
+consent.ask = () => {
+  const dialog = document.getElementById('consent-dialog') as HTMLDialogElement;
+  if (dialog.open || document.querySelector('dialog[open]') || Date.now() - consentDismissedAt < 60000) return;
+  dialog.showModal();
+};
+```
+
+and the two click handlers of that dialog. From `terminal-dock.ts`, the rule the adapter's `passKey` now carries:
+
+```ts
+export function isDockToggle(e: KeyboardEvent): boolean {
+  return (isMac ? e.metaKey : e.ctrlKey) && !e.altKey && e.code === 'KeyJ';
+}
+```
+
+Words. FormRef translates the page after the fact, so `t` returns English. The sentences the old dock already had in the 23 tables are reused where the adapter gives the old wording (the three tooltips with their keys, both ask placeholders, the Chat lead). The module's other sentences and the two notes show in English for now; no table was half filled. `i18n_check.py` skips `src/dock/` and `src/dock-adapter.ts` and still exits 0 under `--strict`; 15 more table entries count as unused.
+
+Seen in headless Chrome at 1440 by 900 against an engine from source with stand-in programs: the three captures before and after (closed 0 differing pixels in the dock and canvas; shell 1,893 and Chat 2,164 inside the dock box, all of them the module's own icons, four new buttons and tab details), every dock action, the question over the Help dialog, and under 4x CPU with a slow network and no cache one stage box in every frame of a cold load with the dock remembered at the bottom and at the right.
 
 ## v0.39.2 · Connections, text cards, the tag cloud, tabs, Preferences at 390 px, the demo's first open and 59 untranslated strings
 

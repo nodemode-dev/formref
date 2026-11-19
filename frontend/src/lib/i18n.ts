@@ -118,7 +118,7 @@ export async function startLanguage(): Promise<void> {
   if (isLang(saved) && saved !== 'en') await setLanguage(saved);
 }
 
-const SKIP = 'script,style,textarea,code,pre,[contenteditable="true"],[data-no-i18n],.xterm,.board-item .item-content,.outline,.board-list,.chat-msg,.term-dock-tab-title,.card-text,.card-title,#board-title,.board-tab-label,#detail-title,#canvas-label,.label-chip,.comment-text';
+const SKIP = 'script,style,textarea,code,pre,[contenteditable="true"],[data-no-i18n],.xterm,.board-item .item-content,.outline,.board-list,.chat-msg,.ft-notranslate,.ft-dock-tab-title,.ft-consent-what,.card-text,.card-title,#board-title,.board-tab-label,#detail-title,#canvas-label,.label-chip,.comment-text';
 const ATTRS = ['title', 'aria-label', 'placeholder', 'alt'];
 const textEnglish = new WeakMap<Text, { en: string; shown: string }>();
 const attrEnglish = new WeakMap<Element, Map<string, { en: string; shown: string }>>();

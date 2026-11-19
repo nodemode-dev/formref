@@ -56,7 +56,7 @@ export class ChatPane {
 
   constructor(private readonly hooks: ChatHooks) {
     const bar = node('div', 'chat-bar');
-    const spacer = node('span', 'term-dock-spacer');
+    const spacer = node('span', 'chat-spacer');
     const adopt = node('button', 'button compact quiet', 'From Claude Code...');
     adopt.title = 'Bring a conversation you had in a Claude Code tab into this chat';
     const handoff = node('button', 'button compact quiet', 'Open in Claude Code');
