@@ -1,5 +1,6 @@
 import ast
 import asyncio
+import hashlib
 import json
 from pathlib import Path
 
@@ -10,7 +11,18 @@ ROOT = BACKEND.parents[1]
 PATH = ROOT / "agents" / "manifest.json"
 SKILLS = ROOT / ".claude" / "skills"
 GATED_TYPES = frozenset({"remove", *MOVES})
-DOCK = {"present": True, "positions": ["bottom"], "tabs": ["chat", "terminal", "claude"]}
+DOCK = {"present": True, "positions": ["bottom", "right"], "tabs": ["chat", "terminal", "claude", "codex", "cursor"]}
+DOCK_FOLDER = ROOT / "frontend" / "src" / "dock"
+
+
+def dock_problems() -> list[str]:
+    name = "frontend/src/dock"
+    try:
+        kept = json.loads((DOCK_FOLDER / "MANIFEST.json").read_text(encoding="utf-8"))["files"]
+    except (OSError, ValueError, KeyError):
+        return [f"{name}/MANIFEST.json: missing or unreadable"]
+    now = {p.name: hashlib.sha256(p.read_bytes()).hexdigest() for p in DOCK_FOLDER.iterdir() if p.is_file() and p.name != "MANIFEST.json"}
+    return [f"{name}/{file}: does not match MANIFEST.json (the shared dock module changes only as a whole new version)" for file in sorted(set(kept) | set(now)) if kept.get(file) != now.get(file)]
 
 
 def _strings(function: ast.AST) -> list[str]:

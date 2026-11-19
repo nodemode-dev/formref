@@ -92,7 +92,7 @@ def _usage_of(u: dict) -> tuple[int, int]:
 
 def _argv(path: str, text: str, session: str | None, mcp_file: str) -> list[str]:
     cmd = [path, "-p", text, "--output-format", "stream-json", "--verbose", "--include-partial-messages",
-           "--mcp-config", mcp_file, "--allowedTools", "mcp__formref", "--append-system-prompt", NOTE]
+           "--mcp-config", mcp_file, "--allowedTools", "mcp__formref_tab", "--append-system-prompt", NOTE]
     if session:
         cmd += ["--resume", session]
     return cmd if os.name == "nt" else terminal.login_shell() + ["-c", "exec " + shlex.join(cmd)]

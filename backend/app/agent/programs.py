@@ -80,8 +80,8 @@ def workdir() -> Path:
     folder = settings.data_dir / FOLDER
     folder.mkdir(mode=0o700, parents=True, exist_ok=True)
     url = terminal.API_URL + "/mcp"
-    _private(folder / ".codex" / "config.toml", f'[mcp_servers.formref]\nurl = "{url}"\nenv_http_headers = {{ "{HEADER}" = "{TOKEN_VAR}" }}\n')
-    _private(folder / ".cursor" / "mcp.json", json.dumps({"mcpServers": {"formref": {"url": url, "headers": {HEADER: "${env:" + TOKEN_VAR + "}"}}}}, indent=2) + "\n")
+    _private(folder / ".codex" / "config.toml", f'[mcp_servers.formref_tab]\nurl = "{url}"\nenv_http_headers = {{ "{HEADER}" = "{TOKEN_VAR}" }}\n')
+    _private(folder / ".cursor" / "mcp.json", json.dumps({"mcpServers": {"formref_tab": {"url": url, "headers": {HEADER: "${env:" + TOKEN_VAR + "}"}}}}, indent=2) + "\n")
     return folder
 
 

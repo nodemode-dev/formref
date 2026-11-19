@@ -15,7 +15,7 @@ CANDIDATES = (".claude/local/claude", ".local/bin/claude", ".npm-global/bin/clau
 SYSTEM_PATHS = ("/opt/homebrew/bin/claude", "/usr/local/bin/claude", "/usr/bin/claude")
 INSTALL = "Claude Code is not installed: install it from https://claude.com/claude-code, run claude once in a terminal to sign in, then open it here again."
 NOTE = ("You are Claude Code running in the terminal dock inside FormRef, the reference board app open on this computer. "
-        "Work on boards with the formref MCP server's tools: start with list_boards or get_board to learn ids, "
+        "Work on boards with the formref_tab MCP server's tools: start with list_boards or get_board to learn ids, "
         "and use get_board_image to look at the board before and after a change. They act on the board open in the window, "
         "the person sees every change happen, and each change is one undo step. Respect locked items.")
 _cache: dict = {"at": 0.0, "value": None}
@@ -76,7 +76,7 @@ def info(fresh: bool = False) -> dict:
 
 def issue() -> tuple[str, str]:
     token = secrets.token_urlsafe(32)
-    path = agents.token_file(token, {"mcpServers": {"formref": {"type": "http", "url": terminal.API_URL + "/mcp", "headers": {"x-formref-inapp": token}}}})
+    path = agents.token_file(token, {"mcpServers": {"formref_tab": {"type": "http", "url": terminal.API_URL + "/mcp", "headers": {"x-formref-inapp": token}}}})
     agents.tokens.add(token)
     return token, path
 
@@ -96,7 +96,7 @@ def workdir() -> Path:
 
 
 def argv(path: str, prompt: str | None, resume: str | None, mcp_file: str) -> list[str]:
-    cmd = [path, "--mcp-config", mcp_file, "--allowedTools", "mcp__formref", "--append-system-prompt", NOTE]
+    cmd = [path, "--mcp-config", mcp_file, "--allowedTools", "mcp__formref_tab", "--append-system-prompt", NOTE]
     if resume:
         cmd += ["--resume", resume]
     if prompt:

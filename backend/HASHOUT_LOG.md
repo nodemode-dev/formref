@@ -13,6 +13,7 @@
 - [Unreleased · agents/manifest.json says what the app offers agents](#unreleased--agentsmanifestjson-says-what-the-app-offers-agents)
 - [Unreleased · A refusal tells the window who asked and what for](#unreleased--a-refusal-tells-the-window-who-asked-and-what-for)
 - [Unreleased · Agent status in one call, Codex and Cursor tabs, typed socket notices](#unreleased--agent-status-in-one-call-codex-and-cursor-tabs-typed-socket-notices)
+- [Unreleased · The app's own tabs use an entry named formref_tab, and agents sync checks the shared dock folder](#unreleased--the-apps-own-tabs-use-an-entry-named-formref_tab-and-agents-sync-checks-the-shared-dock-folder)
 - [v0.39.2 · PDF export and SVG pictures without a system library, and six smaller fixes](#v0392--pdf-export-and-svg-pictures-without-a-system-library-and-six-smaller-fixes)
 - [v0.39.0 · A closed window's poll takes no job, and four smaller fixes](#v0390--a-closed-windows-poll-takes-no-job-and-four-smaller-fixes)
 - [v0.38.1 · The window's scripts keep their types on Windows](#v0381--the-windows-scripts-keep-their-types-on-windows)
@@ -130,6 +131,16 @@ How the program presents the token. The tab starts in a folder the engine owns, 
 Typed notices on the terminal socket. The first message may now carry `"frames": "typed"` beside the key. Then terminal output stays in text frames and every notice is a binary frame holding JSON: `{"type": "hello", "id", "kind", "alive"}` first on every attach, and `{"type": "exit", ...}` when the program ends (or at once after the replay when it already has). Without the field the socket behaves as before: no hello, and the exit notice is the text frame `{"type": "exit"}` the present page compares against. The typed form exists because a text frame of output could be the same characters as the notice.
 
 Verified on running engines (33401 with stand-in `claude`, `codex` and `cursor-agent` on PATH, 33402 and 33403 without): status with and without the programs, and without the key (403); each tab kind started, the token was in the child's `/proc` environment and absent from `ps -eo args`, a change sent with it under Ask was let through, still after Restart, and refused as an outside agent after Close; a plain shell had no token; both socket forms on a live shell, after `exit`, and on attach to an ended one. The write-route walk: 60 write operations before, 61 after, the new one refused without the key. Tests were written after.
+
+## Unreleased · The app's own tabs use an entry named formref_tab, and agents sync checks the shared dock folder
+
+- refers-to: `app/agent/claude_code.py` :: `issue`, `argv`, `NOTE`; `app/agent/chat.py` :: `_argv`; `app/agent/programs.py` :: the two files in `AgentTabs`; `app/agent_manifest.py` :: `DOCK`, `dock_problems`; `app/cli.py` :: `agents_sync`; `tests/test_dock_manifest.py`; `tests/test_agent_guards.py`
+
+The MCP entry the engine writes for its own Claude Code tab, its Chat and its Codex and Cursor tabs was named `formref`, the same name a person gives the entry of an outside agent (`.mcp.json`, `.codex/config.toml`, `.cursor/mcp.json` in the app's folder). It is `formref_tab` now, with `--allowedTools mcp__formref_tab` to match, so the two cannot be mistaken in a program's own list of servers. Panel turns (`service.py`, `runners.py`) keep `formref`: they are not tabs.
+
+`./formref agents sync` and `--check` now stop, naming the file, when a file in `frontend/src/dock` does not match that folder's `MANIFEST.json` or is not listed in it. FormRef never writes that manifest: the folder arrives whole from FormVis. `agents/manifest.json` says the dock can sit at the bottom or the right and lists the Codex and Cursor tabs.
+
+Run on an engine from source (33421, stand-in programs): a Claude Code tab's token and a Codex tab's token each ran `create_board` through `/mcp` under Ask while the tab was open; after the tab closed the same token was refused with the text an unknown outside agent gets, and the window was asked. No route was added: the write-route walk still finds 61.
 
 ## v0.39.2 · PDF export and SVG pictures without a system library, and six smaller fixes
 

@@ -91,7 +91,7 @@ def test_a_tab_token_is_one_per_tab_in_a_private_file_and_dies_with_the_tab(rese
         assert first != second and path != other
         assert reset_agents.allows(first) and reset_agents.allows(second)
         assert stat.S_IMODE(os.stat(path).st_mode) == 0o600 if os.name != "nt" else True
-        assert first in json.loads(open(path, encoding="utf-8").read())["mcpServers"]["formref"]["headers"]["x-formref-inapp"]
+        assert first in json.loads(open(path, encoding="utf-8").read())["mcpServers"]["formref_tab"]["headers"]["x-formref-inapp"]
         claude_code.revoke(first)
         assert not reset_agents.allows(first) and not os.path.exists(path)
         assert reset_agents.allows(second)
