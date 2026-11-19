@@ -11,6 +11,7 @@
 - [Unreleased · The window key, and the agent access fixes](#unreleased--the-window-key-and-the-agent-access-fixes)
 - [Unreleased · agents sync copies the skills to .agents/skills](#unreleased--agents-sync-copies-the-skills-to-agentsskills)
 - [Unreleased · agents/manifest.json says what the app offers agents](#unreleased--agentsmanifestjson-says-what-the-app-offers-agents)
+- [Unreleased · A refusal tells the window who asked and what for](#unreleased--a-refusal-tells-the-window-who-asked-and-what-for)
 - [v0.39.2 · PDF export and SVG pictures without a system library, and six smaller fixes](#v0392--pdf-export-and-svg-pictures-without-a-system-library-and-six-smaller-fixes)
 - [v0.39.0 · A closed window's poll takes no job, and four smaller fixes](#v0390--a-closed-windows-poll-takes-no-job-and-four-smaller-fixes)
 - [v0.38.1 · The window's scripts keep their types on Windows](#v0381--the-windows-scripts-keep-their-types-on-windows)
@@ -90,6 +91,24 @@ The family spec reads one file per app, `agents/manifest.json`, so counts of too
 The sync's three parts are now independent. The manifest and the `.agents/skills` mirror need no window; only the command reference needs the catalogue the open window publishes. Without the catalogue the sync says so on stderr and skips only the reference (before, it stopped with an error and did nothing), and `--check` still checks the manifest and the mirror, so it can run where no window has ever been opened.
 
 Documents compared: README line 95 and the MCP and Engine-Contract wiki pages say 47 tools, which is what the manifest holds; nothing else in the repository states a read-only, gated or skill count. Verified: formadaptor's `scripts/manifest.py check` accepts the file; `--check` exits 0; in a copy of the repository outside the tree, changing `list_boards` from read-only to write made `--check` exit 1 and name `agents/manifest.json`.
+
+## Unreleased · A refusal tells the window who asked and what for
+
+- refers-to: `app/agent/service.py` :: ASKED, ANSWERS, asked, Agents.refusal, Agents.refuse; `app/main.py` :: local_access; `app/routers/boards.py` :: events; `app/mcp_server.py` :: client_name, api; `tests/test_dock_engine.py` (new)
+- kind: rationale
+- logged: after v0.39.2, unreleased · 2026-11-19
+
+The family is moving to one shared dock with one dialog for outside agents. That dialog names the agent and says what it asked. FormRef's `consent` event carried only `{"refusals": n}`. It now also carries `id` (new for each refusal), `agent`, `what`, `answers`, `always`, `expires` and `held`. The present window reads none of them (it listens for the event and ignores its data), so nothing it shows changes.
+
+What each field says today, truthfully. FormRef refuses the call first and tells the window afterward, so `held` is false and `expires` is null: nothing is waiting, and the agent has to try again after the person allows outside agents. `answers` is `["deny", "always"]`: "deny" needs no call (the request was already refused) and "always" is the existing `POST /api/agent/settings {"outside_agents": true}`. There is no "once", because there is no held call to let through. `always` is `"all"`: the stored choice covers every outside agent, FormRef has nothing finer.
+
+`agent` is the name the client announced: the MCP `clientInfo.name` over stdio, the first word of `User-Agent` over HTTP (the HTTP endpoint is stateless, so a tool call has no `initialize` to read), sent by `mcp_server.api` to the engine in a new `X-FormRef-Agent` header beside the existing `X-FormRef-Client`. The engine keeps printable characters and at most 64 of them. It is a label for the dialog only: nothing is allowed or refused by it. It is an empty string when no name was announced; the dialog owns the fallback wording, so it can be translated. `what` completes "It asked to ...": one of twelve phrases chosen from the method and path in `ASKED` (create a board, change a board, add a picture or a file, and so on), or "make a change".
+
+`Agents.refuse` replaces the bare `agents.refusals += 1` in `main.py`; the counter rises as before.
+
+Not changed, on purpose: the gate still refuses first. Holding the call while the window asks (and with it "Allow once", an expiry, a withdrawal event and a Blocked choice) changes what the present window does, so it waits for the dock port; the design is in the engine-prep report.
+
+Verified on a running engine (port 33401, fresh data folder): an outside `tools/call create_board` through `/mcp` was refused as before and the event carried all eight fields with the caller's `User-Agent` word as `agent`; a stdio client that announced "Stdio Probe" was named so; a direct call with no name gave an empty `agent`; a 200 character name arrived as 64. The test was written after.
 
 ## v0.39.2 · PDF export and SVG pictures without a system library, and six smaller fixes
 

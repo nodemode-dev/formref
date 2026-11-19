@@ -77,7 +77,7 @@ async def local_access(request: Request, call_next):
     client = request.headers.get("x-formref-client")
     if client and request.method not in {"GET", "HEAD", "OPTIONS"} and not request.url.path.startswith("/api/agent"):
         if not agents.allows(client):
-            agents.refusals += 1
+            agents.refuse(request.headers.get("x-formref-agent"), request.method, request.url.path)
             return JSONResponse(status_code=403, content={"detail": "Outside agents are off. Turn them on in FormRef under Agent settings, or start the turn from FormRef's agent panel.", "code": "outside_agents_off"})
         body = await request.body() if request.url.path.endswith("/commands") else b""
         summary = agents.review(request.method, request.url.path, body)

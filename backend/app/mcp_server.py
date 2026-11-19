@@ -71,9 +71,24 @@ def client_token():
         return request.headers.get("x-formref-inapp") or "outside"
     return CLIENT_TOKEN.get()
 
+def client_name():
+    try:
+        context = mcp.get_context().request_context
+    except (LookupError, ValueError, AttributeError):
+        return ""
+    info = getattr(getattr(getattr(context, "session", None), "client_params", None), "clientInfo", None)
+    name = getattr(info, "name", "") or ""
+    request = getattr(context, "request", None)
+    if not name and request is not None and hasattr(request, "headers"):
+        name = (request.headers.get("user-agent") or "").split("/")[0]
+    return "".join(c for c in name if 32 <= ord(c) < 127)[:64].strip()
+
 async def api(method, path, **kwargs):
     await ensure_api()
     kwargs.setdefault("headers", {})["X-FormRef-Client"] = client_token()
+    name = client_name()
+    if name:
+        kwargs["headers"]["X-FormRef-Agent"] = name
     # Writes may wait for the person to confirm a deletion or bulk move in the Agent panel (up to five minutes).
     async with httpx.AsyncClient(timeout=60 if method == "GET" else 330, trust_env=False) as client:
         response = await client.request(method, API_URL + path, **kwargs)

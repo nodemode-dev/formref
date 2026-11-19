@@ -2,6 +2,7 @@ import asyncio
 import ipaddress
 import json
 import os
+import re
 import secrets
 import uuid
 from pathlib import Path
@@ -23,6 +24,25 @@ CONFIRM_SECONDS = 300
 MOVES = {"transform": "Move or resize", "pack": "Pack", "sort": "Sort and lay out", "distribute": "Distribute", "align": "Align", "snap": "Snap", "normalize": "Resize"}
 TOKENLESS = ("codex", "cursor")
 TOKEN_FOLDER = "AgentTokens"
+ASKED = tuple((method, re.compile(pattern), words) for method, pattern, words in (
+    ("POST", r"/api/boards", "create a board"),
+    ("POST", r"/api/boards/[^/]+/commands", "change a board"),
+    ("POST", r"/api/boards/[^/]+/(undo|redo)", "undo or redo a change on a board"),
+    ("POST", r"/api/boards/[^/]+/background", "change a board's background"),
+    ("POST", r"/api/boards/[^/]+/items/.+", "change an item on a board"),
+    ("POST", r"/api/assets", "add a picture or a file"),
+    ("POST", r"/api/capture", "capture a web page"),
+    ("POST", r"/api/models/[^/]+/download", "download a model"),
+    ("POST", r"/api/templates/[^/]+/use", "create a board from a template"),
+    ("POST", r"/api/trash/.+/restore", "restore something from the trash"),
+    ("POST", r"/api/commands/[^/]+/run", "run a FormRef command"),
+    ("PUT", r"/api/session", "change which boards are open"),
+))
+ANSWERS = ("deny", "always")
+
+
+def asked(method: str, path: str) -> str:
+    return next((words for m, pattern, words in ASKED if m == method and pattern.fullmatch(path)), "make a change")
 
 
 def loopback_url(value) -> bool:
@@ -53,6 +73,7 @@ class Agents:
         self.cli_active: list[str] = []
         self.token_files: dict[str, Path] = {}
         self.refusals = 0
+        self.refusal: dict = {}
         self.token_turn: dict[str, str] = {}
         self.queues: dict[str, asyncio.Queue] = {}
         self.pending: dict[str, dict] = {}
@@ -127,6 +148,11 @@ class Agents:
         if client == "outside" and self.tokenless_turn() is not None:
             return True
         return bool(self.settings()["outside_agents"])
+
+    def refuse(self, agent: str | None, method: str, path: str) -> None:
+        name = "".join(c for c in (agent or "") if c.isprintable())[:64].strip()
+        self.refusal = {"id": uuid.uuid4().hex, "agent": name, "what": asked(method, path), "answers": list(ANSWERS), "always": "all", "expires": None, "held": False}
+        self.refusals += 1
 
     def tokenless_turn(self) -> str | None:
         return next((t for t in reversed(self.cli_active) if self.turns.get(t, {}).get("runner") in TOKENLESS), None)
