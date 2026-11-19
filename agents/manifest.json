@@ -1,0 +1,110 @@
+{
+  "format": "form-agent-manifest",
+  "version": 1,
+  "app": "formref",
+  "mcp": {
+    "tools": [
+      "list_boards",
+      "create_board",
+      "get_board",
+      "sample_image",
+      "create_swatch",
+      "extract_palette",
+      "find_by_color",
+      "find_similar",
+      "create_document",
+      "set_formatted_text",
+      "add_items",
+      "update_items",
+      "arrange_items",
+      "adjust_items",
+      "configure_canvas",
+      "snap_items",
+      "transform_items",
+      "remove_items",
+      "capture_from_web",
+      "remove_background",
+      "list_background_models",
+      "download_background_model",
+      "create_table",
+      "define_labels",
+      "save_search",
+      "delete_search",
+      "rename_tag",
+      "remove_tag",
+      "label_items",
+      "add_comment",
+      "resolve_comment",
+      "list_templates",
+      "create_board_from_template",
+      "list_trash",
+      "restore_from_trash",
+      "undo",
+      "redo",
+      "import_asset",
+      "export_board",
+      "get_board_image",
+      "search_items",
+      "connect_items",
+      "style_connections",
+      "list_commands",
+      "describe_command",
+      "run_command",
+      "run_commands"
+    ],
+    "read_only": [
+      "list_boards",
+      "get_board",
+      "sample_image",
+      "find_by_color",
+      "find_similar",
+      "list_background_models",
+      "list_templates",
+      "list_trash",
+      "export_board",
+      "get_board_image",
+      "search_items",
+      "list_commands",
+      "describe_command"
+    ],
+    "approval_gated": [
+      "arrange_items",
+      "snap_items",
+      "transform_items",
+      "remove_items",
+      "run_command",
+      "run_commands"
+    ],
+    "transports": [
+      "stdio",
+      "http"
+    ]
+  },
+  "skills": [
+    {
+      "name": "formref-harness",
+      "sub_skills": [
+        "agent",
+        "engine",
+        "mcp",
+        "parity",
+        "persistence",
+        "release",
+        "ui-shell",
+        "verification"
+      ]
+    }
+  ],
+  "dock": {
+    "present": true,
+    "positions": [
+      "bottom"
+    ],
+    "tabs": [
+      "chat",
+      "terminal",
+      "claude"
+    ]
+  },
+  "extensions": null
+}

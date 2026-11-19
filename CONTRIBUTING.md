@@ -68,6 +68,9 @@ refuses an em dash or an emoji in tracked Markdown.
   FormRef once and run `./formref agents sync`; `./formref agents sync --check` fails
   while the agent command reference is out of date or `.agents/skills` differs from
   `.claude/skills`. The same command copies the skills across; never copy them by hand.
+  It also writes `agents/manifest.json` (the MCP tools, which are read-only and which
+  can wait for the person's Allow, the skills, the dock), and `--check` fails, naming
+  the file, while that is out of date; change a tool, a skill or the dock and run it.
 - Icons are inline `currentColor` SVG in `frontend/src/ui/icons.ts`, and colours,
   spacing and `z-index` come only from `frontend/src/styles/tokens.css`.
 - Other vendors' product names appear only to name a file format or compatibility.

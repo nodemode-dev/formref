@@ -10,6 +10,7 @@
 
 - [Unreleased · The window key, and the agent access fixes](#unreleased--the-window-key-and-the-agent-access-fixes)
 - [Unreleased · agents sync copies the skills to .agents/skills](#unreleased--agents-sync-copies-the-skills-to-agentsskills)
+- [Unreleased · agents/manifest.json says what the app offers agents](#unreleased--agentsmanifestjson-says-what-the-app-offers-agents)
 - [v0.39.2 · PDF export and SVG pictures without a system library, and six smaller fixes](#v0392--pdf-export-and-svg-pictures-without-a-system-library-and-six-smaller-fixes)
 - [v0.39.0 · A closed window's poll takes no job, and four smaller fixes](#v0390--a-closed-windows-poll-takes-no-job-and-four-smaller-fixes)
 - [v0.38.1 · The window's scripts keep their types on Windows](#v0381--the-windows-scripts-keep-their-types-on-windows)
@@ -71,6 +72,24 @@ Not changed: `/api/clip/boards` and the clipper's pairing token, the Host, Origi
 - refers-to: `app/cli.py` :: mirror_differences, agents_sync
 
 `.agents/skills` had fallen behind `.claude/skills` (two files differed and `references/commands.md` was missing) because `agents sync` only wrote the command reference and nothing copied the skills across. After writing the reference, `agents sync` now copies every file under `.claude/skills` whose bytes differ from the same path under `.agents/skills`, and `--check` fails when any does. Files that exist only under `.agents/skills` (`agents/openai.yaml`) are left alone and nothing is deleted. Checked on a data folder holding the catalogue a headless window published: `--check` failed with 3 files, `sync` copied 3, `--check` passed.
+
+## Unreleased · agents/manifest.json says what the app offers agents
+
+- refers-to: `app/agent_manifest.py` (new) :: manifest, approval_gated, mcp_section, skills_section, DOCK; `app/cli.py` :: agents_sync; `agents/manifest.json` (new, written by the sync); `tests/test_agent_manifest.py` (new)
+
+The family spec reads one file per app, `agents/manifest.json`, so counts of tools and skills are no longer typed into documents. `agents sync` writes it and `agents sync --check` fails, naming `agents/manifest.json`, when the committed file is not what the sync would write. App name `formref` (the file name in formcompiler `apps/`). Every field is read, none typed, except the dock.
+
+`mcp.tools` and `mcp.read_only` come from `mcp.list_tools()` on the server object, the call the server answers `tools/list` with, so the order and the read-only hint are what a client gets (47 tools, 13 read-only). Compared with a running engine's `POST /mcp` `tools/list`: same 47 names in the same order, same 13 read-only. `mcp.transports` is `stdio` when `mcp_server.py` runs the stdio transport and `http` when `main.py` mounts `streamable_http_app()`.
+
+`mcp.approval_gated`. FormRef's gate does not ask per tool. It asks per request: the middleware in `main.py` calls `agents.review`, which asks about a `remove` command, about any of the commands in `MOVES` (transform, pack, sort, distribute, align, snap, normalize) when they touch 10 or more items, and about deleting a whole board; and `routers/commands.py` asks before a window command marked risky runs. Only while a panel turn is running and `confirm_changes` is on; otherwise the call is let through (a tokenless outside client) or refused (a risky window command). So the field names the tools that can reach the gate, not tools that always wait: the manifest module reads `mcp_server.py` as source and lists a tool when it sends a command through `command()` whose type is `remove` or a key of `MOVES`, or when it posts to `/api/commands/.../run`. Result: `arrange_items`, `snap_items`, `transform_items`, `remove_items`, `run_command`, `run_commands`. `remove_background` also contains the word remove but posts to its own route and is not listed. The one literal that is not read from the gate's data is `remove`, because `_risky` tests it inline; a test calls `_risky` with every gated type and with types that are not gated, so the two cannot drift apart unseen. No route deletes a board through an MCP tool, so the board-deletion ask reaches no tool.
+
+`skills` are the folders of `.claude/skills` that hold a `SKILL.md`, with the sub-skills being the folders under `sub-skills/` that hold a `SUB-SKILL.md` (one skill, `formref-harness`, 8 sub-skills). `extensions` is null: nothing in the app hosts form.ext extensions (searched the frontend, backend and shell for form.ext and host API names; none).
+
+`dock` is the one declared value (`DOCK` in `agent_manifest.py`), because it lives in the page. Today's truth: the terminal dock in `frontend/src/ui/terminal-dock.ts` and `frontend/src/styles/dock.css` sits in the bottom grid row only (`.term-dock { grid-row: 3 }`, a resize handle on its top edge, no left, right or floating placement), and its tabs are the Chat tab (`this.chatTab`, title "Chat"), terminal tabs (kind shell, titled "Terminal N") and Claude Code tabs (kind claude), written as `chat`, `terminal`, `claude`. The Agent panel on the right of the window (`data-panel-tab="agent"` beside the Inspector) is a side panel, not the dock, and is not counted. Change `DOCK` when the dock changes.
+
+The sync's three parts are now independent. The manifest and the `.agents/skills` mirror need no window; only the command reference needs the catalogue the open window publishes. Without the catalogue the sync says so on stderr and skips only the reference (before, it stopped with an error and did nothing), and `--check` still checks the manifest and the mirror, so it can run where no window has ever been opened.
+
+Documents compared: README line 95 and the MCP and Engine-Contract wiki pages say 47 tools, which is what the manifest holds; nothing else in the repository states a read-only, gated or skill count. Verified: formadaptor's `scripts/manifest.py check` accepts the file; `--check` exits 0; in a copy of the repository outside the tree, changing `list_boards` from read-only to write made `--check` exit 1 and name `agents/manifest.json`.
 
 ## v0.39.2 · PDF export and SVG pictures without a system library, and six smaller fixes
 
