@@ -48,11 +48,8 @@ fn sidecar(name: &str) -> Result<PathBuf, String> {
     }
 }
 
-/// The engine prints this line, then its key, on its standard output before it starts serving; only this shell reads that pipe.
 const KEY_LINE: &str = "formref-window-key: ";
 
-/// Reads the engine's standard output for as long as it runs, so the pipe never fills: the key line goes to the
-/// channel and never to the log, every other line goes to the log.
 fn relay_engine_output(stdout: ChildStdout, mut log: File, keys: mpsc::Sender<String>) {
     let mut reader = BufReader::new(stdout);
     let mut raw = Vec::new();
@@ -183,7 +180,6 @@ fn open_main(app: &AppHandle, port: Option<u16>, key: Option<String>) -> Result<
         config.url = WebviewUrl::External(url);
     }
     let builder = WebviewWindowBuilder::from_config(app, &config).map_err(|error| error.to_string())?;
-    // The engine's window key reaches the page only on the engine's own origin, as one global the page reads once and deletes.
     let builder = match (port, key) {
         (Some(port), Some(key)) => builder.initialization_script(format!(
             "if (window.location.origin === {}) {{ window.__FORMREF_WINDOW_KEY = {}; }}",
