@@ -66,7 +66,8 @@ refuses an em dash or an emoji in tracked Markdown.
 - Commands come from `frontend/src/app/commands.ts`: the right-click menu, the
   palette, the keys and the shortcut sheet all read it. After changing them, open
   FormRef once and run `./formref agents sync`; `./formref agents sync --check` fails
-  while the agent command reference is out of date.
+  while the agent command reference is out of date or `.agents/skills` differs from
+  `.claude/skills`. The same command copies the skills across; never copy them by hand.
 - Icons are inline `currentColor` SVG in `frontend/src/ui/icons.ts`, and colours,
   spacing and `z-index` come only from `frontend/src/styles/tokens.css`.
 - Other vendors' product names appear only to name a file format or compatibility.

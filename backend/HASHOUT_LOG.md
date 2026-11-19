@@ -9,6 +9,7 @@
 ## Contents
 
 - [Unreleased · The window key, and the agent access fixes](#unreleased--the-window-key-and-the-agent-access-fixes)
+- [Unreleased · agents sync copies the skills to .agents/skills](#unreleased--agents-sync-copies-the-skills-to-agentsskills)
 - [v0.39.2 · PDF export and SVG pictures without a system library, and six smaller fixes](#v0392--pdf-export-and-svg-pictures-without-a-system-library-and-six-smaller-fixes)
 - [v0.39.0 · A closed window's poll takes no job, and four smaller fixes](#v0390--a-closed-windows-poll-takes-no-job-and-four-smaller-fixes)
 - [v0.38.1 · The window's scripts keep their types on Windows](#v0381--the-windows-scripts-keep-their-types-on-windows)
@@ -64,6 +65,12 @@ The stored choice is sealed. `agent.json` gains a `seal`: an HMAC-SHA256 over `o
 The agent access fixes. The Ollama address check compared the start of the text, so `http://127.0.0.1.something.example` passed; it now parses the address and accepts only `http`, no user name, and `localhost` or a loopback IP address, both when it is saved and when it is read (a hand-edited file falls back to the default). Agent settings, including Confirm changes, change only with the window key. An outside caller was accepted for as long as any panel command-line turn ran; the allowance now applies only while a Codex or Cursor turn runs (their stdio relay does not receive the per-turn token, which could not be checked here), and the confirm card for that caller goes to that turn.
 
 Not changed: `/api/clip/boards` and the clipper's pairing token, the Host, Origin and consent checks, the sockets' Origin rule.
+
+## Unreleased · agents sync copies the skills to .agents/skills
+
+- refers-to: `app/cli.py` :: mirror_differences, agents_sync
+
+`.agents/skills` had fallen behind `.claude/skills` (two files differed and `references/commands.md` was missing) because `agents sync` only wrote the command reference and nothing copied the skills across. After writing the reference, `agents sync` now copies every file under `.claude/skills` whose bytes differ from the same path under `.agents/skills`, and `--check` fails when any does. Files that exist only under `.agents/skills` (`agents/openai.yaml`) are left alone and nothing is deleted. Checked on a data folder holding the catalogue a headless window published: `--check` failed with 3 files, `sync` copied 3, `--check` passed.
 
 ## v0.39.2 · PDF export and SVG pictures without a system library, and six smaller fixes
 

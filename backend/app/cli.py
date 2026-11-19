@@ -107,6 +107,12 @@ def import_folder(args: list[str]) -> None:
 
 
 REFERENCE = Path(__file__).resolve().parents[2] / ".claude" / "skills" / "formref-harness" / "references" / "commands.md"
+SKILLS = REFERENCE.parents[2]
+MIRROR = REFERENCE.parents[4] / ".agents" / "skills"
+
+
+def mirror_differences() -> list[Path]:
+    return [file for file in sorted(SKILLS.rglob("*")) if file.is_file() and (not (MIRROR / file.relative_to(SKILLS)).is_file() or (MIRROR / file.relative_to(SKILLS)).read_bytes() != file.read_bytes())]
 
 
 def command_reference(catalogue: dict) -> str:
@@ -147,11 +153,20 @@ def agents_sync(args: list[str]) -> None:
     if "--check" in args:
         if current != text:
             raise SystemExit(f"formref: {REFERENCE.relative_to(REFERENCE.parents[4])} is out of date; run ./formref agents sync.")
-        print("Command reference is up to date.")
+        stale = mirror_differences()
+        if stale:
+            raise SystemExit(f"formref: {len(stale)} files in .agents/skills differ from .claude/skills; run ./formref agents sync.")
+        print("Command reference and .agents/skills are up to date.")
         return
     REFERENCE.parent.mkdir(parents=True, exist_ok=True)
     REFERENCE.write_text(text, encoding="utf-8")
     print(f"{'Updated' if current != text else 'Unchanged'}: {REFERENCE.relative_to(REFERENCE.parents[4])} ({text.count(chr(10) + '| `')} commands).")
+    stale = mirror_differences()
+    for file in stale:
+        target = MIRROR / file.relative_to(SKILLS)
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_bytes(file.read_bytes())
+    print(f"Mirrored {len(stale)} files from .claude/skills to .agents/skills.")
 
 
 if __name__ == "__main__":
