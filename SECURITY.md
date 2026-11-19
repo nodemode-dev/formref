@@ -31,7 +31,11 @@ something outside it could get in:
 - **Agents and the MCP server** (`./formref mcp` over stdio, and `/mcp` on the
   service): an agent acting before the person has allowed outside agents in the Agent
   panel, getting past the Confirm card that guards removals and moves of ten or more
-  items, or reading files outside the MCP import folder.
+  items, or reading files outside the MCP import folder. Outside agents start off,
+  and FormRef's own command line (`./formref import`, `./formref open`) counts as one.
+  Only the FormRef window can change that choice and the other agent settings; the
+  saved choice is sealed with a key in the system keychain, and if the saved file is
+  changed from outside FormRef the choice goes back to Ask.
 - **The Agent panel's runners** (Claude Code, Codex, Cursor and Ollama): a runner
   given more than FormRef's own tools, or an Ollama address that is not loopback.
 - **The terminal dock and the Claude Code tab**: anything other than FormRef's own

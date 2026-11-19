@@ -100,7 +100,7 @@
 ./formref mcp                                                    # MCP server on stdio for Claude Code, Codex and Cursor
 ```
 
-`.mcp.json`, `.codex/config.toml` and `.cursor/mcp.json` are already wired in this repo, and the server also answers on `http://127.0.0.1:8320/mcp`. Outside agents are refused until you allow them in the Agent panel. See [`AGENTS.md`](AGENTS.md).
+`.mcp.json`, `.codex/config.toml` and `.cursor/mcp.json` are already wired in this repo, and the server also answers on `http://127.0.0.1:8320/mcp`. Outside agents are refused until you allow them in the Agent panel, and the commands above count as one: with the choice at its default, `./formref import` and `./formref open` stop with `outside_agents_off`, so allow outside agents in FormRef first (the window asks the first time one is refused). Only the FormRef window can change that choice. See [`AGENTS.md`](AGENTS.md).
 
 ## Under the hood
 
