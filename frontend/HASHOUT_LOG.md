@@ -12,6 +12,7 @@
 - [Unreleased · A reload tries the kept key first](#unreleased--a-reload-tries-the-kept-key-first)
 - [Unreleased · A reset agent choice is told once](#unreleased--a-reset-agent-choice-is-told-once)
 - [Unreleased · Ctrl+J is the terminal dock](#unreleased--ctrlj-is-the-terminal-dock)
+- [Unreleased · AMOLED Black](#unreleased--amoled-black)
 - [v0.39.2 · Connections, text cards, the tag cloud, tabs, Preferences at 390 px, the demo's first open and 59 untranslated strings](#v0392--connections-text-cards-the-tag-cloud-tabs-preferences-at-390-px-the-demos-first-open-and-59-untranslated-strings)
 - [v0.39.1 · The credits shown in the demo boards match the records](#v0391--the-credits-shown-in-the-demo-boards-match-the-records)
 - [v0.39.0 · The review pass: twenty-one bugs](#v0390--the-review-pass-twenty-one-bugs)
@@ -91,6 +92,14 @@ When the engine reports `seal_broken` in the agent settings (the stored choice f
 - refers-to: `src/ui/panels/agent.ts` :: the waiting-for-an-answer notice; `src/lib/i18n/tables/*.json` (23 tables); `.docs/wiki/Agent.md`; `.docs/wiki/Shell.md`
 
 Ctrl+J (Cmd+J on macOS) shows and hides the terminal dock, as in the other Form apps; `src/app/terminal.ts` binds it and the binding is unchanged. The Agent panel has no key of its own (the title-bar button and Ask Agent open it). Two wiki pages and the notice shown when an agent waits for an answer while the panel is out of sight said Ctrl+J opened the Agent panel. The notice now ends at "Agent panel." and each table holds the same sentence without the key: the English text is the table key, so the key and the value were edited together in each of the 23 tables, one entry at a time. es-MX and fr-CA do not carry the string and fall back to es and fr.
+
+## Unreleased · AMOLED Black
+
+- refers-to: `src/styles/tokens.css` :: `:root[data-theme="amoled"]`, `:root[data-oled]`; `src/styles/prefs.css` :: `.prefs-group`; `index.html` :: the head script, the first style, `#theme-select`; `src/app/bindings.ts` :: the `theme-select` handler; `src/lib/i18n/tables/*.json` (23 tables)
+
+FormRef's themes are `:root[data-theme]` token blocks, not a profile table, so the family theme is one more block: `amoled` sets the window, panels, nodes and canvas to `#000000`, inputs and menus (`--bg-tertiary`) to `#141414`, borders to `#262626` and `#3a3a3a`, text to `#ededed`, `#a6a6a6` and `#858585`, and leaves the accent alone. `--grid-color` is `#777777`: the board draws its dots at 32% of that colour, which is `#262626` on black, a dot 38 levels above the board where Studio Dark's dot is 21 above its `#1c1b1d`, so the grid reads as it does elsewhere without lighting a large area. The hover tint goes from 5% to 10% white through `:root[data-oled]`; FormRef has no `--border-soft` token, so that half of the family rule has nothing to set.
+
+The flag is `data-oled` beside `data-theme`, never the theme id, so another OLED block only needs the flag. The head script sets it from the saved theme before first paint and the first style paints `html` and `body` black for it, because the stylesheets arrive after the page under a slow network and the default `#0a0a0a` would show. The picker handler sets and removes it only when it changes. Measured on the start screen, an open board, the Agent panel, the terminal dock and Preferences (every element over 6,000 square pixels with a fill or an image): the board, side panels, title bar, toolbar, status bar, Agent panel and dock are already `#000000`; the one large surface that was not is `.prefs-group` (a mix of 55% `--bg-tertiary` into `--bg-secondary`, which came out `#0b0b0b`), so under `data-oled` it takes `--bg-secondary` and an inset 1px `--border-color` ring in place of its shadow, which keeps its size. The Browser clipper section is a `.prefs-group`. Left as they are because they are content or accent: images and notes on the board, the accent tint of the selected board row and of the start screen banner, the active Preferences tab. The theme name is in the 23 complete tables, one entry each after High Contrast; es-MX and fr-CA fall back.
 
 ## v0.39.2 · Connections, text cards, the tag cloud, tabs, Preferences at 390 px, the demo's first open and 59 untranslated strings
 

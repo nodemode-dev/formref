@@ -320,7 +320,9 @@ onPdfText(() => { if ($<HTMLInputElement>('search').value.trim()) refilter(); })
 
 $('theme-select').addEventListener('change', () => {
   const theme = $<HTMLSelectElement>('theme-select').value;
-  document.documentElement.dataset.theme = theme;
+  const root = document.documentElement;
+  root.dataset.theme = theme;
+  if (theme === 'amoled') { if (root.dataset.oled === undefined) root.dataset.oled = ''; } else if (root.dataset.oled !== undefined) delete root.dataset.oled;
   try {
     localStorage.setItem('formref-theme', theme);
     const shared = JSON.parse(localStorage.getItem('nodemode_ui_settings') || '{}') as Record<string, unknown>;

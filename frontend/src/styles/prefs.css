@@ -47,6 +47,7 @@
 .prefs-sec.is-folded .prefs-chev { rotate: -90deg; }
 .prefs-secbody { display: flex; flex-direction: column; gap: 10px; padding: 0 14px 14px; }
 .prefs-group { display: flex; flex-direction: column; gap: var(--space-2); min-width: 0; padding: 12px 14px 14px; border-radius: var(--radius-lg); background: color-mix(in srgb, var(--bg-tertiary) 55%, var(--bg-secondary)); box-shadow: var(--shadow-sm); }
+:root[data-oled] .prefs-group { background: var(--bg-secondary); box-shadow: inset 0 0 0 1px var(--border-color); }
 .prefs-label { margin: 0 0 var(--space-1); color: var(--accent-color); font-size: 11px; font-weight: 600; line-height: 14px; letter-spacing: 0.07em; text-transform: uppercase; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .prefs-group .field-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(150px, 46%); align-items: center; column-gap: var(--space-3); min-height: 38px; padding: var(--space-1) 0; }
 .prefs-group .field-row > span, .prefs-group .field-row > strong, .prefs-group .check-row { color: var(--text-secondary); font-size: 12px; line-height: 1.25; }
