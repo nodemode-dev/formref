@@ -1,5 +1,20 @@
 # FormRef changelog
 
+## v0.41.0 · 2026-11-19
+
+The terminal panel is the one every Form app shares: it can sit at the right of the canvas, remembers how you left it, has tabs for Codex and Cursor, and asks you by name when another program wants to change a board.
+
+- The terminal panel under the canvas is now the panel every Form app shares. A button in its bar moves it to the right of the canvas and back to the bottom, in a window wide enough for both, and you drag its edge to size it.
+- The panel remembers whether it was open, which side it was on and its size, and comes back that way the next time FormRef starts. The height you had set before is carried over.
+- Codex and Cursor have tabs of their own beside Claude Code. Each tab gets its own access to the board, which ends when the tab closes. More agents in the panel's bar says whether each program is installed and shows the line that installs it.
+- An open terminal changes colour with the theme. Before, it kept the colours it started with.
+- The first time you open the panel, a short guide shows you round it. Show me around in the More agents menu opens the guide again.
+- When another program on this computer tries to change a board while Allow outside agents is off, FormRef refuses it and asks you in the middle of the window, above any dialog that is open. The question names the program, by the name it gives for itself, and says what it asked to do. Your answers are Deny and Always allow all outside agents; after you allow, the program has to ask again. After Deny, FormRef does not ask again for a minute, as with Not now before.
+- Ctrl+J (Cmd+J on a Mac) still shows and hides the panel, Ctrl+Shift+J still opens Claude Code and Ctrl+Alt+J still opens Chat. The menus and your own key bindings work as before.
+- Chat is FormRef's own, as before: Markdown replies, pictures, selecting the items a reply names, the usage meter and From Claude Code. The panel has one line to type in. On the Chat tab it asks Chat, and on every other tab it asks Claude Code.
+- For people who work on FormRef: the MCP entry FormRef writes for its own Claude Code, Chat, Codex and Cursor tabs is named `formref_tab`, so it cannot be mistaken for the `formref` entry an outside agent uses. `./formref agents sync` and its `--check` stop, naming the file, when a file of the shared panel differs from the list that comes with it, and `agents/manifest.json` says that the panel can sit at the bottom or the right and lists the Codex and Cursor tabs.
+- The notice file names the shared panel and where it comes from, and the Agent wiki page describes the question and its two answers.
+
 ## v0.40.0 · 2026-11-19
 
 Only the FormRef window can change your boards and settings, your choice for outside agents stays what you chose, and a true-black theme.
