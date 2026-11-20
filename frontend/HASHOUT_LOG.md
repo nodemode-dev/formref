@@ -15,6 +15,7 @@
 - [Unreleased · AMOLED Black](#unreleased--amoled-black)
 - [Unreleased · Two engine messages in every table](#unreleased--two-engine-messages-in-every-table)
 - [Unreleased · The terminal panel is the family's shared dock, module 2.1.0](#unreleased--the-terminal-panel-is-the-familys-shared-dock-module-210)
+- [After v0.41.0 · The shared dock at module 2.2.0, and Antigravity as the fourth agent tab](#after-v0410--the-shared-dock-at-module-220-and-antigravity-as-the-fourth-agent-tab)
 - [v0.39.2 · Connections, text cards, the tag cloud, tabs, Preferences at 390 px, the demo's first open and 59 untranslated strings](#v0392--connections-text-cards-the-tag-cloud-tabs-preferences-at-390-px-the-demos-first-open-and-59-untranslated-strings)
 - [v0.39.1 · The credits shown in the demo boards match the records](#v0391--the-credits-shown-in-the-demo-boards-match-the-records)
 - [v0.39.0 · The review pass: twenty-one bugs](#v0390--the-review-pass-twenty-one-bugs)
@@ -145,6 +146,16 @@ export function isDockToggle(e: KeyboardEvent): boolean {
 Words. FormRef translates the page after the fact, so `t` returns English. The sentences the old dock already had in the 23 tables are reused where the adapter gives the old wording (the three tooltips with their keys, both ask placeholders, the Chat lead). The module's other sentences and the two notes show in English for now; no table was half filled. `i18n_check.py` skips `src/dock/` and `src/dock-adapter.ts` and still exits 0 under `--strict`; 15 more table entries count as unused.
 
 Seen in headless Chrome at 1440 by 900 against an engine from source with stand-in programs: the three captures before and after (closed 0 differing pixels in the dock and canvas; shell 1,893 and Chat 2,164 inside the dock box, all of them the module's own icons, four new buttons and tab details), every dock action, the question over the Help dialog, and under 4x CPU with a slow network and no cache one stage box in every frame of a cold load with the dock remembered at the bottom and at the right.
+
+## After v0.41.0 · The shared dock at module 2.2.0, and Antigravity as the fourth agent tab
+
+- refers-to: `src/dock/` (16 entries with `MANIFEST.json`, byte for byte from FormVis `ddc893ae`, never edited here; `agents.ts` is new); `src/dock-adapter.ts` :: `KINDS`, `record`, `formrefDock`, `tabs`, `agentStatus`; `src/app/terminal.ts` :: `dock`, `mountDock`
+
+Module 2.2.0 takes its agent kinds from the adapter. The folder was copied whole, each file with `git show ddc893ae:frontend/src/dock/[name]`; its files match its `MANIFEST.json`. The adapter is typed `DockAdapter<'antigravity'>`, lists `antigravity` in `tabs().builtin`, keeps that kind on a terminal record, and hands on the engine's status, which already has the `antigravity` key (`installed`, `version`, `install`, `signedIn` null). `terminal.open` already sent every kind but the shell and Claude Code to `/api/terminal/agent`, so the fourth kind needed no new call. The dock is held as `Dock<'antigravity'>`.
+
+Not done: the engine's sentence for a missing program is not given as `note` on the status (the row says the module's own "not found" words), `keyHeaders` and the automation ids were left as they are, and no status text is put on a record.
+
+Run: `tsc --noEmit` exit 0 with the new folder and the adapter. Not looked at in a browser: the button, the row and the tab of the fourth kind were not seen drawn here; the engine side was seen through the routes (backend log, "An Antigravity tab"). Not run: the desktop window, Windows, macOS.
 
 ## v0.39.2 · Connections, text cards, the tag cloud, tabs, Preferences at 390 px, the demo's first open and 59 untranslated strings
 

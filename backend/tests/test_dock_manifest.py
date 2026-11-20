@@ -19,7 +19,7 @@ def _imports(path):
 
 def test_the_shared_dock_files_match_their_manifest():
     kept = json.loads((DOCK / "MANIFEST.json").read_text(encoding="utf-8"))
-    assert kept["module"] == "dock" and kept["version"] == "2.1.0"
+    assert kept["module"] == "dock" and kept["version"] == "2.2.0"
     now = {p.name: hashlib.sha256(p.read_bytes()).hexdigest() for p in DOCK.iterdir() if p.is_file() and p.name != "MANIFEST.json"}
     assert kept["files"] == now
     assert f"Module version {kept['version']}." in (DOCK / "CONTRACT.md").read_text(encoding="utf-8")
@@ -42,6 +42,40 @@ def test_agents_sync_names_a_shared_file_edited_in_place(tmp_path, monkeypatch):
         assert said in str(stop.value)
     (copy / "extra.ts").write_text("export {};\n", encoding="utf-8")
     assert "frontend/src/dock/extra.ts" in " ".join(agent_manifest.dock_problems())
+
+
+LOOKUP = "backend/app/agent/agent_lookup.py"
+
+
+def test_the_shared_finder_matches_the_hash_recorded_for_its_version():
+    version = re.search(r'^VERSION = "([^"]+)"$', (ROOT / LOOKUP).read_text(encoding="utf-8"), re.M).group(1)
+    assert agent_manifest.LOOKUP == ROOT / LOOKUP
+    assert agent_manifest.LOOKUP_HASHES[version] == hashlib.sha256((ROOT / LOOKUP).read_bytes()).hexdigest()
+    assert agent_manifest.lookup_problems() == []
+
+
+def test_agents_sync_names_the_shared_finder_edited_in_place_or_missing(tmp_path, monkeypatch):
+    copy = tmp_path / LOOKUP
+    copy.parent.mkdir(parents=True)
+    shutil.copy(ROOT / LOOKUP, copy)
+    monkeypatch.setattr(agent_manifest, "LOOKUP", copy)
+    assert agent_manifest.lookup_problems() == []
+    version = re.search(r'^VERSION = "([^"]+)"$', copy.read_text(encoding="utf-8"), re.M).group(1)
+    with open(copy, "a", encoding="utf-8") as f:
+        f.write("\n")
+    said = f"{LOOKUP}: does not match the hash recorded for version {version} (the shared finder changes only as a whole new version)"
+    assert agent_manifest.lookup_problems() == [said]
+    for args in (["sync", "--check"], ["sync"]):
+        with pytest.raises(SystemExit) as stop:
+            cli.agents_sync(args)
+        assert said in str(stop.value)
+    copy.unlink()
+    assert agent_manifest.lookup_problems() == [f"{LOOKUP}: missing (the shared finder for the agent programs)"]
+
+
+def test_the_shared_finder_imports_nothing_from_the_app():
+    imports = set(re.findall(r"^\s*(?:from|import)\s+([\w.]+)", (ROOT / LOOKUP).read_text(encoding="utf-8"), re.M))
+    assert imports == {"__future__", "dataclasses", "os", "pathlib", "re", "shutil", "signal", "subprocess", "sys", "threading", "time", "winreg"}
 
 
 def test_the_shared_dock_imports_nothing_from_the_app():

@@ -2,6 +2,7 @@ import ast
 import asyncio
 import hashlib
 import json
+import re
 from pathlib import Path
 
 from .agent.service import MOVES
@@ -11,8 +12,13 @@ ROOT = BACKEND.parents[1]
 PATH = ROOT / "agents" / "manifest.json"
 SKILLS = ROOT / ".claude" / "skills"
 GATED_TYPES = frozenset({"remove", *MOVES})
-DOCK = {"present": True, "positions": ["bottom", "right"], "tabs": ["chat", "terminal", "claude", "codex", "cursor"]}
+DOCK = {"present": True, "positions": ["bottom", "right"], "tabs": ["chat", "terminal", "claude", "codex", "cursor", "antigravity"]}
 DOCK_FOLDER = ROOT / "frontend" / "src" / "dock"
+LOOKUP = ROOT / "backend" / "app" / "agent" / "agent_lookup.py"
+LOOKUP_HASHES = {
+    "1.0.0": "252ea9bb9419d4990f174f91914f09800497bc69e98f849f5643bbf4217cc3f3",
+    "1.0.1": "62667f9b68b7d101e1896ce617240424e33b7e498c560bc79d45f0ab26c77d51",
+}
 
 
 def dock_problems() -> list[str]:
@@ -23,6 +29,19 @@ def dock_problems() -> list[str]:
         return [f"{name}/MANIFEST.json: missing or unreadable"]
     now = {p.name: hashlib.sha256(p.read_bytes()).hexdigest() for p in DOCK_FOLDER.iterdir() if p.is_file() and p.name != "MANIFEST.json"}
     return [f"{name}/{file}: does not match MANIFEST.json (the shared dock module changes only as a whole new version)" for file in sorted(set(kept) | set(now)) if kept.get(file) != now.get(file)]
+
+
+def lookup_problems() -> list[str]:
+    rel = "backend/app/agent/agent_lookup.py"
+    try:
+        raw = LOOKUP.read_bytes()
+    except OSError:
+        return [f"{rel}: missing (the shared finder for the agent programs)"]
+    said = re.search(rb'^VERSION = "([^"\r\n]+)"\r?$', raw, re.M)
+    version = said.group(1).decode("ascii", "replace") if said else "unknown"
+    if LOOKUP_HASHES.get(version) != hashlib.sha256(raw).hexdigest():
+        return [f"{rel}: does not match the hash recorded for version {version} (the shared finder changes only as a whole new version)"]
+    return []
 
 
 def _strings(function: ast.AST) -> list[str]:

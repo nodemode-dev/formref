@@ -14,6 +14,12 @@
 - [Unreleased · A refusal tells the window who asked and what for](#unreleased--a-refusal-tells-the-window-who-asked-and-what-for)
 - [Unreleased · Agent status in one call, Codex and Cursor tabs, typed socket notices](#unreleased--agent-status-in-one-call-codex-and-cursor-tabs-typed-socket-notices)
 - [Unreleased · The app's own tabs use an entry named formref_tab, and agents sync checks the shared dock folder](#unreleased--the-apps-own-tabs-use-an-entry-named-formref_tab-and-agents-sync-checks-the-shared-dock-folder)
+- [After v0.41.0 · One finder and one starter for the agent programs](#after-v0410--one-finder-and-one-starter-for-the-agent-programs)
+- [After v0.41.0 · agents sync holds the shared finder to its recorded hash](#after-v0410--agents-sync-holds-the-shared-finder-to-its-recorded-hash)
+- [After v0.41.0 · The suite runs stand-in programs only](#after-v0410--the-suite-runs-stand-in-programs-only)
+- [After v0.41.0 · The shared finder at 1.0.1](#after-v0410--the-shared-finder-at-101)
+- [After v0.41.0 · An Antigravity tab](#after-v0410--an-antigravity-tab)
+- [After v0.41.0 · The engine starts without output streams](#after-v0410--the-engine-starts-without-output-streams)
 - [v0.39.2 · PDF export and SVG pictures without a system library, and six smaller fixes](#v0392--pdf-export-and-svg-pictures-without-a-system-library-and-six-smaller-fixes)
 - [v0.39.0 · A closed window's poll takes no job, and four smaller fixes](#v0390--a-closed-windows-poll-takes-no-job-and-four-smaller-fixes)
 - [v0.38.1 · The window's scripts keep their types on Windows](#v0381--the-windows-scripts-keep-their-types-on-windows)
@@ -141,6 +147,72 @@ The MCP entry the engine writes for its own Claude Code tab, its Chat and its Co
 `./formref agents sync` and `--check` now stop, naming the file, when a file in `frontend/src/dock` does not match that folder's `MANIFEST.json` or is not listed in it. FormRef never writes that manifest: the folder arrives whole from FormVis. `agents/manifest.json` says the dock can sit at the bottom or the right and lists the Codex and Cursor tabs.
 
 Run on an engine from source (33421, stand-in programs): a Claude Code tab's token and a Codex tab's token each ran `create_board` through `/mcp` under Ask while the tab was open; after the tab closed the same token was refused with the text an unknown outside agent gets, and the window was asked. No route was added: the write-route walk still finds 61.
+
+## After v0.41.0 · One finder and one starter for the agent programs
+
+- refers-to: `app/agent/agent_lookup.py` (the family's file, version 1.0.0, copied unchanged from FormVis); `app/agent/claude_code.py` :: `OVERRIDES`, `SETTINGS`, `OTHERWISE`, `setting`, `child_env`, `located`, `said`, `cli`, `info`, `argv`, `open_tab`; `app/agent/runners.py` :: `places`, `located`, `said`, `find`; `app/agent/programs.py` :: `REPORTED`, `INSTALL`, `_claude_signed_in`, `status`, `open_tab`; `app/agent/service.py` :: `available`, `_cli`; `app/agent/chat.py` :: `_argv`, `_run`, `send`; `tests/test_agent_programs.py`
+
+FormRef started from the Dock, the Finder or the Start menu gets the system's short PATH, so a program installed by Homebrew, npm or a version manager was reported as not installed. Claude Code had its own short list of places and a login shell question, Codex and Cursor had `runners.places`, panel turns started the program directly with the engine's PATH, and each tab and check built its own environment. All of them now go through `agent_lookup.py`: the person's setting, the override variable, the engine's PATH, the known install folders, then the person's shell PATH read once. Every start (tab, Chat, panel turn, `--version`, `auth status`) uses `agent_lookup.start_argv` and one child environment with the program's own folder first on PATH, so a node script finds the node beside it.
+
+What changed shape, and what did not. `claude_code.cli`, `info`, `argv`, `child_env`, `open_tab`, `runners.find`, `runners.places`, `programs.status` and `programs.open_tab` keep their names. `info` and each program in `/api/agent/status` gain `finding` (`runs`, `broken`, `missing`), `how`, `looked`, `error` and `said`; the status also gains `title` and a fourth program, `antigravity` (found or not and where it looked; no tab, label or file). `installed` is true only when `--version` ran. `child_env` takes the program's path. `runners.located` and `runners.said` exist because `service.py` cannot import `claude_code` at the top (it imports `service`).
+
+Removed, because the finder holds them: `claude_code.KEEP_ENV`, `CANDIDATES`, `SYSTEM_PATHS`, `INSTALL`, `_from_login_shell`; `runners._usable`, `_login_shell_lookup` and the folder list inside `places`; `programs._run`, `_version` and its own install lines. Where the lists differed the finder wins: Cursor is looked for as `cursor-agent` first, and `agent` counts only when its real path names Cursor.
+
+The person's own path exists for Claude Code only (`claude_bin`, sealed as before), so `setting` answers `None` for the other three and their sentence does not mention a setting. The field is in the Agent panel, so the sentence ends "or give its path in the Agent panel". Override variables: `FORMREF_CLAUDE_BIN` as before, and `FORMREF_CODEX_BIN`, `FORMREF_CURSOR_BIN`, `FORMREF_ANTIGRAVITY_BIN` are read the same way. No setting and no interface was added.
+
+The refusals carry the finder's sentence: the Codex and Cursor tab route (404, `not_installed`), the Claude Code tab and Chat (422), a panel turn, and the `note` of a program in `/api/agent/runners`. The dock adapter (`frontend/src/dock-adapter.ts`) was not changed: it still answers `notInstalled` for the code `not_installed` and hands the engine's message on, and it does not keep `said` per program the way FormVis's adapter does.
+
+Run on an engine from source (port 4750, PATH `/usr/bin:/bin:/usr/sbin:/sbin`, a made-up home, a stand-in shell, stand-in programs; no real agent program was started): `/api/agent/status?fresh=1` answered `runs` for all four under known folders (`how` `folder`), again with all four only on the stand-in shell's PATH (`shell`), `broken` with the error line for a script whose interpreter is missing, and `missing` with the list of places for all four. Codex, Cursor and Claude Code tabs opened through their routes with a `#!/usr/bin/env node` stand-in and a stand-in `node` beside it: each printed its line with its own folder first on PATH. Chat started and read the stand-in's session; panel turns with the Claude Code and Codex stand-ins started the same way. Not run: Windows, macOS, a fish shell, a frozen engine, and any real Claude Code, Codex, Cursor or Antigravity.
+
+Tests: the two fixtures in `tests/test_agent_programs.py` replaced `runners._login_shell_lookup` and `runners.places`, which are gone; they now use a stand-in shell, a made-up home and no system folders (`agent_lookup.system_folders`). The exact-fields test lists the new fields, the missing test expects four programs, and the kept-status test changes the stand-in's version line instead of replacing `programs._version`. One test was added for a known folder, the shell PATH and a program that does not start.
+
+## After v0.41.0 · agents sync holds the shared finder to its recorded hash
+
+- refers-to: `app/agent_manifest.py` :: `LOOKUP`, `LOOKUP_HASHES`, `lookup_problems`; `app/cli.py` :: `agents_sync`; `tests/test_dock_manifest.py`
+
+`app/agent/agent_lookup.py` is the family's file and changes only as a whole new version. `lookup_problems` reads its `VERSION` line, hashes its bytes and compares with the hash recorded for that version in `LOOKUP_HASHES`; `./formref agents sync` and `--check` stop, naming the file, when they differ or the file is missing, beside the check of the shared dock folder. The hash is of the bytes, and `.gitattributes` already checks the file out with LF endings. The record is not in `frontend/src/dock/MANIFEST.json`: that folder belongs to the dock module.
+
+The name in the message is written out (`backend/app/agent/agent_lookup.py`) and not worked out from `ROOT`, because two older tests replace `agent_manifest.ROOT` with a temporary folder.
+
+Run: `python -m app.cli agents sync --check` on the tree answered up to date; on a copy with one line added, `lookup_problems` and both forms of the command named the file and version 1.0.0; with the copy removed it answered missing. Three tests added after that.
+
+## After v0.41.0 · The suite runs stand-in programs only
+
+- refers-to: `tests/conftest.py` :: the lines after `USERPROFILE`, `only_stand_in_programs`
+
+A plain `pytest` kept the PATH and the login shell of whoever ran it. `test_the_key_opens_every_write_route` posts an empty body to `/api/claudecode`, which looks for Claude Code, asks its version and opens a tab; on a computer with Claude Code installed that was the real program, before the finder through the PATH and after it also through the shell. On macOS and Linux `conftest.py` now sets, before the app is imported, `SHELL` to a stand-in shell in the test sandbox and `PATH` to `/usr/bin:/bin:/usr/sbin:/sbin`, beside the made-up home it already set, and a session fixture replaces `agent_lookup.system_folders` with an empty list. The fixtures in `tests/test_agent_programs.py` still set their own shell, home and PATH per test.
+
+Run, with logging stand-ins named `claude`, `codex`, `cursor-agent`, `agent` and `agy` first on the outer PATH and on the outer stand-in shell's PATH, a made-up outer home, and no real program reachable: before this change `tests/test_window_key_default.py` alone logged two calls (`claude --version` and the tab's start); after it the whole suite passed (162) and logged none. Not covered: Windows (the registry Path and the folders under `%LOCALAPPDATA%` are still the computer's own), and a program installed in `/usr/bin` or `/bin` itself.
+
+## After v0.41.0 · The shared finder at 1.0.1
+
+- refers-to: `app/agent/agent_lookup.py` (the family's file, version 1.0.1, copied unchanged from FormVis); `app/agent_manifest.py` :: `LOOKUP_HASHES`; `tests/conftest.py` :: the lines after `PATH`; `tests/test_dock_manifest.py` :: `test_agents_sync_names_the_shared_finder_edited_in_place_or_missing`
+
+The family's finder moved to 1.0.1 (SHA-256 `62667f9b...c77d51`): when a program does not start, the line it reports no longer is the hint `env` prints about `-S`, so the person reads the real reason. The file was replaced whole, never edited. `LOOKUP_HASHES` records both versions, so a checkout that still has 1.0.0 is not called edited.
+
+The finder also reads `NPM_CONFIG_PREFIX`, `npm_config_prefix`, `PNPM_HOME`, `VOLTA_HOME`, `BUN_INSTALL` and `NVM_SYMLINK` to know where a package manager installs. `conftest.py` removes the six beside the made-up home it sets, so a test never looks in the real folders of whoever runs the suite. The test that edits a copy of the finder reads the version from the copy and no longer has it written in its sentence.
+
+Run: `tests/test_agent_programs.py`, `tests/test_dock_manifest.py` and `tests/test_agent_guards.py` with the new file, the record and the conftest lines: 44 passed, and one failure that is the next entry's (the dock folder in the working tree was already the next module version while that test still named the old one).
+
+## After v0.41.0 · An Antigravity tab
+
+- refers-to: `app/agent/programs.py` :: `TITLES`, `TAB_ENTRY`, `_mcp_file`, `_servers`, `_replace`, `write_tab_entry`, `remove_tab_entry`, `open_tab`; `app/routers/terminal.py` :: `AgentOpen`; `app/agent_manifest.py` :: `DOCK`; `agents/manifest.json` (written by `agents sync`); `tests/test_agent_programs.py`; `tests/test_dock_manifest.py`
+
+`POST /api/terminal/agent` takes kind `antigravity` and starts `agy` (Google's Antigravity program) the way it starts Codex and Cursor: found by the family's finder, started through its start path, the tab's own token in its environment, the record's kind `antigravity`.
+
+Antigravity reads its MCP servers from a file and nothing documented says it fills a header from the environment, so the tab's entry holds the token itself: `formref_tab`, with the engine's `/mcp` address and the header `x-formref-inapp`, in `.agents/mcp_config.json` of the tab's working folder. That folder is `AgentTabs` in the data folder, the one the Codex and Cursor tabs already run in; it is FormRef's own, never a folder of the person's. The file is read first and every other entry and key in it is kept; it is written to a part file and put in place whole, mode 0600. When the tab closes the entry is taken out, only if it still carries that tab's token, and the token stops being accepted as for the other tabs. A file that is not a servers file stops the tab from opening and is left alone. Two Antigravity tabs open at once share the folder, so the file names the token of the one opened last; closing that one removes the entry, closing the other changes nothing.
+
+Not built: Antigravity as a runner in the Agent panel (`runners.py`, `service.py`; the panel's turns are still Claude Code, Codex, Cursor and Ollama), a setting for its path, and an entry in `~/.gemini/config/mcp_config.json` (FormRef has no command or dialog that connects an outside program; the README says where the entry goes).
+
+Run on an engine from source (port 4761, a made-up home, a stand-in shell, PATH with a stand-in `agy` and logging stand-ins for the other three; no real agent program was started): the status answered `runs` for Antigravity with its version and `signedIn` null. With `mcp_config.json` seeded with another server and another key, the tab opened through the route, the socket showed the stand-in's banner from `AgentTabs` with the token in its environment, the file held `formref_tab` beside the seeded server and key at mode 0600, and a board made with the tab's token answered 201. After the close the file was exactly as seeded and the same token was refused with `outside_agents_off`. With `agy` taken away the status said `missing` with the places looked in, the route answered 404 with that sentence, and the file was untouched. One test added after that; the three test files: 46 passed. Not run: a real `agy`, Windows, macOS.
+
+## After v0.41.0 · The engine starts without output streams
+
+- refers-to: `formref_engine.py` :: the lines after the imports
+
+A program built without a console on Windows starts with `sys.stdin`, `sys.stdout` and `sys.stderr` set to `None`, and the first thing that writes a log line then stops the engine before it listens. `formref_engine.py`, the script the packaging freezes as the engine, now gives each missing stream the null device before anything of FormRef's is imported, as FormWeb's entry does. A stream that exists is left as it is.
+
+Run here on Linux, where a closed descriptor gives Python the same `None`: `python formref_engine.py >&- 2>&-` with its own port and data folder answered `/api/health`; the entry as it was before this change, started the same way, never answered and ended with code 1. Started normally the engine still printed its log (the server's start lines and the request lines). No test added: the suite has no fixture that starts the frozen entry. Not run: Windows, a frozen engine.
 
 ## v0.39.2 · PDF export and SVG pictures without a system library, and six smaller fixes
 

@@ -1,23 +1,18 @@
 import json
 import os
-import re
 import secrets
-import shlex
 import subprocess
-import sys
 import time
 from pathlib import Path
 
 from ..core.config import settings
-from . import claude_code, runners, terminal
+from . import agent_lookup, claude_code, terminal
 from .service import agents
 
-INSTALL = {
-    "claude": "irm https://claude.ai/install.ps1 | iex" if sys.platform == "win32" else "curl -fsSL https://claude.ai/install.sh | bash",
-    "codex": "npm install -g @openai/codex",
-    "cursor": "curl https://cursor.com/install -fsS | bash",
-}
-TITLES = {"codex": "Codex", "cursor": "Cursor"}
+REPORTED = ("claude", "codex", "cursor", "antigravity")
+INSTALL = {kind: agent_lookup.install(kind) for kind in REPORTED}
+TITLES = {"codex": "Codex", "cursor": "Cursor", "antigravity": "Antigravity"}
+TAB_ENTRY = "formref_tab"
 TOKEN_VAR = "FORMREF_AGENT_TOKEN"
 URL_VAR = "FORMREF_MCP_URL"
 HEADER = "x-formref-inapp"
@@ -26,25 +21,12 @@ STATUS_SECONDS = 60
 _cache: dict = {"at": 0.0, "value": None}
 
 
-def _run(argv: list[str], env: dict) -> str | None:
-    try:
-        out = subprocess.run(argv, capture_output=True, text=True, timeout=10, env=env, stdin=subprocess.DEVNULL)
-    except (OSError, subprocess.SubprocessError):
-        return None
-    return out.stdout
-
-
-def _version(path: str) -> str | None:
-    found = re.search(r"\d+(?:\.\d+)+[\w.+-]*", _run([path, "--version"], terminal.base_env()) or "")
-    return found.group(0) if found else None
-
-
 def _claude_signed_in(path: str) -> bool | None:
     if os.environ.get("ANTHROPIC_API_KEY") or os.environ.get("CLAUDE_CODE_OAUTH_TOKEN"):
         return True
     try:
-        data = json.loads(_run([path, "auth", "status"], claude_code.child_env()) or "")
-    except ValueError:
+        data = json.loads(agent_lookup.run([path, "auth", "status"], claude_code.child_env(path), 15.0).stdout or "")
+    except (OSError, subprocess.SubprocessError, ValueError):
         return None
     return bool(data.get("loggedIn")) if isinstance(data, dict) and "loggedIn" in data else None
 
@@ -52,12 +34,11 @@ def _claude_signed_in(path: str) -> bool | None:
 def status(fresh: bool = False) -> dict:
     if not fresh and _cache["value"] is not None and time.time() - _cache["at"] < STATUS_SECONDS:
         return _cache["value"]
-    found = claude_code.info(fresh)
-    out = {"claude": {"installed": found["installed"], "path": found["path"], "version": found["version"],
-                      "signedIn": _claude_signed_in(found["path"]) if found["installed"] else None, "install": INSTALL["claude"]}}
-    for kind in TITLES:
-        path = runners.find(kind)
-        out[kind] = {"installed": bool(path), "path": path or None, "version": _version(path) if path else None, "signedIn": None, "install": INSTALL[kind]}
+    out = {}
+    for kind in REPORTED:
+        found = claude_code.located(kind, fresh)
+        signed = _claude_signed_in(found.path) if kind == "claude" and found.state == "runs" else None
+        out[kind] = agent_lookup.answer(found, INSTALL[kind], claude_code.OTHERWISE.get(kind, "")) | {"signedIn": signed, "install": INSTALL[kind], "title": found.title}
     _cache["value"], _cache["at"] = out, time.time()
     return out
 
@@ -85,19 +66,67 @@ def workdir() -> Path:
     return folder
 
 
+def _mcp_file(folder: Path) -> Path:
+    return folder / ".agents" / "mcp_config.json"
+
+
+def _servers(path: Path) -> dict:
+    data = json.loads(path.read_text(encoding="utf-8") or "{}") if path.exists() else {}
+    if not isinstance(data, dict) or not isinstance(data.get("mcpServers", {}), dict):
+        raise OSError(f"{path} is not an MCP servers file FormRef can read, so it was left alone")
+    return data
+
+
+def _replace(path: Path, data: dict) -> None:
+    path.parent.mkdir(mode=0o700, parents=True, exist_ok=True)
+    part = path.with_name(path.name + f".part-{os.getpid()}")
+    with os.fdopen(os.open(part, os.O_WRONLY | os.O_CREAT | os.O_TRUNC, 0o600), "w", encoding="utf-8") as handle:
+        handle.write(json.dumps(data, indent=2) + "\n")
+    os.replace(part, path)
+
+
+def write_tab_entry(folder: Path, token: str) -> None:
+    path = _mcp_file(folder)
+    data = _servers(path)
+    data.setdefault("mcpServers", {})[TAB_ENTRY] = {"serverUrl": terminal.API_URL + "/mcp", "headers": {HEADER: token}}
+    _replace(path, data)
+
+
+def remove_tab_entry(folder: Path, token: str) -> None:
+    path = _mcp_file(folder)
+    try:
+        data = _servers(path)
+        entry = data.get("mcpServers", {}).get(TAB_ENTRY)
+        if not isinstance(entry, dict) or (entry.get("headers") or {}).get(HEADER) != token:
+            return
+        del data["mcpServers"][TAB_ENTRY]
+        _replace(path, data)
+    except (OSError, ValueError):
+        return
+
+
 def open_tab(kind: str, cols: int = 100, rows: int = 30) -> dict:
-    path = runners.find(kind)
-    if not path:
-        raise LookupError(f"{runners.CLI[kind]['label']} is not installed on this computer. {runners.CLI[kind]['install']}")
+    found = claude_code.located(kind)
+    if found.state != "runs":
+        found = claude_code.located(kind, fresh=True)
+    if found.state != "runs":
+        raise LookupError(claude_code.said(found))
     folder = workdir()
     token = secrets.token_urlsafe(32)
-    env = terminal.base_env() | {TOKEN_VAR: token, URL_VAR: terminal.API_URL + "/mcp"}
-    argv = [path] if os.name == "nt" else terminal.login_shell() + ["-c", "exec " + shlex.quote(path)]
+    env = claude_code.child_env(found.path, {TOKEN_VAR: token, URL_VAR: terminal.API_URL + "/mcp"})
+    argv = agent_lookup.start_argv([found.path])
+    filed = kind == "antigravity"
     agents.tokens.add(token)
     try:
+        if filed:
+            write_tab_entry(folder, token)
         session = terminal.open_session(str(folder), cols, rows, TITLES[kind], argv, env, kind)
     except BaseException:
         agents.revoke(token)
+        if filed:
+            remove_tab_entry(folder, token)
         raise
     session.on_close.append(lambda: agents.revoke(token))
+    if filed:
+        session.on_close.append(lambda: remove_tab_entry(folder, token))
     return session.describe()

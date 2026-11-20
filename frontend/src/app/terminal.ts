@@ -5,7 +5,7 @@ import { S, consent, drawCamera, error, selection, setSelection, toast } from '.
 import { commandForKey } from './keys';
 import { registry } from './registry';
 
-let dock: Dock | null = null;
+let dock: Dock<'antigravity'> | null = null;
 let bare = false;
 
 function context(): string {
@@ -17,7 +17,7 @@ function context(): string {
   return `${where}; selection: item ${ids.length === 1 ? 'id' : 'ids'} ${ids.slice(0, 200).join(', ')}${ids.length > 200 ? ` and ${ids.length - 200} more` : ''}`;
 }
 
-export function mountDock(): Dock {
+export function mountDock(): Dock<'antigravity'> {
   if (dock) return dock;
   const made = new Dock(formrefDock({
     context: () => (bare ? '' : context()), fail: toast,

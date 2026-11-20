@@ -77,6 +77,14 @@ os.environ[DATA_ENV] = str(_SANDBOX / "data")
 os.environ[PORT_ENV] = str(ENGINE_PORT)
 os.environ["HOME"] = str(_SANDBOX / "home")
 os.environ["USERPROFILE"] = str(_SANDBOX / "home")
+if os.name != "nt":
+    _SHELL = _SANDBOX / "zsh"
+    _SHELL.write_text('#!/bin/sh\nscript=""\nwhile [ $# -gt 0 ]; do\n  case "$1" in -c) shift; script="$1" ;; esac\n  shift\ndone\nif [ -n "$script" ]; then exec /bin/sh -c "$script"; fi\nexec /bin/sh\n')
+    _SHELL.chmod(0o755)
+    os.environ["SHELL"] = str(_SHELL)
+    os.environ["PATH"] = "/usr/bin:/bin:/usr/sbin:/sbin"
+for _key in ("NPM_CONFIG_PREFIX", "npm_config_prefix", "PNPM_HOME", "VOLTA_HOME", "BUN_INSTALL", "NVM_SYMLINK"):
+    os.environ.pop(_key, None)
 for _key in [k for k in os.environ if k.startswith(f"{ENV_PREFIX}_") and k not in (DATA_ENV, PORT_ENV, "FORMREF_ENGINE_PATH")]:
     os.environ.pop(_key)
 sys.path.insert(0, str(BACKEND))
@@ -88,6 +96,17 @@ def pytest_sessionfinish(session, exitstatus):
 
 def own_origin():
     return f"http://127.0.0.1:{ENGINE_PORT}"
+
+
+@pytest.fixture(scope="session", autouse=True)
+def only_stand_in_programs():
+    lookup = importlib.import_module("app.agent.agent_lookup")
+    kept = lookup.system_folders
+    lookup.system_folders = lambda platform=None: []
+    lookup.forget()
+    yield
+    lookup.system_folders = kept
+    lookup.forget()
 
 
 @pytest.fixture(scope="session")

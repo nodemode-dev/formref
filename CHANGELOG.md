@@ -1,5 +1,16 @@
 # FormRef changelog
 
+## v0.42.0 · 2026-11-19
+
+FormRef finds Claude Code, Codex, Cursor and Antigravity however it was started, Antigravity has a tab in the terminal panel, and the Windows app no longer stops at start because it has no console.
+
+- FormRef now finds your agent programs when it is started from the Dock, the Finder or the Start menu. Before, a program installed with Homebrew, npm or a version manager was reported as not installed unless FormRef was started from a terminal, and its tab or Chat did not start.
+- When a program is not found or does not start, FormRef's answer now says where it looked and how to install the program, or gives the reason the program gave. The terminal panel's own words for a program that is not installed are unchanged.
+- Antigravity (Google's `agy` program) has a tab of its own in the terminal panel, beside Claude Code, Codex and Cursor. The tab gets its own access to the board, which ends when the tab closes. More agents in the panel's bar says whether Antigravity is installed and shows the line that installs it.
+- On Windows, the engine inside the app could stop as it started, because an app without a console has nowhere to write its log. It now starts.
+- The Agent panel's runners are unchanged: Claude Code, Codex, Cursor and Ollama.
+- The README says where to add FormRef's tools for Antigravity.
+
 ## v0.41.0 · 2026-11-19
 
 The terminal panel is the one every Form app shares: it can sit at the right of the canvas, remembers how you left it, has tabs for Codex and Cursor, and asks you by name when another program wants to change a board.

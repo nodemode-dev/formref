@@ -147,7 +147,7 @@ def agents_sync(args: list[str]) -> None:
     from . import agent_manifest
     from .core.config import settings
     checking = "--check" in args
-    wrong = agent_manifest.dock_problems()
+    wrong = agent_manifest.dock_problems() + agent_manifest.lookup_problems()
     if wrong:
         raise SystemExit("formref: " + "; ".join(wrong))
     manifest_text = agent_manifest.text()

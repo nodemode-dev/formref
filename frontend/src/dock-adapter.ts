@@ -101,8 +101,8 @@ function channel(id: string): DockChannel {
 }
 
 interface TermInfo { id: string; title: string; cwd?: string; kind?: string; alive?: boolean }
-const KINDS: PtyKind[] = ['shell', 'claude', 'codex', 'cursor'];
-const record = (info: TermInfo): DockTerminal => ({
+const KINDS: Array<PtyKind | 'antigravity'> = ['shell', 'claude', 'codex', 'cursor', 'antigravity'];
+const record = (info: TermInfo): DockTerminal<'antigravity'> => ({
   id: info.id, title: info.title, alive: info.alive !== false, kind: KINDS.find((k) => k === info.kind) ?? 'shell', ...(info.cwd ? { tip: info.cwd } : {}),
 });
 
@@ -117,7 +117,7 @@ export interface DockDeps {
   passes(event: KeyboardEvent): boolean;
 }
 
-export function formrefDock(deps: DockDeps): DockAdapter {
+export function formrefDock(deps: DockDeps): DockAdapter<'antigravity'> {
   const mod = isMac ? 'Cmd' : 'Ctrl';
   return {
     words: {
@@ -140,7 +140,7 @@ export function formrefDock(deps: DockDeps): DockAdapter {
     passKey: (e) => (isMac ? e.metaKey : e.ctrlKey) && deps.passes(e),
     isDockChord: () => false,
     chordLabel: () => `${mod}+J`,
-    tabs: () => ({ builtin: ['chat', 'shell', 'claude', 'codex', 'cursor'] }),
+    tabs: () => ({ builtin: ['chat', 'shell', 'claude', 'codex', 'cursor', 'antigravity'] }),
     classes: { iconButton: 'icon-button small', button: 'button compact', primaryButton: 'primary', input: '', select: '', note: 'muted' },
     t: (_key, english) => english,
     onTheme: () => undefined,
@@ -169,7 +169,7 @@ export function formrefDock(deps: DockDeps): DockAdapter {
       channel,
       scrollback: 5000,
     },
-    agentStatus: () => call<DockAgentStatus>('GET', '/api/agent/status'),
+    agentStatus: () => call<DockAgentStatus<'antigravity'>>('GET', '/api/agent/status'),
     chat: {
       pane: (host): DockOwnChat => {
         const chat = new ChatPane({ fail: deps.fail, handoff: (session) => deps.claude(undefined, session), select: deps.select, exists: deps.exists });

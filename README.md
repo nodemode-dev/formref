@@ -11,7 +11,7 @@
 </p>
 
 <p align="center">
-  <img alt="version 0.41.0" src="https://img.shields.io/badge/version-v0.41.0-eef0f4?style=flat-square">
+  <img alt="version 0.42.0" src="https://img.shields.io/badge/version-v0.42.0-eef0f4?style=flat-square">
   <img alt="Rust engine" src="https://img.shields.io/badge/Rust%20engine-b7410e?style=flat-square&logo=rust&logoColor=white">
   <img alt="TypeScript and FastAPI" src="https://img.shields.io/badge/TypeScript%20%2B%20FastAPI-3178c6?style=flat-square&logo=typescript&logoColor=white">
   <img alt="macOS, Windows, Linux" src="https://img.shields.io/badge/macOS%20%C2%B7%20Windows%20%C2%B7%20Linux-native-2f7bf5?style=flat-square">
@@ -97,10 +97,10 @@
 ```sh
 ./formref import ./moodboard --title "Golden hour" --recursive   # a folder of pictures becomes a board
 ./formref open "Golden hour"                                     # show a board in the window
-./formref mcp                                                    # MCP server on stdio for Claude Code, Codex and Cursor
+./formref mcp                                                    # MCP server on stdio for Claude Code, Codex, Cursor and Antigravity
 ```
 
-`.mcp.json`, `.codex/config.toml` and `.cursor/mcp.json` are already wired in this repo, and the server also answers on `http://127.0.0.1:8320/mcp`. Outside agents are refused until you allow them in the Agent panel, and the commands above count as one: with the choice at its default, `./formref import` and `./formref open` stop with `outside_agents_off`, so allow outside agents in FormRef first (the window asks the first time one is refused). Only the FormRef window can change that choice. See [`AGENTS.md`](AGENTS.md).
+`.mcp.json`, `.codex/config.toml` and `.cursor/mcp.json` are already wired in this repo, and the server also answers on `http://127.0.0.1:8320/mcp`. Antigravity (Google's `agy` program) reads `~/.gemini/config/mcp_config.json`, or `.agents/mcp_config.json` in a workspace: give it the same `formref` entry there. The terminal panel opens Claude Code, Codex, Cursor and Antigravity each in a tab of its own when the program is installed. Outside agents are refused until you allow them in the Agent panel, and the commands above count as one: with the choice at its default, `./formref import` and `./formref open` stop with `outside_agents_off`, so allow outside agents in FormRef first (the window asks the first time one is refused). Only the FormRef window can change that choice. See [`AGENTS.md`](AGENTS.md).
 
 ## Under the hood
 
