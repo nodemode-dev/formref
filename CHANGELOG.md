@@ -1,5 +1,13 @@
 # FormRef changelog
 
+## v0.46.0 · 2026-11-20
+
+FormRef now uses the same design names as the other Form apps, and its README says it is released.
+
+- Every colour, size and timing name the Form family's apps share now exists in FormRef, so shared parts of the window look the same in every app. Your themes, your accent colour and the layout are unchanged.
+- The dimming behind dialogs such as Preferences is a little deeper, menus and dialogs have the family's slightly tighter shadow, and error and success colours are the family's red and green.
+- The README's status now says released: FormRef is built and bundled for macOS, Windows and Linux and has been tested on all three.
+
 ## v0.45.0 · 2026-11-20
 
 You can tell FormRef where Codex, Cursor and Antigravity are, the way you already could for Claude Code.
