@@ -15,6 +15,7 @@
 - [Unreleased · AMOLED Black](#unreleased--amoled-black)
 - [Unreleased · Two engine messages in every table](#unreleased--two-engine-messages-in-every-table)
 - [Unreleased · The terminal panel is the family's shared dock, module 2.1.0](#unreleased--the-terminal-panel-is-the-familys-shared-dock-module-210)
+- [Unreleased · The shared dock at module 2.2.1](#unreleased--the-shared-dock-at-module-221)
 - [After v0.41.0 · The shared dock at module 2.2.0, and Antigravity as the fourth agent tab](#after-v0410--the-shared-dock-at-module-220-and-antigravity-as-the-fourth-agent-tab)
 - [v0.39.2 · Connections, text cards, the tag cloud, tabs, Preferences at 390 px, the demo's first open and 59 untranslated strings](#v0392--connections-text-cards-the-tag-cloud-tabs-preferences-at-390-px-the-demos-first-open-and-59-untranslated-strings)
 - [v0.39.1 · The credits shown in the demo boards match the records](#v0391--the-credits-shown-in-the-demo-boards-match-the-records)
@@ -146,6 +147,14 @@ export function isDockToggle(e: KeyboardEvent): boolean {
 Words. FormRef translates the page after the fact, so `t` returns English. The sentences the old dock already had in the 23 tables are reused where the adapter gives the old wording (the three tooltips with their keys, both ask placeholders, the Chat lead). The module's other sentences and the two notes show in English for now; no table was half filled. `i18n_check.py` skips `src/dock/` and `src/dock-adapter.ts` and still exits 0 under `--strict`; 15 more table entries count as unused.
 
 Seen in headless Chrome at 1440 by 900 against an engine from source with stand-in programs: the three captures before and after (closed 0 differing pixels in the dock and canvas; shell 1,893 and Chat 2,164 inside the dock box, all of them the module's own icons, four new buttons and tab details), every dock action, the question over the Help dialog, and under 4x CPU with a slow network and no cache one stage box in every frame of a cold load with the dock remembered at the bottom and at the right.
+
+## Unreleased · The shared dock at module 2.2.1
+
+- refers-to: `src/dock/` (every file copied unchanged from formvis commit 23b01889); ../backend/tests/test_dock_manifest.py; ../NOTICE.md
+- kind: rationale
+- logged: v0.44.0 · 2026-11-20
+
+The panel's first-run guide now ends its two sentences for a computer that has Claude Code (`tourInstalledBody`, `tourReadyBody`) by saying that Codex, Cursor and Antigravity each get a button of their own when they are on the computer. Only `strings.ts`, `CONTRACT.md` and `MANIFEST.json` differ from 2.2.0; the adapter needs no change. FormRef does not translate the panel's own sentences (its 25 tables hold none of them), so there is nothing to translate again. The manifest test now expects 2.2.1.
 
 ## After v0.41.0 · The shared dock at module 2.2.0, and Antigravity as the fourth agent tab
 
