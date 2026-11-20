@@ -19,6 +19,7 @@
 - [After v0.41.0 · The suite runs stand-in programs only](#after-v0410--the-suite-runs-stand-in-programs-only)
 - [After v0.41.0 · The shared finder at 1.0.1](#after-v0410--the-shared-finder-at-101)
 - [After v0.41.0 · An Antigravity tab](#after-v0410--an-antigravity-tab)
+- [After v0.41.0 · The engine starts without output streams](#after-v0410--the-engine-starts-without-output-streams)
 - [v0.39.2 · PDF export and SVG pictures without a system library, and six smaller fixes](#v0392--pdf-export-and-svg-pictures-without-a-system-library-and-six-smaller-fixes)
 - [v0.39.0 · A closed window's poll takes no job, and four smaller fixes](#v0390--a-closed-windows-poll-takes-no-job-and-four-smaller-fixes)
 - [v0.38.1 · The window's scripts keep their types on Windows](#v0381--the-windows-scripts-keep-their-types-on-windows)
@@ -204,6 +205,14 @@ Antigravity reads its MCP servers from a file and nothing documented says it fil
 Not built: Antigravity as a runner in the Agent panel (`runners.py`, `service.py`; the panel's turns are still Claude Code, Codex, Cursor and Ollama), a setting for its path, and an entry in `~/.gemini/config/mcp_config.json` (FormRef has no command or dialog that connects an outside program; the README says where the entry goes).
 
 Run on an engine from source (port 4761, a made-up home, a stand-in shell, PATH with a stand-in `agy` and logging stand-ins for the other three; no real agent program was started): the status answered `runs` for Antigravity with its version and `signedIn` null. With `mcp_config.json` seeded with another server and another key, the tab opened through the route, the socket showed the stand-in's banner from `AgentTabs` with the token in its environment, the file held `formref_tab` beside the seeded server and key at mode 0600, and a board made with the tab's token answered 201. After the close the file was exactly as seeded and the same token was refused with `outside_agents_off`. With `agy` taken away the status said `missing` with the places looked in, the route answered 404 with that sentence, and the file was untouched. One test added after that; the three test files: 46 passed. Not run: a real `agy`, Windows, macOS.
+
+## After v0.41.0 · The engine starts without output streams
+
+- refers-to: `formref_engine.py` :: the lines after the imports
+
+A program built without a console on Windows starts with `sys.stdin`, `sys.stdout` and `sys.stderr` set to `None`, and the first thing that writes a log line then stops the engine before it listens. `formref_engine.py`, the script the packaging freezes as the engine, now gives each missing stream the null device before anything of FormRef's is imported, as FormWeb's entry does. A stream that exists is left as it is.
+
+Run here on Linux, where a closed descriptor gives Python the same `None`: `python formref_engine.py >&- 2>&-` with its own port and data folder answered `/api/health`; the entry as it was before this change, started the same way, never answered and ended with code 1. Started normally the engine still printed its log (the server's start lines and the request lines). No test added: the suite has no fixture that starts the frozen entry. Not run: Windows, a frozen engine.
 
 ## v0.39.2 · PDF export and SVG pictures without a system library, and six smaller fixes
 
