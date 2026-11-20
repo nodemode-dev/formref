@@ -1,5 +1,16 @@
 # FormRef changelog
 
+## v0.43.0 · 2026-11-19
+
+Engine side only: FormRef's engine no longer runs twice on one data folder, gives way cleanly when its app is gone, and keeps a log of its own. Two Antigravity tabs no longer take each other's access. The app's own part of the Windows start and stop work is not in this release.
+
+- Only one engine serves a data folder. A second one stops at once and says "formref is already running on" with the folder and the first engine's process number. An engine that was left running after its app went away is ended and replaced by the next start. An engine left running by 0.42.0 or older is not found this way.
+- The engine stops by itself about two seconds after the app that started it is gone, as before, and now leaves nothing behind in the data folder when it does.
+- The engine keeps a log of its own, `Logs/formref-engine.log` in the data folder, from its first moment. Started without a console, it keeps its errors in `Logs/formref-engine-errors.log` beside it.
+- Opening the engine program by itself opens FormRef instead of starting an engine with no window. With no FormRef beside it, it says so and stops.
+- Two Antigravity tabs open at once each keep their own access to the board. Before, the second tab took the first one's access, and closing one removed the other's.
+- A settings file for an Antigravity tab that cannot be read is reported in one sentence that names the file.
+
 ## v0.42.0 · 2026-11-19
 
 FormRef finds Claude Code, Codex, Cursor and Antigravity however it was started, Antigravity has a tab in the terminal panel, and the Windows app no longer stops at start because it has no console.
