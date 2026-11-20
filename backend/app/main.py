@@ -7,7 +7,7 @@ from urllib.parse import urlparse
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse, FileResponse
 from starlette.middleware.cors import CORSMiddleware
-from .core import origins
+from .core import engine_log, origins
 from .core.window_key import WindowKeyGuard
 from .core.config import ROOT, VERSION, settings
 from .core.engine import broker, EngineError
@@ -40,6 +40,7 @@ log = logging.getLogger("formref")
 
 @asynccontextmanager
 async def lifespan(app):
+    engine_log.join()
     log.info("FormRef %s using %s", VERSION, settings.data_dir)
     terminal.start(asyncio.get_running_loop())
     async with mcp_server.session_manager.run():

@@ -21,6 +21,7 @@
 - [After v0.41.0 · An Antigravity tab](#after-v0410--an-antigravity-tab)
 - [After v0.41.0 · The engine starts without output streams](#after-v0410--the-engine-starts-without-output-streams)
 - [After v0.42.0 · Each Antigravity tab has a folder of its own](#after-v0420--each-antigravity-tab-has-a-folder-of-its-own)
+- [After v0.42.0 · The engine has a lock, a log of its own and a watch on its shell](#after-v0420--the-engine-has-a-lock-a-log-of-its-own-and-a-watch-on-its-shell)
 - [v0.39.2 · PDF export and SVG pictures without a system library, and six smaller fixes](#v0392--pdf-export-and-svg-pictures-without-a-system-library-and-six-smaller-fixes)
 - [v0.39.0 · A closed window's poll takes no job, and four smaller fixes](#v0390--a-closed-windows-poll-takes-no-job-and-four-smaller-fixes)
 - [v0.38.1 · The window's scripts keep their types on Windows](#v0381--the-windows-scripts-keep-their-types-on-windows)
@@ -224,6 +225,20 @@ In 0.42.0 every tab shared the folder `AgentTabs`, so two Antigravity tabs share
 A servers file that is not valid JSON, or not an object with an object under `mcpServers`, raises `TabFile` (an `OSError`), and the route answers 409 with `code: tab_file` and one sentence that names the file and says it was left alone and the tab was not opened. Before, text that was not JSON gave a bare 500.
 
 Run here with a stand-in `agy` and an engine from source: two tabs opened at once had two folders, each with its own entry and token, and each token made a board (201); closing the first removed its folder, left the second one's file byte for byte, turned the first token to 403 and left the second at 201; closing the second left `AgentTabs` with only the Codex and Cursor files and the empty `antigravity` folder. No real `agy` was run, on any system.
+
+## After v0.42.0 · The engine has a lock, a log of its own and a watch on its shell
+
+- refers-to: `app/core/startup.py`; `app/core/engine_log.py`; `formref_engine.py` :: `serve`, `watch_shell`, `release`, `parent_pid`, `main`; `app/main.py` :: `lifespan`; `tests/test_startup.py`
+
+The family's Windows start and stop pattern, engine side, as built in FormTools 0.10.0. `app/core/startup.py` is FormTools's file with the five names at its top changed (`APP`, `NAMES`, `SHELL_ENV` = `FORMREF_SHELL_PID`, `ALONE_ENV` = `FORMREF_NO_SHELL`, `ERRORS_NAME`); `NAMES` also holds `formref-desktop`, the name the shell's program has before the bundler renames it. `PLACES` is unchanged: FormRef's engine is installed beside the app's program, which is the place `.`.
+
+What FormRef had and what became of it. It had no lock: it has `engine.lock` in the data folder now, with the rows of the pattern's table. It had its own watch on `FORMREF_PARENT_PID` (two functions in the entry, with an "alive" that called a process it could not open gone): the watch is `startup.watch` now, on the process in `FORMREF_SHELL_PID` and, when that is not set, on `FORMREF_PARENT_PID` as before, and leaving still removes the folder a one-file engine unpacked. It had no log file of its own (the shell keeps what the engine writes in `engine.log` in the app's log folder, and still does): `engine_log.start` now writes `Logs/formref-engine.log` in the data folder, one megabyte, three old files kept, started before the lock is asked for. uvicorn's log setup takes the handler off its loggers, so `lifespan` calls `engine_log.join`, which puts it back and does nothing when the entry started no log (the development service). The handler is on `uvicorn` and `uvicorn.access`, not on `uvicorn.error`, whose lines reach `uvicorn` by themselves.
+
+The serving path in order: the data folder and the log (a folder that cannot be made is one sentence and exit code 5), `keep_errors`, the started-alone branch (a frozen engine with neither variable set opens the app beside it and returns 0, or says "formref-engine is a part of FormRef and serves nothing on its own. Open FormRef instead." and returns 4), the lock (refused: the sentence in the log and on standard error, exit code 2), the watch, then the port, the window key line and the server as before. SIGTERM gives up the lock and ends with code 0 (it was 143 with the lock left behind). `--selfcheck` and `mcp` are decided before any of it.
+
+A released engine (0.42.0 and older) wrote no lock, so the first start after the update cannot find one that was left running: it is not ended by this change. It still watches its own shell and leaves when that is gone.
+
+Run here on Linux, with stand-in shells (`sleep`) and stand-in apps (shell scripts), as `tests/test_startup.py` (17 tests): a second engine on the same folder was refused with the sentence and code 2 while the first one's shell lived, and the first kept its lock; an engine left when its shell ended, within the test's ten seconds, with code 0 and no lock, for either variable; a holder whose shell was gone was ended and replaced; four damaged lock files and a lock naming an unrelated process were replaced, the process left alone; with its three streams closed the engine served, wrote its log and the errors file, and SIGTERM ended it with code 0 and no lock; started alone as a frozen engine it opened the stand-in app from beside it and from one folder up, or said the sentence with code 4. One engine run by hand wrote the log's first line before anything else and one line per request after `join`. Not run: anything on Windows or macOS, a really frozen engine, and the by-hand scenario script (the machine's shared command lane was shut when it was due).
 
 ## v0.39.2 · PDF export and SVG pictures without a system library, and six smaller fixes
 
