@@ -23,6 +23,7 @@
 - [After v0.42.0 · Each Antigravity tab has a folder of its own](#after-v0420--each-antigravity-tab-has-a-folder-of-its-own)
 - [After v0.42.0 · The engine has a lock, a log of its own and a watch on its shell](#after-v0420--the-engine-has-a-lock-a-log-of-its-own-and-a-watch-on-its-shell)
 - [After v0.43.0 · An engine that has ended but was not yet collected counts as gone](#after-v0430--an-engine-that-has-ended-but-was-not-yet-collected-counts-as-gone)
+- [After v0.43.0 · The Windows engine has no console window](#after-v0430--the-windows-engine-has-no-console-window)
 - [v0.39.2 · PDF export and SVG pictures without a system library, and six smaller fixes](#v0392--pdf-export-and-svg-pictures-without-a-system-library-and-six-smaller-fixes)
 - [v0.39.0 · A closed window's poll takes no job, and four smaller fixes](#v0390--a-closed-windows-poll-takes-no-job-and-four-smaller-fixes)
 - [v0.38.1 · The window's scripts keep their types on Windows](#v0381--the-windows-scripts-keep-their-types-on-windows)
@@ -248,6 +249,12 @@ Run here on Linux, with stand-in shells (`sleep`) and stand-in apps (shell scrip
 FormCut's macOS check found this in the family's start-up file: ending a leftover engine waits until it is gone, and where there is no `/proc` a process that has ended and that its parent has not collected still answers `kill(pid, 0)`, so the wait ran out and the start was refused with "could not stop an engine that was left running". `finished(pid)` asks `ps -o stat= -p <pid>` where there is no `/proc` (never on Windows, never on Linux) and answers true for a state that starts with `Z`; `gone_by` stops waiting when the process is not alive or is finished. `alive` is unchanged, so the two second watch on the shell starts no program.
 
 Run here on Linux with `PROC` pointed at a folder that does not exist: the new test was refused with that sentence while `gone_by` did not ask `finished`, and passes with it; the file is 17 tests, 17 passed. Not run on macOS.
+
+## After v0.43.0 · The Windows engine has no console window
+
+- refers-to: `freeze_engine.bat`; `formref_engine.py` (unchanged)
+
+The owner's decision for the family: a Windows engine is packaged with no console window, as FormWeb's is. `freeze_engine.bat` gives PyInstaller `--noconsole` unless `FORMREF_ENGINE_WINDOWED=0`. The entry already replaces missing streams (the guard at its top), so the engine and `--selfcheck` run with no console. A window program's words reach no console, so the script sends the self-check's output to `build\selfcheck.txt`, types it and stops on its exit code. `freeze_engine` builds on Linux and macOS only and is unchanged. Checked by reading; no Windows build has shown it.
 
 ## v0.39.2 · PDF export and SVG pictures without a system library, and six smaller fixes
 
