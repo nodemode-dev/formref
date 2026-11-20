@@ -16,6 +16,7 @@
 - [Unreleased · Two engine messages in every table](#unreleased--two-engine-messages-in-every-table)
 - [Unreleased · The terminal panel is the family's shared dock, module 2.1.0](#unreleased--the-terminal-panel-is-the-familys-shared-dock-module-210)
 - [Unreleased · The outside-agents switch names all four programs](#unreleased--the-outside-agents-switch-names-all-four-programs)
+- [After v0.44.0 · A program field for Codex, Cursor and Antigravity](#after-v0440--a-program-field-for-codex-cursor-and-antigravity)
 - [Unreleased · The shared dock at module 2.2.1](#unreleased--the-shared-dock-at-module-221)
 - [After v0.41.0 · The shared dock at module 2.2.0, and Antigravity as the fourth agent tab](#after-v0410--the-shared-dock-at-module-220-and-antigravity-as-the-fourth-agent-tab)
 - [v0.39.2 · Connections, text cards, the tag cloud, tabs, Preferences at 390 px, the demo's first open and 59 untranslated strings](#v0392--connections-text-cards-the-tag-cloud-tabs-preferences-at-390-px-the-demos-first-open-and-59-untranslated-strings)
@@ -156,6 +157,14 @@ Seen in headless Chrome at 1440 by 900 against an engine from source with stand-
 - logged: v0.44.0 · 2026-11-20
 
 The one sentence in the window that lists the agent programs, the outside-agents switch in the Agent settings, now reads "Claude Code, Codex, Cursor, Antigravity or any MCP client". It is the lookup key of the tables, so the key and its 23 translations changed together, each with Antigravity put after Cursor in that table's own list form (a comma, or 、 in Japanese and Chinese). No native speaker has read them. The tables also hold "An AI agent connected to FormRef from outside the app (such as Claude Code, Codex or Cursor)...", but no code shows it (it is one of the 40 unused keys `i18n_check.py` reports), so it was left as it was. `i18n_check.py --strict` exits 0 before and after, missing 0 and unused 40 in every complete table.
+
+## After v0.44.0 · A program field for Codex, Cursor and Antigravity
+
+- refers-to: `index.html` :: `#agent-codex-bin`, `#agent-cursor-bin`, `#agent-antigravity-bin`; `src/ui/panels/agent.ts` :: `AgentSettings`, `claudeFields`; `src/lib/i18n/tables/*.json` (the 23 complete tables, six keys)
+- kind: rationale
+- logged: v0.45.0 · 2026-11-20
+
+The Agent settings show a program field for Codex, Cursor and Antigravity under the Claude Code one, each saved on change like it and read back the same way (they join `claudeFields`, so no new handler). The engine keeps them under the same seal as the Claude Code path and gives each to the finder first (`../backend/HASHOUT_LOG.md`, "A stored path for Codex, Cursor and Antigravity"). The placeholders name the file the finder looks for first: `codex`, `cursor-agent`, `agy`. Six keys in the 23 complete tables, modelled on each table's Claude Code field; es-MX and fr-CA are partial tables and fall back to English as they do for the Claude Code label. No native speaker has read them. `i18n_check.py --strict` exits 0, missing 0 and unused 40 in every complete table, as before.
 
 ## Unreleased · The shared dock at module 2.2.1
 

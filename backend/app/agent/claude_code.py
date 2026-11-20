@@ -8,8 +8,8 @@ from . import agent_lookup, terminal
 from .service import agents
 
 OVERRIDES = {"claude": ("FORMREF_CLAUDE_BIN",), "codex": ("FORMREF_CODEX_BIN",), "cursor": ("FORMREF_CURSOR_BIN",), "antigravity": ("FORMREF_ANTIGRAVITY_BIN",)}
-SETTINGS = {"claude": "claude_bin"}
-OTHERWISE = {"claude": "give its path in the Agent panel"}
+SETTINGS = {"claude": "claude_bin", "codex": "codex_bin", "cursor": "cursor_bin", "antigravity": "antigravity_bin"}
+OTHERWISE = {kind: "give its path in the Agent panel" for kind in SETTINGS}
 NOTE =("You are Claude Code running in the terminal dock inside FormRef, the reference board app open on this computer. "
         "Work on boards with the formref_tab MCP server's tools: start with list_boards or get_board to learn ids, "
         "and use get_board_image to look at the board before and after a change. They act on the board open in the window, "

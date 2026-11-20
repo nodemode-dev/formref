@@ -90,6 +90,51 @@ def test_a_hand_edit_of_the_stored_choice_is_caught(client, keychain):
     assert shown["seal"] == "broken" and shown["seal_broken"] is True
 
 
+@pytest.mark.parametrize("key", ["codex_bin", "cursor_bin", "antigravity_bin"])
+def test_the_other_programs_paths_are_sealed_given_to_the_finder_first_and_a_hand_edit_is_caught(client, keychain, tmp_path, key):
+    from app.agent import claude_code
+
+    kind = key.removesuffix("_bin")
+    program = tmp_path / kind
+    program.write_text("#!/bin/sh\n")
+    program.chmod(0o755)
+    r = client.post("/api/agent/settings", json={key: str(program)}, headers=window_headers())
+    assert r.json()["seal"] == "ok" and r.json()[key] == str(program)
+    assert claude_code.setting(kind) == str(program)
+    found = claude_code.located(kind, fresh=True)
+    assert found.path == str(program) and found.how == "setting"
+    _hand_edit(**{key: "/tmp/not-" + kind})
+    shown = client.get("/api/agent/settings").json()
+    assert shown[key] == "" and shown["claude_bin"] == "" and shown["seal"] == "broken"
+    assert claude_code.setting(kind) == ""
+
+
+def test_a_choice_sealed_by_0_44_0_stays_whole_and_keeps_the_claude_code_path(client, keychain, tmp_path):
+    import hashlib
+    import hmac
+
+    from app.agent import claude_code
+    from app.agent.service import agents
+    from app.core import seal
+
+    program = tmp_path / "claude"
+    program.write_text("#!/bin/sh\n")
+    program.chmod(0o755)
+    key = seal._load(True)
+    old = {"runner": "claude", "ollama_url": "http://127.0.0.1:11434", "ollama_model": "", "outside_agents": True, "model": "", "confirm_changes": True, "claude_folder": "", "claude_bin": str(program), "claude_first_message": ""}
+    body = json.dumps({k: old[k] for k in ("outside_agents", "claude_bin")}, sort_keys=True, separators=(",", ":"), ensure_ascii=False)
+    agents.path.parent.mkdir(parents=True, exist_ok=True)
+    agents.path.write_text(json.dumps({**old, "seal": hmac.new(key, body.encode("utf-8"), hashlib.sha256).hexdigest()}, indent=1), encoding="utf-8")
+    shown = client.get("/api/agent/settings").json()
+    assert shown["seal"] == "ok" and shown["seal_broken"] is False
+    assert shown["outside_agents"] is True and shown["claude_bin"] == str(program) and claude_code.setting("claude") == str(program)
+    assert [shown[k] for k in ("codex_bin", "cursor_bin", "antigravity_bin")] == ["", "", ""]
+    client.post("/api/agent/settings", json={"claude_first_message": "hello"})
+    client.post("/api/agent/settings", json={"codex_bin": str(program)})
+    shown = client.get("/api/agent/settings").json()
+    assert shown["seal"] == "ok" and shown["outside_agents"] is True and shown["claude_bin"] == str(program) and shown["codex_bin"] == str(program)
+
+
 def test_the_window_can_confirm_after_a_broken_seal(client, keychain):
     client.post("/api/agent/settings", json={"outside_agents": False})
     _hand_edit(outside_agents=True)

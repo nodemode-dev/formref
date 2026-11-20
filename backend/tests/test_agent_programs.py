@@ -81,14 +81,14 @@ def test_the_status_names_each_missing_program_with_its_install_line(client, not
         assert found[kind]["install"] and "\n" not in found[kind]["install"]
         assert found[kind]["finding"] == "missing" and found[kind]["how"] == "" and len(found[kind]["looked"]) >= 3
         assert found[kind]["said"].startswith(f"{found[kind]['title']} was not found. Looked in: ") and found[kind]["install"] in found[kind]["said"]
-    assert found["claude"]["looked"][0] == "your setting (empty)" and found["claude"]["said"].endswith(", or give its path in the Agent panel.")
-    assert "your setting" not in found["codex"]["said"] and "Agent panel" not in found["codex"]["said"]
+    for kind in found:
+        assert found[kind]["looked"][0] == "your setting (empty)" and found[kind]["said"].endswith(", or give its path in the Agent panel."), kind
 
 
 @pytest.mark.skipif(os.name == "nt", reason="the stand-ins are shell scripts")
 def test_the_status_finds_each_program_with_its_version(client, stand_ins):
     found = client.get("/api/agent/status?fresh=1").json()
-    assert found["codex"] == {"installed": True, "path": str(stand_ins / "codex"), "version": "0.99.1", "finding": "runs", "how": "path", "looked": [], "error": "",
+    assert found["codex"] == {"installed": True, "path": str(stand_ins / "codex"), "version": "0.99.1", "finding": "runs", "how": "path", "looked": ["your setting (empty)"], "error": "",
                               "said": f"Codex is at {stand_ins / 'codex'} (the engine's PATH).", "signedIn": None, "install": found["codex"]["install"], "title": "Codex"}
     assert found["cursor"]["path"] == str(stand_ins / "cursor-agent") and found["cursor"]["version"] == "0.99.1"
     assert found["antigravity"]["path"] == str(stand_ins / "agy") and found["antigravity"]["finding"] == "runs" and found["antigravity"]["signedIn"] is None

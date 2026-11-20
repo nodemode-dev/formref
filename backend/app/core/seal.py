@@ -6,7 +6,9 @@ import secrets
 SERVICE = "FormRef"
 ACCOUNT = "settings-seal"
 FIELD = "seal"
-SEALED = ("outside_agents", "claude_bin")
+PATHS = ("claude_bin", "codex_bin", "cursor_bin", "antigravity_bin")
+LATER = ("codex_bin", "cursor_bin", "antigravity_bin")
+SEALED = ("outside_agents",) + PATHS
 _CACHE: dict = {"tried": False, "available": False, "key": None}
 
 
@@ -39,12 +41,12 @@ def available() -> bool:
 
 
 def digest(values: dict, key: bytes) -> str:
-    body = json.dumps({k: values.get(k) for k in SEALED}, sort_keys=True, separators=(",", ":"), ensure_ascii=False)
+    body = json.dumps({k: values.get(k) for k in SEALED if k not in LATER or values.get(k)}, sort_keys=True, separators=(",", ":"), ensure_ascii=False)
     return hmac.new(key, body.encode("utf-8"), hashlib.sha256).hexdigest()
 
 
 def loosened(values: dict) -> bool:
-    return values.get("outside_agents") is True or bool(str(values.get("claude_bin") or "").strip())
+    return values.get("outside_agents") is True or any(str(values.get(k) or "").strip() for k in PATHS)
 
 
 def effective(stored: dict) -> dict:
@@ -57,7 +59,7 @@ def effective(stored: dict) -> dict:
         return {**out, "seal": "ok", "seal_broken": False}
     if not loosened(stored):
         return {**out, "seal": "unsealed", "seal_broken": False}
-    out.update(outside_agents=False, claude_bin="")
+    out.update(outside_agents=False, **{k: "" for k in PATHS})
     return {**out, "seal": "broken", "seal_broken": True}
 
 

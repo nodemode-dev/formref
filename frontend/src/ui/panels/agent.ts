@@ -2,7 +2,7 @@ import { icon } from '../icons';
 import { keyHeaders } from '../../lib/window-key';
 
 interface Runner { id: string; label: string; available: boolean; path: string; note: string; models?: string[] }
-interface AgentSettings { runner: string; ollama_url: string; ollama_model: string; outside_agents: boolean; model: string; confirm_changes: boolean; claude_folder: string; claude_bin: string; claude_first_message: string; seal_broken?: boolean }
+interface AgentSettings { runner: string; ollama_url: string; ollama_model: string; outside_agents: boolean; model: string; confirm_changes: boolean; claude_folder: string; claude_bin: string; claude_first_message: string; codex_bin: string; cursor_bin: string; antigravity_bin: string; seal_broken?: boolean }
 type AgentEvent =
   | { type: 'confirm'; id: string; summary: string; seconds: number }
   | { type: 'confirm_closed'; id: string; allowed: boolean; reason: string }
@@ -34,7 +34,7 @@ export class AgentPanel {
   private readonly undo = $<HTMLButtonElement>('agent-undo');
   private readonly outside = $<HTMLInputElement>('agent-outside');
   private readonly confirmChanges = $<HTMLInputElement>('agent-confirm');
-  private readonly claudeFields = { claude_folder: $<HTMLInputElement>('agent-claude-folder'), claude_bin: $<HTMLInputElement>('agent-claude-bin'), claude_first_message: $<HTMLInputElement>('agent-claude-first') };
+  private readonly claudeFields = { claude_folder: $<HTMLInputElement>('agent-claude-folder'), claude_bin: $<HTMLInputElement>('agent-claude-bin'), claude_first_message: $<HTMLInputElement>('agent-claude-first'), codex_bin: $<HTMLInputElement>('agent-codex-bin'), cursor_bin: $<HTMLInputElement>('agent-cursor-bin'), antigravity_bin: $<HTMLInputElement>('agent-antigravity-bin') };
   private readonly claudeStatus = $('agent-claude-status');
   private readonly asks = new Map<string, HTMLElement>();
   private readonly status = $('agent-status');
