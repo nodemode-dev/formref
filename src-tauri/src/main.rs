@@ -545,10 +545,12 @@ fn window_start_drag(window: WebviewWindow) -> Result<(), String> {
 
 fn main() {
     reveal::mark_launch();
-    let toggle =Shortcut::new(Some(Modifiers::CONTROL | Modifiers::ALT), Code::KeyK);
+    #[cfg(not(target_os = "macos"))]
+    let toggle = Shortcut::new(Some(Modifiers::CONTROL | Modifiers::ALT), Code::KeyK);
     #[cfg(target_os = "macos")]
     let toggle = Shortcut::new(Some(Modifiers::SUPER | Modifiers::ALT), Code::KeyK);
     // Summon: brings FormRef to the front from any app, or hides it when it already has focus.
+    #[cfg(not(target_os = "macos"))]
     let summon = Shortcut::new(Some(Modifiers::CONTROL | Modifiers::ALT), Code::KeyF);
     #[cfg(target_os = "macos")]
     let summon = Shortcut::new(Some(Modifiers::SUPER | Modifiers::ALT), Code::KeyF);
