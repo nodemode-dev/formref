@@ -13,7 +13,7 @@ import httpx
 from ..core import seal
 from ..core.config import ROOT, settings
 from ..core.store import store
-from . import runners
+from . import agent_lookup, runners
 
 API_URL = os.environ.get("FORMREF_API_URL", "http://127.0.0.1:8320").rstrip("/")
 DEFAULTS = {"runner": "claude", "ollama_url": "http://127.0.0.1:11434", "ollama_model": "", "outside_agents": False, "model": "", "confirm_changes": True, "claude_folder": "", "claude_bin": "", "claude_first_message": ""}
@@ -160,8 +160,9 @@ class Agents:
     async def available(self) -> list[dict]:
         rows = []
         for key, spec in runners.CLI.items():
-            path = await asyncio.to_thread(runners.find, key)
-            rows.append({"id": key, "label": spec["label"], "available": bool(path), "path": path or "", "note": "" if path else spec["install"]})
+            found = await asyncio.to_thread(runners.located, key)
+            runs = found.state == "runs"
+            rows.append({"id": key, "label": spec["label"], "available": runs, "path": found.path or "", "note": "" if runs else runners.said(found)})
         url = self.settings()["ollama_url"]
         models = []
         try:
@@ -303,15 +304,17 @@ class Agents:
         yield {"type": "done", "turn_id": turn_id, "changed": after != self.turns[turn_id]["before"], "stopped": turn_id in self.stopped}
 
     async def _cli(self, turn_id, runner, prompt, token, config):
-        binary = runners.find(runner)
-        if not binary:
-            raise ValueError(f"{runners.CLI[runner]['label']} is not installed on this computer. {runners.CLI[runner]['install']}")
-        env = {k: v for k, v in os.environ.items() if k != "FORMREF_WINDOW_KEY_STDOUT"} | {"FORMREF_API_URL": API_URL, "FORMREF_AGENT_TOKEN": token}
+        found = await asyncio.to_thread(runners.located, runner)
+        if found.state != "runs":
+            raise ValueError(runners.said(found))
+        binary = found.path
+        base = {k: v for k, v in os.environ.items() if k != "FORMREF_WINDOW_KEY_STDOUT"}
+        env = agent_lookup.child_env(binary, base=base, extra={"FORMREF_API_URL": API_URL, "FORMREF_AGENT_TOKEN": token}, shell_timeout=10.0)
         mcp_file = self.token_file(token, {"mcpServers": {"formref": runners.mcp_server(token, API_URL)}}) if runner == "claude" else ""
         self.cli_turns += 1
         self.cli_active.append(turn_id)
         try:
-            process = await asyncio.create_subprocess_exec(*runners.argv(runner, binary, prompt, token, API_URL, config["model"], mcp_file),
+            process = await asyncio.create_subprocess_exec(*agent_lookup.start_argv(runners.argv(runner, binary, prompt, token, API_URL, config["model"], mcp_file)),
                                                            cwd=str(ROOT), env=env, stdin=asyncio.subprocess.DEVNULL,
                                                            stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE, limit=8 * 1024 * 1024)
             self.processes[turn_id] = process

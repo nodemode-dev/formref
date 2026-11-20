@@ -1,13 +1,9 @@
-import glob
 import json
-import os
-import shutil
-import subprocess
 import sys
-import time
 from pathlib import Path
 
 from ..core.config import ROOT
+from . import agent_lookup
 
 SYSTEM = ("You are the agent inside FormRef, a reference board for images, notes and cards. Act on the open board only through the "
           "formref MCP tools: call get_board first to learn item ids, then make each change with one tool call so it is one undoable "
@@ -22,87 +18,24 @@ CLI = {
 }
 
 
-SHELL_LOOKUP_SECONDS = 60
-_shell_found: dict[str, tuple[float, str | None]] = {}
-
-
 def places(runner: str, platform: str = "") -> list[Path]:
-    """Where the Codex and Cursor command line programs usually live when the program that started FormRef (a desktop shortcut,
-    the dock, the Start menu) has a shorter PATH than a terminal: npm's global folder, user-local bin folders, Homebrew,
-    the installers' own folders and application bundles."""
-    platform = platform or sys.platform
-    home, env = Path.home(), os.environ
-    names = CLI[runner]["binaries"]
-    windows = platform.startswith("win")
-    folders: list[Path] = []
-    for key in ("NPM_CONFIG_PREFIX", "npm_config_prefix"):
-        if env.get(key):
-            folders.append(Path(env[key]) if windows else Path(env[key]) / "bin")
-    if env.get("PNPM_HOME"):
-        folders.append(Path(env["PNPM_HOME"]))
-    if env.get("VOLTA_HOME"):
-        folders.append(Path(env["VOLTA_HOME"]) / "bin")
-    if env.get("BUN_INSTALL"):
-        folders.append(Path(env["BUN_INSTALL"]) / "bin")
-    exact: list[Path] = []
-    if windows:
-        roaming = Path(env.get("APPDATA") or home / "AppData" / "Roaming")
-        local = Path(env.get("LOCALAPPDATA") or home / "AppData" / "Local")
-        folders += [roaming / "npm", local / "pnpm", local / "Volta" / "bin", home / ".bun" / "bin", home / ".local" / "bin"]
-        folders += [local / "Programs" / "OpenAI" / "Codex" / "bin", local / "cursor-agent"]
-    else:
-        folders += [home / ".local" / "bin", home / ".npm-global" / "bin", home / ".bun" / "bin", home / ".volta" / "bin", home / ".local" / "share" / "pnpm"]
-        folders += [Path(p) for p in sorted(glob.glob(str(home / ".nvm" / "versions" / "node" / "*" / "bin")), reverse=True)]
-        folders += [Path(p) for p in sorted(glob.glob(str(home / ".local" / "share" / "cursor-agent" / "versions" / "*")), reverse=True)]
-        if platform == "darwin":
-            folders += [Path("/opt/homebrew/bin"), Path("/usr/local/bin")]
-            for apps in (Path("/Applications"), home / "Applications"):
-                exact += [apps / "Codex.app" / "Contents" / "Resources" / "codex", apps / "Codex.app" / "Contents" / "Resources" / "bin" / "codex"]
-        else:
-            folders += [Path("/usr/local/bin"), Path("/usr/bin"), Path("/snap/bin"), Path("/home/linuxbrew/.linuxbrew/bin")]
-    endings = (".exe", ".cmd", ".bat") if windows else ("",)
-    out = [folder / (name + ending) for folder in folders for name in names for ending in endings]
-    if runner == "codex":
-        out += exact
-    return list(dict.fromkeys(out))
+    return agent_lookup.candidates(runner, platform=platform or None)
 
 
-def _usable(path: Path) -> bool:
-    return path.is_file() and os.access(path, os.X_OK)
+def located(runner: str, fresh: bool = False) -> agent_lookup.Found:
+    from . import claude_code
+
+    return claude_code.located(runner, fresh)
 
 
-def _login_shell_lookup(runner: str) -> str | None:
-    if os.name == "nt":
-        return None
-    cached = _shell_found.get(runner)
-    if cached and time.time() - cached[0] < SHELL_LOOKUP_SECONDS:
-        return cached[1]
-    found = None
-    try:
-        from . import terminal
+def said(found: agent_lookup.Found) -> str:
+    from . import claude_code
 
-        script = " || ".join(f"command -v {name}" for name in CLI[runner]["binaries"])
-        out = subprocess.run(terminal.login_shell() + ["-c", script], capture_output=True, text=True, timeout=10, env=dict(os.environ))
-        lines = out.stdout.strip().splitlines()[-1:] if out.returncode == 0 else []
-        found = lines[0] if lines and os.path.isabs(lines[0]) and _usable(Path(lines[0])) else None
-    except (OSError, subprocess.SubprocessError):
-        found = None
-    _shell_found[runner] = (time.time(), found)
-    return found
+    return claude_code.said(found)
 
 
 def find(runner: str):
-    for name in CLI[runner]["binaries"]:
-        path = shutil.which(name)
-        if path:
-            return path
-    if runner == "claude":
-        from . import claude_code
-        return claude_code.info().get("path")
-    for candidate in places(runner):
-        if _usable(candidate):
-            return str(candidate)
-    return _login_shell_lookup(runner)
+    return located(runner).path
 
 
 def mcp_server(token: str, api_url: str) -> dict:

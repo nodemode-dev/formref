@@ -1,20 +1,16 @@
 import os
 import secrets
-import shlex
-import shutil
-import subprocess
 import time
 from pathlib import Path
 
-from ..core.config import settings
-from . import terminal
+from ..core.config import ROOT, settings
+from . import agent_lookup, terminal
 from .service import agents
 
-KEEP_ENV = {"CLAUDE_CODE_OAUTH_TOKEN", "CLAUDE_CODE_USE_BEDROCK", "CLAUDE_CODE_USE_VERTEX", "CLAUDE_CONFIG_DIR"}
-CANDIDATES = (".claude/local/claude", ".local/bin/claude", ".npm-global/bin/claude", ".bun/bin/claude", ".volta/bin/claude")
-SYSTEM_PATHS = ("/opt/homebrew/bin/claude", "/usr/local/bin/claude", "/usr/bin/claude")
-INSTALL = "Claude Code is not installed: install it from https://claude.com/claude-code, run claude once in a terminal to sign in, then open it here again."
-NOTE = ("You are Claude Code running in the terminal dock inside FormRef, the reference board app open on this computer. "
+OVERRIDES = {"claude": ("FORMREF_CLAUDE_BIN",), "codex": ("FORMREF_CODEX_BIN",), "cursor": ("FORMREF_CURSOR_BIN",), "antigravity": ("FORMREF_ANTIGRAVITY_BIN",)}
+SETTINGS = {"claude": "claude_bin"}
+OTHERWISE = {"claude": "give its path in the Agent panel"}
+NOTE =("You are Claude Code running in the terminal dock inside FormRef, the reference board app open on this computer. "
         "Work on boards with the formref_tab MCP server's tools: start with list_boards or get_board to learn ids, "
         "and use get_board_image to look at the board before and after a change. They act on the board open in the window, "
         "the person sees every change happen, and each change is one undo step. Respect locked items.")
@@ -26,8 +22,21 @@ def _pref(key: str) -> str:
     return value.strip() if isinstance(value, str) else ""
 
 
-def child_env() -> dict:
-    return {k: v for k, v in terminal.base_env().items() if not k.startswith("CLAUDE") or k in KEEP_ENV}
+def setting(kind: str) -> str | None:
+    return _pref(SETTINGS[kind]) if kind in SETTINGS else None
+
+
+def child_env(path: str | None = None, extra: dict | None = None) -> dict:
+    return agent_lookup.child_env(path, base=terminal.base_env(), extra=extra, front=[] if os.name == "nt" else [ROOT], shell_timeout=10.0)
+
+
+def located(kind: str, fresh: bool = False) -> agent_lookup.Found:
+    found = agent_lookup.find(kind, setting=setting(kind), override_vars=OVERRIDES.get(kind, ()), shell_timeout=10.0, fresh=fresh)
+    return agent_lookup.check(found, child_env(found.path), 15.0, fresh)
+
+
+def said(found: agent_lookup.Found) -> str:
+    return agent_lookup.sentence(found, agent_lookup.install(found.program), OTHERWISE.get(found.program, ""))
 
 
 def _runnable(path: str) -> bool:
@@ -35,42 +44,14 @@ def _runnable(path: str) -> bool:
     return p.is_file() and os.access(p, os.X_OK)
 
 
-def _from_login_shell() -> str | None:
-    if os.name == "nt":
-        return None
-    try:
-        out = subprocess.run(terminal.login_shell() + ["-c", "command -v claude"], capture_output=True, text=True, timeout=10, env=child_env())
-    except (OSError, subprocess.SubprocessError):
-        return None
-    found = out.stdout.strip().splitlines()[-1:] if out.returncode == 0 else []
-    return found[0] if found and os.path.isabs(found[0]) else None
-
-
 def cli() -> str | None:
-    chosen = _pref("claude_bin")
-    if chosen and _runnable(chosen):
-        return str(Path(chosen).expanduser())
-    found = os.environ.get("FORMREF_CLAUDE_BIN") or shutil.which("claude")
-    if found:
-        return found
-    home = Path.home()
-    for p in [home / c for c in CANDIDATES] + [Path(s) for s in SYSTEM_PATHS]:
-        if p.is_file() and os.access(p, os.X_OK):
-            return str(p)
-    return _from_login_shell()
+    return located("claude").path
 
 
 def info(fresh: bool = False) -> dict:
     if not fresh and _cache["value"] is not None and time.time() - _cache["at"] < 60:
         return _cache["value"]
-    path, version = cli(), None
-    if path:
-        try:
-            out = subprocess.run([path, "--version"], capture_output=True, text=True, timeout=15, env=child_env())
-            version = (out.stdout.strip().split() or [None])[0]
-        except (OSError, subprocess.SubprocessError):
-            path = None
-    _cache["value"], _cache["at"] = {"installed": bool(path), "path": path, "version": version}, time.time()
+    _cache["value"], _cache["at"] = agent_lookup.answer(located("claude", fresh), agent_lookup.install("claude"), OTHERWISE["claude"]), time.time()
     return _cache["value"]
 
 
@@ -101,9 +82,7 @@ def argv(path: str, prompt: str | None, resume: str | None, mcp_file: str) -> li
         cmd += ["--resume", resume]
     if prompt:
         cmd.append(prompt)
-    if os.name == "nt":
-        return cmd
-    return terminal.login_shell() + ["-c", "exec " + shlex.join(cmd)]
+    return agent_lookup.start_argv(cmd)
 
 
 def status() -> dict:
@@ -121,12 +100,12 @@ def open_tab(prompt: str | None = None, cols: int | None = None, rows: int | Non
         return running.describe()
     found = info(fresh=True)
     if not found["installed"]:
-        raise ValueError(INSTALL)
+        raise ValueError(found["said"])
     prompt = prompt or _pref("claude_first_message") or None
     title = "Claude Code (resumed)" if resume else "Claude Code"
     token, mcp_file = issue()
     try:
-        session = terminal.open_session(str(workdir()), cols or 100, rows or 30, title, argv(found["path"], prompt, resume, mcp_file), child_env(), "claude")
+        session = terminal.open_session(str(workdir()), cols or 100, rows or 30, title, argv(found["path"], prompt, resume, mcp_file), child_env(found["path"]), "claude")
     except BaseException:
         revoke(token)
         raise

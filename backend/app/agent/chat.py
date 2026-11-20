@@ -3,7 +3,6 @@ import base64
 import json
 import os
 import re
-import shlex
 import subprocess
 import threading
 import time
@@ -12,7 +11,7 @@ from pathlib import Path
 from typing import Any
 
 from ..core.config import settings
-from . import claude_code, terminal
+from . import agent_lookup, claude_code, terminal
 
 NOTE = (claude_code.NOTE + " You are answering in FormRef's Chat tab, which shows Markdown to people who may never have used a terminal: "
         "write short paragraphs, use **bold** for names of things you changed and a bulleted list when you changed several, avoid tables and code blocks, "
@@ -95,7 +94,7 @@ def _argv(path: str, text: str, session: str | None, mcp_file: str) -> list[str]
            "--mcp-config", mcp_file, "--allowedTools", "mcp__formref_tab", "--append-system-prompt", NOTE]
     if session:
         cmd += ["--resume", session]
-    return cmd if os.name == "nt" else terminal.login_shell() + ["-c", "exec " + shlex.join(cmd)]
+    return agent_lookup.start_argv(cmd)
 
 
 def _run(text: str, path: str, folder: str) -> None:
@@ -109,7 +108,7 @@ def _run(text: str, path: str, folder: str) -> None:
     token = ""
     try:
         token, mcp_file = claude_code.issue()
-        proc = subprocess.Popen(_argv(path, text, STATE["session"], mcp_file), cwd=folder, env=claude_code.child_env(), stdin=subprocess.DEVNULL,
+        proc = subprocess.Popen(_argv(path, text, STATE["session"], mcp_file), cwd=folder, env=claude_code.child_env(path), stdin=subprocess.DEVNULL,
                                 stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, bufsize=1, encoding="utf-8", errors="replace")
         STATE["proc"] = proc
 
@@ -210,7 +209,7 @@ def send(text: str, context: str = "", note: str = "") -> dict:
     prompt = f"{shown} ({context.strip()})" if context.strip() else shown
     found = claude_code.info(fresh=True)
     if not found["installed"]:
-        raise ValueError(claude_code.INSTALL)
+        raise ValueError(found["said"])
     folder = str(claude_code.workdir())
     with _lock:
         if STATE["busy"]:
