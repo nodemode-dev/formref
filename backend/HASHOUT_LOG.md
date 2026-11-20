@@ -17,6 +17,7 @@
 - [After v0.41.0 · One finder and one starter for the agent programs](#after-v0410--one-finder-and-one-starter-for-the-agent-programs)
 - [After v0.41.0 · agents sync holds the shared finder to its recorded hash](#after-v0410--agents-sync-holds-the-shared-finder-to-its-recorded-hash)
 - [After v0.41.0 · The suite runs stand-in programs only](#after-v0410--the-suite-runs-stand-in-programs-only)
+- [After v0.41.0 · The shared finder at 1.0.1](#after-v0410--the-shared-finder-at-101)
 - [v0.39.2 · PDF export and SVG pictures without a system library, and six smaller fixes](#v0392--pdf-export-and-svg-pictures-without-a-system-library-and-six-smaller-fixes)
 - [v0.39.0 · A closed window's poll takes no job, and four smaller fixes](#v0390--a-closed-windows-poll-takes-no-job-and-four-smaller-fixes)
 - [v0.38.1 · The window's scripts keep their types on Windows](#v0381--the-windows-scripts-keep-their-types-on-windows)
@@ -180,6 +181,16 @@ Run: `python -m app.cli agents sync --check` on the tree answered up to date; on
 A plain `pytest` kept the PATH and the login shell of whoever ran it. `test_the_key_opens_every_write_route` posts an empty body to `/api/claudecode`, which looks for Claude Code, asks its version and opens a tab; on a computer with Claude Code installed that was the real program, before the finder through the PATH and after it also through the shell. On macOS and Linux `conftest.py` now sets, before the app is imported, `SHELL` to a stand-in shell in the test sandbox and `PATH` to `/usr/bin:/bin:/usr/sbin:/sbin`, beside the made-up home it already set, and a session fixture replaces `agent_lookup.system_folders` with an empty list. The fixtures in `tests/test_agent_programs.py` still set their own shell, home and PATH per test.
 
 Run, with logging stand-ins named `claude`, `codex`, `cursor-agent`, `agent` and `agy` first on the outer PATH and on the outer stand-in shell's PATH, a made-up outer home, and no real program reachable: before this change `tests/test_window_key_default.py` alone logged two calls (`claude --version` and the tab's start); after it the whole suite passed (162) and logged none. Not covered: Windows (the registry Path and the folders under `%LOCALAPPDATA%` are still the computer's own), and a program installed in `/usr/bin` or `/bin` itself.
+
+## After v0.41.0 · The shared finder at 1.0.1
+
+- refers-to: `app/agent/agent_lookup.py` (the family's file, version 1.0.1, copied unchanged from FormVis); `app/agent_manifest.py` :: `LOOKUP_HASHES`; `tests/conftest.py` :: the lines after `PATH`; `tests/test_dock_manifest.py` :: `test_agents_sync_names_the_shared_finder_edited_in_place_or_missing`
+
+The family's finder moved to 1.0.1 (SHA-256 `62667f9b...c77d51`): when a program does not start, the line it reports no longer is the hint `env` prints about `-S`, so the person reads the real reason. The file was replaced whole, never edited. `LOOKUP_HASHES` records both versions, so a checkout that still has 1.0.0 is not called edited.
+
+The finder also reads `NPM_CONFIG_PREFIX`, `npm_config_prefix`, `PNPM_HOME`, `VOLTA_HOME`, `BUN_INSTALL` and `NVM_SYMLINK` to know where a package manager installs. `conftest.py` removes the six beside the made-up home it sets, so a test never looks in the real folders of whoever runs the suite. The test that edits a copy of the finder reads the version from the copy and no longer has it written in its sentence.
+
+Run: `tests/test_agent_programs.py`, `tests/test_dock_manifest.py` and `tests/test_agent_guards.py` with the new file, the record and the conftest lines: 44 passed, and one failure that is the next entry's (the dock folder in the working tree was already the next module version while that test still named the old one).
 
 ## v0.39.2 · PDF export and SVG pictures without a system library, and six smaller fixes
 

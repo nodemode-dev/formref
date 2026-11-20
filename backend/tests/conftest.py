@@ -83,6 +83,8 @@ if os.name != "nt":
     _SHELL.chmod(0o755)
     os.environ["SHELL"] = str(_SHELL)
     os.environ["PATH"] = "/usr/bin:/bin:/usr/sbin:/sbin"
+for _key in ("NPM_CONFIG_PREFIX", "npm_config_prefix", "PNPM_HOME", "VOLTA_HOME", "BUN_INSTALL", "NVM_SYMLINK"):
+    os.environ.pop(_key, None)
 for _key in [k for k in os.environ if k.startswith(f"{ENV_PREFIX}_") and k not in (DATA_ENV, PORT_ENV, "FORMREF_ENGINE_PATH")]:
     os.environ.pop(_key)
 sys.path.insert(0, str(BACKEND))

@@ -60,9 +60,10 @@ def test_agents_sync_names_the_shared_finder_edited_in_place_or_missing(tmp_path
     shutil.copy(ROOT / LOOKUP, copy)
     monkeypatch.setattr(agent_manifest, "LOOKUP", copy)
     assert agent_manifest.lookup_problems() == []
+    version = re.search(r'^VERSION = "([^"]+)"$', copy.read_text(encoding="utf-8"), re.M).group(1)
     with open(copy, "a", encoding="utf-8") as f:
         f.write("\n")
-    said = f"{LOOKUP}: does not match the hash recorded for version 1.0.0 (the shared finder changes only as a whole new version)"
+    said = f"{LOOKUP}: does not match the hash recorded for version {version} (the shared finder changes only as a whole new version)"
     assert agent_manifest.lookup_problems() == [said]
     for args in (["sync", "--check"], ["sync"]):
         with pytest.raises(SystemExit) as stop:
