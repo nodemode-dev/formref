@@ -839,7 +839,7 @@ dependencies = [
 
 [[package]]
 name = "formref-desktop"
-version = "0.45.0"
+version = "0.46.0"
 dependencies = [
  "objc2",
  "objc2-app-kit",

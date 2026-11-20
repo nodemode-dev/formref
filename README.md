@@ -11,12 +11,12 @@
 </p>
 
 <p align="center">
-  <img alt="version 0.45.0" src="https://img.shields.io/badge/version-v0.45.0-eef0f4?style=flat-square">
+  <img alt="version 0.46.0" src="https://img.shields.io/badge/version-v0.46.0-eef0f4?style=flat-square">
   <img alt="Rust engine" src="https://img.shields.io/badge/Rust%20engine-b7410e?style=flat-square&logo=rust&logoColor=white">
   <img alt="TypeScript and FastAPI" src="https://img.shields.io/badge/TypeScript%20%2B%20FastAPI-3178c6?style=flat-square&logo=typescript&logoColor=white">
   <img alt="macOS, Windows, Linux" src="https://img.shields.io/badge/macOS%20%C2%B7%20Windows%20%C2%B7%20Linux-native-2f7bf5?style=flat-square">
   <img alt="License: Apache-2.0" src="https://img.shields.io/badge/license-Apache--2.0-3a3a3a?style=flat-square">
-  <img alt="Status: in development" src="https://img.shields.io/badge/status-in%20development-d69e2e?style=flat-square">
+  <img alt="Status: released" src="https://img.shields.io/badge/status-released-d69e2e?style=flat-square">
 </p>
 
 <p align="center">
@@ -138,7 +138,7 @@ cd formref
 On Windows use `formref_oc_install.bat` then `formref.bat`. The editor is on http://localhost:5320, the service and its API docs (`/docs`) on 127.0.0.1:8320, both loopback only. `FORMREF_DATA_DIR` overrides the board and asset folder, and `FORMREF_PYTHON` and `FORMREF_ENGINE_PATH` override the Python and Rust executables.
 
 > [!IMPORTANT]
-> **Status:** in development. Real-time collaboration and protected sharing are not built, the browser clipper loads unpacked, and the packaged builds have not yet been run on every OS. Only Claude Code has been run end to end in the Agent panel.
+> **Status:** released. FormRef is built and bundled for macOS, Windows and Linux and has been tested on all three. Real-time collaboration and protected sharing are not built, and the browser clipper loads unpacked. Only Claude Code has been run end to end in the Agent panel.
 
 **Contributing:** branch from `main`, keep changes to source here, and leave packaging and releases to formcompiler. See [`CONTRIBUTING.md`](CONTRIBUTING.md), [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md), [`CLAUDE.md`](CLAUDE.md), [`AGENTS.md`](AGENTS.md) and the [release conventions](.docs/wiki/Releases.md). Report security issues privately as [`SECURITY.md`](SECURITY.md) describes.
 
