@@ -16,6 +16,7 @@
 - [Unreleased · The app's own tabs use an entry named formref_tab, and agents sync checks the shared dock folder](#unreleased--the-apps-own-tabs-use-an-entry-named-formref_tab-and-agents-sync-checks-the-shared-dock-folder)
 - [After v0.41.0 · One finder and one starter for the agent programs](#after-v0410--one-finder-and-one-starter-for-the-agent-programs)
 - [After v0.41.0 · agents sync holds the shared finder to its recorded hash](#after-v0410--agents-sync-holds-the-shared-finder-to-its-recorded-hash)
+- [After v0.41.0 · The suite runs stand-in programs only](#after-v0410--the-suite-runs-stand-in-programs-only)
 - [v0.39.2 · PDF export and SVG pictures without a system library, and six smaller fixes](#v0392--pdf-export-and-svg-pictures-without-a-system-library-and-six-smaller-fixes)
 - [v0.39.0 · A closed window's poll takes no job, and four smaller fixes](#v0390--a-closed-windows-poll-takes-no-job-and-four-smaller-fixes)
 - [v0.38.1 · The window's scripts keep their types on Windows](#v0381--the-windows-scripts-keep-their-types-on-windows)
@@ -171,6 +172,14 @@ Tests: the two fixtures in `tests/test_agent_programs.py` replaced `runners._log
 The name in the message is written out (`backend/app/agent/agent_lookup.py`) and not worked out from `ROOT`, because two older tests replace `agent_manifest.ROOT` with a temporary folder.
 
 Run: `python -m app.cli agents sync --check` on the tree answered up to date; on a copy with one line added, `lookup_problems` and both forms of the command named the file and version 1.0.0; with the copy removed it answered missing. Three tests added after that.
+
+## After v0.41.0 · The suite runs stand-in programs only
+
+- refers-to: `tests/conftest.py` :: the lines after `USERPROFILE`, `only_stand_in_programs`
+
+A plain `pytest` kept the PATH and the login shell of whoever ran it. `test_the_key_opens_every_write_route` posts an empty body to `/api/claudecode`, which looks for Claude Code, asks its version and opens a tab; on a computer with Claude Code installed that was the real program, before the finder through the PATH and after it also through the shell. On macOS and Linux `conftest.py` now sets, before the app is imported, `SHELL` to a stand-in shell in the test sandbox and `PATH` to `/usr/bin:/bin:/usr/sbin:/sbin`, beside the made-up home it already set, and a session fixture replaces `agent_lookup.system_folders` with an empty list. The fixtures in `tests/test_agent_programs.py` still set their own shell, home and PATH per test.
+
+Run, with logging stand-ins named `claude`, `codex`, `cursor-agent`, `agent` and `agy` first on the outer PATH and on the outer stand-in shell's PATH, a made-up outer home, and no real program reachable: before this change `tests/test_window_key_default.py` alone logged two calls (`claude --version` and the tab's start); after it the whole suite passed (162) and logged none. Not covered: Windows (the registry Path and the folders under `%LOCALAPPDATA%` are still the computer's own), and a program installed in `/usr/bin` or `/bin` itself.
 
 ## v0.39.2 · PDF export and SVG pictures without a system library, and six smaller fixes
 
