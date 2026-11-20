@@ -97,10 +97,10 @@
 ```sh
 ./formref import ./moodboard --title "Golden hour" --recursive   # a folder of pictures becomes a board
 ./formref open "Golden hour"                                     # show a board in the window
-./formref mcp                                                    # MCP server on stdio for Claude Code, Codex and Cursor
+./formref mcp                                                    # MCP server on stdio for Claude Code, Codex, Cursor and Antigravity
 ```
 
-`.mcp.json`, `.codex/config.toml` and `.cursor/mcp.json` are already wired in this repo, and the server also answers on `http://127.0.0.1:8320/mcp`. Outside agents are refused until you allow them in the Agent panel, and the commands above count as one: with the choice at its default, `./formref import` and `./formref open` stop with `outside_agents_off`, so allow outside agents in FormRef first (the window asks the first time one is refused). Only the FormRef window can change that choice. See [`AGENTS.md`](AGENTS.md).
+`.mcp.json`, `.codex/config.toml` and `.cursor/mcp.json` are already wired in this repo, and the server also answers on `http://127.0.0.1:8320/mcp`. Antigravity (Google's `agy` program) reads `~/.gemini/config/mcp_config.json`, or `.agents/mcp_config.json` in a workspace: give it the same `formref` entry there. The terminal panel opens Claude Code, Codex, Cursor and Antigravity each in a tab of its own when the program is installed. Outside agents are refused until you allow them in the Agent panel, and the commands above count as one: with the choice at its default, `./formref import` and `./formref open` stop with `outside_agents_off`, so allow outside agents in FormRef first (the window asks the first time one is refused). Only the FormRef window can change that choice. See [`AGENTS.md`](AGENTS.md).
 
 ## Under the hood
 
