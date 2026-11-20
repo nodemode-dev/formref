@@ -18,6 +18,7 @@
 - [After v0.41.0 · agents sync holds the shared finder to its recorded hash](#after-v0410--agents-sync-holds-the-shared-finder-to-its-recorded-hash)
 - [After v0.41.0 · The suite runs stand-in programs only](#after-v0410--the-suite-runs-stand-in-programs-only)
 - [After v0.41.0 · The shared finder at 1.0.1](#after-v0410--the-shared-finder-at-101)
+- [After v0.41.0 · An Antigravity tab](#after-v0410--an-antigravity-tab)
 - [v0.39.2 · PDF export and SVG pictures without a system library, and six smaller fixes](#v0392--pdf-export-and-svg-pictures-without-a-system-library-and-six-smaller-fixes)
 - [v0.39.0 · A closed window's poll takes no job, and four smaller fixes](#v0390--a-closed-windows-poll-takes-no-job-and-four-smaller-fixes)
 - [v0.38.1 · The window's scripts keep their types on Windows](#v0381--the-windows-scripts-keep-their-types-on-windows)
@@ -191,6 +192,18 @@ The family's finder moved to 1.0.1 (SHA-256 `62667f9b...c77d51`): when a program
 The finder also reads `NPM_CONFIG_PREFIX`, `npm_config_prefix`, `PNPM_HOME`, `VOLTA_HOME`, `BUN_INSTALL` and `NVM_SYMLINK` to know where a package manager installs. `conftest.py` removes the six beside the made-up home it sets, so a test never looks in the real folders of whoever runs the suite. The test that edits a copy of the finder reads the version from the copy and no longer has it written in its sentence.
 
 Run: `tests/test_agent_programs.py`, `tests/test_dock_manifest.py` and `tests/test_agent_guards.py` with the new file, the record and the conftest lines: 44 passed, and one failure that is the next entry's (the dock folder in the working tree was already the next module version while that test still named the old one).
+
+## After v0.41.0 · An Antigravity tab
+
+- refers-to: `app/agent/programs.py` :: `TITLES`, `TAB_ENTRY`, `_mcp_file`, `_servers`, `_replace`, `write_tab_entry`, `remove_tab_entry`, `open_tab`; `app/routers/terminal.py` :: `AgentOpen`; `app/agent_manifest.py` :: `DOCK`; `agents/manifest.json` (written by `agents sync`); `tests/test_agent_programs.py`; `tests/test_dock_manifest.py`
+
+`POST /api/terminal/agent` takes kind `antigravity` and starts `agy` (Google's Antigravity program) the way it starts Codex and Cursor: found by the family's finder, started through its start path, the tab's own token in its environment, the record's kind `antigravity`.
+
+Antigravity reads its MCP servers from a file and nothing documented says it fills a header from the environment, so the tab's entry holds the token itself: `formref_tab`, with the engine's `/mcp` address and the header `x-formref-inapp`, in `.agents/mcp_config.json` of the tab's working folder. That folder is `AgentTabs` in the data folder, the one the Codex and Cursor tabs already run in; it is FormRef's own, never a folder of the person's. The file is read first and every other entry and key in it is kept; it is written to a part file and put in place whole, mode 0600. When the tab closes the entry is taken out, only if it still carries that tab's token, and the token stops being accepted as for the other tabs. A file that is not a servers file stops the tab from opening and is left alone. Two Antigravity tabs open at once share the folder, so the file names the token of the one opened last; closing that one removes the entry, closing the other changes nothing.
+
+Not built: Antigravity as a runner in the Agent panel (`runners.py`, `service.py`; the panel's turns are still Claude Code, Codex, Cursor and Ollama), a setting for its path, and an entry in `~/.gemini/config/mcp_config.json` (FormRef has no command or dialog that connects an outside program; the README says where the entry goes).
+
+Run on an engine from source (port 4761, a made-up home, a stand-in shell, PATH with a stand-in `agy` and logging stand-ins for the other three; no real agent program was started): the status answered `runs` for Antigravity with its version and `signedIn` null. With `mcp_config.json` seeded with another server and another key, the tab opened through the route, the socket showed the stand-in's banner from `AgentTabs` with the token in its environment, the file held `formref_tab` beside the seeded server and key at mode 0600, and a board made with the tab's token answered 201. After the close the file was exactly as seeded and the same token was refused with `outside_agents_off`. With `agy` taken away the status said `missing` with the places looked in, the route answered 404 with that sentence, and the file was untouched. One test added after that; the three test files: 46 passed. Not run: a real `agy`, Windows, macOS.
 
 ## v0.39.2 · PDF export and SVG pictures without a system library, and six smaller fixes
 

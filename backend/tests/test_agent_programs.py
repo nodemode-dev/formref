@@ -1,3 +1,4 @@
+import json
 import os
 import stat
 
@@ -146,6 +147,35 @@ def test_a_program_tab_has_its_own_token_in_its_environment_until_it_closes(clie
         assert token in agents.tokens
     finally:
         assert client.delete(f"/api/terminal/{session.id}").status_code == 200
+    assert token not in agents.tokens
+    after = bare.post("/api/boards", json={"title": "from a closed tab"}, headers={"x-formref-client": token})
+    assert after.status_code == 403 and after.json().get("code") == "outside_agents_off"
+
+
+@pytest.mark.skipif(os.name == "nt", reason="the stand-ins are shell scripts")
+def test_an_antigravity_tab_has_its_entry_in_the_folder_file_until_it_closes(client, bare, stand_ins):
+    from app.agent import programs, terminal
+    from app.agent.service import agents
+    from app.core.config import settings
+
+    path = settings.data_dir / programs.FOLDER / ".agents" / "mcp_config.json"
+    seeded = {"mcpServers": {"other": {"command": "/somewhere/else", "args": ["mcp"]}}, "kept": {"a": 1}}
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(seeded), encoding="utf-8")
+    opened = client.post("/api/terminal/agent", json={"kind": "antigravity", "cols": 80, "rows": 20})
+    assert opened.status_code == 200 and opened.json()["kind"] == "antigravity" and opened.json()["title"] == "Antigravity"
+    session = terminal.SESSIONS[opened.json()["id"]]
+    try:
+        token = session.env[programs.TOKEN_VAR]
+        held = json.loads(path.read_text(encoding="utf-8"))
+        assert held["mcpServers"][programs.TAB_ENTRY] == {"serverUrl": session.env[programs.URL_VAR], "headers": {programs.HEADER: token}}
+        assert held["mcpServers"]["other"] == seeded["mcpServers"]["other"] and held["kept"] == seeded["kept"]
+        assert stat.S_IMODE(path.stat().st_mode) == 0o600 and token in agents.tokens
+        assert session.cwd == str(settings.data_dir / programs.FOLDER) and all(token not in part for part in session.argv)
+        assert bare.post("/api/boards", json={"title": "from an antigravity tab"}, headers={"x-formref-client": token}).status_code == 201
+    finally:
+        assert client.delete(f"/api/terminal/{session.id}").status_code == 200
+    assert json.loads(path.read_text(encoding="utf-8")) == seeded
     assert token not in agents.tokens
     after = bare.post("/api/boards", json={"title": "from a closed tab"}, headers={"x-formref-client": token})
     assert after.status_code == 403 and after.json().get("code") == "outside_agents_off"

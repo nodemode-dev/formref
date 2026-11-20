@@ -87,7 +87,7 @@ def claude_open(body: ClaudeOpen, request: Request):
 
 
 class AgentOpen(BaseModel):
-    kind: Literal["codex", "cursor"]
+    kind: Literal["codex", "cursor", "antigravity"]
     cols: int = Field(default=100, ge=10, le=1000)
     rows: int = Field(default=30, ge=4, le=500)
 

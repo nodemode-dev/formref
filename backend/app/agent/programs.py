@@ -11,7 +11,8 @@ from .service import agents
 
 REPORTED = ("claude", "codex", "cursor", "antigravity")
 INSTALL = {kind: agent_lookup.install(kind) for kind in REPORTED}
-TITLES = {"codex": "Codex", "cursor": "Cursor"}
+TITLES = {"codex": "Codex", "cursor": "Cursor", "antigravity": "Antigravity"}
+TAB_ENTRY = "formref_tab"
 TOKEN_VAR = "FORMREF_AGENT_TOKEN"
 URL_VAR = "FORMREF_MCP_URL"
 HEADER = "x-formref-inapp"
@@ -65,6 +66,45 @@ def workdir() -> Path:
     return folder
 
 
+def _mcp_file(folder: Path) -> Path:
+    return folder / ".agents" / "mcp_config.json"
+
+
+def _servers(path: Path) -> dict:
+    data = json.loads(path.read_text(encoding="utf-8") or "{}") if path.exists() else {}
+    if not isinstance(data, dict) or not isinstance(data.get("mcpServers", {}), dict):
+        raise OSError(f"{path} is not an MCP servers file FormRef can read, so it was left alone")
+    return data
+
+
+def _replace(path: Path, data: dict) -> None:
+    path.parent.mkdir(mode=0o700, parents=True, exist_ok=True)
+    part = path.with_name(path.name + f".part-{os.getpid()}")
+    with os.fdopen(os.open(part, os.O_WRONLY | os.O_CREAT | os.O_TRUNC, 0o600), "w", encoding="utf-8") as handle:
+        handle.write(json.dumps(data, indent=2) + "\n")
+    os.replace(part, path)
+
+
+def write_tab_entry(folder: Path, token: str) -> None:
+    path = _mcp_file(folder)
+    data = _servers(path)
+    data.setdefault("mcpServers", {})[TAB_ENTRY] = {"serverUrl": terminal.API_URL + "/mcp", "headers": {HEADER: token}}
+    _replace(path, data)
+
+
+def remove_tab_entry(folder: Path, token: str) -> None:
+    path = _mcp_file(folder)
+    try:
+        data = _servers(path)
+        entry = data.get("mcpServers", {}).get(TAB_ENTRY)
+        if not isinstance(entry, dict) or (entry.get("headers") or {}).get(HEADER) != token:
+            return
+        del data["mcpServers"][TAB_ENTRY]
+        _replace(path, data)
+    except (OSError, ValueError):
+        return
+
+
 def open_tab(kind: str, cols: int = 100, rows: int = 30) -> dict:
     found = claude_code.located(kind)
     if found.state != "runs":
@@ -75,11 +115,18 @@ def open_tab(kind: str, cols: int = 100, rows: int = 30) -> dict:
     token = secrets.token_urlsafe(32)
     env = claude_code.child_env(found.path, {TOKEN_VAR: token, URL_VAR: terminal.API_URL + "/mcp"})
     argv = agent_lookup.start_argv([found.path])
+    filed = kind == "antigravity"
     agents.tokens.add(token)
     try:
+        if filed:
+            write_tab_entry(folder, token)
         session = terminal.open_session(str(folder), cols, rows, TITLES[kind], argv, env, kind)
     except BaseException:
         agents.revoke(token)
+        if filed:
+            remove_tab_entry(folder, token)
         raise
     session.on_close.append(lambda: agents.revoke(token))
+    if filed:
+        session.on_close.append(lambda: remove_tab_entry(folder, token))
     return session.describe()
