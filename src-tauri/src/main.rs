@@ -1,11 +1,16 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
+mod engine_start;
 mod reveal;
+#[cfg(windows)]
+mod win_job;
+#[cfg(windows)]
+mod win_say;
 
 use std::fs::{self, File};
 use std::io::{BufRead, BufReader, Write};
 use std::net::{SocketAddr, TcpListener, TcpStream};
-use std::path::PathBuf;
+use std::path::{Path, PathBuf};
 use std::process::{Child, ChildStdout, Command, Stdio};
 use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::{mpsc, Mutex};
@@ -20,8 +25,6 @@ use tauri_plugin_global_shortcut::{Code, GlobalShortcutExt, Modifiers, Shortcut,
 
 /// The port the dev service, the command line and outside MCP clients use; the app takes it when it is free.
 const ENGINE_PORT: u16 = 8320;
-/// A onefile engine unpacks itself before it starts, which is slow on a first run.
-const START_LIMIT: Duration = Duration::from_secs(120);
 
 /// The bundled engine (FastAPI service), started by a packaged app and stopped when it exits.
 struct Engine(Mutex<Option<Child>>);
@@ -74,18 +77,21 @@ fn relay_engine_output(stdout: ChildStdout, mut log: File, keys: mpsc::Sender<St
     }
 }
 
-fn start_engine(app: &AppHandle, port: u16) -> Result<(Child, PathBuf, mpsc::Receiver<String>), String> {
-    let logs = app.path().app_log_dir().map_err(|error| error.to_string())?;
-    fs::create_dir_all(&logs).map_err(|error| format!("{}: {error}", logs.display()))?;
+fn start_engine(app: &AppHandle, port: u16) -> Result<(Child, PathBuf, mpsc::Receiver<String>), engine_start::Failure> {
+    let engine = sidecar("formref-engine").map_err(|_| engine_start::Failure::Missing)?;
+    let core = sidecar("formref-core").map_err(engine_start::Failure::NotStarted)?;
+    let logs = app.path().app_log_dir().map_err(|error| engine_start::Failure::NotStarted(error.to_string()))?;
+    fs::create_dir_all(&logs).map_err(|error| engine_start::Failure::NotStarted(format!("{}: {error}", logs.display())))?;
     let log_path = logs.join("engine.log");
-    let log = File::create(&log_path).map_err(|error| format!("{}: {error}", log_path.display()))?;
-    let err = log.try_clone().map_err(|error| error.to_string())?;
-    let mut command = Command::new(sidecar("formref-engine")?);
+    let log = File::create(&log_path).map_err(|error| engine_start::Failure::NotStarted(format!("{}: {error}", log_path.display())))?;
+    let err = log.try_clone().map_err(|error| engine_start::Failure::NotStarted(error.to_string()))?;
+    let mut command = Command::new(engine);
     command
         .env("FORMREF_PORT", port.to_string())
         .env("FORMREF_API_URL", format!("http://127.0.0.1:{port}"))
-        .env("FORMREF_ENGINE_PATH", sidecar("formref-core")?)
-        .env("FORMREF_PARENT_PID", std::process::id().to_string())
+        .env("FORMREF_ENGINE_PATH", core)
+        .env(engine_start::SHELL_ENV, std::process::id().to_string())
+        .env(engine_start::OLD_SHELL_ENV, std::process::id().to_string())
         .env("FORMREF_WINDOW_KEY_STDOUT", "1")
         .current_dir(&logs)
         .stdin(Stdio::null())
@@ -96,32 +102,56 @@ fn start_engine(app: &AppHandle, port: u16) -> Result<(Child, PathBuf, mpsc::Rec
         use std::os::windows::process::CommandExt;
         command.creation_flags(0x0800_0000);
     }
-    let mut child = command.spawn().map_err(|error| format!("the engine did not start: {error}"))?;
-    let stdout = child.stdout.take().ok_or("the engine's output could not be read")?;
+    let mut child = command.spawn().map_err(|error| engine_start::Failure::NotStarted(error.to_string()))?;
+    #[cfg(windows)]
+    win_job::hold(&child);
     let (sender, keys) = mpsc::channel();
-    std::thread::spawn(move || relay_engine_output(stdout, log, sender));
+    if let Some(stdout) = child.stdout.take() {
+        std::thread::spawn(move || relay_engine_output(stdout, log, sender));
+    }
     Ok((child, log_path, keys))
 }
 
-fn wait_for(port: u16, child: &mut Child) -> Result<(), String> {
+fn wait_for(port: u16, child: &mut Child) -> Result<(), engine_start::Failure> {
     let address = SocketAddr::from(([127, 0, 0, 1], port));
+    let limit = engine_start::Wait::Address.limit();
     let started = Instant::now();
-    while started.elapsed() < START_LIMIT {
+    while started.elapsed() < limit {
         if let Ok(Some(status)) = child.try_wait() {
-            return Err(format!("the engine stopped while starting ({status})"));
+            return Err(engine_start::Failure::Stopped(status.code()));
         }
         if TcpStream::connect_timeout(&address, Duration::from_millis(250)).is_ok() {
             return Ok(());
         }
         std::thread::sleep(Duration::from_millis(150));
     }
-    Err(format!("the engine did not answer within {} seconds", START_LIMIT.as_secs()))
+    Err(engine_start::Failure::TimedOut(engine_start::Wait::Address))
+}
+
+fn engine_exit_code(app: &AppHandle) -> Option<i32> {
+    let state = app.try_state::<Engine>()?;
+    let mut waited = Duration::ZERO;
+    while waited < engine_start::EXIT_WAIT {
+        if let Ok(mut slot) = state.0.lock() {
+            let seen = slot.as_mut().map(|child| child.try_wait());
+            match seen {
+                Some(Ok(Some(status))) => return status.code(),
+                Some(Ok(None)) => {}
+                _ => return None,
+            };
+        }
+        std::thread::sleep(engine_start::EXIT_STEP);
+        waited += engine_start::EXIT_STEP;
+    }
+    None
 }
 
 fn stop_engine(app: &AppHandle) {
     if let Some(state) = app.try_state::<Engine>() {
         if let Ok(mut slot) = state.0.lock() {
             if let Some(mut child) = slot.take() {
+                #[cfg(windows)]
+                win_job::end();
                 // The onefile engine is a launcher with the server as its child: asked to stop, it stops the server
                 // and removes the folder it unpacked; a forced kill reaches only the launcher and leaves both behind.
                 #[cfg(unix)]
@@ -229,35 +259,57 @@ fn js_string(text: &str) -> String {
     out
 }
 
-/// The splash says why FormRef could not start, then the app quits (and stops the engine) after 15 s.
-fn fail(app: &AppHandle, message: &str) {
-    eprintln!("FormRef: {message}");
+fn fail(app: &AppHandle, failure: engine_start::Failure, log: Option<&Path>) {
+    let failure = match failure {
+        engine_start::Failure::Stopped(None) => engine_start::Failure::Stopped(engine_exit_code(app)),
+        other => other,
+    };
+    let tail = log.and_then(|path| fs::read(path).ok()).map(|raw| engine_start::last_lines(&String::from_utf8_lossy(&raw))).unwrap_or_default();
+    let message = engine_start::message(&failure, &tail, log);
+    eprintln!("{message}");
     if let Some(splash) = app.get_webview_window("splash") {
-        let text = js_string(&format!("FormRef could not start: {message}"));
+        let text = js_string(&message);
+        let _ = splash.set_size(LogicalSize::new(640.0, 420.0));
+        let _ = splash.center();
         let _ = splash.eval(&format!(
-            "var p=document.querySelector('p');p.textContent={text};p.style.height='auto';p.style.padding='0 20px';p.style.textAlign='center';document.querySelector('.bar').style.visibility='hidden';"
+            "var p=document.querySelector('p');p.textContent={text};p.style.height='auto';p.style.lineHeight='17px';p.style.padding='0 24px';p.style.whiteSpace='pre-wrap';p.style.overflowWrap='anywhere';p.style.userSelect='text';p.style.webkitUserSelect='text';document.body.style.paddingTop='24px';document.body.style.overflowY='auto';document.querySelector('.bar').style.display='none';"
         ));
+        let _ = splash.show();
     }
-    let handle = app.clone();
-    std::thread::spawn(move || {
-        std::thread::sleep(Duration::from_secs(15));
-        handle.exit(1);
-    });
+    #[cfg(windows)]
+    win_say::error(engine_start::APP, &message);
+    #[cfg(not(windows))]
+    std::thread::sleep(engine_start::SHOWN);
+    stop_engine(app);
+    app.exit(1);
+}
+
+fn start(app: &AppHandle, log: &mut Option<PathBuf>) -> Result<(u16, String), engine_start::Failure> {
+    let port = engine_port().map_err(engine_start::Failure::NotStarted)?;
+    let (mut child, path, keys) = start_engine(app, port)?;
+    *log = Some(path);
+    let ready = wait_for(port, &mut child);
+    if let Ok(mut slot) = app.state::<Engine>().0.lock() {
+        *slot = Some(child);
+    }
+    ready?;
+    let key = keys.recv_timeout(engine_start::Wait::Key.limit()).map_err(|error| match error {
+        mpsc::RecvTimeoutError::Timeout => engine_start::Failure::TimedOut(engine_start::Wait::Key),
+        mpsc::RecvTimeoutError::Disconnected => engine_start::Failure::Stopped(None),
+    })?;
+    Ok((port, key))
 }
 
 fn boot(app: AppHandle) {
-    let result = engine_port().and_then(|port| {
-        let (mut child, log, keys) = start_engine(&app, port)?;
-        let ready = wait_for(port, &mut child);
-        if let Ok(mut slot) = app.state::<Engine>().0.lock() {
-            *slot = Some(child);
-        }
-        ready.map_err(|error| format!("{error}. Its log is {}", log.display()))?;
-        let key = keys.recv_timeout(Duration::from_secs(10)).map_err(|_| format!("the engine did not hand over its window key. Its log is {}", log.display()))?;
-        Ok((port, key))
+    let mut log = None;
+    let opened = start(&app, &mut log).and_then(|(port, key)| {
+        open_main(&app, Some(port), Some(key)).map_err(|error| {
+            eprintln!("FormRef: {error}");
+            engine_start::Failure::Window
+        })
     });
-    if let Err(error) = result.and_then(|(port, key)| open_main(&app, Some(port), Some(key))) {
-        fail(&app, &error);
+    if let Err(failure) = opened {
+        fail(&app, failure, log.as_deref());
     }
 }
 
