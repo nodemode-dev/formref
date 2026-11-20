@@ -304,7 +304,7 @@
  "Allow": "Izinkan",
  "Allow all": "Izinkan semua",
  "Allow outside agents": "Izinkan agen luar",
- "Allow outside agents (Claude Code, Codex, Cursor or any MCP client started outside FormRef) to edit boards": "Izinkan agen luar (Claude Code, Codex, Cursor, atau klien MCP mana pun yang dimulai di luar FormRef) mengedit papan",
+ "Allow outside agents (Claude Code, Codex, Cursor, Antigravity or any MCP client started outside FormRef) to edit boards": "Izinkan agen luar (Claude Code, Codex, Cursor, Antigravity, atau klien MCP mana pun yang dimulai di luar FormRef) mengedit papan",
  "Allow this and any further removals or bulk moves until the turn ends": "Izinkan ini dan penghapusan atau pemindahan massal berikutnya hingga giliran berakhir",
  "Allow this change only": "Izinkan perubahan ini saja",
  "Alt": "Alt",

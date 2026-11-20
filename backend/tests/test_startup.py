@@ -98,6 +98,25 @@ def test_a_holder_from_an_engine_that_recorded_no_shell_is_replaced_only_by_an_e
         stop(engine, mine)
 
 
+def test_a_holder_that_has_ended_and_was_not_yet_collected_counts_as_gone_where_there_is_no_proc(tmp_path, monkeypatch):
+    from app.core import startup
+
+    engine, shell, mine = stand_in(), stand_in(), stand_in()
+    try:
+        (tmp_path / startup.LOCK_NAME).write_text(json.dumps(record(startup, engine, shell)))
+        stop(shell)
+        monkeypatch.setattr(startup, "PROC", str(tmp_path / "no-proc"))
+        assert startup.finished(mine.pid) is False
+        path, replaced = startup.claim(tmp_path, mine.pid)
+        assert replaced == engine.pid
+        assert startup.finished(engine.pid) is True
+        assert json.loads(path.read_text())["pid"] == os.getpid()
+        monkeypatch.setattr(startup, "PROC", "/proc")
+        assert startup.finished(engine.pid) is False
+    finally:
+        stop(engine, shell, mine)
+
+
 @pytest.mark.parametrize("text", ["not json at all", "[1, 2]", '{"pid": "x"}', ""])
 def test_a_damaged_lock_is_replaced(tmp_path, text):
     from app.core import startup

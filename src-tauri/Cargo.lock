@@ -839,7 +839,7 @@ dependencies = [
 
 [[package]]
 name = "formref-desktop"
-version = "0.43.0"
+version = "0.44.0"
 dependencies = [
  "objc2",
  "objc2-app-kit",
@@ -847,6 +847,7 @@ dependencies = [
  "tauri",
  "tauri-build",
  "tauri-plugin-global-shortcut",
+ "windows-sys 0.61.2",
 ]
 
 [[package]]

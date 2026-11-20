@@ -304,7 +304,7 @@
  "Allow": "許可",
  "Allow all": "すべて許可",
  "Allow outside agents": "外部エージェントを許可",
- "Allow outside agents (Claude Code, Codex, Cursor or any MCP client started outside FormRef) to edit boards": "外部エージェント（FormRef の外部で起動した Claude Code、Codex、Cursor、その他の MCP クライアント）によるボードの編集を許可",
+ "Allow outside agents (Claude Code, Codex, Cursor, Antigravity or any MCP client started outside FormRef) to edit boards": "外部エージェント（FormRef の外部で起動した Claude Code、Codex、Cursor、Antigravity、その他の MCP クライアント）によるボードの編集を許可",
  "Allow this and any further removals or bulk moves until the turn ends": "このターンが終わるまで、この操作とそれ以降の削除や一括移動を許可",
  "Allow this change only": "この変更のみ許可",
  "Alt": "Alt",

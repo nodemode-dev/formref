@@ -13,8 +13,23 @@ src-tauri/
   capabilities/main-window.json      Main webview permission boundary
   permissions/window-controls.toml   Explicit native command grants
   src/main.rs                        Engine sidecar, native window modes and launch sizing
+  src/engine_start.rs                Start failures, their sentences, the engine's last lines and the wait limits
+  src/win_job.rs                     Windows: the job object that ends the engine with the app
+  src/win_say.rs                     Windows: the message box that shows a start failure
   binaries/                          Frozen sidecars per host triple (built, not tracked)
 ```
+
+## v0.44.0 · The Windows shell side: the job, the failure text, the limits
+
+- refers-to: src/engine_start.rs; src/win_job.rs; src/win_say.rs; src/main.rs :: start_engine, wait_for, engine_exit_code, stop_engine, fail, start, boot; Cargo.toml :: windows-sys; Cargo.lock :: formref-desktop
+- kind: rationale
+- logged: v0.44.0 · 2026-11-20
+
+The family's Windows pattern (WINDOWS_APP_SPEC.md sections 2 and 3, FormTools as the worked example), shell side; the engine side came in 0.43.0. FormRef already started its engine with `std::process::Command`, so the FormTools way was taken and nothing moved to another mechanism. `win_job.rs` is FormTools's file unchanged: `hold(&child)` right after the spawn puts the engine in a kill-on-close job, `end()` before the existing stop. `engine_start.rs` is FormTools's file with the names changed (`FORMREF_SHELL_PID`, and `FORMREF_PARENT_PID`, which the shell still sets so an engine that reads only the old name keeps its watch), without `data_folder` and `engine_log`: the log the failure names is `engine.log` in the app's log folder, which this shell writes itself from the engine's output. The wait for the address is 90 seconds (D1; it was 120), the wait for the window key 10 as before; a wait that runs out says how long it waited and for what. Exit code 2 is the engine's "another copy holds the data folder".
+
+The failure path: `fail` turns a stop with no code into the code `try_wait` gives within one second, reads the last 12 lines of `engine.log` (never the key line), and puts the sentence, those lines and the log's path in the splash, made larger and selectable. On Windows `win_say::error` then shows the same text in a message box and waits for OK. On macOS and Linux `hold_until_closed` gives the splash a title bar, lets it be resized and closed, and waits until the person closes it (it looks every 250 ms); before wave 8 it stayed 60 seconds and then went, with no way to close it sooner or keep it. Only after that the engine is stopped and the app exits, so the last window never closes before the person has read why. FormTools uses tauri-plugin-dialog for this; FormRef has no dialog plugin, and `MessageBoxW` from `windows-sys` (one more feature, `Win32_UI_WindowsAndMessaging`, no new crate) is the only way without one.
+
+`windows-sys` is 0.61.2, the version 13 packages in the lock already use; the one line in `formref-desktop`'s list was added by hand and a scratch `cargo update --workspace --offline` on the old lock gave the same file. A scratch crate type-checked the three files for `x86_64-pc-windows-msvc` with no error or warning and ran the four unit tests and two tests of `wait_for` cut from `main.rs` (a stopping engine gives its code, an answering one is ready). The shell itself was not built or run on any system.
 
 ## v0.40.0 · The engine hands the window its key
 

@@ -304,7 +304,7 @@
  "Allow": "Erlauben",
  "Allow all": "Alle erlauben",
  "Allow outside agents": "Externe Agenten erlauben",
- "Allow outside agents (Claude Code, Codex, Cursor or any MCP client started outside FormRef) to edit boards": "Externen Agenten (Claude Code, Codex, Cursor oder jedem außerhalb von FormRef gestarteten MCP-Client) das Bearbeiten von Boards erlauben",
+ "Allow outside agents (Claude Code, Codex, Cursor, Antigravity or any MCP client started outside FormRef) to edit boards": "Externen Agenten (Claude Code, Codex, Cursor, Antigravity oder jedem außerhalb von FormRef gestarteten MCP-Client) das Bearbeiten von Boards erlauben",
  "Allow this and any further removals or bulk moves until the turn ends": "Diese und alle weiteren Entfernungen oder Massenverschiebungen bis zum Ende des Durchgangs erlauben",
  "Allow this change only": "Nur diese Änderung erlauben",
  "Alt": "Alt",

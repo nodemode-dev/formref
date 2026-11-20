@@ -304,7 +304,7 @@
  "Allow": "Cho phép",
  "Allow all": "Cho phép tất cả",
  "Allow outside agents": "Cho phép tác tử bên ngoài",
- "Allow outside agents (Claude Code, Codex, Cursor or any MCP client started outside FormRef) to edit boards": "Cho phép tác tử bên ngoài (Claude Code, Codex, Cursor hoặc bất kỳ máy khách MCP nào khởi chạy ngoài FormRef) chỉnh sửa bảng",
+ "Allow outside agents (Claude Code, Codex, Cursor, Antigravity or any MCP client started outside FormRef) to edit boards": "Cho phép tác tử bên ngoài (Claude Code, Codex, Cursor, Antigravity hoặc bất kỳ máy khách MCP nào khởi chạy ngoài FormRef) chỉnh sửa bảng",
  "Allow this and any further removals or bulk moves until the turn ends": "Cho phép thao tác này và mọi thao tác xóa hoặc di chuyển hàng loạt tiếp theo cho đến hết lượt",
  "Allow this change only": "Chỉ cho phép thay đổi này",
  "Alt": "Alt",

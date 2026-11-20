@@ -22,6 +22,8 @@
 - [After v0.41.0 · The engine starts without output streams](#after-v0410--the-engine-starts-without-output-streams)
 - [After v0.42.0 · Each Antigravity tab has a folder of its own](#after-v0420--each-antigravity-tab-has-a-folder-of-its-own)
 - [After v0.42.0 · The engine has a lock, a log of its own and a watch on its shell](#after-v0420--the-engine-has-a-lock-a-log-of-its-own-and-a-watch-on-its-shell)
+- [After v0.43.0 · An engine that has ended but was not yet collected counts as gone](#after-v0430--an-engine-that-has-ended-but-was-not-yet-collected-counts-as-gone)
+- [After v0.43.0 · The Windows engine has no console window](#after-v0430--the-windows-engine-has-no-console-window)
 - [v0.39.2 · PDF export and SVG pictures without a system library, and six smaller fixes](#v0392--pdf-export-and-svg-pictures-without-a-system-library-and-six-smaller-fixes)
 - [v0.39.0 · A closed window's poll takes no job, and four smaller fixes](#v0390--a-closed-windows-poll-takes-no-job-and-four-smaller-fixes)
 - [v0.38.1 · The window's scripts keep their types on Windows](#v0381--the-windows-scripts-keep-their-types-on-windows)
@@ -239,6 +241,20 @@ The serving path in order: the data folder and the log (a folder that cannot be 
 A released engine (0.42.0 and older) wrote no lock, so the first start after the update cannot find one that was left running: it is not ended by this change. It still watches its own shell and leaves when that is gone.
 
 Run here on Linux, with stand-in shells (`sleep`) and stand-in apps (shell scripts), as `tests/test_startup.py` (16 tests): a second engine on the same folder was refused with the sentence and code 2 while the first one's shell lived, and the first kept its lock; an engine left when its shell ended, within the test's ten seconds, with code 0 and no lock, for either variable; a holder whose shell was gone was ended and replaced; four damaged lock files and a lock naming an unrelated process were replaced, the process left alone; with its three streams closed the engine served, wrote its log and the errors file, and SIGTERM ended it with code 0 and no lock; started alone as a frozen engine it opened the stand-in app from beside it and from one folder up, or said the sentence with code 4. One engine run by hand wrote the log's first line before anything else and one line per request after `join`. Not run: anything on Windows or macOS, a really frozen engine, and the by-hand scenario script (the machine's shared command lane was shut when it was due).
+
+## After v0.43.0 · An engine that has ended but was not yet collected counts as gone
+
+- refers-to: `app/core/startup.py` :: `finished`, `gone_by`; `tests/test_startup.py`
+
+FormCut's macOS check found this in the family's start-up file: ending a leftover engine waits until it is gone, and where there is no `/proc` a process that has ended and that its parent has not collected still answers `kill(pid, 0)`, so the wait ran out and the start was refused with "could not stop an engine that was left running". `finished(pid)` asks `ps -o stat= -p <pid>` where there is no `/proc` (never on Windows, never on Linux) and answers true for a state that starts with `Z`; `gone_by` stops waiting when the process is not alive or is finished. `alive` is unchanged, so the two second watch on the shell starts no program.
+
+Run here on Linux with `PROC` pointed at a folder that does not exist: the new test was refused with that sentence while `gone_by` did not ask `finished`, and passes with it; the file is 17 tests, 17 passed. Not run on macOS.
+
+## After v0.43.0 · The Windows engine has no console window
+
+- refers-to: `freeze_engine.bat`; `formref_engine.py` (unchanged)
+
+The owner's decision for the family: a Windows engine is packaged with no console window, as FormWeb's is. `freeze_engine.bat` gives PyInstaller `--noconsole` unless `FORMREF_ENGINE_WINDOWED=0`. The entry already replaces missing streams (the guard at its top), so the engine and `--selfcheck` run with no console. A window program's words reach no console, so the script sends the self-check's output to `build\selfcheck.txt`, types it and stops on its exit code. `freeze_engine` builds on Linux and macOS only and is unchanged. Checked by reading; no Windows build has shown it.
 
 ## v0.39.2 · PDF export and SVG pictures without a system library, and six smaller fixes
 

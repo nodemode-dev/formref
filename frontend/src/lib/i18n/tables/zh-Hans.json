@@ -304,7 +304,7 @@
  "Allow": "允许",
  "Allow all": "全部允许",
  "Allow outside agents": "允许外部智能体",
- "Allow outside agents (Claude Code, Codex, Cursor or any MCP client started outside FormRef) to edit boards": "允许外部智能体（在 FormRef 之外启动的 Claude Code、Codex、Cursor 或任何 MCP 客户端）编辑画板",
+ "Allow outside agents (Claude Code, Codex, Cursor, Antigravity or any MCP client started outside FormRef) to edit boards": "允许外部智能体（在 FormRef 之外启动的 Claude Code、Codex、Cursor、Antigravity 或任何 MCP 客户端）编辑画板",
  "Allow this and any further removals or bulk moves until the turn ends": "允许此项及之后的所有删除或批量移动，直至本轮结束",
  "Allow this change only": "仅允许此次更改",
  "Alt": "Alt",

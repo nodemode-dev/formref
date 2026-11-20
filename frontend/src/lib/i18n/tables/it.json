@@ -304,7 +304,7 @@
  "Allow": "Consenti",
  "Allow all": "Consenti tutto",
  "Allow outside agents": "Consenti agenti esterni",
- "Allow outside agents (Claude Code, Codex, Cursor or any MCP client started outside FormRef) to edit boards": "Consenti agli agenti esterni (Claude Code, Codex, Cursor o qualsiasi client MCP avviato fuori da FormRef) di modificare le bacheche",
+ "Allow outside agents (Claude Code, Codex, Cursor, Antigravity or any MCP client started outside FormRef) to edit boards": "Consenti agli agenti esterni (Claude Code, Codex, Cursor, Antigravity o qualsiasi client MCP avviato fuori da FormRef) di modificare le bacheche",
  "Allow this and any further removals or bulk moves until the turn ends": "Consenti questa e altre rimozioni o spostamenti di massa fino alla fine del turno",
  "Allow this change only": "Consenti solo questa modifica",
  "Alt": "Alt",
