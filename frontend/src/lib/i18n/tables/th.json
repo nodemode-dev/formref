@@ -304,7 +304,7 @@
  "Allow": "อนุญาต",
  "Allow all": "อนุญาตทั้งหมด",
  "Allow outside agents": "อนุญาตเอเจนต์ภายนอก",
- "Allow outside agents (Claude Code, Codex, Cursor or any MCP client started outside FormRef) to edit boards": "อนุญาตเอเจนต์ภายนอก (Claude Code, Codex, Cursor หรือไคลเอนต์ MCP ใดๆ ที่เริ่มนอก FormRef) ให้แก้ไขบอร์ด",
+ "Allow outside agents (Claude Code, Codex, Cursor, Antigravity or any MCP client started outside FormRef) to edit boards": "อนุญาตเอเจนต์ภายนอก (Claude Code, Codex, Cursor, Antigravity หรือไคลเอนต์ MCP ใดๆ ที่เริ่มนอก FormRef) ให้แก้ไขบอร์ด",
  "Allow this and any further removals or bulk moves until the turn ends": "อนุญาตการนี้และการลบหรือย้ายเป็นชุดต่อจากนี้จนกว่ารอบนี้จะจบ",
  "Allow this change only": "อนุญาตเฉพาะการเปลี่ยนแปลงนี้",
  "Alt": "Alt",

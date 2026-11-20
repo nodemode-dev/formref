@@ -304,7 +304,7 @@
  "Allow": "Разрешить",
  "Allow all": "Разрешить все",
  "Allow outside agents": "Разрешить внешних агентов",
- "Allow outside agents (Claude Code, Codex, Cursor or any MCP client started outside FormRef) to edit boards": "Разрешить внешним агентам (Claude Code, Codex, Cursor или любому клиенту MCP, запущенному вне FormRef) редактировать доски",
+ "Allow outside agents (Claude Code, Codex, Cursor, Antigravity or any MCP client started outside FormRef) to edit boards": "Разрешить внешним агентам (Claude Code, Codex, Cursor, Antigravity или любому клиенту MCP, запущенному вне FormRef) редактировать доски",
  "Allow this and any further removals or bulk moves until the turn ends": "Разрешить это и все последующие удаления и массовые перемещения до конца хода",
  "Allow this change only": "Разрешить только это изменение",
  "Alt": "Alt",

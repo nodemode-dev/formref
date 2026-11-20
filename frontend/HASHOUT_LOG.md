@@ -15,6 +15,7 @@
 - [Unreleased · AMOLED Black](#unreleased--amoled-black)
 - [Unreleased · Two engine messages in every table](#unreleased--two-engine-messages-in-every-table)
 - [Unreleased · The terminal panel is the family's shared dock, module 2.1.0](#unreleased--the-terminal-panel-is-the-familys-shared-dock-module-210)
+- [Unreleased · The outside-agents switch names all four programs](#unreleased--the-outside-agents-switch-names-all-four-programs)
 - [Unreleased · The shared dock at module 2.2.1](#unreleased--the-shared-dock-at-module-221)
 - [After v0.41.0 · The shared dock at module 2.2.0, and Antigravity as the fourth agent tab](#after-v0410--the-shared-dock-at-module-220-and-antigravity-as-the-fourth-agent-tab)
 - [v0.39.2 · Connections, text cards, the tag cloud, tabs, Preferences at 390 px, the demo's first open and 59 untranslated strings](#v0392--connections-text-cards-the-tag-cloud-tabs-preferences-at-390-px-the-demos-first-open-and-59-untranslated-strings)
@@ -147,6 +148,14 @@ export function isDockToggle(e: KeyboardEvent): boolean {
 Words. FormRef translates the page after the fact, so `t` returns English. The sentences the old dock already had in the 23 tables are reused where the adapter gives the old wording (the three tooltips with their keys, both ask placeholders, the Chat lead). The module's other sentences and the two notes show in English for now; no table was half filled. `i18n_check.py` skips `src/dock/` and `src/dock-adapter.ts` and still exits 0 under `--strict`; 15 more table entries count as unused.
 
 Seen in headless Chrome at 1440 by 900 against an engine from source with stand-in programs: the three captures before and after (closed 0 differing pixels in the dock and canvas; shell 1,893 and Chat 2,164 inside the dock box, all of them the module's own icons, four new buttons and tab details), every dock action, the question over the Help dialog, and under 4x CPU with a slow network and no cache one stage box in every frame of a cold load with the dock remembered at the bottom and at the right.
+
+## Unreleased · The outside-agents switch names all four programs
+
+- refers-to: `index.html` :: `#agent-outside` label; `src/lib/i18n/tables/*.json` (the 23 complete tables, the one key)
+- kind: rationale
+- logged: v0.44.0 · 2026-11-20
+
+The one sentence in the window that lists the agent programs, the outside-agents switch in the Agent settings, now reads "Claude Code, Codex, Cursor, Antigravity or any MCP client". It is the lookup key of the tables, so the key and its 23 translations changed together, each with Antigravity put after Cursor in that table's own list form (a comma, or 、 in Japanese and Chinese). No native speaker has read them. The tables also hold "An AI agent connected to FormRef from outside the app (such as Claude Code, Codex or Cursor)...", but no code shows it (it is one of the 40 unused keys `i18n_check.py` reports), so it was left as it was. `i18n_check.py --strict` exits 0 before and after, missing 0 and unused 40 in every complete table.
 
 ## Unreleased · The shared dock at module 2.2.1
 

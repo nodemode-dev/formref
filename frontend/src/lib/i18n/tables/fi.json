@@ -304,7 +304,7 @@
  "Allow": "Salli",
  "Allow all": "Salli kaikki",
  "Allow outside agents": "Salli ulkoiset agentit",
- "Allow outside agents (Claude Code, Codex, Cursor or any MCP client started outside FormRef) to edit boards": "Salli ulkoisten agenttien (Claude Code, Codex, Cursor tai muu FormRefin ulkopuolella käynnistetty MCP-asiakas) muokata tauluja",
+ "Allow outside agents (Claude Code, Codex, Cursor, Antigravity or any MCP client started outside FormRef) to edit boards": "Salli ulkoisten agenttien (Claude Code, Codex, Cursor, Antigravity tai muu FormRefin ulkopuolella käynnistetty MCP-asiakas) muokata tauluja",
  "Allow this and any further removals or bulk moves until the turn ends": "Salli tämä ja kaikki seuraavat poistot tai massasiirrot vuoron päättymiseen asti",
  "Allow this change only": "Salli vain tämä muutos",
  "Alt": "Alt",

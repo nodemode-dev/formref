@@ -304,7 +304,7 @@
  "Allow": "Povolit",
  "Allow all": "Povolit vše",
  "Allow outside agents": "Povolit externí agenty",
- "Allow outside agents (Claude Code, Codex, Cursor or any MCP client started outside FormRef) to edit boards": "Povolit externím agentům (Claude Code, Codex, Cursor nebo libovolnému klientovi MCP spuštěnému mimo FormRef) upravovat tabule",
+ "Allow outside agents (Claude Code, Codex, Cursor, Antigravity or any MCP client started outside FormRef) to edit boards": "Povolit externím agentům (Claude Code, Codex, Cursor, Antigravity nebo libovolnému klientovi MCP spuštěnému mimo FormRef) upravovat tabule",
  "Allow this and any further removals or bulk moves until the turn ends": "Povolit toto i všechna další odstranění či hromadná přesunutí do konce kola",
  "Allow this change only": "Povolit pouze tuto změnu",
  "Alt": "Alt",

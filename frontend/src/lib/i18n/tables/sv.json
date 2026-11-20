@@ -304,7 +304,7 @@
  "Allow": "Tillåt",
  "Allow all": "Tillåt alla",
  "Allow outside agents": "Tillåt externa agenter",
- "Allow outside agents (Claude Code, Codex, Cursor or any MCP client started outside FormRef) to edit boards": "Tillåt externa agenter (Claude Code, Codex, Cursor eller en annan MCP-klient som startats utanför FormRef) att redigera tavlor",
+ "Allow outside agents (Claude Code, Codex, Cursor, Antigravity or any MCP client started outside FormRef) to edit boards": "Tillåt externa agenter (Claude Code, Codex, Cursor, Antigravity eller en annan MCP-klient som startats utanför FormRef) att redigera tavlor",
  "Allow this and any further removals or bulk moves until the turn ends": "Tillåt denna och alla ytterligare borttagningar eller massflyttar tills omgången är slut",
  "Allow this change only": "Tillåt bara den här ändringen",
  "Alt": "Alt",

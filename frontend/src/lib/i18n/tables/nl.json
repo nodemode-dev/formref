@@ -304,7 +304,7 @@
  "Allow": "Toestaan",
  "Allow all": "Alles toestaan",
  "Allow outside agents": "Externe agents toestaan",
- "Allow outside agents (Claude Code, Codex, Cursor or any MCP client started outside FormRef) to edit boards": "Externe agents (Claude Code, Codex, Cursor of een andere MCP-client die buiten FormRef is gestart) toestaan boards te bewerken",
+ "Allow outside agents (Claude Code, Codex, Cursor, Antigravity or any MCP client started outside FormRef) to edit boards": "Externe agents (Claude Code, Codex, Cursor, Antigravity of een andere MCP-client die buiten FormRef is gestart) toestaan boards te bewerken",
  "Allow this and any further removals or bulk moves until the turn ends": "Deze en alle volgende verwijderingen of bulkverplaatsingen toestaan tot het einde van de beurt",
  "Allow this change only": "Alleen deze wijziging toestaan",
  "Alt": "Alt",

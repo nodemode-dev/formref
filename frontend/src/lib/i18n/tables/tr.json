@@ -304,7 +304,7 @@
  "Allow": "İzin ver",
  "Allow all": "Tümüne izin ver",
  "Allow outside agents": "Dış ajanlara izin ver",
- "Allow outside agents (Claude Code, Codex, Cursor or any MCP client started outside FormRef) to edit boards": "Dış ajanların (FormRef dışında başlatılan Claude Code, Codex, Cursor veya herhangi bir MCP istemcisi) panoları düzenlemesine izin ver",
+ "Allow outside agents (Claude Code, Codex, Cursor, Antigravity or any MCP client started outside FormRef) to edit boards": "Dış ajanların (FormRef dışında başlatılan Claude Code, Codex, Cursor, Antigravity veya herhangi bir MCP istemcisi) panoları düzenlemesine izin ver",
  "Allow this and any further removals or bulk moves until the turn ends": "Bu ve tur bitene kadar sonraki kaldırma veya toplu taşıma işlemlerine izin ver",
  "Allow this change only": "Yalnızca bu değişikliğe izin ver",
  "Alt": "Alt",
