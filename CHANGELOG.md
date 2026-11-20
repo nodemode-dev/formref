@@ -1,5 +1,17 @@
 # FormRef changelog
 
+## v0.44.0 · 2026-11-20
+
+The app's own part of the Windows start and stop work: the engine ends with the app however the app ends, and a start that fails says why on every system before the app closes.
+
+- On Windows, the engine inside the app now ends together with the app, also when the app is ended from the Task Manager or stops by itself.
+- When the engine cannot start, the app shows why: one sentence, the engine's last lines, its exit code and where its log is. On Windows this comes in a message box that stays until you press OK. On macOS and Linux the start card grows to show the same text, which you can select and copy, and it now stays until you close it; before, it went away after a minute.
+- The app waits up to 90 seconds for its engine to answer, then says so. It waited 120 seconds before.
+- The Windows engine no longer opens a console window of its own.
+- An engine that has just ended on macOS is now seen as gone at once, so the next start is not refused.
+- The first-run guide of the terminal panel says that Codex, Cursor and Antigravity each get a button there when they are on your computer.
+- The setting that lets outside agents change boards now names Claude Code, Codex, Cursor and Antigravity, in every language.
+
 ## v0.43.0 · 2026-11-19
 
 Engine side only: FormRef's engine no longer runs twice on one data folder, gives way cleanly when its app is gone, and keeps a log of its own. Two Antigravity tabs no longer take each other's access. The app's own part of the Windows start and stop work is not in this release.
