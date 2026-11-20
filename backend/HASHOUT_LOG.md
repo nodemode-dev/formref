@@ -20,6 +20,7 @@
 - [After v0.41.0 · The shared finder at 1.0.1](#after-v0410--the-shared-finder-at-101)
 - [After v0.41.0 · An Antigravity tab](#after-v0410--an-antigravity-tab)
 - [After v0.41.0 · The engine starts without output streams](#after-v0410--the-engine-starts-without-output-streams)
+- [After v0.42.0 · Each Antigravity tab has a folder of its own](#after-v0420--each-antigravity-tab-has-a-folder-of-its-own)
 - [v0.39.2 · PDF export and SVG pictures without a system library, and six smaller fixes](#v0392--pdf-export-and-svg-pictures-without-a-system-library-and-six-smaller-fixes)
 - [v0.39.0 · A closed window's poll takes no job, and four smaller fixes](#v0390--a-closed-windows-poll-takes-no-job-and-four-smaller-fixes)
 - [v0.38.1 · The window's scripts keep their types on Windows](#v0381--the-windows-scripts-keep-their-types-on-windows)
@@ -213,6 +214,16 @@ Run on an engine from source (port 4761, a made-up home, a stand-in shell, PATH 
 A program built without a console on Windows starts with `sys.stdin`, `sys.stdout` and `sys.stderr` set to `None`, and the first thing that writes a log line then stops the engine before it listens. `formref_engine.py`, the script the packaging freezes as the engine, now gives each missing stream the null device before anything of FormRef's is imported, as FormWeb's entry does. A stream that exists is left as it is.
 
 Run here on Linux, where a closed descriptor gives Python the same `None`: `python formref_engine.py >&- 2>&-` with its own port and data folder answered `/api/health`; the entry as it was before this change, started the same way, never answered and ended with code 1. Started normally the engine still printed its log (the server's start lines and the request lines). No test added: the suite has no fixture that starts the frozen entry. Not run: Windows, a frozen engine.
+
+## After v0.42.0 · Each Antigravity tab has a folder of its own
+
+- refers-to: `app/agent/programs.py` :: `tab_folder`, `leave_tab_folder`, `TabFile`, `open_tab`; `app/routers/terminal.py` :: `agent_open`; `tests/test_agent_programs.py`
+
+In 0.42.0 every tab shared the folder `AgentTabs`, so two Antigravity tabs shared one `formref_tab` entry in `AgentTabs/.agents/mcp_config.json`: the second tab's token replaced the first one's while the first was still open, and the first tab lost its access. An Antigravity tab now gets `AgentTabs/antigravity/[twelve hex characters]`, made when the tab opens (mode 0700). The entry is written to that folder's `.agents/mcp_config.json`, `agy` starts there, and at close the entry is removed if it still carries the tab's token, the file is removed if nothing else is left in it, and the two folders are removed if they are empty. Anything else found in the file or the folder is kept, and then the folder stays. Codex and Cursor tabs still share `AgentTabs`: their files name an environment variable, never a token, so sharing costs them nothing.
+
+A servers file that is not valid JSON, or not an object with an object under `mcpServers`, raises `TabFile` (an `OSError`), and the route answers 409 with `code: tab_file` and one sentence that names the file and says it was left alone and the tab was not opened. Before, text that was not JSON gave a bare 500.
+
+Run here with a stand-in `agy` and an engine from source: two tabs opened at once had two folders, each with its own entry and token, and each token made a board (201); closing the first removed its folder, left the second one's file byte for byte, turned the first token to 403 and left the second at 201; closing the second left `AgentTabs` with only the Codex and Cursor files and the empty `antigravity` folder. No real `agy` was run, on any system.
 
 ## v0.39.2 · PDF export and SVG pictures without a system library, and six smaller fixes
 

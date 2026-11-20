@@ -105,6 +105,8 @@ def agent_open(body: AgentOpen, request: Request):
         return programs.open_tab(body.kind, body.cols, body.rows)
     except LookupError as e:
         return JSONResponse(status_code=404, content={"detail": str(e), "code": "not_installed"})
+    except programs.TabFile as e:
+        return JSONResponse(status_code=409, content={"detail": str(e), "code": "tab_file"})
 
 
 class ChatSend(BaseModel):

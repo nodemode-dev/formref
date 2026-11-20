@@ -1,6 +1,7 @@
 import json
 import os
 import stat
+from pathlib import Path
 
 import pytest
 
@@ -153,32 +154,64 @@ def test_a_program_tab_has_its_own_token_in_its_environment_until_it_closes(clie
 
 
 @pytest.mark.skipif(os.name == "nt", reason="the stand-ins are shell scripts")
-def test_an_antigravity_tab_has_its_entry_in_the_folder_file_until_it_closes(client, bare, stand_ins):
+def test_each_antigravity_tab_has_a_folder_and_an_entry_of_its_own_until_it_closes(client, bare, stand_ins):
     from app.agent import programs, terminal
     from app.agent.service import agents
     from app.core.config import settings
 
-    path = settings.data_dir / programs.FOLDER / ".agents" / "mcp_config.json"
+    shared = settings.data_dir / programs.FOLDER
+    first, second = (client.post("/api/terminal/agent", json={"kind": "antigravity", "cols": 80, "rows": 20}) for _ in range(2))
+    assert first.status_code == 200 and first.json()["kind"] == "antigravity" and first.json()["title"] == "Antigravity" and second.status_code == 200
+    one, two = terminal.SESSIONS[first.json()["id"]], terminal.SESSIONS[second.json()["id"]]
+    try:
+        assert one.cwd != two.cwd and {Path(one.cwd).parent, Path(two.cwd).parent} == {shared / programs.OWN_FOLDERS}
+        tokens = []
+        for session in (one, two):
+            token = session.env[programs.TOKEN_VAR]
+            path = Path(session.cwd) / ".agents" / "mcp_config.json"
+            assert json.loads(path.read_text(encoding="utf-8")) == {"mcpServers": {programs.TAB_ENTRY: {"serverUrl": session.env[programs.URL_VAR], "headers": {programs.HEADER: token}}}}
+            assert stat.S_IMODE(path.stat().st_mode) == 0o600 and token in agents.tokens and all(token not in part for part in session.argv)
+            assert bare.post("/api/boards", json={"title": "from an antigravity tab"}, headers={"x-formref-client": token}).status_code == 201
+            tokens.append(token)
+        assert tokens[0] != tokens[1] and not (shared / ".agents").exists()
+        kept = (Path(two.cwd) / ".agents" / "mcp_config.json").read_text(encoding="utf-8")
+        assert client.delete(f"/api/terminal/{one.id}").status_code == 200
+        assert not Path(one.cwd).exists() and tokens[0] not in agents.tokens
+        assert (Path(two.cwd) / ".agents" / "mcp_config.json").read_text(encoding="utf-8") == kept and tokens[1] in agents.tokens
+        assert bare.post("/api/boards", json={"title": "from the tab still open"}, headers={"x-formref-client": tokens[1]}).status_code == 201
+        after = bare.post("/api/boards", json={"title": "from a closed tab"}, headers={"x-formref-client": tokens[0]})
+        assert after.status_code == 403 and after.json().get("code") == "outside_agents_off"
+    finally:
+        for session in (one, two):
+            if session.id in terminal.SESSIONS:
+                assert client.delete(f"/api/terminal/{session.id}").status_code == 200
+    assert not Path(two.cwd).exists() and tokens[1] not in agents.tokens
+
+
+@pytest.mark.skipif(os.name == "nt", reason="the stand-ins are shell scripts")
+def test_a_tab_folder_keeps_what_else_is_in_its_file_and_an_unreadable_file_is_a_sentence(client, stand_ins, tmp_path, monkeypatch):
+    from app.agent import programs, terminal
+
+    folder = tmp_path / "tab"
+    path = folder / ".agents" / "mcp_config.json"
+    path.parent.mkdir(parents=True)
+    monkeypatch.setattr(programs, "tab_folder", lambda: folder)
+    path.write_text("not json at all", encoding="utf-8")
+    refused = client.post("/api/terminal/agent", json={"kind": "antigravity"})
+    assert refused.status_code == 409 and refused.json()["code"] == "tab_file"
+    assert refused.json()["detail"] == f"{path} is not an MCP servers file FormRef can read, so it was left alone and the Antigravity tab was not opened."
+    assert path.read_text(encoding="utf-8") == "not json at all"
     seeded = {"mcpServers": {"other": {"command": "/somewhere/else", "args": ["mcp"]}}, "kept": {"a": 1}}
-    path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(seeded), encoding="utf-8")
-    opened = client.post("/api/terminal/agent", json={"kind": "antigravity", "cols": 80, "rows": 20})
-    assert opened.status_code == 200 and opened.json()["kind"] == "antigravity" and opened.json()["title"] == "Antigravity"
+    opened = client.post("/api/terminal/agent", json={"kind": "antigravity"})
+    assert opened.status_code == 200
     session = terminal.SESSIONS[opened.json()["id"]]
     try:
-        token = session.env[programs.TOKEN_VAR]
         held = json.loads(path.read_text(encoding="utf-8"))
-        assert held["mcpServers"][programs.TAB_ENTRY] == {"serverUrl": session.env[programs.URL_VAR], "headers": {programs.HEADER: token}}
-        assert held["mcpServers"]["other"] == seeded["mcpServers"]["other"] and held["kept"] == seeded["kept"]
-        assert stat.S_IMODE(path.stat().st_mode) == 0o600 and token in agents.tokens
-        assert session.cwd == str(settings.data_dir / programs.FOLDER) and all(token not in part for part in session.argv)
-        assert bare.post("/api/boards", json={"title": "from an antigravity tab"}, headers={"x-formref-client": token}).status_code == 201
+        assert held["mcpServers"]["other"] == seeded["mcpServers"]["other"] and held["kept"] == seeded["kept"] and programs.TAB_ENTRY in held["mcpServers"]
     finally:
         assert client.delete(f"/api/terminal/{session.id}").status_code == 200
     assert json.loads(path.read_text(encoding="utf-8")) == seeded
-    assert token not in agents.tokens
-    after = bare.post("/api/boards", json={"title": "from a closed tab"}, headers={"x-formref-client": token})
-    assert after.status_code == 403 and after.json().get("code") == "outside_agents_off"
 
 
 def test_a_plain_shell_tab_gets_no_token(client):

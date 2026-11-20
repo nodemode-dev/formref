@@ -17,6 +17,7 @@ TOKEN_VAR = "FORMREF_AGENT_TOKEN"
 URL_VAR = "FORMREF_MCP_URL"
 HEADER = "x-formref-inapp"
 FOLDER = "AgentTabs"
+OWN_FOLDERS = "antigravity"
 STATUS_SECONDS = 60
 _cache: dict = {"at": 0.0, "value": None}
 
@@ -70,10 +71,17 @@ def _mcp_file(folder: Path) -> Path:
     return folder / ".agents" / "mcp_config.json"
 
 
+class TabFile(OSError):
+    pass
+
+
 def _servers(path: Path) -> dict:
-    data = json.loads(path.read_text(encoding="utf-8") or "{}") if path.exists() else {}
+    try:
+        data = json.loads(path.read_text(encoding="utf-8") or "{}") if path.exists() else {}
+    except ValueError:
+        data = None
     if not isinstance(data, dict) or not isinstance(data.get("mcpServers", {}), dict):
-        raise OSError(f"{path} is not an MCP servers file FormRef can read, so it was left alone")
+        raise TabFile(f"{path} is not an MCP servers file FormRef can read, so it was left alone and the Antigravity tab was not opened.")
     return data
 
 
@@ -105,17 +113,38 @@ def remove_tab_entry(folder: Path, token: str) -> None:
         return
 
 
+def tab_folder() -> Path:
+    folder = workdir() / OWN_FOLDERS / secrets.token_hex(6)
+    folder.mkdir(mode=0o700, parents=True)
+    return folder
+
+
+def leave_tab_folder(folder: Path, token: str) -> None:
+    remove_tab_entry(folder, token)
+    path = _mcp_file(folder)
+    try:
+        if _servers(path) == {"mcpServers": {}}:
+            path.unlink()
+    except OSError:
+        pass
+    for emptied in (path.parent, folder):
+        try:
+            emptied.rmdir()
+        except OSError:
+            return
+
+
 def open_tab(kind: str, cols: int = 100, rows: int = 30) -> dict:
     found = claude_code.located(kind)
     if found.state != "runs":
         found = claude_code.located(kind, fresh=True)
     if found.state != "runs":
         raise LookupError(claude_code.said(found))
-    folder = workdir()
+    filed = kind == "antigravity"
+    folder = tab_folder() if filed else workdir()
     token = secrets.token_urlsafe(32)
     env = claude_code.child_env(found.path, {TOKEN_VAR: token, URL_VAR: terminal.API_URL + "/mcp"})
     argv = agent_lookup.start_argv([found.path])
-    filed = kind == "antigravity"
     agents.tokens.add(token)
     try:
         if filed:
@@ -124,9 +153,9 @@ def open_tab(kind: str, cols: int = 100, rows: int = 30) -> dict:
     except BaseException:
         agents.revoke(token)
         if filed:
-            remove_tab_entry(folder, token)
+            leave_tab_folder(folder, token)
         raise
     session.on_close.append(lambda: agents.revoke(token))
     if filed:
-        session.on_close.append(lambda: remove_tab_entry(folder, token))
+        session.on_close.append(lambda: leave_tab_folder(folder, token))
     return session.describe()
