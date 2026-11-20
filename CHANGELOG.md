@@ -1,5 +1,15 @@
 # FormRef changelog
 
+## v0.45.0 · 2026-11-20
+
+You can tell FormRef where Codex, Cursor and Antigravity are, the way you already could for Claude Code.
+
+- The Agent settings have a program field for Codex, Cursor and Antigravity under the Claude Code one. A path you give there is the first place FormRef looks for that program; left empty, FormRef finds the program on its own as before. The labels are in every language.
+- These paths are kept with the same protection as the Claude Code path and the outside-agents switch: only the FormRef window can change them, and if the settings file is changed by hand, all four paths are ignored and outside agents are turned off until you set them again in the window.
+- Updating from 0.44.0 keeps your outside-agents choice and your Claude Code path as they were.
+- When Codex, Cursor or Antigravity is not found, the message now also says you can give its path in the Agent panel.
+- On macOS, the app's two keyboard shortcuts are set up once; nothing changes in how they work.
+
 ## v0.44.0 · 2026-11-20
 
 The app's own part of the Windows start and stop work: the engine ends with the app however the app ends, and a start that fails says why on every system before the app closes.

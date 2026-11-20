@@ -49,7 +49,7 @@ def test_a_hand_edited_ollama_address_is_not_used(client, reset_agents):
 
 def test_an_outside_agent_cannot_change_any_agent_setting(client, bare, reset_agents):
     client.post("/api/agent/settings", json={"outside_agents": True})
-    for patch in ({"confirm_changes": False}, {"outside_agents": False}, {"claude_bin": "/tmp/x"}, {"runner": "ollama"}):
+    for patch in ({"confirm_changes": False}, {"outside_agents": False}, {"claude_bin": "/tmp/x"}, {"codex_bin": "/tmp/x"}, {"cursor_bin": "/tmp/x"}, {"antigravity_bin": "/tmp/x"}, {"runner": "ollama"}):
         r = bare.post("/api/agent/settings", json=patch, headers={"x-formref-client": "outside"})
         assert r.status_code == 403, patch
     shown = client.get("/api/agent/settings").json()

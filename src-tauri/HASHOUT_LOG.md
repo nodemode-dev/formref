@@ -19,6 +19,14 @@ src-tauri/
   binaries/                          Frozen sidecars per host triple (built, not tracked)
 ```
 
+## After v0.44.0 · The two shortcuts are made once per system
+
+- refers-to: src/main.rs :: main (`toggle`, `summon`)
+- kind: fix
+- logged: v0.45.0 · 2026-11-20
+
+The orchestrator's macOS type check of 0.44.0 passed with two warnings: unused variables `toggle` and `summon` in `main`. Each was made twice, Ctrl+Alt first and then, under `cfg(target_os = "macos")`, a Cmd+Alt one of the same name that hides it, so on macOS the first value was never read. Nothing that should happen on macOS was missing: the Cmd+Alt values are the ones the handler compares and `setup` registers, as before. The Ctrl+Alt lines now carry `cfg(not(target_os = "macos"))`, so each system makes exactly the value it uses; Windows and Linux compile the same lines as before. Checked by reading; the shell was not compiled here.
+
 ## v0.44.0 · The Windows shell side: the job, the failure text, the limits
 
 - refers-to: src/engine_start.rs; src/win_job.rs; src/win_say.rs; src/main.rs :: start_engine, wait_for, engine_exit_code, stop_engine, fail, start, boot; Cargo.toml :: windows-sys; Cargo.lock :: formref-desktop
