@@ -279,9 +279,21 @@ fn fail(app: &AppHandle, failure: engine_start::Failure, log: Option<&Path>) {
     #[cfg(windows)]
     win_say::error(engine_start::APP, &message);
     #[cfg(not(windows))]
-    std::thread::sleep(engine_start::SHOWN);
+    hold_until_closed(app);
     stop_engine(app);
     app.exit(1);
+}
+
+#[cfg(not(windows))]
+fn hold_until_closed(app: &AppHandle) {
+    let Some(splash) = app.get_webview_window("splash") else { return };
+    let _ = splash.set_decorations(true);
+    let _ = splash.set_resizable(true);
+    let _ = splash.set_closable(true);
+    let _ = splash.set_focus();
+    while app.get_webview_window("splash").is_some() {
+        std::thread::sleep(engine_start::HELD_STEP);
+    }
 }
 
 fn start(app: &AppHandle, log: &mut Option<PathBuf>) -> Result<(u16, String), engine_start::Failure> {

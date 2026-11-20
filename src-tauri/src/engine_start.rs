@@ -10,7 +10,7 @@ pub const KEY_WAIT: Duration = Duration::from_secs(10);
 pub const EXIT_WAIT: Duration = Duration::from_secs(1);
 pub const EXIT_STEP: Duration = Duration::from_millis(50);
 #[cfg(not(windows))]
-pub const SHOWN: Duration = Duration::from_secs(60);
+pub const HELD_STEP: Duration = Duration::from_millis(250);
 pub const BUSY_CODE: i32 = 2;
 const KEY_MARK: &str = "window-key";
 const TAIL_LINES: usize = 12;
