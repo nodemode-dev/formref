@@ -15,6 +15,7 @@
 - [Unreleased · Agent status in one call, Codex and Cursor tabs, typed socket notices](#unreleased--agent-status-in-one-call-codex-and-cursor-tabs-typed-socket-notices)
 - [Unreleased · The app's own tabs use an entry named formref_tab, and agents sync checks the shared dock folder](#unreleased--the-apps-own-tabs-use-an-entry-named-formref_tab-and-agents-sync-checks-the-shared-dock-folder)
 - [After v0.41.0 · One finder and one starter for the agent programs](#after-v0410--one-finder-and-one-starter-for-the-agent-programs)
+- [After v0.41.0 · agents sync holds the shared finder to its recorded hash](#after-v0410--agents-sync-holds-the-shared-finder-to-its-recorded-hash)
 - [v0.39.2 · PDF export and SVG pictures without a system library, and six smaller fixes](#v0392--pdf-export-and-svg-pictures-without-a-system-library-and-six-smaller-fixes)
 - [v0.39.0 · A closed window's poll takes no job, and four smaller fixes](#v0390--a-closed-windows-poll-takes-no-job-and-four-smaller-fixes)
 - [v0.38.1 · The window's scripts keep their types on Windows](#v0381--the-windows-scripts-keep-their-types-on-windows)
@@ -160,6 +161,16 @@ The refusals carry the finder's sentence: the Codex and Cursor tab route (404, `
 Run on an engine from source (port 4750, PATH `/usr/bin:/bin:/usr/sbin:/sbin`, a made-up home, a stand-in shell, stand-in programs; no real agent program was started): `/api/agent/status?fresh=1` answered `runs` for all four under known folders (`how` `folder`), again with all four only on the stand-in shell's PATH (`shell`), `broken` with the error line for a script whose interpreter is missing, and `missing` with the list of places for all four. Codex, Cursor and Claude Code tabs opened through their routes with a `#!/usr/bin/env node` stand-in and a stand-in `node` beside it: each printed its line with its own folder first on PATH. Chat started and read the stand-in's session; panel turns with the Claude Code and Codex stand-ins started the same way. Not run: Windows, macOS, a fish shell, a frozen engine, and any real Claude Code, Codex, Cursor or Antigravity.
 
 Tests: the two fixtures in `tests/test_agent_programs.py` replaced `runners._login_shell_lookup` and `runners.places`, which are gone; they now use a stand-in shell, a made-up home and no system folders (`agent_lookup.system_folders`). The exact-fields test lists the new fields, the missing test expects four programs, and the kept-status test changes the stand-in's version line instead of replacing `programs._version`. One test was added for a known folder, the shell PATH and a program that does not start.
+
+## After v0.41.0 · agents sync holds the shared finder to its recorded hash
+
+- refers-to: `app/agent_manifest.py` :: `LOOKUP`, `LOOKUP_HASHES`, `lookup_problems`; `app/cli.py` :: `agents_sync`; `tests/test_dock_manifest.py`
+
+`app/agent/agent_lookup.py` is the family's file and changes only as a whole new version. `lookup_problems` reads its `VERSION` line, hashes its bytes and compares with the hash recorded for that version in `LOOKUP_HASHES`; `./formref agents sync` and `--check` stop, naming the file, when they differ or the file is missing, beside the check of the shared dock folder. The hash is of the bytes, and `.gitattributes` already checks the file out with LF endings. The record is not in `frontend/src/dock/MANIFEST.json`: that folder belongs to the dock module.
+
+The name in the message is written out (`backend/app/agent/agent_lookup.py`) and not worked out from `ROOT`, because two older tests replace `agent_manifest.ROOT` with a temporary folder.
+
+Run: `python -m app.cli agents sync --check` on the tree answered up to date; on a copy with one line added, `lookup_problems` and both forms of the command named the file and version 1.0.0; with the copy removed it answered missing. Three tests added after that.
 
 ## v0.39.2 · PDF export and SVG pictures without a system library, and six smaller fixes
 
