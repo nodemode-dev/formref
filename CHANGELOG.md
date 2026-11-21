@@ -1,5 +1,12 @@
 # FormRef changelog
 
+## v0.46.1 · 2026-11-20
+
+A picture's caption can be read in the light themes again.
+
+- The name that shows over a picture when you hover or select it, and the caption in the compare view, are now light text on the dark band in every theme. In the light themes they were dark text on that dark band and could not be read. The dark themes look exactly as before.
+- The desktop app's notes on how it works moved from its source into its log; the app itself is unchanged.
+
 ## v0.46.0 · 2026-11-20
 
 FormRef now uses the same design names as the other Form apps, and its README says it is released.

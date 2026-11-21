@@ -10,7 +10,7 @@
 .compare-spacer { flex: 1; }
 .compare-stage { position: relative; flex: 1; min-height: 0; display: flex; align-items: center; justify-content: center; gap: 24px; overflow: hidden; touch-action: none; }
 .compare-box { position: relative; overflow: hidden; flex: none; background: var(--bg-tertiary); }
-.compare-caption { position: absolute; left: 0; right: 0; bottom: 0; padding: var(--space-2) var(--space-3); background: linear-gradient(transparent, var(--bg-scrim)); color: var(--text-primary); font-size: 11px; pointer-events: none; }
+.compare-caption { position: absolute; left: 0; right: 0; bottom: 0; padding: var(--space-2) var(--space-3); background: linear-gradient(transparent, var(--bg-scrim)); color: var(--note-ink-light); font-size: 11px; pointer-events: none; }
 .compare-overlay:not([data-mode="side"]) .compare-box { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); }
 .compare-overlay:not([data-mode="side"]) .compare-box + .compare-box .compare-caption { display: none; }
 .compare-overlay[data-mode="swipe"] .compare-stage { cursor: ew-resize; }

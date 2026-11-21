@@ -23,10 +23,8 @@ use tauri::tray::{MouseButton, MouseButtonState, TrayIconBuilder, TrayIconEvent}
 use tauri::{AppHandle, Emitter, LogicalSize, Manager, RunEvent, WebviewUrl, WebviewWindow, WebviewWindowBuilder};
 use tauri_plugin_global_shortcut::{Code, GlobalShortcutExt, Modifiers, Shortcut, ShortcutState};
 
-/// The port the dev service, the command line and outside MCP clients use; the app takes it when it is free.
 const ENGINE_PORT: u16 = 8320;
 
-/// The bundled engine (FastAPI service), started by a packaged app and stopped when it exits.
 struct Engine(Mutex<Option<Child>>);
 
 fn engine_port() -> Result<u16, String> {
@@ -39,7 +37,6 @@ fn engine_port() -> Result<u16, String> {
     listener.local_addr().map(|address| address.port()).map_err(|error| error.to_string())
 }
 
-/// Tauri installs each externalBin beside the app's own executable, without the target triple.
 fn sidecar(name: &str) -> Result<PathBuf, String> {
     let exe = std::env::current_exe().map_err(|error| error.to_string())?;
     let dir = exe.parent().ok_or("the app's folder could not be found")?;
@@ -152,8 +149,6 @@ fn stop_engine(app: &AppHandle) {
             if let Some(mut child) = slot.take() {
                 #[cfg(windows)]
                 win_job::end();
-                // The onefile engine is a launcher with the server as its child: asked to stop, it stops the server
-                // and removes the folder it unpacked; a forced kill reaches only the launcher and leaves both behind.
                 #[cfg(unix)]
                 {
                     let pid = child.id().to_string();
@@ -179,8 +174,6 @@ fn stop_engine(app: &AppHandle) {
     }
 }
 
-/// A link the page opens in a new window (a link card, a Markdown link, a cloud sign-in) goes to the system
-/// browser: the web view opens no window of its own, so without this the link did nothing.
 fn open_outside(url: &str) {
     #[cfg(target_os = "macos")]
     let mut command = Command::new("open");
@@ -199,10 +192,6 @@ fn open_outside(url: &str) {
     }
 }
 
-/// Builds the main window from its config entry (created by hand, `create: false`). A packaged app points it
-/// at the engine's own origin, which serves the window and the API together, so relative `/api` calls,
-/// event streams and terminal sockets work as they do from `./formref serve`. Dev keeps the configured URL,
-/// which Tauri resolves against `devUrl` (Vite, which proxies `/api` to 8320).
 fn open_main(app: &AppHandle, port: Option<u16>, key: Option<String>) -> Result<(), String> {
     let mut config = app.config().app.windows.iter().find(|window| window.label == "main").cloned().ok_or("Main window missing")?;
     if let Some(port) = port {
@@ -218,8 +207,6 @@ fn open_main(app: &AppHandle, port: Option<u16>, key: Option<String>) -> Result<
         )),
         _ => builder,
     };
-    // The macOS web view cancels every download unless a handler is set, so exports and Save Board did nothing
-    // there. With one, the file goes to the Downloads folder and the page is told when it has arrived.
     #[cfg(not(windows))]
     let builder = builder.on_download(|webview, event| {
         if let tauri::webview::DownloadEvent::Finished { success, .. } = event {
@@ -325,10 +312,7 @@ fn boot(app: AppHandle) {
     }
 }
 
-/// Click-through has no getter in Tauri, so the shell remembers it. While it is on, the window cannot be
-/// clicked at all, which is why a global shortcut (Ctrl or Cmd + Alt + K) can always turn it back off.
 static CLICK_THROUGH: AtomicBool = AtomicBool::new(false);
-/// Always on bottom has no getter either. It keeps the board behind other windows, like a desktop backdrop.
 static ON_BOTTOM: AtomicBool = AtomicBool::new(false);
 
 #[derive(Serialize, Clone)]
@@ -364,7 +348,6 @@ fn read_window_state(window: &WebviewWindow) -> Result<WindowState, String> {
     })
 }
 
-/// Summon or dismiss: a hidden, minimised or unfocused window comes to the front; a focused one hides.
 fn toggle_visible(app: &AppHandle) {
     if let Some(window) = app.get_webview_window("main") {
         let shown = window.is_visible().unwrap_or(false) && !window.is_minimized().unwrap_or(false);
@@ -378,7 +361,6 @@ fn toggle_visible(app: &AppHandle) {
     }
 }
 
-/// Tells the page the window changed from outside it (tray or shortcut), so its desktop checkboxes stay honest.
 fn announce(window: &WebviewWindow) {
     sync_tray(window);
     if let Ok(state) = read_window_state(window) {
@@ -386,7 +368,6 @@ fn announce(window: &WebviewWindow) {
     }
 }
 
-/// The tray's check marks, kept in step whichever way a mode changed (page, tray or shortcut).
 struct TrayChecks {
     top: CheckMenuItem<tauri::Wry>,
     through: CheckMenuItem<tauri::Wry>,
@@ -456,7 +437,6 @@ fn window_configure(
     if let Some(value) = click_through {
         set_click_through(&window, value)?;
     }
-    // On top and on bottom exclude each other: turning one on turns the other off.
     if let Some(value) = always_on_top {
         if value && ON_BOTTOM.swap(false, Ordering::SeqCst) {
             window.set_always_on_bottom(false).map_err(|error| error.to_string())?;
@@ -488,7 +468,6 @@ struct Placement {
     height: f64,
 }
 
-/// The window's outer position and inner size in logical pixels, the units a saved board layout uses.
 #[tauri::command]
 fn window_layout(window: WebviewWindow) -> Result<Placement, String> {
     main_window_only(&window)?;
@@ -498,8 +477,6 @@ fn window_layout(window: WebviewWindow) -> Result<Placement, String> {
     Ok(Placement { x: position.x, y: position.y, width: size.width, height: size.height })
 }
 
-/// Moves and sizes the window to a saved layout, kept on a connected monitor so a layout from a larger
-/// or since-unplugged screen never leaves the window out of reach.
 #[tauri::command]
 fn window_place(window: WebviewWindow, x: f64, y: f64, width: f64, height: f64) -> Result<Placement, String> {
     main_window_only(&window)?;
@@ -549,7 +526,6 @@ fn main() {
     let toggle = Shortcut::new(Some(Modifiers::CONTROL | Modifiers::ALT), Code::KeyK);
     #[cfg(target_os = "macos")]
     let toggle = Shortcut::new(Some(Modifiers::SUPER | Modifiers::ALT), Code::KeyK);
-    // Summon: brings FormRef to the front from any app, or hides it when it already has focus.
     #[cfg(not(target_os = "macos"))]
     let summon = Shortcut::new(Some(Modifiers::CONTROL | Modifiers::ALT), Code::KeyF);
     #[cfg(target_os = "macos")]
@@ -581,22 +557,18 @@ fn main() {
         ])
         .setup(move |app| {
             reveal::round_splash(app.handle());
-            // A packaged app starts its own engine and opens the window on it once it answers; a dev shell
-            // (./formref desktop) uses the service and Vite server the launcher started.
             if cfg!(debug_assertions) {
                 open_main(app.handle(), None, None)?;
             } else {
                 let handle = app.handle().clone();
                 std::thread::spawn(move || boot(handle));
             }
-            // The escape hatch for click-through; if another app owns the keys the shell still runs.
             if let Err(error) = app.global_shortcut().register(toggle) {
                 eprintln!("FormRef: click-through shortcut unavailable: {error}");
             }
             if let Err(error) = app.global_shortcut().register(summon) {
                 eprintln!("FormRef: show and hide shortcut unavailable: {error}");
             }
-            // A desktop without a tray (some Linux sessions) still runs; the summon shortcut remains.
             if let Err(error) = build_tray(app) {
                 eprintln!("FormRef: tray icon unavailable: {error}");
             }

@@ -19,6 +19,34 @@ src-tauri/
   binaries/                          Frozen sidecars per host triple (built, not tracked)
 ```
 
+## After v0.46.0 · The shell's comments, moved here
+
+- refers-to: src/main.rs :: ENGINE_PORT, Engine, sidecar, stop_engine, open_outside, open_main, CLICK_THROUGH, ON_BOTTOM, toggle_visible, announce, TrayChecks, window_configure, window_layout, window_place, main
+- kind: rationale
+- logged: v0.46.1 · 2026-11-20
+
+The family keeps no comments in code; `main.rs` carried 28 lines of them. They are removed and what they said is kept here, name by name. No code token changed: the file with the comment lines taken out of the 0.46.0 copy is identical to the new one.
+
+- `ENGINE_PORT`: the port the dev service, the command line and outside MCP clients use; the app takes it when it is free.
+- `Engine`: the bundled engine (FastAPI service), started by a packaged app and stopped when it exits.
+- `sidecar`: Tauri installs each externalBin beside the app's own executable, without the target triple.
+- `stop_engine`, the unix branch: the onefile engine is a launcher with the server as its child. Asked to stop, it stops the server and removes the folder it unpacked; a forced kill reaches only the launcher and leaves both behind.
+- `open_outside`: a link the page opens in a new window (a link card, a Markdown link, a cloud sign-in) goes to the system browser. The web view opens no window of its own, so without this the link did nothing.
+- `open_main`: builds the main window from its config entry (created by hand, `create: false`). A packaged app points it at the engine's own origin, which serves the window and the API together, so relative `/api` calls, event streams and terminal sockets work as they do from `./formref serve`. Dev keeps the configured URL, which Tauri resolves against `devUrl` (Vite, which proxies `/api` to 8320).
+- `open_main`, the download handler (`cfg(not(windows))`): the macOS web view cancels every download unless a handler is set, so exports and Save Board did nothing there. With one, the file goes to the Downloads folder and the page is told when it has arrived.
+- `CLICK_THROUGH`: click-through has no getter in Tauri, so the shell remembers it. While it is on, the window cannot be clicked at all, which is why a global shortcut (Ctrl or Cmd + Alt + K) can always turn it back off.
+- `ON_BOTTOM`: always on bottom has no getter either. It keeps the board behind other windows, like a desktop backdrop.
+- `toggle_visible`: summon or dismiss. A hidden, minimised or unfocused window comes to the front; a focused one hides.
+- `announce`: tells the page the window changed from outside it (tray or shortcut), so its desktop checkboxes stay honest.
+- `TrayChecks`: the tray's check marks, kept in step whichever way a mode changed (page, tray or shortcut).
+- `window_configure`, before `always_on_top`: on top and on bottom exclude each other; turning one on turns the other off.
+- `window_layout`: the window's outer position and inner size in logical pixels, the units a saved board layout uses.
+- `window_place`: moves and sizes the window to a saved layout, kept on a connected monitor so a layout from a larger or since-unplugged screen never leaves the window out of reach.
+- `main`, `summon`: brings FormRef to the front from any app, or hides it when it already has focus.
+- `main`, `setup`: a packaged app starts its own engine and opens the window on it once it answers; a dev shell (`./formref desktop`) uses the service and Vite server the launcher started.
+- `main`, the `toggle` registration: the escape hatch for click-through; if another app owns the keys the shell still runs.
+- `main`, `build_tray`: a desktop without a tray (some Linux sessions) still runs; the summon shortcut remains.
+
 ## After v0.44.0 · The two shortcuts are made once per system
 
 - refers-to: src/main.rs :: main (`toggle`, `summon`)
